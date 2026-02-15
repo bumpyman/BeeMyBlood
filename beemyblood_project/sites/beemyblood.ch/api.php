@@ -14,7 +14,7 @@
 
 // IMPORTANT: Remplace cette valeur par ta clé API Anthropic
 // Tu peux l'obtenir sur https://console.anthropic.com/
-define('ANTHROPIC_API_KEY', 'REVOKED_KEY_REMOVED');
+define('ANTHROPIC_API_KEY', 'REPLACE KEY HERE');
 
 // Headers CORS pour permettre les requêtes depuis le navigateur
 header('Content-Type: application/json; charset=utf-8');
@@ -206,4 +206,5 @@ if (isset($responseData['content'][0]['text'])) {
         'reply' => 'Je n\'ai pas pu traiter votre question. Veuillez réessayer ou contacter le 031 380 81 81.'
     ]);
 }
+
 ?>
