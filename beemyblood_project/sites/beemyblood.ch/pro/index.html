@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeeMyBlood Pro — Portail Professionnel</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--slate-900:#0f172a;--slate-800:#1e293b;--slate-700:#334155;--slate-600:#475569;
+--slate-500:#64748b;--slate-400:#94a3b8;--slate-300:#cbd5e1;--slate-200:#e2e8f0;
+--amber-400:#fbbf24;--amber-500:#f59e0b;--amber-600:#d97706;
+--red-400:#f87171;--red-500:#ef4444;--red-600:#dc2626;
+--green-400:#4ade80;--green-500:#22c55e;--green-600:#16a34a;
+--blue-400:#60a5fa;--blue-500:#3b82f6;--blue-600:#2563eb;
+--purple-400:#c084fc;--purple-500:#a855f7;
+--emerald-400:#34d399;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--slate-900);color:#fff;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,select{font-family:inherit;outline:none}
+.hidden{display:none!important}
+
+/* Login */
+#loginPage{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;background:linear-gradient(135deg,var(--slate-900),var(--slate-800),var(--slate-900))}
+.login-box{width:100%;max-width:420px}
+.login-logo{width:80px;height:80px;border-radius:1rem;background:linear-gradient(135deg,var(--amber-400),var(--amber-600));display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;box-shadow:0 8px 32px rgba(251,191,36,.3)}
+.login-logo svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.login-card{background:rgba(30,41,59,.85);backdrop-filter:blur(12px);border-radius:1rem;padding:2rem;border:1px solid var(--slate-700);box-shadow:0 12px 48px rgba(0,0,0,.4)}
+.login-card label{display:block;font-size:.85rem;color:var(--slate-300);margin-bottom:.5rem;font-weight:500}
+.login-card input{width:100%;background:rgba(51,65,85,.5);border:1px solid var(--slate-600);border-radius:.75rem;padding:.75rem 1rem;color:#fff;font-size:1rem;margin-bottom:1.25rem;transition:border .2s}
+.login-card input:focus{border-color:var(--amber-500);box-shadow:0 0 0 3px rgba(251,191,36,.15)}
+.login-card input::placeholder{color:var(--slate-500)}
+.btn-login{width:100%;padding:1rem;border-radius:.75rem;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#fff;font-weight:700;font-size:1.1rem;display:flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 4px 16px rgba(251,191,36,.3);transition:all .2s}
+.btn-login:hover{background:linear-gradient(135deg,var(--amber-400),var(--amber-500));transform:translateY(-1px)}
+.login-error{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);border-radius:.75rem;padding:.75rem 1rem;color:var(--red-400);font-size:.875rem;margin-bottom:1rem;display:none;align-items:center;gap:.5rem}
+.login-footer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--slate-700);text-align:center;font-size:.75rem;color:var(--slate-500)}
+
+/* Main layout */
+#mainApp{display:none;min-height:100vh}
+.header{background:var(--slate-800);border-bottom:1px solid var(--slate-700);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.header-left{display:flex;align-items:center;gap:1rem}
+.header-logo{background:linear-gradient(135deg,var(--amber-400),var(--amber-600));padding:.4rem;border-radius:.5rem;display:flex}
+.header-logo svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.header-right{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.live-dot{width:8px;height:8px;background:var(--green-500);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.user-badge{display:flex;align-items:center;gap:.5rem;background:var(--slate-700);border-radius:.5rem;padding:.35rem .75rem;font-size:.85rem}
+.btn-logout{font-size:.75rem;background:var(--slate-700);color:var(--slate-300);padding:.35rem .75rem;border-radius:.5rem;transition:background .2s}
+.btn-logout:hover{background:var(--slate-600)}
+.btn-back{color:var(--amber-400);font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:.25rem;background:none;transition:color .2s}
+.btn-back:hover{color:var(--amber-300)}
+
+.container{max-width:1400px;margin:0 auto;padding:1.5rem}
+
+/* Tabs */
+.tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;overflow-x:auto;padding-bottom:.5rem;flex-wrap:wrap}
+.tab{display:flex;align-items:center;gap:.5rem;padding:.65rem 1rem;border-radius:.75rem;font-size:.85rem;font-weight:500;white-space:nowrap;transition:all .2s;background:var(--slate-800);color:var(--slate-300)}
+.tab:hover{background:var(--slate-700)}
+.tab.active{background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#fff;box-shadow:0 4px 12px rgba(251,191,36,.25)}
+.tab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Region selector */
+.region-bar{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.region-bar select{background:var(--slate-800);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .75rem;color:#fff;font-size:.85rem}
+.region-bar select:focus{border-color:var(--amber-500)}
+.region-bar .datetime{font-size:.85rem;color:var(--slate-400)}
+
+/* Cards */
+.card{background:var(--slate-800);border:1px solid var(--slate-700);border-radius:.75rem;padding:1rem;margin-bottom:1rem}
+.card-title{font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem}
+.card-title svg{width:20px;height:20px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.grid-8{display:grid;grid-template-columns:repeat(8,1fr);gap:.75rem}
+.grid-2-1{display:grid;grid-template-columns:2fr 1fr;gap:1rem}
+.grid-1-1{display:flex;flex-wrap:wrap;gap:1rem}.grid-1-1>*{flex:1 1 400px;min-width:0}.grid-1-1>.hidden{display:none!important}
+@media(max-width:900px){.grid-4,.grid-8{grid-template-columns:repeat(4,1fr)}.grid-2-1{grid-template-columns:1fr}}
+@media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}.grid-4,.grid-8{grid-template-columns:repeat(2,1fr)}}
+
+/* KPI */
+.kpi{background:linear-gradient(135deg,var(--slate-800),rgba(30,41,59,.5));border-radius:.75rem;padding:1rem;border:1px solid var(--slate-700)}
+.kpi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.kpi-header svg{width:20px;height:20px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kpi-value{font-size:1.75rem;font-weight:700;line-height:1.2}
+.kpi-label{font-size:.75rem;color:var(--slate-400)}
+.kpi-sub{font-size:.75rem;color:var(--slate-500);margin-top:.25rem}
+.trend-up{color:var(--green-400);font-size:.75rem;display:flex;align-items:center;gap:.2rem}
+.trend-down{color:var(--red-400);font-size:.75rem;display:flex;align-items:center;gap:.2rem}
+.badge-ok{background:rgba(34,197,94,.15);color:var(--green-400);font-size:.7rem;padding:.15rem .5rem;border-radius:.25rem}
+.badge-crit{background:rgba(239,68,68,.15);color:var(--red-400);font-size:.7rem;padding:.15rem .5rem;border-radius:.25rem}
+
+/* Progress bar */
+.progress{height:8px;background:var(--slate-700);border-radius:99px;overflow:hidden;margin-top:.5rem}
+.progress-fill{height:100%;border-radius:99px;transition:width .5s ease}
+
+/* Alerts */
+.alerts-header{display:flex;align-items:center;justify-content:space-between;padding:1rem;cursor:pointer;transition:background .2s}
+.alerts-header:hover{background:rgba(51,65,85,.5)}
+.alerts-header .badge-count{background:var(--red-500);color:#fff;font-size:.7rem;padding:.1rem .45rem;border-radius:99px;margin-left:.5rem}
+.alert-item{border-radius:.5rem;padding:.75rem;display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem}
+.alert-item.critical{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35)}
+.alert-item.warning{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35)}
+.alert-item.info{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.35)}
+.alert-item.success{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35)}
+.alert-title{font-weight:600;font-size:.875rem}
+.alert-desc{font-size:.75rem;color:var(--slate-300);margin-top:.25rem}
+.alert-time{font-size:.7rem;color:var(--slate-400);white-space:nowrap}
+.alert-action{font-size:.75rem;background:rgba(255,255,255,.08);color:#fff;padding:.25rem .75rem;border-radius:.25rem;margin-top:.5rem;display:inline-block;cursor:pointer;transition:background .2s}
+.alert-action:hover{background:rgba(255,255,255,.15)}
+
+/* Stock bars */
+.stock-col{text-align:center}
+.stock-label{font-size:.75rem;color:var(--slate-400);margin-bottom:.5rem;font-weight:500}
+.stock-bar{height:96px;background:var(--slate-700);border-radius:.5rem;position:relative;overflow:hidden}
+.stock-bar-fill{position:absolute;bottom:0;width:100%;border-radius:0 0 .5rem .5rem;transition:height .6s ease}
+.stock-bar-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.stock-legend{display:flex;justify-content:center;gap:1.5rem;margin-top:1rem;font-size:.75rem}
+.stock-legend span{display:flex;align-items:center;gap:.35rem}
+.stock-legend .dot{width:12px;height:12px;border-radius:.2rem;display:inline-block}
+
+/* Collecte list */
+.collecte-row{background:rgba(51,65,85,.3);border-radius:.5rem;padding:.75rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.collecte-row .dot-live{width:10px;height:10px;border-radius:50%;margin-right:.75rem;flex-shrink:0}
+.collecte-row .dot-live.fixe{background:var(--blue-500)}
+.collecte-row .dot-live.mobile{background:var(--green-500);animation:pulse 2s infinite}
+.collecte-info{flex:1;min-width:0}
+.collecte-name{font-weight:600;font-size:.9rem}
+.collecte-meta{font-size:.75rem;color:var(--slate-400)}
+.collecte-stats{text-align:right}
+.collecte-stats .big{font-size:1.25rem;font-weight:700}
+.collecte-stats .dim{color:var(--slate-400);font-size:.85rem}
+.collecte-progress{width:80px;height:6px;background:var(--slate-600);border-radius:99px;overflow:hidden;margin-top:.25rem;margin-left:auto}
+.collecte-progress-fill{height:100%;background:var(--green-500);border-radius:99px}
+
+/* Map */
+#map{height:480px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
+.map-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:1rem}
+.map-controls select,.map-controls input[type="date"]{background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.4rem .6rem;color:#fff;font-size:.85rem}
+.map-controls select:focus,.map-controls input:focus{border-color:var(--amber-500)}
+.map-time-btns{display:flex;gap:.25rem}
+.map-time-btn{padding:.35rem .75rem;border-radius:.35rem;font-size:.75rem;font-weight:500;background:var(--slate-600);color:var(--slate-300);transition:all .15s}
+.map-time-btn:hover{background:var(--slate-500)}
+.map-time-btn.active{background:var(--amber-500);color:#fff}
+.map-nav-btns{display:flex;gap:.25rem}
+.map-nav-btn{padding:.35rem .6rem;border-radius:.35rem;font-size:.75rem;background:var(--slate-600);color:var(--slate-300);transition:background .15s}
+.map-nav-btn:hover{background:var(--slate-500)}
+.map-nav-btn.today{background:var(--amber-600);color:#fff}
+
+.quartier-detail{border:1px solid rgba(251,191,36,.4);border-radius:.75rem;padding:1rem;margin-top:1rem;background:var(--slate-800)}
+.quartier-detail h4{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between}
+.quartier-detail .close-btn{background:none;color:var(--slate-400);font-size:1.2rem;cursor:pointer;transition:color .15s}
+.quartier-detail .close-btn:hover{color:#fff}
+.quartier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.75rem}
+.quartier-stat{background:rgba(51,65,85,.5);border-radius:.5rem;padding:.5rem;text-align:center}
+.quartier-stat .val{font-size:1.1rem;font-weight:700}
+.quartier-stat .lbl{font-size:.7rem;color:var(--slate-400)}
+
+/* Sidebar search */
+.sidebar-card{background:var(--slate-800);border:1px solid var(--slate-700);border-radius:.75rem;padding:1rem}
+.sidebar-card h4{font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;font-size:.95rem}
+.sidebar-card input,.sidebar-card select{width:100%;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .75rem;color:#fff;font-size:.85rem;margin-bottom:.5rem}
+.sidebar-card input:focus,.sidebar-card select:focus{border-color:var(--amber-500)}
+.collecte-list{max-height:400px;overflow-y:auto;margin-top:.5rem}
+.collecte-card{border-radius:.5rem;padding:.75rem;margin-bottom:.5rem;border:1px solid var(--slate-600)}
+.collecte-card.active-c{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.35)}
+.collecte-card.future-c{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2)}
+.collecte-card.past-c{background:rgba(51,65,85,.2);border-color:var(--slate-600)}
+.collecte-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.25rem}
+.collecte-card-name{font-weight:600;font-size:.85rem}
+.collecte-card-meta{font-size:.7rem;color:var(--slate-400)}
+.type-badge{font-size:.65rem;padding:.15rem .5rem;border-radius:.25rem}
+.type-fixe{background:rgba(59,130,246,.15);color:var(--blue-400)}
+.type-mobile{background:rgba(168,85,247,.15);color:var(--purple-400)}
+
+/* PSL Search */
+.psl-form{display:flex;flex-direction:column;gap:1rem}
+.psl-form label{font-size:.75rem;color:var(--slate-400);display:block;margin-bottom:.35rem}
+.psl-form select,.psl-form input{width:100%;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.6rem .75rem;color:#fff;font-size:.9rem}
+.psl-form select:focus,.psl-form input:focus{border-color:var(--amber-500)}
+.urgency-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.urgency-btn{padding:.6rem;border-radius:.5rem;border:1px solid var(--slate-600);text-align:center;transition:all .15s;background:transparent;color:#fff}
+.urgency-btn:hover{border-color:var(--slate-500)}
+.urgency-btn.selected{background:rgba(251,191,36,.12);border-color:var(--amber-500)}
+.urgency-btn .u-label{font-weight:600;font-size:.85rem}
+.urgency-btn .u-time{font-size:.7rem;color:var(--slate-400)}
+.btn-search{width:100%;padding:.85rem;border-radius:.5rem;background:linear-gradient(135deg,var(--red-600),#b91c1c);color:#fff;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;box-shadow:0 4px 12px rgba(220,38,38,.2)}
+.btn-search:hover{background:linear-gradient(135deg,var(--red-500),var(--red-600));transform:translateY(-1px)}
+.btn-search:disabled{background:var(--slate-600);box-shadow:none;cursor:not-allowed;transform:none}
+.result-card{background:rgba(51,65,85,.3);border-radius:.75rem;padding:1rem;border:1px solid var(--slate-600);margin-bottom:.75rem}
+.result-card.recommended{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.04)}
+.result-card .reco-badge{font-size:.7rem;background:var(--green-500);color:#fff;padding:.15rem .5rem;border-radius:.25rem;display:inline-block;margin-bottom:.5rem}
+.result-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem}
+.result-name{font-weight:700;font-size:1rem}
+.result-city{font-size:.85rem;color:var(--slate-400)}
+.result-units{text-align:right}
+.result-units .big{font-size:1.75rem;font-weight:700;color:var(--amber-400)}
+.result-units .lbl{font-size:.7rem;color:var(--slate-400)}
+.result-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.75rem}
+.result-metric{background:rgba(51,65,85,.5);border-radius:.35rem;padding:.5rem;text-align:center}
+.result-metric .m-label{font-size:.65rem;color:var(--slate-400)}
+.result-metric .m-value{font-weight:600;font-size:.85rem}
+.result-actions{display:flex;gap:.5rem}
+.btn-order{flex:1;background:var(--amber-500);color:#fff;padding:.6rem;border-radius:.5rem;font-weight:600;font-size:.85rem;transition:background .2s}
+.btn-order:hover{background:var(--amber-600)}
+.btn-detail{padding:.6rem 1rem;background:var(--slate-600);color:#fff;border-radius:.5rem;font-size:.85rem;transition:background .2s}
+.btn-detail:hover{background:var(--slate-500)}
+.note-box{margin-top:1rem;padding:.75rem;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.25);border-radius:.5rem;font-size:.75rem;color:rgba(147,197,253,.9)}
+
+/* Route */
+.route-form label{font-size:.75rem;color:var(--slate-400);display:block;margin-bottom:.35rem}
+.route-form select,.route-form input{width:100%;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.6rem .75rem;color:#fff;font-size:.9rem}
+.route-form select:focus,.route-form input:focus{border-color:var(--amber-500)}
+.sites-list{background:rgba(51,65,85,.3);border-radius:.5rem;padding:.75rem;margin-top:.5rem}
+.site-row{display:flex;align-items:center;justify-content:space-between;background:rgba(51,65,85,.5);border-radius:.35rem;padding:.5rem .6rem;margin-bottom:.35rem;font-size:.85rem}
+.site-row input[type="checkbox"]{margin-right:.5rem;accent-color:var(--amber-500)}
+.prio-badge{font-size:.65rem;padding:.15rem .5rem;border-radius:.25rem}
+.prio-high{background:rgba(239,68,68,.15);color:var(--red-400)}
+.prio-medium{background:rgba(245,158,11,.15);color:var(--amber-400)}
+.prio-low{background:rgba(71,85,105,.3);color:var(--slate-400)}
+.btn-optimize{width:100%;padding:.85rem;border-radius:.5rem;background:linear-gradient(135deg,var(--green-600),#15803d);color:#fff;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;box-shadow:0 4px 12px rgba(22,163,74,.2);margin-top:1rem}
+.btn-optimize:hover{background:linear-gradient(135deg,var(--green-500),var(--green-600));transform:translateY(-1px)}
+.btn-optimize:disabled{background:var(--slate-600);box-shadow:none;cursor:not-allowed;transform:none}
+.route-savings{display:flex;gap:.5rem;flex-wrap:wrap}
+.saving-badge{font-size:.7rem;padding:.25rem .5rem;border-radius:.25rem}
+.saving-badge.km{background:rgba(34,197,94,.15);color:var(--green-400)}
+.saving-badge.time{background:rgba(59,130,246,.15);color:var(--blue-400)}
+.saving-badge.co2{background:rgba(52,211,153,.15);color:var(--emerald-400)}
+.route-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem}
+.route-kpi{background:rgba(51,65,85,.5);border-radius:.5rem;padding:.75rem;text-align:center}
+.route-kpi .val{font-size:1.5rem;font-weight:700}
+.route-kpi .lbl{font-size:.7rem;color:var(--slate-400)}
+.timeline{margin-top:.5rem}
+.timeline-item{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.5rem}
+.timeline-marker{display:flex;flex-direction:column;align-items:center}
+.timeline-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.timeline-dot.collecte{background:var(--red-500)}
+.timeline-dot.pause{background:var(--amber-500)}
+.timeline-dot.other{background:var(--slate-600)}
+.timeline-line{width:2px;height:20px;background:var(--slate-600);margin:4px 0}
+.timeline-content{flex:1;background:rgba(51,65,85,.5);border-radius:.5rem;padding:.5rem .75rem}
+.timeline-content .t-name{font-weight:600;font-size:.85rem}
+.timeline-content .t-meta{font-size:.75rem;color:var(--slate-400)}
+.timeline-content .donors-badge{font-size:.7rem;background:rgba(239,68,68,.15);color:var(--red-400);padding:.15rem .5rem;border-radius:.25rem}
+.route-alert{border-radius:.5rem;padding:.6rem .75rem;font-size:.85rem;margin-bottom:.5rem}
+.route-alert.traffic{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.25)}
+.route-alert.priority{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25)}
+.route-btns{display:flex;gap:.5rem;margin-top:1rem}
+.route-btns button{flex:1;padding:.75rem;border-radius:.5rem;font-weight:600;font-size:.85rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .2s}
+.btn-gps{background:var(--amber-500);color:#fff}.btn-gps:hover{background:var(--amber-600)}
+.btn-notify{background:var(--slate-700);color:#fff}.btn-notify:hover{background:var(--slate-600)}
+
+/* Planning table */
+.plan-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
+.period-btns{display:flex;gap:.35rem}
+.period-btn{padding:.4rem .75rem;border-radius:.5rem;font-size:.85rem;background:var(--slate-700);color:var(--slate-300);transition:all .15s}
+.period-btn:hover{background:var(--slate-600)}
+.period-btn.active{background:var(--purple-500);color:#fff}
+.plan-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.85rem}
+.plan-table thead th{text-align:left;padding:.6rem .75rem;border-bottom:1px solid var(--slate-700);color:var(--slate-400);font-weight:600;font-size:.8rem}
+.plan-table thead th:last-child,.plan-table thead th:nth-child(5){text-align:right}
+.plan-table tbody tr{transition:background .1s}
+.plan-table tbody tr:hover{background:rgba(51,65,85,.2)}
+.plan-table tbody td{padding:.6rem .75rem;border-bottom:1px solid rgba(51,65,85,.4)}
+.plan-table tbody td:last-child,.plan-table tbody td:nth-child(5){text-align:right}
+.plan-sub{font-size:.7rem;color:var(--slate-400)}
+.status-badge{font-size:.65rem;padding:.15rem .5rem;border-radius:.25rem}
+.status-active{background:rgba(34,197,94,.15);color:var(--green-400)}
+.status-planned{background:rgba(245,158,11,.15);color:var(--amber-400)}
+
+/* Equity */
+.equity-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.5rem}
+@media(max-width:700px){.equity-kpis{grid-template-columns:repeat(2,1fr)}}
+.equity-kpi{border-radius:.75rem;padding:1rem;border:1px solid}
+.equity-kpi .val{font-size:2rem;font-weight:700;line-height:1.2}
+.equity-kpi .lbl{font-size:.85rem;color:var(--slate-400)}
+.kpi-bar-row{margin-bottom:.75rem}
+.kpi-bar-header{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem}
+.kpi-bar-track{height:8px;background:var(--slate-700);border-radius:99px;overflow:hidden}
+.kpi-bar-fill{height:100%;border-radius:99px;transition:width .6s ease}
+
+/* Spinner */
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Footer */
+.pro-footer{margin-top:3rem;padding:1.5rem 0;border-top:1px solid var(--slate-700);text-align:center;font-size:.75rem;color:var(--slate-500)}
+
+/* Leaflet overrides */
+.leaflet-container{background:var(--slate-900)!important}
+.leaflet-popup-content-wrapper{background:var(--slate-800);color:#fff;border-radius:.5rem;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.leaflet-popup-tip{background:var(--slate-800)}
+.leaflet-popup-content{margin:.75rem;font-size:.85rem;line-height:1.5}
+.leaflet-popup-content strong{color:var(--amber-400)}
+.leaflet-control-zoom a{background:var(--slate-800)!important;color:#fff!important;border-color:var(--slate-700)!important}
+.custom-marker{border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff}
+</style>
+</head>
+<body>
+
+<!-- ==================== LOGIN PAGE ==================== -->
+<div id="loginPage">
+  <div class="login-box">
+    <div class="text-center" style="text-align:center;margin-bottom:2rem">
+      <div class="login-logo">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h1 style="font-size:2rem;font-weight:700;margin-bottom:.5rem">Portail Professionnel</h1>
+      <p style="color:var(--slate-400)">Accès réservé aux professionnels de santé autorisés</p>
+    </div>
+    <div class="login-card">
+      <label>Adresse e-mail</label>
+      <input type="email" id="loginEmail" placeholder="votre@email.ch">
+      <label>Mot de passe</label>
+      <input type="password" id="loginPassword" placeholder="••••••••">
+      <div class="login-error" id="loginError">
+        <svg style="width:18px;height:18px;stroke:var(--red-400);fill:none;stroke-width:2;flex-shrink:0" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="loginErrorText"></span>
+      </div>
+      <button class="btn-login" onclick="doLogin()">
+        <svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Se connecter
+      </button>
+      <div class="login-footer">
+        <p>Plateforme sécurisée • Données chiffrées</p>
+        <p style="margin-top:.35rem">Contact : pro@beemyblood.ch</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem">
+      <a href="https://www.beemyblood.ch" style="color:var(--slate-400);font-size:.85rem">← Retour à l'accueil public</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MAIN APP ==================== -->
+<div id="mainApp">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a href="https://www.beemyblood.ch" class="btn-back">← Accueil</a>
+        <div style="width:1px;height:24px;background:var(--slate-600)"></div>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <div class="header-logo"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div>
+            <div style="font-weight:700;font-size:1.05rem;line-height:1.2">BeeMyBlood Pro</div>
+            <div style="font-size:.7rem;color:var(--slate-400)">Jumeau numérique transfusionnel</div>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.85rem">
+          <div class="live-dot"></div>
+          <span style="color:var(--slate-300)">Temps réel</span>
+        </div>
+        <div class="user-badge">
+          <svg style="width:16px;height:16px;stroke:var(--slate-400);fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>admin@beemyblood.ch</span>
+        </div>
+        <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Tabs -->
+    <div class="tabs" id="tabBar">
+      <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Tableau de bord
+      </button>
+      <button class="tab" data-tab="carto" onclick="switchTab('carto')">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Cartographie
+      </button>
+      <button class="tab" data-tab="match" onclick="switchTab('match')">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Recherche PSL
+      </button>
+      <button class="tab" data-tab="route" onclick="switchTab('route')">
+        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        Itinéraires bus
+      </button>
+      <button class="tab" data-tab="collectes" onclick="switchTab('collectes')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Planification
+      </button>
+      <button class="tab" data-tab="equity" onclick="switchTab('equity')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Équité
+      </button>
+    </div>
+
+    <!-- Region bar -->
+    <div class="region-bar">
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <svg style="width:16px;height:16px;stroke:var(--slate-400);fill:none;stroke-width:2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        <select id="regionSelect" onchange="changeRegion()">
+          <option value="geneve">Canton de Genève</option>
+          <option value="vaud">Canton de Vaud</option>
+          <option value="valais">Canton du Valais</option>
+        </select>
+      </div>
+      <div class="datetime" id="datetimeDisplay"></div>
+    </div>
+
+    <!-- TAB PANELS -->
+
+    <!-- ========== DASHBOARD ========== -->
+    <div id="panel-dashboard">
+      <!-- Alertes -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="alerts-header" onclick="toggleAlerts()">
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <svg style="width:20px;height:20px;stroke:var(--amber-400);fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span style="font-weight:700">Alertes système</span>
+            <span class="badge-count" id="alertCount">1</span>
+          </div>
+          <svg id="alertChevron" style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+        </div>
+        <div id="alertsBody" style="border-top:1px solid var(--slate-700);padding:1rem"></div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid-4" id="kpiGrid" style="margin-bottom:1rem"></div>
+
+      <!-- Stocks -->
+      <div class="card" id="stockCard"></div>
+
+      <!-- Active collectes -->
+      <div class="card" id="activeCollectesCard"></div>
+    </div>
+
+    <!-- ========== CARTOGRAPHY ========== -->
+    <div id="panel-carto" class="hidden">
+      <div class="grid-2-1">
+        <div>
+          <div class="card">
+            <div class="card-title">
+              <svg style="stroke:var(--blue-400)" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Carte interactive — <span id="mapRegionName">Genève</span>
+            </div>
+            <div class="map-controls">
+              <select id="mapLayer" onchange="updateMapLayer()">
+                <option value="collectes">Collectes</option>
+                <option value="besoins">Besoins</option>
+                <option value="donneurs">Densité donneurs</option>
+                <option value="stocks">Stocks</option>
+              </select>
+              <label style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;cursor:pointer">
+                <input type="checkbox" id="heatmapToggle" checked onchange="updateMapLayer()" style="accent-color:var(--amber-500)"> Heatmap
+              </label>
+              <div style="flex:1"></div>
+              <div class="map-time-btns">
+                <button class="map-time-btn active" onclick="setTimeRange(this,'day')">Jour</button>
+                <button class="map-time-btn" onclick="setTimeRange(this,'week')">Semaine</button>
+                <button class="map-time-btn" onclick="setTimeRange(this,'month')">Mois</button>
+              </div>
+              <div class="map-nav-btns">
+                <button class="map-nav-btn" onclick="shiftDate(-1)">-1j</button>
+                <button class="map-nav-btn today" onclick="setToday()">Auj.</button>
+                <button class="map-nav-btn" onclick="shiftDate(1)">+1j</button>
+              </div>
+            </div>
+            <div id="map"></div>
+          </div>
+          <div id="quartierDetail" class="hidden"></div>
+        </div>
+        <div>
+          <div class="sidebar-card">
+            <h4>
+              <svg style="width:16px;height:16px;stroke:var(--amber-400);fill:none;stroke-width:2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Rechercher des collectes
+            </h4>
+            <input type="text" id="collecteSearchInput" placeholder="Lieu, ville..." oninput="filterCollectes()">
+            <select id="collecteFilterSelect" onchange="filterCollectes()">
+              <option value="all">Toutes les collectes</option>
+              <option value="active">En cours</option>
+              <option value="future">À venir</option>
+              <option value="past">Passées</option>
+            </select>
+            <div class="collecte-list" id="collecteListContainer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PSL SEARCH ========== -->
+    <div id="panel-match" class="hidden">
+      <div class="grid-1-1">
+        <div class="card">
+          <div class="card-title">
+            <svg style="stroke:var(--red-400)" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Recherche de produits sanguins labiles
+          </div>
+          <p style="font-size:.85rem;color:var(--slate-400);margin-bottom:1rem">Interrogation en temps réel des banques de sang du réseau EBA (European Blood Alliance) — 47 établissements</p>
+          <div class="psl-form">
+            <div class="grid-2">
+              <div><label>Groupe sanguin *</label><select id="pslGroupe"><option value="">Sélectionner…</option><option>O-</option><option>O+</option><option>A-</option><option>A+</option><option>B-</option><option>B+</option><option>AB-</option><option>AB+</option></select></div>
+              <div><label>Quantité (unités)</label><input type="number" id="pslQty" value="2" min="1" max="50"></div>
+            </div>
+            <div>
+              <label>Niveau d'urgence</label>
+              <div class="urgency-grid" id="urgencyGrid">
+                <button class="urgency-btn" data-u="standard" onclick="setUrgency('standard')"><div class="u-label">Standard</div><div class="u-time">48-72h</div></button>
+                <button class="urgency-btn selected" data-u="urgent" onclick="setUrgency('urgent')"><div class="u-label">Urgent</div><div class="u-time">12-24h</div></button>
+                <button class="urgency-btn" data-u="vital" onclick="setUrgency('vital')"><div class="u-label">Vital</div><div class="u-time">&lt;6h</div></button>
+              </div>
+            </div>
+            <div>
+              <label>Phénotype étendu (optionnel)</label>
+              <input type="text" id="pslPheno" placeholder="Ex: Rh C+c-E-e+, K-, Fy(a-b+), Jk(a+b-)">
+              <p style="font-size:.7rem;color:var(--slate-500);margin-top:.25rem">Pour patients polytransfusés (drépanocytose, thalassémie)</p>
+            </div>
+            <button class="btn-search" id="btnPslSearch" onclick="doPslSearch()">
+              <svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              Rechercher dans 47 banques
+            </button>
+          </div>
+        </div>
+        <div id="pslResults" class="hidden"></div>
+      </div>
+    </div>
+
+    <!-- ========== ROUTE ========== -->
+    <div id="panel-route" class="hidden">
+      <div class="grid-1-1">
+        <div class="card">
+          <div class="card-title">
+            <svg style="stroke:var(--green-400)" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Planification d'itinéraire — Bus de collecte mobile
+          </div>
+          <div class="route-form">
+            <div class="grid-2">
+              <div><label>Bus</label><select id="routeBus"><option value="GE-1">Bus GE-1 (Genève)</option><option value="GE-2">Bus GE-2 (Genève)</option><option value="VD-1">Bus VD-1 (Vaud)</option></select></div>
+              <div><label>Date</label><input type="date" id="routeDate" value="2026-01-28"></div>
+            </div>
+            <div class="grid-2" style="margin-top:.75rem">
+              <div><label>Heure début</label><input type="time" id="routeStart" value="08:00"></div>
+              <div><label>Heure fin</label><input type="time" id="routeEnd" value="17:00"></div>
+            </div>
+            <div class="sites-list" style="margin-top:1rem">
+              <p style="font-size:.85rem;font-weight:600;margin-bottom:.5rem">Sites présélectionnés :</p>
+              <div class="site-row"><div><input type="checkbox" checked> Uni Mail</div><div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:var(--slate-400)">12 RDV</span><span class="prio-badge prio-high">Prioritaire</span></div></div>
+              <div class="site-row"><div><input type="checkbox" checked> Balexert</div><div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:var(--slate-400)">8 RDV</span><span class="prio-badge prio-medium">Moyen</span></div></div>
+              <div class="site-row"><div><input type="checkbox" checked> Plainpalais</div><div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:var(--slate-400)">6 RDV</span><span class="prio-badge prio-high">Prioritaire</span></div></div>
+              <div class="site-row"><div><input type="checkbox" checked> Carouge</div><div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:.75rem;color:var(--slate-400)">5 RDV</span><span class="prio-badge prio-low">Normal</span></div></div>
+            </div>
+            <button class="btn-optimize" id="btnOptimize" onclick="doOptimizeRoute()">
+              <svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Optimiser l'itinéraire
+            </button>
+          </div>
+        </div>
+        <div id="routeResults" class="hidden"></div>
+      </div>
+    </div>
+
+    <!-- ========== PLANNING ========== -->
+    <div id="panel-collectes" class="hidden">
+      <div class="card">
+        <div class="plan-header">
+          <div class="card-title" style="margin-bottom:0">
+            <svg style="stroke:var(--purple-400)" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Planification des collectes
+          </div>
+          <div class="period-btns">
+            <button class="period-btn active" onclick="setPeriod(this)">Semaine</button>
+            <button class="period-btn" onclick="setPeriod(this)">Mois</button>
+            <button class="period-btn" onclick="setPeriod(this)">Année</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="plan-table" id="planTable">
+            <thead><tr><th>Date</th><th>Lieu</th><th>Type</th><th>Horaire</th><th>Prévisions</th><th>Statut</th></tr></thead>
+            <tbody id="planBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== EQUITY ========== -->
+    <div id="panel-equity" class="hidden">
+      <div class="card">
+        <div class="card-title">
+          <svg style="stroke:var(--purple-400)" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          Observatoire de l'équité d'accès aux produits sanguins
+        </div>
+        <p style="font-size:.85rem;color:var(--slate-400);margin-bottom:1.5rem">Suivi de l'accessibilité pour les patients atteints d'hémoglobinopathies (drépanocytose, thalassémie) et autres besoins transfusionnels critiques</p>
+        <div class="equity-kpis" id="equityKpis"></div>
+        <div id="equityBars">
+          <h4 style="font-weight:600;margin-bottom:1rem">Indicateurs clés de performance (KPIs)</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="pro-footer">
+      <p>Prototype développé par <strong>Convivens Lab</strong> (HEG Genève, HES-SO) en partenariat avec le SIMED (UNIGE), le CTS (HUG), le CHUV et Transfusion Interrégionale CRS</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========================= DATA =========================
+const regions = {
+  geneve: {
+    name:'Genève',pop:515000,donors:12500,activeDonors:8200,newDonors:340,
+    need:700,fulfilled:645,gap:55,
+    stock:{oNeg:45,oPos:72,aNeg:58,aPos:85,bNeg:32,bPos:65,abNeg:78,abPos:90},
+    equity:0.72,trend:2.3,
+    criticalPatients:127,hemoglobinopathies:89,center:[46.2044,6.1432],zoom:12,
+    quartiers:[
+      {id:'centre',name:'Cité-Centre',pop:35000,donors:1200,collectes:12,lastCollecte:'2026-01-20',needScore:.8,lat:46.2017,lng:6.1466},
+      {id:'plainpalais',name:'Plainpalais',pop:28000,donors:950,collectes:8,lastCollecte:'2026-01-18',needScore:.6,lat:46.1978,lng:6.1412},
+      {id:'eauxvives',name:'Eaux-Vives',pop:32000,donors:1100,collectes:10,lastCollecte:'2026-01-19',needScore:.5,lat:46.2010,lng:6.1620},
+      {id:'carouge',name:'Carouge',pop:22000,donors:680,collectes:6,lastCollecte:'2026-01-12',needScore:.7,lat:46.1838,lng:6.1397},
+      {id:'lancy',name:'Lancy',pop:33000,donors:890,collectes:5,lastCollecte:'2026-01-08',needScore:.75,lat:46.1870,lng:6.1170},
+      {id:'onex',name:'Onex',pop:19000,donors:420,collectes:3,lastCollecte:'2025-12-15',needScore:.85,lat:46.1835,lng:6.1003},
+      {id:'vernier',name:'Vernier',pop:36000,donors:780,collectes:4,lastCollecte:'2026-01-05',needScore:.82,lat:46.2170,lng:6.0850},
+      {id:'meyrin',name:'Meyrin',pop:26000,donors:720,collectes:5,lastCollecte:'2026-01-10',needScore:.65,lat:46.2282,lng:6.0637},
+      {id:'grandsaconnex',name:'Grand-Saconnex',pop:12500,donors:380,collectes:3,lastCollecte:'2026-01-14',needScore:.55,lat:46.2318,lng:6.1200},
+      {id:'chene',name:'Chêne-Bourg/Bougeries',pop:21000,donors:620,collectes:4,lastCollecte:'2026-01-16',needScore:.6,lat:46.1955,lng:6.1890},
+      {id:'thonex',name:'Thônex',pop:15000,donors:380,collectes:2,lastCollecte:'2025-12-20',needScore:.78,lat:46.1900,lng:6.2050},
+      {id:'bernex',name:'Bernex',pop:10500,donors:240,collectes:2,lastCollecte:'2025-12-10',needScore:.88,lat:46.1770,lng:6.0750},
+      {id:'planlesouates',name:'Plan-les-Ouates',pop:12000,donors:350,collectes:3,lastCollecte:'2026-01-06',needScore:.7,lat:46.1650,lng:6.1180},
+      {id:'collonge',name:'Collonge-Bellerive',pop:8500,donors:290,collectes:2,lastCollecte:'2025-12-18',needScore:.62,lat:46.2105,lng:6.1950},
+      {id:'veyrier',name:'Veyrier',pop:11500,donors:310,collectes:2,lastCollecte:'2026-01-02',needScore:.68,lat:46.1700,lng:6.1600},
+    ]
+  },
+  vaud: {
+    name:'Vaud',pop:850000,donors:22000,activeDonors:15500,newDonors:580,
+    need:950,fulfilled:890,gap:60,
+    stock:{oNeg:62,oPos:78,aNeg:71,aPos:88,bNeg:45,bPos:72,abNeg:85,abPos:92},
+    equity:0.81,trend:1.8,
+    criticalPatients:198,hemoglobinopathies:142,center:[46.5197,6.6323],zoom:10,
+    quartiers:[
+      {id:'lausanne',name:'Lausanne Centre',pop:140000,donors:5200,collectes:25,lastCollecte:'2026-01-21',needScore:.5,lat:46.5197,lng:6.6323},
+      {id:'morges',name:'Morges',pop:16000,donors:620,collectes:8,lastCollecte:'2026-01-17',needScore:.6,lat:46.5089,lng:6.4980},
+      {id:'nyon',name:'Nyon',pop:21000,donors:820,collectes:6,lastCollecte:'2026-01-12',needScore:.65,lat:46.3830,lng:6.2392},
+      {id:'vevey',name:'Vevey-Montreux',pop:35000,donors:1400,collectes:10,lastCollecte:'2026-01-19',needScore:.55,lat:46.4633,lng:6.8432},
+      {id:'yverdon',name:'Yverdon-les-Bains',pop:31000,donors:980,collectes:7,lastCollecte:'2026-01-15',needScore:.7,lat:46.7785,lng:6.6410},
+    ]
+  },
+  valais: {
+    name:'Valais',pop:350000,donors:8500,activeDonors:5800,newDonors:210,
+    need:380,fulfilled:340,gap:40,
+    stock:{oNeg:55,oPos:68,aNeg:62,aPos:79,bNeg:38,bPos:58,abNeg:72,abPos:85},
+    equity:0.68,trend:-0.5,
+    criticalPatients:76,hemoglobinopathies:48,center:[46.2330,7.3597],zoom:10,
+    quartiers:[
+      {id:'sion',name:'Sion',pop:35000,donors:2100,collectes:15,lastCollecte:'2026-01-20',needScore:.55,lat:46.2330,lng:7.3597},
+      {id:'sierre',name:'Sierre',pop:17000,donors:680,collectes:6,lastCollecte:'2026-01-14',needScore:.7,lat:46.2920,lng:7.5350},
+      {id:'martigny',name:'Martigny',pop:19000,donors:720,collectes:5,lastCollecte:'2026-01-10',needScore:.72,lat:46.1030,lng:7.0740},
+      {id:'monthey',name:'Monthey',pop:18000,donors:550,collectes:4,lastCollecte:'2025-12-22',needScore:.8,lat:46.2556,lng:6.9550},
+      {id:'viege',name:'Viège/Brigue',pop:15000,donors:480,collectes:5,lastCollecte:'2026-01-18',needScore:.65,lat:46.3140,lng:7.8810},
+    ]
+  }
+};
+
+const allCollectes = [
+  {id:1,lieu:'Uni Mail',ville:'Genève',quartier:'plainpalais',date:'2026-01-22',heure:'08:00-16:00',status:'active',prev:45,actual:28,capacity:50,type:'mobile'},
+  {id:2,lieu:'EPFL - Rolex Learning Center',ville:'Lausanne',quartier:null,date:'2026-01-22',heure:'09:00-17:00',status:'active',prev:62,actual:35,capacity:70,type:'mobile'},
+  {id:3,lieu:'CERN - Restaurant 1',ville:'Meyrin',quartier:'meyrin',date:'2026-01-23',heure:'09:00-15:00',status:'future',prev:38,capacity:45,type:'mobile'},
+  {id:4,lieu:'Centre commercial Balexert',ville:'Vernier',quartier:'vernier',date:'2026-01-25',heure:'10:00-18:00',status:'future',prev:52,capacity:60,type:'mobile'},
+  {id:5,lieu:'Place du Marché',ville:'Carouge',quartier:'carouge',date:'2026-01-27',heure:'09:00-16:00',status:'future',prev:35,capacity:40,type:'mobile'},
+  {id:6,lieu:"Mairie d'Onex",ville:'Onex',quartier:'onex',date:'2026-01-29',heure:'10:00-17:00',status:'future',prev:28,capacity:35,type:'mobile'},
+  {id:7,lieu:'Forum Fribourg',ville:'Fribourg',quartier:null,date:'2026-01-28',heure:'10:00-17:00',status:'future',prev:48,capacity:55,type:'mobile'},
+  {id:8,lieu:'Centre Manor',ville:'Sion',quartier:null,date:'2026-01-30',heure:'10:00-17:00',status:'future',prev:32,capacity:40,type:'mobile'},
+  {id:9,lieu:'Uni Mail',ville:'Genève',quartier:'plainpalais',date:'2026-01-15',heure:'08:00-16:00',status:'past',dons:42,prev:45,capacity:50,type:'mobile'},
+  {id:10,lieu:'Manor Sion',ville:'Sion',quartier:null,date:'2026-01-14',heure:'10:00-17:00',status:'past',dons:28,prev:35,capacity:40,type:'mobile'},
+  {id:11,lieu:'Centre Onex',ville:'Onex',quartier:'onex',date:'2026-01-10',heure:'09:00-15:00',status:'past',dons:31,prev:30,capacity:35,type:'mobile'},
+  {id:12,lieu:'Globus Lausanne',ville:'Lausanne',quartier:null,date:'2026-01-08',heure:'10:00-18:00',status:'past',dons:55,prev:50,capacity:60,type:'mobile'},
+  {id:13,lieu:'HUG - Centre fixe',ville:'Genève',quartier:'centre',date:'2026-01-22',heure:'07:30-17:00',status:'active',prev:85,actual:52,capacity:100,type:'fixe'},
+  {id:14,lieu:'CHUV - Centre fixe',ville:'Lausanne',quartier:null,date:'2026-01-22',heure:'07:30-17:00',status:'active',prev:95,actual:61,capacity:120,type:'fixe'},
+  {id:15,lieu:'Hôpital de Sion',ville:'Sion',quartier:null,date:'2026-01-22',heure:'08:00-16:00',status:'active',prev:35,actual:22,capacity:45,type:'fixe'},
+  {id:16,lieu:'Migros Nyon',ville:'Nyon',quartier:null,date:'2026-02-01',heure:'10:00-17:00',status:'future',prev:38,capacity:45,type:'mobile'},
+  {id:17,lieu:'Place de la Riponne',ville:'Lausanne',quartier:null,date:'2026-02-03',heure:'09:00-17:00',status:'future',prev:55,capacity:65,type:'mobile'},
+  {id:18,lieu:'Université de Genève - Sciences',ville:'Genève',quartier:'centre',date:'2026-02-05',heure:'09:00-16:00',status:'future',prev:42,capacity:50,type:'mobile'},
+];
+
+const systemAlerts = [
+  {type:'critical',title:'Stock O- critique à Genève',desc:'Niveau à 45%, sous le seuil de sécurité de 50%. Action immédiate requise.',time:'Il y a 2h',action:'Déclencher appel donneurs O-'},
+  {type:'warning',title:'Zone sous-desservie détectée',desc:"Onex/Bernex : aucune collecte depuis 45 jours. 29'500 habitants concernés.",time:'Il y a 5h',action:'Planifier collecte mobile'},
+  {type:'info',title:'Pic de demande prévu',desc:'Chirurgies programmées au HUG +30% semaine prochaine. Anticiper les besoins.',time:'Il y a 1j',action:'Voir prévisions'},
+  {type:'success',title:'Objectif atteint — Lausanne',desc:'Collecte EPFL : 62 dons réalisés, objectif dépassé de 24%.',time:"Aujourd'hui",action:null},
+];
+
+let selectedRegion = 'geneve';
+let currentTab = 'dashboard';
+let alertsOpen = true;
+let pslUrgency = 'urgent';
+let map = null;
+let mapMarkers = [];
+let mapCircles = [];
+
+// ========================= LOGIN =========================
+function doLogin(){
+  const email = document.getElementById('loginEmail').value;
+  const pw = document.getElementById('loginPassword').value;
+  if(email === 'admin@beemyblood.ch' && pw === 'admin1234'){
+    document.getElementById('loginPage').style.display='none';
+    document.getElementById('mainApp').style.display='block';
+    renderAll();
+  } else {
+    const el=document.getElementById('loginError');
+    el.style.display='flex';
+    document.getElementById('loginErrorText').textContent='Identifiants incorrects. Vérifiez votre e-mail et mot de passe.';
+  }
+}
+function doLogout(){
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPassword').value='';
+  document.getElementById('loginError').style.display='none';
+}
+document.getElementById('loginPassword').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('loginEmail').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin()});
+
+// ========================= TABS =========================
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  ['dashboard','carto','match','route','collectes','equity'].forEach(p=>{
+    document.getElementById('panel-'+p).classList.toggle('hidden',p!==tab);
+  });
+  if(tab==='carto') initMap();
+  if(tab==='collectes') renderPlanTable();
+  if(tab==='equity') renderEquity();
+}
+
+// ========================= REGION =========================
+function changeRegion(){
+  selectedRegion = document.getElementById('regionSelect').value;
+  renderAll();
+  if(currentTab==='carto') initMap();
+}
+
+// ========================= RENDER ALL =========================
+function renderAll(){
+  updateDatetime();
+  renderAlerts();
+  renderKPIs();
+  renderStocks();
+  renderActiveCollectes();
+  if(currentTab==='carto'){initMap();filterCollectes();}
+  if(currentTab==='collectes') renderPlanTable();
+  if(currentTab==='equity') renderEquity();
+}
+
+function updateDatetime(){
+  const now = new Date();
+  document.getElementById('datetimeDisplay').textContent = now.toLocaleDateString('fr-CH',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' • '+now.toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ========================= ALERTS =========================
+function renderAlerts(){
+  const count = systemAlerts.filter(a=>a.type==='critical').length;
+  document.getElementById('alertCount').textContent = count;
+  const body = document.getElementById('alertsBody');
+  body.innerHTML = systemAlerts.map(a=>`
+    <div class="alert-item ${a.type}">
+      <svg style="width:20px;height:20px;flex-shrink:0;margin-top:2px;stroke:${a.type==='critical'?'var(--red-400)':a.type==='warning'?'var(--amber-400)':a.type==='success'?'var(--green-400)':'var(--blue-400)'};fill:none;stroke-width:2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem">
+          <div class="alert-title">${a.title}</div>
+          <span class="alert-time">${a.time}</span>
+        </div>
+        <div class="alert-desc">${a.desc}</div>
+        ${a.action?`<span class="alert-action">${a.action}</span>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+function toggleAlerts(){
+  alertsOpen=!alertsOpen;
+  document.getElementById('alertsBody').style.display=alertsOpen?'block':'none';
+  document.getElementById('alertChevron').style.transform=alertsOpen?'':'rotate(180deg)';
+}
+
+// ========================= KPIs =========================
+function renderKPIs(){
+  const r = regions[selectedRegion];
+  const trendHtml = r.trend>=0
+    ? `<span class="trend-up">▲ +${r.trend}%</span>`
+    : `<span class="trend-down">▼ ${r.trend}%</span>`;
+  const stockBadge = r.stock.oNeg>=50?'<span class="badge-ok">OK</span>':'<span class="badge-crit">Critique</span>';
+  document.getElementById('kpiGrid').innerHTML = `
+    <div class="kpi"><div class="kpi-header"><svg style="stroke:var(--blue-400)" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>${trendHtml}</div><div class="kpi-value">${r.donors.toLocaleString('fr-CH')}</div><div class="kpi-label">Donneurs inscrits</div><div class="kpi-sub">${r.activeDonors.toLocaleString('fr-CH')} actifs • ${r.newDonors} nouveaux/mois</div></div>
+    <div class="kpi"><div class="kpi-header"><svg style="stroke:var(--red-400)" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg><span style="font-size:.75rem;color:var(--slate-400)">Aujourd'hui</span></div><div class="kpi-value">${r.fulfilled}<span style="font-size:1.1rem;color:var(--slate-400)">/${r.need}</span></div><div class="kpi-label">Dons réalisés / Objectif</div><div class="progress"><div class="progress-fill" style="width:${(r.fulfilled/r.need*100).toFixed(0)}%;background:linear-gradient(90deg,var(--red-500),var(--amber-500))"></div></div></div>
+    <div class="kpi"><div class="kpi-header"><svg style="stroke:var(--amber-400)" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>${stockBadge}</div><div class="kpi-value">${r.stock.oNeg}%</div><div class="kpi-label">Stock O négatif</div><div class="kpi-sub">Seuil sécurité : 50%</div></div>
+    <div class="kpi"><div class="kpi-header"><svg style="stroke:var(--purple-400)" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><div class="kpi-value">${(r.equity*100).toFixed(0)}%</div><div class="kpi-label">Indice d'équité</div><div class="kpi-sub">${r.criticalPatients} patients critiques suivis</div></div>
+  `;
+}
+
+// ========================= STOCKS =========================
+function renderStocks(){
+  const r = regions[selectedRegion];
+  const labels = {oNeg:'O−',oPos:'O+',aNeg:'A−',aPos:'A+',bNeg:'B−',bPos:'B+',abNeg:'AB−',abPos:'AB+'};
+  const cols = Object.entries(r.stock).map(([k,v])=>{
+    const color = v>=70?'var(--green-500)':v>=50?'var(--amber-500)':'var(--red-500)';
+    const grad = v>=70?'from-green-600 to-green-400':v>=50?'from-amber-600 to-amber-400':'from-red-600 to-red-400';
+    return `<div class="stock-col"><div class="stock-label">${labels[k]}</div><div class="stock-bar"><div class="stock-bar-fill" style="height:${v}%;background:${color}"></div><div class="stock-bar-value">${v}%</div></div></div>`;
+  }).join('');
+  document.getElementById('stockCard').innerHTML = `
+    <div class="card-title"><svg style="stroke:var(--red-400)" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>Niveaux de stock par groupe sanguin</div>
+    <div class="grid-8">${cols}</div>
+    <div class="stock-legend"><span><span class="dot" style="background:var(--green-500)"></span>≥70% Optimal</span><span><span class="dot" style="background:var(--amber-500)"></span>50-69% Vigilance</span><span><span class="dot" style="background:var(--red-500)"></span>&lt;50% Critique</span></div>
+  `;
+}
+
+// ========================= ACTIVE COLLECTES =========================
+function renderActiveCollectes(){
+  const active = allCollectes.filter(c=>c.status==='active');
+  const rows = active.map(c=>{
+    const pct = c.actual?((c.actual/c.capacity)*100).toFixed(0):0;
+    return `<div class="collecte-row">
+      <div class="dot-live ${c.type}"></div>
+      <div class="collecte-info"><div class="collecte-name">${c.lieu}</div><div class="collecte-meta">${c.ville} • ${c.heure}</div></div>
+      <div class="collecte-stats"><div><span class="big">${c.actual||'—'}</span><span class="dim">/${c.capacity}</span></div><div class="collecte-progress"><div class="collecte-progress-fill" style="width:${pct}%"></div></div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('activeCollectesCard').innerHTML = `
+    <div class="card-title"><svg style="stroke:var(--green-400)" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Collectes en cours aujourd'hui</div>
+    ${rows}
+  `;
+}
+
+// ========================= MAP (Leaflet) =========================
+function initMap(){
+  const r = regions[selectedRegion];
+  document.getElementById('mapRegionName').textContent = r.name;
+
+  if(map){map.remove();map=null;}
+  map = L.map('map',{zoomControl:true}).setView(r.center, r.zoom);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains:'abcd',maxZoom:19
+  }).addTo(map);
+
+  setTimeout(()=>map.invalidateSize(),150);
+
+  mapMarkers=[];mapCircles=[];
+  updateMapLayer();
+  filterCollectes();
+}
+
+function getNeedColor(s){return s>=.8?'#ef4444':s>=.6?'#f59e0b':'#22c55e';}
+function getDonorColor(donors,pop){const r=donors/pop;return r>.04?'#22c55e':r>.025?'#f59e0b':'#ef4444';}
+
+function updateMapLayer(){
+  if(!map)return;
+  mapMarkers.forEach(m=>map.removeLayer(m));
+  mapCircles.forEach(c=>map.removeLayer(c));
+  mapMarkers=[];mapCircles=[];
+
+  const r = regions[selectedRegion];
+  const layer = document.getElementById('mapLayer').value;
+  const heatmap = document.getElementById('heatmapToggle').checked;
+
+  // Quartier circles
+  r.quartiers.forEach(q=>{
+    let color,radius,fillOpacity;
+    if(layer==='besoins'){color=getNeedColor(q.needScore);radius=Math.max(300,q.needScore*800);fillOpacity=heatmap?.35:.15;}
+    else if(layer==='donneurs'){color=getDonorColor(q.donors,q.pop);radius=Math.max(300,(q.donors/q.pop)*12000);fillOpacity=heatmap?.35:.15;}
+    else if(layer==='stocks'){color=r.stock.oNeg>=50?'#22c55e':'#ef4444';radius=400;fillOpacity=heatmap?.2:.1;}
+    else{color='#64748b';radius=350;fillOpacity=heatmap?.25:.1;}
+
+    if(heatmap){
+      const circle=L.circle([q.lat,q.lng],{radius,color:color,fillColor:color,fillOpacity,weight:1,opacity:.6}).addTo(map);
+      mapCircles.push(circle);
+    }
+
+    // Marker
+    const hasCollecte = allCollectes.some(c=>c.quartier===q.id && c.status==='active');
+    const iconColor = hasCollecte?'#22c55e':color;
+    const icon = L.divIcon({
+      className:'',
+      html:`<div class="custom-marker" style="width:28px;height:28px;background:${iconColor};${hasCollecte?'animation:pulse 2s infinite;':''}">${layer==='besoins'?Math.round(q.needScore*100):layer==='donneurs'?q.donors:''}</div>`,
+      iconSize:[28,28],iconAnchor:[14,14]
+    });
+    const marker = L.marker([q.lat,q.lng],{icon}).addTo(map);
+    marker.bindPopup(`<strong>${q.name}</strong><br>Pop: ${q.pop.toLocaleString('fr-CH')}<br>Donneurs: ${q.donors}<br>Score besoin: ${Math.round(q.needScore*100)}%<br>Dernière collecte: ${q.lastCollecte}${hasCollecte?'<br><span style="color:#22c55e">● Collecte active</span>':''}`);
+    marker.on('click',()=>showQuartierDetail(q));
+    mapMarkers.push(marker);
+  });
+
+  // Fixed centers
+  const fixedCenters = [
+    {name:'HUG — Centre fixe',lat:46.1930,lng:6.1494,active:true},
+    ...(selectedRegion==='vaud'?[{name:'CHUV — Centre fixe',lat:46.5254,lng:6.6428,active:true}]:[]),
+    ...(selectedRegion==='valais'?[{name:'Hôpital de Sion',lat:46.2355,lng:7.3490,active:true}]:[]),
+  ];
+  if(selectedRegion==='geneve'||selectedRegion==='vaud'||selectedRegion==='valais'){
+    fixedCenters.forEach(fc=>{
+      const icon = L.divIcon({
+        className:'',
+        html:`<div style="background:#dc2626;border:2px solid #fca5a5;border-radius:6px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)">H</div>`,
+        iconSize:[30,30],iconAnchor:[15,15]
+      });
+      const m = L.marker([fc.lat,fc.lng],{icon}).addTo(map);
+      m.bindPopup(`<strong>${fc.name}</strong><br><span style="color:#22c55e">● Centre permanent actif</span>`);
+      mapMarkers.push(m);
+    });
+  }
+
+  // Active mobile collectes
+  allCollectes.filter(c=>c.status==='active'&&c.type==='mobile').forEach(c=>{
+    const q = r.quartiers.find(q=>q.id===c.quartier);
+    if(q){
+      const icon = L.divIcon({
+        className:'',
+        html:`<div style="background:#a855f7;border:2px solid #d8b4fe;border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.3);animation:pulse 2s infinite">🚌</div>`,
+        iconSize:[24,24],iconAnchor:[12,12]
+      });
+      const m = L.marker([q.lat+.002,q.lng+.003],{icon}).addTo(map);
+      m.bindPopup(`<strong>Bus collecte</strong><br>${c.lieu}<br>${c.heure}<br>${c.actual||0}/${c.capacity} dons`);
+      mapMarkers.push(m);
+    }
+  });
+}
+
+function showQuartierDetail(q){
+  const el = document.getElementById('quartierDetail');
+  el.classList.remove('hidden');
+  const qCollectes = allCollectes.filter(c=>c.quartier===q.id && c.status!=='past').slice(0,3);
+  el.innerHTML = `
+    <h4>${q.name} <button class="close-btn" onclick="document.getElementById('quartierDetail').classList.add('hidden')">✕</button></h4>
+    <div class="quartier-grid">
+      <div class="quartier-stat"><div class="val">${q.pop.toLocaleString('fr-CH')}</div><div class="lbl">Population</div></div>
+      <div class="quartier-stat"><div class="val">${q.donors}</div><div class="lbl">Donneurs</div></div>
+      <div class="quartier-stat"><div class="val">${q.collectes}</div><div class="lbl">Collectes/an</div></div>
+      <div class="quartier-stat"><div class="val" style="color:${getNeedColor(q.needScore)}">${Math.round(q.needScore*100)}%</div><div class="lbl">Score besoin</div></div>
+    </div>
+    <p style="font-size:.85rem;color:var(--slate-400)">Dernière collecte : ${q.lastCollecte}</p>
+    ${qCollectes.length?`<p style="font-size:.85rem;font-weight:600;margin-top:.75rem">Collectes planifiées :</p>${qCollectes.map(c=>`<div style="font-size:.8rem;background:rgba(51,65,85,.5);border-radius:.35rem;padding:.4rem .6rem;margin-top:.35rem;display:flex;justify-content:space-between"><span>${c.lieu}</span><span style="color:var(--slate-400)">${new Date(c.date).toLocaleDateString('fr-CH')}</span></div>`).join('')}`:''}
+  `;
+}
+
+function setTimeRange(btn,range){
+  document.querySelectorAll('.map-time-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function shiftDate(d){/* placeholder for date nav */}
+function setToday(){/* placeholder */}
+
+// ========================= COLLECTE SIDEBAR =========================
+function filterCollectes(){
+  const search = (document.getElementById('collecteSearchInput')?.value||'').toLowerCase();
+  const filter = document.getElementById('collecteFilterSelect')?.value||'all';
+  let list = allCollectes.filter(c=>{
+    if(filter==='active'&&c.status!=='active')return false;
+    if(filter==='future'&&c.status!=='future')return false;
+    if(filter==='past'&&c.status!=='past')return false;
+    if(search&&!c.lieu.toLowerCase().includes(search)&&!c.ville.toLowerCase().includes(search))return false;
+    return true;
+  });
+  const container = document.getElementById('collecteListContainer');
+  if(!container)return;
+  container.innerHTML = list.map(c=>{
+    const cls = c.status==='active'?'active-c':c.status==='future'?'future-c':'past-c';
+    const pct = c.actual?((c.actual/c.capacity)*100).toFixed(0):0;
+    return `<div class="collecte-card ${cls}">
+      <div class="collecte-card-header">
+        <div><div class="collecte-card-name">${c.lieu}</div><div class="collecte-card-meta">${c.ville} • ${c.heure}</div></div>
+        <span class="type-badge ${c.type==='fixe'?'type-fixe':'type-mobile'}">${c.type==='fixe'?'Fixe':'Mobile'}</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.5rem">
+        <span style="font-size:.75rem;color:var(--slate-400)">${new Date(c.date).toLocaleDateString('fr-CH',{weekday:'short',day:'numeric',month:'short'})}</span>
+        <span style="font-size:.75rem">${c.status==='past'?c.dons+' dons':'~'+c.prev+' prévus'}</span>
+      </div>
+      ${c.status==='active'&&c.actual?`<div style="margin-top:.5rem"><div style="display:flex;justify-content:space-between;font-size:.7rem;margin-bottom:.25rem"><span>Progression</span><span>${c.actual}/${c.capacity}</span></div><div class="progress" style="height:6px"><div class="progress-fill" style="width:${pct}%;background:var(--green-500)"></div></div></div>`:''}
+    </div>`;
+  }).join('')||'<p style="font-size:.85rem;color:var(--slate-500);text-align:center;padding:1rem">Aucune collecte trouvée</p>';
+}
+
+// ========================= PSL SEARCH =========================
+function setUrgency(u){
+  pslUrgency=u;
+  document.querySelectorAll('.urgency-btn').forEach(b=>b.classList.toggle('selected',b.dataset.u===u));
+}
+async function doPslSearch(){
+  const groupe = document.getElementById('pslGroupe').value;
+  if(!groupe)return;
+  const qty = parseInt(document.getElementById('pslQty').value)||2;
+  const btn = document.getElementById('btnPslSearch');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Interrogation du réseau…';
+  await new Promise(r=>setTimeout(r,2000));
+  const results = [
+    {name:'EFS Rhône-Alpes',city:'Lyon',country:'France',flag:'🇫🇷',dist:150,units:Math.max(2,qty+3),compat:100,eta:pslUrgency==='vital'?'3h':'5h',cost:85},
+    {name:'Blutspendedienst Zürich',city:'Zürich',country:'Suisse',flag:'🇨🇭',dist:280,units:Math.max(1,qty-1),compat:100,eta:'2h30',cost:75},
+    {name:'EFS Alsace',city:'Strasbourg',country:'France',flag:'🇫🇷',dist:280,units:qty+5,compat:100,eta:'6h',cost:95},
+    {name:'DRK Baden-Württemberg',city:'Stuttgart',country:'Allemagne',flag:'🇩🇪',dist:220,units:qty+8,compat:98,eta:'5h',cost:120},
+    {name:'AVIS Lombardia',city:'Milan',country:'Italie',flag:'🇮🇹',dist:320,units:qty+12,compat:96,eta:'7h',cost:90},
+  ];
+  const el = document.getElementById('pslResults');
+  el.classList.remove('hidden');
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-title"><svg style="stroke:var(--green-400)" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>${results.length} sources disponibles pour ${groupe}</div>
+      ${results.map((b,i)=>`
+        <div class="result-card ${i===0?'recommended':''}">
+          ${i===0?'<span class="reco-badge">RECOMMANDÉ</span>':''}
+          <div class="result-header">
+            <div><div class="result-name">${b.flag} ${b.name}</div><div class="result-city">${b.city}, ${b.country}</div></div>
+            <div class="result-units"><div class="big">${b.units}</div><div class="lbl">unités dispo.</div></div>
+          </div>
+          <div class="result-metrics">
+            <div class="result-metric"><div class="m-label">Distance</div><div class="m-value">${b.dist} km</div></div>
+            <div class="result-metric"><div class="m-label">ETA</div><div class="m-value" style="color:${pslUrgency==='vital'&&parseInt(b.eta)>6?'var(--red-400)':'var(--green-400)'}">${b.eta}</div></div>
+            <div class="result-metric"><div class="m-label">Compat.</div><div class="m-value">${b.compat}%</div></div>
+            <div class="result-metric"><div class="m-label">Coût/u</div><div class="m-value">${b.cost}€</div></div>
+          </div>
+          <div class="result-actions"><button class="btn-order">Commander ${qty} unités</button><button class="btn-detail">Détails</button></div>
+        </div>
+      `).join('')}
+      <div class="note-box"><strong>Note :</strong> Les commandes transfrontalières sont soumises aux accords EBA et aux réglementations Swissmedic. Délai administratif additionnel : +2-4h.</div>
+    </div>
+  `;
+  btn.disabled=false;
+  btn.innerHTML='<svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg> Rechercher dans 47 banques';
+}
+
+// ========================= ROUTE OPTIMIZATION =========================
+async function doOptimizeRoute(){
+  const btn = document.getElementById('btnOptimize');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Optimisation en cours…';
+  await new Promise(r=>setTimeout(r,2500));
+  const result = {
+    totalDist:18.5,totalTime:'7h15',totalDonors:31,
+    savings:{km:4.2,time:'35min',co2:1.1},
+    stops:[
+      {order:1,name:'Dépôt CTS Champel',time:'07:45',duration:'15min',type:'other'},
+      {order:2,name:'Uni Mail',time:'08:15',duration:'2h30',donors:12,type:'collecte'},
+      {order:3,name:'Plainpalais',time:'11:00',duration:'1h45',donors:6,type:'collecte'},
+      {order:4,name:'Pause déjeuner',time:'12:45',duration:'45min',type:'pause'},
+      {order:5,name:'Balexert',time:'13:45',duration:'2h',donors:8,type:'collecte'},
+      {order:6,name:'Carouge',time:'16:00',duration:'1h15',donors:5,type:'collecte'},
+      {order:7,name:'Retour dépôt',time:'17:30',duration:null,type:'other'},
+    ],
+    alerts:[
+      {type:'traffic',msg:'Trafic dense Pont du Mont-Blanc 11h-12h → Itinéraire via Jonction'},
+      {type:'priority',msg:'3 donneurs O- confirmés à Uni Mail (priorité stock critique)'},
+    ]
+  };
+  const el = document.getElementById('routeResults');
+  el.classList.remove('hidden');
+  el.innerHTML = `
+    <div>
+      <div class="card" style="border-color:rgba(34,197,94,.35)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+          <div class="card-title" style="margin-bottom:0"><svg style="stroke:var(--green-400)" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Itinéraire optimisé</div>
+          <div class="route-savings">
+            <span class="saving-badge km">-${result.savings.km} km</span>
+            <span class="saving-badge time">-${result.savings.time}</span>
+            <span class="saving-badge co2">-${result.savings.co2} kg CO₂</span>
+          </div>
+        </div>
+        <div class="route-kpis">
+          <div class="route-kpi"><div class="val">${result.totalDist} km</div><div class="lbl">Distance totale</div></div>
+          <div class="route-kpi"><div class="val">${result.totalTime}</div><div class="lbl">Durée totale</div></div>
+          <div class="route-kpi"><div class="val" style="color:var(--amber-400)">${result.totalDonors}</div><div class="lbl">Donneurs prévus</div></div>
+        </div>
+        <div class="timeline">
+          ${result.stops.map((s,i)=>`
+            <div class="timeline-item">
+              <div class="timeline-marker">
+                <div class="timeline-dot ${s.type}">${s.order}</div>
+                ${i<result.stops.length-1?'<div class="timeline-line"></div>':''}
+              </div>
+              <div class="timeline-content">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between">
+                  <div><div class="t-name">${s.name}</div><div class="t-meta">${s.time}${s.duration?' • '+s.duration:''}</div></div>
+                  ${s.donors?`<span class="donors-badge">${s.donors} donneurs</span>`:''}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:.75rem"><svg style="stroke:var(--amber-400)" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Alertes temps réel</div>
+        ${result.alerts.map(a=>`<div class="route-alert ${a.type}"><span style="margin-right:.5rem">${a.type==='traffic'?'🚗':'🩸'}</span>${a.msg}</div>`).join('')}
+      </div>
+      <div class="route-btns">
+        <button class="btn-gps"><svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Envoyer au GPS</button>
+        <button class="btn-notify"><svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Notifier donneurs</button>
+      </div>
+    </div>
+  `;
+  btn.disabled=false;
+  btn.innerHTML='<svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Optimiser l\'itinéraire';
+}
+
+// ========================= PLANNING TABLE =========================
+function renderPlanTable(){
+  const body = document.getElementById('planBody');
+  const rows = allCollectes.filter(c=>c.status!=='past').sort((a,b)=>new Date(a.date)-new Date(b.date));
+  body.innerHTML = rows.map(c=>{
+    const d = new Date(c.date);
+    const dateStr = d.toLocaleDateString('fr-CH',{weekday:'short',day:'numeric',month:'short'});
+    return `<tr>
+      <td>${dateStr}</td>
+      <td><strong>${c.lieu}</strong><br><span class="plan-sub">${c.ville}</span></td>
+      <td><span class="type-badge ${c.type==='fixe'?'type-fixe':'type-mobile'}">${c.type}</span></td>
+      <td style="color:var(--slate-400)">${c.heure}</td>
+      <td>~${c.prev} dons</td>
+      <td><span class="status-badge ${c.status==='active'?'status-active':'status-planned'}">${c.status==='active'?'En cours':'Planifié'}</span></td>
+    </tr>`;
+  }).join('');
+}
+function setPeriod(btn){
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ========================= EQUITY =========================
+function renderEquity(){
+  const r = regions[selectedRegion];
+  document.getElementById('equityKpis').innerHTML = `
+    <div class="equity-kpi" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.3)"><div class="val">${r.criticalPatients}</div><div class="lbl">Patients critiques suivis</div></div>
+    <div class="equity-kpi" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3)"><div class="val">${r.hemoglobinopathies}</div><div class="lbl">Hémoglobinopathies</div></div>
+    <div class="equity-kpi" style="background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3)"><div class="val">2.1<span style="font-size:1rem">h</span></div><div class="lbl">Délai moyen accès</div></div>
+    <div class="equity-kpi" style="background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.3)"><div class="val">94<span style="font-size:1rem">%</span></div><div class="lbl">Taux compatibilité</div></div>
+  `;
+  const kpis = [
+    {l:'Disponibilité phénotypes rares',v:78,t:90,trend:2},
+    {l:'Couverture géographique équitable',v:72,t:85,trend:-1},
+    {l:"Temps de réponse urgences vitales",v:88,t:95,trend:5},
+    {l:'Satisfaction patients',v:91,t:90,trend:3},
+  ];
+  const barsEl = document.getElementById('equityBars');
+  barsEl.innerHTML = '<h4 style="font-weight:600;margin-bottom:1rem">Indicateurs clés de performance (KPIs)</h4>' + kpis.map(k=>{
+    const color = k.v>=k.t?'var(--green-500)':'var(--amber-500)';
+    const trendColor = k.trend>=0?'var(--green-400)':'var(--red-400)';
+    return `<div class="kpi-bar-row">
+      <div class="kpi-bar-header"><span>${k.l}</span><span style="display:flex;align-items:center;gap:.75rem"><span style="color:${trendColor}">${k.trend>=0?'+':''}${k.trend}%</span><span>${k.v}% / ${k.t}%</span></span></div>
+      <div class="kpi-bar-track"><div class="kpi-bar-fill" style="width:${k.v}%;background:${color}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ========================= INIT =========================
+updateDatetime();
+setInterval(updateDatetime,60000);
+</script>
+</body>
+</html>
