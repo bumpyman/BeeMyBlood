@@ -1,17 +1,14 @@
 <!--
     BeeMyBlood – Blood donation platform
     Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
     published by the Free Software Foundation, either version 3 of the
     License, or (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU Affero General Public License for more details.
-
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
 -->
@@ -40,6 +37,160 @@
   --shadow-gold:0 0 40px rgba(200,169,96,.15);
   --transition:.3s cubic-bezier(.4,0,.2,1);
 }
+
+/* ===== LIGHT MODE ===== */
+body.light-mode{--dark:#F5F5F7;--dark-card:#FFFFFF;--dark-surface:#F0F0F5;--dark-border:#D8D8E0;--text:#1A1A2E;--text-dim:#4A4A5C;--text-muted:#8888A0;--gold:#8B6914;--gold-light:#C8A960;--gold-glow:#D4A017;--red:#DC2626;--red-soft:#E63946;--green:#16A34A;--green-soft:#22C55E;--orange:#EA580C;--blue:#2563EB;--purple:#7C3AED;--teal:#0D9488}
+body.light-mode{background:#F5F5F7;color:var(--text)}
+body.light-mode nav{background:rgba(245,245,247,.92);border-bottom-color:var(--dark-border)}
+body.light-mode .nav-tab.active{background:var(--gold);color:#fff}
+body.light-mode .card{box-shadow:0 2px 8px rgba(0,0,0,.06)}
+body.light-mode .live-toast{background:rgba(255,255,255,.95);border-color:rgba(139,105,20,.2);color:var(--text)}
+body.light-mode .mob-menu{background:rgba(245,245,247,.97)}
+body.light-mode .modal-overlay{background:rgba(0,0,0,.3)}
+body.light-mode .modal-box{background:#fff}
+body.light-mode .leaflet-container{background:#e8e8e8!important}
+body.light-mode .leaflet-tile-pane{background:#e8e8e8!important}
+body.light-mode .leaflet-tile{background:#e8e8e8!important}
+body.light-mode input,body.light-mode select,body.light-mode textarea{background:var(--dark-surface);border-color:var(--dark-border);color:var(--text)}
+body.light-mode .acc-toggle{background:var(--dark-surface);border-color:var(--dark-border);color:var(--text)}
+body.light-mode .btn-outline{border-color:var(--dark-border);color:var(--text)}
+body.light-mode .hero-badge{background:rgba(139,105,20,.08);border-color:rgba(139,105,20,.2);color:var(--gold)}
+body.light-mode .badge-item{background:#fff;border-color:var(--dark-border)}
+body.light-mode .mob-bottom{background:rgba(245,245,247,.95);border-top-color:var(--dark-border)}
+body.light-mode .crs-cat{background:#fff;border-color:var(--dark-border)}
+body.light-mode .chat-bubble.bot{background:var(--dark-surface)}
+body.light-mode .notif-dropdown{background:#fff}
+body.light-mode .nav-overflow-menu{background:#fff}
+body.light-mode .badge-item.earned{background:rgba(139,105,20,.04);border-color:rgba(139,105,20,.2)}
+#breadcrumb-bar~.main-content{padding-top:80px}
+/* Light mode: Gate page */
+body.light-mode #gate-overlay{background:#F5F5F7!important}
+body.light-mode #gate-overlay div,body.light-mode #gate-overlay span,body.light-mode #gate-overlay p{color:#1A1A2E!important}
+body.light-mode #gate-overlay div[style*="color:var(--gold)"]{color:#8B6914!important}
+body.light-mode #gate-overlay div[style*="color:var(--text-muted)"]{color:#8888A0!important}
+body.light-mode #gate-overlay input{background:#fff!important;border-color:rgba(139,105,20,.35)!important;color:#1A1A2E!important}
+body.light-mode #gate-overlay input::placeholder{color:#8888A0!important}
+body.light-mode #gate-overlay button[onclick="checkGate()"]{color:#0d0d14!important;background:linear-gradient(135deg,#B89730,#D4B44A)!important}
+
+/* Light mode: Hero text */
+body.light-mode .hero h1{color:#1A1A2E}
+body.light-mode .hero-sub{color:#4A4A5C!important}
+body.light-mode div[style*="color:#fff"]{color:#1A1A2E!important}
+body.light-mode .hero-badge{background:rgba(139,105,20,.06);color:var(--gold)}
+body.light-mode .hero-cells .cell{opacity:.15}
+
+/* ====== Light mode: Flux CTS — FULL OVERRIDE ====== */
+body.light-mode #v-flux .card{background:#fff!important}
+/* Canvas wrap = background behind SVG */
+body.light-mode .flux-canvas-wrap,
+body.light-mode .flux-canvas-wrap.fullscreen{background:#E8EDF2!important;border-color:#D0D0D8!important}
+body.light-mode #flux-map{background:transparent!important}
+/* SVG roads (inline stroke="rgba(255,255,255,.1)") */
+body.light-mode #flux-map g[stroke] path,
+body.light-mode #flux-map g[stroke] line{stroke:rgba(0,0,0,.1)!important}
+/* SVG ALL text — override inline fills */
+body.light-mode #flux-map text{fill:#333!important}
+body.light-mode #flux-map text[fill*="rgba(200,169,96"]{fill:#8B6914!important}
+body.light-mode #flux-map text[fill*="rgba(230,57,70"]{fill:#C0392B!important}
+body.light-mode #flux-map text[fill*="rgba(155,89,182"]{fill:#8E44AD!important}
+body.light-mode #flux-map text[fill*="rgba(79,195,247"]{fill:#2980B9!important}
+body.light-mode #flux-map text[fill*="rgba(46,204,113"]{fill:#27AE60!important}
+body.light-mode #flux-map text[fill*="rgba(240,160,75"]{fill:#D35400!important}
+body.light-mode #flux-map text[fill="#C8A960"]{fill:#8B6914!important}
+/* SVG rects (buildings) — transparent colored fills → more opaque */
+body.light-mode #flux-map rect[fill*="rgba(200,169,96"]{fill:rgba(139,105,20,.08)!important;stroke:rgba(139,105,20,.35)!important}
+body.light-mode #flux-map rect[fill*="rgba(230,57,70"]{fill:rgba(192,57,43,.08)!important;stroke:rgba(192,57,43,.35)!important}
+body.light-mode #flux-map rect[fill*="rgba(155,89,182"]{fill:rgba(142,68,173,.08)!important;stroke:rgba(142,68,173,.35)!important}
+body.light-mode #flux-map rect[fill*="rgba(79,195,247"]{fill:rgba(41,128,185,.08)!important;stroke:rgba(41,128,185,.35)!important}
+body.light-mode #flux-map rect[fill*="rgba(46,204,113"]{fill:rgba(39,174,96,.08)!important;stroke:rgba(39,174,96,.35)!important}
+body.light-mode #flux-map rect[fill*="rgba(255,255,255"]{fill:rgba(0,0,0,.04)!important;stroke:rgba(0,0,0,.1)!important}
+body.light-mode #flux-map rect[fill*="rgba(10,14,20"]{fill:rgba(255,255,255,.85)!important;stroke:rgba(0,0,0,.08)!important}
+/* SVG legend */
+body.light-mode .flux-svg-legend rect{fill:rgba(255,255,255,.9)!important;stroke:rgba(0,0,0,.1)!important}
+body.light-mode .flux-svg-legend text{fill:#555!important}
+/* Marker arrows */
+body.light-mode #flux-map marker path{fill:rgba(0,0,0,.35)!important}
+/* ---- HUD (Entrées, Sorties, Stock CE, Plaquettes) ---- */
+body.light-mode .flux-hud{color:#1A1A2E!important}
+body.light-mode .flux-stat{background:rgba(255,255,255,.95)!important;border:1px solid #D0D0D8!important;box-shadow:0 2px 8px rgba(0,0,0,.08)!important}
+body.light-mode .flux-stat-val{color:inherit}
+body.light-mode .flux-stat-lbl{color:#555!important}
+/* ---- Ticker banner (the scrolling text bar) ---- */
+body.light-mode #fx-ticker-wrap{background:rgba(255,255,255,.92)!important;border-bottom:1px solid #D0D0D8!important}
+body.light-mode #fx-ticker,body.light-mode #fx-ticker *{color:#555!important}
+/* ---- Objectif bar ---- */
+body.light-mode #v-flux div[style*="background:var(--dark-surface)"]{background:#E0E0E8!important}
+body.light-mode #fx-obj-title{color:#555!important}
+body.light-mode #fx-obj-txt{color:#333!important}
+body.light-mode #fx-obj-label{color:#666!important}
+/* ---- Feed & hourly chart ---- */
+body.light-mode #v-flux .flux-feed{background:#fff!important;border-color:#D8D8E0!important}
+body.light-mode #v-flux .flux-feed-item{color:#555}
+body.light-mode #v-flux div[style*="background:var(--dark-card)"]{background:#fff!important}
+body.light-mode .flux-legend-mob,.flux-legend-mob span{color:#555}
+body.light-mode .flux-legend-mob{background:rgba(255,255,255,.9);border:1px solid #D8D8E0;border-radius:8px;padding:8px}
+
+/* Light mode: HémoRush */
+body.light-mode #v-hemorush .card{background:#fff}
+body.light-mode .game-wrap{background:#fff!important;border-color:var(--gold)}
+body.light-mode .game-wrap.fullscreen{background:#F5F5F7!important}
+body.light-mode .game-start-overlay{background:rgba(255,255,255,.98)!important}
+body.light-mode .game-start-overlay *{color:#1A1A2E!important}
+body.light-mode .game-start-overlay div[style*="color:var(--gold)"]{color:var(--gold)!important}
+body.light-mode .game-start-overlay div[style*="color:var(--text-dim)"]{color:#4A4A5C!important}
+body.light-mode .game-start-overlay div[style*="color:var(--text-muted)"]{color:#8888A0!important}
+body.light-mode .game-start-overlay div[style*="color:var(--red-soft)"]{color:var(--red)!important}
+body.light-mode .game-start-overlay div[style*="color:var(--green)"]{color:var(--green)!important}
+body.light-mode .game-start-overlay span[style*="color:#fff"]{color:#1A1A2E!important}
+body.light-mode .game-start-overlay strong[style*="color:#fff"]{color:#1A1A2E!important}
+body.light-mode .mode-card{background:#F0F0F5!important;border-color:#D8D8E0!important;color:#1A1A2E!important}
+body.light-mode .mode-card.sel{border-color:var(--gold)!important;background:#FFFDF5!important}
+body.light-mode .mode-card *{color:#1A1A2E!important}
+body.light-mode .gameover{background:rgba(255,255,255,.95)!important}
+body.light-mode .gameover *{color:#1A1A2E!important}
+.hr-rule-text{color:#fff}
+body.light-mode .hr-rule-text{color:#1A1A2E!important}
+/* Broad light mode: override common inline dark patterns */
+body.light-mode .sec-header .sec-title,body.light-mode .card-title,body.light-mode .card-header .card-title{color:#1A1A2E!important}
+body.light-mode .card-header .badge{color:#8B6914}
+body.light-mode div[style*="background:var(--dark-surface)"]{background-color:#F0F0F5}
+body.light-mode span[style*="background:var(--dark-surface)"]{background-color:#F0F0F5!important}
+body.light-mode div[style*="background:var(--dark-card)"]{background-color:#fff}
+body.light-mode .crs-cat-body{background:#FAFAFA!important}
+body.light-mode .crs-row{border-color:#E8E8E8!important}
+body.light-mode .elig-card{background:#fff!important}
+
+body.light-mode #v-hemorush div[style*="color:#fff"]{color:#1A1A2E!important}
+body.light-mode #v-hemorush span[style*="color:#fff"]{color:#1A1A2E!important}
+body.light-mode #v-hemorush strong[style*="color:#fff"]{color:#1A1A2E!important}
+
+/* Light mode: Map/Collectes */
+body.light-mode #v-collectes .card{background:#fff}
+body.light-mode #map-radius-ctrl{background:#fff!important;border-color:#D8D8E0!important;color:#4A4A5C!important}
+body.light-mode .leaflet-control-zoom a{background:#fff!important;color:#1A1A2E!important;border-color:#D8D8E0!important}
+body.light-mode .leaflet-popup-content-wrapper{background:#fff!important;color:#1A1A2E!important;box-shadow:0 3px 14px rgba(0,0,0,.15)!important}
+body.light-mode .leaflet-popup-content{color:#1A1A2E!important}
+body.light-mode .leaflet-popup-content *{color:#4A4A5C!important}
+body.light-mode .leaflet-popup-content strong{color:#1A1A2E!important}
+body.light-mode #map-ctrl-panel button{background:#fff!important;border-color:#D8D8E0!important;color:#1A1A2E!important}
+body.light-mode #map-ctrl-panel{background:rgba(255,255,255,.9)!important;border-color:#D8D8E0!important}
+body.light-mode #mapid{background:#e8e8e8!important}
+body.light-mode .map-loc-btn{background:#fff!important;border-color:#D8D8E0!important;color:#1A1A2E!important}
+
+/* Light mode: Tour tooltip */
+body.light-mode .tour-tooltip{background:#fff;border-color:var(--gold);box-shadow:0 12px 40px rgba(0,0,0,.15)}
+body.light-mode .tour-tooltip p{color:#4A4A5C}
+
+/* Light mode: Sec headers */
+body.light-mode .sec-header .sec-label{color:var(--gold)}
+body.light-mode .sec-header .sec-title{color:#1A1A2E}
+body.light-mode .sec-header .sec-sub{color:#4A4A5C}
+
+/* Light mode: Scroll to top */
+body.light-mode .scroll-top{background:#fff;color:#1A1A2E;border:1px solid #D8D8E0}
+body.light-mode .card.fullscreen,body.light-mode .flux-canvas-wrap.fullscreen,body.light-mode .game-wrap.fullscreen{background:#F5F5F7!important}
+body.light-mode::before{opacity:.01!important}
+
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--dark);color:var(--text);min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.6;overflow-wrap:break-word;word-wrap:break-word;display:flex;flex-direction:column}
@@ -83,7 +234,7 @@ body.has-fullscreen .scroll-top{display:none!important}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 /* LIVE TOAST */
-.live-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark-card);border:1px solid rgba(200,169,96,.3);border-radius:12px;padding:10px 18px;font-size:13px;color:var(--text);z-index:1800;display:flex;align-items:center;gap:10px;max-width:420px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;pointer-events:none;backdrop-filter:blur(12px)}
+.live-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(26,26,46,.85);border:1px solid rgba(200,169,96,.2);border-radius:12px;padding:8px 14px;font-size:12px;color:var(--text);z-index:1800;display:flex;align-items:center;gap:10px;max-width:420px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;pointer-events:none;backdrop-filter:blur(12px)}
 .live-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 @media(max-width:640px){.live-toast{left:12px;right:12px;transform:translateX(0) translateY(80px);max-width:none}.live-toast.show{transform:translateX(0) translateY(0)}}
 
@@ -148,6 +299,13 @@ body.has-fullscreen .scroll-top{display:none!important}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,169,96,.08);border:1px solid rgba(200,169,96,.2);border-radius:50px;padding:5px 14px;font-size:13px;color:var(--gold);font-weight:500;margin-bottom:6px;animation:slideDown .5s ease}
 @keyframes slideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
 .hero h1{font-family:var(--font-display);font-size:clamp(36px,5.5vw,68px);font-weight:700;line-height:1.1;margin-bottom:6px;animation:slideUp .5s ease .1s both}
+.bc-bar{background:rgba(13,13,20,.88);border-bottom:1px solid var(--dark-border);color:var(--text-muted)}
+body.light-mode .bc-bar{background:rgba(248,249,250,.95)!important;border-bottom:1px solid #D8D8E0!important;color:#666!important}
+body.light-mode .bc-bar span{color:#555!important}
+body.light-mode .bc-bar span[style*="color:var(--gold)"]{color:#8B6914!important}
+body.light-mode #bc-current{color:#1A1A2E!important}
+.hero-tagline{color:#fff}
+body.light-mode .hero-tagline{color:#1A1A2E}
 .hero h1 .glow{background:linear-gradient(135deg,var(--gold),var(--gold-glow),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3s ease infinite}
 @keyframes shimmer{0%,100%{background-position:0% center}50%{background-position:200% center}}
 @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
@@ -191,7 +349,7 @@ body.has-fullscreen .scroll-top{display:none!important}
 @media(max-width:640px){.mob-br{display:inline}}
 
 /* NAV RESPONSIVE: hamburger only on very small screens where no tabs fit */
-@media(max-width:640px){.nav-tabs{display:none}.hamburger{display:none!important}.nav-overflow-btn{display:none!important}}
+@media(max-width:640px){.nav-tabs{display:none}.hamburger{display:none!important}.nav-overflow-btn{display:none!important}.mob-settings-btn{display:flex!important}}
 
 /* MOBILE CARD READABILITY */
 @media(max-width:640px){
@@ -646,8 +804,8 @@ body.has-fullscreen .scroll-top{display:none!important}
 .notif-dropdown{display:none;position:absolute;top:48px;right:0;width:340px;max-height:420px;overflow-y:auto;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius);box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:1100;padding:0}
 
 /* ONBOARDING MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.show{opacity:1;pointer-events:auto;backdrop-filter:blur(6px)}
 .modal-box{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:16px;max-width:420px;width:92%;max-height:80vh;overflow-y:auto;padding:0;transform:translateY(20px);transition:transform .3s}
 .modal-overlay.show .modal-box{transform:translateY(0)}
 .modal-header{padding:20px 16px 10px;text-align:center;background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(46,204,113,.04))}
@@ -1081,6 +1239,40 @@ body.has-fullscreen .scroll-top{display:none!important}
 .beebot-input input{flex:1;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:20px;padding:8px 14px;color:var(--text);font-size:14px;outline:none}
 .beebot-input button{background:var(--gold);color:var(--dark);border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;flex-shrink:0}
 @media(max-width:640px){.beebot-fab{bottom:90px;right:12px;width:48px;height:48px;font-size:22px}.beebot-panel{right:8px;left:8px;width:auto;bottom:150px;max-height:60vh}}
+
+/* ===== LIGHT MODE ===== */
+body.light-mode{--dark:#f8f9fa;--dark-surface:#ffffff;--dark-card:#ffffff;--dark-border:#e0e0e0;--text:#1a1a2e;--text-dim:#444;--text-muted:#888;--gold:#b8860b;--gold-glow:#daa520}
+body.light-mode .nav-bar{background:rgba(248,249,250,.95);border-color:#e0e0e0}
+body.light-mode .nav-tab{color:#555}body.light-mode .nav-tab.active{color:#b8860b;background:rgba(184,134,11,.08)}
+body.light-mode .mobile-bottom-bar{background:rgba(248,249,250,.97);border-color:#e0e0e0}
+body.light-mode .card{background:#fff;border-color:#e0e0e0;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+body.light-mode .acc-toggle{background:#f0f0f0;border-color:#ddd;color:#333}
+body.light-mode .acc-toggle:hover{background:#e8e8e8}
+body.light-mode .btn-gold{background:linear-gradient(135deg,#b8860b,#daa520);color:#fff}
+body.light-mode .btn-outline{border-color:#b8860b;color:#b8860b}
+body.light-mode .hero-section{background:linear-gradient(135deg,#f8f9fa 0%,#e8ecf0 100%)}
+body.light-mode .sec-header .sec-title{color:#1a1a2e}
+body.light-mode .live-toast{background:rgba(255,255,255,.95);color:#333;border-color:rgba(184,134,11,.3)}
+body.light-mode .crs-cat{background:#f5f5f5;border-color:#ddd}
+body.light-mode .crs-cat-body{background:#fff}
+body.light-mode input,body.light-mode select,body.light-mode textarea{background:#f8f9fa;color:#333;border-color:#ddd}
+body.light-mode .modal-box{background:#fff;border-color:#ddd}
+body.light-mode .notif-dropdown{background:#fff;border-color:#ddd}
+body.light-mode .leaflet-container{background:#e8e8e8!important}
+body.light-mode .collecte-card{background:#fff;border-color:#e0e0e0}
+body.light-mode .badge-item{background:#fff;border-color:#e0e0e0}
+body.light-mode .badge-item.earned{background:rgba(184,134,11,.04);border-color:rgba(184,134,11,.25)}
+
+/* Tour guidé */
+.tour-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:5000;background:transparent;pointer-events:none}
+.tour-highlight{position:absolute;z-index:5001;box-shadow:0 0 0 4000px rgba(0,0,0,.65);border-radius:12px;border:2px solid var(--gold);pointer-events:none;transition:all .4s ease}
+.tour-tooltip{position:fixed;z-index:5002;background:var(--dark-card);border:1px solid var(--gold);border-radius:12px;padding:16px;max-width:340px;box-shadow:0 12px 40px rgba(0,0,0,.5);pointer-events:all}
+.tour-tooltip h4{font-size:15px;font-weight:700;color:var(--gold);margin:0 0 6px}
+.tour-tooltip p{font-size:13px;color:var(--text-dim);line-height:1.6;margin:0 0 12px}
+.tour-step-dots{display:flex;gap:4px;margin-bottom:10px}
+.tour-step-dots span{width:8px;height:8px;border-radius:50%;background:var(--dark-border)}
+.tour-step-dots span.active{background:var(--gold)}
+.tour-btns{display:flex;gap:8px;justify-content:flex-end}
 </style>
 </head>
 <body>
@@ -1089,11 +1281,11 @@ body.has-fullscreen .scroll-top{display:none!important}
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;padding:24px">
   <div style="text-align:center;max-width:380px;width:100%">
     <div style="font-size:48px;margin-bottom:12px">🐝</div>
-    <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:#fff;margin-bottom:4px">BeeMyBlood™</div>
+    <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--text);margin-bottom:4px">BeeMyBlood™</div>
     <div style="font-size:14px;color:var(--gold);margin-bottom:32px;letter-spacing:1px">Accès sur invitation</div>
     <div style="position:relative">
       <input id="gate-input" type="text" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;padding:14px 18px;font-size:16px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:#fff;font-family:var(--font-body);outline:none;transition:border-color .2s"
+        style="width:100%;box-sizing:border-box;padding:14px 18px;font-size:16px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);outline:none;transition:border-color .2s"
         onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
       <div id="gate-error" style="color:var(--red-soft);font-size:13px;margin-top:8px;height:18px;transition:opacity .2s;opacity:0">Code invalide</div>
@@ -1138,6 +1330,7 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
     <button class="nav-tab" data-v="videos">Vidéos</button>
     <button class="nav-tab" data-v="faq">FAQ</button>
     <button class="nav-tab" data-v="contact">Contact</button>
+    <button class="nav-tab" data-v="settings">⚙️</button>
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
   </div>
   <div class="nav-right">
@@ -1157,6 +1350,10 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
       </div>
       </div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <div class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="go('settings')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="go('profil')">
       <div class="nav-avatar">AK</div>
@@ -1191,6 +1388,10 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   </div>
 </div>
 
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <span onclick="go('hero')" style="cursor:pointer;color:var(--gold)">🏠 Accueil</span> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current" style="color:var(--text)"></span>
+</div>
 <!-- ==================== HERO ==================== -->
 <div class="view active" id="v-hero">
 <div class="hero" style="position:relative">
@@ -1199,7 +1400,7 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   <div class="hero-badge">🩸 Prototype interactif — Hackathon HUG #9 2026</div>
   <h1>Donner son sang,<br><span class="glow">une expérience héroïque</span></h1>
   <p class="hero-sub">BeeMyBlood™ transforme le don de sang en parcours premium, personnalisé et ludique pour les jeunes de 18 à 35 ans.</p>
-  <div style="font-size:20px;font-weight:600;color:#fff;margin:0 auto 8px;text-align:center;animation:slideUp .5s ease .3s both;opacity:0;line-height:1.6">Chaque donneur est un héros,<br class="mob-br"> <span style="color:var(--gold)">pas un numéro.</span></div>
+  <div style="font-size:20px;font-weight:600;margin:0 auto 8px;text-align:center;animation:slideUp .5s ease .3s both;opacity:0;line-height:1.6" class="hero-tagline">Chaque donneur est un héros,<br class="mob-br"> <span style="color:var(--gold)">pas un numéro.</span></div>
   <div class="hero-actions">
     <button class="btn btn-gold" onclick="go('dashboard')">🐝 Explorer le dashboard</button>
     <button class="btn btn-outline" onclick="go('guide')">📺 À quoi s'attendre</button>
@@ -1230,6 +1431,7 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
       <div class="hero-feat" onclick="go('contact')"><div class="hero-feat-icon">📬</div><div class="hero-feat-title">Contact</div><div class="hero-feat-sub">Nous écrire</div></div>
       <div class="hero-feat" onclick="go('videos')"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
     </div>
+    <button class="btn btn-outline btn-sm" onclick="startTour()" style="margin-top:8px">🗺️ Tour guidé interactif</button>
     </div><!-- hero-feats-acc -->
 
     <!-- Actualités du don du sang -->
@@ -1924,9 +2126,9 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
 
       <!-- COMPACT RULES -->
       <div style="background:linear-gradient(90deg,rgba(200,169,96,.06),rgba(200,169,96,.18),rgba(200,169,96,.06));background-size:200% 100%;animation:shimmerRule 3s linear infinite;border:2px solid rgba(200,169,96,.35);border-radius:12px;padding:10px 14px;margin:8px 0;text-align:center;line-height:1.8">
-        <span style="font-size:15px;font-weight:700;color:#fff">🏥 Touche un <strong style="color:var(--gold)">patient</strong></span><br>
+        <span style="font-size:15px;font-weight:700" class="hr-rule-text">🏥 Touche un <strong style="color:var(--gold)">patient</strong></span><br>
         <span style="color:var(--gold);font-size:16px;animation:bounceBtn 1.5s ease-in-out infinite;display:inline-block">↓</span><br>
-        <span style="font-size:15px;font-weight:700;color:#fff">🩸 Donne la <strong style="color:var(--green)">poche</strong> compatible</span>
+        <span style="font-size:15px;font-weight:700" class="hr-rule-text">🩸 Donne la <strong style="color:var(--green)">poche</strong> compatible</span>
       </div>
       <div style="font-size:12px;color:var(--text-muted);text-align:center">⚠️ <strong style="color:var(--red-soft)">Mauvaise poche = patient bloqué</strong></div>
 
@@ -2009,6 +2211,116 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
       <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" target="_blank" class="btn btn-outline" style="margin-left:8px">📅 Prendre RDV sur OneDoc</a>
     </div>
   </div>
+
+
+
+    <div style="margin-top:12px;padding:12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);text-align:center">
+      <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">✅ Éligible ? Passe directement au questionnaire médical</div>
+      <button class="btn btn-gold btn-sm" onclick="document.querySelector('[data-target=&quot;quest-hug-acc&quot;]').click();setTimeout(function(){document.getElementById('quest-hug-acc').scrollIntoView({behavior:'smooth'});},400)">📋 Remplir le questionnaire HUG</button>
+    </div>
+
+  <!-- QUESTIONNAIRE MÉDICAL HUG COMPLET -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="quest-hug-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Questionnaire médical HUG — pré-remplissage + PDF <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="quest-hug-acc">
+  <div class="card" style="margin-top:8px;border:1px solid rgba(200,169,96,.2)">
+    <div class="card-header"><div class="card-title">📋 Questionnaire médical — Centre de Transfusion HUG</div><span class="badge badge-gold">ANH-Art7.6v3 · Fév. 2026</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Remplis ce formulaire à l'avance et génère un PDF à imprimer. Gain de temps au CTS : ~15 min.</div>
+
+    <!-- ====== ÉTAPE 1 : Formulaire d'information ANH Art.7.7 ====== -->
+    <div id="qhug-step1" style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">📄 Étape 1/3 — Formulaire d'information</div>
+      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.7;color:var(--text-dim)">
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">Annexe Art. 7.7 — Formulaire d'information pour les donneuses et donneurs de sang</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Type : ANH · Version 3 · En vigueur depuis le 01.02.2026 · Transfusion CRS Suisse · N° 3391</div>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--gold);font-size:13px">🩸 Sang et transfusions sanguines</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Le sang et ses composants remplissent de nombreuses fonctions vitales. Un malade ou un blessé peut avoir besoin d'une transfusion pour guérir, voire pour rester en vie. C'est l'acte médical le plus courant en milieu hospitalier. En Suisse, les transfusions sont possibles à condition que suffisamment de volontaires en bonne santé acceptent de donner de leur sang.</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--gold);font-size:13px">💉 Don de sang — effets et précautions</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Le don consiste en une ponction veineuse au pli du coude (~500 ml en 10 min). Effets possibles : chute de pression artérielle (malaise), hématome ou lésion nerveuse au point de ponction. La majorité est sans gravité et de très courte durée. Après le don, respecter un délai d'au moins <strong>12 heures</strong> avant toute activité à risque.</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--red-soft);font-size:13px">🚫 Contre-indications définitives</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">1. Test positif HIV, hépatites B/C, syphilis<br>2. Injection de drogue (ancienne ou actuelle)</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--orange);font-size:13px">⏳ Contre-indications temporaires</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">3. Rapport sexuel contre rémunération<br>4. MST au cours des 12 derniers mois<br>5. Changement de partenaire sexuel (4 derniers mois)<br>6. Plus de 2 partenaires (4 derniers mois)<br>7. Séjours à l'étranger (6 derniers mois — voir <a href="https://www.blutspende.ch" target="_blank" style="color:var(--blue)">Travelcheck</a>)<br>8. Interventions/traitements médicaux ou esthétiques<br>9. Thérapie antirétrovirale PEP/PrEP (4 derniers mois)<br>10. Rapport sexuel avec partenaire exposé aux situations 1-7</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--blue);font-size:13px">🔬 Tests biologiques</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Dépistage systématique à chaque don : HIV, hépatites B/C/E, syphilis, et si nécessaire Parvovirus B19 et hépatite A. Si un test est réactif, vous êtes immédiatement informé(e). Des analyses de groupe sanguin ABO, Rhésus et autres sont également réalisées.</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--green);font-size:13px">📞 Informations post-don</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Après le don, informez rapidement votre CTS si : vous ou votre entourage tombez malade, vous réalisez ne pas avoir répondu correctement au questionnaire, ou si des complications surviennent. Vos données sont soumises au secret médical.</div>
+        </details>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <a href="https://www.blutspende-nordwestschweiz.ch/media/filer_public/ab/ad/abad81ea-ebd4-4cbc-9f1c-0a4b2a88ec8d/annexe_art_77_formulaire_dinformation.pdf" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none">📄 Lire le document officiel (PDF)</a>
+        </div>
+      </div>
+      <label id="qhug-read-check" style="display:flex;align-items:center;gap:8px;padding:10px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.2);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">
+        <input type="checkbox" id="qhug-read-cb" style="width:18px;height:18px;accent-color:var(--green)">
+        <span>J'ai lu le Formulaire d'information ANH Art.7.7 et je suis informé(e)</span>
+      </label>
+      <button class="btn btn-gold" id="qhug-step1-next" onclick="qhugGoStep(2)" style="opacity:.5;pointer-events:none">Continuer → Consentement</button>
+    </div>
+
+    <!-- ====== ÉTAPE 2 : Consentement ====== -->
+    <div id="qhug-step2" style="display:none;flex-direction:column;gap:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">✅ Étape 2/3 — Consentement</div>
+      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.8;color:var(--text-dim)">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px">En cochant ci-dessous, je confirme :</div>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je consens à donner de mon sang.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je confirme avoir lu et compris le Formulaire d'information ANH Art.7.7 et avoir reçu toutes les explications nécessaires.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je confirme l'exactitude de mes données personnelles et la véracité de mes réponses au questionnaire médical.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je sais que mon sang est soumis à des tests biologiques (pouvant comporter des méthodes génétiques) et qu'un échantillon sera conservé. J'accepte d'être informé(e) des résultats en cas d'anomalie.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>J'accepte que certains composants de mon don puissent être utilisés pour la fabrication de médicaments et qu'une partie soit utilisée pour la recherche médicale après anonymisation définitive.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je comprends que mes données sont soumises au secret médical, utilisées par Transfusion CRS Suisse et les SRTS, et que seules les informations codées sont transmises pour les soins aux patients.</span></label>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="qhugGoStep(1)">← Retour</button>
+        <button class="btn btn-gold" id="qhug-step2-next" onclick="qhugGoStep(3)" style="opacity:.5;pointer-events:none">Continuer → Questionnaire</button>
+      </div>
+    </div>
+
+    <!-- ====== ÉTAPE 3 : Questionnaire médical ====== -->
+    <div id="qhug-step3" style="display:none;flex-direction:column;gap:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">🩺 Étape 3/3 — Questionnaire médical</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;line-height:1.6">Répondez avec sincérité pour votre sécurité et celle des patients. <a href="https://www.hug.ch/sites/interhug/files/structures/don_du_sang/cts-questionnairedondusangv01fev26.pdf" target="_blank" style="color:var(--blue)">📄 Voir le questionnaire officiel HUG (PDF)</a></div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">👤 Informations personnelles</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Nom *</label><input id="qh-nom" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Prénom(s) *</label><input id="qh-prenom" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Date de naissance *</label><input id="qh-ddn" type="date" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Sexe *</label><select id="qh-sexe" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"><option value="">—</option><option value="M">M</option><option value="F">F</option></select></div>
+        <div style="grid-column:1/-1"><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Adresse *</label><input id="qh-adresse" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">NPA *</label><input id="qh-npa" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Localité *</label><input id="qh-localite" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Tél. mobile *</label><input id="qh-tel" type="tel" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">E-mail</label><input id="qh-email" type="email" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Poids (kg) *</label><input id="qh-poids" type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Taille (cm) *</label><input id="qh-taille" type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Profession</label><input id="qh-prof" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Médecin traitant</label><input id="qh-medecin" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+      </div>
+
+      <!-- Section 2: Questions médicales OUI/NON -->
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:10px 0 2px;border-top:1px solid var(--dark-border);margin-top:4px">🩺 Questionnaire médical</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Répondez avec sincérité pour votre sécurité et celle des patients.</div>
+      <div id="qhug-questions" style="display:flex;flex-direction:column;gap:4px"></div>
+
+      <!-- Buttons -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn btn-outline" onclick="qhugGoStep(2)">← Retour au consentement</button>
+        <button class="btn btn-gold" onclick="generateHUGPDF()">📥 Générer le PDF</button>
+        <button class="btn btn-outline" onclick="resetHUGForm()">🔄 Réinitialiser</button>
+      </div>
+    </div><!-- /step3 -->
+  </div>
+  </div><!-- /quest-hug-acc -->
 
   <!-- CRS CRITERIA REFERENCE -->
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="crs-criteria-acc" style="font-size:13px;padding:6px 10px;margin-top:16px">📕 Critères d'aptitude CRS Suisse <span class="acc-arrow">▼</span></button>
@@ -2165,6 +2477,7 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
       <button onclick="map.flyTo([46.1926,6.1492],14,{duration:.8})" style="background:var(--dark-card);color:var(--text-dim);border:1px solid var(--dark-border);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.4)">📍 Genève</button>
       <button onclick="map.flyTo([46.537,6.663],15,{duration:.8})" style="background:var(--dark-card);color:var(--text-dim);border:1px solid var(--dark-border);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.4)">📍 Épalinges</button>
     </div>
+    <div id="map-radius-ctrl" style="position:absolute;top:12px;right:12px;z-index:1000;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:8px;padding:6px 10px;box-shadow:0 2px 8px rgba(0,0,0,.4);font-size:12px;color:var(--text-dim)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span>📏</span><span id="radius-label" style="font-weight:600;color:var(--gold)">1 km</span></div><input type="range" id="radius-slider" min="1" max="20" value="1" oninput="updateRadius(this.value)" style="width:100px;accent-color:var(--gold)"></div>
     <div id="mapid"></div>
   </div>
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="coll-list-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Prochaines collectes près de chez toi <span class="acc-arrow">▼</span></button>
@@ -2316,7 +2629,7 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   <!-- MAIN CANVAS ANIMATION -->
   <div class="flux-canvas-wrap" id="flux-wrap" style="position:relative">
     <!-- TICKER — in flow, above map -->
-    <div style="flex-shrink:0;overflow:hidden;background:rgba(13,13,20,.85);backdrop-filter:blur(8px);padding:7px 16px;border-bottom:1px solid rgba(200,169,96,.15);z-index:5">
+    <div style="flex-shrink:0;overflow:hidden;background:rgba(13,13,20,.85);backdrop-filter:blur(8px);padding:7px 16px;border-bottom:1px solid rgba(200,169,96,.15);z-index:5" id="fx-ticker-wrap">
       <div id="fx-ticker" style="display:flex;gap:32px;animation:tickerScroll 30s linear infinite;white-space:nowrap;font-size:13px;color:var(--text-dim)"></div>
     </div>
     <div class="fs-btn" onclick="toggleFS(this.parentElement)" title="Plein écran">⛶</div>
@@ -3101,6 +3414,55 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
 <div class="view" id="v-guide">
   <div class="sec-header"><div class="sec-label">📺 Guide du don</div><div class="sec-title">À quoi s'attendre — en 5 étapes</div><div class="sec-sub">Jamais donné ? Voici comment ça se passe. Zéro surprise.</div></div>
 
+
+  <!-- GUIDE PRIMO-DONNEUR -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-primo-acc" style="font-size:13px;padding:6px 10px;margin:12px 0 0">🩸 Guide primo-donneur — l'essentiel avant ton 1er don <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="guide-primo-acc">
+  <div class="card" style="margin-top:8px;border:1px solid rgba(200,169,96,.2)">
+    <div class="card-header"><div class="card-title">🩸 Guide primo-donneur</div><span class="badge badge-gold">Nouveau ?</span></div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <!-- Critères de base -->
+      <div style="padding:12px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.12);border-radius:var(--radius-sm)">
+        <div style="font-weight:700;color:var(--blue);margin-bottom:6px">Critères de base</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">✓ 18-60 ans (premier don) — jusqu'à 75 ans pour les donneurs réguliers<br>✓ Minimum 50 kg<br>✓ Bonne santé générale<br>✓ Pièce d'identité valable</div>
+      </div>
+
+      <!-- CID vs CIT -->
+      <div style="padding:12px;background:rgba(255,165,0,.06);border:1px solid rgba(255,165,0,.12);border-radius:var(--radius-sm)">
+        <div style="font-weight:700;color:var(--orange);margin-bottom:6px">📋 Comprendre les contre-indications</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
+          <strong style="color:var(--red-soft)">CID</strong> = <strong>Contre-indication définitive</strong> : tu ne pourras pas donner (ex : VIH, hépatite B/C, maladies cardiaques graves).<br><br>
+          <strong style="color:var(--orange)">CIT</strong> = <strong>Contre-indication temporaire</strong> : il faut attendre un délai (ex : tatouage → 4 mois, antibiotiques → 2 semaines, grossesse → 12 mois).
+        </div>
+      </div>
+
+      <!-- Déroulement -->
+      <div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:8px">📍 Déroulement d'un don</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</span><span style="font-size:14px;color:var(--text-dim)">Accueil + pièce d'identité (5 min)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</span><span style="font-size:14px;color:var(--text-dim)">Questionnaire médical (10 min — 2 min avec BeeMyBlood™)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</span><span style="font-size:14px;color:var(--text-dim)">Entretien confidentiel avec le médecin (10 min)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</span><span style="font-size:14px;color:var(--text-dim)">Test hémoglobine — goutte au doigt (2 min)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">5</span><span style="font-size:14px;color:var(--text-dim)">Prélèvement ~450 ml (10-15 min — casque VR dispo)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">6</span><span style="font-size:14px;color:var(--text-dim)">Collation + repos (15-20 min) 🍪☕</span></div>
+        </div>
+      </div>
+
+      <!-- Pourquoi 3 vies -->
+      <div style="padding:12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.12);border-radius:var(--radius-sm)">
+        <div style="font-weight:700;color:var(--green);margin-bottom:6px">💡 Pourquoi ~3 vies sauvées par don ?</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">Ton don de 450-500 ml est séparé en 3 composants :<br>
+          🩸 <strong>Globules rouges</strong> → transfusions (accidents, chirurgies, anémies, drépanocytose)<br>
+          💜 <strong>Plaquettes</strong> → patients atteints de cancer, leucémie, chimiothérapie<br>
+          💛 <strong>Plasma</strong> → grands brûlés, troubles de coagulation, médicaments dérivés
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /guide-primo-acc -->
+
   <!-- Animated storyboard -->
   <div class="story-timeline" id="story-tl">
     <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step1-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">👋 Étape 1 — Accueil & inscription <span class="acc-arrow">▼</span></button>
@@ -3695,6 +4057,7 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   </div><!-- /acc-body profil-classement -->
   </div><!-- /margin wrapper -->
   
+  <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:10px 0 2px;margin-top:4px">🏆 Gamification</div>
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="profil-badges-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🏅 Mes badges <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="profil-badges-acc">
   <div class="badges-grid">
@@ -3712,10 +4075,12 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   <div style="text-align:center;margin-top:20px">
     <button class="btn btn-outline btn-sm" onclick="alert('📸 Badge « Régulier » copié ! Partage-le sur Instagram ou TikTok.')">📤 Partager un badge sur les réseaux</button>
   </div>
+  </div><!-- /acc-body profil-badges -->
 
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="profil-rewards-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🎁 Programme de récompenses <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="profil-rewards-acc">
   <!-- REWARDS & PROGRESSION -->
-  <div class="card" style="margin-top:24px">
-    <div class="card-header"><div class="card-title">🎁 Programme de récompenses</div><span class="badge badge-gold">Fidélité</span></div>
+  <div class="card" style="margin-top:8px">
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Chaque don rapporte des <strong style="color:var(--gold)">XP</strong> et des <strong style="color:var(--gold)">points fidélité</strong> échangeables contre des récompenses concrètes.</div>
     <!-- Progression tiers -->
     <div class="grid-4-resp" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
@@ -3756,11 +4121,12 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
     <div style="font-size:13px;color:var(--text-muted);margin-top:10px;line-height:1.5;text-align:center">XP gagnés par don (500), parrainage (200), HémoRush (10-50), badge (100), collecte mobile (×1.5). Un donneur actif atteint Bronze après ~6 dons.</div>
   </div>
 
-  </div><!-- /acc-body profil-badges -->
+  </div><!-- /acc-body profil-rewards -->
 
   
   <!-- BEEMYBLOOD WRAPPED -->
   <!-- PREMIUM DONOR CARD -->
+  <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:10px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">📄 Mes documents</div>
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="profil-donorcard-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">💳 Ma carte de donneur <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="profil-donorcard-acc">
   <div class="donor-card">
@@ -3801,6 +4167,7 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   </div>
   </div><!-- /profil-donorcard-acc -->
 
+  <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:10px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🎬 Rétrospective</div>
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="profil-wrapped-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🎬 Mon BeeMyBlood Wrapped 2025 <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="profil-wrapped-acc">
   <div class="wrapped-card">
@@ -3879,51 +4246,11 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   </div>
   </div><!-- /profil-wrapped-acc -->
 
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="profil-concerto-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🔗 Intégration Concerto <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="profil-concerto-acc">
-  <!-- Concerto Integration -->
-  <div class="card" style="margin-top:8px;border:1px solid rgba(79,195,247,.15)">
-    <div class="card-header"><div class="card-title">🔗 Intégration Concerto — hub numérique HUG</div><span class="badge badge-blue">Connecté</span></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">BeeMyBlood™ est connecté à <strong>Concerto</strong>, le portail patient des HUG, et synchronisé avec <strong>SpenderApp</strong> (Transfusion CRS Suisse). Tes données de don sont échangées de façon sécurisée via les standards FHIR.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">📅</span><strong>Rendez-vous</strong><br><span style="color:var(--text-muted)">Sync SpenderApp + OneDoc</span></div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">📊</span><strong>Historique complet</strong><br><span style="color:var(--text-muted)">Dons, sérologies, résultats labo</span></div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">🔔</span><strong>Notifications push</strong><br><span style="color:var(--text-muted)">Stocks, convocations, rappels</span></div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">📄</span><strong>Attestations</strong><br><span style="color:var(--text-muted)">TPG & employeur générées</span></div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">🧬</span><strong>Phénotype étendu</strong><br><span style="color:var(--text-muted)">Sync labo immunohémato</span></div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">💛</span><strong>Feedback d'impact</strong><br><span style="color:var(--text-muted)">Traçabilité poche → patient</span></div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">🏥</span><strong>Dossier de santé</strong><br><span style="color:var(--text-muted)">Futur DES (CARA)</span></div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-size:18px;display:block;margin-bottom:4px">📱</span><strong>Carte de donneur</strong><br><span style="color:var(--text-muted)">QR code · Apple/Google Wallet</span></div>
-    </div>
-    <div style="margin-top:10px;font-size:13px;color:var(--text-muted);text-align:center;line-height:1.5">Interopérabilité FHIR R4 · nLPD/RGPD · Hébergement Infomaniak Genève · SwissSign timestamping</div>
+  <!-- LINK TO SETTINGS -->
+  <div style="text-align:center;margin-top:14px;padding:14px;background:var(--dark-surface);border-radius:var(--radius);border:1px solid var(--dark-border)">
+    <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">Intégrations (Concerto HUG, Google Agenda, Compte Transfusion CRS), apparence et confidentialité</div>
+    <button class="btn btn-gold btn-sm" onclick="go('settings')">⚙️ Ouvrir les Paramètres</button>
   </div>
-  </div><!-- /profil-concerto-acc -->
-
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="profil-settings-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">⚙️ Paramètres <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="profil-settings-acc">
-  <!-- Settings -->
-  <div class="card" style="margin-top:8px">
-    <div class="card-header"><div class="card-title">⚙️ Paramètres</div></div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-size:14px"><strong>🔔 Notifications push</strong><br><span style="font-size:14px;color:var(--text-muted)">Stocks, collectes, éligibilité</span></div>
-        <div class="setting-toggle on" onclick="toggleSetting(this)"><div class="setting-knob"></div></div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-size:14px"><strong>📊 Fréquence alertes stock</strong><br><span class="setting-freq-lbl" style="font-size:14px;color:var(--text-muted)">Urgences uniquement</span></div>
-        <span style="font-size:15px;color:var(--gold);cursor:pointer" onclick="cycleSetting(this)">Modifier →</span>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-size:14px"><strong>📅 Sync Google Calendar</strong><br><span style="font-size:14px;color:var(--text-muted)">Activé — mardi après-midi libre</span></div>
-        <div class="setting-toggle on" onclick="toggleSetting(this)"><div class="setting-knob"></div></div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-size:14px"><strong>🌍 Communauté visible</strong><br><span style="font-size:14px;color:var(--text-muted)">Tes posts sont publics dans le social wall</span></div>
-        <div class="setting-toggle on" onclick="toggleSetting(this)"><div class="setting-knob"></div></div>
-      </div>
-    </div>
-  </div>
-  </div><!-- /profil-settings-acc -->
 </div><!-- /v-profil -->
 
 
@@ -4455,9 +4782,69 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
 </div><!-- /v-communaute -->
 
 <!-- ===== FAQ ===== -->
+
+<!-- ===== PARAMÈTRES ===== -->
+<div class="view" id="v-settings">
+  <div class="sec-header"><div class="sec-label">⚙️ Paramètres</div><div class="sec-title">Configuration & Intégrations</div><div class="sec-sub">Connexions, apparence, confidentialité</div></div>
+
+  <div class="card" style="margin-bottom:12px;border-color:rgba(200,169,96,.2)">
+    <div class="card-header"><div class="card-title">🔐 Connexion & Compte</div><span class="badge badge-green">Connecté</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:10px">Méthodes de connexion et synchronisation :</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);border:1px solid rgba(79,195,247,.2)"><span style="font-size:20px">📱</span><div style="flex:1"><div style="font-weight:600;font-size:14px">Compte Transfusion CRS Suisse</div><div style="font-size:12px;color:var(--text-muted)">Ton compte donneur officiel — historique, convocations, carte</div></div><span class="badge badge-blue" style="font-size:11px">Recommandé</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);border:1px solid rgba(46,204,113,.2)"><span style="font-size:20px">🔗</span><div style="flex:1"><div style="font-weight:600;font-size:14px">Concerto (HUG)</div><div style="font-size:12px;color:var(--text-muted)">Hub numérique HUG — dossier patient, résultats, RDV</div></div><span class="badge badge-green" style="font-size:11px">Connecté</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);border:1px solid rgba(200,169,96,.2)"><span style="font-size:20px">🐝</span><div style="flex:1"><div style="font-weight:600;font-size:14px">Compte BeeMyBlood</div><div style="font-size:12px;color:var(--text-muted)">Compte natif — pseudo, badges, historique, fratrie</div></div><span class="badge badge-gold" style="font-size:11px">Actif</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);opacity:.6"><span style="font-size:20px">🔑</span><div style="flex:1"><div style="font-weight:600;font-size:14px">SwissID / Google</div><div style="font-size:12px;color:var(--text-muted)">Identité numérique suisse ou compte Google</div></div><span class="badge" style="font-size:11px;background:rgba(255,255,255,.08);color:var(--text-muted)">Bientôt</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-header"><div class="card-title">🔗 Intégrations systèmes</div></div>
+    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:10px">Connexions entre BeeMyBlood et les systèmes de santé :</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📋</span><div><div style="font-weight:600;font-size:14px">Concerto (HUG)</div><div style="font-size:12px;color:var(--text-muted)">Dossier patient, résultats labos, rendez-vous</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda / Outlook</div><div style="font-size:12px;color:var(--text-muted)">Sync automatique de tes rendez-vous don et rappels</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📱</span><div><div style="font-weight:600;font-size:14px">Compte Transfusion CRS Suisse</div><div style="font-size:12px;color:var(--text-muted)">Historique officiel des dons, convocations, carte donneur</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">🧠</span><div><div style="font-weight:600;font-size:14px">DPI Semantics Graph DB & AI (SIMED)</div><div style="font-size:12px;color:var(--text-muted)">Gestion receveurs & commandes — lien CTS↔hôpitaux · Digital twin</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#888;position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Google</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#888;position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📧</span><div><div style="font-weight:600;font-size:14px">Outlook</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Outlook</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#888;position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-header"><div class="card-title">🎨 Apparence</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div onclick="setTheme('dark')" id="theme-dark-btn" style="flex:1;min-width:120px;padding:14px;background:#1a1a2e;border:2px solid var(--gold);border-radius:var(--radius-sm);text-align:center;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">🌙</div><div style="font-size:13px;font-weight:600">Mode sombre</div><div style="font-size:11px;color:var(--text-muted)">Actuel</div></div>
+      <div onclick="setTheme('light')" id="theme-light-btn" style="flex:1;min-width:120px;padding:14px;background:rgba(255,255,255,.06);border:1px solid var(--dark-border);border-radius:var(--radius-sm);text-align:center;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">☀️</div><div style="font-size:13px;font-weight:600">Mode clair</div><div style="font-size:11px;color:var(--text-muted)">Cliquer pour activer</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-header"><div class="card-title">🔔 Notifications</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Toasts en direct (Flux CTS · HUG)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Alertes stock critique (Transfusion CRS)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Rappels de rendez-vous (Google Agenda)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Convocations dons (Transfusion CRS Suisse)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">🔒 Confidentialité & Hébergement</div></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.8">
+      <span style="font-size:15px">🇨🇭</span> <strong>Infomaniak Genève</strong> — données hébergées en Suisse<br>
+      <span style="font-size:15px">🔐</span> <strong>nLPD & RGPD</strong> — conformité protection des données<br>
+      <span style="font-size:15px">✍️</span> <strong>SwissSign</strong> — horodatage certifié<br>
+      <span style="font-size:15px">📜</span> <strong>AGPL-3.0</strong> (code) · <strong>CC BY-NC-SA 4.0</strong> (données)
+    </div>
+  </div>
+</div>
+
 <div class="view" id="v-faq">
   <div class="sec-header"><div class="sec-label">❓ Questions fréquentes</div><div class="sec-title">Tout comprendre sur le don de sang</div><div class="sec-sub">Les réponses simples aux questions que tout le monde se pose</div></div>
 
+
+  <div style="margin-bottom:12px"><input type="text" id="faq-search" placeholder="🔍 Rechercher dans la FAQ..." oninput="filterFAQ(this.value)" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--dark-border)'"></div>
   <!-- GLOSSAIRE PRODUITS SANGUINS -->
   <div class="card" style="margin-bottom:16px">
     <div class="card-header"><div class="card-title">🩸 Les produits sanguins — c'est quoi exactement ?</div></div>
@@ -4484,6 +4871,8 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   <!-- FAQ QUESTIONS -->
   <div style="display:flex;flex-direction:column;gap:6px">
 
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:8px 0 2px">💡 L’essentiel pour les donneurs</div>
+
     <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-1">🏥 Que se passe-t-il avec mon sang après le don ? <span class="acc-arrow">▼</span></button>
     <div class="acc-body" id="faq-1">
       <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
@@ -4506,6 +4895,74 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
       </div>
     </div>
 
+    
+    <div style="font-size:13px;font-weight:700;color:var(--green-soft);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🥇 Préparation & Avant le don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep1">🍽️ Comment me préparer avant un don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Dormez bien la veille, mangez normalement (pas de jeûne !), buvez au moins 1.5L d'eau. Apportez une <strong>pièce d'identité</strong>. Évitez l'alcool la veille. Un repas léger 2-3h avant est idéal. Ne venez jamais à jeun.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep2">⏳ Combien de temps ça prend en tout ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Le prélèvement lui-même dure <strong>10-15 minutes</strong>. Mais comptez 45-60 min pour une première visite complète (accueil, questionnaire, entretien médecin, test hémoglobine, prélèvement, collation). Les visites suivantes sont plus rapides (~30 min). Avec BeeMyBlood™, le pré-remplissage fait gagner ~15 min.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep3">💉 Est-ce que ça fait mal ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Petite piqûre à l'insertion de l'aiguille (comparable à une prise de sang), puis <strong>indolore</strong>. Avec le casque VR BeeMyBlood™, les études montrent -24% de douleur perçue et -40% d'anxiété. La plupart des donneurs disent que c'est moins douloureux qu'une prise de sang classique.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep4">🩸 Quelle quantité est prélevée ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep4"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">450-500 ml, soit environ 8% de votre volume sanguin total. Le corps régénère le volume liquidien en quelques heures et les globules rouges en quelques semaines.</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🚗 Après le don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after1">🛋️ Quelles précautions après le don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Repos 15-20 min + collation offerte. Buvez 1.5-2L dans les 24h. Évitez les efforts intenses pendant 24h. Gardez le pansement 4-5h. En cas de malaise, allongez-vous et appelez le CTS.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after2">🚗 Puis-je conduire après ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Oui, après <strong>30 minutes de repos</strong>. Pour l'avion : attendre 48h. Conduite de train/bus professionnel : 12h. Plongée sous-marine : 48h.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after3">🔄 Quand puis-je redonner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Hommes : tous les <strong>3 mois</strong> (max 4×/an). Femmes : tous les <strong>4 mois</strong> (max 3×/an). En cas de don d'aphérèse (plaquettes), l'intervalle est de 2 semaines.</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--red-soft);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🆕 Nouveautés février 2026</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new1">📢 Quels changements en février 2026 ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7"><strong>Transfusion après 1980</strong> : plus de contre-indication définitive → CIT de 4 mois seulement.<br><strong>Séjour UK 1980-1996</strong> : plus de contre-indication du tout (risque vMCJ jugé extrêmement faible).<br><strong>Neurochirurgie CH sans ouverture dure-mère</strong> : CIT 12 mois au lieu de CID.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new2">🇬🇧 Séjour au Royaume-Uni années 80-90 ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Plus de contre-indication depuis février 2026 ! Le risque de maladie de Creutzfeldt-Jakob variant (vMCJ) est désormais jugé extrêmement faible par les autorités. Vous pouvez donner.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new3">💉 J'ai déjà reçu une transfusion, je peux donner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Oui ! Depuis février 2026, une transfusion reçue après 1980 n'est plus une contre-indication définitive. Il suffit d'attendre <strong>4 mois</strong> après la transfusion (CIT au lieu de CID).</div></div>
+
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🍽️ Préparation au don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep1">🥗 Comment me préparer au don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Dormez bien la nuit précédente, mangez normalement et buvez au minimum 1.5L d'eau avant le don. Apportez une <strong style="color:var(--text)">pièce d'identité</strong>. Évitez l'alcool la veille et les efforts intenses le matin du don.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep2">🍳 Puis-je donner à jeun ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--red-soft)">Non</strong>, prenez un repas léger 2-3 heures avant le don. Ne venez jamais à jeun — le risque de malaise augmente considérablement.</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🩹 Après le don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after1">🛋️ Quelles précautions après le don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Repos 15-20 min + collation offerte. Buvez 1.5-2L dans les 24h. Évitez les efforts intenses pendant 24h. Gardez le pansement compressif 4-5h. En cas de bleu au bras, appliquez du froid.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after2">🚗 Puis-je conduire après le don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Oui, après <strong style="color:var(--text)">30 minutes de repos</strong>. Avion : attendre 48h. Conduite de train/bus professionnel : 12h de délai.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after3">🔄 Quand puis-je redonner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after3"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--blue)">Hommes</strong> : intervalle de 3 mois minimum (max 4 dons/an).<br><strong style="color:var(--purple)">Femmes</strong> : intervalle de 4 mois minimum (max 3 dons/an).</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🆕 Nouveautés février 2026</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new1">📢 Quels changements depuis février 2026 ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Assouplissements majeurs :</strong><br>• Transfusion après 1980 : plus de contre-indication définitive (CID), maintenant CIT de 4 mois seulement<br>• Séjour UK 1980-96 : plus aucune contre-indication<br>• Neurochirurgie CH sans ouverture dure-mère : CIT 12 mois<br><br>Ces changements ont été autorisés par Swissmedic en raison d'une réévaluation des risques de vMCJ (maladie de Creutzfeldt-Jakob variant).</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new2">🇬🇧 J'ai vécu au Royaume-Uni dans les années 80-90, puis-je donner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Oui !</strong> Depuis février 2026, le séjour au Royaume-Uni entre 1980 et 1996 n'est plus une contre-indication. Le risque de maladie de Creutzfeldt-Jakob variant (vMCJ) est désormais jugé extrêmement faible.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new3">💉 J'ai reçu une transfusion, puis-je donner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new3"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Oui, avec un délai de 4 mois.</strong> Avant février 2026, une transfusion après 1980 était une contre-indication définitive. C'est désormais une CIT de 4 mois seulement.</div></div>
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🧪 Pour aller plus loin</div>
     <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-4">🔄 C'est quoi une érythrocytaphérèse ? <span class="acc-arrow">▼</span></button>
     <div class="acc-body" id="faq-4">
       <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
@@ -4557,50 +5014,173 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
 </div><!-- /v-faq -->
 
 <!-- ONBOARDING MODAL -->
-<div class="modal-overlay" id="onboard-modal">
-  <div class="modal-box">
-    <div class="modal-header">
+<div class="modal-overlay" id="onboard-modal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header" style="padding-bottom:8px">
       <div style="font-size:36px;margin-bottom:4px">🐝</div>
       <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">Bienvenue sur BeeMyBlood™</div>
-      <div style="font-size:14px;color:var(--text-dim);margin-top:4px">Donner son sang, en mieux</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="ob-counter">1 / 10</div>
     </div>
+
+    <!-- STEP 0 : INTRO -->
     <div class="modal-step active" id="ob-step-0">
-      <div style="text-align:center;padding:12px 0">
-        <div style="font-size:32px;margin-bottom:6px">🦸</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros</div>
-        <div style="font-size:15px;color:var(--text-dim);line-height:1.7">Pas un numéro. Tu sauves des vies, et tu mérites de le savoir. BeeMyBlood™ te montre l'impact concret de chaque don.</div>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🦸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros, pas un numéro</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">BeeMyBlood™ transforme le don de sang en expérience premium, ludique et personnalisée.<br><br>Ce tour te montre <strong style="color:var(--gold)">toutes les fonctionnalités</strong> en 1 minute. Tu peux le relancer à tout moment via le lien <strong style="color:var(--gold)">« Tour guidé »</strong> en bas de page.</div>
       </div>
     </div>
+
+    <!-- STEP 1 : NAVIGATION -->
     <div class="modal-step" id="ob-step-1">
-      <div style="text-align:center;padding:12px 0">
-        <div style="font-size:32px;margin-bottom:6px">🎮</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Joue, apprends, partage</div>
-        <div style="font-size:15px;color:var(--text-dim);line-height:1.7">HémoRush™ t'apprend les groupes sanguins en jouant. Des badges à collectionner. Un classement par communauté. Invite tes amis !</div>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧭</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
+          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
+          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+        </div>
       </div>
     </div>
+
+    <!-- STEP 2 : DASHBOARD -->
     <div class="modal-step" id="ob-step-2">
-      <div style="text-align:center;padding:12px 0">
-        <div style="font-size:32px;margin-bottom:6px">🥽</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Zéro stress, zéro aiguille visible</div>
-        <div style="font-size:15px;color:var(--text-dim);line-height:1.7">Peur de l'aiguille ? Le casque VR t'immerge dans un univers apaisant — plage, forêt ou fond marin. Tu ne vois rien, tu ne sens presque rien. Résultat : −24% de douleur, −40% d'anxiété.</div>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          C'est ton <strong>tableau de bord</strong> :
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🗓️ Prochain don programmé + compte à rebours<br>
+            🩸 Stocks de sang en temps réel par groupe<br>
+            📈 Ton historique de dons et séries (streak)<br>
+            🏆 Badges débloqués et objectifs<br>
+            🩺 Passeport santé (résultats labo de tes dons)<br>
+            🤝 Programme BeeMyBro (parrainage)
+          </div>
+          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+        </div>
       </div>
     </div>
+
+    <!-- STEP 3 : ÉLIGIBILITÉ -->
     <div class="modal-step" id="ob-step-3">
-      <div style="text-align:center;padding:12px 0">
-        <div style="font-size:32px;margin-bottom:6px">💛</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton sang a un destin</div>
-        <div style="font-size:15px;color:var(--text-dim);line-height:1.7">Après le don, tu suis le voyage de ta poche : labo → validation → transfusion. Tu sais exactement qui tu as aidé.</div>
-        <button class="btn btn-gold" style="margin-top:16px" onclick="closeOnboard()">🐝 C'est parti !</button>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Test d'éligibilité + Questionnaire médical</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--green)">Pré-éligibilité rapide</strong> — 8 questions simples (âge, poids, santé, voyages…) pour savoir si tu peux donner aujourd'hui.<br><br>
+          <strong style="color:var(--gold)">Questionnaire médical HUG</strong> — Le vrai formulaire du Centre de Transfusion Sanguine, que tu peux pré-remplir chez toi et <strong>générer en PDF</strong> à imprimer. Gain de temps : ~15 min au CTS.<br><br>
+          <span style="color:var(--text-muted)">💡 Si le test dit « éligible », un bouton te dirige directement vers le questionnaire.</span>
+        </div>
       </div>
     </div>
-    <div class="modal-dots" id="ob-dots">
-      <div class="modal-dot active"></div><div class="modal-dot"></div><div class="modal-dot"></div><div class="modal-dot"></div>
+
+    <!-- STEP 4 : CARTE & COLLECTES -->
+    <div class="modal-step" id="ob-step-4">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📍</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">18 centres CRS</strong> en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📡 Géolocalisation automatique<br>
+            🔍 Rayon de recherche ajustable (1-20 km)<br>
+            📅 Prise de rendez-vous directe via OneDoc<br>
+            🎪 Collectes mobiles signalées sur la carte
+          </div>
+          <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
+        </div>
+      </div>
     </div>
+
+    <!-- STEP 5 : FLUX CTS -->
+    <div class="modal-step" id="ob-step-5">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🔬</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Flux CTS — Visualisation en temps réel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Une vue schématique animée du site des HUG montrant :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🩸 Poches de sang circulant entre les bâtiments<br>
+            📊 Entrées/sorties, stock CE, plaquettes en direct<br>
+            🎯 Objectif du jour avec jauge de progression<br>
+            📰 Fil d'événements et bandeau défilant
+          </div>
+          <span style="color:var(--text-muted)">⛶ Passe en plein écran pour une immersion complète.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 : HÉMORUSH -->
+    <div class="modal-step" id="ob-step-6">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎮</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">HémoRush™ — Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Un mini-jeu éducatif pour maîtriser la <strong>compatibilité sanguine</strong> :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📚 Apprentissage — mode guidé, pas de chrono<br>
+            ⚡ Rush — 2 minutes chrono, score maximal<br>
+            ❤️ Survie — 3 vies, zéro droit à l'erreur<br>
+            🧠 Quiz — QCM sur la transfusion<br>
+            🌊 Vagues — difficulté croissante
+          </div>
+          <strong style="color:var(--gold)">Comment jouer :</strong> touche un patient 🏥, puis donne-lui la bonne poche 🩸 compatible.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 : GUIDE & VR -->
+    <div class="modal-step" id="ob-step-7">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📺</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Guide du don & Réalité virtuelle</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Guide primo-donneur</strong> — Les critères, les 6 étapes du don, les 3 composants sanguins et les contre-indications expliquées simplement.<br><br>
+          <strong style="color:var(--gold)">Expérience VR</strong> — BeeMyBlood propose un casque VR immersif pendant le prélèvement : plage, forêt ou fond marin. Résultat : <strong style="color:var(--green)">−24% de douleur</strong> et <strong style="color:var(--green)">−40% d'anxiété</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 : COMMUNAUTÉ & FAQ -->
+    <div class="modal-step" id="ob-step-8">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🤝</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Communauté, FAQ & BeeBot™</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Communauté</strong> — Témoignages, fil social, notifications push et partage d'expériences entre donneurs.<br><br>
+          <strong style="color:var(--gold)">FAQ</strong> — Préparation au don, après le don, nouveautés 2026, questions techniques. Barre de recherche intégrée.<br><br>
+          <strong style="color:var(--gold)">BeeBot™ 🐝</strong> — Assistant IA disponible 24h/24 pour répondre à toutes tes questions sur le don de sang.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 : PARAMÈTRES & C'EST PARTI -->
+    <div class="modal-step" id="ob-step-9">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🚀</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--gold)">Tu es prêt(e) !</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">⚙️ Paramètres</strong> — Configure tes intégrations (Concerto HUG, Google Agenda, Transfusion CRS), choisis le mode sombre ou clair, gère tes notifications et ta confidentialité.<br><br>
+          <strong>Par où commencer ?</strong>
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
+            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et tes stocks<br>
+            3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
+            4️⃣ Trouve un <strong style="color:var(--blue)">centre</strong> et prends RDV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="ob-dots"></div>
     <div class="modal-footer">
-      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:15px">Passer</button>
+      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:14px">Passer</button>
       <div style="display:flex;gap:8px">
-        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:15px;display:none">← Retour</button>
-        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()">Suivant →</button>
+        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()" style="font-size:14px">Suivant →</button>
       </div>
     </div>
   </div>
@@ -4633,10 +5213,8 @@ document.addEventListener('DOMContentLoaded',()=>document.getElementById('gate-i
   <div class="app-footer-links">
     <a href="https://www.hug.ch/don-du-sang" target="_blank">Centre de Transfusion HUG</a>
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank">Transfusion CRS Suisse</a>
-    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank">Prendre RDV</a>
-    <a href="#" onclick="go('chatbot');return false">FAQ & BeeBot™</a>
-    <a href="#" onclick="go('eligibilite');return false">Test d'éligibilité</a>
-    <a href="#" onclick="showOnboard();return false">Tour guidé</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank">Prendre RDV au CTS</a>
+    <a href="#" onclick="startTour();return false">Tour guidé</a>
   </div>
   <div class="app-footer-copy">
     Prototype interactif · Hackathon HUG #9 2026<br>
@@ -4676,9 +5254,9 @@ function openAcc(id){
 }
 // Auto-open sections that should be visible by default
 setTimeout(()=>{
-  if(window.innerWidth>640)openAcc('hero-feats-acc');
+  // collapsed by default (feedback)
   // HémoRush: infos open
-  if(window.innerWidth>640)openAcc('hr-extras-acc');
+  // collapsed by default
   // Community: impact + events open
   openAcc('comm-impact-acc');openAcc('comm-events-acc');
 },100);
@@ -4722,6 +5300,7 @@ function sendComment(btn){
 }
 
 function go(id){
+  updateBreadcrumb(id);
   // Close mobile menu if open
   var mm=document.getElementById('mob-menu');if(mm)mm.classList.remove('show');
   var hb=document.getElementById('hamburger');if(hb)hb.classList.remove('open');
@@ -4734,7 +5313,7 @@ function go(id){
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='collectes'){setTimeout(initMap,200);if(typeof updateARPosition==='function')setTimeout(updateARPosition,1000);}
   if(id==='communaute'){document.querySelectorAll('#v-communaute [data-counter]').forEach(el=>{animateCounter(el,parseInt(el.dataset.counter),'',1500);});}
-  if(id==='eligibilite')initElig();
+  if(id==='eligibilite'){initElig();initQHUG();}
   if(id==='guide')setTimeout(animateStory,300);
   if(id==='flux')setTimeout(initFlux,200);
   if(id==='hemorush'){setTimeout(function(){var btn=document.querySelector('#v-hemorush .acc-toggle[data-target="hr-game-acc"]');if(btn&&!btn.classList.contains('open'))btn.click();},300);}
@@ -4896,6 +5475,30 @@ function goMob(id){
 }
 
 // ===== PROFILE SETTINGS =====
+
+// Settings toggle switches
+function switchToggle(el){
+  var on=(el.dataset.on==='1');
+  el.dataset.on=on?'0':'1';
+  var knob=el.children[0];
+  if(on){
+    el.style.background='rgba(255,255,255,.15)';
+    knob.style.background='#888';
+    knob.style.right='auto';
+    knob.style.left='2px';
+  }else{
+    el.style.background='var(--green)';
+    knob.style.background='#fff';
+    knob.style.left='auto';
+    knob.style.right='2px';
+  }
+  try{
+    var row=el.parentElement;
+    var nameEl=row.querySelector('div[style*="font-weight"]');
+    var name=nameEl?nameEl.textContent:'';
+    showToast(name+' '+(on?'désactivé':'activé'));
+  }catch(e){}
+}
 function toggleSetting(el){
   el.classList.toggle('on');
   const label=el.closest('div[style]').querySelector('strong').textContent;
@@ -6336,15 +6939,25 @@ function addMsg(html,type){
 
 // ===== MAP =====
 let map=null;
+var radiusCircle=null;
+function updateRadius(km){
+  document.getElementById('radius-label').textContent=km+' km';
+  if(!map)return;
+  var c=window._userPos||[46.1926,6.1492];
+  if(radiusCircle)map.removeLayer(radiusCircle);
+  radiusCircle=L.circle(c,{radius:km*1000,color:'rgba(79,195,247,.5)',fillColor:'rgba(79,195,247,.08)',fillOpacity:0.15,weight:1.5,dashArray:'6 4'}).addTo(map);
+}
 function initMap(){
   if(map)return;
   try{
     const mapEl=document.getElementById('mapid');
-    mapEl.style.background='#1a1a2e';
+    mapEl.style.background=document.body.classList.contains('light-mode')?'#e8e8e8':'#1a1a2e';
     map=L.map('mapid',{zoomControl:true,preferCanvas:true,zoomAnimation:true,markerZoomAnimation:true,inertia:true,inertiaDeceleration:3000,inertiaMaxSpeed:1500,tapTolerance:15,touchZoom:'center',bounceAtZoomLimits:false}).setView([46.1926,6.1492],14);
-    // Force dark background on all Leaflet panes
-    map.getContainer().style.background='#1a1a2e';
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+    // Force background on all Leaflet panes
+    map.getContainer().style.background=document.body.classList.contains('light-mode')?'#e8e8e8':'#1a1a2e';
+    var darkTiles='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+    var lightTiles='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    window._mapTileLayer=L.tileLayer(document.body.classList.contains('light-mode')?lightTiles:darkTiles,{
       attribution:'©OpenStreetMap ©CARTO',maxZoom:19,updateWhenIdle:false,updateWhenZooming:false,keepBuffer:4
     }).addTo(map);
     // ResizeObserver for bulletproof fullscreen resize
@@ -6398,7 +7011,7 @@ function initMap(){
             var um=L.marker([lat,lng],{icon:pulseIcon}).addTo(map).bindPopup('<strong>📍 Vous êtes ici</strong><br>Précision : ~'+Math.round(accuracy)+'m');
             // Always center on user position
             map.flyTo([lat,lng],14,{duration:1.2});
-            setTimeout(function(){map.invalidateSize();},1500);
+            setTimeout(function(){map.invalidateSize();updateRadius(document.getElementById('radius-slider').value);},1500);
           }catch(e){}
         },
         function(){
@@ -6407,10 +7020,26 @@ function initMap(){
         {enableHighAccuracy:true,timeout:10000,maximumAge:120000}
       );
     }
-    setTimeout(()=>map.invalidateSize(),300);
+    setTimeout(()=>{map.invalidateSize();updateRadius(1);},500);
   }catch(e){document.getElementById('mapid').innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-dim)">Carte en chargement... (Leaflet CDN requis)</div>';}
 }
 
+
+function filterFAQ(q){
+  q=q.toLowerCase().trim();
+  var fv=document.getElementById('v-faq');
+  fv.querySelectorAll('.acc-toggle[data-target^="faq-"]').forEach(function(btn){
+    var txt=btn.textContent.toLowerCase();
+    var body=document.getElementById(btn.getAttribute('data-target'));
+    var bt=body?body.textContent.toLowerCase():'';
+    var m=!q||txt.indexOf(q)>=0||bt.indexOf(q)>=0;
+    btn.style.display=m?'':'none';
+    if(body)body.style.display=m?'':'none';
+  });
+  var g=fv.querySelector('.card[style*="margin-bottom:16px"]');
+  if(g)g.style.display=q?'none':'';
+  fv.querySelectorAll('div[style*="uppercase"]').forEach(function(h){h.style.display=q?'none':'';});
+}
 // ===== BEEBOT =====
 function toggleBeeBot(){document.getElementById('beebot-panel').classList.toggle('open');}
 async function sendBeeBot(){
@@ -6878,11 +7507,19 @@ setupVideoFallback('vid-mp4-guide','mp4-fallback-guide');
 
 // ===== ONBOARDING MODAL =====
 let obStep=0;
-function showOnboard(){obStep=0;updateOb();document.getElementById('onboard-modal').classList.add('show');}
-function closeOnboard(){document.getElementById('onboard-modal').classList.remove('show');}
+function showOnboard(){
+  obStep=0;updateOb();
+  var m=document.getElementById('onboard-modal');
+  if(m){m.style.display='';m.classList.add('show');}
+}
+function closeOnboard(){
+  var m=document.getElementById('onboard-modal');
+  if(!m)return;
+  m.classList.remove('show');
+}
 function nextOnboard(){
   obStep++;
-  if(obStep>=4){closeOnboard();return;}
+  if(obStep>=10){closeOnboard();return;}
   updateOb();
 }
 function prevOnboard(){
@@ -6890,13 +7527,287 @@ function prevOnboard(){
   updateOb();
 }
 function updateOb(){
-  document.querySelectorAll('.modal-step').forEach((s,i)=>s.classList.toggle('active',i===obStep));
-  document.querySelectorAll('.modal-dot').forEach((d,i)=>{d.classList.toggle('active',i===obStep);d.style.width=i===obStep?'20px':'8px';});
-  document.getElementById('ob-next').style.display=obStep>=3?'none':'';
-  document.getElementById('ob-prev').style.display=obStep<=0?'none':'';
-  document.getElementById('ob-skip').style.display=obStep>=3?'none':'';
+  var maxStep=9;
+  for(var i=0;i<=maxStep;i++){
+    var el=document.getElementById('ob-step-'+i);
+    if(el){el.classList.toggle('active',i===obStep);}
+  }
+  // Dots
+  var dotsEl=document.getElementById('ob-dots');
+  if(dotsEl){
+    var html='';
+    for(var i=0;i<=maxStep;i++){html+='<div class="modal-dot'+(i===obStep?' active':'')+'"></div>';}
+    dotsEl.innerHTML=html;
+  }
+  // Counter
+  var ctr=document.getElementById('ob-counter');
+  if(ctr)ctr.textContent=(obStep+1)+' / '+(maxStep+1);
+  // Buttons
+  var skip=document.getElementById('ob-skip');
+  var next=document.getElementById('ob-next');
+  var prev=document.getElementById('ob-prev');
+  if(skip)skip.style.display=obStep>=maxStep?'none':'';
+  if(next)next.textContent=obStep>=maxStep?'C\'est parti ! 🐝':'Suivant →';
+  if(prev)prev.style.display=obStep<=0?'none':'';
 }
-setTimeout(showOnboard,1200);
+// Auto-show onboarding after gate is removed (or 2s if no gate)
+(function(){
+  function tryShow(){
+    if(!document.getElementById('gate-overlay')){showOnboard();}
+    else{setTimeout(tryShow,500);}
+  }
+  setTimeout(tryShow,800);
+})();
+
+
+document.querySelectorAll('.badge-item').forEach(function(b){
+  b.addEventListener('click',function(){
+    var n=b.querySelector('.badge-name')?.textContent||'';
+    var e=b.querySelector('.badge-emoji')?.textContent||'';
+    var earned=b.classList.contains('earned');
+    var d={'Première Goutte':'Ton 1er don ! Une poche peut sauver 3 vies.','Régulier':'3 dons — donneur fiable. Continue !','Gamer':'50 parties HémoRush™ ! Compatibilité sanguine maîtrisée.','Plein air':'Don en collecte mobile extérieure.','Parrain':'Tu as recruté un ami donneur. Effet papillon !','VR Explorer':'Don avec casque VR immersif — expérience zen.','Héros Or':'5 dons = ~15 vies. Palier Or atteint.','Légende':'50 dons — moins de 1% des donneurs y arrivent.','Donneur Rare':'Phénotype Duffy négatif — parmi les 30 donneurs les plus précieux de Suisse romande.','Champion':'Top 3 tournoi HémoRush™. Bravo !'};
+    var detail=d[n]||'';
+    var s=earned?'✅ Obtenu':'🔒 Pas encore obtenu';
+    alert(e+' '+n+'\n\n'+detail+'\n\n'+s);
+  });
+});
+
+
+
+// Breadcrumb update (see below)
+
+// ===== TOUR GUIDÉ INTERACTIF =====
+var tourSteps=[
+  {target:'[data-v="hero"]',title:'🏠 Accueil',desc:'Page d\'accueil avec tes stats, l\'actualité du don et un accès rapide à toutes les fonctionnalités.'},
+  {target:'[data-v="dashboard"]',title:'📊 Dashboard',desc:'Ton tableau de bord personnel : prochain don, stocks, historique, objectifs.'},
+  {target:'[data-v="eligibilite"]',title:'✅ Éligibilité',desc:'Test rapide en 8 questions pour savoir si tu peux donner. Puis questionnaire médical HUG complet avec génération PDF.'},
+  {target:'[data-v="collectes"]',title:'📍 Collectes',desc:'Carte interactive avec tous les centres CRS de Suisse. Rayon de recherche et détection GPS.'},
+  {target:'[data-v="flux"]',title:'🔬 Flux CTS',desc:'Visualisation en temps réel de l\'activité du Centre de Transfusion Sanguine des HUG.'},
+  {target:'[data-v="hemorush"]',title:'🎮 HémoRush™',desc:'Mini-jeu éducatif sur la compatibilité sanguine. Apprends en jouant !'},
+  {target:'[data-v="chatbot"]',title:'🐝 BeeBot™',desc:'Assistant IA qui répond à toutes tes questions sur le don de sang 24/7.'},
+  {target:'[data-v="settings"]',title:'⚙️ Paramètres',desc:'Intégrations (Concerto HUG, Google Agenda, Transfusion CRS), apparence, notifications et confidentialité.'}
+];
+var tourIdx=-1;
+function startTour(){showOnboard();}
+function endTour(){tourIdx=-1;var ov=document.getElementById('tour-ov');if(ov)ov.remove();var tt=document.getElementById('tour-tt');if(tt)tt.remove();}
+function showTourStep(){
+  if(tourIdx<0||tourIdx>=tourSteps.length){endTour();return;}
+  var step=tourSteps[tourIdx];
+  var el=document.querySelector(step.target);
+  var hasEl=el&&el.offsetWidth>0&&el.offsetHeight>0;
+  var r=hasEl?el.getBoundingClientRect():{top:60,left:window.innerWidth/2-100,width:200,height:36,bottom:96};
+  // Overlay
+  var ov=document.getElementById('tour-ov');
+  if(!ov){ov=document.createElement('div');ov.id='tour-ov';ov.className='tour-overlay';document.body.appendChild(ov);}
+  if(hasEl){ov.innerHTML='<div class="tour-highlight" style="top:'+(r.top-4)+'px;left:'+(r.left-4)+'px;width:'+(r.width+8)+'px;height:'+(r.height+8)+'px"></div>';}
+  else{ov.innerHTML='<div style="position:fixed;inset:0;background:rgba(0,0,0,.55);pointer-events:none"></div>';}
+  // Tooltip
+  var tt=document.getElementById('tour-tt');
+  if(!tt){tt=document.createElement('div');tt.id='tour-tt';tt.className='tour-tooltip';document.body.appendChild(tt);}
+  var n=tourIdx+1,tot=tourSteps.length;
+  var dots='<div class="tour-step-dots">'+tourSteps.map(function(_,i){return '<span class="'+(i===tourIdx?'active':'')+'"></span>';}).join('')+'</div>';
+  tt.innerHTML=dots+'<h4>'+step.title+'</h4><p>'+step.desc+'</p><div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">'+n+' / '+tot+'</div><div class="tour-btns">'+(tourIdx>0?'<button class="btn btn-outline btn-sm" onclick="tourIdx--;showTourStep()">←</button>':'')+'<button class="btn btn-outline btn-sm" onclick="endTour()">Fermer</button>'+(tourIdx<tourSteps.length-1?'<button class="btn btn-gold btn-sm" onclick="tourIdx++;showTourStep()">Suivant →</button>':'<button class="btn btn-gold btn-sm" onclick="endTour()">C\'est parti ! 🚀</button>')+'</div>';
+  var ttTop=hasEl?Math.min(r.bottom+12,window.innerHeight-240):Math.max(100,(window.innerHeight-200)/2);
+  var ttLeft=hasEl?Math.max(12,Math.min(r.left,window.innerWidth-360)):Math.max(12,(window.innerWidth-Math.min(340,window.innerWidth-24))/2);
+  tt.style.top=ttTop+'px';tt.style.left=ttLeft+'px';tt.style.maxWidth=Math.min(340,window.innerWidth-24)+'px';
+}
+
+
+// ===== QUESTIONNAIRE HUG =====
+
+// ===== QUESTIONNAIRE HUG — 3-STEP FLOW =====
+document.getElementById('qhug-read-cb')?.addEventListener('change',function(){
+  var btn=document.getElementById('qhug-step1-next');
+  if(btn){btn.style.opacity=this.checked?'1':'.5';btn.style.pointerEvents=this.checked?'auto':'none';}
+});
+document.querySelectorAll('.qhug-consent-cb').forEach(function(cb){
+  cb.addEventListener('change',function(){
+    var all=document.querySelectorAll('.qhug-consent-cb');
+    var ok=Array.from(all).every(function(c){return c.checked;});
+    var btn=document.getElementById('qhug-step2-next');
+    if(btn){btn.style.opacity=ok?'1':'.5';btn.style.pointerEvents=ok?'auto':'none';}
+  });
+});
+function qhugGoStep(n){
+  ['qhug-step1','qhug-step2','qhug-step3'].forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(el){el.style.display=(i+1===n)?'flex':'none';}
+  });
+  // Scroll to top of card
+  var card=document.querySelector('#quest-hug-acc .card');
+  if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+var qhugItems=[
+  {n:'1',q:'Avez-vous déjà fait un don de sang ?',sub:'Si oui, quand ? Où ?'},
+  {n:'2',q:'Pesez-vous plus de 50 kg ?'},
+  {n:'3',q:'Vous sentez-vous actuellement en bonne santé ?'},
+  {n:'4',q:'Au cours des 14 jours, traitement dentaire ou d\'hygiène dentaire ?'},
+  {n:'5',q:'Au cours des 4 dernières semaines, soins médicaux, fièvre >38°C, diarrhée, rhume ?'},
+  {n:'6a',q:'Au cours des 4 dernières semaines, avez-vous pris des médicaments (même sans prescription) ?',sub:'Si oui, lesquels ?'},
+  {n:'6b',q:'Médicaments contre hyperplasie prostatique/chute des cheveux (Proscar®, Propecia®) ou acné (Roaccutan®, Curakne®) ou dépression (Lithiofor®) ou migraine (Topamax®) ou troubles bipolaires (Convulex®, Tegretol®) ?'},
+  {n:'6c',q:'Au cours des 2 derniers mois, médicaments contre l\'endométriose (Lucrin Depot®) ?'},
+  {n:'6d',q:'Au cours des 4 derniers mois, thérapie antirétrovirale PEP/PrEP (Truvada®, Isentress®, Prezista®/Norvir®) ou médicaments fabriqués à partir de sang ?'},
+  {n:'6e',q:'Au cours des 6 derniers mois, médicaments contre l\'hyperplasie prostatique (Avodart®, Duodart®) ?'},
+  {n:'6f',q:'Au cours des 6 mois, cytostatiques (Méthotrexate®) contre psoriasis ou arthrite ?'},
+  {n:'6g',q:'Au cours des 3 dernières années, Neotigason®, Acicutan® (psoriasis) ou Erivedge® (carcinome basocellulaire) ?'},
+  {n:'7a',q:'Avez-vous reçu une immunothérapie (cellules ou sérum d\'origine humaine ou animale) ?'},
+  {n:'7b',q:'Au cours des 12 derniers mois, vacciné(e) contre la rage ou le tétanos ?'},
+  {n:'7c',q:'Au cours des 4 dernières semaines, autres vaccins ?',sub:'Si oui, lesquels ? Quand ?'},
+  {n:'8a',q:'Affection cardio-vasculaire ou pulmonaire (pression artérielle, infarctus, AVC, AIT, perte de conscience) ?'},
+  {n:'8b',q:'Maladie de la peau (blessure, éruption, eczéma, bouton de fièvre) ou allergies (rhume des foins, asthme) ?'},
+  {n:'8c',q:'Autres maladies (diabète, sang, coagulation, affection rénale, épilepsie, cancer, ostéoporose) ?'},
+  {n:'9',q:'Au cours des 3 dernières années, séjour à l\'hôpital, accident ou opération ?'},
+  {n:'10a',q:'Greffe de tissu humain/animal ou transplantation d\'organe ?'},
+  {n:'10b',q:'Opération du cerveau ou de la moelle épinière à l\'étranger ?'},
+  {n:'10c',q:'Hormone de croissance ou injections d\'hormones pour infertilité avant le 01.01.1986 ?'},
+  {n:'10d',q:'Vous ou un membre de votre famille, susceptible d\'être atteint(e) par la maladie de Creutzfeldt-Jakob ?'},
+  {n:'10e',q:'Au cours des 4 derniers mois, avez-vous bénéficié d\'une transfusion sanguine ?'},
+  {n:'11a',q:'Au cours des 6 derniers mois, voyage hors de la Suisse ?',sub:'Où, combien de temps ? Depuis quand de retour ?'},
+  {n:'11b',q:'Symptômes sur place ou depuis votre retour (fièvre, etc.) ?',sub:'Si oui, précisez'},
+  {n:'12a',q:'Né(e) hors de la Suisse, y avez-vous grandi ou vécu plus de 6 mois ?',sub:'Quel pays ? Depuis quand en Suisse ?'},
+  {n:'12b',q:'Votre mère est-elle née dans un pays extra-européen, y a-t-elle vécu plus de 6 mois ?',sub:'Quel pays ?'},
+  {n:'13a',q:'Toxoplasmose, mononucléose, amibiase, shigellose, FSME, bilharziose, gonorrhée, ostéomyélite, fièvre rhumatismale, tuberculose, fièvre récurrente, fièvre Q, Guillain-Barré ?'},
+  {n:'13b',q:'Paludisme/Malaria, Chagas, brucellose, échinococcose, leishmaniose, filariose, babésiose, Ebola ou autres infections graves ?'},
+  {n:'13c',q:'Au cours des 4 dernières semaines, piqûre de tique ?'},
+  {n:'13d',q:'Au cours des 4 dernières semaines, contact avec une personne ayant une maladie infectieuse ?',sub:'Si oui, laquelle ?'},
+  {n:'14',q:'Au cours des 4 derniers mois : tatouage, gastro-coloscopie, sangsues, piercing, acupuncture, épilation électrique, maquillage permanent/Microblading, contact avec du sang étranger ?',sub:'Si oui, quand et où ?'},
+  {n:'15a',q:'Nouveau ou changement de partenaire sexuel(le) au cours des 4 derniers mois ?'},
+  {n:'15b',q:'Rapport(s) sexuel(s) avec plus de 2 personnes au cours des 4 derniers mois ?'},
+  {n:'15c',q:'Rapport(s) sexuel(s) sous l\'influence de drogues de synthèse au cours des 12 derniers mois ?'},
+  {n:'15d',q:'Rapport(s) sexuel(s) contre rémunération (argent, drogues, médicaments) au cours des 12 derniers mois ?'},
+  {n:'15e',q:'Injection de drogue ?'},
+  {n:'15f',q:'Test positif VIH (sida), hépatite B ou C ?'},
+  {n:'15g',q:'Avez-vous déjà eu la syphilis ?'},
+  {n:'16a',q:'Votre partenaire a-t-il/elle eu une jaunisse (hépatite B/C) au cours des 6 derniers mois ?'},
+  {n:'16b',q:'Votre partenaire sexuel(le) a-t-il/elle contracté le virus Zika au cours des 3 derniers mois ?'},
+  {n:'17a',q:'Au cours des 12 derniers mois, rapports sexuels avec un(e) partenaire exposé(e) aux situations à risque (Q.15 / Q.16) ?'},
+  {n:'17b',q:'Au cours des 4 derniers mois, rapports sexuels avec un(e) partenaire ayant séjourné 6+ mois dans un pays à taux élevé HIV/HBV/HCV ?',sub:'Date de retour du partenaire ?'},
+  {n:'18a',q:'Si applicable : Avez-vous déjà été enceinte ?',sub:'Si oui, quand pour la dernière fois ?'}
+];
+function initQHUG(){
+  var ct=document.getElementById('qhug-questions');
+  if(!ct)return;
+  ct.innerHTML=qhugItems.map(function(q){
+    var subH=q.sub?'<input id="qh-sub-'+q.n+'" placeholder="'+q.sub+'" style="margin-top:4px;width:100%;padding:6px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:4px;color:var(--text);font-size:12px;display:none;box-sizing:border-box">':'';
+    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--dark-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--gold);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--text-dim)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button class="qh-yn" data-q="'+q.n+'" data-v="OUI" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Oui</button><button class="qh-yn" data-q="'+q.n+'" data-v="NON" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Non</button></div></div>';
+  }).join('');
+}
+function selectQH(el){
+  var q=el.getAttribute('data-q'),v=el.getAttribute('data-v');
+  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';});
+  el.style.background=v==='OUI'?'rgba(230,57,70,.2)':'rgba(46,204,113,.2)';
+  el.style.color=v==='OUI'?'var(--red-soft)':'var(--green)';
+  el.style.borderColor=v==='OUI'?'var(--red-soft)':'var(--green)';
+  el.setAttribute('data-selected','1');
+  var sub=document.getElementById('qh-sub-'+q);
+  if(sub)sub.style.display=v==='OUI'?'block':'none';
+}
+function resetHUGForm(){
+  document.querySelectorAll('#qhug-form input,#qhug-form select').forEach(function(i){i.value='';});
+  document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.removeAttribute('data-selected');});
+  document.querySelectorAll('[id^="qh-sub-"]').forEach(function(s){s.style.display='none';s.value='';});
+}
+function generateHUGPDF(){
+  var d={};
+  ['nom','prenom','ddn','sexe','adresse','npa','localite','tel','email','poids','taille','prof','medecin'].forEach(function(k){
+    var el=document.getElementById('qh-'+k);d[k]=el?el.value:'';
+  });
+  if(!d.nom||!d.prenom||!d.ddn){alert('Merci de remplir au minimum : Nom, Prénom et Date de naissance.');return;}
+  var answers={};
+  qhugItems.forEach(function(q){
+    var btns=document.querySelectorAll('.qh-yn[data-q="'+q.n+'"][data-selected="1"]');
+    answers[q.n]=btns.length?btns[0].getAttribute('data-v'):'';
+    var sub=document.getElementById('qh-sub-'+q.n);
+    if(sub)answers[q.n+'_sub']=sub.value;
+  });
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Questionnaire Don du Sang - HUG</title>';
+  html+='<style>@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
+  html+='h1{font-size:14px;text-align:center;margin:5px 0}h2{font-size:11px;margin:8px 0 4px;color:#26A69A;border-bottom:1px solid #26A69A;padding-bottom:2px}';
+  html+='.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #26A69A;padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
+  html+='.info{font-size:8px;color:#666;margin:2px 0}.row{display:flex;gap:8px;margin:2px 0;flex-wrap:wrap}.field{border-bottom:1px dotted #999;min-width:100px;padding:1px 3px;flex:1}';
+  html+='.label{font-weight:bold;font-size:9px;white-space:nowrap}.q{margin:2px 0;display:flex;align-items:flex-start;padding:2px 0;border-bottom:1px dotted #eee}';
+  html+='.qn{font-weight:bold;min-width:22px;color:#26A69A}.qt{flex:1;padding-right:5px}.ans{min-width:50px;text-align:right;white-space:nowrap}';
+  html+='.box{display:inline-block;width:11px;height:11px;border:1px solid #333;margin:0 2px;text-align:center;font-size:8px;line-height:11px}.checked{background:#DC2626;color:#fff}';
+  html+='.consent{font-size:8px;margin:8px 0;padding:8px;background:#f8f9fa;border-left:3px solid #26A69A}';
+  html+='.sig{margin-top:15px;display:flex;gap:15px}.sig-field{flex:1;border-bottom:1px solid #333;padding-top:25px;text-align:center;font-size:9px}';
+  html+='.reserved{margin-top:15px;border:2px solid #26A69A;padding:10px;background:#f8fffe}.reserved h3{margin:0 0 8px;font-size:11px;color:#26A69A}';
+  html+='.reserved-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.reserved-field{border:1px solid #ccc;padding:5px;min-height:25px}.reserved-field label{font-size:8px;color:#666;display:block}';
+  html+='.footer{margin-top:10px;text-align:center;font-size:8px;color:#999;border-top:1px solid #eee;padding-top:5px}';
+  html+='.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5px}@media print{body{margin:5mm}}</style></head><body>';
+  // Header
+  html+='<div class="header"><div style="font-size:24px;font-weight:900"><span style="color:#7BBC6F">H</span><span style="color:#4DB6AC">U</span><span style="color:#26A69A">G</span></div>';
+  html+='<div class="header-center"><h1>Centre de Transfusion Sanguine</h1>';
+  html+='<div class="info">Rue Gabrielle-Perret-Gentil 6, 1205 Genève | T.+41(0)22 372 39 01</div>';
+  html+='<div class="info">Accueil.Donneurs@hug.ch | www.dondusang.ch</div>';
+  html+='<div class="info"><strong>Horaires:</strong> Lu-Ma-Me-Ve: 7h30-15h | Je: 11h-19h | Sam 1er et 3ème: 8h30-12h</div>';
+  html+='</div><div style="color:#DC2626;font-weight:bold;font-size:10px">BeeMyBlood™</div></div>';
+  // Personal info
+  html+='<h2>INSCRIPTION AU DON DU SANG</h2>';
+  html+='<div class="row"><span class="label">Nom:</span><span class="field">'+d.nom+'</span><span class="label">Prénom(s):</span><span class="field">'+d.prenom+'</span></div>';
+  html+='<div class="row"><span class="label">Date naissance:</span><span class="field">'+d.ddn+'</span><span class="label">Sexe:</span><span class="box '+(d.sexe==='M'?'checked':'')+'">M</span><span class="box '+(d.sexe==='F'?'checked':'')+'">F</span></div>';
+  html+='<div class="row"><span class="label">Adresse:</span><span class="field" style="flex:2">'+d.adresse+'</span></div>';
+  html+='<div class="row"><span class="label">NPA:</span><span class="field">'+d.npa+'</span><span class="label">Localité:</span><span class="field">'+d.localite+'</span><span class="label">Tél:</span><span class="field">'+d.tel+'</span></div>';
+  html+='<div class="row"><span class="label">E-mail:</span><span class="field">'+d.email+'</span><span class="label">Poids:</span><span class="field">'+d.poids+' kg</span><span class="label">Taille:</span><span class="field">'+d.taille+' cm</span></div>';
+  html+='<div class="row"><span class="label">Profession:</span><span class="field">'+d.prof+'</span><span class="label">Médecin traitant:</span><span class="field">'+d.medecin+'</span></div>';
+  // Consent
+  html+='<div class="consent"><p style="margin:0 0 5px;font-weight:bold">En signant ce document, je confirme :</p>';
+  html+='<p>☑ Je consens à donner de mon sang.</p>';
+  html+='<p>☑ J\'ai lu et compris le Formulaire d\'information ANH Art.7.7 (version 3, 01.02.2026).</p>';
+  html+='<p>☑ Je confirme l\'exactitude de mes données personnelles et la véracité de mes réponses.</p>';
+  html+='<p>☑ J\'accepte les tests biologiques (pouvant comporter des méthodes génétiques) et la conservation d\'échantillons.</p>';
+  html+='<p>☑ J\'accepte que certains composants soient utilisés pour la fabrication de médicaments et la recherche médicale après anonymisation.</p>';
+  html+='<p>☑ Mes données sont soumises au secret médical (T-CH / SRTS).</p></div>';
+  // Questions
+  html+='<h2>QUESTIONNAIRE MÉDICAL</h2><div class="two-col">';
+  qhugItems.forEach(function(q){
+    var a=answers[q.n]||'';
+    var sub=answers[q.n+'_sub']?(' ('+answers[q.n+'_sub']+')') :'';
+    html+='<div class="q"><span class="qn">'+q.n+'.</span><span class="qt">'+q.q+sub+'</span><span class="ans"><span class="box '+(a==='OUI'?'checked':'')+'">O</span><span class="box '+(a==='NON'?'checked':'')+'">N</span></span></div>';
+  });
+  html+='</div>';
+  // Signatures
+  var today=new Date().toLocaleDateString('fr-CH');
+  html+='<div class="sig"><div class="sig-field">Date: '+today+'</div><div class="sig-field">Nom: '+d.nom+' '+d.prenom+'</div><div class="sig-field">Naissance: '+d.ddn+'</div><div class="sig-field">Signature du donneur</div></div>';
+  // Reserved
+  html+='<div class="reserved"><h3>RÉSERVÉ AU CENTRE DE TRANSFUSION SANGUINE</h3><div class="reserved-grid">';
+  ['Q n°','Visa accueil','Visa infirmier','Visa médecin','Pouls','TA','Hb capillaire','Groupe sanguin','Type de don','N° prélèvement','Durée','Heure fin'].forEach(function(l){html+='<div class="reserved-field"><label>'+l+'</label></div>';});
+  html+='</div></div>';
+  html+='<div class="footer">ANH-Art7.6v3 - Document pré-rempli via BeeMyBlood™ | '+today+'</div>';
+  html+='<script>window.onload=function(){window.print();}<\/script></body></html>';
+  var blob=new Blob([html],{type:'text/html'});
+  var url=URL.createObjectURL(blob);
+  var link=document.createElement('a');
+  link.href=url;
+  link.download='questionnaire-hug-'+(d.nom||'donneur')+'-'+new Date().toISOString().split('T')[0]+'.html';
+  document.body.appendChild(link);link.click();
+  setTimeout(function(){document.body.removeChild(link);URL.revokeObjectURL(url);},100);
+  showToast('📥 PDF généré — ouvre le fichier et imprime-le !');
+}
+
+
+function setTheme(t){
+  if(t==='light'){document.body.classList.add('light-mode');try{document.getElementById('theme-light-btn').style.border='2px solid var(--gold)';document.getElementById('theme-dark-btn').style.border='1px solid var(--dark-border)';}catch(e){}}
+  else{document.body.classList.remove('light-mode');try{document.getElementById('theme-dark-btn').style.border='2px solid var(--gold)';document.getElementById('theme-light-btn').style.border='1px solid var(--dark-border)';}catch(e){}}
+  // Swap map tiles
+  if(window._mapTileLayer&&map){try{window._mapTileLayer.setUrl(t==='light'?'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png':'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png');var mc=document.getElementById('mapid');if(mc){mc.style.background=t==='light'?'#e8e8e8':'#1a1a2e';}}catch(e){}}
+  // Force repaint of Flux area
+  var fw=document.getElementById('flux-wrap');if(fw){fw.style.display='none';void fw.offsetHeight;fw.style.display='';}
+  try{localStorage.setItem('bmb-theme',t);}catch(e){}
+}
+try{if(localStorage.getItem('bmb-theme')==='light')setTheme('light');}catch(e){}
+
+
+// Breadcrumb updater
+var bcNames={'hero':'Accueil','dashboard':'Dashboard','communaute':'Communauté','actualites':'Actualités','flux':'Flux CTS','guide':'Guide du don','eligibilite':'Pré-éligibilité','hemorush':'HémoRush™','collectes':'Collectes','impact':'Impact','chatbot':'BeeBot™','vr':'Réalité virtuelle','videos':'Vidéos','faq':'FAQ','settings':'Paramètres','contact':'Contact','profil':'Profil'};
+function updateBreadcrumb(id){
+  var bar=document.getElementById('breadcrumb-bar');
+  var cur=document.getElementById('bc-current');
+  if(!bar||!cur)return;
+  if(window.innerWidth<800||id==='hero'){bar.style.display='none';return;}
+  bar.style.display='block';
+  cur.textContent=bcNames[id]||id;
+}
 
 // ===== BLOOD CELLS HERO ANIMATION =====
 (function(){
@@ -6992,7 +7903,7 @@ function showLiveToast(){
 // First toast after 8s, then every 25-40s
 var _twe=(function(){var d=new Date(),day=d.getDay(),sun=day===0,sat=day===6,sw=Math.ceil(d.getDate()/7),ctsSat=sat&&(sw===1||sw===3);return sun||(sat&&!ctsSat);})();
 setTimeout(showLiveToast,_twe?60000:45000);
-setInterval(()=>showLiveToast(),_twe?(360000+Math.random()*300000):(240000+Math.random()*180000));
+setInterval(()=>showLiveToast(),_twe?(360000+Math.random()*300000):(300000+Math.random()*180000));
 
 // ===== SCROLL REVEAL =====
 function initScrollReveal(){
@@ -7037,12 +7948,7 @@ go=function(id){
 setTimeout(initScrollReveal,500);
 
 // ===== AUTO-EXPAND ACTU ON DESKTOP/FOLD =====
-setTimeout(function(){
-  if(window.innerWidth>640){
-    var btn=document.getElementById('actu-home-toggle');
-    if(btn&&!btn.classList.contains('open'))btn.click();
-  }
-},300);
+// actus accordion collapsed by default (user feedback)
 
 // ===== AR POSITION DETECTION =====
 // Real CTS (Centre de Transfusion Sanguine) locations across Switzerland
@@ -7201,5 +8107,4 @@ document.addEventListener('click',function(e){
 </div>
 
 </body>
-
 </html>
