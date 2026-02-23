@@ -38,8 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // CONTEXTE CRS POUR LE CHATBOT
 // ============================================================
 
-$crsContext = <<<EOT
-Tu es l'assistant BeeMyBlood, expert du don de sang en Suisse selon les critères officiels CRS (Transfusion CRS Suisse).
+$crsContext = <<<'EOT'
+Tu es BeeBot 🐝, l'assistant IA de BeeMyBlood, expert du don de sang en Suisse selon les critères officiels CRS (Transfusion CRS Suisse).
+
+LANGAGE INCLUSIF OBLIGATOIRE:
+- Ne JAMAIS utiliser "drépanocytaire" — dire "personne vivant avec une drépanocytose"
+- Ne JAMAIS utiliser "sidéen/sidéique" — dire "personne vivant avec le VIH"
+- Toujours privilégier le langage centré sur la personne
 
 CRITÈRES GÉNÉRAUX:
 - Âge: 18-75 ans (18-60 pour premier don)
@@ -87,21 +92,17 @@ AUTRES:
 - Grossesse: contre-indication temporaire 12 mois après accouchement
 - Infection/antibiotiques: contre-indication temporaire 2 semaines après guérison
 
-Utilise "contre-indication définitive" pour les exclusions permanentes et "contre-indication temporaire" pour les exclusions avec délai.
+PHÉNOTYPES RARES:
+- Duffy négatif Fy(a-b-): très recherché pour les personnes vivant avec une drépanocytose
+- Prévalence en Suisse: <1% des donneurs
+- Environ 47 donneurs recensés dans le réseau BeeMyBlood avec ce profil
 
-Réponds de façon concise, précise et bienveillante. Évite la surutilisation d'emojis (maximum 1-2 par réponse).
+CONTACTS UTILES:
+- Centre de Transfusion HUG: 022 372 39 01
+- Transfusion Interrégionale CRS: 0800 148 148 (gratuit)
+- Site CRS: www.transfusion.ch
 
-IMPORTANT - Si quelqu'un n'est PAS éligible au don:
-- Reste encourageant et bienveillant
-- Rappelle qu'on peut contribuer autrement : sensibiliser son entourage, accompagner un proche, devenir bénévole
-- Si c'est une contre-indication temporaire, indique quand la personne pourra revenir donner
-
-MOTIVATION DES DONNEURS ÉLIGIBLES:
-- Chaque don peut sauver jusqu'à 3 vies
-- Certains groupes sanguins sont particulièrement recherchés (O-, O+, A-, B-)
-- Les donneurs réguliers sont très précieux
-
-Si tu ne connais pas la réponse exacte, conseille de contacter le centre de transfusion au 031 380 81 81.
+Réponds de façon concise, précise et bienveillante en français. Maximum 1-2 emojis par réponse. Si tu ne connais pas la réponse exacte, conseille de contacter le centre de transfusion.
 EOT;
 
 // ============================================================
@@ -124,9 +125,46 @@ $userMessage = trim($data['message']);
 if (ANTHROPIC_API_KEY === 'YOUR_API_KEY_HERE') {
     echo json_encode([
         'error' => 'Clé API non configurée. Contactez l\'administrateur.',
-        'reply' => 'Le chatbot n\'est pas encore configuré. En attendant, vous pouvez contacter Transfusion CRS Suisse au 031 380 81 81 ou consulter www.transfusion.ch'
+        'reply' => 'Le chatbot n\'est pas encore configuré. En attendant, vous pouvez contacter Transfusion CRS Suisse au 0800 148 148 ou consulter www.transfusion.ch'
     ]);
     exit();
+}
+
+// ============================================================
+// CONSTRUCTION DES MESSAGES (avec historique si fourni)
+// ============================================================
+
+$messages = [];
+
+// Si un historique de conversation est fourni, l'utiliser
+if (isset($data['history']) && is_array($data['history'])) {
+    // Garder les 20 derniers messages max
+    $history = array_slice($data['history'], -20);
+    foreach ($history as $msg) {
+        if (isset($msg['role']) && isset($msg['content'])) {
+            $role = ($msg['role'] === 'assistant') ? 'assistant' : 'user';
+            $messages[] = [
+                'role' => $role,
+                'content' => $msg['content']
+            ];
+        }
+    }
+} else {
+    // Pas d'historique: juste le message courant
+    $messages[] = [
+        'role' => 'user',
+        'content' => $userMessage
+    ];
+}
+
+// S'assurer que le dernier message est bien le message utilisateur courant
+// (au cas où l'historique ne l'inclurait pas)
+$lastMsg = end($messages);
+if ($lastMsg['role'] !== 'user' || $lastMsg['content'] !== $userMessage) {
+    $messages[] = [
+        'role' => 'user',
+        'content' => $userMessage
+    ];
 }
 
 // ============================================================
@@ -139,12 +177,7 @@ $requestData = [
     'model' => 'claude-sonnet-4-20250514',
     'max_tokens' => 800,
     'system' => $crsContext,
-    'messages' => [
-        [
-            'role' => 'user',
-            'content' => $userMessage
-        ]
-    ]
+    'messages' => $messages
 ];
 
 // Initialiser cURL
@@ -158,7 +191,7 @@ curl_setopt_array($ch, [
         'x-api-key: ' . ANTHROPIC_API_KEY,
         'anthropic-version: 2023-06-01'
     ],
-    CURLOPT_POSTFIELDS => json_encode($requestData),
+    CURLOPT_POSTFIELDS => json_encode($requestData, JSON_UNESCAPED_UNICODE),
     CURLOPT_TIMEOUT => 30,
     CURLOPT_SSL_VERIFYPEER => true
 ]);
@@ -176,7 +209,7 @@ curl_close($ch);
 if ($curlError) {
     echo json_encode([
         'error' => 'Erreur de connexion: ' . $curlError,
-        'reply' => 'Impossible de contacter le serveur. Veuillez réessayer ou appeler le 031 380 81 81.'
+        'reply' => 'Impossible de contacter le serveur. Veuillez réessayer ou appeler le 0800 148 148.'
     ]);
     exit();
 }
@@ -188,7 +221,7 @@ if ($httpCode !== 200) {
     
     echo json_encode([
         'error' => 'Erreur API (HTTP ' . $httpCode . '): ' . $errorMessage,
-        'reply' => 'Service temporairement indisponible. Veuillez réessayer dans quelques instants ou contacter le 031 380 81 81.'
+        'reply' => 'Service temporairement indisponible. Veuillez réessayer ou contacter le 0800 148 148.'
     ]);
     exit();
 }
@@ -199,11 +232,11 @@ $responseData = json_decode($response, true);
 if (isset($responseData['content'][0]['text'])) {
     echo json_encode([
         'reply' => $responseData['content'][0]['text']
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 } else {
     echo json_encode([
         'error' => 'Réponse inattendue de l\'API',
-        'reply' => 'Je n\'ai pas pu traiter votre question. Veuillez réessayer ou contacter le 031 380 81 81.'
-    ]);
+        'reply' => 'Je n\'ai pas pu traiter votre question. Veuillez réessayer ou contacter le 0800 148 148.'
+    ], JSON_UNESCAPED_UNICODE);
 }
 ?>

@@ -1,0 +1,1174 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeeMyBlood - Guide du donneur de sang en Suisse</title>
+  <meta name="description" content="Test d'éligibilité au don de sang, questionnaire médical validé, chatbot IA et informations sur le don de sang en Suisse selon les critères CRS.">
+  <meta name="keywords" content="don de sang, Suisse, éligibilité, HUG, CHUV, Croix-rouge, Genève, transfusion, CRS, questionnaire médical">
+  <meta property="og:title" content="BeeMyBlood - Guide du don de sang en Suisse">
+  <meta property="og:description" content="Vérifiez votre éligibilité au don de sang et remplissez votre questionnaire médical en ligne.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 5 C75 5 90 30 90 55 C90 80 50 98 50 98 C50 98 10 80 10 55 C10 30 25 5 50 5 Z' fill='%23DC2626'/%3E%3C/svg%3E">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .animate-spin { animation: spin 1s linear infinite; }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;color:#dc2626">
+      <svg width="60" height="60" viewBox="0 0 100 100" style="margin-bottom:20px">
+        <path d="M50 5 C75 5 90 30 90 55 C90 80 50 98 50 98 C50 98 10 80 10 55 C10 30 25 5 50 5 Z" fill="#DC2626"/>
+      </svg>
+      🩸 Chargement de BeeMyBlood: DONOR - v1...
+    </div>
+  </div>
+  
+  <script>
+(function(){
+  const e = React.createElement;
+  const useState = React.useState;
+
+  // ==================== ICÔNES ====================
+  const Icon = (p) => e('svg', {className:p.className, viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth:'2', strokeLinecap:'round', strokeLinejoin:'round'}, p.children);
+  const CheckCircle = (p) => e(Icon, p, e('path',{d:'M22 11.08V12a10 10 0 1 1-5.93-9.14'}), e('polyline',{points:'22 4 12 14.01 9 11.01'}));
+  const AlertCircle = (p) => e(Icon, p, e('circle',{cx:'12',cy:'12',r:'10'}), e('line',{x1:'12',x2:'12',y1:'8',y2:'12'}), e('line',{x1:'12',x2:'12.01',y1:'16',y2:'16'}));
+  const ChevronRight = (p) => e(Icon, p, e('path',{d:'m9 18 6-6-6-6'}));
+  const ChevronDown = (p) => e(Icon, p, e('path',{d:'m6 9 6 6 6-6'}));
+  const ChevronUp = (p) => e(Icon, p, e('path',{d:'m18 15-6-6-6 6'}));
+  const RotateCcw = (p) => e(Icon, p, e('path',{d:'M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'}), e('path',{d:'M3 3v5h5'}));
+  const MapPin = (p) => e(Icon, p, e('path',{d:'M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'}), e('circle',{cx:'12',cy:'10',r:'3'}));
+  const Clock = (p) => e(Icon, p, e('circle',{cx:'12',cy:'12',r:'10'}), e('polyline',{points:'12 6 12 12 16 14'}));
+  const MessageCircle = (p) => e(Icon, p, e('path',{d:'m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z'}));
+  const User = (p) => e(Icon, p, e('path',{d:'M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2'}), e('circle',{cx:'12',cy:'7',r:'4'}));
+  const BookOpen = (p) => e(Icon, p, e('path',{d:'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'}), e('path',{d:'M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'}));
+  const HelpCircle = (p) => e(Icon, p, e('circle',{cx:'12',cy:'12',r:'10'}), e('path',{d:'M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'}), e('path',{d:'M12 17h.01'}));
+  const Send = (p) => e(Icon, p, e('path',{d:'m22 2-7 20-4-9-9-4Z'}), e('path',{d:'M22 2 11 13'}));
+  const Zap = (p) => e(Icon, p, e('polygon',{points:'13 2 3 14 12 14 11 22 21 10 12 10 13 2'}));
+  const Info = (p) => e(Icon, p, e('circle',{cx:'12',cy:'12',r:'10'}), e('path',{d:'M12 16v-4'}), e('path',{d:'M12 8h.01'}));
+  const Loader2 = (p) => e('svg', {className:(p.className||'')+' animate-spin', viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth:'2'}, e('path',{d:'M21 12a9 9 0 1 1-6.219-8.56'}));
+
+  // ==================== LOGO BEEMYBLOOD ====================
+  const Logo = () => e('div', {className:'flex flex-col items-center mb-2'},
+    e('svg', {className:'w-20 h-20', viewBox:'0 0 100 100', fill:'none'},
+      e('path', {d:'M50 5 C75 5 90 30 90 55 C90 80 50 98 50 98 C50 98 10 80 10 55 C10 30 25 5 50 5 Z', fill:'none', stroke:'#DC2626', strokeWidth:'3'}),
+      e('ellipse', {cx:'50', cy:'50', rx:'16', ry:'18', fill:'none', stroke:'#DC2626', strokeWidth:'2.5'}),
+      e('circle', {cx:'50', cy:'35', r:'7', fill:'none', stroke:'#DC2626', strokeWidth:'2'}),
+      e('path', {d:'M44 30 Q36 22 38 16', fill:'none', stroke:'#DC2626', strokeWidth:'2', strokeLinecap:'round'}),
+      e('path', {d:'M56 30 Q64 22 62 16', fill:'none', stroke:'#DC2626', strokeWidth:'2', strokeLinecap:'round'}),
+      e('circle', {cx:'45', cy:'35', r:'1.5', fill:'#DC2626'}),
+      e('circle', {cx:'55', cy:'35', r:'1.5', fill:'#DC2626'}),
+      e('path', {d:'M30 48 Q18 44 14 50 Q10 56 20 60 Q28 62 32 56', fill:'none', stroke:'#DC2626', strokeWidth:'2.5'}),
+      e('path', {d:'M70 48 Q82 44 86 50 Q90 56 80 60 Q72 62 68 56', fill:'none', stroke:'#DC2626', strokeWidth:'2.5'}),
+      e('line', {x1:'40', y1:'55', x2:'60', y2:'55', stroke:'#DC2626', strokeWidth:'2'}),
+      e('line', {x1:'38', y1:'62', x2:'62', y2:'62', stroke:'#DC2626', strokeWidth:'2'}),
+      e('line', {x1:'42', y1:'69', x2:'58', y2:'69', stroke:'#DC2626', strokeWidth:'2'})
+    )
+  );
+
+// ===== FIN PARTIE 1 - SUITE PARTIE 2 =====
+// ===== PARTIE 2 - APP PRINCIPALE + DONNÉES =====
+
+  // ==================== COMPOSANT APP ====================
+  function App() {
+    const [view, setView] = useState('home');
+    const [step, setStep] = useState(0);
+    const [answers, setAnswers] = useState({});
+    const [result, setResult] = useState(null);
+    const [chatMsgs, setChatMsgs] = useState([{role:'bot', text:"Bonjour ! Je suis l'assistant BeeMyBlood. Posez-moi vos questions sur le don de sang, les critères d'éligibilité, les médicaments, les voyages, etc."}]);
+    const [chatIn, setChatIn] = useState('');
+    const [chatLoading, setChatLoading] = useState(false);
+    const [faqOpen, setFaqOpen] = useState(null);
+    const [detailInput, setDetailInput] = useState('');
+    const [awaitingDetail, setAwaitingDetail] = useState(null);
+    const [analyzing, setAnalyzing] = useState(false);
+    const [qGE, setQGE] = useState({sexe:''});
+    const [qGEStep, setQGEStep] = useState(0);
+    const [showPDFPreview, setShowPDFPreview] = useState(false);
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // Parse markdown **bold**
+    const parseMarkdown = (text) => {
+      if (!text) return text;
+      const parts = text.split(/(\*\*[^*]+\*\*)/g);
+      return parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return e('strong', {key: i}, part.slice(2, -2));
+        }
+        return part;
+      });
+    };
+
+    // ==================== CHAT HANDLER ====================
+    const handleChat = async () => {
+      if (!chatIn.trim() || chatLoading) return;
+      const userMsg = chatIn.trim();
+      setChatMsgs(prev => [...prev, {role:'user', text: userMsg}]);
+      setChatIn('');
+      setChatLoading(true);
+      try {
+        const response = await fetch("api.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMsg })
+        });
+        const data = await response.json();
+        if (data.error) {
+          setChatMsgs(prev => [...prev, {role:'bot', text: "Erreur: " + data.error + ". Appelez le 031 380 81 81."}]);
+        } else if (data.reply) {
+          setChatMsgs(prev => [...prev, {role:'bot', text: data.reply}]);
+        } else {
+          setChatMsgs(prev => [...prev, {role:'bot', text: "Réponse inattendue. Veuillez réessayer."}]);
+        }
+      } catch (err) {
+        console.error('Erreur chatbot:', err);
+        setChatMsgs(prev => [...prev, {role:'bot', text: "Erreur de connexion au serveur. Contactez Transfusion CRS au 031 380 81 81."}]);
+      }
+      setChatLoading(false);
+    };
+
+    // ==================== BASES DE DONNÉES MÉDICAMENTS ====================
+    const medDB = {
+      'contraceptif|pilule|nuvaring': {ok:true, msg:"Les contraceptifs sont compatibles avec le don."},
+      'levothyrox|euthyrox|thyroïde': {ok:true, msg:"Les hormones thyroïdiennes sont compatibles si vous êtes stabilisé(e)."},
+      'antihypertenseur|lisinopril|amlodipine|ramipril': {ok:true, msg:"Compatible si tension contrôlée (<180/100 mmHg le jour du don)."},
+      'oméprazole|pantoprazole|ipp|inexium': {ok:true, msg:"Les inhibiteurs de la pompe à protons sont compatibles."},
+      'paracétamol|dafalgan|doliprane': {ok:true, msg:"Le paracétamol est compatible avec le don."},
+      'antihistaminique|cétirizine|loratadine|aerius': {ok:true, msg:"Les antihistaminiques sont compatibles."},
+      'metformine|glucophage': {ok:'maybe', msg:"Compatible si diabète type 2 bien contrôlé, sans lésions organiques et sans insuline."},
+      'aspirine|aspégic|kardégic': {ok:'delay', wait:'5 jours', msg:"Aspirine: contre-indication temporaire de 5 jours pour don de plaquettes. Don de sang total possible."},
+      'ibuprofène|advil|nurofen|voltarène|diclofénac': {ok:'delay', wait:'24 heures', msg:"Anti-inflammatoires: contre-indication temporaire de 24 heures après la dernière prise."},
+      'antibiotique|amoxicilline|augmentin|ciproxine': {ok:'delay', wait:'2 semaines', msg:"Antibiotiques: contre-indication temporaire de 2 semaines après fin du traitement et guérison complète."},
+      'roaccutane|isotrétinoïne|curakne|tretinac': {ok:'delay', wait:'4 semaines', msg:"Isotrétinoïne: contre-indication temporaire de 4 semaines après la dernière prise."},
+      'neotigason|acitrétine|acicutan': {ok:'delay', wait:'3 ans', msg:"Acitrétine: contre-indication temporaire de 3 ans après la dernière prise (tératogène)."},
+      'finastéride|propecia|finacapil|proscar': {ok:'delay', wait:'4 semaines', msg:"Finastéride: contre-indication temporaire de 4 semaines après l'arrêt."},
+      'dutastéride|avodart|duodart': {ok:'delay', wait:'6 mois', msg:"Dutastéride: contre-indication temporaire de 6 mois après l'arrêt."},
+      'lithium': {ok:'delay', wait:'1 semaine', msg:"Lithium: contre-indication temporaire d'1 semaine après la dernière prise."},
+      'méthotrexate': {ok:'delay', wait:'12 mois', msg:"Méthotrexate: contre-indication temporaire de 12 mois après l'arrêt."},
+      'anticoagulant|sintrom|marcoumar|xarelto|eliquis|pradaxa': {ok:'delay', wait:'3 mois', msg:"Anticoagulants oraux: contre-indication temporaire de 3 mois après la dernière prise."},
+      'héparine|clexane|fraxiparine': {ok:'delay', wait:'1 mois', msg:"Anticoagulants sous-cutanés: contre-indication temporaire d'1 mois après la fin du traitement."},
+      'insuline|lantus|novorapid|humalog': {ok:false, msg:"Diabète insulino-dépendant: contre-indication définitive."},
+      'immunosuppresseur|ciclosporine|tacrolimus|cellcept': {ok:false, msg:"Immunosuppresseurs: contre-indication définitive."},
+      'chimiothérapie': {ok:false, msg:"Chimiothérapie: contre-indication. Voir critère Cancer (5 ans après rémission)."},
+    };
+
+    // ==================== BASES DE DONNÉES MALADIES ====================
+    const diseaseDB = {
+      'hypertension|tension': {ok:'maybe', msg:"Hypertension: compatible si contrôlée (<180/100 mmHg le jour du don)."},
+      'diabète type 2|diabète sans insuline': {ok:'maybe', msg:"Diabète type 2: compatible si bien contrôlé, sans insuline et sans lésions organiques."},
+      'diabète type 1|diabète insuline': {ok:false, msg:"Diabète insulino-dépendant: contre-indication définitive."},
+      'hypothyroïdie|hashimoto': {ok:true, msg:"Hypothyroïdie: compatible si stabilisée par traitement de substitution."},
+      'hyperthyroïdie|basedow': {ok:'maybe', msg:"Hyperthyroïdie: contre-indication temporaire de 6 mois après thyroïdectomie ou iode radioactif."},
+      'asthme léger|asthme': {ok:'maybe', msg:"Asthme: compatible si asymptomatique avec inhalateurs. Contre-indication si crises fréquentes."},
+      'allergie|rhume des foins': {ok:true, msg:"Allergies: compatibles si symptômes légers."},
+      'dépression': {ok:true, msg:"Dépression: compatible si situation stable et traitement par comprimés."},
+      'épilepsie': {ok:'maybe', msg:"Épilepsie: évaluation possible si >3 ans sans crise et sans traitement."},
+      'infarctus|angine de poitrine|angor|maladie coronarienne': {ok:false, msg:"Maladies coronariennes: contre-indication définitive."},
+      'avc|accident vasculaire': {ok:false, msg:"AVC: contre-indication définitive."},
+      'insuffisance cardiaque|pacemaker': {ok:false, msg:"Insuffisance cardiaque/Pacemaker: contre-indication définitive."},
+      'vih|sida': {ok:false, msg:"VIH: contre-indication définitive."},
+      'hépatite b': {ok:false, msg:"Hépatite B: contre-indication définitive."},
+      'hépatite c': {ok:false, msg:"Hépatite C: contre-indication définitive."},
+      'hépatite a': {ok:'delay', wait:'4 mois', msg:"Hépatite A: contre-indication temporaire de 4 mois après guérison."},
+      'cancer|tumeur': {ok:'maybe', msg:"Cancer: contre-indication temporaire de 5 ans après dernier traitement si guérison complète."},
+      'crohn|rectocolite|rch': {ok:false, msg:"Maladie de Crohn / Rectocolite: contre-indication définitive."},
+      'sclérose en plaques': {ok:false, msg:"Sclérose en plaques: contre-indication définitive."},
+      'lupus': {ok:false, msg:"Lupus érythémateux systémique: contre-indication définitive."},
+      'psoriasis': {ok:'maybe', msg:"Psoriasis: compatible si lésion limitée, hors site de ponction, sans traitement systémique."},
+    };
+
+    // Fonction d'analyse
+    const analyzeInput = (type, input) => {
+      const lower = input.toLowerCase();
+      const db = type === 'medication' ? medDB : diseaseDB;
+      for (const [pattern, result] of Object.entries(db)) {
+        if (new RegExp(pattern, 'i').test(lower)) return result;
+      }
+      return {ok:'maybe', msg: '"' + input + '" nécessite une évaluation par le médecin du centre de transfusion.'};
+    };
+
+// ===== FIN PARTIE 2 - SUITE PARTIE 3 =====
+// ===== PARTIE 3 - QUESTIONS + FAQ + HANDLERS =====
+
+    // ==================== QUESTIONS DU QUIZ ====================
+    const questions = [
+      {id:'age', q:"Quel âge avez-vous ?", type:'number', help:"18-75 ans (18-60 premier don)",
+        check:(v,a)=>{ const n=parseInt(v); if(n<18) return {ok:false,msg:"Minimum 18 ans requis."}; if(n>75) return {ok:false,msg:"Maximum 75 ans."}; return {ok:true}; }},
+      {id:'first', q:"Est-ce votre premier don ?", type:'bool', opts:['Oui','Non'],
+        check:(v,a)=>{ if(v==='Oui'&&parseInt(a.age)>60) return {ok:false,msg:"Premier don: âge maximum 60 ans."}; return {ok:true}; }},
+      {id:'weight', q:"Poids (kg) ?", type:'number', help:"Minimum 50 kg",
+        check:(v)=>{ if(parseInt(v)<50) return {ok:false,msg:"Le poids minimum de 50 kg est requis pour garantir votre sécurité lors du prélèvement.",isWeight:true}; return {ok:true}; }},
+      {id:'health', q:"Vous sentez-vous en bonne santé aujourd'hui ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Non') return {ok:false,msg:"Il est préférable de donner quand vous vous sentez en pleine forme. Revenez quand vous serez rétabli(e).",temp:true,isSick:true}; return {ok:true}; }},
+      {id:'fever', q:"Fièvre (>38°C), infection ou antibiotiques ces 2 dernières semaines ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Oui') return {ok:false,msg:"Contre-indication temporaire de 2 semaines après guérison et fin des antibiotiques.",temp:true,wait:"2 semaines"}; return {ok:true}; }},
+      {id:'lastdon', q:"Don de sang ces 3-4 derniers mois ?", type:'bool', opts:['Oui','Non'],
+        skip:(a)=>a.first==='Oui',
+        check:(v)=>{ if(v==='Oui') return {ok:false,msg:"Respectez l'intervalle: 3 mois (H) / 4 mois (F).",temp:true}; return {ok:true}; }},
+      {id:'pregnant', q:"Grossesse ou accouchement ces 12 derniers mois ?", type:'bool', opts:['Oui','Non','Non concerné'],
+        check:(v)=>{ if(v==='Oui') return {ok:false,msg:"Contre-indication temporaire de 12 mois après l'accouchement.",temp:true,wait:"12 mois"}; return {ok:true}; }},
+      {id:'tattoo', q:"Tatouage, piercing ou maquillage permanent ces 4 derniers mois ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Oui') return {ok:false,msg:"Contre-indication temporaire de 4 mois après tatouage/piercing.",temp:true,wait:"4 mois"}; return {ok:true}; }},
+      {id:'dental', q:"Extraction dentaire ou chirurgie dentaire récente ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Oui') return {ok:false,msg:"Extraction dentaire: contre-indication temporaire d'1 semaine. Détartrage: 24h. Chirurgie complexe: 2 semaines après antibiotiques.",temp:true,wait:"1-2 semaines"}; return {ok:true}; }},
+      {id:'surgery', q:"Opération chirurgicale ces 12 derniers mois ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Oui') return {ok:'maybe',msg:"Délai variable selon intervention: 1 mois (mineure) à 6-12 mois (majeure). Neurochirurgie avec ouverture de la dure-mère: contre-indication définitive."}; return {ok:true}; }},
+      {id:'transf', q:"Avez-vous déjà reçu une transfusion sanguine ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Oui') return {ok:false,msg:"🆕 FÉVRIER 2026: Transfusion après 1980 n'est plus une contre-indication définitive! Contre-indication temporaire de 4 mois après la transfusion.",temp:true,wait:"4 mois",isNew:true}; return {ok:true}; }},
+      {id:'uk', q:"Séjour de 6 mois ou plus au Royaume-Uni entre 1980 et 1996 ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ return {ok:true}; }},
+      {id:'travel', q:"Voyage en zone tropicale ou à risque de paludisme ces 6 derniers mois ?", type:'bool', opts:['Oui','Non'], help:"Ex: Afrique subsaharienne, Asie du Sud-Est, Amérique centrale/Sud, Inde...",
+        check:(v)=>{ if(v==='Oui') return {ok:'needDetail',detailType:'travel',prompt:"Quelle destination ?",placeholder:"Ex: Thaïlande, Kenya, Brésil..."}; return {ok:true}; }},
+      {id:'meds', q:"Prenez-vous des médicaments régulièrement ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Oui') return {ok:'needDetail',detailType:'medication',prompt:"Quel(s) médicament(s) ?",placeholder:"Ex: Levothyrox, Aspirine, Lisinopril..."}; return {ok:true}; }},
+      {id:'disease', q:"Avez-vous une maladie chronique ?", type:'bool', opts:['Oui','Non'],
+        check:(v)=>{ if(v==='Oui') return {ok:'needDetail',detailType:'disease',prompt:"Quelle maladie ?",placeholder:"Ex: Hypertension, diabète, asthme..."}; return {ok:true}; }},
+    ];
+
+    // ==================== FAQ ====================
+    const faq = [
+      {cat:"Préparation", qs:[
+        {q:"Comment me préparer ?",a:"Dormez bien, mangez normalement, buvez 1.5L d'eau. Apportez une pièce d'identité. Évitez l'alcool la veille."},
+        {q:"Puis-je donner à jeun ?",a:"Non, prenez un repas léger 2-3h avant. Ne pas être à jeun."},
+        {q:"Durée totale ?",a:"Prélèvement: 10-15 min. Première visite complète: 45-60 min."}
+      ]},
+      {cat:"Pendant le don", qs:[
+        {q:"Est-ce douloureux ?",a:"Petite piqûre à l'insertion de l'aiguille, puis indolore."},
+        {q:"Quantité prélevée ?",a:"450-500 ml (environ 8% du volume sanguin total)."}
+      ]},
+      {cat:"Après le don", qs:[
+        {q:"Précautions ?",a:"Repos 15-20 min + collation. Buvez 1.5-2L dans les 24h. Évitez efforts intenses 24h. Gardez pansement 4-5h."},
+        {q:"Conduite ?",a:"OK après 30 min de repos. Avion: attendre 48h. Train/bus professionnel: 12h."},
+        {q:"Quand redonner ?",a:"Hommes: 3 mois (max 4x/an). Femmes: 4 mois (max 3x/an)."}
+      ]},
+      {cat:"Nouveautés février 2026", qs:[
+        {q:"Quels changements ?",a:"• Transfusion après 1980: plus de contre-indication définitive (CID), maintenant contre-indication temporaire (CIT) de 4 mois\n• Séjour UK 1980-96: plus de contre-indication\n• Neurochirurgie CH sans ouverture dure-mère: CIT 12 mois"},
+        {q:"Séjour UK années 80-90 ?",a:"Plus de contre-indication depuis février 2026! Le risque de maladie de Creutzfeldt-Jakob (vMCJ) est jugé extrêmement faible."},
+        {q:"Transfusion reçue ?",a:"CIT 4 mois seulement (avant: CID définitive si après 1980)."}
+      ]}
+    ];
+
+    // ==================== HANDLERS ====================
+    const handleAnswer = (v) => {
+      const cur = questions[step];
+      const newA = {...answers, [cur.id]:v};
+      setAnswers(newA);
+      const r = cur.check(v, newA);
+      if (r.ok === 'needDetail') { setAwaitingDetail(r); return; }
+      if (r.ok === false || r.ok === 'maybe') { setResult(r); return; }
+      if (r.msg && r.isNew) { setResult({...r, ok:true}); return; }
+      let nextStep = step + 1;
+      while (nextStep < questions.length && questions[nextStep].skip && questions[nextStep].skip(newA)) { nextStep++; }
+      if (nextStep < questions.length) setStep(nextStep);
+      else setResult({ok:true, msg:"Vous semblez éligible au don de sang! 🎉"});
+    };
+
+    const handleDetailSubmit = () => {
+      if (!detailInput.trim()) return;
+      setAnalyzing(true);
+      const analysis = analyzeInput(awaitingDetail.detailType, detailInput);
+      setTimeout(() => {
+        setAnalyzing(false);
+        setAwaitingDetail(null);
+        const detail = detailInput;
+        setDetailInput('');
+        if (analysis.ok === false || analysis.ok === 'delay') {
+          setResult({ok:false, msg:analysis.msg, temp:!!analysis.wait, wait:analysis.wait, detail:detail});
+        } else if (analysis.ok === 'maybe') {
+          setResult({ok:'maybe', msg:analysis.msg, detail:detail});
+        } else {
+          if (step < questions.length-1) setStep(step+1);
+          else setResult({ok:true, msg:"Vous semblez éligible au don de sang! 🎉"});
+        }
+      }, 500);
+    };
+
+    const reset = () => { 
+      setStep(0); 
+      setAnswers({}); 
+      setResult(null); 
+      setAwaitingDetail(null); 
+      setDetailInput(''); 
+      setView('home'); 
+    };
+
+// ===== FIN PARTIE 3 - SUITE PARTIE 4 =====
+// ===== PARTIE 4 - VUE HOME AVEC VRAIS LOGOS PARTENAIRES =====
+
+    // ==================== VUE HOME ====================
+    if (view === 'home') {
+      return e('div', {className: 'min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-3'},
+        e('div', {className: 'max-w-4xl mx-auto pt-4'},
+          
+          e('div', {className: 'flex justify-end gap-2 mb-1'},
+            e('a', {href: 'https://www.beemyblood.ch/hackathon', className: 'flex items-center gap-1.5 bg-teal-600 hover:bg-teal-500 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow transition-colors'},
+              e('svg', {className: 'w-4 h-4', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'}, e('polygon', {points: '13 2 3 14 12 14 11 22 21 10 12 10 13 2'})),
+              'Hackathon HUG'
+            ),
+            e('a', {href: 'https://www.beemyblood.ch/pro', className: 'flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow transition-colors'},
+              e('svg', {className: 'w-4 h-4', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round'}, e('polyline', {points: '22 12 18 12 15 21 9 3 6 12 2 12'})),
+              'Portail Pro'
+            )
+          ),
+
+          // Header avec logo
+          e('div', {className: 'text-center mb-4'},
+            e(Logo),
+            e('h1', {className: 'text-3xl font-bold text-gray-900'}, 'BeeMyBlood'),
+            e('p', {className: 'text-gray-600'}, 'Guide du donneur de sang en Suisse')
+          ),
+          
+          // Menu principal 4 boutons
+          e('div', {className: 'grid grid-cols-2 gap-3 mb-4'},
+            e('button', {onClick: function() { setView('quiz'); }, className: 'bg-white border-2 border-red-200 hover:border-red-400 rounded-xl p-4 text-left shadow-lg'},
+              e(CheckCircle, {className: 'w-8 h-8 text-red-600 mb-2'}),
+              e('h3', {className: 'font-bold text-gray-900'}, "Test d'éligibilité"),
+              e('p', {className: 'text-xs text-gray-600'}, 'Vérifiez si vous pouvez donner'),
+              e('span', {className: 'inline-block mt-1 text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded'}, 'Mis à jour fév. 2026')
+            ),
+            e('button', {onClick: function() { setView('chat'); }, className: 'bg-white border-2 border-purple-200 hover:border-purple-400 rounded-xl p-4 text-left shadow-lg'},
+              e(MessageCircle, {className: 'w-8 h-8 text-purple-600 mb-2'}),
+              e('h3', {className: 'font-bold text-gray-900'}, 'Chatbot IA'),
+              e('p', {className: 'text-xs text-gray-600'}, 'Posez vos questions')
+            ),
+            e('button', {onClick: function() { setView('guide'); }, className: 'bg-white border-2 border-blue-200 hover:border-blue-400 rounded-xl p-4 text-left shadow-lg'},
+              e(BookOpen, {className: 'w-8 h-8 text-blue-600 mb-2'}),
+              e('h3', {className: 'font-bold text-gray-900'}, 'Guide'),
+              e('p', {className: 'text-xs text-gray-600'}, 'Primo-donneurs')
+            ),
+            e('a', {href: 'https://www.blutspende.ch/fr/don-de-sang/', target: '_blank', rel: 'noopener noreferrer', className: 'bg-white border-2 border-green-200 hover:border-green-400 rounded-xl p-4 text-left shadow-lg'},
+              e(MapPin, {className: 'w-8 h-8 text-green-600 mb-2'}),
+              e('h3', {className: 'font-bold text-gray-900'}, 'Centres'),
+              e('p', {className: 'text-xs text-gray-600'}, 'Trouvez un centre')
+            )
+          ),
+          
+          // Bandeau statistiques urgence
+          e('div', {className: 'bg-gradient-to-r from-red-600 to-pink-600 rounded-xl p-4 text-white mb-4'},
+            e('div', {className: 'flex items-center gap-2 mb-3'},
+              e(AlertCircle, {className: 'w-5 h-5'}),
+              e('span', {className: 'font-bold'}, 'La Suisse a besoin de vous')
+            ),
+            e('div', {className: 'grid grid-cols-2 gap-2 text-center text-sm mb-3'},
+              e('div', {className: 'bg-white/10 rounded-lg p-2'}, e('div', {className: 'text-xl font-bold'}, '700'), e('div', {className: 'text-xs text-red-100'}, 'dons/jour nécessaires')),
+              e('div', {className: 'bg-white/10 rounded-lg p-2'}, e('div', {className: 'text-xl font-bold'}, '3%'), e('div', {className: 'text-xs text-red-100'}, 'de la population donne')),
+              e('div', {className: 'bg-white/10 rounded-lg p-2'}, e('div', {className: 'text-xl font-bold'}, '3 vies'), e('div', {className: 'text-xs text-red-100'}, 'sauvées par don*')),
+              e('div', {className: 'bg-white/10 rounded-lg p-2'}, e('div', {className: 'text-xl font-bold'}, '6%'), e('div', {className: 'text-xs text-red-100'}, 'sont O- (donneur universel)'))
+            ),
+            e('p', {className: 'text-xs text-red-100 mb-3'}, '*Le sang est séparé en 3 composants : globules rouges, plaquettes et plasma, chacun pouvant aider un patient différent.'),
+            e('div', {className: 'bg-white/10 rounded-lg p-3 space-y-2 text-sm'},
+              e('p', null, e('strong', null, '⚠️ Situation à Genève :'), ' Il manque environ 400 poches de sang par mois. 10 donneurs/jour de plus suffiraient à éviter la pénurie.'),
+              e('p', null, e('strong', null, '📉 Tendance inquiétante :'), ' -1.3% de dons en 2024 (-100 donneurs/mois). En été 2025, baisse de 25% à Genève.'),
+              e('p', null, e('strong', null, '⚪ O négatif critique :'), ' Seuls 6% de la population ont ce groupe sanguin universel, indispensable en urgence.'),
+              e('p', null, e('strong', null, '📢 Double défi :'), ' Les besoins en transfusions augmentent tandis que le nombre de donneurs diminue.')
+            )
+          ),
+          
+          // Bandeau nouveautés 2026
+          e('div', {className: 'bg-orange-50 border border-orange-300 rounded-xl p-3 mb-4'},
+            e('div', {className: 'flex items-center gap-2'},
+              e(Zap, {className: 'w-6 h-6 text-orange-600'}),
+              e('div', null,
+                e('a', {href: 'https://vorschriften.blutspende.ch/fr/downloads/document_versions/nhnhux3jtwfl2l84ukj-9a/document_changes_file', target: '_blank', rel: 'noopener noreferrer', className: 'font-bold text-orange-900 text-sm underline hover:text-orange-700'}, 'Nouveaux critères février 2026'),
+                e('p', {className: 'text-xs text-orange-800'}, 'Transfusions, séjours UK 80-96: critères assouplis! ', 
+                  e('a', {href: 'https://vorschriften.blutspende.ch/fr/downloads/document_versions/nncevfp80tt55qakv8mgbw/document_file', target: '_blank', rel: 'noopener noreferrer', className: 'underline hover:text-orange-600'}, 'Voir critères complets 2025')
+                )
+              )
+            )
+          ),
+          
+          // ===== FOOTER PARTENAIRES AVEC VRAIS LOGOS =====
+          e('div', {className: 'mt-6 pt-4 border-t border-gray-200'},
+			e('p', {className: 'text-center text-xs text-gray-500 mb-4'}, 'Projet vibe codé avec ❤️ en collaboration avec:'),
+            
+            e('div', {className: 'flex flex-wrap justify-center items-center gap-6 mb-4'},
+              
+              // HEG Genève - Logo SVG officiel style
+              e('a', {href: 'https://www.hesge.ch/heg/', target: '_blank', rel: 'noopener noreferrer', className: 'hover:opacity-80 transition-opacity'},
+                e('div', {className: 'bg-white rounded-lg px-4 py-3 shadow-sm border flex flex-col items-center'},
+                  e('svg', {width: '80', height: '30', viewBox: '0 0 120 40'},
+                    e('rect', {x: '0', y: '0', width: '60', height: '40', fill: '#E3000F'}),
+                    e('text', {x: '6', y: '28', fill: 'white', fontSize: '22', fontWeight: 'bold', fontFamily: 'Arial'}, 'HEG'),
+                    e('text', {x: '70', y: '20', fill: '#333', fontSize: '12', fontWeight: 'bold', fontFamily: 'Arial'}, 'Genève'),
+                    e('text', {x: '70', y: '32', fill: '#666', fontSize: '12', fontFamily: 'Arial'}, 'HES-SO')
+                  )
+                )
+              ),
+              
+              // HUG - Logo officiel style
+              e('a', {href: 'https://www.hug.ch/don-sang', target: '_blank', rel: 'noopener noreferrer', className: 'hover:opacity-80 transition-opacity'},
+                e('div', {className: 'bg-white rounded-lg px-4 py-3 shadow-sm border flex flex-col items-center'},
+                  e('svg', {width: '70', height: '35', viewBox: '0 0 70 35'},
+                    e('text', {x: '0', y: '28', fontSize: '28', fontWeight: '900', fontFamily: 'Arial Black, Arial'},
+                      e('tspan', {fill: '#8DC63F'}, 'H'),
+                      e('tspan', {fill: '#00A19A'}, 'U'),
+                      e('tspan', {fill: '#007A87'}, 'G')
+                    )
+                  ),
+                  e('span', {className: 'text-xs text-gray-500 mt-1'}, 'Genève')
+                )
+              ),
+              
+              // CHUV - Logo vert officiel
+              e('a', {href: 'https://www.chuv.ch/', target: '_blank', rel: 'noopener noreferrer', className: 'hover:opacity-80 transition-opacity'},
+                e('div', {className: 'bg-white rounded-lg px-4 py-3 shadow-sm border flex flex-col items-center'},
+                  e('svg', {width: '70', height: '30', viewBox: '0 0 70 30'},
+                    e('text', {x: '0', y: '24', fontSize: '24', fontWeight: 'bold', fontFamily: 'Arial', fill: '#00843D'}, 'CHUV')
+                  ),
+                  e('span', {className: 'text-xs text-gray-500 mt-1'}, 'Lausanne')
+                )
+              ),
+              
+              // Transfusion CRS Suisse - Logo rouge croix
+              e('a', {href: 'https://www.transfusion.ch/', target: '_blank', rel: 'noopener noreferrer', className: 'hover:opacity-80 transition-opacity'},
+                e('div', {className: 'bg-white rounded-lg px-4 py-3 shadow-sm border flex flex-col items-center'},
+                  e('div', {className: 'flex items-center gap-2'},
+                    // Croix rouge
+                    e('svg', {width: '20', height: '20', viewBox: '0 0 20 20'},
+                      e('rect', {x: '7', y: '2', width: '6', height: '16', fill: '#E3000F'}),
+                      e('rect', {x: '2', y: '7', width: '16', height: '6', fill: '#E3000F'})
+                    ),
+                    e('span', {className: 'font-bold text-sm text-red-600'}, 'Transfusion CRS')
+                  ),
+                  e('span', {className: 'text-xs text-gray-500 mt-1'}, 'Suisse')
+                )
+              )
+            ),
+            
+			e('p', {className: 'text-center text-xs text-gray-400'}, '© 2026 BeeMyBlood / HEG-Genève (prototype version alpha)')
+          )
+        )
+      );
+    }
+
+// ===== FIN PARTIE 4 - SUITE PARTIE 5 =====
+// ===== PARTIE 5 - VUES QUIZ (RESULT + DETAIL + QUESTIONS) =====
+
+    // ==================== VUE QUIZ RESULT ====================
+    if (view === 'quiz' && result) {
+      return e('div', {className: 'min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-4'},
+        e('div', {className: 'max-w-lg mx-auto pt-6'},
+          e('div', {className: 'bg-white rounded-2xl shadow-xl p-6'},
+            // Icône résultat
+            e('div', {className: 'w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ' + (result.ok===true?'bg-green-100':result.ok==='maybe'?'bg-yellow-100':'bg-red-100')},
+              result.ok===true ? e(CheckCircle, {className: 'w-8 h-8 text-green-600'}) : e(AlertCircle, {className: 'w-8 h-8 ' + (result.ok==='maybe'?'text-yellow-600':'text-red-600')})
+            ),
+            // Titre
+            e('h2', {className: 'text-xl font-bold text-center mb-3'}, result.ok===true?'Éligible!':result.ok==='maybe'?'Évaluation nécessaire':'Non éligible actuellement'),
+            result.detail && e('p', {className: 'text-center text-gray-500 text-sm mb-2'}, 'Concernant: ' + result.detail),
+            // Message principal
+            e('div', {className: 'rounded-lg p-4 mb-4 ' + (result.ok===true?'bg-green-50':result.ok==='maybe'?'bg-yellow-50':'bg-red-50')},
+              e('p', {className: 'text-sm'}, result.msg)
+            ),
+            // Délai si applicable
+            result.wait && e('div', {className: 'bg-orange-50 rounded-lg p-3 mb-4 flex items-center gap-2'},
+              e(Clock, {className: 'w-4 h-4 text-orange-600'}),
+              e('span', {className: 'text-sm text-orange-800'}, 'Délai: ' + result.wait)
+            ),
+            // Badge nouveau critère
+            result.isNew && e('div', {className: 'bg-blue-50 rounded-lg p-3 mb-4 text-sm text-blue-800'}, '🆕 Nouveau critère février 2026'),
+            
+            // ===== SI ÉLIGIBLE =====
+            result.ok===true && e('div', null,
+              // Encadré saviez-vous
+              e('div', {className: 'bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4'},
+                e('h3', {className: 'font-bold text-blue-900 text-sm mb-2'}, '🌟 Saviez-vous ?'),
+                e('ul', {className: 'text-sm text-blue-800 space-y-1'},
+                  e('li', null, '• Votre don peut sauver jusqu\'à ', e('strong', null, '3 vies')),
+                  e('li', null, '• Les donneurs réguliers sont très précieux : leur profil sanguin bien connu permet des transfusions plus sûres'),
+                  e('li', null, '• Certains profils sanguins rares (phénotypes) sont essentiels pour des patients atteints de maladies du sang comme la drépanocytose')
+                )
+              ),
+              // Questionnaires par région
+              e('div', {className: 'mb-4'},
+                e('p', {className: 'text-sm font-medium text-gray-700 mb-2'}, '📋 Remplir le questionnaire médical selon votre région :'),
+                e('a', {href: 'https://fragebogen.ichspendeblut.ch/fr', target: '_blank', rel: 'noopener noreferrer', className: 'block w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg mb-2 hover:bg-red-700 text-sm'}, 'Vaud, Valais, Berne'),
+                e('button', {onClick: function() { setQGE({sexe:''}); setQGEStep(0); setView('questionnaireGE'); }, className: 'block w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg mb-2 hover:bg-red-700 text-sm cursor-pointer'}, 'Genève (HUG)'),
+                e('a', {href: 'https://www.transfusion-fr.ch/don-du-sang/#don', target: '_blank', rel: 'noopener noreferrer', className: 'block w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg mb-2 hover:bg-red-700 text-sm'}, 'Fribourg'),
+                e('a', {href: 'https://www.srnjts.ch/app/uploads/FOR31140_Questionnaire-medical-francais_Vo-20_Edition-2025.pdf', target: '_blank', rel: 'noopener noreferrer', className: 'block w-full bg-red-600 text-white text-center font-bold py-2.5 rounded-lg mb-1 hover:bg-red-700 text-sm'}, 'Jura, Neuchâtel (PDF)'),
+                e('a', {href: 'https://www.srnjts.ch/app/uploads/DOC072_Formulaire-dinformation-concernant-les-maladies-transmissibles-francais_Edition-2025.pdf', target: '_blank', rel: 'noopener noreferrer', className: 'block w-full text-center text-xs text-gray-500 underline mb-2 hover:text-red-600'}, '→ Fiche d\'information JU/NE')
+              ),
+              // Bouton trouver un centre
+              e('a', {href: 'https://www.blutspende.ch/fr/contact-0/services-regionaux-de-transfusion-sanguine', target: '_blank', rel: 'noopener noreferrer', className: 'block w-full bg-white border-2 border-red-600 text-red-600 text-center font-bold py-3 rounded-lg mb-3 hover:bg-red-50'}, '📍 Trouver un centre')
+            ),
+            
+            // ===== SI NON ÉLIGIBLE =====
+            result.ok===false && e('div', null,
+              // Encadré alternatives
+              e('div', {className: 'bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4'},
+                e('h3', {className: 'font-bold text-blue-900 text-sm mb-2'}, '💙 Vous pouvez quand même aider !'),
+                e('p', {className: 'text-sm text-blue-800 mb-2'}, 'Même sans donner votre sang, votre contribution est précieuse :'),
+                e('ul', {className: 'text-sm text-blue-800 space-y-2'},
+                  e('li', null, '• ', e('strong', null, 'Sensibilisez votre entourage'), ' : parlez du don à vos proches, partagez les publications de ', e('a', {href: 'https://www.instagram.com/blutspende_dondusang/', target: '_blank', rel: 'noopener noreferrer', className: 'underline'}, '@blutspende_transfusion'), ' sur les réseaux'),
+                  e('li', null, '• ', e('strong', null, 'Accompagnez un proche'), ' lors de son premier don pour le rassurer'),
+                  e('li', null, '• ', e('strong', null, 'Devenez bénévole'), ' : contactez votre ', e('a', {href: 'https://www.blutspende.ch/fr/contact-0/services-regionaux-de-transfusion-sanguine', target: '_blank', rel: 'noopener noreferrer', className: 'underline'}, 'service régional de transfusion'), ' ou la ', e('a', {href: 'https://www.redcross.ch/fr/benevolat', target: '_blank', rel: 'noopener noreferrer', className: 'underline'}, 'Croix-Rouge suisse')),
+                  e('li', null, '• ', e('strong', null, 'Organisez une collecte'), ' dans votre entreprise ou association')
+                )
+              ),
+              // Message d'encouragement si temporaire
+              result.temp && result.isSick && e('div', {className: 'bg-green-50 border border-green-200 rounded-lg p-3 mb-4'},
+                e('h3', {className: 'font-bold text-green-900 text-sm mb-1'}, '📅 On vous attend !'),
+                e('p', {className: 'text-sm text-green-800'}, 'Revenez quand vous vous sentirez mieux, votre don sera le bienvenu !')
+              ),
+              result.temp && !result.isSick && !result.isWeight && e('div', {className: 'bg-green-50 border border-green-200 rounded-lg p-3 mb-4'},
+                e('h3', {className: 'font-bold text-green-900 text-sm mb-1'}, '📅 On vous attend !'),
+                e('p', {className: 'text-sm text-green-800'}, 'Cette contre-indication est temporaire. Revenez après le délai indiqué, votre don sera le bienvenu !')
+              )
+            ),
+            
+            // ===== SI ÉVALUATION NÉCESSAIRE =====
+            result.ok==='maybe' && e('div', null,
+              e('div', {className: 'bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4'},
+                e('h3', {className: 'font-bold text-blue-900 text-sm mb-2'}, '👨‍⚕️ Une évaluation personnalisée'),
+                e('p', {className: 'text-sm text-blue-800'}, 'Votre situation nécessite l\'avis d\'un médecin du centre de transfusion. Ne vous découragez pas ! De nombreuses personnes dans des situations similaires peuvent donner après évaluation.')
+              ),
+              e('a', {href: 'tel:+41313808181', className: 'block w-full bg-blue-600 text-white text-center font-bold py-3 rounded-lg mb-3 hover:bg-blue-700'}, '📞 Transfusion CRS : 031 380 81 81')
+            ),
+            
+            // Bouton recommencer (toujours affiché)
+            e('button', {onClick: reset, className: 'w-full border-2 border-gray-300 py-2 rounded-lg flex items-center justify-center gap-2'},
+              e(RotateCcw, {className: 'w-4 h-4'}), 'Recommencer'
+            )
+          )
+        )
+      );
+    }
+
+    // ==================== VUE QUIZ AWAITING DETAIL ====================
+    if (view === 'quiz' && awaitingDetail) {
+      return e('div', {className: 'min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-4'},
+        e('div', {className: 'max-w-lg mx-auto pt-6'},
+          e('button', {onClick: function() { setView('home'); }, className: 'mb-4 text-red-600 font-medium flex items-center gap-1'},
+            e(ChevronRight, {className: 'w-4 h-4', style: {transform: 'rotate(180deg)'}}), 'Retour'
+          ),
+          e('div', {className: 'bg-white rounded-2xl shadow-xl p-6'},
+            e(Info, {className: 'w-10 h-10 text-blue-600 mx-auto mb-3'}),
+            e('h2', {className: 'text-lg font-bold text-center mb-2'}, awaitingDetail.prompt),
+            e('textarea', {
+              value: detailInput, 
+              onChange: function(ev) { setDetailInput(ev.target.value); }, 
+              placeholder: awaitingDetail.placeholder, 
+              className: 'w-full border-2 border-gray-300 rounded-lg p-3 mb-3 min-h-20 focus:border-blue-500 focus:outline-none'
+            }),
+            e('button', {
+              onClick: handleDetailSubmit, 
+              disabled: !detailInput.trim() || analyzing, 
+              className: 'w-full bg-blue-600 text-white font-bold py-3 rounded-lg mb-2 disabled:bg-gray-300 flex items-center justify-center gap-2'
+            },
+              analyzing ? [e(Loader2, {className: 'w-4 h-4', key: 'loader'}), 'Analyse...'] : 'Analyser'
+            ),
+            e('button', {
+              onClick: function() { 
+                setAwaitingDetail(null); 
+                if(step < questions.length - 1) {
+                  setStep(step + 1);
+                } else {
+                  setResult({ok: true, msg: "Vous semblez éligible au don de sang! 🎉"});
+                }
+              }, 
+              className: 'w-full text-gray-500 py-2'
+            }, 'Passer')
+          )
+        )
+      );
+    }
+
+    // ==================== VUE QUIZ QUESTIONS ====================
+    if (view === 'quiz') {
+      var cur = questions[step];
+      return e('div', {className: 'min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-4'},
+        e('div', {className: 'max-w-lg mx-auto pt-6'},
+          e('button', {onClick: function() { setView('home'); }, className: 'mb-4 text-red-600 font-medium flex items-center gap-1'},
+            e(ChevronRight, {className: 'w-4 h-4', style: {transform: 'rotate(180deg)'}}), 'Retour'
+          ),
+          // Barre de progression
+          e('div', {className: 'mb-4'},
+            e('div', {className: 'flex justify-between text-xs text-gray-500 mb-1'},
+              e('span', null, (step + 1) + '/' + questions.length),
+              e('span', null, Math.round((step + 1) / questions.length * 100) + '%')
+            ),
+            e('div', {className: 'w-full bg-gray-200 rounded-full h-1.5'},
+              e('div', {className: 'bg-red-600 h-1.5 rounded-full', style: {width: ((step + 1) / questions.length * 100) + '%'}})
+            )
+          ),
+          // Question
+          e('div', {className: 'bg-white rounded-2xl shadow-xl p-6'},
+            e('h2', {className: 'text-lg font-semibold mb-1'}, cur.q),
+            cur.help && e('p', {className: 'text-sm text-gray-500 mb-4'}, 
+              cur.help, 
+              cur.id === 'travel' && e('span', null, ' ', e('a', {href: 'https://www.healthytravel.ch', target: '_blank', rel: 'noopener noreferrer', className: 'text-blue-600 underline'}, 'Vérifier sur healthytravel.ch'))
+            ),
+            // Réponses selon type
+            cur.type === 'bool' ?
+              e('div', {className: 'space-y-2'},
+                cur.opts.map(function(o) {
+                  return e('button', {
+                    key: o, 
+                    onClick: function() { handleAnswer(o); }, 
+                    className: 'w-full bg-gray-50 hover:bg-red-50 border-2 border-gray-200 hover:border-red-300 rounded-lg p-3 text-left font-medium flex justify-between'
+                  },
+                    o, 
+                    e(ChevronRight, {className: 'w-5 h-5 text-gray-400'})
+                  );
+                })
+              ) :
+              e('div', null,
+                e('input', {
+                  type: 'number', 
+                  value: answers[cur.id] || '', 
+                  onChange: function(ev) { setAnswers(Object.assign({}, answers, {[cur.id]: ev.target.value})); }, 
+                  className: 'w-full border-2 border-gray-300 rounded-lg p-3 mb-3 focus:border-red-500 focus:outline-none', 
+                  placeholder: 'Votre réponse'
+                }),
+                e('button', {
+                  onClick: function() { if(answers[cur.id]) handleAnswer(answers[cur.id]); }, 
+                  disabled: !answers[cur.id], 
+                  className: 'w-full bg-red-600 text-white font-bold py-3 rounded-lg disabled:bg-gray-300'
+                }, 'Continuer')
+              )
+          )
+        )
+      );
+    }
+
+// ===== FIN PARTIE 5 - SUITE PARTIE 6 =====
+// ===== PARTIE 6A - VUES CHAT + GUIDE/FAQ =====
+
+    // ==================== VUE CHAT ====================
+    if (view === 'chat') {
+      return e('div', {className: 'min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-4 flex flex-col'},
+        e('div', {className: 'max-w-2xl mx-auto w-full flex-1 flex flex-col pt-4'},
+          e('button', {onClick: function() { setView('home'); }, className: 'mb-4 text-purple-600 font-medium flex items-center gap-1'},
+            e(ChevronRight, {className: 'w-4 h-4', style: {transform: 'rotate(180deg)'}}), 'Retour'
+          ),
+          e('div', {className: 'bg-white rounded-2xl shadow-xl flex-1 flex flex-col overflow-hidden'},
+            e('div', {className: 'p-4 border-b flex items-center gap-3'},
+              e(MessageCircle, {className: 'w-8 h-8 text-purple-600 bg-purple-100 p-1.5 rounded-full'}),
+              e('div', null,
+                e('h2', {className: 'font-bold'}, 'Assistant BeeMyBlood'),
+                e('p', {className: 'text-xs text-gray-500'}, 'Posez vos questions sur le don de sang')
+              )
+            ),
+            e('div', {className: 'flex-1 overflow-y-auto p-4 space-y-3', style: {maxHeight: '400px'}},
+              chatMsgs.map(function(m, i) {
+                return e('div', {key: i, className: 'flex ' + (m.role === 'user' ? 'justify-end' : 'justify-start')},
+                  e('div', {className: 'max-w-[85%] rounded-2xl px-4 py-2 text-sm ' + (m.role === 'user' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-800')},
+                    m.text.split('\n').map(function(line, j) { return e('p', {key: j}, parseMarkdown(line)); })
+                  )
+                );
+              }),
+              chatLoading && e('div', {className: 'flex justify-start'},
+                e('div', {className: 'bg-gray-100 rounded-2xl px-4 py-2'}, e(Loader2, {className: 'w-5 h-5 text-gray-500'}))
+              )
+            ),
+            e('div', {className: 'p-3 border-t flex gap-2'},
+              e('input', {type: 'text', value: chatIn, onChange: function(ev) { setChatIn(ev.target.value); }, onKeyPress: function(ev) { if(ev.key === 'Enter') handleChat(); }, placeholder: 'Votre question...', className: 'flex-1 border-2 border-gray-300 rounded-xl px-4 py-2 focus:border-purple-500 focus:outline-none'}),
+              e('button', {onClick: handleChat, disabled: chatLoading, className: 'bg-purple-600 text-white rounded-xl px-4 py-2'}, e(Send, {className: 'w-5 h-5'}))
+            )
+          )
+        )
+      );
+    }
+
+    // ==================== VUE GUIDE + FAQ ====================
+    if (view === 'guide') {
+      return e('div', {className: 'min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4'},
+        e('div', {className: 'max-w-2xl mx-auto pt-4'},
+          e('button', {onClick: function() { setView('home'); }, className: 'mb-4 text-blue-600 font-medium flex items-center gap-1'},
+            e(ChevronRight, {className: 'w-4 h-4', style: {transform: 'rotate(180deg)'}}), 'Retour'
+          ),
+          e('div', {className: 'bg-white rounded-2xl shadow-xl p-5 mb-4'},
+            e('h2', {className: 'text-xl font-bold mb-4 flex items-center gap-2'}, e(User, {className: 'w-6 h-6 text-blue-600'}), 'Guide primo-donneur'),
+            e('div', {className: 'space-y-3'},
+              e('div', {className: 'bg-blue-50 rounded-lg p-3'},
+                e('h3', {className: 'font-bold text-blue-900 mb-1'}, 'Critères de base'),
+                e('ul', {className: 'text-sm text-blue-800 space-y-0.5'},
+                  e('li', null, '✓ 18-60 ans (premier don)'),
+                  e('li', null, '✓ Minimum 50 kg'),
+                  e('li', null, '✓ Bonne santé générale')
+                )
+              ),
+              e('div', {className: 'bg-amber-50 border border-amber-200 rounded-lg p-3'},
+                e('h3', {className: 'font-bold text-amber-900 mb-2'}, '📋 Comprendre les contre-indications'),
+                e('div', {className: 'space-y-2 text-sm'},
+                  e('div', {className: 'flex gap-2'},
+                    e('span', {className: 'font-bold text-red-600 whitespace-nowrap'}, 'CID'),
+                    e('span', {className: 'text-amber-800'}, e('strong', null, 'Contre-indication définitive'), ' : Vous ne pourrez jamais donner votre sang (ex: VIH, hépatite B/C, maladies cardiaques graves).')
+                  ),
+                  e('div', {className: 'flex gap-2'},
+                    e('span', {className: 'font-bold text-orange-600 whitespace-nowrap'}, 'CIT'),
+                    e('span', {className: 'text-amber-800'}, e('strong', null, 'Contre-indication temporaire'), ' : Vous devez attendre un certain délai avant de pouvoir donner (ex: tatouage → 4 mois, antibiotiques → 2 semaines).')
+                  )
+                )
+              ),
+              e('div', null,
+                e('h3', {className: 'font-bold mb-2'}, 'Déroulement'),
+                e('div', {className: 'text-sm space-y-1'},
+                  ['Accueil + pièce d\'identité (5 min)', 'Questionnaire médical (10 min)', 'Entretien médecin (10 min)', 'Test hémoglobine (2 min)', 'Prélèvement (10-15 min)', 'Collation + repos (15-20 min)'].map(function(s, i) {
+                    return e('div', {key: i, className: 'flex items-center gap-2 bg-gray-50 rounded p-2'},
+                      e('span', {className: 'w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs'}, i + 1),
+                      e('span', null, s)
+                    );
+                  })
+                )
+              ),
+              e('div', {className: 'bg-green-50 border border-green-200 rounded-lg p-3'},
+                e('h3', {className: 'font-bold text-green-900 mb-1'}, '💡 Pourquoi 3 vies sauvées par don ?'),
+                e('p', {className: 'text-sm text-green-800'}, 'Votre don de 450-500 ml est séparé en 3 composants distincts :'),
+                e('ul', {className: 'text-sm text-green-800 mt-1 space-y-0.5'},
+                  e('li', null, '• ', e('strong', null, 'Globules rouges'), ' → transfusions (accidents, chirurgies, anémies)'),
+                  e('li', null, '• ', e('strong', null, 'Plaquettes'), ' → patients atteints de cancer, leucémie'),
+                  e('li', null, '• ', e('strong', null, 'Plasma'), ' → grands brûlés, troubles de coagulation')
+                )
+              )
+            )
+          ),
+          e('div', {className: 'bg-white rounded-2xl shadow-xl p-5'},
+            e('h2', {className: 'text-xl font-bold mb-4 flex items-center gap-2'}, e(HelpCircle, {className: 'w-6 h-6 text-blue-600'}), 'FAQ'),
+            faq.map(function(cat, ci) {
+              return e('div', {key: ci, className: 'mb-4'},
+                e('h3', {className: 'font-bold text-gray-900 mb-2 text-sm'}, cat.cat),
+                cat.qs.map(function(q, qi) {
+                  var k = ci + '-' + qi;
+                  var isOpen = faqOpen === k;
+                  return e('div', {key: qi, className: 'border border-gray-200 rounded-lg mb-1 overflow-hidden'},
+                    e('button', {onClick: function() { setFaqOpen(isOpen ? null : k); }, className: 'w-full text-left px-3 py-2 flex justify-between items-center text-sm hover:bg-gray-50'},
+                      e('span', {className: 'font-medium'}, q.q),
+                      isOpen ? e(ChevronUp, {className: 'w-4 h-4'}) : e(ChevronDown, {className: 'w-4 h-4'})
+                    ),
+                    isOpen && e('div', {className: 'px-3 py-2 bg-gray-50 text-sm text-gray-700 whitespace-pre-line'}, q.a)
+                  );
+                })
+              );
+            })
+          )
+        )
+      );
+    }
+
+// ===== FIN PARTIE 6A - SUITE PARTIE 6B =====
+// ===== PARTIE 6B - QUESTIONNAIRE HUG COMPLET =====
+
+    // ==================== VUE QUESTIONNAIRE GENÈVE HUG COMPLET ====================
+    if (view === 'questionnaireGE') {
+      
+      // Définition complète des questions HUG
+      var qGEQuestions = [
+        {id:'info', title:'Informations personnelles', fields:[
+          {k:'nom',l:'Nom',type:'text',req:true},{k:'prenom',l:'Prénom(s)',type:'text',req:true},
+          {k:'nomNaissance',l:'Nom de naissance',type:'text'},{k:'ddn',l:'Date de naissance',type:'date',req:true},
+          {k:'sexe',l:'Sexe',type:'select',opts:['M','F'],req:true},
+          {k:'adresse',l:'Adresse',type:'text',req:true},{k:'npa',l:'NPA',type:'text',req:true},{k:'localite',l:'Localité',type:'text',req:true},
+          {k:'telPrive',l:'Tél. privé',type:'tel'},{k:'telMobile',l:'Tél. mobile',type:'tel',req:true},
+          {k:'email',l:'E-mail',type:'email'},{k:'profession',l:'Profession',type:'text'},
+          {k:'medecin',l:'Médecin traitant',type:'text'},{k:'poids',l:'Poids (kg)',type:'number',req:true},{k:'taille',l:'Taille (cm)',type:'number',req:true}
+        ]},
+        {id:'q1-3', title:'Questions générales', qs:[
+          {k:'q1',q:'Avez-vous déjà fait un don de sang ?',sub:[{k:'q1quand',l:'Quand ?',cond:'OUI'},{k:'q1ou',l:'Où ?',cond:'OUI'}]},
+          {k:'q2',q:'Pesez-vous plus de 50 kg ?'},
+          {k:'q3',q:'Vous sentez-vous actuellement en bonne santé ?'},
+          {k:'q4',q:'Au cours des 14 jours, avez-vous eu un traitement dentaire ou d\'hygiène dentaire ?'},
+          {k:'q5',q:'Au cours des 4 dernières semaines, avez-vous eu de la fièvre >38°C, diarrhée, rhume ou soins médicaux ?'}
+        ]},
+        {id:'q6', title:'Médicaments', qs:[
+          {k:'q6a',q:'Au cours des 4 dernières semaines, avez-vous pris des médicaments ?',sub:[{k:'q6aMeds',l:'Lesquels ?',cond:'OUI'}]},
+          {k:'q6b',q:'Médicaments prostate/cheveux (Propecia, Finastéride) ou acné (Roaccutane, Isotrétinoïne) ces 4 semaines ?',showIf:function(d){return d.q6a==='OUI';}},
+          {k:'q6c',q:'Thérapie antirétrovirale VIH (Truvada, etc.) ces 4 derniers mois ?',showIf:function(d){return d.q6a==='OUI';}},
+          {k:'q6d',q:'Médicaments prostate (Avodart, Duodart) ces 6 derniers mois ?',showIf:function(d){return d.q6a==='OUI';}},
+          {k:'q6e',q:'Neotigason, Acicutan ou Erivedge ces 3 dernières années ?',showIf:function(d){return d.q6a==='OUI';}},
+          {k:'q6f',q:'Médicaments dérivés du sang ces 12 derniers mois (immunoglobulines, facteurs coagulation) ?',showIf:function(d){return d.q6a==='OUI';}}
+        ]},
+        {id:'q7', title:'Vaccins et immunothérapie', qs:[
+          {k:'q7a',q:'Avez-vous reçu une immunothérapie (cellules/sérum humain ou animal) ?'},
+          {k:'q7b',q:'Vaccin contre la rage ou le tétanos ces 12 derniers mois ?'},
+          {k:'q7c',q:'Autres vaccins ces 4 dernières semaines ?',sub:[{k:'q7cVacc',l:'Lesquels ?',cond:'OUI'}]}
+        ]},
+        {id:'q8-9', title:'Antécédents médicaux', qs:[
+          {k:'q8a',q:'Affection cardio-vasculaire ou pulmonaire (tension, infarctus, AVC, problèmes respiratoires) ?'},
+          {k:'q8b',q:'Maladie de peau, allergies, rhume des foins, asthme ?'},
+          {k:'q8c',q:'Autres maladies (diabète, sang, coagulation, épilepsie, cancer, ostéoporose) ?'},
+          {k:'q9',q:'Ces 3 dernières années, avez-vous:',multi:[{k:'q9hop',l:'Séjourné à l\'hôpital'},{k:'q9acc',l:'Eu un accident'},{k:'q9op',l:'Été opéré(e)'}]}
+        ]},
+        {id:'q10', title:'Greffes et séjours', qs:[
+          {k:'q10a',q:'Greffe de tissu humain/animal ou transplantation d\'organe ?'},
+          {k:'q10b',q:'Opération du cerveau ou de la moelle épinière ?'},
+          {k:'q10c',q:'Traitement par hormone de croissance avant le 01.01.1986 ?'},
+          {k:'q10d',q:'Vous ou un membre de votre famille susceptible d\'être atteint par la maladie de Creutzfeldt-Jakob ?'},
+          {k:'q10e',q:'Séjour de 6 mois ou plus au Royaume-Uni entre 01.01.1980 et 31.12.1996 ?'},
+          {k:'q10f',q:'Transfusion sanguine depuis le 01.01.1980 ?'}
+        ]},
+        {id:'q11-12', title:'Voyages et origine', qs:[
+          {k:'q11a',q:'Voyage hors de Suisse ces 12 derniers mois ?',sub:[{k:'q11aOu',l:'Où et combien de temps ?',cond:'OUI'},{k:'q11aRetour',l:'Date de retour ?',cond:'OUI'}]},
+          {k:'q11b',q:'Symptômes sur place ou depuis votre retour (fièvre, etc.) ?',sub:[{k:'q11bPrec',l:'Précisez',cond:'OUI'}],showIf:function(d){return d.q11a==='OUI';}},
+          {k:'q12a',q:'Êtes-vous né(e) hors de Suisse ou y avez vécu plus de 6 mois ?',sub:[{k:'q12aPays',l:'Quel pays ?',cond:'OUI'}]},
+          {k:'q12b',q:'Votre mère est-elle née dans un pays extra-européen ou y a vécu plus de 6 mois ?',sub:[{k:'q12bPays',l:'Quel pays ?',cond:'OUI'}]}
+        ]},
+        {id:'q13', title:'Maladies infectieuses', qs:[
+          {k:'q13a',q:'Toxoplasmose, mononucléose, tuberculose, fièvre rhumatismale, Guillain-Barré ?'},
+          {k:'q13b',q:'Paludisme, Chagas, Leishmaniose, Ebola ou autres infections graves ?'},
+          {k:'q13c',q:'Piqûre de tique ces 4 dernières semaines ?'},
+          {k:'q13d',q:'Contact avec une personne ayant une maladie infectieuse ces 4 semaines ?'}
+        ]},
+        {id:'q14-15', title:'Expositions récentes', qs:[
+          {k:'q14',q:'Ces 4 derniers mois: tatouage, piercing, gastroscopie, coloscopie, acupuncture, contact avec du sang étranger ?',sub:[{k:'q14prec',l:'Quand et où ?',cond:'OUI'}]},
+          {k:'q15',q:'Jaunisse (hépatite) ou test hépatite positif ?'}
+        ]},
+        {id:'q16', title:'Situations à risque', qs:[
+          {k:'q16a',q:'Changement de partenaire sexuel ces 4 derniers mois ?'},
+          {k:'q16b',q:'Rapports sexuels avec plus de 2 personnes ces 4 derniers mois ?'},
+          {k:'q16c',q:'Rapports sexuels sous l\'influence de drogues synthèse ces 12 derniers mois ?'},
+          {k:'q16d',q:'Rapports sexuels contre argent ou prestations ces 12 derniers mois ?'},
+          {k:'q16e',q:'Injection de drogue ?'},
+          {k:'q16f',q:'Test positif VIH ou hépatite B/C ?'},
+          {k:'q16g',q:'Avez-vous déjà eu la syphilis ?'}
+        ]},
+        {id:'q17-18', title:'Partenaire', qs:[
+          {k:'q17a',q:'Votre partenaire a-t-il/elle eu une hépatite B ou C ces 6 derniers mois ?'},
+          {k:'q17b',q:'Votre partenaire a-t-il/elle contracté le virus Zika ces 3 derniers mois ?'},
+          {k:'q18a',q:'Rapports sexuels ces 12 derniers mois avec un(e) partenaire exposé(e) à une situation à risque ?',sub:[{k:'q18aPrec',l:'Précisez',cond:'OUI'}]},
+          {k:'q18b',q:'Rapports avec partenaire ayant séjourné dans un pays à risque VIH/hépatite ces 4 mois ?'}
+        ]},
+        {id:'q19', title:'Questions pour les femmes', femme:true, qs:[
+          {k:'q19a',q:'Avez-vous déjà été enceinte ?',sub:[{k:'q19aQuand',l:'Dernière grossesse ?',cond:'OUI'}]},
+          {k:'q19b',q:'Injections hormonales pour traitement de la stérilité avant le 01.01.1986 ?'}
+        ]}
+      ];
+
+      var currentSection = qGEQuestions[qGEStep];
+      var totalSteps = qGEQuestions.length;
+      var isLastStep = qGEStep === totalSteps - 1 || (qGEStep === totalSteps - 2 && qGE.sexe === 'M');
+      var skipFemme = currentSection && currentSection.femme && qGE.sexe === 'M';
+
+      // Skip section femmes si homme
+      if (skipFemme && qGEStep < totalSteps - 1) {
+        setTimeout(function() { setQGEStep(qGEStep + 1); }, 0);
+        return e('div', {className: 'min-h-screen bg-white flex items-center justify-center'}, e(Loader2, {className: 'w-8 h-8 text-red-600'}));
+      }
+
+      // ===== FONCTION GÉNÉRATION PDF COMPLET =====
+      var generatePDF = function() {
+        var d = qGE;
+        var logoHUG = '<div style="font-size:24px;font-weight:900"><span style="color:#7BBC6F">H</span><span style="color:#4DB6AC">U</span><span style="color:#26A69A">G</span></div>';
+        var logoBee = '<div style="color:#DC2626;font-weight:bold;font-size:10px">BeeMyBlood</div>';
+        
+        var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Questionnaire Don du Sang - HUG</title>';
+        html += '<style>@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
+        html += 'h1{font-size:14px;text-align:center;margin:5px 0;color:#333}h2{font-size:11px;margin:8px 0 4px;color:#26A69A;border-bottom:1px solid #26A69A;padding-bottom:2px}';
+        html += '.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #26A69A;padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
+        html += '.info{font-size:8px;color:#666;margin:2px 0}.row{display:flex;gap:8px;margin:2px 0;flex-wrap:wrap;align-items:center}.field{border-bottom:1px dotted #999;min-width:100px;padding:1px 3px;flex:1}';
+        html += '.label{font-weight:bold;font-size:9px;white-space:nowrap}.q{margin:2px 0;display:flex;align-items:flex-start;padding:2px 0;border-bottom:1px dotted #eee}';
+        html += '.qn{font-weight:bold;min-width:22px;color:#26A69A}.qt{flex:1;padding-right:5px}.ans{min-width:50px;text-align:right;white-space:nowrap}';
+        html += '.box{display:inline-block;width:11px;height:11px;border:1px solid #333;margin:0 2px;text-align:center;font-size:8px;line-height:11px}.checked{background:#DC2626;color:#fff}';
+        html += '.consent{font-size:8px;margin:8px 0;padding:8px;background:#f8f9fa;border-left:3px solid #26A69A}';
+        html += '.sig{margin-top:15px;display:flex;gap:15px}.sig-field{flex:1;border-bottom:1px solid #333;padding-top:25px;text-align:center;font-size:9px}';
+        html += '.reserved{margin-top:15px;border:2px solid #26A69A;padding:10px;background:#f8fffe}.reserved h3{margin:0 0 8px;font-size:11px;color:#26A69A}';
+        html += '.reserved-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.reserved-field{border:1px solid #ccc;padding:5px;min-height:25px}.reserved-field label{font-size:8px;color:#666;display:block}';
+        html += '.footer{margin-top:10px;text-align:center;font-size:8px;color:#999;border-top:1px solid #eee;padding-top:5px}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5px}';
+        html += '@media print{body{margin:5px}.reserved{page-break-inside:avoid}}</style></head><body>';
+        
+        // Header
+        html += '<div class="header">'+logoHUG+'<div class="header-center"><h1>Centre de Transfusion Sanguine</h1>';
+        html += '<div class="info">Rue Gabrielle-Perret-Gentil 6, 1205 Genève | T.+41(0)22 372 39 01</div>';
+        html += '<div class="info">Accueil.Donneurs@hug.ch | www.dondusang.ch</div>';
+        html += '<div class="info" style="margin-top:3px"><strong>Horaires:</strong> Lun-Mar-Mer-Ven: 7h30-15h | Jeu: 11h-19h | Sam 1er et 3ème: 8h30-12h</div>';
+        html += '</div>'+logoBee+'</div>';
+        
+        // Inscription
+        html += '<h2>INSCRIPTION AU DON DU SANG</h2><p style="font-size:9px;color:#666;margin:0 0 5px">Merci de présenter une pièce d\'identité</p>';
+        html += '<div class="row"><span class="label">Nom:</span><span class="field">'+(d.nom||'')+'</span><span class="label">Prénom(s):</span><span class="field">'+(d.prenom||'')+'</span></div>';
+        html += '<div class="row"><span class="label">Date naissance:</span><span class="field">'+(d.ddn||'')+'</span><span class="label">Sexe:</span><span class="box '+(d.sexe==='M'?'checked':'')+'">M</span><span class="box '+(d.sexe==='F'?'checked':'')+'">F</span><span class="label">Nom naissance:</span><span class="field">'+(d.nomNaissance||'')+'</span></div>';
+        html += '<div class="row"><span class="label">Adresse:</span><span class="field" style="flex:2">'+(d.adresse||'')+'</span></div>';
+        html += '<div class="row"><span class="label">NPA:</span><span class="field">'+(d.npa||'')+'</span><span class="label">Localité:</span><span class="field">'+(d.localite||'')+'</span><span class="label">Tél mobile:</span><span class="field">'+(d.telMobile||'')+'</span></div>';
+        html += '<div class="row"><span class="label">Tél privé:</span><span class="field">'+(d.telPrive||'')+'</span><span class="label">E-mail:</span><span class="field">'+(d.email||'')+'</span></div>';
+        html += '<div class="row"><span class="label">Profession:</span><span class="field">'+(d.profession||'')+'</span><span class="label">Médecin traitant:</span><span class="field">'+(d.medecin||'')+'</span></div>';
+        html += '<div class="row"><span class="label">Poids:</span><span class="field">'+(d.poids||'')+' kg</span><span class="label">Taille:</span><span class="field">'+(d.taille||'')+' cm</span></div>';
+        
+        // Consentement
+        html += '<div class="consent"><p style="margin:0 0 5px;font-weight:bold">En signant ce document, je confirme:</p>';
+        html += '<p>☑ Je consens à donner de mon sang et j\'ai lu le Formulaire d\'information</p>';
+        html += '<p>☑ Je confirme l\'exactitude de mes données et la véracité de mes réponses</p>';
+        html += '<p>☑ J\'accepte les tests biologiques et la conservation d\'échantillons</p></div>';
+        
+        // Questions
+        html += '<h2>QUESTIONNAIRE MÉDICAL</h2><p style="font-size:8px;color:#666;margin:0 0 5px">Répondez avec sincérité pour votre sécurité et celle des patients.</p>';
+        html += '<div class="two-col">';
+        
+        var allQs = [
+          {n:'1',q:'Déjà fait un don ? '+(d.q1==='OUI'?'Dernier: '+(d.q1quand||'?')+', Où: '+(d.q1ou||'?'):''),a:d.q1},
+          {n:'2',q:'Pesez-vous plus de 50 kg ?',a:d.q2},{n:'3',q:'Vous sentez-vous en bonne santé ?',a:d.q3},
+          {n:'4',q:'Traitement dentaire ces 14 jours ?',a:d.q4},{n:'5',q:'Fièvre >38°C, diarrhée, rhume ces 4 sem. ?',a:d.q5},
+          {n:'6a',q:'Médicaments ces 4 sem. ? '+(d.q6aMeds?'('+d.q6aMeds+')':''),a:d.q6a},
+          {n:'6b',q:'Propecia/Roaccutane ces 4 sem. ?',a:d.q6b},{n:'6c',q:'Antirétroviral VIH ces 4 mois ?',a:d.q6c},
+          {n:'6d',q:'Avodart/Duodart ces 6 mois ?',a:d.q6d},{n:'6e',q:'Neotigason/Erivedge ces 3 ans ?',a:d.q6e},
+          {n:'6f',q:'Médicaments dérivés sang ces 12 mois ?',a:d.q6f},{n:'7a',q:'Immunothérapie ?',a:d.q7a},
+          {n:'7b',q:'Vaccin rage/tétanos ces 12 mois ?',a:d.q7b},{n:'7c',q:'Autres vaccins ces 4 sem. ? '+(d.q7cVacc?'('+d.q7cVacc+')':''),a:d.q7c},
+          {n:'8a',q:'Affection cardio-vasculaire/pulmonaire ?',a:d.q8a},{n:'8b',q:'Maladie peau, allergies, asthme ?',a:d.q8b},
+          {n:'8c',q:'Diabète, épilepsie, cancer, autres ?',a:d.q8c},
+          {n:'9',q:'Ces 3 ans: hôpital['+(d.q9hop?'X':' ')+'] accident['+(d.q9acc?'X':' ')+'] opération['+(d.q9op?'X':' ')+']',a:(d.q9hop||d.q9acc||d.q9op)?'OUI':'NON'},
+          {n:'10a',q:'Greffe tissu/organe ?',a:d.q10a},{n:'10b',q:'Opération cerveau/moelle épinière ?',a:d.q10b},
+          {n:'10c',q:'Hormone croissance avant 1986 ?',a:d.q10c},{n:'10d',q:'Creutzfeldt-Jakob (vous/famille) ?',a:d.q10d},
+          {n:'10e',q:'Séjour UK 6m+ 1980-1996 ?',a:d.q10e},{n:'10f',q:'Transfusion depuis 1980 ?',a:d.q10f},
+          {n:'11a',q:'Voyage hors CH 12 mois ? '+(d.q11aOu?'('+d.q11aOu+')':''),a:d.q11a},{n:'11b',q:'Symptômes voyage/retour ?',a:d.q11b},
+          {n:'12a',q:'Né/vécu hors CH 6m+ ? '+(d.q12aPays?'('+d.q12aPays+')':''),a:d.q12a},{n:'12b',q:'Mère née pays extra-européen ? '+(d.q12bPays?'('+d.q12bPays+')':''),a:d.q12b},
+          {n:'13a',q:'Toxoplasmose, tuberculose, etc. ?',a:d.q13a},{n:'13b',q:'Paludisme, Chagas, Ebola, etc. ?',a:d.q13b},
+          {n:'13c',q:'Piqûre tique ces 4 sem. ?',a:d.q13c},{n:'13d',q:'Contact maladie infectieuse ?',a:d.q13d},
+          {n:'14',q:'Tatouage, piercing ces 4 mois ? '+(d.q14prec?'('+d.q14prec+')':''),a:d.q14},{n:'15',q:'Hépatite ou test positif ?',a:d.q15},
+          {n:'16a',q:'Changement partenaire 4 mois ?',a:d.q16a},{n:'16b',q:'Plus de 2 partenaires 4 mois ?',a:d.q16b},
+          {n:'16c',q:'Rapports sous drogues 12 mois ?',a:d.q16c},{n:'16d',q:'Rapports contre argent 12 mois ?',a:d.q16d},
+          {n:'16e',q:'Injection drogue ?',a:d.q16e},{n:'16f',q:'Test positif VIH/hépatite ?',a:d.q16f},{n:'16g',q:'Syphilis ?',a:d.q16g},
+          {n:'17a',q:'Partenaire hépatite B/C 6 mois ?',a:d.q17a},{n:'17b',q:'Partenaire Zika 3 mois ?',a:d.q17b},
+          {n:'18a',q:'Partenaire exposé (Q16-17) ?',a:d.q18a},{n:'18b',q:'Partenaire pays à risque ?',a:d.q18b}
+        ];
+        if(d.sexe==='F'){
+          allQs.push({n:'19a',q:'Femmes: enceinte ? '+(d.q19aQuand?'('+d.q19aQuand+')':''),a:d.q19a});
+          allQs.push({n:'19b',q:'Femmes: hormones stérilité av. 1986 ?',a:d.q19b});
+        }
+        
+        allQs.forEach(function(q){
+          html += '<div class="q"><span class="qn">'+q.n+'.</span><span class="qt">'+q.q+'</span><span class="ans"><span class="box '+(q.a==='OUI'?'checked':'')+'">O</span><span class="box '+(q.a==='NON'?'checked':'')+'">N</span></span></div>';
+        });
+        html += '</div>';
+        
+        // Signatures
+        html += '<div class="sig"><div class="sig-field">Date: '+new Date().toLocaleDateString('fr-CH')+'</div>';
+        html += '<div class="sig-field">Nom, prénom: '+(d.nom||'')+' '+(d.prenom||'')+'</div>';
+        html += '<div class="sig-field">Date de naissance: '+(d.ddn||'')+'</div><div class="sig-field">Signature du donneur</div></div>';
+        
+        // Zone réservée
+        html += '<div class="reserved"><h3>RÉSERVÉ AU CENTRE DE TRANSFUSION SANGUINE</h3>';
+        html += '<div class="reserved-grid">';
+        ['Q n°','Visa accueil','Visa infirmier','Visa médecin','Pouls','TA (tension)','Hb capillaire','Groupe sanguin','Type de don','N° prélèvement','Durée prélèvement','Heure fin'].forEach(function(label){
+          html += '<div class="reserved-field"><label>'+label+'</label></div>';
+        });
+        html += '</div></div>';
+        
+        html += '<div class="footer">ANH-Art7.6v2 - 1er fév. 2025 – Document pré-rempli via BeeMyBlood | '+new Date().toLocaleDateString('fr-CH')+' '+new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'})+'</div>';
+        html += '<script>window.onload=function(){window.print();}<\/script></body></html>';
+        
+        var blob = new Blob([html], {type:'text/html'});
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'questionnaire-don-sang-hug-'+(d.nom||'donneur')+'-'+new Date().toISOString().split('T')[0]+'.html';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      };
+
+// ===== SUITE DANS PARTIE 6C =====
+// ===== PARTIE 6C - QUESTIONNAIRE HUG SUITE (PRÉVISUALISATION + FORMULAIRE) + FIN =====
+
+      // ===== PRÉVISUALISATION PDF =====
+      if (showPDFPreview) {
+        var d = qGE;
+        return e('div', {className: 'min-h-screen bg-white p-2'},
+          e('div', {className: 'max-w-3xl mx-auto'},
+            e('div', {className: 'sticky top-0 bg-white py-2 mb-4 border-b z-10'},
+              e('div', {className: 'flex gap-2 mb-2'},
+                e('button', {onClick: function(){setShowPDFPreview(false);}, className: 'px-3 py-2 bg-gray-200 rounded-lg text-sm font-medium'}, '← Retour'),
+                e('button', {onClick: generatePDF, className: 'flex-1 px-3 py-2 bg-green-600 text-white rounded-lg text-sm font-medium'}, '📥 Télécharger le PDF')
+              ),
+              e('div', {className: 'bg-blue-50 border border-blue-200 rounded-lg p-2 text-xs text-blue-800'},
+                e('p', {className: 'font-bold mb-1'}, '📄 Votre questionnaire est prêt !'),
+                e('p', null, 'Téléchargez le fichier PDF, ouvrez-le dans votre navigateur et imprimez-le ou envoyez le par courriel.'),
+                e('p', {className: 'mt-1 text-blue-600'}, 'Présentez ce document au centre de transfusion pour accélérer votre inscription !')
+              )
+            ),
+            // Aperçu
+            e('div', {className: 'border rounded-lg p-4 text-xs'},
+              e('div', {className: 'flex justify-between items-center border-b-2 border-teal-500 pb-2 mb-3'},
+                e('div', {className: 'text-2xl font-black'}, e('span',{className:'text-green-400'},'H'),e('span',{className:'text-teal-400'},'U'),e('span',{className:'text-teal-500'},'G')),
+                e('div', {className: 'text-center flex-1 px-2'}, e('h1',{className:'font-bold text-sm'},'Centre de Transfusion Sanguine'),e('p',{className:'text-gray-500 text-[9px]'},'Rue Gabrielle-Perret-Gentil 6, 1205 Genève')),
+                e('div', {className: 'text-red-600 font-bold text-[8px]'}, 'BeeMyBlood')
+              ),
+              e('h2', {className: 'font-bold text-teal-600 border-b border-teal-300 mb-2 text-[11px]'}, 'INSCRIPTION AU DON DU SANG'),
+              e('div', {className: 'grid grid-cols-2 gap-x-4 gap-y-1 mb-2 text-[10px]'},
+                e('div',null,e('strong',null,'Nom : '),d.nom||''),e('div',null,e('strong',null,'Prénom(s) : '),d.prenom||''),
+                e('div',null,e('strong',null,'Date de naissance : '),d.ddn||''),e('div',null,e('strong',null,'Sexe : '),d.sexe==='M'?'☑ M  ☐ F':'☐ M  ☑ F'),
+                e('div',{className:'col-span-2'},e('strong',null,'Adresse : '),(d.adresse||'')+' '+(d.npa||'')+' '+(d.localite||'')),
+                e('div',null,e('strong',null,'Tél mobile : '),d.telMobile||''),e('div',null,e('strong',null,'E-mail : '),d.email||''),
+                e('div',null,e('strong',null,'Poids : '),(d.poids||'')+' kg'),e('div',null,e('strong',null,'Taille : '),(d.taille||'')+' cm')
+              ),
+              e('h2', {className: 'font-bold text-teal-600 border-b border-teal-300 mb-1 text-[11px]'}, 'QUESTIONNAIRE MÉDICAL (extrait)'),
+              e('div', {className: 'grid grid-cols-2 gap-x-2 text-[9px]'},
+                [{n:'1',q:'Déjà fait un don?',a:d.q1},{n:'2',q:'Plus de 50 kg?',a:d.q2},{n:'3',q:'Bonne santé?',a:d.q3},{n:'4',q:'Dentiste 14j?',a:d.q4},{n:'5',q:'Fièvre 4 sem?',a:d.q5},{n:'6a',q:'Médicaments?',a:d.q6a},{n:'10e',q:'UK 80-96?',a:d.q10e},{n:'10f',q:'Transfusion?',a:d.q10f},{n:'11a',q:'Voyage?',a:d.q11a},{n:'14',q:'Tatouage?',a:d.q14},{n:'15',q:'Hépatite?',a:d.q15},{n:'16a',q:'Chgt partenaire?',a:d.q16a}].map(function(q,i){
+                  return e('div',{key:i,className:'flex py-0.5 border-b border-dotted'},e('span',{className:'font-bold text-teal-600 w-5'},q.n+'.'),e('span',{className:'flex-1'},q.q),e('span',null,q.a==='OUI'?'☑O ☐N':q.a==='NON'?'☐O ☑N':'☐O ☐N'));
+                })
+              ),
+              e('p', {className: 'text-[8px] text-gray-500 mt-2 italic'}, '... et toutes les autres questions du questionnaire officiel'),
+              e('div', {className: 'flex gap-2 mt-4 text-[9px]'},
+                e('div',{className:'flex-1 border-b border-black pt-8 text-center'},'Date: '+new Date().toLocaleDateString('fr-CH')),
+                e('div',{className:'flex-1 border-b border-black pt-8 text-center'},(d.nom||'')+' '+(d.prenom||'')),
+                e('div',{className:'flex-1 border-b border-black pt-8 text-center'},'Signature')
+              )
+            )
+          )
+        );
+      }
+
+      // ===== FORMULAIRE QUESTIONNAIRE =====
+      return e('div', {className: 'min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 p-3'},
+        e('div', {className: 'max-w-2xl mx-auto pt-4'},
+          e('button', {onClick: function(){setView('home');}, className: 'mb-3 text-red-600 font-medium flex items-center gap-1 text-sm'},
+            e(ChevronRight, {className: 'w-4 h-4', style: {transform: 'rotate(180deg)'}}), 'Retour'
+          ),
+          
+          e('div', {className: 'bg-white rounded-xl shadow-lg p-4 mb-3'},
+            // Header HUG
+            e('div', {className: 'flex items-center gap-3 mb-3 pb-3 border-b'},
+              e('div', {className: 'text-xl font-black'}, e('span',{className:'text-green-500'},'H'),e('span',{className:'text-teal-500'},'U'),e('span',{className:'text-teal-600'},'G')),
+              e('div', null,
+                e('h1', {className: 'font-bold text-gray-900 text-sm'}, 'Questionnaire médical - Don du sang'),
+                e('p', {className: 'text-xs text-gray-500'}, 'Centre de Transfusion Sanguine Genève')
+              )
+            ),
+            
+            // Info pré-remplissage si venant du quiz
+            Object.keys(answers).length > 0 && qGEStep === 0 && e('div', {className: 'bg-green-50 border border-green-200 rounded-lg p-2 mb-3 text-xs text-green-800 flex items-center gap-2'},
+              e(CheckCircle, {className: 'w-4 h-4'}),
+              e('span', null, 'Certaines réponses ont été pré-remplies grâce à votre test d\'éligibilité.')
+            ),
+            
+            // Barre de progression
+            e('div', {className: 'mb-3'},
+              e('div', {className: 'flex justify-between text-xs text-gray-500 mb-1'},
+                e('span', null, 'Étape ' + (qGEStep + 1) + '/' + qGEQuestions.length)
+              ),
+              e('div', {className: 'w-full bg-gray-200 rounded-full h-1.5'},
+                e('div', {className: 'bg-red-600 h-1.5 rounded-full transition-all', style: {width: ((qGEStep + 1) / qGEQuestions.length * 100) + '%'}})
+              )
+            ),
+            
+            e('h2', {className: 'font-bold text-gray-900 mb-3'}, currentSection.title),
+
+            // ===== CHAMPS (section info) =====
+            currentSection.fields ? e('div', {className: 'space-y-3'},
+              currentSection.fields.map(function(f) {
+                return e('div', {key: f.k},
+                  e('label', {className: 'block text-sm font-medium text-gray-700 mb-1'}, f.l, f.req && e('span', {className: 'text-red-500'}, '*')),
+                  f.type === 'select' ?
+                    e('div', {className: 'flex gap-2'},
+                      f.opts.map(function(o) {
+                        return e('button', {key: o, onClick: function(){setQGE(Object.assign({}, qGE, {[f.k]: o}));}, className: 'px-4 py-2 rounded-lg border-2 text-sm font-medium ' + (qGE[f.k] === o ? 'border-red-500 bg-red-50 text-red-700' : 'border-gray-300 hover:border-gray-400')},
+                          o === 'M' ? 'Masculin' : 'Féminin'
+                        );
+                      })
+                    ) :
+                    e('input', {type: f.type || 'text', value: qGE[f.k] || '', onChange: function(ev){setQGE(Object.assign({}, qGE, {[f.k]: ev.target.value}));}, className: 'w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-red-500 focus:outline-none'})
+                );
+              }),
+              // Consentements sur la première page
+              qGEStep === 0 && e('div', {className: 'bg-amber-50 border border-amber-200 rounded-lg p-3 mt-4'},
+                e('p', {className: 'text-xs text-amber-900 font-medium mb-2'}, 'Avant de continuer, veuillez lire le ', e('a', {href: 'https://fragebogen.ichspendeblut.ch/pdf/Infoblatt_F_Vers_O.pdf', target: '_blank', className: 'text-blue-600 underline font-bold'}, 'Formulaire d\'information (PDF)')),
+                e('p', {className: 'text-xs text-amber-900 font-medium mb-3'}, 'En cochant, je confirme :'),
+                e('div', {className: 'space-y-2 text-xs text-amber-800'},
+                  [{k:'consent1',t:'Je consens à donner de mon sang.'},{k:'consent2',t:'J\'ai lu et compris le Formulaire d\'information.'},{k:'consent3',t:'Je confirme l\'exactitude de mes données et la véracité de mes réponses.'},{k:'consent4',t:'J\'accepte les tests biologiques et la conservation d\'échantillons.'},{k:'consent5',t:'J\'accepte l\'utilisation pour médicaments/recherche après anonymisation.'},{k:'consent6',t:'J\'accepte le traitement des données selon la Loi sur la protection des données.'}].map(function(c){
+                    return e('label', {key: c.k, className: 'flex items-start gap-2 cursor-pointer'},
+                      e('input', {type: 'checkbox', checked: qGE[c.k] || false, onChange: function(ev){setQGE(Object.assign({}, qGE, {[c.k]: ev.target.checked}));}, className: 'mt-0.5'}),
+                      e('span', null, c.t)
+                    );
+                  })
+                )
+              )
+            ) :
+            // ===== QUESTIONS =====
+            e('div', {className: 'space-y-4'},
+              currentSection.qs.filter(function(q) {
+                if (q.showIf && !q.showIf(qGE)) return false;
+                return true;
+              }).map(function(q) {
+                return e('div', {key: q.k, className: 'border-b border-gray-100 pb-3'},
+                  e('p', {className: 'text-sm text-gray-800 mb-2'}, q.q),
+                  q.multi ?
+                    e('div', {className: 'flex flex-wrap gap-2'},
+                      q.multi.map(function(m) {
+                        return e('label', {key: m.k, className: 'flex items-center gap-1 text-sm'},
+                          e('input', {type: 'checkbox', checked: qGE[m.k] || false, onChange: function(ev){setQGE(Object.assign({}, qGE, {[m.k]: ev.target.checked}));}}),
+                          m.l
+                        );
+                      })
+                    ) :
+                    e('div', null,
+                      e('div', {className: 'flex gap-2'},
+                        ['OUI', 'NON'].map(function(o) {
+                          return e('button', {key: o, onClick: function(){setQGE(Object.assign({}, qGE, {[q.k]: o}));}, className: 'px-4 py-1.5 rounded-lg border-2 text-sm font-medium ' + (qGE[q.k] === o ? 'border-red-500 bg-red-50 text-red-700' : 'border-gray-300 hover:border-gray-400')}, o);
+                        })
+                      ),
+                      // Sous-questions conditionnelles
+                      q.sub && qGE[q.k] === 'OUI' && e('div', {className: 'mt-2 pl-3 border-l-2 border-red-200 space-y-2'},
+                        q.sub.filter(function(s){return s.cond === 'OUI';}).map(function(s) {
+                          return e('div', {key: s.k},
+                            e('label', {className: 'text-xs text-gray-600'}, s.l),
+                            e('input', {type: 'text', value: qGE[s.k] || '', onChange: function(ev){setQGE(Object.assign({}, qGE, {[s.k]: ev.target.value}));}, className: 'w-full border border-gray-300 rounded px-2 py-1 text-sm mt-1'})
+                          );
+                        })
+                      )
+                    )
+                );
+              })
+            ),
+
+            // ===== BOUTONS NAVIGATION =====
+            e('div', {className: 'flex flex-col gap-2 mt-4'},
+              e('div', {className: 'flex gap-2'},
+                qGEStep > 0 && e('button', {onClick: function(){setQGEStep(qGEStep - 1);}, className: 'px-4 py-2 border-2 border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50'}, 'Précédent'),
+                !isLastStep ?
+                  e('button', {onClick: function(){setQGEStep(qGEStep + 1);}, disabled: qGEStep === 0 && (!qGE.nom || !qGE.prenom || !qGE.ddn || !qGE.sexe || !qGE.consent1 || !qGE.consent2 || !qGE.consent3 || !qGE.consent4 || !qGE.consent5 || !qGE.consent6), className: 'flex-1 bg-red-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-700 disabled:bg-gray-300'}, 'Suivant') :
+                  e('button', {onClick: function(){setShowPDFPreview(true);}, className: 'flex-1 bg-green-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-green-700 flex items-center justify-center gap-2'}, '📄 Voir le questionnaire rempli')
+              )
+            )
+          ),
+
+          e('div', {className: 'bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800'},
+            e('strong', null, 'Note: '), 'Vous pouvez aussi ',
+            e('a', {href: 'https://www.hug.ch/sites/interhug/files/structures/don_du_sang/cts-questionnairedondusangv010225.pdf', target: '_blank', rel: 'noopener noreferrer', className: 'underline'}, 'télécharger le PDF officiel vierge'),
+            '.'
+          )
+        )
+      );
+    }
+
+    // Si aucune vue ne correspond
+    return null;
+
+  } // ===== FIN DE LA FONCTION App =====
+
+  // ==================== RENDU REACT ====================
+  try {
+    var root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(e(App));
+    console.log('BeeMyBlood chargé avec succès!');
+  } catch (err) {
+    console.error('Erreur de rendu:', err);
+    document.getElementById('root').innerHTML = '<div style="color:red;padding:20px;text-align:center">Erreur de chargement: ' + err.message + '</div>';
+  }
+
+})(); // ===== FIN DE LA FONCTION ANONYME =====
+  </script>
+</body>
+
+</html>

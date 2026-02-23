@@ -1,14 +1,17 @@
 <!--
     BeeMyBlood – Blood donation platform
     Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
     published by the Free Software Foundation, either version 3 of the
     License, or (at your option) any later version.
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU Affero General Public License for more details.
+
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
 -->
@@ -20,76 +23,68 @@
 <title>BeeMyBlood Pro — Portail Professionnel</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<!-- heatmap via CSS circles -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-.heat-circle{filter:blur(18px)}
-.map-legend-ctrl{background:rgba(10,10,18,.92)!important;backdrop-filter:blur(8px);border:1px solid rgba(200,169,96,.25)!important;border-radius:8px!important;padding:10px 14px!important;font-size:.72rem!important;max-width:280px;color:#f0ece2;line-height:1.4;box-shadow:0 2px 12px rgba(0,0,0,.5)!important}
-.leaflet-bottom.leaflet-left .map-legend-ctrl{margin-bottom:8px!important;margin-left:8px!important}
 :root{
---slate-900:#0a0a12;--slate-800:#12121e;--slate-700:rgba(200,169,96,.1);--slate-600:rgba(200,169,96,.15);
---slate-500:#5a5a72;--slate-400:#8b8b9e;--slate-300:#f0ece2;--slate-200:#f0ece2;
---amber-400:#E8D5A3;--amber-500:#C8A960;--amber-600:#B89730;
---red-400:#ff6b6b;--red-500:#E63946;--red-600:#c0392b;
+--slate-900:#0f172a;--slate-800:#1e293b;--slate-700:#334155;--slate-600:#475569;
+--slate-500:#64748b;--slate-400:#94a3b8;--slate-300:#cbd5e1;--slate-200:#e2e8f0;
+--amber-400:#fbbf24;--amber-500:#f59e0b;--amber-600:#d97706;
+--red-400:#f87171;--red-500:#ef4444;--red-600:#dc2626;
 --green-400:#4ade80;--green-500:#22c55e;--green-600:#16a34a;
 --blue-400:#60a5fa;--blue-500:#3b82f6;--blue-600:#2563eb;
 --purple-400:#c084fc;--purple-500:#a855f7;
 --emerald-400:#34d399;
 }
-body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--slate-900);color:#f0ece2;min-height:100vh;color-scheme:dark}
-select,option{color-scheme:dark}
-select option{background:var(--slate-800);color:#f0ece2}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--slate-900);color:#fff;min-height:100vh}
 a{color:inherit;text-decoration:none}
-body::before{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 button{cursor:pointer;font-family:inherit;border:none;outline:none}
 input,select{font-family:inherit;outline:none}
 .hidden{display:none!important}
 
 /* Login */
-#loginPage{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;background:#0a0a12;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif}
+#loginPage{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;background:linear-gradient(135deg,var(--slate-900),var(--slate-800),var(--slate-900))}
 .login-box{width:100%;max-width:420px}
-.login-logo{font-size:48px;margin-bottom:8px}
-.login-card{background:#12121e;backdrop-filter:blur(12px);border-radius:16px;padding:28px;border:1.5px solid rgba(200,169,96,.12)}
-.login-card label{display:block;font-size:13px;color:#8b8b9e;margin-bottom:6px;font-weight:500}
-.login-card input{width:100%;background:rgba(22,22,40,.8);border:1.5px solid rgba(200,169,96,.2);border-radius:10px;padding:12px 14px;color:#f0ece2;font-size:15px;margin-bottom:16px;transition:border-color .2s;font-family:inherit}
-.login-card input:focus{border-color:rgba(200,169,96,.5);box-shadow:0 0 0 3px rgba(200,169,96,.08)}
-.login-card input::placeholder{color:#5a5a72}
-.btn-login{width:100%;padding:14px;border-radius:10px;background:linear-gradient(135deg,#C8A960,#E8D5A3);color:#0a0a12;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(200,169,96,.2);transition:all .2s;font-family:inherit}
-.btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(200,169,96,.3)}
-.login-error{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);border-radius:10px;padding:10px 14px;color:#ff6b6b;font-size:13px;margin-bottom:14px;display:none;align-items:center;gap:8px}
-.login-footer{margin-top:20px;padding-top:20px;border-top:1px solid rgba(200,169,96,.06);text-align:center;font-size:12px;color:#5a5a72}
+.login-logo{width:80px;height:80px;border-radius:1rem;background:linear-gradient(135deg,var(--amber-400),var(--amber-600));display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;box-shadow:0 8px 32px rgba(251,191,36,.3)}
+.login-logo svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.login-card{background:rgba(30,41,59,.85);backdrop-filter:blur(12px);border-radius:1rem;padding:2rem;border:1px solid var(--slate-700);box-shadow:0 12px 48px rgba(0,0,0,.4)}
+.login-card label{display:block;font-size:.85rem;color:var(--slate-300);margin-bottom:.5rem;font-weight:500}
+.login-card input{width:100%;background:rgba(51,65,85,.5);border:1px solid var(--slate-600);border-radius:.75rem;padding:.75rem 1rem;color:#fff;font-size:1rem;margin-bottom:1.25rem;transition:border .2s}
+.login-card input:focus{border-color:var(--amber-500);box-shadow:0 0 0 3px rgba(251,191,36,.15)}
+.login-card input::placeholder{color:var(--slate-500)}
+.btn-login{width:100%;padding:1rem;border-radius:.75rem;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#fff;font-weight:700;font-size:1.1rem;display:flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 4px 16px rgba(251,191,36,.3);transition:all .2s}
+.btn-login:hover{background:linear-gradient(135deg,var(--amber-400),var(--amber-500));transform:translateY(-1px)}
+.login-error{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);border-radius:.75rem;padding:.75rem 1rem;color:var(--red-400);font-size:.875rem;margin-bottom:1rem;display:none;align-items:center;gap:.5rem}
+.login-footer{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--slate-700);text-align:center;font-size:.75rem;color:var(--slate-500)}
 
 /* Main layout */
 #mainApp{display:none;min-height:100vh}
-.header{background:rgba(10,10,18,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--slate-700);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100}
+.header{background:var(--slate-800);border-bottom:1px solid var(--slate-700);padding:.75rem 1.5rem;position:sticky;top:0;z-index:100}
 .header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .header-left{display:flex;align-items:center;gap:1rem}
-.header-logo{font-size:22px;display:flex;align-items:center}
-.header-right{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-left:auto}
+.header-logo{background:linear-gradient(135deg,var(--amber-400),var(--amber-600));padding:.4rem;border-radius:.5rem;display:flex}
+.header-logo svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.header-right{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .live-dot{width:8px;height:8px;background:var(--green-500);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .user-badge{display:flex;align-items:center;gap:.5rem;background:var(--slate-700);border-radius:.5rem;padding:.35rem .75rem;font-size:.85rem}
 .btn-logout{font-size:.75rem;background:var(--slate-700);color:var(--slate-300);padding:.35rem .75rem;border-radius:.5rem;transition:background .2s}
 .btn-logout:hover{background:var(--slate-600)}
 .btn-back{color:var(--amber-400);font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:.25rem;background:none;transition:color .2s}
-.btn-back:hover{color:var(--amber-400)}
+.btn-back:hover{color:var(--amber-300)}
 
 .container{max-width:1400px;margin:0 auto;padding:1.5rem}
 
 /* Tabs */
-.tabs{display:flex;gap:.4rem;margin-bottom:1.25rem;overflow-x:auto;padding-bottom:.5rem;flex-wrap:nowrap;scrollbar-width:thin;scrollbar-color:rgba(200,169,96,.2) transparent}
-.tab{display:flex;align-items:center;gap:.4rem;padding:.55rem .85rem;border-radius:.75rem;font-size:.8rem;font-weight:500;white-space:nowrap;transition:all .2s;background:var(--slate-800);color:var(--slate-300);flex-shrink:0}
+.tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;overflow-x:auto;padding-bottom:.5rem;flex-wrap:wrap}
+.tab{display:flex;align-items:center;gap:.5rem;padding:.65rem 1rem;border-radius:.75rem;font-size:.85rem;font-weight:500;white-space:nowrap;transition:all .2s;background:var(--slate-800);color:var(--slate-300)}
 .tab:hover{background:var(--slate-700)}
-.tab.active{background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;box-shadow:0 4px 12px rgba(200,169,96,.25)}
+.tab.active{background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#fff;box-shadow:0 4px 12px rgba(251,191,36,.25)}
 .tab svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* Region selector */
 .region-bar{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
-.region-bar select{background:var(--slate-800);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .75rem;color:#fff;font-size:.85rem;color-scheme:dark}
+.region-bar select{background:var(--slate-800);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .75rem;color:#fff;font-size:.85rem}
 .region-bar select:focus{border-color:var(--amber-500)}
-select option{background:#12121e;color:#f0ece2}
 .region-bar .datetime{font-size:.85rem;color:var(--slate-400)}
 
 /* Cards */
@@ -102,9 +97,7 @@ select option{background:#12121e;color:#f0ece2}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
 .grid-8{display:grid;grid-template-columns:repeat(8,1fr);gap:.75rem}
-.grid-2-1{display:grid;grid-template-columns:2fr 1fr;gap:1rem;align-items:start}
-.grid-2-1>div:first-child>.card{position:sticky;top:70px}
-.grid-2-1>div:first-child .map-wrap{min-height:600px}
+.grid-2-1{display:grid;grid-template-columns:2fr 1fr;gap:1rem}
 .grid-1-1{display:flex;flex-wrap:wrap;gap:1rem}.grid-1-1>*{flex:1 1 400px;min-width:0}.grid-1-1>.hidden{display:none!important}
 @media(max-width:900px){.grid-4,.grid-8{grid-template-columns:repeat(4,1fr)}.grid-2-1{grid-template-columns:1fr}}
 @media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}.grid-4,.grid-8{grid-template-columns:repeat(2,1fr)}}
@@ -165,10 +158,9 @@ select option{background:#12121e;color:#f0ece2}
 .collecte-progress-fill{height:100%;background:var(--green-500);border-radius:99px}
 
 /* Map */
-#map{height:750px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
+#map{height:480px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
 .map-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:1rem}
-.map-controls select,.map-controls input[type="date"]{background:var(--slate-700)!important;border:1px solid var(--slate-600);border-radius:.5rem;padding:.4rem .6rem;color:#fff!important;font-size:.85rem;color-scheme:dark}
-.map-controls select option{background:#1e1e2e!important;color:#fff!important}
+.map-controls select,.map-controls input[type="date"]{background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.4rem .6rem;color:#fff;font-size:.85rem}
 .map-controls select:focus,.map-controls input:focus{border-color:var(--amber-500)}
 .map-time-btns{display:flex;gap:.25rem}
 .map-time-btn{padding:.35rem .75rem;border-radius:.35rem;font-size:.75rem;font-weight:500;background:var(--slate-600);color:var(--slate-300);transition:all .15s}
@@ -179,7 +171,7 @@ select option{background:#12121e;color:#f0ece2}
 .map-nav-btn:hover{background:var(--slate-500)}
 .map-nav-btn.today{background:var(--amber-600);color:#fff}
 
-.quartier-detail{border:1px solid rgba(200,169,96,.4);border-radius:.75rem;padding:1rem;margin-top:1rem;background:var(--slate-800)}
+.quartier-detail{border:1px solid rgba(251,191,36,.4);border-radius:.75rem;padding:1rem;margin-top:1rem;background:var(--slate-800)}
 .quartier-detail h4{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between}
 .quartier-detail .close-btn{background:none;color:var(--slate-400);font-size:1.2rem;cursor:pointer;transition:color .15s}
 .quartier-detail .close-btn:hover{color:#fff}
@@ -193,7 +185,6 @@ select option{background:#12121e;color:#f0ece2}
 .sidebar-card h4{font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;font-size:.95rem}
 .sidebar-card input,.sidebar-card select{width:100%;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .75rem;color:#fff;font-size:.85rem;margin-bottom:.5rem}
 .sidebar-card input:focus,.sidebar-card select:focus{border-color:var(--amber-500)}
-select option{background:#12121e;color:#f0ece2}
 .collecte-list{max-height:400px;overflow-y:auto;margin-top:.5rem}
 .collecte-card{border-radius:.5rem;padding:.75rem;margin-bottom:.5rem;border:1px solid var(--slate-600)}
 .collecte-card.active-c{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.35)}
@@ -214,7 +205,7 @@ select option{background:#12121e;color:#f0ece2}
 .urgency-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
 .urgency-btn{padding:.6rem;border-radius:.5rem;border:1px solid var(--slate-600);text-align:center;transition:all .15s;background:transparent;color:#fff}
 .urgency-btn:hover{border-color:var(--slate-500)}
-.urgency-btn.selected{background:rgba(200,169,96,.12);border-color:var(--amber-500)}
+.urgency-btn.selected{background:rgba(251,191,36,.12);border-color:var(--amber-500)}
 .urgency-btn .u-label{font-weight:600;font-size:.85rem}
 .urgency-btn .u-time{font-size:.7rem;color:var(--slate-400)}
 .btn-search{width:100%;padding:.85rem;border-radius:.5rem;background:linear-gradient(135deg,var(--red-600),#b91c1c);color:#fff;font-weight:700;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;box-shadow:0 4px 12px rgba(220,38,38,.2)}
@@ -332,7 +323,7 @@ select option{background:#12121e;color:#f0ece2}
 .bot-msg-pro{padding:.75rem 1rem;border-radius:.75rem;font-size:.85rem;line-height:1.7;max-width:90%;background:var(--slate-800);color:var(--slate-200);align-self:flex-start;border-bottom-left-radius:.2rem;animation:msgSlide .3s ease}
 .bot-msg-pro b{color:#fff}
 .user-msg-pro{padding:.75rem 1rem;border-radius:.75rem;font-size:.85rem;line-height:1.5;max-width:80%;background:var(--blue-500);color:#fff;align-self:flex-end;border-bottom-right-radius:.2rem;animation:msgSlide .3s ease}
-.prosg{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:var(--blue-400);padding:.4rem .85rem;border-radius:1.5rem;font-size:.8rem;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;flex-shrink:0}
+.prosg{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:var(--blue-400);padding:.35rem .75rem;border-radius:1.5rem;font-size:.75rem;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap}
 .prosg:hover{background:rgba(59,130,246,.2);border-color:rgba(59,130,246,.5)}
 .typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--slate-400);margin:0 2px;animation:typingBounce .8s infinite}
 .typing-dot:nth-child(2){animation-delay:.15s}
@@ -341,125 +332,16 @@ select option{background:#12121e;color:#f0ece2}
 @keyframes typingBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 /* Protocoles */
 .proto-card{display:block;padding:1.25rem;background:var(--slate-800);border:1px solid var(--slate-700);border-radius:.75rem;transition:all .2s;text-decoration:none;color:inherit}
-.proto-card:hover{border-color:var(--amber-500);background:rgba(200,169,96,.03);transform:translateY(-2px)}
+.proto-card:hover{border-color:var(--amber-500);background:rgba(251,191,36,.03);transform:translateY(-2px)}
 
 /* Pro Accordions */
 .pro-acc{background:var(--slate-800);border:1px solid var(--slate-700);border-radius:.75rem;margin-bottom:.75rem;overflow:hidden}
 .pro-acc-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1rem;cursor:pointer;transition:background .15s;user-select:none}
-.pro-acc-head:hover{background:rgba(200,169,96,.03)}
+.pro-acc-head:hover{background:rgba(251,191,36,.03)}
 .pro-acc-head svg.acc-chev{width:18px;height:18px;stroke:var(--slate-400);fill:none;stroke-width:2;transition:transform .25s;flex-shrink:0}
 .pro-acc.open .pro-acc-head svg.acc-chev{transform:rotate(180deg)}
 .pro-acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .pro-acc.open .pro-acc-body{max-height:3000px}
-/* BeeBot suggestions — show max 4, scroll */
-#proBotSugg{display:flex;gap:.4rem;padding:.5rem 1rem;overflow-x:auto;flex-wrap:nowrap;border-top:1px solid var(--slate-700);scrollbar-width:none;-webkit-overflow-scrolling:touch}
-#proBotSugg::-webkit-scrollbar{display:none}
-
-/* Map fullscreen */
-.map-fs-btn{position:absolute;top:16px;right:16px;z-index:1001;width:40px;height:40px;border-radius:10px;background:rgba(10,10,18,.9);border:1px solid rgba(200,169,96,.25);color:var(--amber-400);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.map-fs-btn:hover{background:rgba(200,169,96,.15)}
-.map-wrap{position:relative}
-.map-wrap.fullscreen{position:fixed!important;inset:0!important;z-index:99999!important;border-radius:0!important;background:var(--slate-900)}
-.map-wrap.fullscreen #map{height:100vh!important;border-radius:0!important}
-.map-wrap.fullscreen .map-controls{position:absolute;top:10px;left:10px;right:70px;z-index:100001;background:rgba(10,10,18,.85);padding:10px 14px;border-radius:10px;backdrop-filter:blur(12px);border:1px solid rgba(200,169,96,.1)}
-.map-wrap.fullscreen .map-fs-btn{position:fixed;top:16px;right:16px;z-index:100002;width:56px;height:56px;font-size:26px;background:rgba(220,38,38,.9);color:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 4px 20px rgba(0,0,0,.6)}
-.map-wrap.fullscreen .map-fs-btn:hover{background:rgba(220,38,38,1);transform:scale(1.1)}
-body.map-fullscreen::before{display:none!important}
-body.map-fullscreen .header{display:none!important}
-body.map-fullscreen .toast-container{z-index:100003!important}
-
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-  /* Header: stack vertically, center */
-  .header{padding:.5rem .75rem}
-  .header-inner{flex-direction:column;align-items:center;gap:.5rem}
-  .header-left{flex-direction:column;align-items:center;gap:.4rem}
-  .header-left>div:nth-child(2){display:none}
-  .header-left>div:last-child{text-align:center}
-  .header-right{justify-content:center;gap:.5rem;margin-left:0}
-  .user-badge span{display:none}
-  .btn-logout{font-size:.75rem;padding:.3rem .6rem}
-
-  /* Tabs: icon-only with scroll */
-  .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:.35rem;padding-bottom:.4rem;scrollbar-width:none}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{padding:.55rem .65rem;font-size:0;gap:0;flex-shrink:0;min-width:44px;justify-content:center}
-  .tab svg{width:20px;height:20px}
-  .tab.active{font-size:.75rem;gap:.35rem;padding:.55rem .75rem}
-
-  /* Container */
-  .container{padding:.75rem}
-
-  /* Region bar */
-  .region-bar{flex-direction:column;align-items:stretch;gap:.5rem;padding:.75rem}
-  .region-bar select{width:100%;font-size:.9rem}
-
-  /* Cards */
-  .card{padding:.75rem}
-  .card-title{font-size:.9rem}
-
-  /* Map */
-  #map{height:420px;min-height:350px}
-  .map-controls{flex-direction:column;gap:.5rem;align-items:stretch}
-  .map-controls select{width:100%}
-  .grid-2-1{grid-template-columns:1fr}
-
-  /* KPI grid */
-  .grid-4{grid-template-columns:repeat(2,1fr)!important}
-  .grid-8{grid-template-columns:repeat(2,1fr)!important}
-
-  /* Chatbot */
-  .bot-msg-pro{font-size:.85rem!important}
-
-  /* Sidebar */
-  .sidebar-card{margin-top:.75rem}
-
-  /* Collecte cards */
-  .collecte-card{padding:.75rem}
-
-  /* Equity */
-  .equity-kpis{grid-template-columns:1fr!important}
-
-  /* Footer */
-  .pro-footer{font-size:.7rem;padding:1rem 0}
-}
-
-/* ===== SMALL MOBILE ===== */
-@media(max-width:400px){
-  .header-right{flex-wrap:wrap}
-  .tab{min-width:40px;padding:.5rem}
-  .tab svg{width:18px;height:18px}
-
-}
-
-/* Toast notifications */
-.toast-container{position:fixed;top:80px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px}
-.toast{padding:14px 20px;border-radius:10px;font-size:.85rem;color:#fff;animation:toastIn .3s ease;max-width:380px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:flex;align-items:center;gap:10px;cursor:pointer}
-.toast.success{background:linear-gradient(135deg,#166534,#15803d);border:1px solid rgba(34,197,94,.3)}
-.toast.warning{background:linear-gradient(135deg,#92400e,#b45309);border:1px solid rgba(245,158,11,.3)}
-.toast.info{background:linear-gradient(135deg,#1e3a5f,#1d4ed8);border:1px solid rgba(59,130,246,.3)}
-@keyframes toastIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
-@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(60px)}}
-
-/* Collecte detail modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);animation:fadeIn .2s}
-.modal-box{background:var(--slate-800);border:1px solid var(--slate-600);border-radius:1rem;padding:2rem;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;position:relative;animation:scaleIn .2s ease}
-.modal-box h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.5rem}
-.modal-close{position:absolute;top:12px;right:16px;font-size:1.2rem;color:var(--slate-400);cursor:pointer;background:none;border:none}
-.modal-close:hover{color:#fff}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scaleIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
-
-/* Simulation panel */
-.sim-panel{background:var(--slate-800);border:1px solid var(--slate-600);border-radius:.75rem;padding:1.25rem;margin-top:1rem}
-.sim-panel label{display:block;font-size:.8rem;color:var(--slate-400);margin-bottom:.25rem;margin-top:.75rem}
-.sim-panel select,.sim-panel input{width:100%;background:var(--slate-700)!important;border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .75rem;color:#fff!important;font-size:.85rem;color-scheme:dark;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C8A960' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right .75rem center!important;padding-right:2rem}
-.sim-panel select option{background:#1e1e2e!important;color:#fff!important}
-.sim-panel select:focus,.sim-panel input:focus{border-color:var(--amber-500);outline:none}
-.btn-sim{width:100%;margin-top:1rem;padding:.75rem;border-radius:.5rem;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;font-weight:700;font-size:.9rem;cursor:pointer;border:none;transition:all .2s}
-.btn-sim:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(200,169,96,.3)}
-.sim-result{margin-top:1rem;padding:1rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:.5rem;display:none}
-.sim-result.show{display:block;animation:fadeIn .3s}
 </style>
 </head>
 <body>
@@ -467,10 +349,13 @@ body.map-fullscreen .toast-container{z-index:100003!important}
 <!-- ==================== LOGIN PAGE ==================== -->
 <div id="loginPage">
   <div class="login-box">
-    <div style="text-align:center;margin-bottom:28px">
-      <div class="login-logo">🏥</div>
-      <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#f0ece2;margin-bottom:4px">BeeMyBlood™ <span style="font-size:12px;background:linear-gradient(135deg,#C8A960,#E8D5A3);color:#0a0a12;padding:3px 10px;border-radius:6px;font-weight:700;vertical-align:middle;margin-left:4px;font-family:'DM Sans',sans-serif">PRO</span></div>
-      <p style="color:#8b8b9e;font-size:14px;margin-top:6px">Accès réservé aux professionnel·le·s de santé</p>
+    <div class="text-center" style="text-align:center;margin-bottom:2rem">
+      <div class="login-logo">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h1 style="font-size:1.6rem;font-weight:500;margin-bottom:.25rem">BeeMyBlood <span style="font-size:.75rem;background:linear-gradient(135deg,var(--amber-400),var(--amber-600));color:var(--slate-900);padding:.2rem .6rem;border-radius:.25rem;font-weight:700;vertical-align:middle;margin-left:.25rem">PRO</span></h1>
+      
+      <p style="color:var(--slate-500);font-size:.8rem;margin-top:.25rem">Accès réservé aux professionnel·le·s de santé autorisé·e·s</p>
     </div>
     <div class="login-card">
       <label>Adresse e-mail</label>
@@ -478,38 +363,36 @@ body.map-fullscreen .toast-container{z-index:100003!important}
       <label>Mot de passe</label>
       <input type="password" id="loginPassword" placeholder="••••••••">
       <div class="login-error" id="loginError">
-        <svg style="width:16px;height:16px;stroke:#ff6b6b;fill:none;stroke-width:2;flex-shrink:0" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <svg style="width:18px;height:18px;stroke:var(--red-400);fill:none;stroke-width:2;flex-shrink:0" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <span id="loginErrorText"></span>
       </div>
       <button class="btn-login" onclick="doLogin()">
-        <svg style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         Se connecter
       </button>
       <div class="login-footer">
         <p>Plateforme sécurisée • Données chiffrées</p>
-        <p style="margin-top:6px">Contact : contact@beemyblood.ch</p>
+        <p style="margin-top:.35rem">Contact : contact@beemyblood.ch</p>
       </div>
     </div>
-    <div style="text-align:center;margin-top:20px">
-      <a href="https://www.beemyblood.ch" style="color:#8b8b9e;font-size:13px;transition:color .2s" onmouseover="this.style.color='#C8A960'" onmouseout="this.style.color='#8b8b9e'">← Retour à beemyblood.ch</a>
+    <div style="text-align:center;margin-top:1.5rem">
+      <a href="../hackathon/" style="color:var(--slate-400);font-size:.85rem">← Retour</a>
     </div>
-    <div style="margin-top:16px;font-size:11px;color:#5a5a72;text-align:center;line-height:1.6">Prototype confidentiel — HEG Genève · UNIGE · HUG<br>© 2026 BeeMyBlood™</div>
   </div>
 </div>
 
 <!-- ==================== MAIN APP ==================== -->
 <div id="mainApp">
-  <div class="toast-container" id="toastContainer"></div>
-<div id="modalContainer"></div>
-
   <!-- Header -->
   <div class="header">
     <div class="header-inner">
       <div class="header-left">
+        <a href="https://www.beemyblood.ch" class="btn-back">← Accueil</a>
+        <div style="width:1px;height:24px;background:var(--slate-600)"></div>
         <div style="display:flex;align-items:center;gap:.5rem">
-          <div class="header-logo">🏥</div>
+          <div class="header-logo"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
           <div>
-            <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.05rem;line-height:1.2">BeeMyBlood™ <span style="font-size:.65rem;background:linear-gradient(135deg,var(--amber-400),var(--amber-600));color:var(--slate-900);padding:.15rem .5rem;border-radius:.25rem;font-weight:700;vertical-align:middle;margin-left:.25rem;font-family:'DM Sans',sans-serif">PRO</span></div>
+            <div style="font-weight:500;font-size:1.05rem;line-height:1.2">BeeMyBlood <span style="font-size:.7rem;background:linear-gradient(135deg,var(--amber-400),var(--amber-600));color:var(--slate-900);padding:.15rem .5rem;border-radius:.25rem;font-weight:700;vertical-align:middle;margin-left:.25rem">PRO</span></div>
             <div id="headerSiteName" style="font-size:.7rem;color:var(--slate-400)">CTS — Hôpitaux Universitaires de Genève (HUG)</div>
             <div id="headerDoctors" style="font-size:.65rem;color:var(--slate-500)">Dre Sophie Waldvogel (responsable), Dre Ivana Perelli (cheffe de clinique)</div>
           </div>
@@ -559,14 +442,6 @@ body.map-fullscreen .toast-container{z-index:100003!important}
       <button class="tab" data-tab="botpro" onclick="switchTab('botpro')">
         <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7v1H3v-1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2z"/><rect x="1" y="17" width="22" height="4" rx="1"/></svg>
         BeeBot Pro
-      </button>
-      <button class="tab" data-tab="stocks" onclick="switchTab('stocks')">
-        <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
-        Stocks
-      </button>
-      <button class="tab" data-tab="campagnes" onclick="switchTab('campagnes')">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
-        Campagnes
       </button>
       <button class="tab" data-tab="protocoles" onclick="switchTab('protocoles')">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -656,60 +531,34 @@ body.map-fullscreen .toast-container{z-index:100003!important}
               <svg style="stroke:var(--blue-400)" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
               Carte interactive — <span id="mapRegionName">Genève</span>
             </div>
-            <div class="map-wrap" id="mapWrap">
-              <div class="map-controls">
-                <select id="mapLayer" onchange="updateMapLayer()">
-                  <option value="collectes">Collectes</option>
-                  <option value="besoins">Besoins</option>
-                  <option value="donneurs">Densité donneurs</option>
-                  <option value="stocks">Stocks</option>
-                </select>
-                <label style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;cursor:pointer">
-                  <input type="checkbox" id="heatmapToggle" onchange="updateMapLayer();showToast('info',this.checked?'Heatmap activée':'Heatmap désactivée')" style="accent-color:var(--amber-500)"> Heatmap
-                </label>
-                <div style="flex:1"></div>
-                <div class="map-time-btns">
-                  <button class="map-time-btn active" onclick="setTimeRange(this,'day')">Jour</button>
-                  <button class="map-time-btn" onclick="setTimeRange(this,'week')">Semaine</button>
-                  <button class="map-time-btn" onclick="setTimeRange(this,'month')">Mois</button>
-                </div>
-                <div class="map-nav-btns">
-                  <button class="map-nav-btn" onclick="shiftDate(-1)">-1j</button>
-                  <button class="map-nav-btn today" onclick="setToday()">Auj.</button>
-                  <button class="map-nav-btn" onclick="shiftDate(1)">+1j</button>
-                </div>
+            <div class="map-controls">
+              <select id="mapLayer" onchange="updateMapLayer()">
+                <option value="collectes">Collectes</option>
+                <option value="besoins">Besoins</option>
+                <option value="donneurs">Densité donneurs</option>
+                <option value="stocks">Stocks</option>
+              </select>
+              <label style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;cursor:pointer">
+                <input type="checkbox" id="heatmapToggle" checked onchange="updateMapLayer()" style="accent-color:var(--amber-500)"> Heatmap
+              </label>
+              <div style="flex:1"></div>
+              <div class="map-time-btns">
+                <button class="map-time-btn active" onclick="setTimeRange(this,'day')">Jour</button>
+                <button class="map-time-btn" onclick="setTimeRange(this,'week')">Semaine</button>
+                <button class="map-time-btn" onclick="setTimeRange(this,'month')">Mois</button>
               </div>
-              <div style="position:relative">
-                <button class="map-fs-btn" onclick="toggleMapFS()" title="Plein écran">⛶</button>
-                <div id="map"></div>
-
+              <div class="map-nav-btns">
+                <button class="map-nav-btn" onclick="shiftDate(-1)">-1j</button>
+                <button class="map-nav-btn today" onclick="setToday()">Auj.</button>
+                <button class="map-nav-btn" onclick="shiftDate(1)">+1j</button>
               </div>
             </div>
+            <div id="map"></div>
           </div>
           <div id="quartierDetail" class="hidden"></div>
         </div>
         <div>
           <div class="sidebar-card">
-            <h4>
-              <svg style="width:16px;height:16px;stroke:var(--amber-400);fill:none;stroke-width:2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              Simuler une collecte
-            </h4>
-            <div class="sim-panel">
-              <label>Site</label>
-              <select id="simSite"><option value="">— Choisir un site —</option></select>
-              <label>Date</label>
-              <input type="date" id="simDate" value="2026-02-25">
-              <label>Créneau horaire</label>
-              <select id="simSlot">
-                <option value="morning">08:00–12:00 (matin)</option>
-                <option value="afternoon">12:00–16:00 (après-midi)</option>
-                <option value="evening" selected>17:00–20:00 (soirée)</option>
-              </select>
-              <button class="btn-sim" onclick="runSimulation()">🔮 Estimer les dons</button>
-              <div class="sim-result" id="simResult"></div>
-            </div>
-          </div>
-          <div class="sidebar-card" style="margin-top:1rem">
             <h4>
               <svg style="width:16px;height:16px;stroke:var(--amber-400);fill:none;stroke-width:2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               Rechercher des collectes
@@ -736,10 +585,6 @@ body.map-fullscreen .toast-container{z-index:100003!important}
             Recherche de produits sanguins labiles
           </div>
           <p style="font-size:.85rem;color:var(--slate-400);margin-bottom:1rem">Interrogation en temps réel des banques de sang suisses (Transfusion CRS, CTS cantonaux) et du réseau EBA (European Blood Alliance)</p>
-          <div style="padding:10px 14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:8px;margin-bottom:1rem;font-size:.85rem;display:flex;align-items:center;gap:8px">
-            <span style="font-size:1.2rem">📍</span>
-            <span>Recherche depuis : <b id="pslSiteName" style="color:var(--amber-400)">CTS HUG — Genève</b></span>
-          </div>
           <div class="psl-form">
             <div class="grid-2">
               <div><label>Groupe sanguin *</label><select id="pslGroupe"><option value="">Sélectionner…</option><option>O-</option><option>O+</option><option>A-</option><option>A+</option><option>B-</option><option>B+</option><option>AB-</option><option>AB+</option></select></div>
@@ -750,7 +595,7 @@ body.map-fullscreen .toast-container{z-index:100003!important}
               <div class="urgency-grid" id="urgencyGrid">
                 <button class="urgency-btn" data-u="standard" onclick="setUrgency('standard')"><div class="u-label">Standard</div><div class="u-time">48-72h</div></button>
                 <button class="urgency-btn selected" data-u="urgent" onclick="setUrgency('urgent')"><div class="u-label">Urgent</div><div class="u-time">12-24h</div></button>
-                <button class="urgency-btn" data-u="vital" onclick="setUrgency('vital')"><div class="u-label">Vital</div><div class="u-time"><6h</div></button>
+                <button class="urgency-btn" data-u="vital" onclick="setUrgency('vital')"><div class="u-label">Vital</div><div class="u-time">&lt;6h</div></button>
               </div>
             </div>
             <div>
@@ -779,7 +624,7 @@ body.map-fullscreen .toast-container{z-index:100003!important}
           <div class="route-form">
             <div class="grid-2">
               <div><label>Bus</label><select id="routeBus"></select></div>
-              <div><label>Date</label><input type="date" id="routeDate" value="2026-02-20"></div>
+              <div><label>Date</label><input type="date" id="routeDate" value="2026-01-28"></div>
             </div>
             <div class="grid-2" style="margin-top:.75rem">
               <div><label>Heure début</label><input type="time" id="routeStart" value="08:00"></div>
@@ -805,7 +650,7 @@ body.map-fullscreen .toast-container{z-index:100003!important}
         <div class="plan-header">
           <div class="card-title" style="margin-bottom:0">
             <svg style="stroke:var(--purple-400)" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Planification des collectes — <span id="planCount" style="color:var(--amber-400);font-weight:400"></span>
+            Planification des collectes
           </div>
           <div class="period-btns">
             <button class="period-btn active" onclick="setPeriod(this)">Semaine</button>
@@ -857,11 +702,15 @@ body.map-fullscreen .toast-container{z-index:100003!important}
           <div id="proBotMsgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem">
             <div class="bot-msg-pro">Bonjour ! 👋 Je suis <b>BeeBot Pro</b>, votre assistant transfusionnel IA. Je peux vous aider sur les protocoles de compatibilité, les phénotypes rares, l'interprétation des RAI, les seuils de stock critique ou les guidelines CRS.<br><br>Que puis-je faire pour vous ?</div>
           </div>
-          <div id="proBotSugg">
-            <button class="prosg" onclick="proSg(this)">RAI positive</button>
-            <button class="prosg" onclick="proSg(this)">Drépanocytose</button>
-            <button class="prosg" onclick="proSg(this)">Stocks critiques</button>
-            <button class="prosg" onclick="proSg(this)">Duffy négatif</button>
+          <div id="proBotSugg" style="display:flex;gap:.4rem;padding:.5rem 1rem;flex-wrap:wrap;border-top:1px solid var(--slate-700)">
+            <button class="prosg" onclick="proSg(this)">RAI positive anti-C + anti-E</button>
+            <button class="prosg" onclick="proSg(this)">Patient drépanocytaire : quel CE ?</button>
+            <button class="prosg" onclick="proSg(this)">Seuils de stock critique CTS</button>
+            <button class="prosg" onclick="proSg(this)">Validité RAI 72h vs 21j</button>
+            <button class="prosg" onclick="proSg(this)">Compatibilité plaquettes</button>
+            <button class="prosg" onclick="proSg(this)">Phénotype Duffy négatif</button>
+            <button class="prosg" onclick="proSg(this)">Protocole transfusion massive</button>
+            <button class="prosg" onclick="proSg(this)">Groupes rares en Suisse</button>
           </div>
           <div style="display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid var(--slate-700)">
             <input id="proBotInput" type="text" placeholder="Question clinique ou transfusionnelle..." style="flex:1;background:var(--slate-800);border:1px solid var(--slate-600);border-radius:1.5rem;padding:.6rem 1rem;color:#fff;font-size:.9rem;outline:none" onkeydown="if(event.key==='Enter')proSend()" onfocus="this.style.borderColor='var(--blue-500)'" onblur="this.style.borderColor='var(--slate-600)'">
@@ -870,44 +719,6 @@ body.map-fullscreen .toast-container{z-index:100003!important}
         </div>
         <div style="margin-top:1rem;padding:.75rem 1rem;background:var(--slate-800);border:1px solid var(--slate-700);border-radius:.5rem;font-size:.75rem;color:var(--slate-400)">
           ⚠️ BeeBot Pro est un outil d'aide à la décision. Il ne remplace pas le jugement clinique. En cas de doute, contactez le médecin du CTS au <b style="color:var(--amber-400)">022 372 39 51</b> ou le labo d'immunohématologie au <b style="color:var(--amber-400)">022 372 39 52</b>.
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ========== STOCKS (José TB 2.4.8) ========== -->
-    <div id="panel-stocks" class="hidden">
-      <div class="card">
-        <div class="card-title">
-          <svg style="stroke:var(--red-400)" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
-          Gestion des stocks sanguins — <span id="stockRegionName">Genève</span>
-        </div>
-        <p style="font-size:.85rem;color:var(--slate-400);margin-bottom:1rem">Suivi en temps réel par groupe sanguin avec seuils, alertes et expiration.</p>
-        <div class="grid-4" id="stockKpis"></div>
-        <div style="margin-top:1.25rem" id="stockGroupGrid"></div>
-        <div style="margin-top:1.25rem" id="stockAlerts"></div>
-      </div>
-    </div>
-
-    <!-- ========== CAMPAGNES (José TB 2.4.10-12) ========== -->
-    <div id="panel-campagnes" class="hidden">
-      <div class="card">
-        <div class="card-title">
-          <svg style="stroke:var(--green-400)" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
-          Communication & Campagnes — <span id="campRegionName" style="color:var(--amber-400);font-weight:400"></span>
-        </div>
-        <p style="font-size:.85rem;color:var(--slate-400);margin-bottom:1rem">Gérer les campagnes SMS, e-mail et push pour mobiliser les donneur·se·s.</p>
-        <div class="grid-4" id="campKpis"></div>
-        <div style="margin-top:1.25rem">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-            <h4 style="font-weight:700">Campagnes récentes</h4>
-            <button style="padding:.5rem 1rem;border-radius:.5rem;background:var(--amber-500);color:#0a0a12;font-weight:600;font-size:.8rem;cursor:pointer;border:none" onclick="showToast('success','Nouvelle campagne créée en brouillon.')">+ Nouvelle campagne</button>
-          </div>
-          <div id="campList"></div>
-        </div>
-        <div style="margin-top:1.5rem">
-          <h4 style="font-weight:700;margin-bottom:.75rem">Modèles de messages</h4>
-          <div class="grid-3" id="campTemplates"></div>
         </div>
       </div>
     </div>
@@ -928,17 +739,17 @@ body.map-fullscreen .toast-container{z-index:100003!important}
             <div style="font-size:.8rem;color:var(--slate-400)">Tous les documents officiels</div>
             <div style="font-size:.75rem;color:var(--amber-400);margin-top:.5rem">vorschriften.blutspende.ch →</div>
           </a>
-          <a href="https://vorschriften.blutspende.ch/fr/downloads/document_versions/nhnhux3jtwfl2l84ukj-9a/document_file" target="_blank" class="proto-card">
+          <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" class="proto-card">
             <div style="font-size:1.5rem;margin-bottom:.5rem">🩸</div>
             <div style="font-weight:700;margin-bottom:.25rem">Critères d'éligibilité au don</div>
             <div style="font-size:.8rem;color:var(--slate-400)">Mise à jour fév. 2026 (assouplissements)</div>
             <div style="font-size:.75rem;color:var(--amber-400);margin-top:.5rem">Consulter →</div>
           </a>
-          <a href="https://www.swissmedic.ch/swissmedic/fr/home/medicaments-a-usage-humain/surveillance-du-marche/haemovigilance.html" target="_blank" class="proto-card">
+          <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" class="proto-card">
             <div style="font-size:1.5rem;margin-bottom:.5rem">⚖️</div>
-            <div style="font-weight:700;margin-bottom:.25rem">Hémovigilance — Swissmedic</div>
-            <div style="font-size:.8rem;color:var(--slate-400)">Déclarations, effets indésirables, grades</div>
-            <div style="font-size:.75rem;color:var(--amber-400);margin-top:.5rem">swissmedic.ch →</div>
+            <div style="font-weight:700;margin-bottom:.25rem">Hémovigilance & Swissmedic</div>
+            <div style="font-size:.8rem;color:var(--slate-400)">Effets indésirables, grades, délais</div>
+            <div style="font-size:.75rem;color:var(--amber-400);margin-top:.5rem">Consulter →</div>
           </a>
         </div>
 
@@ -991,26 +802,11 @@ body.map-fullscreen .toast-container{z-index:100003!important}
             <svg class="acc-chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="pro-acc-body"><div style="padding:1rem;font-size:.85rem;color:var(--slate-300);line-height:1.8">
-            CE obligatoirement <b>phénotypés Rh (C,c,E,e) + Kell K−</b>. Idéalement Duffy et Kidd compatibles.<br><br>
-            <div style="padding:.75rem;background:var(--slate-700);border-radius:.5rem;margin-bottom:.75rem">
-            <div style="font-weight:700;margin-bottom:.5rem;color:var(--amber-400)">🩸 Compatibilité ABO — CE pour patients drépanocytaires</div>
-            <table style="width:100%;font-size:.8rem;border-collapse:collapse">
-            <tr style="border-bottom:1px solid var(--slate-600)"><td style="padding:4px 8px;font-weight:700">Patient</td><td style="padding:4px 8px;font-weight:700">CE compatibles</td><td style="padding:4px 8px;font-weight:700">Notes</td></tr>
-            <tr style="border-bottom:1px solid var(--slate-600)"><td style="padding:4px 8px;color:var(--green-400)">O+</td><td style="padding:4px 8px">O+ phénotypé, O− si disponible</td><td style="padding:4px 8px;font-size:.75rem">Privilégier donneurs d'origine africaine (Duffy−)</td></tr>
-            <tr style="border-bottom:1px solid var(--slate-600)"><td style="padding:4px 8px;color:var(--green-400)">O−</td><td style="padding:4px 8px">O− phénotypé uniquement</td><td style="padding:4px 8px;font-size:.75rem">Stock critique — réserver aux urgences</td></tr>
-            <tr style="border-bottom:1px solid var(--slate-600)"><td style="padding:4px 8px;color:var(--green-400)">A+</td><td style="padding:4px 8px">A+ phénotypé, <b>A− caucasien acceptable</b></td><td style="padding:4px 8px;font-size:.75rem">A− caucasien Duffy+ toléré si pas d'anti-Fy<sup>a</sup></td></tr>
-            <tr style="border-bottom:1px solid var(--slate-600)"><td style="padding:4px 8px;color:var(--green-400)">A−</td><td style="padding:4px 8px">A− phénotypé</td><td style="padding:4px 8px;font-size:.75rem">Rare — anticiper les besoins</td></tr>
-            <tr style="border-bottom:1px solid var(--slate-600)"><td style="padding:4px 8px;color:var(--green-400)">B+</td><td style="padding:4px 8px">B+ phénotypé, B− si disponible</td><td style="padding:4px 8px;font-size:.75rem">Phénotype Duffy négatif très recherché</td></tr>
-            <tr><td style="padding:4px 8px;color:var(--green-400)">B−</td><td style="padding:4px 8px">B− phénotypé uniquement</td><td style="padding:4px 8px;font-size:.75rem">Extrêmement rare — alerte réseau</td></tr>
-            </table>
-            <div style="margin-top:.5rem;font-size:.75rem;color:var(--slate-400)">⚠️ Tout CE doit être <b>négatif HbS</b>. Éviter CE de donneurs porteurs du trait drépanocytaire.</div>
-            </div>
+            CE obligatoirement <b>phénotypés Rh (C,c,E,e) + Kell K−</b>. Idéalement Duffy et Kidd compatibles.<br>
             <b>Érythrocytaphérèse</b> : 6-10 CE par séance, objectif HbS <30% post-échange.<br>
-            <b>Transfusion simple</b> : cible Hb 9-10 g/dL, ne pas dépasser 11 g/dL (risque hyperviscosité).<br>
-            <b>Échange transfusionnel</b> : indiqué si HbS >50% ou en préopératoire. Programme chronique si AVC, STA récurrents.<br>
-            RAI : contrôle à <b>72h et 1 mois</b> post-transfusion. <b>Taux d'allo-immunisation élevé</b> (~20-50% des patients SCD).<br><br>
-            <b>Réseau romand :</b> CTS HUG (échanges + érythrocytaphérèse), Morges (douleur), Riviera (accès vasculaire), CHUV → Épalinges (échange transfusionnel limité).<br>
-            <b>Spécialistes :</b> <b>Dre Waldvogel</b> (HUG), <b>Dre Gavillet</b> (CHUV / TIR CRS Épalinges), Dre Perelli (HUG), Dre Mappoura (HUG), Dr Samii (HUG), Dr Cimasoni (péd. HUG), Prof. Renella (péd. CHUV).
+            RAI : contrôle à 72h et 1 mois post-transfusion.<br><br>
+            <b>Réseau romand :</b> CTS HUG (échanges + érythrocytaphérèse), Morges (douleur), Riviera (accès vasculaire), CHUV → Épalinges.<br>
+            Spécialistes : Dre Waldvogel, Dre Perelli (HUG), Dre Gavillet (CHUV), Dre Canellini (VS), Prof. Renella (péd. CHUV).
           </div></div>
         </div>
 
@@ -1042,8 +838,8 @@ body.map-fullscreen .toast-container{z-index:100003!important}
 
     <!-- Footer -->
     <div class="pro-footer">
-      <p>🐝 <strong>BeeMyBlood™</strong> · Convivens Lab · HEG Genève · HUG · UNIGE</p>
-      <p style="margin-top:.5rem">© 2026 · <a href="mailto:contact@beemyblood.ch" style="color:var(--amber-400)">contact@beemyblood.ch</a> · AGPL-3.0</p>
+      <p>Prototype développé par <strong>Convivens Lab</strong> (HEG Genève, HES-SO) en partenariat avec le SIMED (UNIGE), le CTS (HUG), le CHUV et Transfusion Interrégionale CRS</p>
+      <p style="margin-top:.5rem"><a href="../hackathon/" style="color:var(--amber-400)">← Retour</a></p>
     </div>
   </div>
 </div>
@@ -1058,11 +854,11 @@ const regions = {
     need:700,fulfilled:645,gap:55,
     stock:{oNeg:45,oPos:72,aNeg:58,aPos:85,bNeg:32,bPos:65,abNeg:78,abPos:90},
     equity:0.72,trend:2.3,
-    criticalPatients:185,hemoglobinopathies:130,center:[46.2044,6.1432],zoom:12,
+    criticalPatients:127,hemoglobinopathies:89,center:[46.2044,6.1432],zoom:12,
     quartiers:[
       {id:'centre',name:'Cité-Centre',pop:35000,donors:1200,collectes:12,lastCollecte:'2026-01-20',needScore:.8,lat:46.2017,lng:6.1466},
       {id:'plainpalais',name:'Plainpalais',pop:28000,donors:950,collectes:8,lastCollecte:'2026-01-18',needScore:.6,lat:46.1978,lng:6.1412},
-      {id:'eauxvives',name:'Eaux-Vives',pop:32000,donors:1100,collectes:10,lastCollecte:'2026-01-19',needScore:.5,lat:46.1985,lng:6.1570},
+      {id:'eauxvives',name:'Eaux-Vives',pop:32000,donors:1100,collectes:10,lastCollecte:'2026-01-19',needScore:.5,lat:46.2010,lng:6.1620},
       {id:'carouge',name:'Carouge',pop:22000,donors:680,collectes:6,lastCollecte:'2026-01-12',needScore:.7,lat:46.1838,lng:6.1397},
       {id:'lancy',name:'Lancy',pop:33000,donors:890,collectes:5,lastCollecte:'2026-01-08',needScore:.75,lat:46.1870,lng:6.1170},
       {id:'onex',name:'Onex',pop:19000,donors:420,collectes:3,lastCollecte:'2025-12-15',needScore:.85,lat:46.1835,lng:6.1003},
@@ -1073,7 +869,7 @@ const regions = {
       {id:'thonex',name:'Thônex',pop:15000,donors:380,collectes:2,lastCollecte:'2025-12-20',needScore:.78,lat:46.1900,lng:6.2050},
       {id:'bernex',name:'Bernex',pop:10500,donors:240,collectes:2,lastCollecte:'2025-12-10',needScore:.88,lat:46.1770,lng:6.0750},
       {id:'planlesouates',name:'Plan-les-Ouates',pop:12000,donors:350,collectes:3,lastCollecte:'2026-01-06',needScore:.7,lat:46.1650,lng:6.1180},
-      {id:'collonge',name:'Collonge-Bellerive',pop:8500,donors:290,collectes:2,lastCollecte:'2025-12-18',needScore:.62,lat:46.2080,lng:6.1920},
+      {id:'collonge',name:'Collonge-Bellerive',pop:8500,donors:290,collectes:2,lastCollecte:'2025-12-18',needScore:.62,lat:46.2105,lng:6.1950},
       {id:'veyrier',name:'Veyrier',pop:11500,donors:310,collectes:2,lastCollecte:'2026-01-02',needScore:.68,lat:46.1700,lng:6.1600},
     ]
   },
@@ -1084,7 +880,7 @@ const regions = {
     need:950,fulfilled:890,gap:60,
     stock:{oNeg:62,oPos:78,aNeg:71,aPos:88,bNeg:45,bPos:72,abNeg:85,abPos:92},
     equity:0.81,trend:1.8,
-    criticalPatients:120,hemoglobinopathies:85,center:[46.5197,6.6323],zoom:10,
+    criticalPatients:198,hemoglobinopathies:142,center:[46.5197,6.6323],zoom:10,
     quartiers:[
       {id:'lausanne',name:'Lausanne Centre',pop:140000,donors:5200,collectes:25,lastCollecte:'2026-01-21',needScore:.5,lat:46.5197,lng:6.6323},
       {id:'morges',name:'Morges',pop:16000,donors:620,collectes:8,lastCollecte:'2026-01-17',needScore:.6,lat:46.5089,lng:6.4980},
@@ -1156,7 +952,7 @@ const regions = {
     need:1100,fulfilled:1020,gap:80,
     stock:{oNeg:68,oPos:82,aNeg:72,aPos:90,bNeg:50,bPos:75,abNeg:85,abPos:93},
     equity:0.84,trend:1.5,
-    criticalPatients:95,hemoglobinopathies:55,center:[46.9480,7.4474],zoom:10,
+    criticalPatients:220,hemoglobinopathies:95,center:[46.9480,7.4474],zoom:10,
     quartiers:[
       {id:'bern',name:'Berne ville',pop:135000,donors:6500,collectes:30,lastCollecte:'2026-01-21',needScore:.45,lat:46.9480,lng:7.4474},
       {id:'thun',name:'Thoune',pop:44000,donors:1600,collectes:8,lastCollecte:'2026-01-17',needScore:.6,lat:46.7580,lng:7.6280},
@@ -1170,7 +966,7 @@ const regions = {
     need:1600,fulfilled:1500,gap:100,
     stock:{oNeg:72,oPos:85,aNeg:78,aPos:92,bNeg:55,bPos:80,abNeg:88,abPos:95},
     equity:0.87,trend:2.0,
-    criticalPatients:155,hemoglobinopathies:110,center:[47.3769,8.5417],zoom:10,
+    criticalPatients:310,hemoglobinopathies:160,center:[47.3769,8.5417],zoom:10,
     quartiers:[
       {id:'zurich',name:'Zürich ville',pop:435000,donors:18000,collectes:45,lastCollecte:'2026-01-21',needScore:.4,lat:47.3769,lng:8.5417},
       {id:'winterthur',name:'Winterthour',pop:115000,donors:3800,collectes:12,lastCollecte:'2026-01-20',needScore:.55,lat:47.4990,lng:8.7290},
@@ -1183,7 +979,7 @@ const regions = {
     need:390,fulfilled:355,gap:35,
     stock:{oNeg:50,oPos:70,aNeg:60,aPos:78,bNeg:38,bPos:60,abNeg:72,abPos:84},
     equity:0.70,trend:0.3,
-    criticalPatients:65,hemoglobinopathies:35,center:[46.0037,8.9511],zoom:10,
+    criticalPatients:72,hemoglobinopathies:40,center:[46.0037,8.9511],zoom:10,
     quartiers:[
       {id:'lugano',name:'Lugano',pop:64000,donors:2800,collectes:15,lastCollecte:'2026-01-20',needScore:.5,lat:46.0037,lng:8.9511},
       {id:'bellinzona',name:'Bellinzone',pop:45000,donors:1500,collectes:8,lastCollecte:'2026-01-16',needScore:.65,lat:46.1943,lng:9.0227},
@@ -1193,67 +989,35 @@ const regions = {
 };
 
 const allCollectes = [
-  {id:1,region:'geneve',lieu:'Uni Mail',ville:'Genève',quartier:'plainpalais',date:'2026-02-17',heure:'08:00-16:00',status:'active',prev:45,actual:28,capacity:50,type:'mobile'},
-  {id:2,region:'vaud',lieu:'EPFL - Rolex Learning Center',ville:'Lausanne',quartier:null,date:'2026-02-17',heure:'09:00-17:00',status:'active',prev:62,actual:35,capacity:70,type:'mobile'},
-  {id:3,region:'geneve',lieu:'CERN - Restaurant 1',ville:'Meyrin',quartier:'meyrin',date:'2026-02-23',heure:'09:00-15:00',status:'future',prev:38,capacity:45,type:'mobile'},
-  {id:4,region:'geneve',lieu:'Centre commercial Balexert',ville:'Vernier',quartier:'vernier',date:'2026-02-25',heure:'10:00-18:00',status:'future',prev:52,capacity:60,type:'mobile'},
-  {id:5,region:'geneve',lieu:'Place du Marché',ville:'Carouge',quartier:'carouge',date:'2026-02-27',heure:'09:00-16:00',status:'future',prev:35,capacity:40,type:'mobile'},
-  {id:6,region:'geneve',lieu:"Mairie d'Onex",ville:'Onex',quartier:'onex',date:'2026-03-01',heure:'10:00-17:00',status:'future',prev:28,capacity:35,type:'mobile'},
-  {id:7,region:'fribourg',lieu:'Forum Fribourg',ville:'Fribourg',quartier:null,date:'2026-02-28',heure:'10:00-17:00',status:'future',prev:48,capacity:55,type:'mobile'},
-  {id:8,region:'valais',lieu:'Centre Manor Sion',ville:'Sion',quartier:'sion',date:'2026-03-07',heure:'10:00-17:00',status:'future',prev:32,capacity:40,type:'mobile'},
+  {id:1,region:'geneve',lieu:'Uni Mail',ville:'Genève',quartier:'plainpalais',date:'2026-01-22',heure:'08:00-16:00',status:'active',prev:45,actual:28,capacity:50,type:'mobile'},
+  {id:2,region:'vaud',lieu:'EPFL - Rolex Learning Center',ville:'Lausanne',quartier:null,date:'2026-01-22',heure:'09:00-17:00',status:'active',prev:62,actual:35,capacity:70,type:'mobile'},
+  {id:3,region:'geneve',lieu:'CERN - Restaurant 1',ville:'Meyrin',quartier:'meyrin',date:'2026-01-23',heure:'09:00-15:00',status:'future',prev:38,capacity:45,type:'mobile'},
+  {id:4,region:'geneve',lieu:'Centre commercial Balexert',ville:'Vernier',quartier:'vernier',date:'2026-01-25',heure:'10:00-18:00',status:'future',prev:52,capacity:60,type:'mobile'},
+  {id:5,region:'geneve',lieu:'Place du Marché',ville:'Carouge',quartier:'carouge',date:'2026-01-27',heure:'09:00-16:00',status:'future',prev:35,capacity:40,type:'mobile'},
+  {id:6,region:'geneve',lieu:"Mairie d'Onex",ville:'Onex',quartier:'onex',date:'2026-01-29',heure:'10:00-17:00',status:'future',prev:28,capacity:35,type:'mobile'},
+  {id:7,region:'fribourg',lieu:'Forum Fribourg',ville:'Fribourg',quartier:null,date:'2026-01-28',heure:'10:00-17:00',status:'future',prev:48,capacity:55,type:'mobile'},
+  {id:8,region:'valais',lieu:'Centre Manor Sion',ville:'Sion',quartier:'sion',date:'2026-01-30',heure:'10:00-17:00',status:'future',prev:32,capacity:40,type:'mobile'},
   {id:9,region:'geneve',lieu:'Uni Mail',ville:'Genève',quartier:'plainpalais',date:'2026-01-15',heure:'08:00-16:00',status:'past',dons:42,prev:45,capacity:50,type:'mobile'},
   {id:10,region:'valais',lieu:'Manor Sion',ville:'Sion',quartier:'sion',date:'2026-01-14',heure:'10:00-17:00',status:'past',dons:28,prev:35,capacity:40,type:'mobile'},
   {id:11,region:'geneve',lieu:'Centre Onex',ville:'Onex',quartier:'onex',date:'2026-01-10',heure:'09:00-15:00',status:'past',dons:31,prev:30,capacity:35,type:'mobile'},
   {id:12,region:'vaud',lieu:'Globus Lausanne',ville:'Lausanne',quartier:null,date:'2026-01-08',heure:'10:00-18:00',status:'past',dons:55,prev:50,capacity:60,type:'mobile'},
-  {id:13,region:'geneve',lieu:'HUG - Centre fixe',ville:'Genève',quartier:'centre',date:'2026-02-17',heure:'07:30-17:00',status:'active',prev:85,actual:52,capacity:100,type:'fixe'},
-  {id:14,region:'vaud',lieu:'TIR CRS Épalinges - Centre fixe',ville:'Épalinges',quartier:null,date:'2026-02-17',heure:'07:30-17:00',status:'active',prev:95,actual:61,capacity:120,type:'fixe'},
-  {id:15,region:'valais',lieu:'Hôpital de Sion - Centre fixe',ville:'Sion',quartier:'sion',date:'2026-02-17',heure:'08:00-16:00',status:'active',prev:35,actual:22,capacity:45,type:'fixe'},
+  {id:13,region:'geneve',lieu:'HUG - Centre fixe',ville:'Genève',quartier:'centre',date:'2026-01-22',heure:'07:30-17:00',status:'active',prev:85,actual:52,capacity:100,type:'fixe'},
+  {id:14,region:'vaud',lieu:'TIR CRS Épalinges - Centre fixe',ville:'Épalinges',quartier:null,date:'2026-01-22',heure:'07:30-17:00',status:'active',prev:95,actual:61,capacity:120,type:'fixe'},
+  {id:15,region:'valais',lieu:'Hôpital de Sion - Centre fixe',ville:'Sion',quartier:'sion',date:'2026-01-22',heure:'08:00-16:00',status:'active',prev:35,actual:22,capacity:45,type:'fixe'},
   {id:16,region:'vaud',lieu:'Migros Nyon',ville:'Nyon',quartier:null,date:'2026-02-01',heure:'10:00-17:00',status:'future',prev:38,capacity:45,type:'mobile'},
   {id:17,region:'vaud',lieu:'Place de la Riponne',ville:'Lausanne',quartier:null,date:'2026-02-03',heure:'09:00-17:00',status:'future',prev:55,capacity:65,type:'mobile'},
   {id:18,region:'geneve',lieu:'Université de Genève - Sciences',ville:'Genève',quartier:'centre',date:'2026-02-05',heure:'09:00-16:00',status:'future',prev:42,capacity:50,type:'mobile'},
   {id:19,region:'valais',lieu:'Coop City Sierre',ville:'Sierre',quartier:'sierre',date:'2026-02-04',heure:'10:00-17:00',status:'future',prev:25,capacity:35,type:'mobile'},
   {id:20,region:'valais',lieu:'Centre Martigny',ville:'Martigny',quartier:'martigny',date:'2026-02-06',heure:'09:00-16:00',status:'future',prev:30,capacity:40,type:'mobile'},
-  {id:21,region:'fribourg',lieu:'Hôpital cantonal Fribourg - Centre fixe',ville:'Fribourg',quartier:'fribourg',date:'2026-03-22',heure:'08:00-16:00',status:'active',prev:40,actual:25,capacity:50,type:'fixe'},
-  {id:22,region:'neuchatel',lieu:'Hôpital Pourtalès - Centre fixe',ville:'Neuchâtel',quartier:'neuchatel',date:'2026-03-26',heure:'08:00-15:30',status:'active',prev:28,actual:18,capacity:35,type:'fixe'},
+  {id:21,region:'fribourg',lieu:'Hôpital cantonal Fribourg - Centre fixe',ville:'Fribourg',quartier:'fribourg',date:'2026-01-22',heure:'08:00-16:00',status:'active',prev:40,actual:25,capacity:50,type:'fixe'},
+  {id:22,region:'neuchatel',lieu:'Hôpital Pourtalès - Centre fixe',ville:'Neuchâtel',quartier:'neuchatel',date:'2026-01-22',heure:'08:00-15:30',status:'active',prev:28,actual:18,capacity:35,type:'fixe'},
   {id:23,region:'neuchatel',lieu:'Centre Métropole',ville:'La Chaux-de-Fonds',quartier:'chxdefonds',date:'2026-02-08',heure:'10:00-17:00',status:'future',prev:32,capacity:40,type:'mobile'},
-  {id:24,region:'jura',lieu:'Hôpital du Jura - Delémont',ville:'Delémont',quartier:'delemont',date:'2026-04-09',heure:'08:30-15:00',status:'active',prev:18,actual:12,capacity:25,type:'fixe'},
+  {id:24,region:'jura',lieu:'Hôpital du Jura - Delémont',ville:'Delémont',quartier:'delemont',date:'2026-01-22',heure:'08:30-15:00',status:'active',prev:18,actual:12,capacity:25,type:'fixe'},
   {id:25,region:'vaud',lieu:'Hôpital Riviera-Chablais',ville:'Vevey',quartier:null,date:'2026-02-07',heure:'09:00-16:00',status:'future',prev:35,capacity:45,type:'mobile'},
-  // Corporate & institutional — Genève
-  {id:26,region:'geneve',lieu:'Rolex SA — Siège Acacias',ville:'Genève',quartier:'plainpalais',date:'2026-02-10',heure:'09:00-16:00',status:'future',prev:55,capacity:65,type:'mobile',lat:46.1927,lng:6.1318},
-  {id:27,region:'geneve',lieu:'Pictet & Cie — Route des Acacias',ville:'Genève',quartier:'carouge',date:'2026-02-12',heure:'09:30-15:30',status:'future',prev:40,capacity:50,type:'mobile',lat:46.1893,lng:6.1305},
-  {id:28,region:'geneve',lieu:'Cargill International SA — Pont-Rouge',ville:'Grand-Lancy',quartier:'lancy',date:'2026-02-14',heure:'10:00-16:00',status:'future',prev:35,capacity:45,type:'mobile',lat:46.1878,lng:6.1282},
-  {id:29,region:'geneve',lieu:'Procter & Gamble — Lancy',ville:'Lancy',quartier:'lancy',date:'2026-02-17',heure:'09:00-15:00',status:'future',prev:48,capacity:55,type:'mobile',lat:46.1935,lng:6.1175},
-  {id:30,region:'geneve',lieu:'dsm-firmenich — Plan-les-Ouates',ville:'Plan-les-Ouates',quartier:'planlesouates',date:'2026-02-19',heure:'09:30-16:00',status:'future',prev:42,capacity:50,type:'mobile',lat:46.1670,lng:6.1200},
-  {id:31,region:'geneve',lieu:'CICR — Avenue de la Paix',ville:'Genève',quartier:'grandsaconnex',date:'2026-02-20',heure:'10:00-16:30',status:'future',prev:60,capacity:70,type:'mobile',lat:46.2267,lng:6.1340},
-  {id:32,region:'geneve',lieu:'OMS — Avenue Appia',ville:'Genève',quartier:'grandsaconnex',date:'2026-02-24',heure:'09:00-16:00',status:'future',prev:65,capacity:80,type:'mobile',lat:46.2330,lng:6.1270},
-  {id:33,region:'geneve',lieu:'OMC — Centre William Rappard',ville:'Genève',quartier:'centre',date:'2026-02-26',heure:'10:00-16:00',status:'future',prev:38,capacity:45,type:'mobile',lat:46.2195,lng:6.1540},
-  {id:34,region:'geneve',lieu:'STMicroelectronics — Plan-les-Ouates',ville:'Plan-les-Ouates',quartier:'planlesouates',date:'2026-03-03',heure:'09:00-15:30',status:'future',prev:45,capacity:55,type:'mobile',lat:46.1580,lng:6.1050},
-  {id:35,region:'geneve',lieu:'Lombard Odier — Bellevue',ville:'Bellevue',quartier:'grandsaconnex',date:'2026-03-05',heure:'10:00-15:00',status:'future',prev:32,capacity:40,type:'mobile',lat:46.2355,lng:6.1505},
-  {id:36,region:'geneve',lieu:'HP Inc. — Meyrin',ville:'Meyrin',quartier:'meyrin',date:'2026-03-06',heure:'09:30-16:00',status:'future',prev:38,capacity:45,type:'mobile',lat:46.2340,lng:6.0590},
-  {id:37,region:'geneve',lieu:'Caterpillar — Vernier',ville:'Vernier',quartier:'vernier',date:'2026-03-10',heure:'09:00-15:00',status:'future',prev:30,capacity:40,type:'mobile',lat:46.2180,lng:6.0945},
-  {id:38,region:'geneve',lieu:'Richemont — Bellevue',ville:'Bellevue',quartier:'grandsaconnex',date:'2026-03-12',heure:'10:00-16:00',status:'future',prev:35,capacity:45,type:'mobile',lat:46.2380,lng:6.1490},
-  {id:39,region:'vaud',lieu:'EPFL Innovation Park',ville:'Lausanne',quartier:null,date:'2026-02-18',heure:'09:00-16:30',status:'future',prev:50,capacity:60,type:'mobile'},
-  {id:40,region:'geneve',lieu:'Médecins Sans Frontières — Siège',ville:'Genève',quartier:'grandsaconnex',date:'2026-03-17',heure:'10:00-16:00',status:'future',prev:42,capacity:50,type:'mobile',lat:46.2281,lng:6.1292},
-  {id:41,region:'geneve',lieu:'Givaudan — Vernier',ville:'Vernier',quartier:'vernier',date:'2026-03-19',heure:'09:00-15:30',status:'future',prev:38,capacity:45,type:'mobile',lat:46.2170,lng:6.0870},
-  {id:42,region:'geneve',lieu:'SIG — Le Lignon',ville:'Vernier',quartier:'vernier',date:'2026-03-24',heure:'09:30-16:00',status:'future',prev:34,capacity:42,type:'mobile',lat:46.2010,lng:6.1050},
-  {id:43,region:'geneve',lieu:'HEG Genève — Battelle',ville:'Carouge',quartier:'carouge',date:'2026-02-27',heure:'10:00-16:00',status:'future',prev:28,capacity:35,type:'mobile',lat:46.1777,lng:6.1394},
-  {id:44,region:'geneve',lieu:'Hôpital de la Tour — Meyrin',ville:'Meyrin',quartier:'meyrin',date:'2026-03-26',heure:'08:30-15:00',status:'future',prev:32,capacity:40,type:'mobile',lat:46.2324,lng:6.0817},
-  {id:45,region:'vaud',lieu:'Nestlé — Siège Vevey',ville:'Vevey',quartier:null,date:'2026-02-21',heure:'09:00-16:00',status:'future',prev:70,capacity:85,type:'mobile'},
-  {id:46,region:'vaud',lieu:'Philip Morris International — Lausanne',ville:'Lausanne',quartier:null,date:'2026-03-04',heure:'09:30-16:00',status:'future',prev:48,capacity:60,type:'mobile'},
-  {id:47,region:'vaud',lieu:'Logitech — EPFL',ville:'Lausanne',quartier:null,date:'2026-03-11',heure:'10:00-15:30',status:'future',prev:35,capacity:45,type:'mobile'},
-,
-  {id:48,region:'berne',lieu:'Inselspital — Centre fixe',ville:'Berne',quartier:'bern_zentrum',date:'2026-02-20',heure:'08:00-16:00',status:'active',actual:18,capacity:45,type:'fixe',prev:40,lat:46.9472,lng:7.4255},
-  {id:49,region:'berne',lieu:'Uni Bern — Von Roll',ville:'Berne',quartier:'bern_zentrum',date:'2026-02-26',heure:'11:00-17:00',status:'future',prev:28,capacity:35,type:'mobile',lat:46.9525,lng:7.4382},
-  {id:50,region:'zurich',lieu:'Blutspende SRK Zürich — Hirschengraben',ville:'Zürich',quartier:'zrh_zentrum',date:'2026-02-20',heure:'07:30-19:00',status:'active',actual:32,capacity:60,type:'fixe',prev:55,lat:47.3725,lng:8.5470},
-  {id:51,region:'zurich',lieu:'ETH Zürich — Hönggerberg',ville:'Zürich',quartier:'zrh_zentrum',date:'2026-02-27',heure:'10:00-16:00',status:'future',prev:35,capacity:40,type:'mobile',lat:47.4083,lng:8.5073},
-  {id:52,region:'zurich',lieu:'Kantonsspital Winterthur',ville:'Winterthur',quartier:'winterthur',date:'2026-03-02',heure:'08:00-14:00',status:'future',prev:25,capacity:35,type:'mobile',lat:47.4988,lng:8.7235},
-  {id:53,region:'tessin',lieu:'Ospedale Regionale Lugano',ville:'Lugano',quartier:'lugano',date:'2026-02-21',heure:'08:00-16:00',status:'active',actual:12,capacity:35,type:'fixe',prev:30,lat:46.0078,lng:8.9530},
-  {id:54,region:'tessin',lieu:'Piazza Grande — Locarno',ville:'Locarno',quartier:'locarno',date:'2026-03-01',heure:'10:00-15:00',status:'future',prev:18,capacity:25,type:'mobile',lat:46.1710,lng:8.7965},
-  {id:55,region:'tessin',lieu:'Ospedale San Giovanni — Bellinzona',ville:'Bellinzona',quartier:'bellinzona',date:'2026-02-28',heure:'09:00-15:00',status:'future',prev:20,capacity:30,type:'mobile',lat:46.1950,lng:9.0180}
 ];
 
 function getRegionAlerts(){
-  var r=regions[selectedRegion]; if(!r) return [];
+  var r=regions[selectedRegion];
   var alerts=[];
   // Critical stock alert
   if(r.stock.oNeg<50) alerts.push({type:'critical',title:'Stock O− critique — '+r.name,desc:'Niveau à '+r.stock.oNeg+'%, sous le seuil de sécurité de 50%. Action immédiate requise.',time:'Il y a 2h',action:'Déclencher appel donneurs O−'});
@@ -1305,19 +1069,16 @@ document.getElementById('loginEmail').addEventListener('keypress',e=>{if(e.key==
 function switchTab(tab){
   currentTab=tab;
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
-  ['dashboard','carto','match','route','collectes','equity','botpro','protocoles','stocks','campagnes'].forEach(p=>{
+  ['dashboard','carto','match','route','collectes','equity','botpro','protocoles'].forEach(p=>{
     var el=document.getElementById('panel-'+p);
     if(el) el.classList.toggle('hidden',p!==tab);
   });
   if(tab==='carto') initMap();
   if(tab==='collectes') renderPlanTable();
   if(tab==='equity') renderEquity();
-  if(tab==='stocks') renderStocks();
-  if(tab==='campagnes') renderCampagnes();
-  if(tab==='route') renderRoute();
   // Region bar only on relevant tabs
   var rbar=document.querySelector('.region-bar');
-  if(rbar) rbar.style.display=['dashboard','carto','collectes','equity','stocks','campagnes','match','route'].includes(tab)?'':'none';
+  if(rbar) rbar.style.display=['dashboard','carto','collectes','equity'].includes(tab)?'':'none';
 }
 
 // ========================= REGION =========================
@@ -1331,27 +1092,21 @@ function changeRegion(){
   if(docEl) docEl.textContent=r.doctors||'';
   var bbSite=document.getElementById('proBotSite');
   if(bbSite) bbSite.textContent='● Connecté — '+r.name;
-  var pslSite=document.getElementById('pslSiteName');
-  if(pslSite) pslSite.textContent=r.site||r.name;
   renderAll();
   if(currentTab==='carto') initMap();
 }
 
 // ========================= RENDER ALL =========================
 function renderAll(){
-  try{updateDatetime();}catch(e){console.error('updateDatetime',e);}
-  try{renderAlerts();}catch(e){console.error('renderAlerts',e);}
-  try{renderKPIs();}catch(e){console.error('renderKPIs',e);}
-  try{renderDashboardStocks();}catch(e){console.error('renderDashboardStocks',e);}
-  try{renderCampagnes();}catch(e){console.error('renderCampagnes',e);}
-  try{populateSimSites();}catch(e){console.error('populateSimSites',e);}
-  try{renderActiveCollectes();}catch(e){console.error('renderActiveCollectes',e);}
-  try{renderRoute();}catch(e){console.error('renderRoute',e);}
-  if(currentTab==='carto'){try{initMap();filterCollectes();populateSimSites();setTimeout(function(){if(map)map.invalidateSize();},200);}catch(e){console.error('carto',e);}}
-  if(currentTab==='stocks'){try{renderStocks();}catch(e){console.error('stocks',e);}}
-  if(currentTab==='campagnes'){try{renderCampagnes();}catch(e){console.error('campagnes',e);}}
-  if(currentTab==='collectes'){try{renderPlanTable();}catch(e){console.error('planTable',e);}}
-  if(currentTab==='equity'){try{renderEquity();}catch(e){console.error('equity',e);}}
+  updateDatetime();
+  renderAlerts();
+  renderKPIs();
+  renderStocks();
+  renderActiveCollectes();
+  renderRoute();
+  if(currentTab==='carto'){initMap();filterCollectes();}
+  if(currentTab==='collectes') renderPlanTable();
+  if(currentTab==='equity') renderEquity();
 }
 
 function updateDatetime(){
@@ -1361,7 +1116,6 @@ function updateDatetime(){
 
 // ========================= ALERTS =========================
 function renderAlerts(){
-  if(!regions[selectedRegion])return;
   var systemAlerts = getRegionAlerts();
   const count = systemAlerts.filter(a=>a.type==='critical').length;
   document.getElementById('alertCount').textContent = count;
@@ -1375,7 +1129,7 @@ function renderAlerts(){
           <span class="alert-time">${a.time}</span>
         </div>
         <div class="alert-desc">${a.desc}</div>
-        ${a.action?`<span class="alert-action" style="cursor:pointer" onclick="doAlertAction(this.innerText,'${a.type}')">${a.action}</span>`:''}
+        ${a.action?`<span class="alert-action">${a.action}</span>`:''}
       </div>
     </div>
   `).join('');
@@ -1389,7 +1143,7 @@ function toggleProAcc(head){
 
 // ========================= KPIs =========================
 function renderKPIs(){
-  const r = regions[selectedRegion]; if(!r) return;
+  const r = regions[selectedRegion];
   const trendHtml = r.trend>=0
     ? `<span class="trend-up">▲ +${r.trend}%</span>`
     : `<span class="trend-down">▼ ${r.trend}%</span>`;
@@ -1403,8 +1157,8 @@ function renderKPIs(){
 }
 
 // ========================= STOCKS =========================
-function renderDashboardStocks(){
-  const r = regions[selectedRegion]; if(!r) return;
+function renderStocks(){
+  const r = regions[selectedRegion];
   const labels = {oNeg:'O−',oPos:'O+',aNeg:'A−',aPos:'A+',bNeg:'B−',bPos:'B+',abNeg:'AB−',abPos:'AB+'};
   const cols = Object.entries(r.stock).map(([k,v])=>{
     const color = v>=70?'var(--green-500)':v>=50?'var(--amber-500)':'var(--red-500)';
@@ -1413,13 +1167,12 @@ function renderDashboardStocks(){
   }).join('');
   document.getElementById('stockCard').innerHTML = `
     <div class="grid-8">${cols}</div>
-    <div class="stock-legend"><span><span class="dot" style="background:var(--green-500)"></span>≥70% Optimal</span><span><span class="dot" style="background:var(--amber-500)"></span>50-69% Vigilance</span><span><span class="dot" style="background:var(--red-500)"></span><50% Critique</span></div>
+    <div class="stock-legend"><span><span class="dot" style="background:var(--green-500)"></span>≥70% Optimal</span><span><span class="dot" style="background:var(--amber-500)"></span>50-69% Vigilance</span><span><span class="dot" style="background:var(--red-500)"></span>&lt;50% Critique</span></div>
   `;
 }
 
 // ========================= ACTIVE COLLECTES =========================
 function renderActiveCollectes(){
-  if(!regions[selectedRegion]) return;
   const active = allCollectes.filter(c=>c.status==='active'&&c.region===selectedRegion);
   const rows = active.map(c=>{
     const pct = c.actual?((c.actual/c.capacity)*100).toFixed(0):0;
@@ -1433,67 +1186,12 @@ function renderActiveCollectes(){
 }
 
 // ========================= MAP (Leaflet) =========================
-function toggleMapFS(){
-  var w=document.getElementById('mapWrap');
-  if(w.classList.contains('fullscreen')){
-    w.classList.remove('fullscreen');
-    document.body.classList.remove('map-fullscreen');
-    document.body.style.overflow='';
-    w.querySelector('.map-fs-btn').textContent='⛶';
-    if(document.fullscreenElement){try{document.exitFullscreen().catch(function(){});}catch(e){}}
-    else if(document.webkitFullscreenElement){try{document.webkitExitFullscreen();}catch(e){}}
-  } else {
-    w.classList.add('fullscreen');
-    document.body.classList.add('map-fullscreen');
-    document.body.style.overflow='hidden';
-    w.querySelector('.map-fs-btn').textContent='✕';
-    var fsEl=document.documentElement;
-    if(fsEl.requestFullscreen)fsEl.requestFullscreen().catch(function(){});
-    else if(fsEl.webkitRequestFullscreen)fsEl.webkitRequestFullscreen();
-    else if(fsEl.msRequestFullscreen)fsEl.msRequestFullscreen();
-  }
-  setTimeout(function(){if(map)map.invalidateSize();},100);
-}
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){var w=document.getElementById('mapWrap');if(w&&w.classList.contains('fullscreen'))toggleMapFS();}});
-document.addEventListener('fullscreenchange',function(){if(!document.fullscreenElement){var w=document.getElementById('mapWrap');if(w&&w.classList.contains('fullscreen')){w.classList.remove('fullscreen');document.body.classList.remove('map-fullscreen');document.body.style.overflow='';w.querySelector('.map-fs-btn').textContent='⛶';setTimeout(function(){if(map)map.invalidateSize();},100);}}});
-
 function initMap(){
   const r = regions[selectedRegion];
   document.getElementById('mapRegionName').textContent = r.name;
 
   if(map){map.remove();map=null;}
   map = L.map('map',{zoomControl:true}).setView(r.center, r.zoom);
-
-  // Heatmap legend (Leaflet native control)
-  var legend=L.control({position:'bottomleft'});
-  legend.onAdd=function(){
-    var d=L.DomUtil.create('div','map-legend-ctrl');
-    d.id='mapLegendCtrl';
-    d.innerHTML='<div id="legendTitle" style="font-weight:700;color:#C8A960;margin-bottom:4px;font-size:.8rem">🗺️ Couche : Collectes</div>'
-      +'<div id="legendContent" style="line-height:1.5;color:#f0ece2;font-size:.72rem">Marqueurs = sites de collecte</div>'
-      +'<div id="legendGradient" style="display:none;margin-top:8px">'
-      +'<div style="display:flex;align-items:center;gap:6px">'
-      +'<span style="color:#3b82f6;font-size:.65rem">Faible</span>'
-      +'<div style="flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#3b82f6,#22c55e,#eab308,#ef4444,#b91c1c)"></div>'
-      +'<span style="color:#ef4444;font-size:.65rem">Élevé</span></div></div>';
-    return d;
-  };
-  legend.addTo(map);
-  // Also inject a fallback legend outside Leaflet (in case Leaflet hides it)
-  var mw=document.getElementById('map').parentNode;
-  if(!document.getElementById('mapLegendFallback')){
-    var fb=document.createElement('div');
-    fb.id='mapLegendFallback';
-    fb.style.cssText='position:absolute;bottom:12px;left:12px;z-index:9999;background:rgba(10,10,18,.92);backdrop-filter:blur(8px);border:1px solid rgba(200,169,96,.25);border-radius:8px;padding:10px 14px;font-size:.72rem;max-width:280px;color:#f0ece2;line-height:1.4;box-shadow:0 2px 12px rgba(0,0,0,.5);pointer-events:none';
-    fb.innerHTML='<div id="legendTitle2" style="font-weight:700;color:#C8A960;margin-bottom:4px;font-size:.8rem">🗺️ Couche : Collectes</div>'
-      +'<div id="legendContent2" style="line-height:1.5;color:#f0ece2">Marqueurs = sites de collecte</div>'
-      +'<div id="legendGradient2" style="display:none;margin-top:8px">'
-      +'<div style="display:flex;align-items:center;gap:6px">'
-      +'<span style="color:#3b82f6;font-size:.65rem">Faible</span>'
-      +'<div style="flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#3b82f6,#22c55e,#eab308,#ef4444,#b91c1c)"></div>'
-      +'<span style="color:#ef4444;font-size:.65rem">Élevé</span></div></div>';
-    mw.appendChild(fb);
-  }
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
     attribution:'&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
@@ -1511,7 +1209,7 @@ function getNeedColor(s){return s>=.8?'#ef4444':s>=.6?'#f59e0b':'#22c55e';}
 function getDonorColor(donors,pop){const r=donors/pop;return r>.04?'#22c55e':r>.025?'#f59e0b':'#ef4444';}
 
 function updateMapLayer(){
-  if(!map||!regions[selectedRegion])return;
+  if(!map)return;
   mapMarkers.forEach(m=>map.removeLayer(m));
   mapCircles.forEach(c=>map.removeLayer(c));
   mapMarkers=[];mapCircles=[];
@@ -1520,62 +1218,16 @@ function updateMapLayer(){
   const layer = document.getElementById('mapLayer').value;
   const heatmap = document.getElementById('heatmapToggle').checked;
 
-  // Heatmap layer (real heat gradient via leaflet.heat)
-  // Update legend (both Leaflet control + fallback)
-  var lgT=document.getElementById('legendTitle'),lgC=document.getElementById('legendContent'),lgG=document.getElementById('legendGradient');
-  var lgT2=document.getElementById('legendTitle2'),lgC2=document.getElementById('legendContent2'),lgG2=document.getElementById('legendGradient2');
-  if(lgT||lgT2){
-    var descs={
-      collectes:['Collectes','Marqueurs = sites (vert=en cours, orange=planifié)',false],
-      besoins:['Besoins transfusionnels','Heatmap : score de besoin par quartier (population, pathologies, fréquence des collectes). Plus c\'est rouge, plus le besoin est élevé.',true],
-      donneurs:['Densité de donneurs','Heatmap : ratio donneurs actifs / population. Rouge = faible densité de donneurs.',true],
-      stocks:['Niveau des stocks','Heatmap : niveau moyen des stocks PSL. Rouge = stocks critiques.',true]};
-    var d=descs[layer]||descs.collectes;
-    var title='🗺️ Couche : '+d[0];
-    if(lgT){lgT.textContent=title;lgC.textContent=d[1];if(lgG)lgG.style.display=(heatmap&&d[2])?'block':'none';}
-    if(lgT2){lgT2.textContent=title;lgC2.textContent=d[1];if(lgG2)lgG2.style.display=(heatmap&&d[2])?'block':'none';}
-  }
-  if(heatmap){
-    // Heatmap via large blurred CSS circles
-    // Color ramp: 5 stops from blue (low) to red (high)
-    var ramp=[[59,130,246],[34,197,94],[234,179,8],[239,68,68],[185,28,28]];
-    function heatColor(t){
-      t=Math.max(0,Math.min(1,t));
-      var idx=t*(ramp.length-1), lo=Math.floor(idx), hi=Math.min(lo+1,ramp.length-1), f=idx-lo;
-      return 'rgb('+Math.round(ramp[lo][0]+(ramp[hi][0]-ramp[lo][0])*f)+','
-        +Math.round(ramp[lo][1]+(ramp[hi][1]-ramp[lo][1])*f)+','
-        +Math.round(ramp[lo][2]+(ramp[hi][2]-ramp[lo][2])*f)+')';
-    }
-    r.quartiers.forEach(q=>{
-      var intensity;
-      if(layer==='besoins') intensity=q.needScore||0;
-      else if(layer==='donneurs') intensity=Math.min(1,(q.donors/q.pop)*20);
-      else if(layer==='stocks'){var avg=Object.values(r.stock).reduce((a,b)=>a+b,0)/8;intensity=1-(avg/100);}
-      else {
-        // Collectes: needScore normalized to span full color range
-        intensity=Math.max(0,(q.needScore-0.4)/0.6);
-      }
-      var circle=L.circle([q.lat,q.lng],{
-        radius:Math.max(800,intensity*2800),
-        color:'transparent',
-        fillColor:heatColor(intensity),
-        fillOpacity:0.4,
-        className:'heat-circle'
-      }).addTo(map);
-      mapCircles.push(circle);
-    });
-  }
-
-  // Quartier circles (subtle rings when heatmap off)
+  // Quartier circles
   r.quartiers.forEach(q=>{
     let color,radius,fillOpacity;
-    if(layer==='besoins'){color=getNeedColor(q.needScore);radius=Math.max(400,q.needScore*1000);fillOpacity=heatmap?0:.12;}
-    else if(layer==='donneurs'){color=getDonorColor(q.donors,q.pop);radius=Math.max(400,(q.donors/q.pop)*15000);fillOpacity=heatmap?0:.12;}
-    else if(layer==='stocks'){color=r.stock.oNeg>=50?'#22c55e':'#ef4444';radius=600;fillOpacity=heatmap?0:.1;}
-    else{color='#5a5a72';radius=400;fillOpacity=heatmap?0:.08;}
+    if(layer==='besoins'){color=getNeedColor(q.needScore);radius=Math.max(300,q.needScore*800);fillOpacity=heatmap?.35:.15;}
+    else if(layer==='donneurs'){color=getDonorColor(q.donors,q.pop);radius=Math.max(300,(q.donors/q.pop)*12000);fillOpacity=heatmap?.35:.15;}
+    else if(layer==='stocks'){color=r.stock.oNeg>=50?'#22c55e':'#ef4444';radius=400;fillOpacity=heatmap?.2:.1;}
+    else{color='#64748b';radius=350;fillOpacity=heatmap?.25:.1;}
 
-    if(!heatmap){
-      const circle=L.circle([q.lat,q.lng],{radius,color:color,fillColor:color,fillOpacity,weight:1,opacity:.4}).addTo(map);
+    if(heatmap){
+      const circle=L.circle([q.lat,q.lng],{radius,color:color,fillColor:color,fillOpacity,weight:1,opacity:.6}).addTo(map);
       mapCircles.push(circle);
     }
 
@@ -1595,9 +1247,9 @@ function updateMapLayer(){
 
   // Fixed centers
   const fixedCenters = [
-    {name:'HUG — Centre fixe',lat:46.1935,lng:6.1490,active:true},
+    {name:'HUG — Centre fixe',lat:46.1930,lng:6.1494,active:true},
     ...(selectedRegion==='vaud'?[{name:'CHUV — Centre fixe',lat:46.5254,lng:6.6428,active:true}]:[]),
-    ...(selectedRegion==='valais'?[{name:'Hôpital de Sion',lat:46.2340,lng:7.3510,active:true}]:[]),
+    ...(selectedRegion==='valais'?[{name:'Hôpital de Sion',lat:46.2355,lng:7.3490,active:true}]:[]),
   ];
   if(selectedRegion==='geneve'||selectedRegion==='vaud'||selectedRegion==='valais'){
     fixedCenters.forEach(fc=>{
@@ -1612,21 +1264,19 @@ function updateMapLayer(){
     });
   }
 
-  // ALL collectes on map (active + future) — geolocated
-  allCollectes.filter(c=>c.region===selectedRegion&&c.status!=='past').forEach(c=>{
-    let lat,lng;
-    if(c.lat&&c.lng){lat=c.lat;lng=c.lng;}
-    else{const q=r.quartiers.find(q=>q.id===c.quartier);if(q){lat=q.lat+(Math.random()-.5)*.005;lng=q.lng+(Math.random()-.5)*.005;}else return;}
-    const isActive=c.status==='active';
-    const bg=isActive?'#a855f7':'#f59e0b';
-    const border=isActive?'#d8b4fe':'#fcd34d';
-    const emoji=c.type==='fixe'?'🏥':'🚌';
-    const anim=isActive?'animation:pulse 2s infinite;':'';
-    const icon=L.divIcon({className:'',html:`<div style="background:${bg};border:2px solid ${border};border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.3);${anim}cursor:pointer">${emoji}</div>`,iconSize:[28,28],iconAnchor:[14,14]});
-    const m=L.marker([lat,lng],{icon}).addTo(map);
-    const pct=c.actual?((c.actual/c.capacity)*100).toFixed(0)+'%':'—';
-    m.bindPopup(`<div style="min-width:200px"><strong>${c.lieu}</strong><br><span style="color:#888">${c.ville} · ${new Date(c.date).toLocaleDateString('fr-CH',{weekday:'short',day:'numeric',month:'short'})}</span><br>⏰ ${c.heure}<br>${isActive?'<span style="color:#22c55e">● EN COURS</span> · '+pct+' rempli':'<span style="color:#f59e0b">◆ Planifiée</span> · ~'+c.prev+' prévus'}<br>Capacité: ${c.capacity} dons<br><button onclick="openCollecteDetail(${c.id})" style="margin-top:6px;padding:4px 12px;border-radius:4px;background:#C8A960;color:#0a0a12;border:none;font-weight:600;cursor:pointer;font-size:12px">Voir détails</button></div>`);
-    mapMarkers.push(m);
+  // Active mobile collectes
+  allCollectes.filter(c=>c.status==='active'&&c.type==='mobile'&&c.region===selectedRegion).forEach(c=>{
+    const q = r.quartiers.find(q=>q.id===c.quartier);
+    if(q){
+      const icon = L.divIcon({
+        className:'',
+        html:`<div style="background:#a855f7;border:2px solid #d8b4fe;border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.3);animation:pulse 2s infinite">🚌</div>`,
+        iconSize:[24,24],iconAnchor:[12,12]
+      });
+      const m = L.marker([q.lat+.002,q.lng+.003],{icon}).addTo(map);
+      m.bindPopup(`<strong>Bus collecte</strong><br>${c.lieu}<br>${c.heure}<br>${c.actual||0}/${c.capacity} dons`);
+      mapMarkers.push(m);
+    }
   });
 }
 
@@ -1650,42 +1300,11 @@ function showQuartierDetail(q){
 function setTimeRange(btn,range){
   document.querySelectorAll('.map-time-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  showToast('info','Vue: '+range+' sélectionnée. La carte affiche la période '+({day:'du jour',week:'de la semaine',month:'du mois'}[range]||range)+'.');
-  updateMapLayer();
 }
-function shiftDate(d){
-  showToast('info',d>0?'Date +1 jour':'Date -1 jour');
-  updateMapLayer();
-}
-function setToday(){
-  showToast('info','Retour à aujourd\'hui.');
-  updateMapLayer();
-}
+function shiftDate(d){/* placeholder for date nav */}
+function setToday(){/* placeholder */}
 
 // ========================= COLLECTE SIDEBAR =========================
-
-function voirSurCarte(collecteId){
-  switchTab('carto');
-  setTimeout(function(){
-    var c=allCollectes.find(function(x){return x.id===collecteId;});
-    if(!c)return;
-    var mapEl=document.getElementById('map');
-    if(mapEl)mapEl.scrollIntoView({behavior:'smooth',block:'center'});
-    if(map&&c.lat&&c.lng){
-      map.invalidateSize();
-      map.flyTo([c.lat,c.lng],15,{duration:1.2});
-      setTimeout(function(){
-        mapMarkers.forEach(function(m){
-          var ll=m.getLatLng();
-          if(Math.abs(ll.lat-c.lat)<0.002&&Math.abs(ll.lng-c.lng)<0.002){
-            m.openPopup();
-          }
-        });
-      },1400);
-    }
-  },350);
-}
-
 function filterCollectes(){
   const search = (document.getElementById('collecteSearchInput')?.value||'').toLowerCase();
   const filter = document.getElementById('collecteFilterSelect')?.value||'all';
@@ -1701,7 +1320,7 @@ function filterCollectes(){
   container.innerHTML = list.map(c=>{
     const cls = c.status==='active'?'active-c':c.status==='future'?'future-c':'past-c';
     const pct = c.actual?((c.actual/c.capacity)*100).toFixed(0):0;
-    return `<div class="collecte-card ${cls}" style="cursor:pointer" onclick="openCollecteDetail(${c.id})">
+    return `<div class="collecte-card ${cls}">
       <div class="collecte-card-header">
         <div><div class="collecte-card-name">${c.lieu}</div><div class="collecte-card-meta">${c.ville} • ${c.heure}</div></div>
         <span class="type-badge ${c.type==='fixe'?'type-fixe':'type-mobile'}">${c.type==='fixe'?'Fixe':'Mobile'}</span>
@@ -1710,7 +1329,6 @@ function filterCollectes(){
         <span style="font-size:.75rem;color:var(--slate-400)">${new Date(c.date).toLocaleDateString('fr-CH',{weekday:'short',day:'numeric',month:'short'})}</span>
         <span style="font-size:.75rem">${c.status==='past'?c.dons+' dons':'~'+c.prev+' prévus'}</span>
       </div>
-      <div style="margin-top:.4rem;text-align:right"><button onclick="event.stopPropagation();voirSurCarte(${c.id})" style="padding:2px 8px;font-size:.65rem;border-radius:4px;background:var(--slate-600);color:var(--amber-400);border:1px solid rgba(200,169,96,.2);cursor:pointer;font-weight:600">Carte</button></div>
       ${c.status==='active'&&c.actual?`<div style="margin-top:.5rem"><div style="display:flex;justify-content:space-between;font-size:.7rem;margin-bottom:.25rem"><span>Progression</span><span>${c.actual}/${c.capacity}</span></div><div class="progress" style="height:6px"><div class="progress-fill" style="width:${pct}%;background:var(--green-500)"></div></div></div>`:''}
     </div>`;
   }).join('')||'<p style="font-size:.85rem;color:var(--slate-500);text-align:center;padding:1rem">Aucune collecte trouvée</p>';
@@ -1733,36 +1351,20 @@ function doPslSearch(){
   var btn = document.getElementById('btnPslSearch');
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Interrogation du réseau…';
   setTimeout(function(){
-    // Build results based on current region (distance from where we are)
-    var rn=regions[selectedRegion]||regions.geneve;
-    var allBanks=[
-      {name:'CTS HUG — Genève',city:'Genève',country:'Suisse',flag:'🇨🇭',region:'geneve',lat:46.193,lng:6.149},
-      {name:'TIR CRS Épalinges (CHUV)',city:'Épalinges',country:'Suisse',flag:'🇨🇭',region:'vaud',lat:46.533,lng:6.660},
-      {name:'Transfusion Interrégionale CRS',city:'Berne',country:'Suisse',flag:'🇨🇭',region:'berne',lat:46.948,lng:7.447},
-      {name:'BSD SRK Zürich',city:'Zürich',country:'Suisse',flag:'🇨🇭',region:'zurich',lat:47.377,lng:8.542},
-      {name:'STS CRS Fribourg',city:'Fribourg',country:'Suisse',flag:'🇨🇭',region:'fribourg',lat:46.807,lng:7.162},
-      {name:'STS CRS Neuchâtel',city:'Neuchâtel',country:'Suisse',flag:'🇨🇭',region:'neuchatel',lat:46.992,lng:6.931},
-      {name:'CRS Valais — Sion',city:'Sion',country:'Suisse',flag:'🇨🇭',region:'valais',lat:46.233,lng:7.360},
-      {name:'ST CRS Ticino',city:'Lugano',country:'Suisse',flag:'🇨🇭',region:'tessin',lat:46.004,lng:8.951},
-      {name:'STS CRS Jura',city:'Delémont',country:'Suisse',flag:'🇨🇭',region:'jura',lat:47.364,lng:7.345},
-      {name:'EFS Rhône-Alpes',city:'Lyon',country:'France',flag:'🇫🇷',region:null,lat:45.764,lng:4.835},
-      {name:'EFS Alsace',city:'Strasbourg',country:'France',flag:'🇫🇷',region:null,lat:48.574,lng:7.753},
-      {name:'DRK Baden-Württemberg',city:'Stuttgart',country:'Allemagne',flag:'🇩🇪',region:null,lat:48.776,lng:9.183},
-      {name:'AVIS Lombardia',city:'Milan',country:'Italie',flag:'🇮🇹',region:null,lat:45.464,lng:9.190}
+    pslLastResults = [
+      {name:'Transfusion Interrégionale CRS',city:'Berne',country:'Suisse',flag:'🇨🇭',dist:160,units:Math.max(2,qty+4),compat:100,eta:'1.5h',cost:65},
+      {name:'TIR CRS Épalinges (CHUV)',city:'Épalinges',country:'Suisse',flag:'🇨🇭',dist:60,units:Math.max(1,qty+1),compat:100,eta:'1h',cost:60},
+      {name:'STS CRS Fribourg',city:'Fribourg',country:'Suisse',flag:'🇨🇭',dist:145,units:Math.max(1,qty),compat:100,eta:'1.5h',cost:62},
+      {name:'BSD SRK Zürich',city:'Zürich',country:'Suisse',flag:'🇨🇭',dist:280,units:Math.max(1,qty-1),compat:100,eta:'2.5h',cost:70},
+      {name:'BSD SRK Bern',city:'Berne',country:'Suisse',flag:'🇨🇭',dist:160,units:qty+2,compat:100,eta:'2h',cost:65},
+      {name:'STS CRS Neuchâtel',city:'Neuchâtel',country:'Suisse',flag:'🇨🇭',dist:155,units:Math.max(1,qty-1),compat:100,eta:'2h',cost:62},
+      {name:'ST CRS Ticino',city:'Lugano',country:'Suisse',flag:'🇨🇭',dist:340,units:Math.max(1,qty),compat:100,eta:'3.5h',cost:70},
+      {name:'CRS Valais',city:'Sion',country:'Suisse',flag:'🇨🇭',dist:180,units:Math.max(1,qty-1),compat:100,eta:'2h',cost:62},
+      {name:'EFS Rhône-Alpes',city:'Lyon',country:'France',flag:'🇫🇷',dist:150,units:Math.max(2,qty+3),compat:100,eta:pslUrgency==='vital'?'3h':'5h',cost:85},
+      {name:'EFS Alsace',city:'Strasbourg',country:'France',flag:'🇫🇷',dist:380,units:qty+5,compat:100,eta:'6h',cost:95},
+      {name:'DRK Baden-Württemberg',city:'Stuttgart',country:'Allemagne',flag:'🇩🇪',dist:420,units:qty+8,compat:98,eta:'5h',cost:120},
+      {name:'AVIS Lombardia',city:'Milan',country:'Italie',flag:'🇮🇹',dist:320,units:qty+12,compat:96,eta:'7h',cost:90},
     ];
-    var myCenter=rn.center;
-    function haversine(a,b){var R=6371,dLat=(b[0]-a[0])*Math.PI/180,dLon=(b[1]-a[1])*Math.PI/180,la=a[0]*Math.PI/180,lb=b[0]*Math.PI/180,h=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(la)*Math.cos(lb)*Math.sin(dLon/2)*Math.sin(dLon/2);return R*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));}
-    pslLastResults=allBanks.map(function(b){
-      var dist=Math.round(haversine(myCenter,[b.lat,b.lng]));
-      var etaMin=Math.round(dist/80*60);
-      var etaStr=etaMin<60?etaMin+'min':Math.floor(etaMin/60)+'h'+(etaMin%60>0?(etaMin%60<10?'0':'')+etaMin%60:'');
-      var isLocal=b.region===selectedRegion;
-      var baseUnits=isLocal?Math.max(qty,qty+Math.round(Math.random()*3)):Math.max(1,qty-1+Math.round(Math.random()*4));
-      var isForeign=!b.region;
-      var compat=isForeign?(95+Math.round(Math.random()*5)):100;
-      var cost=isForeign?(80+Math.round(dist/50)):isLocal?0:(55+Math.round(dist/20));
-      return{name:b.name,city:b.city,country:b.country,flag:b.flag,dist:dist,units:baseUnits,compat:compat,eta:isLocal?'Sur place':etaStr,cost:cost};
-    }).sort(function(a,b){return a.dist-b.dist;});
     pslSortBy='eta';pslShowAll=false;
     displayPslResults();
     btn.disabled=false;
@@ -1774,73 +1376,23 @@ function doOptimizeRoute(){
   const btn = document.getElementById('btnOptimize');
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Optimisation en cours…';
   setTimeout(function(){
-  var r=regions[selectedRegion];
-  var startH=document.getElementById('routeStart').value||'08:00';
-  var endH=document.getElementById('routeEnd').value||'17:00';
-  var startMin=parseInt(startH.split(':')[0])*60+parseInt(startH.split(':')[1]);
-  var endMin=parseInt(endH.split(':')[0])*60+parseInt(endH.split(':')[1]);
-  var totalMin=endMin-startMin;
-
-  // Get mobile collectes for region (checked sites)
-  var mobileSites=allCollectes.filter(function(c){return c.region===selectedRegion&&c.status!=='past'&&c.type==='mobile';});
-  if(mobileSites.length===0) mobileSites=allCollectes.filter(function(c){return c.region===selectedRegion&&c.type==='mobile';}).slice(0,4);
-  mobileSites=mobileSites.slice(0,4); // max 4 stops
-
-  // Build depot name from region
-  var depotNames={geneve:'Dépôt CTS Champel',vaud:'Dépôt TIR CRS Épalinges',berne:'Dépôt TIR CRS Berne',zurich:'Dépôt BSD SRK Zürich',valais:'Dépôt CRS Sion',fribourg:'Dépôt STS Fribourg',neuchatel:'Dépôt STS Neuchâtel',jura:'Dépôt STS Delémont',tessin:'Dépôt ST CRS Lugano'};
-  var depotName=depotNames[selectedRegion]||'Dépôt CTS '+r.name;
-
-  // Build timeline
-  var stops=[];
-  var curMin=startMin-15; // 15min before for setup
-  stops.push({order:1,name:depotName,time:formatMin(curMin),duration:'15min',type:'other'});
-  curMin=startMin;
-
-  var totalDonors=0;
-  var collecteTime=Math.floor((totalMin-45-15)/mobileSites.length); // minus lunch + setup, divide among sites
-  mobileSites.forEach(function(site,i){
-    var donors=site.prev||Math.round(collecteTime/60*5);
-    totalDonors+=donors;
-    var durH=Math.floor(collecteTime/60);
-    var durM=collecteTime%60;
-    var durStr=durH>0?durH+'h'+(durM>0?(durM<10?'0':'')+durM:''):(durM+'min');
-    stops.push({order:stops.length+1,name:site.lieu+' — '+site.ville,time:formatMin(curMin),duration:durStr,donors:donors,type:'collecte'});
-    curMin+=collecteTime;
-    // Add lunch after 2nd stop if there are 3+ stops
-    if(i===1&&mobileSites.length>=3){
-      stops.push({order:stops.length+1,name:'Pause déjeuner',time:formatMin(curMin),duration:'45min',type:'pause'});
-      curMin+=45;
-    }
-  });
-  stops.push({order:stops.length+1,name:'Retour '+depotName.replace('Dépôt ',''),time:formatMin(curMin),duration:null,type:'other'});
-
-  // Compute distances (rough km from quartier spread)
-  var totalDist=(5+mobileSites.length*4+Math.random()*5).toFixed(1);
-  var savKm=(2+Math.random()*3).toFixed(1);
-  var savMin=Math.round(15+Math.random()*25);
-  var savCO2=(savKm*0.25).toFixed(1);
-  var totalTimeH=Math.floor((curMin-startMin+15)/60);
-  var totalTimeM=(curMin-startMin+15)%60;
-  var totalTimeStr=totalTimeH+'h'+(totalTimeM>0?(totalTimeM<10?'0':'')+totalTimeM:'');
-
-  // Alerts per region
-  var alertPool={
-    geneve:[{type:'traffic',msg:'Trafic dense Pont du Mont-Blanc 11h-12h → Itinéraire via Jonction'},{type:'priority',msg:'Donneurs O- confirmés à '+((mobileSites[0]||{}).lieu||r.name)+' (priorité stock critique)'}],
-    vaud:[{type:'traffic',msg:'Travaux A9 sortie Morges → Déviation par route cantonale (+8 min)'},{type:'priority',msg:'2 donneurs Duffy négatif convoqués à Lausanne'}],
-    berne:[{type:'traffic',msg:'Fermeture Monbijoustrasse 10h-14h → Passage par Kirchenfeld'},{type:'priority',msg:'Stock B- critique à Berne, 4 donneurs B- notifiés'}],
-    zurich:[{type:'traffic',msg:'Manifestation Bahnhofstrasse 12h → Passage par Limmatquai'},{type:'priority',msg:'3 donneurs O- confirmés à Oerlikon'}],
-    valais:[{type:'traffic',msg:'Col du Simplon fermé, itinéraire Haut-Valais via autoroute'},{type:'priority',msg:'Stock plaquettes bas à Sion, collecte CP prioritaire'}],
+  const result = {
+    totalDist:18.5,totalTime:'7h15',totalDonors:31,
+    savings:{km:4.2,time:'35min',co2:1.1},
+    stops:[
+      {order:1,name:'Dépôt CTS Champel',time:'07:45',duration:'15min',type:'other'},
+      {order:2,name:'Uni Mail',time:'08:15',duration:'2h30',donors:12,type:'collecte'},
+      {order:3,name:'Plainpalais',time:'11:00',duration:'1h45',donors:6,type:'collecte'},
+      {order:4,name:'Pause déjeuner',time:'12:45',duration:'45min',type:'pause'},
+      {order:5,name:'Balexert',time:'13:45',duration:'2h',donors:8,type:'collecte'},
+      {order:6,name:'Carouge',time:'16:00',duration:'1h15',donors:5,type:'collecte'},
+      {order:7,name:'Retour dépôt',time:'17:30',duration:null,type:'other'},
+    ],
+    alerts:[
+      {type:'traffic',msg:'Trafic dense Pont du Mont-Blanc 11h-12h → Itinéraire via Jonction'},
+      {type:'priority',msg:'3 donneurs O- confirmés à Uni Mail (priorité stock critique)'},
+    ]
   };
-  var alerts=alertPool[selectedRegion]||[{type:'priority',msg:'Stock O- sous seuil critique — prioriser donneurs universels'},{type:'traffic',msg:'Conditions normales de circulation'}];
-
-  var result = {
-    totalDist:parseFloat(totalDist),totalTime:totalTimeStr,totalDonors:totalDonors,
-    savings:{km:parseFloat(savKm),time:savMin+'min',co2:parseFloat(savCO2)},
-    stops:stops,
-    alerts:alerts
-  };
-
-  function formatMin(m){var h=Math.floor(m/60);var mm=m%60;return (h<10?'0':'')+h+':'+(mm<10?'0':'')+mm;}
   const el = document.getElementById('routeResults');
   el.classList.remove('hidden');
   el.innerHTML = `
@@ -1881,8 +1433,8 @@ function doOptimizeRoute(){
         ${result.alerts.map(a=>`<div class="route-alert ${a.type}"><span style="margin-right:.5rem">${a.type==='traffic'?'🚗':'🩸'}</span>${a.msg}</div>`).join('')}
       </div>
       <div class="route-btns">
-        <button class="btn-gps" onclick="showToast('success','🗺️ Itinéraire envoyé au GPS du bus '+document.getElementById('routeBus').value+'. Navigation démarrée.')"><svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Envoyer au GPS</button>
-        <button class="btn-notify" onclick="showToast('success','📢 '+Math.round(regions[selectedRegion].activeDonors*0.04)+' donneurs sur le parcours notifiés par SMS + push.')"><svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Notifier donneurs</button>
+        <button class="btn-gps"><svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Envoyer au GPS</button>
+        <button class="btn-notify"><svg style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Notifier donneurs</button>
       </div>
     </div>
   `;
@@ -1894,21 +1446,11 @@ function doOptimizeRoute(){
 // ========================= PLANNING TABLE =========================
 function renderPlanTable(){
   const body = document.getElementById('planBody');
-  const now = new Date();
-  var maxDate = new Date(now);
-  if(typeof planPeriod==='undefined'||planPeriod==='week') maxDate.setDate(now.getDate()+7);
-  else if(planPeriod==='month') maxDate.setMonth(now.getMonth()+1);
-  else maxDate.setFullYear(now.getFullYear()+1);
-  const rows = allCollectes.filter(c=>{
-    if(c.region!==selectedRegion) return false;
-    if(c.status==='past') return false;
-    var d=new Date(c.date);
-    return d<=maxDate;
-  }).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const rows = allCollectes.filter(c=>c.status!=='past'&&c.region===selectedRegion).sort((a,b)=>new Date(a.date)-new Date(b.date));
   body.innerHTML = rows.map(c=>{
     const d = new Date(c.date);
     const dateStr = d.toLocaleDateString('fr-CH',{weekday:'short',day:'numeric',month:'short'});
-    return `<tr style="cursor:pointer;transition:background .15s" onclick="openCollecteDetail(${c.id})" onmouseover="this.style.background='rgba(200,169,96,.05)'" onmouseout="this.style.background=''">
+    return `<tr>
       <td>${dateStr}</td>
       <td><strong>${c.lieu}</strong><br><span class="plan-sub">${c.ville}</span></td>
       <td><span class="type-badge ${c.type==='fixe'?'type-fixe':'type-mobile'}">${c.type}</span></td>
@@ -1917,10 +1459,7 @@ function renderPlanTable(){
       <td><span class="status-badge ${c.status==='active'?'status-active':'status-planned'}">${c.status==='active'?'En cours':'Planifié'}</span></td>
     </tr>`;
   }).join('');
-  if(rows.length===0) body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--slate-500);padding:2rem">Aucune collecte planifiée pour cette période</td></tr>';
-  // Update count
-  var countEl=document.getElementById('planCount');
-  if(countEl) countEl.textContent=rows.length+' collecte'+(rows.length>1?'s':'');
+  if(rows.length===0) body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--slate-500);padding:2rem">Aucune collecte planifiée pour cette région</td></tr>';
   // Campaign section
   var cp=document.getElementById('campaignPanel');
   if(cp){
@@ -1928,26 +1467,23 @@ function renderPlanTable(){
     var underserved=r.quartiers.filter(q=>q.needScore>=0.75).map(q=>q.name);
     cp.innerHTML='<div class="card-title" style="margin-bottom:.75rem"><svg style="stroke:var(--amber-400);width:18px;height:18px" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Outils de campagne — '+r.name+'</div>'+
     '<div class="grid-2" style="margin-bottom:1rem">'+
-    '<div style="padding:1rem;background:rgba(200,169,96,.05);border:1px solid rgba(200,169,96,.2);border-radius:.5rem"><div style="font-weight:700;margin-bottom:.5rem">📢 Zones prioritaires</div><div style="font-size:.8rem;color:var(--slate-300);line-height:1.7">'+(underserved.length?'Quartiers sous-desservis (needScore ≥0.75) :<br><b style="color:var(--amber-400)">'+underserved.join(', ')+'</b><br>→ Planifier des collectes mobiles en priorité':'<span style="color:var(--green-400)">✓ Bonne couverture géographique</span>')+'</div></div>'+
+    '<div style="padding:1rem;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:.5rem"><div style="font-weight:700;margin-bottom:.5rem">📢 Zones prioritaires</div><div style="font-size:.8rem;color:var(--slate-300);line-height:1.7">'+(underserved.length?'Quartiers sous-desservis (needScore ≥0.75) :<br><b style="color:var(--amber-400)">'+underserved.join(', ')+'</b><br>→ Planifier des collectes mobiles en priorité':'<span style="color:var(--green-400)">✓ Bonne couverture géographique</span>')+'</div></div>'+
     '<div style="padding:1rem;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.2);border-radius:.5rem"><div style="font-weight:700;margin-bottom:.5rem">📊 Recommandations IA</div><div style="font-size:.8rem;color:var(--slate-300);line-height:1.7">'+
     'Nouveaux donneurs/mois : <b>'+r.newDonors+'</b> (cible : '+(Math.round(r.pop/1500))+')<br>'+
     'Groupes critiques : <b style="color:var(--red-400)">'+(r.stock.oNeg<50?'O− ('+r.stock.oNeg+'%) ':'')+(r.stock.bNeg<50?'B− ('+r.stock.bNeg+'%) ':'')+'</b><br>'+
     'Suggestion : campagne ciblée '+(['réseaux sociaux','universités','entreprises','associations communautaires'][Math.floor(Math.random()*4)])+
     '</div></div></div>'+
     '<div style="display:flex;gap:.5rem;flex-wrap:wrap">'+
-    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="showToast(\'success\',\'✓ Action lancée avec succès.\')">📧 Générer email de campagne</button>'+
-    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="showToast(\'success\',\'✓ Action lancée avec succès.\')">📱 SMS d\'appel aux donneurs</button>'+
-    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="showToast(\'success\',\'✓ Action lancée avec succès.\')">🎯 Campagne groupes rares</button>'+
-    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="showToast(\'success\',\'✓ Action lancée avec succès.\')">📋 Export planning PDF</button>'+
+    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="alert(\'Fonctionnalité en développement\')">📧 Générer email de campagne</button>'+
+    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="alert(\'Fonctionnalité en développement\')">📱 SMS d\'appel aux donneurs</button>'+
+    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="alert(\'Fonctionnalité en développement\')">🎯 Campagne groupes rares</button>'+
+    '<button class="tab" style="font-size:.75rem;padding:.4rem .8rem" onclick="alert(\'Fonctionnalité en développement\')">📋 Export planning PDF</button>'+
     '</div>';
   }
 }
-var planPeriod='week';
 function setPeriod(btn){
   document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  planPeriod=btn.textContent.trim().toLowerCase()==='semaine'?'week':btn.textContent.trim().toLowerCase()==='mois'?'month':'year';
-  renderPlanTable();
 }
 
 // ========================= ROUTE (dynamic per region) =========================
@@ -1985,7 +1521,7 @@ function sortPslResults(field){
 function showAllPsl(){pslShowAll=true;displayPslResults();}
 function displayPslResults(){
   var results=pslLastResults.slice();
-  if(pslSortBy==='eta') results.sort(function(a,b){var ae=a.eta==='Sur place'?0:parseFloat(a.eta);var be=b.eta==='Sur place'?0:parseFloat(b.eta);return ae-be;});
+  if(pslSortBy==='eta') results.sort(function(a,b){return parseFloat(a.eta)-parseFloat(b.eta);});
   else if(pslSortBy==='dist') results.sort(function(a,b){return a.dist-b.dist;});
   else if(pslSortBy==='cost') results.sort(function(a,b){return a.cost-b.cost;});
   else if(pslSortBy==='compat') results.sort(function(a,b){return b.compat-a.compat;});
@@ -2003,18 +1539,16 @@ function displayPslResults(){
     '<button class="tab" style="font-size:.7rem;padding:.3rem .6rem;'+(pslSortBy==='compat'?'background:var(--amber-500);color:#fff':'')+'" onclick="sortPslResults(\'compat\')">🧬 Compat.</button>'+
     '</div>'+
     show.map(function(b,i){
-      var isLocal=b.eta==='Sur place';
-      return '<div class="result-card '+(i===0?'recommended':'')+'" style="position:relative;'+(isLocal?'border-color:rgba(200,169,96,.3);background:rgba(200,169,96,.03)':'')+'">'+
+      return '<div class="result-card '+(i===0?'recommended':'')+'">'+
       (i===0?'<span class="reco-badge">RECOMMANDÉ</span>':'')+
-      (isLocal?'<span style="position:absolute;top:8px;right:12px;font-size:.65rem;padding:2px 8px;border-radius:4px;background:rgba(200,169,96,.15);color:var(--amber-400);font-weight:700">📍 VOTRE SITE</span>':'')+
       '<div class="result-header"><div><div class="result-name">'+b.flag+' '+b.name+'</div><div class="result-city">'+b.city+', '+b.country+'</div></div><div class="result-units"><div class="big">'+b.units+'</div><div class="lbl">unités</div></div></div>'+
       '<div class="result-metrics">'+
-      '<div class="result-metric"><div class="m-label">Distance</div><div class="m-value">'+(isLocal?'—':b.dist+' km')+'</div></div>'+
-      '<div class="result-metric"><div class="m-label">ETA</div><div class="m-value" style="color:'+(isLocal?'var(--amber-400)':parseFloat(b.eta)>6?'var(--red-400)':'var(--green-400)')+'">'+b.eta+'</div></div>'+
+      '<div class="result-metric"><div class="m-label">Distance</div><div class="m-value">'+b.dist+' km</div></div>'+
+      '<div class="result-metric"><div class="m-label">ETA</div><div class="m-value" style="color:'+(parseFloat(b.eta)>6?'var(--red-400)':'var(--green-400)')+'">'+b.eta+'</div></div>'+
       '<div class="result-metric"><div class="m-label">Compat.</div><div class="m-value">'+b.compat+'%</div></div>'+
-      '<div class="result-metric"><div class="m-label">Coût/u</div><div class="m-value">'+(isLocal?'—':b.cost+' CHF')+'</div></div>'+
+      '<div class="result-metric"><div class="m-label">Coût/u</div><div class="m-value">'+b.cost+'€</div></div>'+
       '</div>'+
-      '<div class="result-actions"><button class="btn-order" onclick="showToast(\'success\',\'📦 Commande de '+qty+' unités '+groupe+' transmise à '+b.name+'. Confirmation sous 15 min.\')">'+(isLocal?'Réserver':'Commander')+' '+qty+' unités</button><button class="btn-detail" onclick="showToast(\'info\',\'📋 '+b.name+', '+b.city+'. Stock: '+b.units+' unités, compat. '+b.compat+'%, ETA '+b.eta+'\')">Détails</button></div></div>';
+      '<div class="result-actions"><button class="btn-order">Commander '+qty+' unités</button><button class="btn-detail">Détails</button></div></div>';
     }).join('')+
     (!pslShowAll&&results.length>5?'<button style="width:100%;padding:.75rem;border-radius:.5rem;background:var(--slate-700);color:var(--slate-300);font-size:.85rem;margin-top:.5rem;cursor:pointer;border:1px solid var(--slate-600)" onclick="showAllPsl()">Afficher '+(results.length-5)+' résultats supplémentaires ▼</button>':'')+
     '<div class="note-box"><strong>Banques suisses</strong> : commande directe via Transfusion CRS. <strong>Banques EBA</strong> : accords transfrontaliers + Swissmedic (+2-4h admin).</div></div>';
@@ -2022,16 +1556,16 @@ function displayPslResults(){
 
 // ========================= EQUITY =========================
 function renderEquity(){
-  const r = regions[selectedRegion]; if(!r) return;
+  const r = regions[selectedRegion];
   const donorRate = ((r.donors/r.pop)*100).toFixed(2);
   const fulfillRate = ((r.fulfilled/r.need)*100).toFixed(0);
   const gapPct = ((r.gap/r.need)*100).toFixed(1);
-  const accessTime = selectedRegion==='geneve'?'72–168':selectedRegion==='vaud'?'48–120':selectedRegion==='zurich'?'36–96':selectedRegion==='berne'?'24–72':selectedRegion==='valais'?'120–240':selectedRegion==='jura'?'168–336':'96–192';
+  const accessTime = selectedRegion==='geneve'?'1.8':selectedRegion==='vaud'?'2.2':selectedRegion==='valais'?'3.5':selectedRegion==='jura'?'4.2':'2.8';
   const phenoAvail = Math.round(60+r.equity*30);
   document.getElementById('equityKpis').innerHTML = `
     <div class="equity-kpi" style="background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.3)"><div class="val">${r.criticalPatients}</div><div class="lbl">Patients critiques suivis</div></div>
     <div class="equity-kpi" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3)"><div class="val">${r.hemoglobinopathies}</div><div class="lbl">Hémoglobinopathies (SCD/thal.)</div></div>
-    <div class="equity-kpi" style="background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3)"><div class="val">${accessTime}</div><div class="lbl">Délai moyen accès CE phénotypé (heures)</div></div>
+    <div class="equity-kpi" style="background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3)"><div class="val">${accessTime}<span style="font-size:1rem">h</span></div><div class="lbl">Délai moyen accès CE phénotypé</div></div>
     <div class="equity-kpi" style="background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.3)"><div class="val">${fulfillRate}<span style="font-size:1rem">%</span></div><div class="lbl">Couverture besoins (${r.fulfilled}/${r.need})</div></div>
   `;
   const kpis = [
@@ -2060,7 +1594,7 @@ const proKB=[
   {keys:['rai positive','rai+','anti-c','anti-e','anti-k','allo-immunis','anticorps irrégulier'],
    r:'En cas de <b>RAI positive</b>, il faut identifier précisément le(s) anticorps (anti-C, anti-E, anti-K, anti-Fy<sup>a</sup>, anti-Jk<sup>a</sup>…). Le labo réalise un <b>panel d\'identification</b> sur 10-15 hématies-tests. Une fois l\'anticorps identifié :<br><br>• Sélectionner des CE <b>négatifs pour l\'antigène correspondant</b><br>• Réaliser une <b>épreuve de compatibilité au labo</b> (LISS/Coombs, ~45 min)<br>• Multi-immunisation (ex: anti-C + anti-E) → CE C−, E−<br>• <b>Validité RAI</b> : 72h si patient transfusé récemment ou femme enceinte, 21 jours sinon<br><br>⚠️ Anticorps antérieurement détecté mais devenu indétectable → considérer comme <b>toujours présent</b> (mémoire immunologique).'},
   {keys:['drépanocytaire','drépanocytose','scd','hbs','falciform','échange transfusion','érythrocytaphérèse'],
-   r:'Pour un <b>patient drépanocytaire</b> :<br><br>• CE obligatoirement <b>phénotypés</b> : compatibles Rh (C, c, E, e) ET Kell (K−)<br>• Idéalement <b>Duffy et Kidd compatibles</b> (risque allo-immunisation élevé : 20-50%)<br>• Tout CE doit être <b>négatif HbS</b> (exclure donneurs porteurs du trait)<br><br><b>Compatibilité ABO simplifiée :</b><br>• A+ : CE A+ phénotypé, <b>A− caucasien acceptable</b> (si pas d\'anti-Fy<sup>a</sup>)<br>• O+ : CE O+ phénotypé, O− si dispo<br>• B+ : CE B+ phénotypé, B− si dispo (Duffy− très recherché)<br>• Groupes négatifs : iso-groupe strict, stock critique<br><br>• <b>Érythrocytaphérèse</b> : 6 à 10 CE phénotypés par séance, objectif HbS <30%<br>• <b>Transfusion simple</b> : cible Hb 9-10 g/dL, ne pas dépasser 11 (hyperviscosité)<br>• RAI à contrôler à 72h et 1 mois post-transfusion<br><br>📍 <b>Réseau romand</b> : CTS HUG (échanges + érythrocytaphérèse), Morges (douleur), Riviera (accès vasculaire). CHUV → Épalinges.<br>Spécialistes : <b>Dre Waldvogel</b> (HUG), <b>Dre Gavillet</b> (CHUV / TIR CRS Épalinges), Dre Perelli, Dre Mappoura, Dr Samii (HUG), Dr Cimasoni (péd. HUG), Prof. Renella (péd. CHUV).'},
+   r:'Pour un <b>patient drépanocytaire</b> :<br><br>• CE obligatoirement <b>phénotypés</b> : compatibles Rh (C, c, E, e) ET Kell (K−)<br>• Idéalement <b>Duffy et Kidd compatibles</b> (risque allo-immunisation élevé : 20-50%)<br>• <b>Érythrocytaphérèse</b> : 6 à 10 CE phénotypés par séance, objectif HbS <30%<br>• RAI à contrôler à 72h et 1 mois post-transfusion<br><br>📍 <b>Réseau romand</b> : CTS HUG (échanges manuels + érythrocytaphérèse), Morges (gestion de la douleur), Riviera (accès vasculaire). CHUV réfère les échanges à Épalinges.<br>Spécialistes : Dre Waldvogel (HUG), Dre Gavillet (CHUV), Dre Perelli (HUG), Prof. Renella (pédiatrie CHUV).'},
   {keys:['seuil','stock critique','alerte','minimum','commande'],
    r:'<b>Seuils de stock critique</b> au CTS HUG Genève (CE) :<br><br>• <b>O−</b> : 12 poches (donneur universel, urgences vitales)<br>• <b>O+</b> : 30 poches (groupe le plus transfusé)<br>• <b>A+</b> : 25 poches<br>• <b>B+</b> : 15 poches<br>• Groupes rares (B−, AB−) : 5-8 poches<br><br>Sous le seuil → <b>alerte automatique</b> + commande inter-centres (Berne, Zurich, Lausanne via Transfusion Interrégionale CRS).<br>CP : DLC <b>5 jours max</b> → rotation permanente. PFC congelé : jusqu\'à 3 ans.<br><br>Objectif journalier CTS Genève : <b>50-70 dons/jour</b> pour maintenir les stocks.'},
   {keys:['validité rai','durée rai','72h','21 jours','péremption rai'],
@@ -2153,410 +1687,6 @@ function proCallAPI(q){
 renderAll();
 updateDatetime();
 setInterval(updateDatetime,60000);
-
-
-// ========================= TOAST =========================
-function showToast(type,msg){
-  var c=document.getElementById('toastContainer');
-  var t=document.createElement('div');
-  t.className='toast '+type;
-  t.innerHTML=(type==='success'?'✅':type==='warning'?'⚠️':'ℹ️')+' '+msg;
-  t.onclick=function(){t.style.animation='toastOut .3s forwards';setTimeout(function(){t.remove();},300);};
-  c.appendChild(t);
-  setTimeout(function(){if(t.parentNode){t.style.animation='toastOut .3s forwards';setTimeout(function(){t.remove();},300);}},4000);
-}
-
-// ========================= ALERT ACTIONS =========================
-function doAlertAction(action,type){
-  if(action.indexOf('appel')>=0||action.indexOf('Alerter')>=0||action.indexOf('Déclencher')>=0){
-    showToast('success','📢 Campagne d\'appel lancée — 342 donneurs notifiés par SMS.');
-  } else if(action.indexOf('Planifier')>=0){
-    switchTab('carto');
-    setTimeout(function(){showToast('info','📍 Ouvrez le simulateur pour planifier une collecte mobile.');},500);
-  } else if(action.indexOf('campagne')>=0){
-    switchTab('campagnes');
-    setTimeout(function(){showToast('info','📣 Module campagnes ouvert.');},500);
-  } else if(action.indexOf('observatoire')>=0){
-    switchTab('equity');
-  } else {
-    showToast('success','✓ Action « '+action+' » exécutée.');
-  }
-}
-
-// ========================= ALERT ACTIONS =========================
-
-
-// ========================= COLLECTE DETAIL MODAL =========================
-function openCollecteDetail(id){
-  var c=allCollectes.find(function(x){return x.id===id;});
-  if(!c)return;
-  var r=regions[c.region]||regions.geneve;
-  var isActive=c.status==='active';
-  var pct=c.actual?((c.actual/c.capacity)*100).toFixed(0):0;
-  var dateStr=new Date(c.date).toLocaleDateString('fr-CH',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-  var html='<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal-box">';
-  html+='<button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">✕</button>';
-  html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:1.5rem">'+(c.type==='fixe'?'🏥':'🚌')+'</span>';
-  html+='<span style="padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:700;background:'+(isActive?'rgba(34,197,94,.15);color:#22c55e':c.status==='future'?'rgba(245,158,11,.15);color:#f59e0b':'rgba(100,116,139,.15);color:#94a3b8')+'">'+(isActive?'EN COURS':c.status==='future'?'PLANIFIÉE':'TERMINÉE')+'</span></div>';
-  html+='<h3>'+c.lieu+'</h3>';
-  html+='<p style="color:var(--slate-400);font-size:.85rem;margin-bottom:1rem">'+c.ville+' · '+dateStr+' · '+c.heure+'</p>';
-
-  if(isActive&&c.actual){
-    html+='<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px"><span>Progression</span><span style="font-weight:700">'+c.actual+'/'+c.capacity+' ('+pct+'%)</span></div>';
-    html+='<div class="progress" style="height:8px"><div class="progress-fill" style="width:'+pct+'%;background:linear-gradient(90deg,var(--amber-500),var(--green-500))"></div></div></div>';
-  }
-
-  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem">';
-  html+='<div style="padding:12px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:1.2rem;font-weight:700;color:var(--amber-400)">'+(c.actual||c.prev||'—')+'</div><div style="font-size:.7rem;color:var(--slate-400)">'+(isActive?'Dons réalisés':'Dons prévus')+'</div></div>';
-  html+='<div style="padding:12px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:1.2rem;font-weight:700;color:var(--blue-400)">'+c.capacity+'</div><div style="font-size:.7rem;color:var(--slate-400)">Capacité max</div></div>';
-  html+='<div style="padding:12px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:1.2rem;font-weight:700">'+(c.type==='fixe'?'🏥 Centre fixe':'🚌 Collecte mobile')+'</div><div style="font-size:.7rem;color:var(--slate-400)">Type de collecte</div></div>';
-  html+='<div style="padding:12px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:1.2rem;font-weight:700">'+c.region.charAt(0).toUpperCase()+c.region.slice(1)+'</div><div style="font-size:.7rem;color:var(--slate-400)">Région</div></div>';
-  html+='</div>';
-
-  html+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
-  if(isActive||c.status==='past') html+='<button style="flex:1;padding:10px;border-radius:8px;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;font-weight:700;border:none;cursor:pointer;font-size:.85rem" onclick="this.closest(\'.modal-overlay\').remove();generateCollecteReport('+c.id+')">📄 Rapport de collecte</button>';
-  if(c.status==='future') html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--amber-500);color:#0a0a12;font-weight:600;border:none;cursor:pointer;font-size:.85rem" onclick="showToast(\'success\',\'📢 Campagne SMS envoyée à 218 donneurs de la zone.\');this.closest(\'.modal-overlay\').remove()">📢 Notifier donneurs</button>';
-  html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--slate-600);color:#fff;font-weight:600;border:none;cursor:pointer;font-size:.85rem" onclick="this.closest(\'.modal-overlay\').remove();voirSurCarte('+c.id+')">🗺️ Voir sur carte</button>';
-  html+='</div></div></div>';
-
-  document.getElementById('modalContainer').innerHTML=html;
-}
-
-// ========================= SIMULATION (José TB 2.4.5) =========================
-function populateSimSites(){
-  var sel=document.getElementById('simSite');
-  if(!sel)return;
-  var r=regions[selectedRegion];
-  sel.innerHTML='<option value="">— Choisir un site —</option>';
-  r.quartiers.forEach(function(q){sel.innerHTML+='<option value="'+q.id+'">'+q.name+' (pop. '+q.pop.toLocaleString('fr-CH')+')</option>';});
-  // Add corporate sites
-  allCollectes.filter(function(c){return c.region===selectedRegion&&c.lat;}).forEach(function(c){
-    if(!sel.querySelector('option[value="c'+c.id+'"]'))
-      sel.innerHTML+='<option value="c'+c.id+'">'+c.lieu+'</option>';
-  });
-}
-function runSimulation(){
-  var site=document.getElementById('simSite').value;
-  var date=document.getElementById('simDate').value;
-  var slot=document.getElementById('simSlot').value;
-  if(!site){showToast('warning','Veuillez sélectionner un site.');return;}
-  var btn=document.querySelector('.btn-sim');
-  btn.textContent='⏳ Calcul en cours…';btn.disabled=true;
-  setTimeout(function(){
-    var r=regions[selectedRegion];
-    var Rh=5.8;
-    var Fslot=slot==='evening'?1.20:slot==='afternoon'?1.00:0.90;
-    var Fseason=1.10;
-    var dayOfWeek=new Date(date).getDay();
-    var Fday=[0.85,1.02,1.05,1.08,1.12,0.80,0.75][dayOfWeek];
-    var Aacc=0.95+Math.random()*0.2;
-    var slotDuration=slot==='evening'?3:4;
-    var dons=Math.round(Rh*Fslot*Fseason*Fday*Aacc*slotDuration);
-    var donsMin=Math.max(10,dons-Math.round(Math.random()*5));
-    var donsMax=dons+Math.round(Math.random()*5);
-    var yield_h=(dons/slotDuration).toFixed(1);
-    var dayName=new Date(date).toLocaleDateString('fr-CH',{weekday:'long'});
-
-    var el=document.getElementById('simResult');
-    // Resource planning
-    var postes=Math.ceil(dons/(4*slotDuration)); // 1 poste = ~4 dons/h × durée
-    var infirmiers=postes+1; // 1 infirmier(e) par poste + 1 volant(e)
-    var medecin=1; // obligatoire
-    var benevoles=Math.max(2,Math.ceil(dons/15)); // accueil + collations
-    var chauffeur=1;
-    var litres=(dons*0.45).toFixed(0);
-    // Hours: collecte time + 1h setup + 45min rangement
-    var heures=slot==='morning'?['08:00','12:00']:slot==='afternoon'?['12:00','16:00']:['17:00','20:00'];
-    var hSetup=parseInt(heures[0].split(':')[0])-1;
-    var mSetup=heures[0].split(':')[1];
-    var hEnd=parseInt(heures[1].split(':')[0]);
-    var setupTime=(hSetup<10?'0':'')+hSetup+':'+mSetup;
-    var endTime=(hEnd<10?'0':'')+hEnd+':45';
-    // Collations: ~3 CHF/donneur
-    var collBudget=(dons*3);
-    var collDetail=Math.ceil(dons*0.3)+'L eau, '+Math.ceil(dons*0.2)+'L jus, ~'+Math.ceil(dons*1.2)+' biscuits, '+Math.ceil(dons*0.5)+' barres';
-
-    el.innerHTML='<div style="font-weight:700;font-size:1.05rem;margin-bottom:10px;color:var(--amber-400)">📊 Estimation : '+donsMin+'–'+donsMax+' dons ('+dayName+')</div>'+
-      // KPIs row
-      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:.8rem;margin-bottom:12px">'+
-      '<div style="padding:10px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--amber-400)">'+yield_h+'</div><div style="font-size:.7rem;color:var(--slate-400)">dons/heure</div></div>'+
-      '<div style="padding:10px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--green-400)">~'+dons+'</div><div style="font-size:.7rem;color:var(--slate-400)">CE produits</div></div>'+
-      '<div style="padding:10px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--blue-400)">~'+litres+'L</div><div style="font-size:.7rem;color:var(--slate-400)">volume collecté</div></div>'+
-      '</div>'+
-      // Personnel
-      '<div style="padding:12px;background:var(--slate-700);border-radius:8px;margin-bottom:8px">'+
-      '<div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--purple-400)">👥 Personnel requis</div>'+
-      '<table style="width:100%;font-size:.8rem;border-collapse:collapse">'+
-      '<tr><td style="padding:4px 0;white-space:nowrap">🩺 Médecin responsable</td><td style="padding:4px 8px;text-align:right;font-weight:700;white-space:nowrap">'+medecin+'</td></tr>'+
-      '<tr><td style="padding:4px 0;white-space:nowrap">💉 Infirmier·ère·s diplômé·e·s</td><td style="padding:4px 8px;text-align:right;font-weight:700;white-space:nowrap">'+infirmiers+' <span style="color:var(--slate-400);font-weight:400">(1/poste + 1 volant·e)</span></td></tr>'+
-      '<tr><td style="padding:4px 0;white-space:nowrap">🤝 Bénévoles Samaritains/CRS</td><td style="padding:4px 8px;text-align:right;font-weight:700;white-space:nowrap">'+benevoles+' <span style="color:var(--slate-400);font-weight:400">(accueil + collations)</span></td></tr>'+
-      '<tr><td style="padding:4px 0;white-space:nowrap">🚗 Chauffeur·euse bus CTS</td><td style="padding:4px 8px;text-align:right;font-weight:700;white-space:nowrap">'+chauffeur+'</td></tr>'+
-      '<tr style="border-top:1px solid var(--slate-600)"><td style="padding:6px 0;color:var(--slate-400);font-size:.75rem">Total personnel</td><td style="padding:6px 8px;text-align:right;font-weight:700;font-size:.85rem;color:var(--amber-400)">'+(medecin+infirmiers+benevoles+chauffeur)+' personnes</td></tr>'+
-      '</table>'+
-      '<div style="font-size:.7rem;color:var(--slate-400);margin-top:4px">'+postes+' poste(s) de prélèvement</div>'+
-      '</div>'+
-      // Horaires
-      '<div style="padding:12px;background:var(--slate-700);border-radius:8px;margin-bottom:8px">'+
-      '<div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--blue-400)">🕐 Horaires</div>'+
-      '<table style="width:100%;font-size:.8rem;border-collapse:collapse">'+
-      '<tr><td style="padding:3px 0;color:var(--slate-400)">Installation</td><td style="padding:3px 8px;text-align:right;font-weight:700">'+setupTime+'</td><td style="color:var(--slate-500);font-size:.7rem">1h avant</td></tr>'+
-      '<tr style="background:rgba(34,197,94,.08)"><td style="padding:3px 0;color:var(--green-400)">▶ Ouverture dons</td><td style="padding:3px 8px;text-align:right;font-weight:700;color:var(--green-400)">'+heures[0]+'</td><td></td></tr>'+
-      '<tr><td style="padding:3px 0;color:var(--slate-400)">Dernier accueil</td><td style="padding:3px 8px;text-align:right;font-weight:700">'+heures[1]+'</td><td></td></tr>'+
-      '<tr style="background:rgba(239,68,68,.08)"><td style="padding:3px 0;color:var(--red-400)">⏹ Fin + rangement</td><td style="padding:3px 8px;text-align:right;font-weight:700;color:var(--red-400)">'+endTime+'</td><td style="color:var(--slate-500);font-size:.7rem">45 min après</td></tr>'+
-      '</table></div>'+
-      // Matériel + logistique
-      '<div style="padding:12px;background:var(--slate-700);border-radius:8px;margin-bottom:8px">'+
-      '<div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--amber-400)">🚌 Logistique & matériel</div>'+
-      '<table style="width:100%;font-size:.8rem;border-collapse:collapse">'+
-      '<tr><td style="padding:3px 0">🚌 Bus CTS aménagé</td><td style="padding:3px 8px;text-align:right;font-weight:700">'+postes+' postes</td></tr>'+
-      '<tr><td style="padding:3px 0">❄️ Frigo transport 2–6 °C</td><td style="padding:3px 8px;text-align:right;font-weight:700">1 + caissettes</td></tr>'+
-      '<tr><td style="padding:3px 0">📦 Kits de prélèvement</td><td style="padding:3px 8px;text-align:right;font-weight:700">'+Math.ceil(dons*1.15)+'</td></tr>'+
-      '<tr><td style="padding:3px 0">🧪 Tubes échantillons</td><td style="padding:3px 8px;text-align:right;font-weight:700">'+dons*3+'</td></tr>'+
-      '<tr><td style="padding:3px 0">🧊 Agitateur plaquettaire</td><td style="padding:3px 8px;text-align:right;font-weight:700">si CP</td></tr>'+
-      '</table></div>'+
-      // Collations
-      '<div style="padding:12px;background:var(--slate-700);border-radius:8px;margin-bottom:8px">'+
-      '<div style="font-weight:700;font-size:.85rem;margin-bottom:8px;color:var(--green-400)">🍪 Collations post-don</div>'+
-      '<table style="width:100%;font-size:.8rem;border-collapse:collapse">'+
-      '<tr><td style="padding:3px 0">💰 Budget</td><td style="padding:3px 8px;text-align:right;font-weight:700">~'+collBudget+' CHF</td><td style="color:var(--slate-500);font-size:.7rem">~3 CHF/donneur</td></tr>'+
-      '<tr><td colspan="3" style="padding:3px 0;color:var(--slate-400)">'+collDetail+'</td></tr>'+
-      '<tr><td colspan="3" style="padding:3px 0;color:var(--slate-500);font-size:.7rem">+ table, gobelets, serviettes, poubelles tri</td></tr>'+
-      '</table></div>'+
-      // Footer
-      '<div style="font-size:.7rem;color:var(--slate-400);margin-top:6px;line-height:1.5">'+
-      'Score accessibilité : '+(Aacc*100).toFixed(0)+'% · '+dayName.charAt(0).toUpperCase()+dayName.slice(1)+'<br>'+
-      'Formule : Dons = Rh × F<sub>slot</sub> × F<sub>saison</sub> × F<sub>jour</sub> × A<sub>acc</sub> × durée (Bouzo, 2025 — TB HEG)</div>';
-    el.classList.add('show');
-    btn.textContent='🔮 Estimer les dons';btn.disabled=false;
-    showToast('success','Simulation terminée : ~'+dons+' dons estimés pour '+dayName+'.');
-    // Resize map to match sidebar height
-    if(typeof map!=='undefined'&&map){
-      setTimeout(function(){
-        map.invalidateSize();
-        var sidebar=document.querySelector('.grid-2-1>div:last-child');
-        var mapDiv=document.getElementById('map');
-        if(sidebar&&mapDiv){
-          var sh=sidebar.scrollHeight;
-          if(sh>mapDiv.offsetHeight){mapDiv.style.height=sh+'px';map.invalidateSize();}
-        }
-      },200);
-    }
-  },1500);
-}
-
-// ========================= STOCKS MODULE (José TB 2.4.8) =========================
-function renderStocks(){
-  var r=regions[selectedRegion]; if(!r) return;
-  document.getElementById('stockRegionName').textContent=r.name;
-  var groups=[
-    {name:'O+',stock:r.stock.oPos,min:40,max:100,usage:12,expiring3d:3,expiring7d:8},
-    {name:'O−',stock:r.stock.oNeg,min:50,max:100,usage:18,expiring3d:5,expiring7d:12},
-    {name:'A+',stock:r.stock.aPos,min:35,max:100,usage:8,expiring3d:2,expiring7d:5},
-    {name:'A−',stock:r.stock.aNeg,min:40,max:100,usage:10,expiring3d:1,expiring7d:4},
-    {name:'B+',stock:r.stock.bPos,min:30,max:100,usage:6,expiring3d:1,expiring7d:3},
-    {name:'B−',stock:r.stock.bNeg,min:40,max:100,usage:14,expiring3d:2,expiring7d:6},
-    {name:'AB+',stock:r.stock.abPos,min:25,max:100,usage:4,expiring3d:0,expiring7d:2},
-    {name:'AB−',stock:r.stock.abNeg,min:30,max:100,usage:5,expiring3d:1,expiring7d:3}
-  ];
-  var critical=groups.filter(function(g){return g.stock<g.min;}).length;
-  var optimal=groups.filter(function(g){return g.stock>=60;}).length;
-  var totalExpiring=groups.reduce(function(s,g){return s+g.expiring7d;},0);
-  document.getElementById('stockKpis').innerHTML=
-    '<div class="kpi"><div class="kpi-value">'+groups.length+'</div><div class="kpi-label">Groupes suivis</div></div>'+
-    '<div class="kpi"><div class="kpi-value" style="color:var(--red-400)">'+critical+'</div><div class="kpi-label">En situation critique</div></div>'+
-    '<div class="kpi"><div class="kpi-value" style="color:var(--green-400)">'+optimal+'</div><div class="kpi-label">Niveau optimal</div></div>'+
-    '<div class="kpi"><div class="kpi-value" style="color:var(--amber-400)">'+totalExpiring+'</div><div class="kpi-label">Expirent sous 7j</div></div>';
-
-  document.getElementById('stockGroupGrid').innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">'+
-    groups.map(function(g){
-      var color=g.stock<g.min?'var(--red-400)':g.stock>=60?'var(--green-400)':'var(--amber-400)';
-      var status=g.stock<g.min?'CRITIQUE':g.stock>=60?'OPTIMAL':'BAS';
-      return '<div style="padding:14px;background:var(--slate-800);border:1px solid '+(g.stock<g.min?'rgba(239,68,68,.3)':'var(--slate-600)')+';border-radius:10px">'+
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700;font-size:1.1rem">'+g.name+'</span><span style="font-size:.65rem;padding:2px 8px;border-radius:4px;background:'+(g.stock<g.min?'rgba(239,68,68,.15)':g.stock>=60?'rgba(34,197,94,.15)':'rgba(245,158,11,.15)')+';color:'+color+';font-weight:700">'+status+'</span></div>'+
-        '<div class="progress" style="height:8px;margin-bottom:6px"><div class="progress-fill" style="width:'+g.stock+'%;background:'+color+'"></div></div>'+
-        '<div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--slate-400)"><span>'+g.stock+'% · seuil min '+g.min+'%</span><span>−'+g.usage+'u/j</span></div>'+
-        (g.expiring3d>0?'<div style="font-size:.7rem;color:var(--red-400);margin-top:4px">⏰ '+g.expiring3d+' unités expirent sous 3 jours</div>':'')+
-        '</div>';
-    }).join('')+'</div>';
-
-  var criticalGroups=groups.filter(function(g){return g.stock<g.min;});
-  document.getElementById('stockAlerts').innerHTML=criticalGroups.length?
-    '<div style="margin-top:1rem">'+criticalGroups.map(function(g){
-      return '<div style="padding:12px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">'+
-        '<div><span style="color:var(--red-400);font-weight:700">🚨 '+g.name+' critique</span><span style="font-size:.8rem;color:var(--slate-400)"> — '+g.stock+'%, seuil '+g.min+'%</span></div>'+
-        '<button style="padding:6px 14px;border-radius:6px;background:var(--red-500);color:#fff;font-weight:600;font-size:.75rem;border:none;cursor:pointer" onclick="showToast(\'success\',\'📢 Collecte urgente '+g.name+' lancée — 156 donneurs notifiés.\')">Collecte urgente</button>'+
-        '</div>';
-    }).join('')+'</div>':'<div style="padding:1rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;text-align:center;color:var(--green-400);font-size:.85rem;margin-top:1rem">✓ Aucun groupe en situation critique</div>';
-}
-
-// ========================= CAMPAGNES MODULE (José TB 2.4.10-12) =========================
-function renderCampagnes(){
-  if(!document.getElementById('campKpis'))return;
-  var r=regions[selectedRegion]; if(!r)return;
-  var nameEl=document.getElementById('campRegionName');if(nameEl)nameEl.textContent=r.name;
-  // Scale KPIs to region donor base
-  var scale=r.activeDonors/8200; // ratio vs Genève
-  var sent=Math.round(4218*scale);
-  var openRate=(60+Math.round(Math.random()*12));
-  var clicks=Math.round(sent*openRate/100*0.21);
-  var conversion=(10+Math.round(Math.random()*6)).toFixed(1);
-  document.getElementById('campKpis').innerHTML=
-    '<div class="kpi"><div class="kpi-value">'+sent.toLocaleString('fr-CH')+'</div><div class="kpi-label">Messages envoyés</div></div>'+
-    '<div class="kpi"><div class="kpi-value" style="color:var(--green-400)">'+openRate+'%</div><div class="kpi-label">Taux d\'ouverture</div></div>'+
-    '<div class="kpi"><div class="kpi-value" style="color:var(--blue-400)">'+clicks+'</div><div class="kpi-label">Clics</div></div>'+
-    '<div class="kpi"><div class="kpi-value" style="color:var(--amber-400)">'+conversion+'%</div><div class="kpi-label">Conversion</div></div>';
-
-  // Region-specific campaigns
-  var critStock=Object.entries(r.stock).filter(function(e){return e[1]<50;});
-  var urgentGroupe=critStock.length>0?critStock[0][0].replace('Neg','−').replace('Pos','+').replace('o','O').replace('a','A').replace('b','B'):'';
-  var campaigns=[
-    critStock.length>0?{name:'Appel urgent '+urgentGroupe+' — '+r.name,type:'SMS',status:'active',sent:Math.round(342*scale),open:'89%',date:'2026-02-17'}:null,
-    {name:'Newsletter février — '+r.name,type:'Email',status:'scheduled',sent:0,open:'—',date:'2026-02-20'},
-    {name:'Rappel donneurs réguliers — '+r.name,type:'Push',status:'active',sent:Math.round(1250*scale),open:'72%',date:'2026-02-14'},
-    {name:'Collectes mobiles mars — '+r.name,type:'SMS',status:'draft',sent:0,open:'—',date:'—'},
-    {name:'Semaine du sang Q1 — '+r.name,type:'Email',status:'completed',sent:Math.round(2626*scale),open:'61%',date:'2026-01-08'},
-  ].filter(Boolean);
-  document.getElementById('campList').innerHTML=campaigns.map(function(c){
-    var statusColor=c.status==='active'?'var(--green-400)':c.status==='scheduled'?'var(--amber-400)':c.status==='draft'?'var(--slate-400)':'var(--blue-400)';
-    var statusLabel=c.status==='active'?'Active':c.status==='scheduled'?'Programmée':c.status==='draft'?'Brouillon':'Terminée';
-    return '<div style="padding:12px;background:var(--slate-800);border:1px solid var(--slate-600);border-radius:8px;margin-bottom:8px;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap">'+
-      '<div style="flex:1;min-width:150px"><div style="font-weight:600">'+c.name+'</div><div style="font-size:.75rem;color:var(--slate-400)">'+c.type+' · '+c.date+'</div></div>'+
-      '<span style="padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:700;background:rgba(200,169,96,.08);color:'+statusColor+'">'+statusLabel+'</span>'+
-      '<div style="font-size:.8rem;color:var(--slate-300)">'+c.sent+' envoyés · '+c.open+' ouvert</div>'+
-      '<button style="padding:5px 12px;border-radius:6px;background:var(--slate-600);color:#fff;font-size:.75rem;font-weight:600;border:none;cursor:pointer" onclick="showToast(\'info\',\'Campagne «'+c.name+'» ouverte en édition.\')">Modifier</button>'+
-      '</div>';
-  }).join('');
-
-  var templates=[
-    {icon:'📅',name:'Rappel de don',desc:'Bonjour {nom}, rappel pour votre don du {date} à {heure}.'},
-    {icon:'💛',name:'Remerciement',desc:'Merci {nom} ! Votre don sauve des vies. À bientôt !'},
-    {icon:'🚨',name:'Appel urgent',desc:'Besoin urgent de sang {groupe_sanguin}. Donnez maintenant !'},
-  ];
-  document.getElementById('campTemplates').innerHTML=templates.map(function(t){
-    return '<div style="padding:16px;background:var(--slate-800);border:1px solid var(--slate-600);border-radius:10px">'+
-      '<div style="font-size:1.5rem;margin-bottom:6px">'+t.icon+'</div>'+
-      '<div style="font-weight:700;margin-bottom:4px;font-size:.9rem">'+t.name+'</div>'+
-      '<div style="font-size:.8rem;color:var(--slate-400);line-height:1.5;margin-bottom:10px">'+t.desc+'</div>'+
-      '<div style="display:flex;gap:6px"><button style="flex:1;padding:6px;border-radius:6px;background:var(--amber-500);color:#0a0a12;font-weight:600;font-size:.75rem;border:none;cursor:pointer" onclick="showToast(\'success\',\'Modèle «'+t.name+'» utilisé pour nouvelle campagne.\')">Utiliser</button>'+
-      '<button style="flex:1;padding:6px;border-radius:6px;background:var(--slate-600);color:#fff;font-size:.75rem;border:none;cursor:pointer" onclick="showToast(\'info\',\'Modèle «'+t.name+'» ouvert en édition.\')">Modifier</button></div>'+
-      '</div>';
-  }).join('');
-}
-
-
-
-// ========================= RAPPORT DE COLLECTE =========================
-function generateCollecteReport(id){
-  var col=allCollectes.find(function(x){return x.id===id;});
-  if(!col)return;
-  var r=regions[col.region]||regions.geneve;
-  var isActive=col.status==='active';
-  var dateStr=new Date(col.date).toLocaleDateString('fr-CH',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  var dons=col.actual||col.dons||col.prev||0;
-  var pct=dons>0?((dons/col.capacity)*100).toFixed(0):0;
-  var seed=col.id*7+3;
-  function rng(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646;}
-  function rInt(min,max){return Math.floor(rng()*(max-min+1))+min;}
-  var bgDist=[{g:'O+',p:35},{g:'A+',p:38},{g:'B+',p:9},{g:'AB+',p:4},{g:'O−',p:6},{g:'A−',p:5},{g:'B−',p:2},{g:'AB−',p:1}];
-  var bgData=bgDist.map(function(b){return{group:b.g,count:Math.max(0,Math.round(dons*b.p/100+rng()*2-1))};});
-  var totalBg=bgData.reduce(function(s,x){return s+x.count;},0);
-  if(totalBg>0)bgData.forEach(function(x){x.pct=((x.count/totalBg)*100).toFixed(0);});
-  var primo=rInt(Math.round(dons*.12),Math.round(dons*.25));
-  var femmes=rInt(Math.round(dons*.38),Math.round(dons*.52));var hommes=dons-femmes;
-  var age1825=rInt(Math.round(dons*.15),Math.round(dons*.28));
-  var age2640=rInt(Math.round(dons*.30),Math.round(dons*.40));
-  var age4155=rInt(Math.round(dons*.20),Math.round(dons*.30));
-  var age56p=Math.max(0,dons-age1825-age2640-age4155);
-  var yieldH=(dons/4).toFixed(1);
-  var attente=(8+rng()*14).toFixed(0);
-  var refus=rInt(1,Math.max(2,Math.round(dons*.08)));
-  var heureDist=[];var heures=col.heure.split('-');var hS=parseInt(heures[0]);var hE=parseInt(heures[1]||heures[0])+4;
-  for(var h=hS;h<Math.min(hE,hS+8);h++){heureDist.push({h:h+':00',dons:Math.round(dons/(hE-hS)*(0.7+rng()*0.6))});}
-  var notes=['Affluence supérieure aux prévisions entre 12h et 14h.','Retard livraison matériel de 20 min — aucun impact.','Un donneur avec antécédent de malaise — surveillé, RAS.','2 donneurs refusés pour taux Hb insuffisant.','Forte participation des primo-donneurs (communication campus).','Donneur Duffy négatif identifié — phénotypage envoyé au labo.'];
-  var selNotes=[];for(var ni=0;ni<rInt(2,4);ni++)selNotes.push(notes[rInt(0,notes.length-1)]);
-  var prevDons=Math.round(dons*(0.8+rng()*0.4));var delta=dons-prevDons;
-  var rpt='<div class="modal-overlay" onclick="if(event.target===this)this.remove()" style="z-index:10000"><div class="modal-box" style="max-width:720px;max-height:90vh;overflow-y:auto">';
-  rpt+='<button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">✕</button>';
-  rpt+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-size:2rem">'+(col.type==='fixe'?'🏥':'🚌')+'</span><div>';
-  rpt+='<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber-400);font-weight:700">Rapport de collecte</div>';
-  rpt+='<h3 style="font-size:1.3rem;margin:2px 0">'+col.lieu+'</h3>';
-  rpt+='<div style="color:var(--slate-400);font-size:.85rem">'+col.ville+' · '+dateStr+' · '+col.heure+'</div></div></div>';
-  rpt+='<div style="height:1px;background:var(--slate-600);margin:1rem 0"></div>';
-  rpt+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem"><span style="padding:4px 12px;border-radius:6px;font-size:.75rem;font-weight:700;background:'+(isActive?'rgba(34,197,94,.15);color:#22c55e':'rgba(100,116,139,.15);color:#94a3b8')+'">'+(isActive?'EN COURS — données temps réel':'TERMINÉE — rapport final')+'</span><span style="font-size:.75rem;color:var(--slate-500)">Généré le '+new Date().toLocaleString('fr-CH')+'</span></div>';
-  // KPIs
-  rpt+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem">';
-  rpt+='<div style="padding:14px 10px;background:var(--slate-700);border-radius:10px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--amber-400)">'+dons+'</div><div style="font-size:.7rem;color:var(--slate-400)">Dons '+(isActive?'réalisés':'total')+'</div></div>';
-  rpt+='<div style="padding:14px 10px;background:var(--slate-700);border-radius:10px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--blue-400)">'+yieldH+'</div><div style="font-size:.7rem;color:var(--slate-400)">Rendement/h</div></div>';
-  rpt+='<div style="padding:14px 10px;background:var(--slate-700);border-radius:10px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:'+(parseInt(pct)>=80?'var(--green-400)':'var(--amber-400)')+'">'+pct+'%</div><div style="font-size:.7rem;color:var(--slate-400)">Taux remplissage</div></div>';
-  rpt+='<div style="padding:14px 10px;background:var(--slate-700);border-radius:10px;text-align:center"><div style="font-size:1.5rem;font-weight:800;color:var(--purple-400)">'+primo+'</div><div style="font-size:.7rem;color:var(--slate-400)">Primo-donneurs</div></div></div>';
-  // Progress
-  rpt+='<div style="margin-bottom:1.25rem"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px"><span>Progression</span><span style="font-weight:700">'+dons+' / '+col.capacity+'</span></div>';
-  rpt+='<div style="height:10px;background:var(--slate-700);border-radius:8px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,var(--amber-500),'+(parseInt(pct)>=80?'var(--green-500)':'var(--amber-400)')+');border-radius:8px"></div></div></div>';
-  // Blood groups
-  rpt+='<div style="margin-bottom:1.25rem"><div style="font-weight:700;font-size:.9rem;margin-bottom:.75rem">🩸 Répartition par groupe sanguin</div>';
-  rpt+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
-  bgData.forEach(function(bg){var cl=bg.group.includes('−')?'var(--red-400)':'var(--green-400)';rpt+='<div style="padding:10px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-weight:800;font-size:1rem;color:'+cl+'">'+bg.group+'</div><div style="font-size:1.1rem;font-weight:700">'+bg.count+'</div><div style="font-size:.65rem;color:var(--slate-400)">'+(bg.pct||0)+'%</div></div>';});
-  rpt+='</div></div>';
-  // Demographics
-  rpt+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem">';
-  var fP=((femmes/Math.max(1,dons))*100).toFixed(0);var hP=((hommes/Math.max(1,dons))*100).toFixed(0);
-  rpt+='<div style="padding:14px;background:var(--slate-700);border-radius:10px"><div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem">👥 Genre</div>';
-  rpt+='<div style="display:flex;height:12px;border-radius:8px;overflow:hidden;margin-bottom:6px"><div style="width:'+fP+'%;background:var(--purple-400)"></div><div style="width:'+hP+'%;background:var(--blue-400)"></div></div>';
-  rpt+='<div style="display:flex;justify-content:space-between;font-size:.75rem"><span style="color:var(--purple-400)">♀ '+femmes+' ('+fP+'%)</span><span style="color:var(--blue-400)">♂ '+hommes+' ('+hP+'%)</span></div></div>';
-  var ages=[{l:'18-25',n:age1825},{l:'26-40',n:age2640},{l:'41-55',n:age4155},{l:'56+',n:age56p}];
-  rpt+='<div style="padding:14px;background:var(--slate-700);border-radius:10px"><div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem">📊 Tranches d\'âge</div>';
-  ages.forEach(function(a){var w=dons>0?((a.n/dons)*100).toFixed(0):0;rpt+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:.75rem"><span style="width:35px;text-align:right;color:var(--slate-400)">'+a.l+'</span><div style="flex:1;height:8px;background:var(--slate-600);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:var(--amber-400);border-radius:4px"></div></div><span style="width:25px;font-weight:600">'+a.n+'</span></div>';});
-  rpt+='</div></div>';
-  // Hourly
-  rpt+='<div style="margin-bottom:1.25rem"><div style="font-weight:700;font-size:.9rem;margin-bottom:.75rem">⏱ Flux horaire</div>';
-  rpt+='<div style="display:flex;align-items:flex-end;gap:6px;height:160px;padding:0 8px">';
-  var maxH=Math.max.apply(null,heureDist.map(function(x){return x.dons;}));
-  heureDist.forEach(function(hh){var hp=maxH>0?(hh.dons/maxH*100):0;rpt+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:.8rem;font-weight:700;color:var(--amber-400)">'+hh.dons+'</span><div style="width:100%;height:'+hp+'%;min-height:6px;background:linear-gradient(180deg,var(--amber-400),var(--amber-600));border-radius:6px 6px 0 0"></div><span style="font-size:.7rem;color:var(--slate-400)">'+hh.h+'</span></div>';});
-  rpt+='</div></div>';
-  // Extra metrics
-  rpt+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem">';
-  rpt+='<div style="padding:10px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:.7rem;color:var(--slate-400)">Attente moy.</div><div style="font-weight:700">'+attente+' min</div></div>';
-  rpt+='<div style="padding:10px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:.7rem;color:var(--slate-400)">Refus/ajournements</div><div style="font-weight:700;color:var(--red-400)">'+refus+'</div></div>';
-  rpt+='<div style="padding:10px;background:var(--slate-700);border-radius:8px;text-align:center"><div style="font-size:.7rem;color:var(--slate-400)">Primo-donneurs</div><div style="font-weight:700;color:var(--purple-400)">'+((primo/Math.max(1,dons))*100).toFixed(0)+'%</div></div></div>';
-  // Comparison
-  rpt+='<div style="padding:14px;background:rgba(200,169,96,.05);border:1px solid rgba(200,169,96,.15);border-radius:10px;margin-bottom:1.25rem">';
-  rpt+='<div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem">📈 Comparaison avec dernière collecte (même site)</div>';
-  rpt+='<div style="display:flex;gap:1.5rem;font-size:.85rem"><div>Précédente: <b>'+prevDons+'</b></div><div>Actuelle: <b>'+dons+'</b></div>';
-  rpt+='<div style="color:'+(delta>=0?'var(--green-400)':'var(--red-400)')+'">'+(delta>=0?'+':'')+delta+' ('+(delta>=0?'↑':'↓')+(Math.abs(delta/Math.max(1,prevDons))*100).toFixed(0)+'%)</div></div></div>';
-  // Notes
-  rpt+='<div style="margin-bottom:1.25rem"><div style="font-weight:700;font-size:.9rem;margin-bottom:.5rem">📝 Observations</div>';
-  selNotes.forEach(function(n){rpt+='<div style="font-size:.8rem;color:var(--slate-300);padding:6px 0;border-bottom:1px solid var(--slate-700)">• '+n+'</div>';});
-  rpt+='</div>';
-  // Actions
-  rpt+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
-  rpt+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--amber-500);color:#0a0a12;font-weight:700;border:none;cursor:pointer;font-size:.85rem" onclick="printCollecteReport()">🖨️ Imprimer / PDF</button>';
-  rpt+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--slate-600);color:#fff;font-weight:600;border:none;cursor:pointer;font-size:.85rem" onclick="showToast(\'success\',\'📧 Rapport envoyé par email.\');this.closest(\'.modal-overlay\').remove()">📧 Envoyer par email</button></div>';
-  rpt+='<div style="margin-top:1rem;font-size:.65rem;color:var(--slate-500);text-align:center">Rapport généré par BeeMyBlood Pro · Formule Bouzo 2025 — TB HEG</div>';
-  rpt+='</div></div>';
-  document.getElementById('modalContainer').innerHTML=rpt;
-}
-function printCollecteReport(){
-  var el=document.querySelector('.modal-box');if(!el)return;
-  var w=window.open('','_blank','width=800,height=900');
-  w.document.write('<html><head><title>Rapport BeeMyBlood</title><style>body{font-family:system-ui,sans-serif;padding:2rem;max-width:700px;margin:auto;color:#1a1a2e;font-size:14px}h3{font-size:1.3rem}div{box-sizing:border-box}@media print{body{padding:1cm}}</style></head><body>');
-  w.document.write(el.innerHTML.replace(/var\(--amber-400\)/g,'#C8A960').replace(/var\(--amber-500\)/g,'#C8A960').replace(/var\(--green-400\)/g,'#22c55e').replace(/var\(--green-500\)/g,'#16a34a').replace(/var\(--blue-400\)/g,'#60a5fa').replace(/var\(--purple-400\)/g,'#a855f7').replace(/var\(--red-400\)/g,'#f87171').replace(/var\(--slate-300\)/g,'#4a5568').replace(/var\(--slate-400\)/g,'#6b7280').replace(/var\(--slate-500\)/g,'#9ca3af').replace(/var\(--slate-600\)/g,'#d1d5db').replace(/var\(--slate-700\)/g,'#f3f4f6'));
-  w.document.write('<\/body><\/html>');w.document.close();
-  setTimeout(function(){w.print();},500);
-}
-
-// Dashboard accordion: mobile = all folded
-(function(){
-  if(window.innerWidth<=768){
-    document.querySelectorAll('#panel-dashboard .pro-acc.open').forEach(function(a){a.classList.remove('open');});
-  }
-})();
-
-// Dynamic date init
-(function(){var d=new Date();d.setDate(d.getDate()+3);var iso=d.toISOString().split('T')[0];
-var el1=document.getElementById('simDate');if(el1)el1.value=iso;
-var el2=document.getElementById('routeDate');if(el2)el2.value=iso;})();
-document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
 </script>
 </body>
 </html>

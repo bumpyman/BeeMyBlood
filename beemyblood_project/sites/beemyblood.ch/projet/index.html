@@ -1,0 +1,286 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BeeMyBlood™ — Le projet</title>
+<meta name="description" content="BeeMyBlood — plateforme numérique pour le don de sang en Suisse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#0a0a12;--dark-card:#12121e;--dark-surface:#161628;--gold:#C8A960;--gold-light:#E8D5A3;--red:#E63946;--red-soft:#ff6b6b;--text:#f0ece2;--text-dim:#8b8b9e;--text-muted:#5a5a72;--radius:18px}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden;max-width:100vw}
+a{color:var(--gold);text-decoration:none;transition:color .2s}a:hover{color:var(--gold-light)}
+body::before{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(10,10,18,.85);border-bottom:1px solid rgba(200,169,96,.08)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+.nav-brand .bee{font-size:22px}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a{color:var(--text-dim);font-size:14px;font-weight:500;white-space:nowrap}.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}
+
+/* HERO */
+.hero{padding:100px 24px 32px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,62px);font-weight:800;line-height:1.1;margin-bottom:28px;animation:fadeUp .6s ease both}
+.hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-p{font-size:clamp(17px,2vw,19px);color:var(--text-dim);max-width:620px;margin:0 auto;animation:fadeUp .6s .12s ease both;line-height:1.9}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+section{padding:56px 24px}
+.container{max-width:900px;margin:0 auto}
+.stitle{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:800;margin-bottom:16px}
+.stitle .gold{color:var(--gold)}
+.sdesc{color:var(--text-dim);font-size:17px;max-width:600px;margin-bottom:36px;line-height:1.8}
+
+/* FEATURES — 6 main + expandable others */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.feat{position:relative;padding:28px 24px;border-radius:var(--radius);background:var(--dark-card);border:1px solid rgba(200,169,96,.1);overflow:hidden;transition:border-color .3s,transform .25s}
+.feat:hover{border-color:rgba(200,169,96,.18);transform:translateY(-2px)}
+.feat-num{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:2px;margin-bottom:8px}
+.feat-icon{float:right;font-size:28px;opacity:.45;margin:-4px 0 0 8px}
+.feat h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.feat p{font-size:15px;color:var(--text-dim);line-height:1.7}
+
+/* More features toggle */
+.more-wrap{margin-top:14px}
+.more-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border-radius:var(--radius);background:var(--dark-card);border:1px dashed rgba(200,169,96,.15);color:var(--gold);font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.more-btn:hover{border-color:rgba(200,169,96,.35);background:rgba(200,169,96,.03)}
+.more-btn .chev{transition:transform .3s}
+.more-btn.open .chev{transform:rotate(180deg)}
+.more-grid{max-height:0;overflow:hidden;transition:max-height .5s ease;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.more-grid.open{max-height:3000px;margin-top:14px}
+
+/* HACKATHON */
+.hack-section{background:var(--dark-surface);scroll-margin-top:60px}
+.hack-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hack-day{padding:28px;border-radius:var(--radius);background:var(--dark-card);border:1px solid rgba(200,169,96,.05)}
+.hack-day h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.hack-day .day-date{font-size:14px;color:var(--gold);font-weight:600;margin-bottom:16px}
+.prog-item{display:flex;gap:10px;margin-bottom:12px;font-size:15px}.prog-item:last-child{margin-bottom:0}
+.prog-time{color:var(--gold);font-weight:600;white-space:nowrap;min-width:55px}
+.prog-what{color:var(--text-dim);line-height:1.5}.prog-what b{color:var(--text);font-weight:600}
+
+.profiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:36px}
+.ptag{padding:10px 18px;border-radius:99px;background:rgba(200,169,96,.03);border:1px solid rgba(200,169,96,.08);font-size:14px;color:var(--text-dim);font-weight:500;transition:all .2s}
+.ptag:hover{border-color:rgba(200,169,96,.22);color:var(--text)}
+
+.btn-hack{padding:16px 36px;border-radius:12px;background:linear-gradient(135deg,var(--red),#c0392b);color:#fff!important;font-weight:700;font-size:16px;transition:transform .2s,box-shadow .2s;display:inline-block;line-height:1.4}
+.btn-hack:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(230,57,70,.25);color:#fff!important}
+
+.eco-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.eco{padding:18px 28px;border-radius:12px;background:var(--dark-card);border:1px solid rgba(200,169,96,.08);font-size:16px;font-weight:600;color:var(--text-dim);transition:all .3s;text-decoration:none}
+.eco:hover{border-color:rgba(200,169,96,.2);color:var(--text)}
+.eco span{margin-right:6px}
+
+footer{padding:28px 24px;text-align:center;border-top:1px solid rgba(200,169,96,.05);font-size:13px;color:var(--text-muted);line-height:2}
+footer a{color:var(--gold)}
+
+/* ===== MOBILE ===== */
+@media(max-width:480px){
+  nav{padding:12px 16px}
+  .nav-brand{font-size:16px}.nav-brand .bee{font-size:20px}
+  .nav-links{gap:12px}
+  .nav-links a{font-size:14px;font-weight:600;color:var(--gold)}
+
+  .hero{padding:72px 16px 24px}
+  .hero h1{font-size:36px;margin-bottom:24px}
+  .hero-p{font-size:17px;line-height:1.85}
+
+  section{padding:36px 16px}
+  .stitle{font-size:28px;margin-bottom:14px}
+  .sdesc{font-size:16px;margin-bottom:28px}
+
+  .feat-grid,.more-grid,.hack-grid{grid-template-columns:1fr}
+  .feat{padding:22px 18px}
+  .feat h3{font-size:17px}
+  .feat p{font-size:14px}
+  .feat-icon{font-size:26px}
+
+  .hack-day{padding:22px 18px}
+  .hack-day h3{font-size:20px}
+  .prog-item{font-size:14px}
+
+  .ptag{padding:9px 14px;font-size:13px}
+  .profiles{gap:6px}
+  .btn-hack{padding:14px 28px;font-size:15px;width:100%}
+
+  .eco-grid{flex-direction:column;align-items:stretch}
+  .eco{text-align:center;font-size:15px;padding:16px 20px}
+
+  footer{font-size:12px;padding:20px 16px}
+}
+
+/* ===== FOLD ===== */
+@media(max-width:320px){
+  .hero h1{font-size:30px}
+  .hero-p{font-size:15px}
+  .stitle{font-size:24px}
+  .feat h3{font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../" class="nav-brand"><span class="bee">🐝</span> BeeMyBlood™</a>
+  <div class="nav-links">
+    <a href="#" class="active">Le projet</a>
+    <a href="#hackathon">Hackathon</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Le projet <span class="gold">BeeMyBlood</span></h1>
+
+  <p class="hero-p">Chaque jour en Suisse, <strong style="color:var(--text)">des centaines de patient·e·s</strong> ont besoin de produits sanguins.</p>
+
+  <p class="hero-p" style="margin-top:24px;animation-delay:.18s">Pourtant, seuls <strong style="color:var(--gold)">2.4%</strong> de la population donne son sang. Les réserves passent régulièrement sous le <strong style="color:var(--red-soft)">seuil d'alerte</strong>.</p>
+
+  <p class="hero-p" style="margin-top:24px;animation-delay:.26s">Certaines personnes nécessitant des produits spécifiques attendent des <strong style="color:var(--text)">semaines</strong>, des <strong style="color:var(--text)">mois</strong> — et leur état <strong style="color:var(--red-soft)">se dégrade</strong>, se complique.</p>
+
+  <p class="hero-p" style="margin-top:24px;animation-delay:.34s">Entre les donneur·se·s prêt·e·s à aider et les patient·e·s qui attendent, il y a des <strong style="color:var(--text)">vides que personne ne comble</strong>.</p>
+
+  <p class="hero-p" style="margin-top:24px;animation-delay:.42s">BeeMyBlood veut les combler : <strong style="color:var(--text)">faciliter le don</strong>, <strong style="color:var(--text)">outiller les professionnel·le·s</strong>, et faire en sorte que chaque patient·e reçoive ce dont il ou elle a besoin, <strong style="color:var(--gold)">à temps</strong>.</p>
+</section>
+
+<!-- FONCTIONNALITÉS -->
+<section style="background:var(--dark-surface);padding-top:40px">
+  <div class="container">
+    <div class="stitle reveal">En <span class="gold">pratique</span></div>
+    <div class="sdesc reveal reveal-d1">BeeMyBlood propose trois espaces complémentaires — un pour les donneur·se·s, un pour les professionnel·le·s de la transfusion, et un pour les receveur·se·s de produits sanguins — articulés autour de fonctionnalités concrètes.</div>
+
+    <div class="feat-grid">
+      <div class="feat reveal reveal-d1"><div class="feat-num">01</div><div class="feat-icon">📋</div><h3>Parcours donneur simplifié</h3><p>Préparer son don avant d'arriver au centre : questionnaire d'éligibilité, prise de rendez-vous, informations personnalisées.</p></div>
+      <div class="feat reveal reveal-d2"><div class="feat-num">02</div><div class="feat-icon">📊</div><h3>Vision en temps réel</h3><p>Visualiser les niveaux de stock par groupe et par région, identifier les zones en tension, coordonner entre centres suisses et européens.</p></div>
+      <div class="feat reveal reveal-d3"><div class="feat-num">03</div><div class="feat-icon">🤖</div><h3>BeeBot — assistant IA</h3><p>Un assistant qui s'adapte à son interlocuteur : répondre aux questions d'un·e donneur·se, ou accompagner un·e professionnel·le dans une décision clinique.</p></div>
+      <div class="feat reveal reveal-d4"><div class="feat-num">04</div><div class="feat-icon">🎮</div><h3>HémoRush™</h3><p>Apprendre les compatibilités sanguines en jouant. 5 modes, des faits médicaux à chaque partie, pour sensibiliser tout en s'amusant.</p></div>
+      <div class="feat reveal reveal-d1"><div class="feat-num">05</div><div class="feat-icon">🌍</div><h3>Accès équitable aux soins</h3><p>Mesurer les écarts, identifier les zones sous-desservies, rendre visibles les inégalités pour mieux les corriger.</p></div>
+      <div class="feat reveal reveal-d2"><div class="feat-num">06</div><div class="feat-icon">🔬</div><h3>Jumeau numérique</h3><p>Simuler la chaîne transfusionnelle pour anticiper les besoins, tester des scénarios et optimiser la logistique.</p></div>
+    </div>
+
+    <!-- More features -->
+    <div class="more-wrap reveal">
+      <button class="more-btn" onclick="toggleMore(this)">
+        <span class="more-label">Voir toutes les fonctionnalités</span>
+        <span class="chev">▼</span>
+      </button>
+      <div class="more-grid" id="moreFeats">
+        <div class="feat"><div class="feat-num">07</div><div class="feat-icon">📍</div><h3>Carte des centres</h3><p>Localiser les centres de collecte en réalité augmentée, avec horaires, disponibilité et itinéraire. 18 sites CTS en Suisse romande.</p></div>
+        <div class="feat"><div class="feat-num">08</div><div class="feat-icon">🎬</div><h3>Vidéos & témoignages</h3><p>Carousel de vidéos éducatives, témoignages de donneur·se·s et de patient·e·s, pour humaniser le don et lever les appréhensions.</p></div>
+        <div class="feat"><div class="feat-num">09</div><div class="feat-icon">🏆</div><h3>Parcours gamifié</h3><p>Streaks, badges, carte de donneur partageable, système de fratrie et de parrainage pour motiver et fidéliser les donneur·se·s.</p></div>
+        <div class="feat"><div class="feat-num">10</div><div class="feat-icon">📺</div><h3>Flux CTS en direct</h3><p>Visualiser le flux d'activité du Centre de Transfusion en temps réel : dons en cours, stocks dynamiques, événements de la journée.</p></div>
+        <div class="feat"><div class="feat-num">11</div><div class="feat-icon">🚐</div><h3>Optimisation itinéraires bus</h3><p>Calcul des routes optimales pour les bus de collecte mobile, avec estimation des donneurs par zone et économies CO₂.</p></div>
+        <div class="feat"><div class="feat-num">12</div><div class="feat-icon">🧬</div><h3>Groupes rares & PSL</h3><p>Recherche de produits sanguins labiles à travers le réseau suisse et européen (EBA). Phénotypes rares : Duffy négatif, Bombay, RhNull.</p></div>
+        <div class="feat"><div class="feat-num">13</div><div class="feat-icon">📖</div><h3>Protocoles CRS</h3><p>Accès direct aux directives officielles de Transfusion CRS Suisse : critères d'éligibilité, transfusion massive, phénotypes, compatibilité.</p></div>
+        <div class="feat"><div class="feat-num">14</div><div class="feat-icon">❓</div><h3>FAQ intelligente</h3><p>Questions fréquentes avec recherche instantanée. De « Puis-je donner si j'ai un tatouage ? » à « Comment se passe le don de plaquettes ? ».</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HACKATHON -->
+<section class="hack-section" id="hackathon">
+  <div class="container">
+    <div class="stitle reveal">Hackathon des HUG <span style="color:var(--red-soft)">#9</span></div>
+    <div class="sdesc reveal reveal-d1">Le 9ᵉ Hackathon des Hôpitaux Universitaires de Genève est l'occasion de pousser BeeMyBlood plus loin — 36 heures au Centre de l'innovation, les 20 et 21 mars 2026.</div>
+
+    <div style="text-align:center" class="reveal reveal-d2">
+      <p style="color:var(--text-dim);font-size:15px;margin-bottom:14px">Ouvert à toutes et tous :</p>
+      <div class="profiles">
+        <span class="ptag">🧑‍💻 Développeur·se·s</span>
+        <span class="ptag">🎨 Designers</span>
+        <span class="ptag">🩺 Soignant·e·s</span>
+        <span class="ptag">🎭 Artistes</span>
+        <span class="ptag">💉 Donneur·se·s</span>
+        <span class="ptag">💛 Patient·e·s</span>
+        <span class="ptag">👥 Citoyen·ne·s</span>
+        <span class="ptag">📋 Managers</span>
+        <span class="ptag">⚖️ Juristes</span>
+        <span class="ptag">📣 Communication</span>
+        <span class="ptag">🔒 Sécurité</span>
+        <span class="ptag">📊 Data</span>
+        <span class="ptag">🔬 Chercheur·se·s</span>
+        <span class="ptag">… et bien d'autres</span>
+      </div>
+    </div>
+
+    <div class="hack-grid reveal">
+      <div class="hack-day"><h3>Jour 1</h3><div class="day-date">Vendredi 20 mars 2026</div>
+        <div class="prog-item"><span class="prog-time">08:30</span><div class="prog-what"><b>Accueil & café</b></div></div>
+        <div class="prog-item"><span class="prog-time">09:00</span><div class="prog-what"><b>Ouverture</b> — présentation des défis</div></div>
+        <div class="prog-item"><span class="prog-time">09:30</span><div class="prog-what"><b>C'est parti !</b> — 36h chrono</div></div>
+        <div class="prog-item"><span class="prog-time">12:30</span><div class="prog-what">Déjeuner</div></div>
+        <div class="prog-item"><span class="prog-time">14:00</span><div class="prog-what"><b>Coaching</b> — mentors disponibles</div></div>
+        <div class="prog-item"><span class="prog-time">19:00</span><div class="prog-what">Dîner & networking</div></div>
+        <div class="prog-item"><span class="prog-time">22:00+</span><div class="prog-what"><b>Night shift</b></div></div>
+      </div>
+      <div class="hack-day"><h3>Jour 2</h3><div class="day-date">Samedi 21 mars 2026</div>
+        <div class="prog-item"><span class="prog-time">08:00</span><div class="prog-what">Petit-déjeuner</div></div>
+        <div class="prog-item"><span class="prog-time">09:00</span><div class="prog-what"><b>Sprint final</b></div></div>
+        <div class="prog-item"><span class="prog-time">12:00</span><div class="prog-what">Déjeuner</div></div>
+        <div class="prog-item"><span class="prog-time">14:00</span><div class="prog-what"><b>Freeze !</b> — préparation pitchs</div></div>
+        <div class="prog-item"><span class="prog-time">15:00</span><div class="prog-what"><b>Pitchs devant le jury</b></div></div>
+        <div class="prog-item"><span class="prog-time">17:00</span><div class="prog-what"><b>Délibération & prix</b></div></div>
+        <div class="prog-item"><span class="prog-time">18:00</span><div class="prog-what"><b>Apéritif de clôture</b> 🎉</div></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:40px" class="reveal">
+      <a href="https://www.hug.ch/centre-innovation/hackathon-9" target="_blank" class="btn-hack">S'inscrire avant le 26 février sur le site des HUG →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEME -->
+<section>
+  <div class="container" style="text-align:center">
+    <div class="stitle reveal">Écosystème</div>
+    <div class="sdesc reveal reveal-d1" style="margin-left:auto;margin-right:auto">BeeMyBlood est un projet du Convivens Lab (HES-SO Genève), développé en lien avec des acteurs de la chaîne transfusionnelle en Suisse.</div>
+    <div class="eco-grid reveal reveal-d2">
+      <a href="https://www.hug.ch/don-du-sang" target="_blank" class="eco"><span>🏥</span>Centre de Transfusion Sanguine — HUG</a>
+      <a href="https://www.convivens.ch" target="_blank" class="eco"><span>🎓</span>Convivens Lab — HEG Genève</a>
+      <a href="https://www.unige.ch/medecine/simed/" target="_blank" class="eco"><span>🔬</span>SIMED — Université de Genève</a>
+      <a href="https://www.transfusion.ch" target="_blank" class="eco"><span>🩸</span>Transfusion Interrégionale CRS</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  🐝 <strong>BeeMyBlood™</strong> · Convivens Lab · <a href="https://www.hesge.ch/heg/" target="_blank">HEG Genève</a> · <a href="https://www.hug.ch" target="_blank">HUG</a> · <a href="https://www.unige.ch" target="_blank">UNIGE</a><br>
+  © 2026 · <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a> · AGPL-3.0
+</footer>
+
+<script>
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+
+function toggleMore(btn){
+  var grid=document.getElementById('moreFeats');
+  btn.classList.toggle('open');
+  grid.classList.toggle('open');
+  btn.querySelector('.more-label').textContent=grid.classList.contains('open')?'Moins de fonctionnalités':'Voir toutes les fonctionnalités';
+}
+document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
+</script>
+</body>
+</html>
