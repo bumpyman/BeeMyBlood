@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.2 — 2026-09-08 — locks on mobile, no fictional toasts in public mode
+
+### Changed
+- Donor space, public mode: lock badges now also appear on reserved entries of the mobile bottom bar, the mobile menu and the home tiles, not only on the desktop tabs.
+- The rotating "live" toasts (fictional messages such as "8 poches restantes") no longer run in public mode; the only toast shown to visitors is a real critical level from the official barometer, displayed once.
+- Stock block and glossary name the cantons covered by Transfusion Interrégionale CRS (Berne, Vaud, Valais). README documents the data cache refresh.
+
 ## v0.4.1 — 2026-09-08 — HémoRush public, hosting facts
 
 ### Changed

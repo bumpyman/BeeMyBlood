@@ -1294,6 +1294,8 @@ body.light-mode .badge-item.earned{background:rgba(184,134,11,.04);border-color:
 body.bmb-public .alpha-only{display:none!important}
 body:not(.bmb-public) .public-only{display:none!important}
 body.bmb-public .nav-tab.bmb-reserve::after{content:" 🔒";font-size:.75em;opacity:.7}
+body.bmb-public .mob-bottom-btn.bmb-reserve,body.bmb-public .mob-item.bmb-reserve,body.bmb-public .hero-feat.bmb-reserve{position:relative}
+body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb-reserve::after,body.bmb-public .hero-feat.bmb-reserve::after{content:"🔒";position:absolute;top:4px;right:8px;font-size:11px;line-height:1;opacity:.9}
 /* ancien écran d'accès neutralisé : l'entrée se fait par acces.js */
 #gate-overlay{display:none!important}
 </style>
@@ -5479,6 +5481,8 @@ var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,impact:1,profil:1,settings:1,
   };
   // cadenas sur les onglets réservés tant qu'on n'est pas connecté
   document.querySelectorAll('.nav-tab').forEach(function(t){ if(BMB_RESERVE[t.dataset.v]) t.classList.add('bmb-reserve'); });
+  // idem pour la barre du bas, le menu mobile et les tuiles de l'accueil (onclick=go('x') / goMob('x'))
+  document.querySelectorAll('[onclick]').forEach(function(el){ var m=(el.getAttribute('onclick')||'').match(/^s*go(?:Mob)?('([a-z]+)')/); if(m&&BMB_RESERVE[m[1]]) el.classList.add('bmb-reserve'); });
 })();
 
 // ===== NAV OVERFLOW (Priority+ pattern) =====
@@ -8092,6 +8096,7 @@ const TOASTS=_isWE?[
 let toastIdx=0;
 function showLiveToast(){
   const el=document.getElementById('live-toast');if(!el)return;
+  if(document.body.classList.contains('bmb-public'))return; // messages fictifs : réservés aux testeurs invités
   const t=TOASTS[toastIdx%TOASTS.length];toastIdx++;
   document.getElementById('lt-icon').textContent=t[0];
   document.getElementById('lt-text').textContent=t[1];
@@ -8294,7 +8299,7 @@ function bmbRenderDonnees(d){
       btns.innerHTML=d.stocks.map(function(s,i){ return '<button class="canton-btn'+(i===0?' active':'')+'" data-institut="'+s.code+'" onclick="selectCanton(this)">'+bmbEsc(s.court)+'</button>'; }).join('');
       bmbAfficherStock(d.stocks[0].code);
       var crit=(d.stocks[0].groupes||[]).filter(function(g){return g.niveau==='critique';}).map(function(g){return g.groupe;});
-      var lt=document.getElementById('live-toast'); if(lt&&crit.length){ lt.classList.remove('alpha-only'); document.getElementById('lt-text').textContent='Stock '+crit.join(', ')+' critique — '+d.stocks[0].label+' (baromètre officiel)'; }
+      var lt=document.getElementById('live-toast'); if(lt&&crit.length){ lt.classList.remove('alpha-only'); document.getElementById('lt-icon').textContent='🩸'; document.getElementById('lt-text').textContent='Stock '+crit.join(', ')+' critique — '+d.stocks[0].label+' (baromètre officiel)'; setTimeout(function(){ lt.classList.add('show'); setTimeout(function(){ lt.classList.remove('show'); },7000); },3000); }
     } else {
       btns.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Baromètre officiel indisponible pour le moment · <a href="https://www.blutspende.ch/fr" target="_blank" rel="noopener" style="color:var(--gold)">le consulter sur blutspende.ch</a></span>';
       var rows=document.getElementById('stock-canton-rows'); if(rows) rows.innerHTML='';
