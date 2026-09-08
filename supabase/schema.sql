@@ -87,7 +87,7 @@ revoke all on all tables in schema public from anon, authenticated;
 -- Utilitaires
 -- ============================================================================
 create or replace function public.bmb_hash(t text) returns text
-language sql immutable as $$ select encode(digest(coalesce(t,''), 'sha256'), 'hex') $$;
+language sql immutable set search_path = public, extensions as $$ select encode(extensions.digest(coalesce(t,''), 'sha256'), 'hex') $$;
 
 -- Code lisible sans caractères ambigus : BMB-XXXX-XXXX
 create or replace function public.bmb_nouveau_code() returns text
@@ -105,7 +105,7 @@ create or replace function public.bmb_email_courant() returns text
 language sql stable as $$ select lower(coalesce(auth.jwt() ->> 'email', '')) $$;
 
 create or replace function public.est_admin() returns boolean
-language sql stable security definer set search_path = public as $$
+language sql stable security definer set search_path = public, extensions as $$
   select exists (select 1 from public.admins where lower(email) = public.bmb_email_courant())
 $$;
 
@@ -113,7 +113,7 @@ $$;
 -- Public (anon) : demander un accès, lire le NDA courant
 -- ============================================================================
 create or replace function public.demander_acces(p jsonb) returns jsonb
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, extensions as $$
 declare v_email text := lower(trim(coalesce(p->>'email','')));
 begin
   if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' then raise exception 'courriel_invalide'; end if;
@@ -128,7 +128,7 @@ begin
 end $$;
 
 create or replace function public.nda_courant() returns jsonb
-language sql stable security definer set search_path = public as $$
+language sql stable security definer set search_path = public, extensions as $$
   select jsonb_build_object('version', version, 'titre', titre, 'texte', texte, 'publie_le', publie_le)
   from public.nda_versions where courante limit 1
 $$;
@@ -137,7 +137,7 @@ $$;
 -- Connecté : état, activation d'un code, signature, journal
 -- ============================================================================
 create or replace function public.mon_etat() returns jsonb
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, extensions as $$
 declare v_uid uuid := auth.uid(); v_email text := public.bmb_email_courant(); v_acces public.acces; v_version text; v_signe boolean;
 begin
   if v_uid is null then return jsonb_build_object('connecte', false); end if;
@@ -155,7 +155,7 @@ begin
 end $$;
 
 create or replace function public.activer_invitation(p_code text) returns jsonb
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, extensions as $$
 declare v_uid uuid := auth.uid(); v_email text := public.bmb_email_courant(); d public.demandes_acces;
 begin
   if v_uid is null then raise exception 'non_connecte'; end if;
@@ -173,7 +173,7 @@ begin
 end $$;
 
 create or replace function public.signer_nda(p_nom text, p_version text, p_user_agent text default null) returns jsonb
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, extensions as $$
 declare v_uid uuid := auth.uid();
 begin
   if v_uid is null then raise exception 'non_connecte'; end if;
@@ -186,7 +186,7 @@ begin
 end $$;
 
 create or replace function public.journaliser_acces(p_espace text) returns void
-language sql security definer set search_path = public as $$
+language sql security definer set search_path = public, extensions as $$
   insert into public.journal_acces (user_id, email, espace)
   select auth.uid(), public.bmb_email_courant(), left(coalesce(p_espace,''), 40) where auth.uid() is not null
 $$;
@@ -195,14 +195,14 @@ $$;
 -- Administration
 -- ============================================================================
 create or replace function public.admin_lister_demandes() returns jsonb
-language sql stable security definer set search_path = public as $$
+language sql stable security definer set search_path = public, extensions as $$
   select case when public.est_admin() then coalesce(jsonb_agg(to_jsonb(d) - 'code_hash' order by d.cree_le desc), '[]'::jsonb)
               else null end
   from public.demandes_acces d
 $$;
 
 create or replace function public.admin_approuver(p_id uuid, p_jours int default 30) returns jsonb
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, extensions as $$
 declare v_code text := public.bmb_nouveau_code(); d public.demandes_acces;
 begin
   if not public.est_admin() then raise exception 'non_admin'; end if;
@@ -215,13 +215,13 @@ begin
 end $$;
 
 create or replace function public.admin_refuser(p_id uuid, p_note text default null) returns void
-language sql security definer set search_path = public as $$
+language sql security definer set search_path = public, extensions as $$
   update public.demandes_acces set statut = 'refusee', traitee_le = now(), traitee_par = public.bmb_email_courant(), note_admin = left(coalesce(p_note,''), 500)
    where id = p_id and public.est_admin()
 $$;
 
 create or replace function public.admin_tableau() returns jsonb
-language sql stable security definer set search_path = public as $$
+language sql stable security definer set search_path = public, extensions as $$
   select case when public.est_admin() then jsonb_build_object(
     'acces', (select coalesce(jsonb_agg(to_jsonb(a) order by a.active_le desc), '[]'::jsonb) from public.acces a),
     'signatures', (select coalesce(jsonb_agg(jsonb_build_object('email', s.email, 'nom_signe', s.nom_signe, 'version', s.version, 'signe_le', s.signe_le) order by s.signe_le desc), '[]'::jsonb) from public.signatures_nda s),
