@@ -74,6 +74,16 @@ curl -s -X POST https://your-domain/api.php -H "Content-Type: application/json" 
 
 For local frontend work you can open the HTML files directly or serve the folder with any static server. The BeeBots need PHP.
 
+### Daily data cache
+
+`api/donnees.php` fetches the official stock barometer, the HUG collection calendar and the news feed, and keeps the result for 6 hours in `api/cache/donnees.json` (created by PHP, git-ignored). After uploading a new `donnees.php`, or whenever you want fresh data right away, open once:
+
+```bash
+curl -s "https://beemyblood.ch/api/donnees.php?force=1" | head -c 300
+```
+
+Otherwise the change shows up at the latest 6 hours later. If the cache folder is not writable on the server, everything still works, just without caching.
+
 ## Data and privacy
 
 The spaces show demo data only. The pages send to a server: the BeeBot questions (PHP proxy to the Anthropic API), the access requests and logins (Supabase, Zurich), and nothing else. Hosted in Switzerland, designed for nLPD/GDPR compliance and HL7 FHIR interoperability.
