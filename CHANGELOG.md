@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.5 — 2026-09-08 — your own name in the spaces
+
+### Changed
+- Once logged in, the spaces greet the connected person by their own name (from the access request) instead of the demo personas: "Salut Amine" and the AK avatar in the donor space, "Bonjour Eleonora" and the EM avatar in the recipient space, the demo address in the professional portal header. Initials and hover titles follow. The demo medical data stays demo data.
+- Login screens: shorter wording ("Recevoir mon code", "Saisissez le code reçu").
+- `api/donnees.php`: a newly uploaded script invalidates its own cache, so region labels and new fields show up right after upload without the manual `?force=1`.
+
 ## v0.4.4 — 2026-09-08 — real collection dates for every Romandie canton and Berne
 
 ### Added

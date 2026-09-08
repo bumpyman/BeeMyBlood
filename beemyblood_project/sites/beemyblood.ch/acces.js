@@ -170,6 +170,35 @@
 
   function deconnecter(){ sb.auth.signOut().then(function(){ etat=null; deverrouille=false; var u=document.querySelector('.bmba-user'); if(u) u.remove(); if(PUBLIC){ location.reload(); } else { ecranCourriel(); } }); }
 
+  // ---------- Personnalisation : le nom de la personne connectée remplace les personnages de démonstration ----------
+  var DEMO = { donneur:{ noms:['Amine'], initiales:['AK'] }, receveur:{ noms:['Eleonora'], initiales:['EM'] }, pro:{ noms:[], initiales:[] } };
+  function identite(e){
+    var nom = (e.nom && e.nom !== 'Administrateur' && e.nom !== 'Développeur') ? e.nom : (e.email||'').split('@')[0].replace(/[._\-]+/g,' ');
+    nom = nom.trim().replace(/(^|\s)(\S)/g, function(m0,sp,c){ return sp + c.toUpperCase(); });
+    var parts = nom.split(/\s+/).filter(Boolean);
+    return { nom:nom||e.email, prenom:parts[0]||nom, initiales:(parts.slice(0,2).map(function(p){ return p.charAt(0).toUpperCase(); }).join(''))||'👤' };
+  }
+  function personnaliser(e){
+    var d = DEMO[ESPACE]; if(!d || !e || e.dev) return;
+    var id = identite(e), racine = document.body;
+    var SKIP = {SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1,OPTION:1};
+    if(d.noms.length){
+      var re = new RegExp('\\b(' + d.noms.join('|') + ')\\b', 'g');
+      var w = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT, { acceptNode:function(n){ var p=n.parentNode; if(!p||SKIP[p.nodeName]||p.closest('.bmba-wrap,.bmba-user,.bmb-box')) return NodeFilter.FILTER_REJECT; return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP; } });
+      var nodes=[], n; while((n=w.nextNode())) nodes.push(n);
+      nodes.forEach(function(t){ t.nodeValue = t.nodeValue.replace(re, id.prenom); });
+      document.querySelectorAll('[title]').forEach(function(el){ if(re.test(el.title)) el.title = el.title.replace(re, id.prenom); re.lastIndex=0; });
+    }
+    if(d.initiales.length){
+      document.querySelectorAll('div,span,a,b,strong').forEach(function(el){ if(el.children.length===0 && d.initiales.indexOf(el.textContent.trim())>=0) el.textContent = id.initiales; });
+    }
+    if(e.email){
+      var w2 = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT, { acceptNode:function(n){ var p=n.parentNode; if(!p||SKIP[p.nodeName]||p.closest('.bmba-wrap,.bmba-user')) return NodeFilter.FILTER_REJECT; return n.nodeValue.indexOf('admin@beemyblood.ch')>=0?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP; } });
+      var nodes2=[], n2; while((n2=w2.nextNode())) nodes2.push(n2);
+      nodes2.forEach(function(t){ t.nodeValue = t.nodeValue.split('admin@beemyblood.ch').join(e.email); });
+    }
+  }
+
   // ---------- Déverrouillage de la page ----------
   function deverrouiller(){
     fermer(); deverrouille = true; document.body.classList.remove('bmb-public'); document.body.classList.add('bmb-alpha');
@@ -189,6 +218,7 @@
       placer(); setTimeout(placer,900); setTimeout(placer,2500); window.addEventListener('resize',placer);
     }
     sb.rpc('journaliser_acces', { p_espace: ESPACE }).then(function(){}, function(){});
+    try{ personnaliser(etat); setTimeout(function(){ personnaliser(etat); }, 1500); }catch(e){}
     if(typeof window.bmbDeverrouiller==='function'){ try{ window.bmbDeverrouiller(etat); }catch(e){} }
     callbacks.forEach(function(fn){ try{ fn(etat); }catch(e){} });
     if(attente){ var fn2=attente; attente=null; try{ fn2(etat); }catch(e){} }
@@ -236,6 +266,6 @@
   }
   // exiger(fn) : demande la connexion (écran), puis exécute fn une fois l'espace déverrouillé
   function exiger(fn){ if(deverrouille){ if(fn) fn(etat); return; } attente = fn || function(){}; suite(); }
-  window.BeeAcces = { onDeverrouille:function(fn){ if(deverrouille) fn(etat); else callbacks.push(fn); }, etat:function(){ return etat; }, deverrouille:function(){ return deverrouille; }, exiger:exiger, deconnecter:deconnecter, client:function(){ return sb; }, espace:ESPACE, public:PUBLIC };
+  window.BeeAcces = { personnaliser:personnaliser, onDeverrouille:function(fn){ if(deverrouille) fn(etat); else callbacks.push(fn); }, etat:function(){ return etat; }, deverrouille:function(){ return deverrouille; }, exiger:exiger, deconnecter:deconnecter, client:function(){ return sb; }, espace:ESPACE, public:PUBLIC };
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
