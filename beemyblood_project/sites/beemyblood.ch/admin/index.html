@@ -106,6 +106,7 @@ document.getElementById('refresh').onclick=function(){ chargerDemandes(); charge
 window.bmbDeverrouiller=function(etat){
   sb=window.BeeAcces.client();
   document.getElementById('qui').textContent=etat.email;
+  if(etat.dev){ document.getElementById('demandes').innerHTML='<p class="muted">Mode développeur : cette page lit la base Supabase et exige une connexion par courriel avec une adresse administratrice. Cliquez « Quitter » puis connectez-vous par courriel.</p>'; return; }
   chargerDemandes(); chargerTableau();
 };
 </script>

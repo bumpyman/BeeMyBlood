@@ -62,7 +62,25 @@
     if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
-  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel à chaque connexion.<br>Hébergé en Suisse et dans l’UE · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
+  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel à chaque connexion.<br>Hébergé en Suisse et dans l’UE · <a href="'+RACINE+'">Retour à l’accueil</a> · <a href="#" id="bmbaDevLink" style="color:#5a5a72">Accès développeur</a></div>';
+
+  // ---------- Accès rapide développeur (identifiant + mot de passe en dur, session du navigateur seulement) ----------
+  var DEV = { id:'developer', mdp:'teambmb' };
+  function etatDev(){ try{ return sessionStorage.getItem('bmba_dev')==='1'; }catch(e){ return false; } }
+  function ecranDev(){
+    ecran('<div class="bmba-h">Accès développeur</div><p class="bmba-p">Entrée directe pour l’équipe, sans courriel ni NDA. Valable pour cet onglet uniquement, rien n’est enregistré côté serveur.</p>'
+      +'<input class="bmba-in" id="bmbaDevId" placeholder="Identifiant" autocomplete="username"><input class="bmba-in" id="bmbaDevMdp" type="password" placeholder="Mot de passe" autocomplete="current-password">'
+      +'<button class="bmba-btn" id="bmbaDevGo">Entrer</button><button class="bmba-btn sec" id="bmbaDevBack">Retour à la connexion par courriel</button><div class="bmba-err" id="bmbaErr"></div>');
+    var go=function(){
+      var id=(document.getElementById('bmbaDevId').value||'').trim().toLowerCase(), mdp=document.getElementById('bmbaDevMdp').value||'';
+      if(id===DEV.id && mdp===DEV.mdp){ try{ sessionStorage.setItem('bmba_dev','1'); }catch(e){} etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', dev:true }; deverrouiller(); }
+      else document.getElementById('bmbaErr').textContent='Identifiant ou mot de passe incorrect.';
+    };
+    document.getElementById('bmbaDevGo').onclick=go;
+    document.getElementById('bmbaDevMdp').addEventListener('keydown',function(e){ if(e.key==='Enter') go(); });
+    document.getElementById('bmbaDevBack').onclick=function(){ ecranCourriel(); };
+  }
+  document.addEventListener('click', function(e){ if(e.target && e.target.id==='bmbaDevLink'){ e.preventDefault(); ecranDev(); } });
 
   // ---------- Étape 1 : courriel ----------
   function ecranCourriel(pre){
@@ -147,7 +165,7 @@
     document.getElementById('bmbaOut').onclick = deconnecter;
   }
 
-  function deconnecter(){ sb.auth.signOut().then(function(){ etat=null; ecranCourriel(); var u=document.querySelector('.bmba-user'); if(u) u.remove(); }); }
+  function deconnecter(){ try{ sessionStorage.removeItem('bmba_dev'); }catch(e){} sb.auth.signOut().then(function(){ etat=null; ecranCourriel(); var u=document.querySelector('.bmba-user'); if(u) u.remove(); }); }
 
   // ---------- Déverrouillage de la page ----------
   function deverrouiller(){
@@ -162,13 +180,14 @@
       u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b> · '+etat.role+'</span><button type="button" title="Se déconnecter">Quitter</button>';
       u.querySelector('button').onclick=deconnecter; document.body.appendChild(u);
     }
-    sb.rpc('journaliser_acces', { p_espace: ESPACE }).then(function(){}, function(){});
+    if(!etat.dev) sb.rpc('journaliser_acces', { p_espace: ESPACE }).then(function(){}, function(){});
     if(typeof window.bmbDeverrouiller==='function'){ try{ window.bmbDeverrouiller(etat); }catch(e){} }
     callbacks.forEach(function(fn){ try{ fn(etat); }catch(e){} });
   }
 
   // ---------- Orchestration ----------
   function suite(){
+    if(etatDev()){ etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', dev:true }; deverrouiller(); return Promise.resolve(); }
     return sb.auth.getSession().then(function(s){
       if(!s.data || !s.data.session){ etat=null; var pre=''; try{ pre=localStorage.getItem('bmba_email')||''; }catch(e){} ecranCourriel(pre); return null; }
       return sb.rpc('mon_etat');

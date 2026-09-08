@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.1 — 2026-09-08 — developer quick access
+
+### Added
+- "Accès développeur" link on the login screen: hard-coded identifier `developer` / password `teambmb` opens the space directly as admin, without email, invitation or NDA. Valid for the current browser tab only (sessionStorage), nothing is written to Supabase, no access is logged. The admin page still requires an email login with an administrator address.
+
 ## v0.2.0 — 2026-09-08 — invitation, email login and NDA on Supabase
 
 ### Added
