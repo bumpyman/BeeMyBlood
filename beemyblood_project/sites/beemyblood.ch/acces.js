@@ -203,8 +203,19 @@
     }).catch(function(e){ ecran('<div class="bmba-h">Connexion impossible</div><p class="bmba-p">'+msgErreur(e)+'</p><button class="bmba-btn" onclick="location.reload()">Réessayer</button>'+pied); });
   }
 
+  // Erreur renvoyée par Supabase dans l'URL après un clic sur un lien de courriel (expiré, déjà utilisé…)
+  function erreurDansUrl(){
+    var h = location.hash || '';
+    if(h.indexOf('error') < 0) return null;
+    var p = {}; h.replace(/^#/, '').split('&').forEach(function(kv){ var i=kv.indexOf('='); if(i>0) p[decodeURIComponent(kv.slice(0,i))]=decodeURIComponent(kv.slice(i+1).replace(/\+/g,' ')); });
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    if(p.error_code === 'otp_expired') return 'Ce lien de connexion n’est plus valable : il a expiré, a déjà été utilisé, ou un lien plus récent l’a remplacé (chaque nouvelle demande annule la précédente). Demandez un nouveau code ci-dessous et utilisez le dernier message reçu.';
+    return p.error_description ? 'Connexion refusée : ' + p.error_description : null;
+  }
   function init(){
     masquerAnciensEcrans();
+    var errUrl = erreurDansUrl();
+    if(errUrl){ setTimeout(function(){ var e=document.getElementById('bmbaErr'); if(e && !e.textContent) e.textContent = errUrl; }, 400); }
     if(!window.supabase || !window.supabase.createClient){
       ecran('<div class="bmba-h">Bibliothèque manquante</div><p class="bmba-p">Le composant de connexion n’a pas pu être chargé. Rechargez la page ou vérifiez votre connexion.</p><button class="bmba-btn" onclick="location.reload()">Recharger</button>');
       return;
