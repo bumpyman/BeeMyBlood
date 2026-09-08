@@ -7,6 +7,7 @@ authors:
   - family-names: Issom
     given-names: David-Zacharie
     affiliation: "Convivens Lab, Haute école de gestion de Genève (HES-SO)"
+    orcid: "https://orcid.org/0000-0001-6604-6595"
 repository-code: "https://github.com/bumpyman/BeeMyBlood"
 url: "https://beemyblood.ch"
 license: AGPL-3.0-or-later
