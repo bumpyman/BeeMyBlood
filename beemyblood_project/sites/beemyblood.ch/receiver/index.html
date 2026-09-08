@@ -110,7 +110,7 @@ main{margin-top:56px;max-width:1200px;margin-left:auto;margin-right:auto;padding
 .ai{border:1px solid var(--db);border-radius:var(--rs2);margin-bottom:.4rem;overflow:hidden}.ab{width:100%;padding:.75rem 1rem;background:var(--dk2);color:var(--txt);font-size:1rem;font-weight:500;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:var(--tr)}.ab:hover{background:var(--dk3)}.ab .cv{transition:transform .3s;font-size:1rem;color:var(--td)}.ab.op .cv{transform:rotate(180deg)}.ac{max-height:0;overflow:hidden;transition:max-height .4s ease;background:rgba(22,22,34,.5)}.ac.op{max-height:800px}.aci{padding:.75rem 1rem;font-size:.95rem;color:var(--td);line-height:1.7}
 .fg{margin-bottom:.7rem}.fg label{display:block;font-size:.95rem;color:var(--td);margin-bottom:.2rem;font-weight:500}.fi{width:100%;padding:.55rem .75rem;background:var(--dk3);border:1px solid var(--db);border-radius:var(--rs2);color:var(--txt);font-size:.9rem;transition:var(--tr)}.fi:focus{border-color:var(--gold)}textarea.fi{min-height:70px;resize:vertical}
 .fr{display:flex;gap:.4rem;flex-wrap:wrap}.fr label{display:flex;align-items:center;gap:.3rem;cursor:pointer;padding:.35rem .55rem;background:var(--dk3);border:1px solid var(--db);border-radius:8px;font-size:.95rem;color:var(--td);transition:var(--tr)}.fr label:has(input:checked){border-color:var(--red);background:rgba(220,38,38,.08);color:var(--rs)}.fr input{accent-color:var(--red)}
-.chb{height:350px;overflow-y:auto;padding:.65rem;background:var(--dk3);border-radius:var(--rs2);margin-bottom:.5rem;display:flex;flex-direction:column;gap:.5rem}.cm{max-width:85%;padding:.6rem .8rem;border-radius:var(--rs2);font-size:.9rem;line-height:1.6}.cb{background:var(--dk2);border:1px solid var(--db);color:var(--txt);align-self:flex-start}.cu{background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.2);color:var(--txt);align-self:flex-end}
+.chb{height:350px;overflow-y:auto;padding:.65rem;background:var(--dk3);border-radius:var(--rs2);margin-bottom:.5rem;display:flex;flex-direction:column;gap:.5rem}.cm{max-width:85%;padding:.6rem .8rem;border-radius:var(--rs2);font-size:.9rem;line-height:1.6}.cb{background:var(--dk2);border:1px solid var(--db);color:var(--txt);align-self:flex-start}.cb ul,.cb ol{margin:.35rem 0 .35rem 1.2rem}.cb li{margin:.15rem 0}.cb b{color:#fff}.tdot{display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;margin-left:3px;animation:tdb .9s infinite}.tdot:nth-child(2){animation-delay:.15s}.tdot:nth-child(3){animation-delay:.3s}@keyframes tdb{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}.cu{background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.2);color:var(--txt);align-self:flex-end}
 .bc{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.25),rgba(59,130,246,.05));display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:var(--bs);margin:1.25rem auto;transition:transform 4s ease-in-out}.bc.exp{transform:scale(1.5)}.bc.ctr{transform:scale(1)}
 .amb{padding:.65rem;background:var(--dk3);border:1px solid var(--db);border-radius:var(--rs2);text-align:center;cursor:pointer;transition:var(--tr);font-size:1.8rem}.amb:hover,.amb.active{border-color:var(--gold);background:rgba(200,169,96,.08)}.amb span{display:block;font-size:.9rem;color:var(--td);margin-top:.2rem}
 .tw{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem}.tc{background:var(--dk3);border:1px solid var(--db);border-radius:var(--rs2);padding:.7rem}.tc .msg{font-style:italic;color:var(--td);font-size:.95rem;line-height:1.5;margin-bottom:.3rem}.tc .met{font-size:.95rem;color:var(--tm)}
@@ -158,7 +158,7 @@ Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
 </div>
 <script>
 function tryGate(){
-  var codes=['hegtest','evalab','admin1234'];
+  var codes=['teambmb'];
   var v=document.getElementById('gateCode').value.trim().toLowerCase();
   if(codes.indexOf(v)>=0){
     document.getElementById('gate').style.opacity='0';
@@ -687,7 +687,32 @@ function startHemoSnap(){toast('info','Placez votre index sur caméra + flash...
 function saveSym(){toast('ok','Symptômes enregistrés');var f=parseInt(document.getElementById('symF').value);var d=parseInt(document.getElementById('symD').value);if(f>=7&&d>=6)setTimeout(function(){toast('warn','⚠ Tendance à la baisse — Notification envoyée à Dre Mappoura + CTS')},1500)}
 function markChelation(){toast('ok','✅ Exjade® marqué comme pris — 15 jours consécutifs 🔥')}
 function submitReport(){if(!document.getElementById('rDate').value||!document.getElementById('rLieu').value){toast('warn','Remplissez tous les champs');return}toast('ok','Signalement envoyé. Hémovigilance vous contactera.')}
-function sendChat(){var i=document.getElementById('chatIn');var m=i.value.trim();if(!m)return;var b=document.getElementById('chatBox');b.innerHTML+='<div class="cm cu">'+m+'</div>';i.value='';b.scrollTop=b.scrollHeight;b.innerHTML+='<div class="cm cb" id="bT" style="opacity:.5">⏳ BeeBot réfléchit...</div>';b.scrollTop=b.scrollHeight;fetch('api.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:m})}).then(function(r){return r.json()}).then(function(d){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">'+(d.reply||d.error||'Erreur')+'</div>';b.scrollTop=b.scrollHeight}).catch(function(){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">Erreur de connexion. 022 372 39 49.</div>';b.scrollTop=b.scrollHeight})}
+
+// Conversion Markdown simple -> HTML (gras, italique, listes, titres, sauts de ligne)
+function mdToHtml(s){
+  if(!s) return '';
+  var esc=String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  esc=esc.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<i>$2</i>').replace(/`([^`]+)`/g,'<code>$1</code>');
+  var out=[],inList=false,listType='';
+  esc.split('\n').forEach(function(l){
+    var mUl=l.match(/^\s*[-•*]\s+(.*)/),mOl=l.match(/^\s*\d+[.)]\s+(.*)/),mH=l.match(/^\s*#{1,4}\s+(.*)/);
+    if(mUl||mOl){var t=mUl?'ul':'ol';if(!inList||listType!==t){if(inList)out.push('</'+listType+'>');out.push('<'+t+'>');inList=true;listType=t;}out.push('<li>'+(mUl?mUl[1]:mOl[1])+'</li>');}
+    else{if(inList){out.push('</'+listType+'>');inList=false;}if(mH)out.push('<b>'+mH[1]+'</b><br>');else if(l.trim()==='')out.push('<br>');else out.push(l+'<br>');}
+  });
+  if(inList)out.push('</'+listType+'>');
+  return out.join('').replace(/(<br>){3,}/g,'<br><br>').replace(/<\/(ul|ol)><br>/g,'</$1>').replace(/(<br>)+$/,'');
+}
+// Réponse du modèle : HTML tel quel (avec gras Markdown résiduel converti), sinon Markdown -> HTML
+function formatBotReply(s){
+  if(!s) return '';
+  if(/<(b|br|ul|ol|li|p|a|strong|em|sup)\b/i.test(s)){
+    var h=s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+    if(!/<(br|p|li)\b/i.test(h)) h=h.replace(/\n/g,'<br>');
+    return h;
+  }
+  return mdToHtml(s);
+}
+function sendChat(){var i=document.getElementById('chatIn');var m=i.value.trim();if(!m)return;var b=document.getElementById('chatBox');b.innerHTML+='<div class="cm cu">'+m.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div>';i.value='';b.scrollTop=b.scrollHeight;b.innerHTML+='<div class="cm cb" id="bT" style="opacity:.6">BeeBot réfléchit<span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></div>';b.scrollTop=b.scrollHeight;fetch('api_receiver.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:m})}).then(function(r){return r.json()}).then(function(d){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">'+(d.reply?formatBotReply(d.reply):(d.error||'Erreur'))+'</div>';b.scrollTop=b.scrollHeight}).catch(function(){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">Erreur de connexion. 022 372 39 49.</div>';b.scrollTop=b.scrollHeight})}
 
 var breathTimer=null;
 function startBreath(mode){stopBreath();var el=document.getElementById('breathC');var s=mode==='calm'?[{t:'Inspirez',d:4000,s:'exp'},{t:'Retenez',d:7000,s:'exp'},{t:'Expirez',d:8000,s:'ctr'}]:[{t:'Inspirez',d:4000,s:'exp'},{t:'Retenez',d:4000,s:'exp'},{t:'Expirez',d:4000,s:'ctr'},{t:'Retenez',d:4000,s:'ctr'}];var idx=0;function tick(){el.textContent=s[idx].t;el.className='bc '+s[idx].s;breathTimer=setTimeout(function(){idx=(idx+1)%s.length;tick()},s[idx].d)}tick()}

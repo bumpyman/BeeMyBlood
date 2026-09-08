@@ -4,14 +4,15 @@
  * Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
  * AGPL-3.0 — https://www.gnu.org/licenses/agpl-3.0.html
  *
- * INSTRUCTIONS: Add your Anthropic API key below and deploy to your server.
+ * INSTRUCTIONS: put your Anthropic API key in ../config.php (see config.example.php) and deploy.
  */
 
 // ==================== CONFIGURATION ====================
-$ANTHROPIC_API_KEY = 'REVOKED_KEY_REMOVED'; // <-- YOUR KEY HERE
-
-$MODEL = 'claude-sonnet-4-20250514';
-$MAX_TOKENS = 1200;
+// Clé API et modèle lus depuis config.php (hors dépôt git) — voir config.example.php
+$bmbConfig = file_exists(__DIR__ . '/../config.php') ? require __DIR__ . '/../config.php' : [];
+$ANTHROPIC_API_KEY = $bmbConfig['anthropic_api_key'] ?? '';
+$MODEL = $bmbConfig['model'] ?? 'claude-opus-5';
+$MAX_TOKENS = 2048;
 
 // ==================== CORS ====================
 header('Content-Type: application/json; charset=utf-8');
@@ -73,6 +74,7 @@ PROMPT;
 $payload = [
     'model' => $MODEL,
     'max_tokens' => $MAX_TOKENS,
+    'output_config' => ['effort' => 'low'],
     'system' => $system,
     'messages' => [
         ['role' => 'user', 'content' => $message]

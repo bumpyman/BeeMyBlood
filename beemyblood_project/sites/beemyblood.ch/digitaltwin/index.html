@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recherche phénotype & planification de collecte</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+
+<style>
+  :root{
+    --ink:#161b22;
+    --ink-soft:#4a5568;
+    --paper:#f4f6f8;
+    --panel:#ffffff;
+    --line:#dde3ea;
+    --line-strong:#c3cbd6;
+    --blood:#a3233d;
+    --blood-deep:#7d1a2f;
+    --blood-tint:#fbe9ec;
+    --plasma:#2c6e8e;
+    --plasma-tint:#e7f1f5;
+    --amber:#b5772c;
+    --amber-tint:#fbf0e2;
+    --radius:10px;
+    --mono:'IBM Plex Mono', monospace;
+    --sans:'IBM Plex Sans', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .app{
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+  header.topbar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 24px;
+    background:var(--ink);
+    color:#fff;
+    border-bottom:3px solid var(--blood);
+  }
+  header.topbar .mark{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--blood);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:600;font-size:14px;
+    flex:none;
+  }
+  header.topbar h1{
+    font-size:16px;
+    letter-spacing:.02em;
+    margin:0;
+    font-weight:600;
+  }
+  header.topbar p{
+    margin:0;
+    font-size:12px;
+    color:#aab3c2;
+    font-family:var(--mono);
+  }
+
+  .layout{
+    flex:1;
+    display:grid;
+    grid-template-columns:minmax(0,1.35fr) minmax(340px,0.9fr);
+    gap:20px;
+    padding:20px;
+    align-items:stretch;
+  }
+
+  .map-col{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    min-height:560px;
+  }
+  .map-col .map-head{
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .map-col .map-head h2{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    margin:0;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .map-col .map-head .count{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--blood);
+  }
+  #map{
+    flex:1;
+    min-height:460px;
+  }
+  .map-status{
+    padding:10px 16px;
+    font-size:13px;
+    font-family:var(--mono);
+    border-top:1px solid var(--line);
+    color:var(--ink-soft);
+    background:var(--paper);
+  }
+  .map-status.error{
+    color:var(--blood-deep);
+    background:var(--blood-tint);
+  }
+
+  .error-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(22,27,34,.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    padding:20px;
+  }
+  .error-popup{
+    background:#fff;
+    border:1px solid var(--line);
+    border-top:4px solid var(--blood);
+    border-radius:var(--radius);
+    box-shadow:0 12px 32px rgba(22,27,34,.28);
+    width:100%;
+    max-width:340px;
+    padding:16px 18px 18px;
+  }
+  .error-popup-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:var(--mono);
+    font-weight:600;
+    font-size:13px;
+    color:var(--blood-deep);
+    margin-bottom:8px;
+  }
+  .error-close{
+    border:none;
+    background:none;
+    font-size:20px;
+    line-height:1;
+    color:var(--ink-soft);
+    cursor:pointer;
+    padding:0 2px;
+  }
+  .error-close:hover{ color:var(--ink); }
+  .error-popup p{
+    margin:0;
+    font-size:13.5px;
+    color:var(--ink);
+    line-height:1.5;
+  }
+
+  .right-col{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    min-height:560px;
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .panel.search{ flex:1.15; }
+  .panel.plan{ flex:1; }
+
+  .panel-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+  }
+  .panel-head .tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.06em;
+    padding:2px 7px;
+    border-radius:4px;
+    font-weight:600;
+  }
+  .panel.search .tag{ background:var(--blood-tint); color:var(--blood-deep); }
+  .panel.plan .tag{ background:var(--plasma-tint); color:var(--plasma); }
+  .panel-head h2{
+    font-size:14px;
+    margin:0;
+    font-weight:600;
+  }
+
+  label.field-label{
+    display:block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+    font-weight:600;
+  }
+
+  select, input[type="date"], textarea{
+    width:100%;
+    font-family:var(--sans);
+    font-size:14px;
+    padding:9px 10px;
+    border:1px solid var(--line-strong);
+    border-radius:7px;
+    background:#fff;
+    color:var(--ink);
+  }
+  select:focus, input:focus, textarea:focus{
+    outline:2px solid var(--blood);
+    outline-offset:1px;
+  }
+  textarea{ resize:vertical; min-height:64px; }
+
+  .field{ margin-bottom:4px; }
+
+  .groups{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .group-block{
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .group-row{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:9px 11px;
+    background:var(--paper);
+    cursor:pointer;
+    user-select:none;
+  }
+  .group-row input[type="checkbox"]{
+    width:15px;height:15px;
+    accent-color:var(--blood);
+  }
+  .group-row .gname{
+    font-family:var(--mono);
+    font-weight:600;
+    font-size:13px;
+  }
+  .group-row .ghint{
+    margin-left:auto;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  .antigen-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:10px 12px 12px 34px;
+    border-top:1px solid var(--line);
+    background:#fff;
+  }
+  .antigen-item{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:13px;
+  }
+  .antigen-item input{
+    accent-color:var(--plasma);
+    width:14px;height:14px;
+  }
+  .antigen-item label{
+    font-family:var(--mono);
+  }
+
+  button.action{
+    margin-top:4px;
+    border:none;
+    border-radius:7px;
+    padding:11px 14px;
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:13.5px;
+    letter-spacing:.02em;
+    cursor:pointer;
+    color:#fff;
+    transition:filter .15s ease, transform .05s ease;
+  }
+  button.action:active{ transform:translateY(1px); }
+  .panel.search button.action{ background:var(--blood); }
+  .panel.search button.action:hover{ filter:brightness(1.08); }
+  .panel.plan button.action{ background:var(--plasma); }
+  .panel.plan button.action:hover{ filter:brightness(1.08); }
+
+  .plan-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+
+  .leaflet-popup-content, .hotspot-tooltip{
+    font-family:var(--sans);
+    font-size:12.5px;
+    line-height:1.55;
+    min-width:190px;
+  }
+  .hotspot-tooltip{
+    box-shadow:0 4px 14px rgba(22,27,34,.18);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+  }
+  .popup-title{
+    font-family:var(--mono);
+    font-weight:600;
+    color:var(--blood-deep);
+    margin-bottom:4px;
+    font-size:13px;
+  }
+  .popup-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .popup-row .k{ color:var(--ink-soft); }
+  .popup-row .v{ font-family:var(--mono); font-weight:600; }
+
+  @media (max-width: 880px){
+    .layout{ grid-template-columns:1fr; }
+    .map-col{ min-height:420px; }
+    #map{ min-height:340px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app" class="app">
+
+  <header class="topbar">
+    <div class="mark">Rh</div>
+    <div>
+      <h1>Recherche de phénotype & planification de collecte</h1>
+      <p>Simulation de stock — données locales, aucune connexion serveur</p>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- COLONNE GAUCHE : CARTE -->
+    <section class="map-col">
+      <div class="map-head">
+        <h2>Carte de chaleur — sites de collecte</h2>
+        <span class="count">{{ lastResultCount }} site(s) affiché(s)</span>
+      </div>
+      <div id="map"></div>
+    </section>
+
+    <!-- COLONNE DROITE -->
+    <section class="right-col">
+
+      <!-- PANNEAU 1 : RECHERCHE PAR PHÉNOTYPE -->
+      <div class="panel search">
+        <div class="panel-head">
+          <span class="tag">01</span>
+          <h2>Recherche par phénotype</h2>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Groupe sanguin (ABO)</label>
+          <select v-model="abo">
+            <option value="">Indifférent</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="O">O</option>
+            <option value="AB">AB</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Systèmes antigéniques</label>
+          <div class="groups">
+            <div class="group-block" v-for="(grp, gname) in groupes" :key="gname">
+              <div class="group-row" @click="grp.actif = !grp.actif">
+                <input type="checkbox" v-model="grp.actif" @click.stop>
+                <span class="gname">{{ gname }}</span>
+                <span class="ghint">{{ grp.actif ? 'inclus dans la recherche' : 'ignoré' }}</span>
+              </div>
+              <div class="antigen-list" v-if="grp.actif">
+                <div class="antigen-item" v-for="ag in grp.antigenes" :key="ag">
+                  <input type="checkbox" :id="'ag-'+gname+'-'+ag" v-model="grp.positifs[ag]">
+                  <label :for="'ag-'+gname+'-'+ag">{{ ag }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="action" @click="rechercherPhenotype">Rechercher les poches</button>
+      </div>
+
+      <!-- PANNEAU 2 : PLANIFICATION / SCÉNARIO -->
+      <div class="panel plan">
+        <div class="panel-head">
+          <span class="tag">02</span>
+          <h2>Planification & scénario</h2>
+        </div>
+
+        <div class="plan-grid">
+          <div class="field">
+            <label class="field-label">Date</label>
+            <input type="date" v-model="date">
+          </div>
+          <div class="field">
+            <label class="field-label">Plage horaire</label>
+            <select v-model="heure">
+              <option v-for="h in plagesHoraires" :key="h" :value="h">{{ h }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Scénario</label>
+          <select v-model="scenario">
+            <option v-for="(mod, nom) in scenarios" :key="nom" :value="nom">{{ nom }}</option>
+          </select>
+        </div>
+
+        <textarea
+          v-if="scenario === 'Autre'"
+          v-model="descriptionScenario"
+          placeholder="Décrivez le scénario…"></textarea>
+
+        <button class="action" @click="simulerScenario">Planifier & simuler</button>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- POPUP D'ERREUR -->
+  <div class="error-overlay" v-if="messageErreur" @click.self="messageErreur = ''">
+    <div class="error-popup">
+      <div class="error-popup-head">
+        <span>Aucun résultat</span>
+        <button class="error-close" @click="messageErreur = ''" aria-label="Fermer">×</button>
+      </div>
+      <p>{{ messageErreur }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const { createApp, reactive, toRefs, onMounted } = Vue;
+
+createApp({
+  setup(){
+
+    // ---------------------------------------------------------------
+    // Données de référence hard-codées (fréquences populationnelles)
+    // Ordonnées par numéro ISBT
+    // ---------------------------------------------------------------
+    const aboFrequences = { A: 0.40, B: 0.11, O: 0.44, AB: 0.05 };
+
+    const groupes = reactive({
+      MNS: { actif:false, antigenes:['M','N','S','s'],
+             freq:{M:0.78,N:0.72,S:0.55,s:0.89},
+             positifs:{M:false,N:false,S:false,s:false} },
+      Rh:  { actif:false, antigenes:['D','C','E','c','e'],
+             freq:{D:0.85,C:0.68,E:0.29,c:0.80,e:0.98},
+             positifs:{D:false,C:false,E:false,c:false,e:false} },
+      Kell:{ actif:false, antigenes:['K','k','Kpa','Kpb','Jsa','Jsb'],
+             freq:{K:0.09,k:0.99,Kpa:0.02,Kpb:0.99,Jsa:0.01,Jsb:0.99},
+             positifs:{K:false,k:false,Kpa:false,Kpb:false,Jsa:false,Jsb:false} },
+      Duffy:{ actif:false, antigenes:['Fya','Fyb'],
+             freq:{Fya:0.66,Fyb:0.83},
+             positifs:{Fya:false,Fyb:false} },
+    });
+
+    // ---------------------------------------------------------------
+    // Le modificcateur rare s'applique aux poches à phénotype rare pour le scénario choisi
+    // Le modificcateur générale s'applique au nombre total de poches
+    // ---------------------------------------------------------------
+    const scenarios = {
+      'Aucun':                             { rare:  0, generale:  0 },
+      'Pandémie':                          { rare:-40, generale: 20 },
+      'Catastrophe phase aigüe':           { rare: 40, generale: 20 },
+      'Catastrophe « worse case »':        { rare:-40, generale:-60 },
+      'Vacances d\'été':                    { rare:-30, generale:-30 },
+      'Fêtes de fin d\'année':          { rare:-40, generale:-30 },
+      'Campagne de sensibilisation':       { rare: 50, generale: 30 },
+      'Marketing':                         { rare: 40, generale: 60 },
+      'Appel d\'urgence':                   { rare:100, generale: 70 },
+      'Sensibilisation tv-radio':          { rare: 30, generale: 20 },
+      'Autre':                             { rare:  0, generale:  0 }
+    };
+
+    const plagesHoraires = [
+      '08h00 – 10h00','10h00 – 12h00','12h00 – 14h00',
+      '14h00 – 16h00','16h00 – 18h00','18h00 – 20h00'
+    ];
+
+    // Taux de base de poches à phénotype rare dans le stock (hard-codé,
+    // indépendant des filtres du panneau "Recherche par phénotype")
+    const tauxRareBase = 0.07;
+
+    // 8 sites de collecte, Genève — coordonnées et volume de base hard-codés
+    const sites = [
+      { nom:'HUG — Site central',            lat:46.1925, lng:6.1447, base:220 },
+      { nom:'CTS Genève — Centre de transfusion', lat:46.1907, lng:6.1400, base:180 },
+      { nom:'Collecte mobile — Cornavin',     lat:46.2100, lng:6.1425, base:90  },
+      { nom:'Collecte mobile — Plainpalais',  lat:46.1955, lng:6.1370, base:110 },
+      { nom:'Collecte mobile — Carouge',      lat:46.1815, lng:6.1370, base:75  },
+      { nom:'Collecte mobile — Meyrin',       lat:46.2298, lng:6.0778, base:130 },
+      { nom:'Collecte mobile — Lancy',        lat:46.1880, lng:6.1150, base:95  },
+      { nom:'Collecte mobile — Vernier',      lat:46.2170, lng:6.0850, base:100 }
+    ];
+
+    const state = reactive({
+      abo: '',
+      date: new Date().toISOString().slice(0,10),
+      heure: plagesHoraires[0],
+      scenario: 'Aucun',
+      descriptionScenario: '',
+      messageErreur: '',
+      statutTexte: 'En attente d\'une recherche…',
+      lastResultCount: 0
+    });
+
+    let map, heatLayer, markersLayer;
+
+    onMounted(() => {
+      map = L.map('map').setView([46.2044, 6.1432], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        referrerPolicy: 'origin',
+        maxZoom: 18
+      }).addTo(map);
+      heatLayer = L.heatLayer([], { radius: 34, blur: 26, maxZoom: 15 }).addTo(map);
+      markersLayer = L.layerGroup().addTo(map);
+    });
+
+    function formatMod(v){
+      return (v > 0 ? '+' : '') + v + '%';
+    }
+
+    // Probabilité de correspondance phénotypique, calculée à chaque clic
+    function calculerProbabilite(){
+      let p = 1;
+      if (state.abo) p *= aboFrequences[state.abo];
+
+      for (const gname in groupes){
+        const grp = groupes[gname];
+        if (!grp.actif) continue; // groupe non sélectionné -> ignoré de la recherche
+        for (const ag of grp.antigenes){
+          const f = grp.freq[ag];
+          p *= grp.positifs[ag] ? f : (1 - f);
+        }
+      }
+      return p;
+    }
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    // Jitter gaussien (Box-Muller) : les points se concentrent près du centre
+    // et s'estompent vers l'extérieur -> blob dense, sans trou au milieu
+    function jitterDense(lat, lng, ecart){
+      const u1 = Math.random() || 1e-9;
+      const u2 = Math.random();
+      const r = Math.sqrt(-2 * Math.log(u1));
+      const a1 = r * Math.cos(2 * Math.PI * u2) * ecart;
+      const a2 = r * Math.sin(2 * Math.PI * u2) * ecart;
+      return [lat + a1, lng + a2];
+    }
+
+    function formatDateFr(iso){
+      const d = new Date(iso + 'T00:00:00');
+      return d.toLocaleDateString('fr-CH', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+    }
+
+    // Vide la carte puis dessine les résultats fournis (heat dense + info au survol).
+    // `resultats` : [{ site, totalAffiche, valeurAffichee, labelValeur, labelTotal }]
+    function dessinerResultats(resultats, messageAucunResultat, statutSiOk){
+      heatLayer.setLatLngs([]);
+      markersLayer.clearLayers();
+      state.messageErreur = '';
+
+      if (resultats.length === 0){
+        state.messageErreur = messageAucunResultat;
+        state.lastResultCount = 0;
+        state.statutTexte = '';
+        return;
+      }
+
+      const maxRatio = Math.max(...resultats.map(r => r.valeurAffichee / r.totalAffiche));
+      const points = [];
+
+      resultats.forEach(r => {
+        const ratio = r.valeurAffichee / r.totalAffiche;
+        const intensite = maxRatio > 0 ? Math.max(0.25, ratio / maxRatio) : 0.5;
+
+        // point plein au centre + nuage gaussien dense autour -> pas d'espace vide
+        points.push([r.site.lat, r.site.lng, intensite]);
+        for (let i = 0; i < 45; i++){
+          const [lat, lng] = jitterDense(r.site.lat, r.site.lng, 0.0013);
+          points.push([lat, lng, intensite]);
+        }
+
+        // zone invisible mais interactive, superposée à la heatmap, pour que
+        // le survol déclenche l'info-bulle sur toute la surface du hotspot.
+        // circleMarker (rayon en pixels écran) au lieu de circle (rayon en
+        // mètres) pour rester calé sur le heatLayer (aussi en pixels) à
+        // n'importe quel niveau de zoom.
+        const zone = L.circleMarker([r.site.lat, r.site.lng], {
+          radius: 34 + intensite * 22,
+          stroke: false,
+          fillOpacity: 0,
+          interactive: true
+        }).addTo(markersLayer);
+
+        zone.bindTooltip(`
+          <div class="popup-title">${r.site.nom}</div>
+          <div class="popup-row"><span class="k">Date</span><span class="v">${formatDateFr(state.date)}</span></div>
+          <div class="popup-row"><span class="k">Plage horaire</span><span class="v">${state.heure}</span></div>
+          <div class="popup-row"><span class="k">${r.labelValeur}</span><span class="v">${r.valeurAffichee}</span></div>
+          <div class="popup-row"><span class="k">${r.labelTotal}</span><span class="v">${r.totalAffiche}</span></div>
+        `, { sticky: true, direction: 'top', opacity: 0.97, className: 'hotspot-tooltip' });
+      });
+
+      heatLayer.setLatLngs(points);
+      // la carte ne se recadre plus automatiquement — le zoom/déplacement
+      // reste entièrement sous le contrôle de l'utilisateur
+
+      state.lastResultCount = resultats.length;
+      state.statutTexte = statutSiOk;
+    }
+
+    // ------------------------------------------------------------------
+    // Panneau 1 — Recherche par phénotype
+    // Ne dépend que d'ABO / antigènes. Aucun modificateur de scénario.
+    // ------------------------------------------------------------------
+    function rechercherPhenotype(){
+      const proba = calculerProbabilite();
+
+      const nbSites = Math.floor(Math.random() * 3) + 1;
+      const tirage = shuffle(sites).slice(0, nbSites);
+
+      const resultats = [];
+      tirage.forEach(site => {
+        const totalAffiche = site.base;
+        const brute = totalAffiche * proba;
+        // tant qu'une correspondance est statistiquement possible (proba > 0),
+        // on compte au moins 1 poche plutôt que de l'arrondir à 0
+        let correspondance = brute > 0 ? Math.max(1, Math.round(brute)) : 0;
+        correspondance = Math.min(correspondance, totalAffiche);
+        if (correspondance > 0){
+          resultats.push({
+            site, totalAffiche,
+            valeurAffichee: correspondance,
+            labelValeur: 'Poches correspondantes',
+            labelTotal: 'Poches totales'
+          });
+        }
+      });
+
+      dessinerResultats(
+        resultats,
+        'Aucune zone trouvée pour cette recherche.',
+        `Recherche phénotype exécutée le ${formatDateFr(state.date)} — ${state.heure}.`
+      );
+    }
+
+    // ------------------------------------------------------------------
+    // Panneau 2 — Planification & scénario
+    // Ne dépend que du scénario / date / heure. Aucun filtre de phénotype.
+    // ------------------------------------------------------------------
+    function simulerScenario(){
+      const mod = scenarios[state.scenario] || { rare:0, generale:0 };
+
+      const nbSites = Math.floor(Math.random() * 3) + 1;
+      const tirage = shuffle(sites).slice(0, nbSites);
+
+      const resultats = [];
+      tirage.forEach(site => {
+        const totalAffiche = Math.max(0, Math.round(site.base * (1 + mod.generale / 100)));
+        const rareBase = site.base * tauxRareBase;
+        let rareAjuste = Math.round(rareBase * (1 + mod.rare / 100));
+        rareAjuste = Math.min(Math.max(rareAjuste, 0), totalAffiche);
+
+        if (totalAffiche > 0){
+          resultats.push({
+            site, totalAffiche,
+            valeurAffichee: rareAjuste,
+            labelValeur: 'Poches rares (estimées)',
+            labelTotal: 'Poches totales (estimées)'
+          });
+        }
+      });
+
+      dessinerResultats(
+        resultats,
+        'Aucune zone trouvée pour ce scénario.',
+        `Simulation « ${state.scenario} » — ${formatDateFr(state.date)} — ${state.heure}.`
+      );
+    }
+
+    return {
+      ...toRefs(state),
+      groupes, scenarios, plagesHoraires,
+      formatMod, rechercherPhenotype, simulerScenario
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>

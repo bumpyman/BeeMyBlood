@@ -148,6 +148,10 @@ body.light-mode .mode-card.sel{border-color:var(--gold)!important;background:#FF
 body.light-mode .mode-card *{color:#1A1A2E!important}
 body.light-mode .gameover{background:rgba(255,255,255,.95)!important}
 body.light-mode .gameover *{color:#1A1A2E!important}
+body.light-mode .game-over-overlay{background:rgba(245,245,247,.97)!important;color:#1A1A2E!important}
+body.light-mode .game-over-overlay *{color:#1A1A2E!important}
+body.light-mode .game-over-overlay .btn-gold{color:#0a0a12!important}
+body.light-mode .game-over-overlay .btn-outline{color:#1A1A2E!important;border-color:rgba(26,26,46,.3)!important}
 .hr-rule-text{color:#fff}
 body.light-mode .hr-rule-text{color:#1A1A2E!important}
 /* Broad light mode: override common inline dark patterns */
@@ -202,6 +206,8 @@ a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--dark-border);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;overflow:visible}
 .nav-brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold);cursor:pointer;flex-shrink:0}
 .nav-brand .bee{font-size:22px;filter:drop-shadow(0 0 8px rgba(245,197,24,.4))}
+.nav-home-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid rgba(200,169,96,.15);color:var(--text-muted);font-size:15px;text-decoration:none;transition:all .2s;flex-shrink:0}
+.nav-home-btn:hover{background:rgba(200,169,96,.08);border-color:rgba(200,169,96,.35);color:var(--gold);transform:none}
 .nav-tabs{display:flex;gap:2px;background:var(--dark-surface);border-radius:10px;padding:3px;overflow:hidden;flex:1;min-width:0;position:relative}
 .nav-tabs::-webkit-scrollbar{display:none}
 .nav-overflow-btn{padding:7px 10px;border-radius:7px;font-size:13px;font-weight:600;color:var(--gold);cursor:pointer;border:none;background:none;white-space:nowrap;flex-shrink:0;display:none;margin-left:auto}
@@ -218,7 +224,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.9
 .nav-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-glow));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--dark);cursor:pointer}
 
 /* VIEWS */
-.view{display:none;padding:72px 16px 20px;max-width:1200px;margin:0 auto;width:100%}
+.view{display:none;padding:96px 16px 20px;max-width:1200px;margin:0 auto;width:100%}
+#v-hero{padding-top:72px}
 .view.active{display:block;animation:viewIn .35s ease}
 @keyframes viewIn{from{opacity:0}to{opacity:1}}
 
@@ -359,6 +366,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
   .card-header{flex-wrap:wrap;gap:6px}
   .card-title{font-size:16px!important}
   .view{padding:64px 8px 20px}
+  #v-hero{padding-top:64px}
   .sec-title{font-size:24px}
   .sec-sub{font-size:15px}
   .hero-title{font-size:28px!important}
@@ -694,8 +702,11 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .game-fb.ko{visibility:visible;opacity:1;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.25);color:var(--red-soft);animation:fbIn .25s ease}
 @keyframes fbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 .game-start-overlay{position:absolute;inset:0;background:rgba(13,13,20,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);padding:16px;text-align:center;overflow-y:auto;gap:4px}
-.game-over-overlay{position:absolute;inset:0;background:rgba(13,13,20,.96);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);text-align:center;padding:20px 16px;overflow-y:auto;min-height:50vh}
+.game-over-overlay{position:absolute;inset:0;background:rgba(13,13,20,.96);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);text-align:center;padding:20px 16px;overflow-y:auto;min-height:50vh;color:#f0ece2!important}
 .game-over-overlay.show{display:flex}
+.game-over-overlay *{color:#f0ece2!important}
+.game-over-overlay .btn-gold{color:#0a0a12!important}
+.game-over-overlay .btn-outline{color:#f0ece2!important;border-color:rgba(240,236,226,.4)!important}
 
 /* GAME SCORE POPUP */
 .score-popup{position:absolute;pointer-events:none;font-family:var(--font-mono);font-weight:700;font-size:22px;z-index:20;animation:scorePop .8s ease-out forwards}
@@ -1111,8 +1122,10 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .acc-toggle .acc-arrow{transition:transform .3s;font-size:11px;color:var(--gold);flex-shrink:0;background:rgba(200,169,96,.1);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .acc-toggle.open .acc-arrow{transform:rotate(180deg);background:rgba(200,169,96,.2)}
 .acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s ease;opacity:0}
-.acc-body.open{overflow:visible}
-.acc-body.open{opacity:1;overflow:visible}
+.acc-body.open{max-height:none;overflow:visible;opacity:1}
+.canton-btn{padding:5px 12px;border-radius:20px;border:1.5px solid rgba(200,169,96,.2);background:transparent;color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-body)}
+.canton-btn:hover{border-color:rgba(200,169,96,.4);color:var(--text)}
+.canton-btn.active{background:rgba(200,169,96,.12);border-color:rgba(200,169,96,.5);color:var(--gold)}
 
 @media(max-width:640px){
   .game-wrap{min-height:auto!important;height:auto!important;padding:0!important;border:none!important;background:transparent!important;display:flex!important;flex-direction:column!important}
@@ -1288,7 +1301,7 @@ body.light-mode .badge-item.earned{background:rgba(184,134,11,.04);border-color:
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
-      <input id="gate-input" type="text" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
         style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);outline:none;transition:border-color .2s"
         onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
@@ -1305,7 +1318,7 @@ body.light-mode .badge-item.earned{background:rgba(184,134,11,.04);border-color:
 </div>
 <script>
 function checkGate(){
-  const codes=['admin1234','evalab','hegtest','teambmb'];
+  const codes=['teambmb'];
   const v=document.getElementById('gate-input').value.trim().toLowerCase();
   if(codes.includes(v)){
     document.getElementById('gate-overlay').style.opacity='0';
@@ -1318,23 +1331,68 @@ function checkGate(){
     setTimeout(()=>{err.style.opacity='0';document.getElementById('gate-input').style.borderColor='rgba(200,169,96,.25)';},2000);
   }
 }
-document.addEventListener('DOMContentLoaded',()=>{
+var CANTON_STOCKS={
+  GE:{label:'CTS HUG — Genève',ce:[{g:'O−',w:18,s:'crit'},{g:'O+',w:55,s:'ok'},{g:'A−',w:35,s:'low'},{g:'A+',w:68,s:'ok'},{g:'B−',w:12,s:'crit'},{g:'B+',w:42,s:'low',me:true},{g:'AB−',w:60,s:'ok'},{g:'AB+',w:82,s:'good'}],total:'199',plaq:[{g:'Mélanges',w:38,s:'low'},{g:'Aphérèse',w:62,s:'ok'}],pfc:[{g:'PFC AB',w:78,s:'good'}],maj:'12.02.2026'},
+  VD:{label:'CTS CHUV — Vaud',ce:[{g:'O−',w:28,s:'low'},{g:'O+',w:61,s:'ok'},{g:'A−',w:44,s:'low'},{g:'A+',w:72,s:'ok'},{g:'B−',w:22,s:'low'},{g:'B+',w:51,s:'ok',me:true},{g:'AB−',w:65,s:'ok'},{g:'AB+',w:80,s:'good'}],total:'242',plaq:[{g:'Mélanges',w:55,s:'ok'},{g:'Aphérèse',w:70,s:'ok'}],pfc:[{g:'PFC AB',w:82,s:'good'}],maj:'12.02.2026'},
+  VS:{label:'CTS Hôpital de Sion — Valais',ce:[{g:'O−',w:10,s:'crit'},{g:'O+',w:48,s:'low'},{g:'A−',w:20,s:'low'},{g:'A+',w:58,s:'ok'},{g:'B−',w:8,s:'crit'},{g:'B+',w:35,s:'low',me:true},{g:'AB−',w:55,s:'ok'},{g:'AB+',w:70,s:'ok'}],total:'128',plaq:[{g:'Mélanges',w:30,s:'low'},{g:'Aphérèse',w:50,s:'ok'}],pfc:[{g:'PFC AB',w:65,s:'ok'}],maj:'11.02.2026'},
+  FR:{label:'CTS HFR — Fribourg',ce:[{g:'O−',w:32,s:'low'},{g:'O+',w:63,s:'ok'},{g:'A−',w:40,s:'low'},{g:'A+',w:75,s:'ok'},{g:'B−',w:25,s:'low'},{g:'B+',w:55,s:'ok',me:true},{g:'AB−',w:68,s:'ok'},{g:'AB+',w:85,s:'good'}],total:'176',plaq:[{g:'Mélanges',w:60,s:'ok'},{g:'Aphérèse',w:72,s:'ok'}],pfc:[{g:'PFC AB',w:80,s:'good'}],maj:'12.02.2026'},
+  NE:{label:'CTS HNE — Neuchâtel',ce:[{g:'O−',w:15,s:'crit'},{g:'O+',w:50,s:'ok'},{g:'A−',w:30,s:'low'},{g:'A+',w:60,s:'ok'},{g:'B−',w:18,s:'crit'},{g:'B+',w:40,s:'low',me:true},{g:'AB−',w:58,s:'ok'},{g:'AB+',w:74,s:'ok'}],total:'112',plaq:[{g:'Mélanges',w:35,s:'low'},{g:'Aphérèse',w:55,s:'ok'}],pfc:[{g:'PFC AB',w:70,s:'ok'}],maj:'11.02.2026'},
+  JU:{label:'CTS Hôpital du Jura — Delémont',ce:[{g:'O−',w:22,s:'low'},{g:'O+',w:58,s:'ok'},{g:'A−',w:38,s:'low'},{g:'A+',w:65,s:'ok'},{g:'B−',w:14,s:'crit'},{g:'B+',w:45,s:'low',me:true},{g:'AB−',w:62,s:'ok'},{g:'AB+',w:78,s:'good'}],total:'94',plaq:[{g:'Mélanges',w:42,s:'low'},{g:'Aphérèse',w:60,s:'ok'}],pfc:[{g:'PFC AB',w:72,s:'ok'}],maj:'10.02.2026'}
+};
+var STOCK_COLORS={crit:'var(--red-soft)',low:'var(--orange)',ok:'var(--green)',good:'var(--teal)'};
+var STOCK_LABELS={crit:'Critique',low:'Bas',ok:'OK',good:'Bon'};
+function stockRow(g,w,s,me){
+  var lbl=STOCK_LABELS[s]+(me?' ← toi':'');
+  var col=STOCK_COLORS[s];
+  return '<div class="stock-row"><span class="stock-grp" style="color:'+col+'">'+g+'</span><div class="stock-bar-bg"><div class="stock-bar bar-'+s+'" style="width:'+w+'%"></div></div><span class="stock-lbl" style="color:'+col+'">'+lbl+'</span></div>';
+}
+function selectCanton(btn){
+  document.querySelectorAll('.canton-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var d=CANTON_STOCKS[btn.dataset.canton];
+  if(!d)return;
+  document.getElementById('stock-canton-label').textContent='🩸 '+d.label;
+  var rows=d.ce.map(function(r){return stockRow(r.g,r.w,r.s,r.me);}).join('');
+  rows+='<div style="font-size:12px;color:var(--text-muted);padding:6px 0;border-top:1px solid var(--dark-border);display:flex;justify-content:space-between"><span>Total CE : <strong style="color:var(--text)">'+d.total+' poches</strong></span><span>MAJ '+d.maj+'</span></div>';
+  document.getElementById('stock-canton-rows').innerHTML=rows;
+  var extra='<div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💜 Plaquettes &nbsp;·&nbsp; 🧊 Plasma</div>';
+  d.plaq.forEach(function(r){extra+=stockRow(r.g,r.w,r.s,false);});
+  d.pfc.forEach(function(r){extra+=stockRow(r.g,r.w,r.s,false);});
+  document.getElementById('stock-canton-extra').innerHTML=extra;
+}
+document.addEventListener('DOMContentLoaded',function(){
+  selectCanton(document.querySelector('.canton-btn[data-canton="GE"]'));
   document.getElementById('gate-input')?.focus();
-  // On mobile, close Actualités accordion by default
-  if(window.innerWidth<=640){
-    var btn=document.getElementById('actu-home-toggle');
-    var body=document.getElementById('hero-actu-acc');
-    if(btn&&body){btn.classList.remove('open');body.classList.remove('open');body.style.maxHeight='0px';body.style.opacity='0';}
+  // Disable transitions briefly so initial state renders instantly
+  var style=document.createElement('style');
+  style.id='no-transition';
+  style.textContent='.acc-body{transition:none!important}';
+  document.head.appendChild(style);
+  if(window.innerWidth<=1024){
+    // Mobile / ZFold : close both
+    ['actu-home-toggle','stock-home-toggle'].forEach(function(btnId){
+      var btn=document.getElementById(btnId);
+      var body=btn&&document.getElementById(btn.dataset.target);
+      if(btn&&body){btn.classList.remove('open');body.classList.remove('open');}
+    });
   }
+  // Re-enable transitions after paint
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      var s=document.getElementById('no-transition');
+      if(s)s.remove();
+    });
+  });
 });
 </script>
 
 <nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" data-v="hero">Accueil</button>
     <button class="nav-tab" data-v="dashboard">Dashboard</button>
-    <button class="nav-tab" data-v="communaute">Communauté</button>
+    <button class="nav-tab" data-v="communaute">Défis</button>
     <button class="nav-tab" data-v="actualites">Actualités</button>
     <button class="nav-tab" data-v="flux">Flux CTS</button>
     <button class="nav-tab" data-v="guide">Guide</button>
@@ -1386,7 +1444,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   <div class="mob-menu-grid">
     <div class="mob-item active" onclick="goMob('hero')"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></div>
     <div class="mob-item" onclick="goMob('dashboard')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></div>
-    <div class="mob-item" onclick="goMob('communaute')"><div class="mob-item-icon">🤝</div><div class="mob-item-label">Communauté</div></div>
+    <div class="mob-item" onclick="goMob('communaute')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></div>
     <div class="mob-item" onclick="goMob('actualites')"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></div>
     <div class="mob-item" onclick="goMob('flux')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></div>
     <div class="mob-item" onclick="goMob('hemorush')"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></div>
@@ -1414,7 +1472,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <div class="hero" style="position:relative">
   <div class="hero-cells" id="hero-cells"></div>
   <div style="position:relative;z-index:1;width:100%">
-  <div class="hero-badge">🩸 Prototype interactif — Hackathon HUG #9 · 20–21 mars 2026</div>
+  <div class="hero-badge">🩸 Prototype interactif — BeeMyBlood™ 2026</div>
   <h1>Donner son sang,<br><span class="glow">une expérience héroïque</span></h1>
   <p class="hero-sub">BeeMyBlood™ transforme le don de sang en parcours premium, personnalisé et ludique.</p>
   <div style="font-size:20px;font-weight:600;margin:0 auto 12px;text-align:center;animation:slideUp .5s ease .3s both;opacity:0;line-height:1.6" class="hero-tagline">Chaque donneur est un héros,<br class="mob-br"> <span style="color:var(--gold)">pas un numéro.</span></div>
@@ -1446,7 +1504,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       <div class="hero-feat" onclick="go('chatbot')"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
       <div class="hero-feat" onclick="go('faq')"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
       <div class="hero-feat" onclick="go('collectes')"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
-      <div class="hero-feat" onclick="go('communaute')"><div class="hero-feat-icon">🤝</div><div class="hero-feat-title">Communauté</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
+      <div class="hero-feat" onclick="go('communaute')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
       <div class="hero-feat" onclick="go('impact')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
       <div class="hero-feat" onclick="go('flux')"><div class="hero-feat-icon">🔬</div><div class="hero-feat-title">Flux CTS</div><div class="hero-feat-sub">Stocks en temps réel</div></div>
       <div class="hero-feat" onclick="go('videos')"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
@@ -1459,7 +1517,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <button class="acc-toggle open" id="actu-home-toggle" onclick="toggleAcc(this)" data-target="hero-actu-acc" style="display:inline-flex;width:auto;padding:8px 20px;border-radius:20px;background:rgba(230,57,70,.08);border-color:rgba(230,57,70,.2);margin-top:8px">
       <span>📰 Actualités du don du sang</span> <span class="acc-arrow">▼</span>
     </button>
-    <div class="acc-body open" id="hero-actu-acc" style="width:100%;max-height:none;opacity:1;overflow:visible">
+    <div class="acc-body open" id="hero-actu-acc" style="width:100%">
     <div style="margin-top:12px;overflow:hidden;position:relative;border-radius:var(--radius)">
       <div id="newsFeed" style="display:flex;transition:transform .5s ease">
 
@@ -1499,6 +1557,34 @@ document.addEventListener('DOMContentLoaded',()=>{
       </div>
     </div>
     </div><!-- hero-actu-acc -->
+
+    <!-- Stocks de sang CTS Romandie -->
+    <button class="acc-toggle open" id="stock-home-toggle" onclick="toggleAcc(this)" data-target="hero-stock-acc" style="display:inline-flex;width:auto;padding:8px 20px;border-radius:20px;background:rgba(230,57,70,.08);border-color:rgba(230,57,70,.2);margin-top:8px">
+      <span>🩸 Stocks de sang — Suisse romande</span> <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body open" id="hero-stock-acc" style="width:100%">
+      <div class="card" style="margin-top:12px;padding:16px">
+        <!-- Canton selector -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+          <span style="font-size:13px;font-weight:600;color:var(--text-muted)">Canton :</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap" id="canton-btns">
+            <button class="canton-btn active" data-canton="GE" onclick="selectCanton(this)">Genève</button>
+            <button class="canton-btn" data-canton="VD" onclick="selectCanton(this)">Vaud</button>
+            <button class="canton-btn" data-canton="VS" onclick="selectCanton(this)">Valais</button>
+            <button class="canton-btn" data-canton="FR" onclick="selectCanton(this)">Fribourg</button>
+            <button class="canton-btn" data-canton="NE" onclick="selectCanton(this)">Neuchâtel</button>
+            <button class="canton-btn" data-canton="JU" onclick="selectCanton(this)">Jura</button>
+          </div>
+        </div>
+        <!-- Stock bars - CE -->
+        <div id="stock-canton-label" style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🩸 CTS HUG — Genève</div>
+        <div id="stock-canton-rows"></div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--dark-border)">
+          <div id="stock-canton-extra"></div>
+        </div>
+        <div style="margin-top:8px;text-align:center"><a href="#" onclick="go('flux');return false" style="color:var(--gold);font-size:12px;font-weight:600">📊 Flux CTS complet →</a></div>
+      </div>
+    </div><!-- hero-stock-acc -->
   </div>
 </div><!-- /z-index wrapper -->
 </div>
@@ -3936,10 +4022,24 @@ document.addEventListener('DOMContentLoaded',()=>{
         <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 2 · Respiration gamifiée</div><div style="font-size:12px;color:var(--text-muted)">Score de calme : 78/100 (+44 depuis le début)</div></div>
         <span style="font-size:12px;color:var(--green);font-weight:600">78/100</span>
       </div>
-      <div style="padding:10px 12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">🔄</span>
-        <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 3 · Visite virtuelle du labo</div><div style="font-size:12px;color:var(--text-muted)">Découvre ce qui se passe après ton don</div></div>
-        <button class="btn btn-outline btn-sm" onclick="alert('🥽 Lancement VR Labo')">▶ Lancer</button>
+      <div style="padding:10px 12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-size:20px">🔄</span>
+          <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 3 · Visite virtuelle du labo</div><div style="font-size:12px;color:var(--text-muted)">Découvre ce qui se passe après ton don</div></div>
+          <span style="font-size:11px;padding:3px 8px;border-radius:6px;background:rgba(200,169,96,.12);border:1px solid rgba(200,169,96,.25);color:var(--gold);font-weight:600">En cours</span>
+        </div>
+        <div style="background:var(--dark-surface);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--text-dim);line-height:1.7">
+          <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🗺️ Marche à suivre</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">1️⃣</span><span>Ouvre cette étape sur le casque VR mis à disposition au CTS, ou sur ton smartphone via l'appli BeeMyBlood™.</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">2️⃣</span><span>Sélectionne <strong style="color:var(--text)">« Visite du labo »</strong> dans le menu Zero Fear Journey™.</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">3️⃣</span><span>Suis la poche virtuelle de ton don : centrifugation, contrôle qualité, stockage, expédition — 4 min d'immersion.</span></div>
+            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">4️⃣</span><span>À la fin, ton score de sérénité est mis à jour et l'Étape 4 se déverrouille pour ton prochain don.</span></div>
+          </div>
+          <div style="margin-top:10px;padding:8px 10px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.15);border-radius:8px;font-size:12px;color:var(--text-muted)">
+            💡 La vidéo interactive sera disponible sur le casque au CTS dès le prochain hackathon. Le prototype montre le parcours prévu.
+          </div>
+        </div>
       </div>
       <div style="padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px;opacity:.6">
         <span style="font-size:20px">🔒</span>
@@ -4297,7 +4397,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <!-- ===== COMMUNAUTÉ ===== -->
 <div class="view" id="v-communaute">
-  <div class="sec-header"><div class="sec-label">🤝 Communauté</div><div class="sec-title">BeeMyBlood — Ensemble on sauve des vies</div><div class="sec-sub">Rejoins le mouvement · Parraine · Défie · Partage</div></div>
+  <div class="sec-header"><div class="sec-label">⚔️ Défis</div><div class="sec-title">BeeMyBlood — Ensemble on sauve des vies</div><div class="sec-sub">Rejoins le mouvement · Parraine · Défie · Partage</div></div>
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="comm-impact-acc" style="font-size:13px;padding:6px 10px;margin:0 0 0">📊 Impact collectif — Genève <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="comm-impact-acc">
@@ -5258,7 +5358,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <a href="#" onclick="startTour();return false">Tour guidé</a>
   </div>
   <div class="app-footer-copy">
-    Prototype interactif · Hackathon HUG #9 2026<br>
+    Prototype interactif · BeeMyBlood™ 2026<br>
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
   </div>
 </footer>
@@ -7185,7 +7285,7 @@ const wrappedVids=[
   {emoji:'🏥',name:'Dre Waldvogel',role:'Responsable CTS · HUG',quote:'« En 15 ans de médecine, je n\'ai jamais vu un outil qui connecte autant les donneurs à l\'impact de leur geste. Vous n\'êtes pas juste des numéros dans notre frigo — vous êtes des partenaires. »',attr:'— Dre Waldvogel · CTS HUG'},
   {emoji:'👨‍👩‍👧',name:'Papa de Léa, 6 ans',role:'Père d\'une enfant transfusée · Chirurgie cardiaque',quote:'« Ma fille a reçu 4 poches pendant son opération. On ne saura jamais qui a donné ce sang. Mais ce quelqu\'un a donné à Léa la chance de souffler ses bougies cette année. »',attr:'— Papa de Léa · Chirurgie cardiaque pédiatrique'},
   {emoji:'💪',name:'Moussa, 31 ans',role:'Vit avec une drépanocytose · Retour au travail',quote:'« J\'ai frôlé la mort en crise vaso-occlusive. 6 poches de CE phénotypés en 48h. Trois semaines après, j\'étais de retour au bureau. Sans les donneurs rares, je ne serais pas là pour vous dire merci. »',attr:'— Moussa · Vit avec une drépanocytose'},
-  {emoji:'🐝',name:'L\'équipe BeeMyBlood',role:'Hackathon HUG #9 · 2026',quote:'« Merci, Amine. Tu fais partie d\'une communauté de héros silencieux. Chaque don, chaque parrainage, chaque partie de HémoRush rapproche quelqu\'un d\'une vie sauvée. Continue. On a besoin de toi. »',attr:'— L\'équipe BeeMyBlood™'}
+  {emoji:'🐝',name:'L\'équipe BeeMyBlood',role:'Convivens Lab · HEG Genève · 2026',quote:'« Merci, Amine. Tu fais partie d\'une communauté de héros silencieux. Chaque don, chaque parrainage, chaque partie de HémoRush rapproche quelqu\'un d\'une vie sauvée. Continue. On a besoin de toi. »',attr:'— L\'équipe BeeMyBlood™'}
 ];
 let wvIdx=0,wvTimer=null;
 function goWrappedVid(i){
@@ -7882,7 +7982,7 @@ try{if(localStorage.getItem('bmb-theme')==='light')setTheme('light');}catch(e){}
 
 
 // Breadcrumb updater
-var bcNames={'hero':'Accueil','dashboard':'Dashboard','communaute':'Communauté','actualites':'Actualités','flux':'Flux CTS','guide':'Guide du don','eligibilite':'Pré-éligibilité','hemorush':'HémoRush™','collectes':'Collectes','impact':'Impact','chatbot':'BeeBot™','vr':'Réalité virtuelle','videos':'Vidéos','faq':'FAQ','settings':'Paramètres','contact':'Contact','profil':'Profil'};
+var bcNames={'hero':'Accueil','dashboard':'Dashboard','communaute':'Défis','actualites':'Actualités','flux':'Flux CTS','guide':'Guide du don','eligibilite':'Pré-éligibilité','hemorush':'HémoRush™','collectes':'Collectes','impact':'Impact','chatbot':'BeeBot™','vr':'Réalité virtuelle','videos':'Vidéos','faq':'FAQ','settings':'Paramètres','contact':'Contact','profil':'Profil'};
 function updateBreadcrumb(id){
   var bar=document.getElementById('breadcrumb-bar');
   var cur=document.getElementById('bc-current');

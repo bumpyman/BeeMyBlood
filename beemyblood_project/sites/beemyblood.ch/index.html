@@ -21,7 +21,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BeeMyBlood™ — La médecine transfusionnelle, augmentée</title>
-<meta name="description" content="BeeMyBlood — La médecine transfusionnelle, augmentée.">
+<meta name="description" content="BeeMyBlood relie donneur·se·s, receveur·se·s et professionnel·le·s de la transfusion : IA spécialisée, jumeau numérique, phénotypes rares, équité d'accès. Open source, hébergé en Suisse.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
@@ -38,13 +38,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .nav-links{display:flex;gap:24px;align-items:center}
 .nav-links a{color:var(--text-dim);font-size:15px;font-weight:500}.nav-links a:hover{color:var(--gold)}
 
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;text-align:center;padding:90px 24px 60px;position:relative;overflow:hidden}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:90px 24px 60px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:min(800px,100vw);height:min(800px,100vw);border-radius:50%;background:radial-gradient(circle,rgba(200,169,96,.06) 0%,transparent 70%);pointer-events:none}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,6.5vw,80px);font-weight:800;line-height:1.05;margin-bottom:16px;animation:fadeUp .6s ease both}
 .hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero-sub{font-size:clamp(18px,2.5vw,22px);color:var(--text-dim);max-width:520px;margin:0 auto 28px;animation:fadeUp .6s .15s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bobDown{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(6px);opacity:.8}}
 
 .portals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:680px;width:100%;animation:fadeUp .6s .25s ease both}
 .portal{padding:36px 24px;border-radius:var(--radius);border:1.5px solid rgba(200,169,96,.12);background:var(--dark-card);text-align:center;transition:all .3s;cursor:pointer;text-decoration:none;color:var(--text);display:block}
@@ -54,7 +53,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .portal.coming{opacity:.55;pointer-events:none;position:relative}
 .portal.coming .coming-badge{display:block;margin-top:10px;font-size:13px;padding:4px 12px;border-radius:8px;background:rgba(200,169,96,.08);border:1px solid rgba(200,169,96,.15);color:var(--text-muted);font-weight:500}
 
-.cta-projet{display:block;max-width:560px;width:100%;margin-top:8px;padding:28px 32px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(200,169,96,.03));border:2px solid rgba(200,169,96,.25);text-decoration:none;color:var(--text);transition:all .35s;animation:fadeUp .6s .3s ease both;position:relative;overflow:hidden;cursor:pointer}
+.cta-projet{display:block;max-width:560px;width:100%;margin-top:8px;padding:20px 28px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(200,169,96,.03));border:2px solid rgba(200,169,96,.25);text-decoration:none;color:var(--text);transition:all .35s;animation:fadeUp .6s .3s ease both;position:relative;overflow:hidden;cursor:pointer}
 .cta-projet::after{content:'';position:absolute;top:0;right:0;width:200px;height:100%;background:linear-gradient(90deg,transparent,rgba(200,169,96,.04));pointer-events:none}
 .cta-projet:hover{border-color:rgba(200,169,96,.55);transform:translateY(-3px);box-shadow:0 12px 40px rgba(200,169,96,.12);color:var(--text)}
 .cta-btn{display:inline-block;margin-top:12px;padding:10px 24px;border-radius:10px;background:linear-gradient(135deg,rgba(200,169,96,.12),rgba(200,169,96,.06));border:1.5px solid rgba(200,169,96,.3);font-size:14px;font-weight:600;color:var(--gold);transition:all .2s}
@@ -64,19 +63,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .cta-title{display:block;font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,26px);font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .cta-desc{display:block;font-size:15px;color:var(--text-dim);line-height:1.5}
 
-.hack-banner{background:linear-gradient(135deg,rgba(230,57,70,.06),rgba(200,169,96,.06));border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);padding:36px 32px;max-width:680px;width:100%;margin-top:24px;margin-bottom:0;animation:fadeUp .6s .35s ease both}
-.hack-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:99px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.2);font-size:14px;font-weight:600;color:var(--red-soft);margin-bottom:14px}
-.hack-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--red);animation:livePulse 2s infinite}
-@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
-.hack-banner h2{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,28px);font-weight:800;margin-bottom:6px}
-.hack-banner .hack-sub{color:var(--text-dim);font-size:16px;margin-bottom:20px}
-.countdown{display:flex;gap:12px;justify-content:center;margin-bottom:24px}
-.cd-unit{text-align:center}
-.cd-val{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--gold);line-height:1}
-.cd-lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px}
-.cd-sep{font-size:28px;color:var(--text-muted);align-self:flex-start;margin-top:2px;opacity:.3}
-.btn-hack{padding:14px 32px;border-radius:10px;background:linear-gradient(135deg,var(--red),#c0392b);color:#fff!important;font-weight:700;font-size:16px;transition:transform .2s,box-shadow .2s;display:inline-block}
-.btn-hack:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(230,57,70,.3);color:#fff!important}
+
 
 .mission-tagline{font-family:'Playfair Display',serif;font-size:clamp(22px,3.5vw,32px);font-weight:800;line-height:1.3;margin-bottom:24px}
 .mission-tagline span{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -87,6 +74,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .mi-desc{font-size:13px;color:var(--text-muted);line-height:1.5}
 .mission-baseline{font-size:15px;color:var(--text-dim);max-width:500px;margin:32px auto 36px;line-height:1.6}
 
+.why{max-width:680px;width:100%;margin:8px auto 28px;animation:fadeUp .6s .35s ease both}
+.why-title{font-family:'Playfair Display',serif;font-size:clamp(19px,2.8vw,26px);font-weight:800;line-height:1.3;margin-bottom:18px}
+.why-title span{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
+.why-item{padding:16px 16px 14px;border-radius:12px;border:1px solid rgba(200,169,96,.1);background:var(--dark-card);display:flex;gap:12px;align-items:flex-start}
+.wi-icon{font-size:22px;line-height:1;margin-top:2px}
+.wi-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px}
+.wi-desc{font-size:13px;color:var(--text-dim);line-height:1.55}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.stats div{padding:10px 18px;border-radius:10px;background:rgba(200,169,96,.05);border:1px solid rgba(200,169,96,.12);font-size:12px;color:var(--text-dim);display:flex;align-items:baseline;gap:6px}
+.stats b{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold)}
 .partners{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:680px;margin:0 auto;animation:fadeUp .6s .45s ease both;padding-top:8px}
 .partner{padding:12px 20px;border-radius:10px;background:var(--dark-card);border:1px solid rgba(200,169,96,.06);font-size:13px;font-weight:600;color:var(--text-muted)}
 
@@ -97,8 +95,8 @@ footer a{color:var(--gold)}
   nav{padding:12px 16px}.nav-links a{display:none}
   .portals{grid-template-columns:1fr;max-width:320px}
   .mission-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:1fr}
   .cta-projet{padding:20px 18px}.cta-content{text-align:center}.cta-left{text-align:center}
-  .hack-banner{padding:24px 20px}.countdown{gap:8px}
 }
 </style>
 </head>
@@ -138,32 +136,33 @@ footer a{color:var(--gold)}
     <div class="mission-item"><div class="mi-icon">🔬</div><div class="mi-title">Innover</div><div class="mi-desc">Digital twin, IA, suivi prédictif au service des patients</div></div>
   </div>
 
+  <div class="why">
+    <p class="why-title">Au-delà de la prise de rendez-vous :<br><span>la seule plateforme qui couvre toute la chaîne transfusionnelle.</span></p>
+    <div class="why-grid">
+      <div class="why-item"><div class="wi-icon">💛</div><div><div class="wi-title">Les receveur·se·s au centre</div><div class="wi-desc">Un espace patient dédié : transfusions, chélation, droits, RAI. Les outils existants s'arrêtent au donneur.</div></div></div>
+      <div class="why-item"><div class="wi-icon">🤖</div><div><div class="wi-title">Trois BeeBots spécialisés</div><div class="wi-desc">Une IA calibrée sur les directives Transfusion CRS, pour les donneur·se·s, les patient·e·s et les clinicien·ne·s.</div></div></div>
+      <div class="why-item"><div class="wi-icon">🔬</div><div><div class="wi-title">Jumeau numérique</div><div class="wi-desc">Phénotypes rares, scénarios de crise, planification des collectes : anticiper les pénuries plutôt que les subir.</div></div></div>
+      <div class="why-item"><div class="wi-icon">🔓</div><div><div class="wi-title">Ouvert et souverain</div><div class="wi-desc">Code AGPL-3.0, hébergé en Suisse, nLPD/RGPD, HL7 FHIR. Pas de boîte noire, pas de dépendance à un fournisseur.</div></div></div>
+    </div>
+    <div class="stats">
+      <div><b>3</b> espaces reliés</div>
+      <div><b>14</b> fonctionnalités</div>
+      <div><b>18</b> sites CTS cartographiés</div>
+      <div><b>100%</b> open source</div>
+    </div>
+  </div>
+
   <a href="projet/" class="cta-projet">
     <div class="cta-content">
       <div class="cta-left">
-        <span class="cta-title">Découvrir le projet →</span>
-        <span class="cta-desc">Genèse, objectifs, partenaires — et comment contribuer.</span>
-        <span class="cta-btn">Voir le projet →</span>
-        <span style="display:flex;justify-content:center;gap:24px;margin-top:10px;font-size:18px;color:var(--text-muted)"><span style="animation:bobDown 2s ease-in-out infinite">↓</span><span style="animation:bobDown 2s .3s ease-in-out infinite">↓</span><span style="animation:bobDown 2s .6s ease-in-out infinite">↓</span></span>
+        <span class="cta-title">En savoir plus sur le projet</span>
+        <span class="cta-desc">Genèse, objectifs, partenaires et comment contribuer.</span>
+        <span class="cta-btn">Découvrir →</span>
       </div>
     </div>
   </a>
 
-  <div class="hack-banner">
-    <div class="hack-badge"><span class="pulse"></span>Hackathon des HUG #9</div>
-    <h2>20–21 mars 2026 · 36 heures</h2>
-    <p class="hack-sub"><a href="https://www.hug.ch/centre-innovation" target="_blank">Centre de l'innovation</a> — Hôpitaux Universitaires de Genève</p>
-    <div class="countdown" id="countdown">
-      <div class="cd-unit"><div class="cd-val" id="cd-d">--</div><div class="cd-lbl">Jours</div></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-unit"><div class="cd-val" id="cd-h">--</div><div class="cd-lbl">Heures</div></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-unit"><div class="cd-val" id="cd-m">--</div><div class="cd-lbl">Min</div></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-unit"><div class="cd-val" id="cd-s">--</div><div class="cd-lbl">Sec</div></div>
-    </div>
-    <a href="https://www.hug.ch/centre-innovation/hackathon-9" target="_blank" class="btn-hack">S'inscrire avant le 26 février sur le site des HUG</a>
-  </div>
+
 
 </section>
 
@@ -174,16 +173,7 @@ footer a{color:var(--gold)}
 </footer>
 
 <script>
-function updateCountdown(){
-  var t=new Date('2026-03-20T08:30:00+01:00').getTime(),n=Date.now(),d=t-n;
-  if(d<=0){document.getElementById('countdown').innerHTML='<div style="font-family:Playfair Display,serif;font-size:clamp(22px,3vw,36px);font-weight:800;color:var(--gold)">C\'est parti !</div>';return;}
-  document.getElementById('cd-d').textContent=Math.floor(d/864e5);
-  var h=Math.floor((d%864e5)/36e5),m=Math.floor((d%36e5)/6e4),s=Math.floor((d%6e4)/1e3);
-  document.getElementById('cd-h').textContent=h<10?'0'+h:h;
-  document.getElementById('cd-m').textContent=m<10?'0'+m:m;
-  document.getElementById('cd-s').textContent=s<10?'0'+s:s;
-}
-updateCountdown();setInterval(updateCountdown,1000);
+
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
 </script>
 </body>

@@ -14,7 +14,10 @@
 
 // IMPORTANT: Remplace cette valeur par ta clé API Anthropic
 // Tu peux l'obtenir sur https://console.anthropic.com/
-define('ANTHROPIC_API_KEY', 'REVOKED_KEY_REMOVED');
+// Clé API et modèle lus depuis config.php (hors dépôt git) — voir config.example.php
+$bmbConfig = file_exists(__DIR__ . '/../config.php') ? require __DIR__ . '/../config.php' : [];
+define('ANTHROPIC_API_KEY', $bmbConfig['anthropic_api_key'] ?? 'YOUR_API_KEY_HERE');
+define('BMB_MODEL', $bmbConfig['model'] ?? 'claude-opus-5');
 
 // Headers CORS pour permettre les requêtes depuis le navigateur
 header('Content-Type: application/json; charset=utf-8');
@@ -174,8 +177,9 @@ if ($lastMsg['role'] !== 'user' || $lastMsg['content'] !== $userMessage) {
 $apiUrl = 'https://api.anthropic.com/v1/messages';
 
 $requestData = [
-    'model' => 'claude-sonnet-4-20250514',
-    'max_tokens' => 800,
+    'model' => BMB_MODEL,
+    'max_tokens' => 2048,
+    'output_config' => ['effort' => 'low'],
     'system' => $crsContext,
     'messages' => $messages
 ];
@@ -229,9 +233,17 @@ if ($httpCode !== 200) {
 // Parser la réponse
 $responseData = json_decode($response, true);
 
-if (isset($responseData['content'][0]['text'])) {
+// Concaténer les blocs de texte (un bloc "thinking" peut précéder le texte)
+$reply = '';
+foreach ($responseData['content'] ?? [] as $block) {
+    if (($block['type'] ?? '') === 'text') {
+        $reply .= $block['text'];
+    }
+}
+
+if ($reply !== '') {
     echo json_encode([
-        'reply' => $responseData['content'][0]['text']
+        'reply' => $reply
     ], JSON_UNESCAPED_UNICODE);
 } else {
     echo json_encode([

@@ -32,3 +32,7 @@ package-lock.json
 # Build artifacts
 dist/
 build/
+
+# BeeMyBlood server config (API key) — never commit
+config.php
+beemyblood_project/sites/beemyblood.ch/config.php

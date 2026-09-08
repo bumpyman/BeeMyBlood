@@ -11,7 +11,9 @@
 // ║  CONFIGURATION — Collez votre clé API Anthropic ci-dessous  ║
 // ╚══════════════════════════════════════════════════════════════╝
 
-$apiKey = 'REVOKED_KEY_REMOVED';  // ← Remplacez par votre clé sk-ant-...
+// Clé API et modèle lus depuis config.php (hors dépôt git) — voir config.example.php
+$bmbConfig = file_exists(__DIR__ . '/../config.php') ? require __DIR__ . '/../config.php' : [];
+$apiKey = $bmbConfig['anthropic_api_key'] ?? '';  // clé lue depuis ../config.php
 
 // ─────────────────────────────────────────────────────────────────
 
@@ -107,8 +109,9 @@ PROMPT;
 
 // Call Anthropic API
 $payload = [
-    'model' => 'claude-sonnet-4-20250514',
-    'max_tokens' => 1024,
+    'model' => $bmbConfig['model'] ?? 'claude-opus-5',
+    'max_tokens' => 2048,
+    'output_config' => ['effort' => 'low'],
     'system' => $systemPrompt,
     'messages' => [
         ['role' => 'user', 'content' => $question]

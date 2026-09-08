@@ -174,7 +174,7 @@ if ($lastMsg['role'] !== 'user' || $lastMsg['content'] !== $userMessage) {
 $apiUrl = 'https://api.anthropic.com/v1/messages';
 
 $requestData = [
-    'model' => 'claude-sonnet-4-20250514',
+    'model' => 'claude-opus-5',
     'max_tokens' => 800,
     'system' => $crsContext,
     'messages' => $messages
@@ -229,9 +229,16 @@ if ($httpCode !== 200) {
 // Parser la réponse
 $responseData = json_decode($response, true);
 
-if (isset($responseData['content'][0]['text'])) {
+$reply = '';
+foreach ($responseData['content'] ?? [] as $block) {
+    if (($block['type'] ?? '') === 'text') {
+        $reply .= $block['text'];
+    }
+}
+
+if ($reply !== '') {
     echo json_encode([
-        'reply' => $responseData['content'][0]['text']
+        'reply' => $reply
     ], JSON_UNESCAPED_UNICODE);
 } else {
     echo json_encode([

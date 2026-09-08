@@ -20,6 +20,7 @@
 <title>BeeMyBlood Pro — Portail Professionnel</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
 <!-- heatmap via CSS circles -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
@@ -104,7 +105,7 @@ select option{background:#12121e;color:#f0ece2}
 .grid-8{display:grid;grid-template-columns:repeat(8,1fr);gap:.75rem}
 .grid-2-1{display:grid;grid-template-columns:2fr 1fr;gap:1rem;align-items:start}
 .grid-2-1>div:first-child>.card{position:sticky;top:70px}
-.grid-2-1>div:first-child .map-wrap{min-height:600px}
+.grid-2-1>div:first-child .map-wrap{min-height:0}
 .grid-1-1{display:flex;flex-wrap:wrap;gap:1rem}.grid-1-1>*{flex:1 1 400px;min-width:0}.grid-1-1>.hidden{display:none!important}
 @media(max-width:900px){.grid-4,.grid-8{grid-template-columns:repeat(4,1fr)}.grid-2-1{grid-template-columns:1fr}}
 @media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}.grid-4,.grid-8{grid-template-columns:repeat(2,1fr)}}
@@ -165,7 +166,7 @@ select option{background:#12121e;color:#f0ece2}
 .collecte-progress-fill{height:100%;background:var(--green-500);border-radius:99px}
 
 /* Map */
-#map{height:750px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
+#map{height:calc(100vh - 260px);min-height:380px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
 .map-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-bottom:1rem}
 .map-controls select,.map-controls input[type="date"]{background:var(--slate-700)!important;border:1px solid var(--slate-600);border-radius:.5rem;padding:.4rem .6rem;color:#fff!important;font-size:.85rem;color-scheme:dark}
 .map-controls select option{background:#1e1e2e!important;color:#fff!important}
@@ -334,6 +335,7 @@ select option{background:#12121e;color:#f0ece2}
 .user-msg-pro{padding:.75rem 1rem;border-radius:.75rem;font-size:.85rem;line-height:1.5;max-width:80%;background:var(--blue-500);color:#fff;align-self:flex-end;border-bottom-right-radius:.2rem;animation:msgSlide .3s ease}
 .prosg{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:var(--blue-400);padding:.4rem .85rem;border-radius:1.5rem;font-size:.8rem;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap;flex-shrink:0}
 .prosg:hover{background:rgba(59,130,246,.2);border-color:rgba(59,130,246,.5)}
+.bot-msg-pro ul,.bot-msg-pro ol{margin:.35rem 0 .35rem 1.2rem}.bot-msg-pro li{margin:.15rem 0}
 .typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--slate-400);margin:0 2px;animation:typingBounce .8s infinite}
 .typing-dot:nth-child(2){animation-delay:.15s}
 .typing-dot:nth-child(3){animation-delay:.3s}
@@ -460,6 +462,44 @@ body.map-fullscreen .toast-container{z-index:100003!important}
 .btn-sim:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(200,169,96,.3)}
 .sim-result{margin-top:1rem;padding:1rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:.5rem;display:none}
 .sim-result.show{display:block;animation:fadeIn .3s}
+/* ===== Jumeau numérique (phénotype + scénarios) ===== */
+#twinMap{height:calc(100vh - 300px);min-height:420px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
+.twin-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.75rem;font-size:.8rem;color:var(--slate-400)}
+.twin-head b{color:var(--amber-400);font-weight:700}
+.twin-tag{font-size:.65rem;letter-spacing:.06em;padding:2px 7px;border-radius:4px;font-weight:700;background:rgba(200,169,96,.12);color:var(--amber-400)}
+.twin-tag.plan{background:rgba(59,130,246,.15);color:var(--blue-400)}
+.twin-field{margin-top:.75rem}
+.twin-field label,.twin-field .lbl{display:block;font-size:.75rem;color:var(--slate-400);margin-bottom:.35rem}
+.twin-field select,.twin-field input[type="date"],.twin-field textarea{width:100%;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .6rem;color:#fff;font-size:.85rem;font-family:inherit;color-scheme:dark}
+.twin-field select option{background:#1e1e2e;color:#fff}
+.twin-field textarea{resize:vertical;min-height:60px}
+.twin-groups{display:flex;flex-direction:column;gap:.4rem}
+.twin-group{border:1px solid var(--slate-600);border-radius:.5rem;overflow:hidden}
+.twin-group-row{display:flex;align-items:center;gap:.5rem;padding:.5rem .65rem;background:var(--slate-700);cursor:pointer;user-select:none;font-size:.85rem}
+.twin-group-row input{accent-color:var(--amber-500);width:15px;height:15px}
+.twin-group-row .gname{font-weight:700;color:var(--amber-400);min-width:48px}
+.twin-group-row .ghint{margin-left:auto;font-size:.7rem;color:var(--slate-500)}
+.twin-antigens{display:flex;flex-wrap:wrap;gap:.35rem .8rem;padding:.5rem .65rem .6rem 1.9rem;border-top:1px solid var(--slate-600)}
+.twin-antigens label{display:flex;align-items:center;gap:.3rem;font-size:.8rem;cursor:pointer;color:var(--slate-300)}
+.twin-antigens input{accent-color:var(--blue-500);width:14px;height:14px}
+.twin-plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.btn-twin{width:100%;margin-top:1rem;padding:.7rem;border-radius:.5rem;font-weight:700;font-size:.9rem;cursor:pointer;border:none;color:#0a0a12;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));transition:all .2s}
+.btn-twin.plan{background:linear-gradient(135deg,var(--blue-500),var(--blue-600));color:#fff}
+.btn-twin:hover{filter:brightness(1.08)}
+.twin-result{margin-top:1rem;display:none}
+.twin-result.show{display:block;animation:fadeIn .3s}
+.twin-result table{width:100%;font-size:.8rem;border-collapse:collapse}
+.twin-result th{font-size:.7rem;color:var(--slate-400);font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid var(--slate-600)}
+.twin-result td{padding:5px 6px;border-bottom:1px solid var(--slate-700)}
+.twin-result td.num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.twin-bar{height:6px;border-radius:3px;background:var(--slate-700);overflow:hidden}
+.twin-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--amber-500),var(--red-500))}
+.twin-tip{background:rgba(10,10,18,.94)!important;color:#f0ece2!important;border:1px solid rgba(200,169,96,.3)!important;border-radius:8px!important;box-shadow:0 4px 14px rgba(0,0,0,.5)!important;font-size:.78rem;line-height:1.5;min-width:200px;padding:8px 10px!important}
+.twin-tip::before{border-top-color:rgba(10,10,18,.94)!important}
+.twin-tip .t{font-weight:700;color:var(--amber-400);margin-bottom:3px}
+.twin-tip .r{display:flex;justify-content:space-between;gap:10px}
+.twin-tip .r .k{color:var(--slate-400)}
+.twin-tip .r .v{font-weight:700}
 </style>
 </head>
 <body>
@@ -539,6 +579,10 @@ body.map-fullscreen .toast-container{z-index:100003!important}
       <button class="tab" data-tab="carto" onclick="switchTab('carto')">
         <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Cartographie
+      </button>
+      <button class="tab" data-tab="twin" onclick="switchTab('twin')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
+        Jumeau numérique
       </button>
       <button class="tab" data-tab="match" onclick="switchTab('match')">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -727,6 +771,68 @@ body.map-fullscreen .toast-container{z-index:100003!important}
       </div>
     </div>
 
+    <!-- ========== JUMEAU NUMÉRIQUE : phénotype + scénarios ========== -->
+    <div id="panel-twin" class="hidden">
+      <div class="grid-2-1">
+        <div>
+          <div class="card">
+            <div class="card-title">
+              <svg style="stroke:var(--amber-400)" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
+              Jumeau numérique — <span id="twinRegionName">Genève</span>
+            </div>
+            <div class="twin-head">
+              <span id="twinStatus">Carte de chaleur des sites de collecte — lancez une recherche ou une simulation.</span>
+              <span><b id="twinCount">0</b> site(s) affiché(s)</span>
+            </div>
+            <div id="twinMap"></div>
+            <div class="twin-result" id="twinResult"></div>
+            <p style="font-size:.7rem;color:var(--slate-500);margin-top:.6rem;line-height:1.5">Simulation de stock à partir des fréquences antigéniques populationnelles (ordre ISBT) et de modificateurs de scénario. Données locales de démonstration, aucune connexion serveur.</p>
+          </div>
+        </div>
+        <div>
+          <div class="sidebar-card">
+            <h4><span class="twin-tag">01</span> Recherche par phénotype</h4>
+            <div class="twin-field">
+              <label for="twinAbo">Groupe sanguin (ABO)</label>
+              <select id="twinAbo">
+                <option value="">Indifférent</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="O">O</option>
+                <option value="AB">AB</option>
+              </select>
+            </div>
+            <div class="twin-field">
+              <span class="lbl">Systèmes antigéniques</span>
+              <div class="twin-groups" id="twinGroups"></div>
+            </div>
+            <button class="btn-twin" onclick="twinRechercher()">🔎 Rechercher les poches</button>
+          </div>
+          <div class="sidebar-card" style="margin-top:1rem">
+            <h4><span class="twin-tag plan">02</span> Planification &amp; scénario</h4>
+            <div class="twin-plan-grid">
+              <div class="twin-field">
+                <label for="twinDate">Date</label>
+                <input type="date" id="twinDate">
+              </div>
+              <div class="twin-field">
+                <label for="twinHeure">Plage horaire</label>
+                <select id="twinHeure"></select>
+              </div>
+            </div>
+            <div class="twin-field">
+              <label for="twinScenario">Scénario</label>
+              <select id="twinScenario" onchange="twinScenarioChange()"></select>
+            </div>
+            <div class="twin-field hidden" id="twinAutreWrap">
+              <textarea id="twinAutre" placeholder="Décrivez le scénario…"></textarea>
+            </div>
+            <button class="btn-twin plan" onclick="twinSimuler()">🔮 Planifier &amp; simuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ========== PSL SEARCH ========== -->
     <div id="panel-match" class="hidden">
       <div class="grid-1-1">
@@ -901,7 +1007,7 @@ body.map-fullscreen .toast-container{z-index:100003!important}
         <div style="margin-top:1.25rem">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
             <h4 style="font-weight:700">Campagnes récentes</h4>
-            <button style="padding:.5rem 1rem;border-radius:.5rem;background:var(--amber-500);color:#0a0a12;font-weight:600;font-size:.8rem;cursor:pointer;border:none" onclick="showToast('success','Nouvelle campagne créée en brouillon.')">+ Nouvelle campagne</button>
+            <button style="padding:.5rem 1rem;border-radius:.5rem;background:var(--amber-500);color:#0a0a12;font-weight:600;font-size:.8rem;cursor:pointer;border:none" onclick="openNewCampagne()">+ Nouvelle campagne</button>
           </div>
           <div id="campList"></div>
         </div>
@@ -1281,7 +1387,7 @@ let mapCircles = [];
 function doLogin(){
   const email = document.getElementById('loginEmail').value;
   const pw = document.getElementById('loginPassword').value;
-  if(email === 'admin@beemyblood.ch' && pw === 'admin1234'){
+  if(email === 'admin@beemyblood.ch' && pw === 'admin1234567890'){
     document.getElementById('loginPage').style.display='none';
     document.getElementById('mainApp').style.display='block';
     renderAll();
@@ -1305,11 +1411,12 @@ document.getElementById('loginEmail').addEventListener('keypress',e=>{if(e.key==
 function switchTab(tab){
   currentTab=tab;
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
-  ['dashboard','carto','match','route','collectes','equity','botpro','protocoles','stocks','campagnes'].forEach(p=>{
+  ['dashboard','carto','twin','match','route','collectes','equity','botpro','protocoles','stocks','campagnes'].forEach(p=>{
     var el=document.getElementById('panel-'+p);
     if(el) el.classList.toggle('hidden',p!==tab);
   });
   if(tab==='carto') initMap();
+  if(tab==='twin') initTwinMap();
   if(tab==='collectes') renderPlanTable();
   if(tab==='equity') renderEquity();
   if(tab==='stocks') renderStocks();
@@ -1317,7 +1424,7 @@ function switchTab(tab){
   if(tab==='route') renderRoute();
   // Region bar only on relevant tabs
   var rbar=document.querySelector('.region-bar');
-  if(rbar) rbar.style.display=['dashboard','carto','collectes','equity','stocks','campagnes','match','route'].includes(tab)?'':'none';
+  if(rbar) rbar.style.display=['dashboard','carto','twin','collectes','equity','stocks','campagnes','match','route'].includes(tab)?'':'none';
 }
 
 // ========================= REGION =========================
@@ -1335,6 +1442,7 @@ function changeRegion(){
   if(pslSite) pslSite.textContent=r.site||r.name;
   renderAll();
   if(currentTab==='carto') initMap();
+  if(currentTab==='twin') initTwinMap();
 }
 
 // ========================= RENDER ALL =========================
@@ -2092,11 +2200,36 @@ function proKBMatch(q){
   return bestScore>=1?best:null;
 }
 
+// Conversion Markdown simple -> HTML (gras, italique, listes, titres, sauts de ligne)
+function mdToHtml(s){
+  if(!s) return '';
+  var esc=String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  esc=esc.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<i>$2</i>').replace(/`([^`]+)`/g,'<code>$1</code>');
+  var out=[],inList=false,listType='';
+  esc.split('\n').forEach(function(l){
+    var mUl=l.match(/^\s*[-•*]\s+(.*)/),mOl=l.match(/^\s*\d+[.)]\s+(.*)/),mH=l.match(/^\s*#{1,4}\s+(.*)/);
+    if(mUl||mOl){var t=mUl?'ul':'ol';if(!inList||listType!==t){if(inList)out.push('</'+listType+'>');out.push('<'+t+'>');inList=true;listType=t;}out.push('<li>'+(mUl?mUl[1]:mOl[1])+'</li>');}
+    else{if(inList){out.push('</'+listType+'>');inList=false;}if(mH)out.push('<b>'+mH[1]+'</b><br>');else if(l.trim()==='')out.push('<br>');else out.push(l+'<br>');}
+  });
+  if(inList)out.push('</'+listType+'>');
+  return out.join('').replace(/(<br>){3,}/g,'<br><br>').replace(/<\/(ul|ol)><br>/g,'</$1>').replace(/(<br>)+$/,'');
+}
+// Réponse du modèle : HTML tel quel (avec gras Markdown résiduel converti), sinon Markdown -> HTML
+function formatBotReply(s){
+  if(!s) return '';
+  if(/<(b|br|ul|ol|li|p|a|strong|em|sup)\b/i.test(s)){
+    var h=s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+    if(!/<(br|p|li)\b/i.test(h)) h=h.replace(/\n/g,'<br>');
+    return h;
+  }
+  return mdToHtml(s);
+}
+
 function proAddMsg(html,isUser){
   var el=document.getElementById('proBotMsgs');
   var d=document.createElement('div');
   d.className=isUser?'user-msg-pro':'bot-msg-pro';
-  if(isUser)d.textContent=html; else d.innerHTML=html;
+  if(isUser)d.textContent=html; else d.innerHTML=formatBotReply(html);
   el.appendChild(d);
   el.scrollTop=el.scrollHeight;
 }
@@ -2105,7 +2238,7 @@ function proShowTyping(){
   var el=document.getElementById('proBotMsgs');
   var d=document.createElement('div');
   d.className='bot-msg-pro';d.id='pro-typing';
-  d.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+  d.innerHTML='<span style="color:var(--slate-400);font-size:.8rem;margin-right:6px">BeeBot Pro réfléchit</span><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
   el.appendChild(d);el.scrollTop=el.scrollHeight;
 }
 function proRemoveTyping(){var t=document.getElementById('pro-typing');if(t)t.remove();}
@@ -2115,10 +2248,7 @@ function proSg(btn){
   proAddMsg(q,true);
   btn.remove();
   proShowTyping();
-  setTimeout(function(){
-    proRemoveTyping();
-    proCallAPI(q);
-  },800);
+  setTimeout(function(){ proCallAPI(q); },300);
 }
 
 function proSend(){
@@ -2127,10 +2257,7 @@ function proSend(){
   input.value='';
   proAddMsg(q,true);
   proShowTyping();
-  setTimeout(function(){
-    proRemoveTyping();
-    proCallAPI(q);
-  },800);
+  setTimeout(function(){ proCallAPI(q); },300);
 }
 
 function proCallAPI(q){
@@ -2138,10 +2265,12 @@ function proCallAPI(q){
   fetch('api.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,context:'pro'})})
   .then(function(r){if(!r.ok)throw new Error('API unavailable');return r.json();})
   .then(function(data){
+    proRemoveTyping();
     if(data.answer) proAddMsg(data.answer,false);
     else throw new Error('No answer');
   })
   .catch(function(){
+    proRemoveTyping();
     // Fallback to local KB
     var match=proKBMatch(q);
     if(match) proAddMsg(match.r,false);
@@ -2187,6 +2316,115 @@ function doAlertAction(action,type){
 
 
 // ========================= COLLECTE DETAIL MODAL =========================
+// ========================= NOTIFICATION DONNEURS =========================
+function openNotifyDonors(id){
+  var c=allCollectes.find(function(x){return x.id===id;});
+  if(!c)return;
+  var dateStr=new Date(c.date).toLocaleDateString('fr-CH',{weekday:'long',day:'numeric',month:'long'});
+  var defaultMsg='Bonjour {prénom}, une collecte de sang est organisée le '+dateStr+' à '+c.lieu+' ('+c.heure+'). Votre don est précieux — inscrivez-vous sur BeeMyBlood.';
+  var html='<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal-box" style="max-width:520px">';
+  html+='<button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">✕</button>';
+  html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:1.4rem">📢</span><h3 style="margin:0">Notifier les donneurs</h3></div>';
+  html+='<p style="color:var(--slate-400);font-size:.82rem;margin-bottom:1rem">'+c.lieu+' · '+dateStr+' · '+c.heure+'</p>';
+  // Canaux
+  html+='<div style="margin-bottom:1rem"><div style="font-size:.8rem;font-weight:700;color:var(--slate-300);margin-bottom:.5rem">Canaux de diffusion</div>';
+  html+='<div style="display:flex;gap:.5rem;flex-wrap:wrap">';
+  ['SMS','Email','Push app'].forEach(function(ch,i){
+    html+='<label style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--slate-700);border-radius:6px;cursor:pointer;font-size:.8rem"><input type="checkbox" id="notif-ch-'+i+'" checked style="accent-color:var(--amber-500)"> '+ch+'</label>';
+  });
+  html+='</div></div>';
+  // Rayon
+  html+='<div style="margin-bottom:1rem"><div style="font-size:.8rem;font-weight:700;color:var(--slate-300);margin-bottom:.5rem">Ciblage</div>';
+  html+='<div style="display:flex;gap:.5rem;flex-wrap:wrap">';
+  [['5 km','~180'],['10 km','~420'],['Canton','~'+Math.round((regions[c.region]||regions.geneve).activeDonors*0.6)],['Tout groupe compatible','~'+Math.round((regions[c.region]||regions.geneve).activeDonors*0.85)]].forEach(function(opt,i){
+    html+='<label style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--slate-700);border-radius:6px;cursor:pointer;font-size:.8rem"><input type="radio" name="notif-radius" value="'+i+'" '+(i===1?'checked':'')+' style="accent-color:var(--amber-500)"> '+opt[0]+' <span style="color:var(--amber-400);margin-left:2px">'+opt[1]+'</span></label>';
+  });
+  html+='</div></div>';
+  // Urgence
+  html+='<div style="margin-bottom:1rem"><div style="font-size:.8rem;font-weight:700;color:var(--slate-300);margin-bottom:.5rem">Priorité</div>';
+  html+='<div style="display:flex;gap:.5rem">';
+  [['Normal','var(--slate-400)'],['Urgent','var(--amber-400)'],['Critique','var(--red-400)']].forEach(function(p,i){
+    html+='<label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;border:1.5px solid '+(i===0?'rgba(100,116,139,.4)':i===1?'rgba(245,158,11,.3)':'rgba(239,68,68,.3)')+';background:var(--slate-800)"><input type="radio" name="notif-prio" value="'+i+'" '+(i===0?'checked':'')+' style="accent-color:var(--amber-500)"> <span style="color:'+p[1]+'">'+p[0]+'</span></label>';
+  });
+  html+='</div></div>';
+  // Message
+  html+='<div style="margin-bottom:1.25rem"><div style="font-size:.8rem;font-weight:700;color:var(--slate-300);margin-bottom:.5rem">Message personnalisable</div>';
+  html+='<textarea id="notif-msg" rows="3" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:10px 12px;color:#fff;font-size:.82rem;resize:vertical;line-height:1.5">'+defaultMsg+'</textarea>';
+  html+='<div style="font-size:.72rem;color:var(--slate-500);margin-top:4px">Variables : {prénom} {groupe_sanguin} {date} {lieu}</div></div>';
+  // Buttons
+  html+='<div style="display:flex;gap:8px">';
+  html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--slate-600);color:#fff;font-weight:600;font-size:.85rem;border:none;cursor:pointer" onclick="this.closest(\'.modal-overlay\').remove()">Annuler</button>';
+  html+='<button style="flex:1;padding:10px;border-radius:8px;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;font-weight:700;font-size:.85rem;border:none;cursor:pointer" onclick="sendNotifyDonors(this)">📤 Envoyer</button>';
+  html+='</div></div></div>';
+  document.getElementById('modalContainer').innerHTML=html;
+}
+function sendNotifyDonors(btn){
+  btn.textContent='⏳ Envoi…'; btn.disabled=true;
+  var radios=document.querySelectorAll('input[name="notif-radius"]');
+  var chosen; radios.forEach(function(r){if(r.checked)chosen=r;});
+  var count=chosen?chosen.parentElement.querySelector('span').textContent:'~420';
+  setTimeout(function(){
+    btn.closest('.modal-overlay').remove();
+    showToast('success','📢 '+count+' donneurs notifiés avec succès.');
+  },1400);
+}
+
+// ========================= EDIT CAMPAGNE =========================
+function editCampagneById(btn){
+  openEditCampagne(decodeURIComponent(btn.dataset.name),btn.dataset.type,btn.dataset.status,btn.dataset.date);
+}
+function openEditCampagne(name,type,status,date){
+  var html='<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal-box" style="max-width:500px">';
+  html+='<button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">✕</button>';
+  html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:1.4rem">✏️</span><h3 style="margin:0">Modifier la campagne</h3></div>';
+  html+='<p style="color:var(--slate-400);font-size:.82rem;margin-bottom:1.25rem">Les modifications seront enregistrées en brouillon jusqu\'à validation.</p>';
+  html+='<div style="display:grid;gap:.75rem">';
+  html+='<div><label style="font-size:.8rem;font-weight:600;color:var(--slate-300);display:block;margin-bottom:4px">Nom de la campagne</label><input id="ec-name" value="'+name+'" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:9px 12px;color:#fff;font-size:.85rem"></div>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">';
+  html+='<div><label style="font-size:.8rem;font-weight:600;color:var(--slate-300);display:block;margin-bottom:4px">Canal</label><select id="ec-type" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:9px 12px;color:#fff;font-size:.85rem"><option '+(type==='SMS'?'selected':'')+'>SMS</option><option '+(type==='Email'?'selected':'')+'>Email</option><option '+(type==='Push'?'selected':'')+'>Push</option></select></div>';
+  html+='<div><label style="font-size:.8rem;font-weight:600;color:var(--slate-300);display:block;margin-bottom:4px">Statut</label><select id="ec-status" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:9px 12px;color:#fff;font-size:.85rem"><option value="draft" '+(status==='draft'?'selected':'')+'>Brouillon</option><option value="scheduled" '+(status==='scheduled'?'selected':'')+'>Programmée</option><option value="active" '+(status==='active'?'selected':'')+'>Active</option></select></div>';
+  html+='</div>';
+  html+='<div><label style="font-size:.8rem;font-weight:600;color:var(--slate-300);display:block;margin-bottom:4px">Date d\'envoi</label><input id="ec-date" type="date" value="'+(date&&date!=='—'?date.split('.').reverse().join('-'):'')+'" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:9px 12px;color:#fff;font-size:.85rem;color-scheme:dark"></div>';
+  html+='<div><label style="font-size:.8rem;font-weight:600;color:var(--slate-300);display:block;margin-bottom:4px">Corps du message</label><textarea id="ec-body" rows="4" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:9px 12px;color:#fff;font-size:.82rem;resize:vertical;line-height:1.5">Bonjour {prénom},\n\nNous avons besoin de votre aide. Chaque don compte.\n\nDonnez maintenant via BeeMyBlood.\n\nMerci, l\'équipe CTS.</textarea>';
+  html+='<div style="font-size:.72rem;color:var(--slate-500);margin-top:4px">Variables : {prénom} {groupe_sanguin} {région} {lien}</div></div>';
+  html+='</div>';
+  html+='<div style="display:flex;gap:8px;margin-top:1.25rem">';
+  html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--slate-600);color:#fff;font-weight:600;font-size:.85rem;border:none;cursor:pointer" onclick="this.closest(\'.modal-overlay\').remove()">Annuler</button>';
+  html+='<button style="padding:10px 16px;border-radius:8px;background:var(--slate-700);color:var(--amber-400);font-weight:600;font-size:.85rem;border:1px solid rgba(200,169,96,.2);cursor:pointer" onclick="showToast(\'info\',\'Brouillon enregistré.\');this.closest(\'.modal-overlay\').remove()">💾 Brouillon</button>';
+  html+='<button style="flex:1;padding:10px;border-radius:8px;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;font-weight:700;font-size:.85rem;border:none;cursor:pointer" onclick="saveCampagne(this)">✓ Enregistrer</button>';
+  html+='</div></div></div>';
+  document.getElementById('modalContainer').innerHTML=html;
+}
+function saveCampagne(btn){
+  btn.textContent='⏳…'; btn.disabled=true;
+  setTimeout(function(){
+    btn.closest('.modal-overlay').remove();
+    showToast('success','✓ Campagne mise à jour avec succès.');
+  },900);
+}
+
+function openEditTemplate(name){
+  var html='<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal-box" style="max-width:480px">';
+  html+='<button class="modal-close" onclick="this.closest(\'.modal-overlay\').remove()">✕</button>';
+  html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem"><span style="font-size:1.4rem">📝</span><h3 style="margin:0">Modifier le modèle</h3></div>';
+  html+='<div style="display:grid;gap:.75rem">';
+  html+='<div><label style="font-size:.8rem;font-weight:600;color:var(--slate-300);display:block;margin-bottom:4px">Nom du modèle</label><input id="et-name" value="'+name+'" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:9px 12px;color:#fff;font-size:.85rem"></div>';
+  html+='<div><label style="font-size:.8rem;font-weight:600;color:var(--slate-300);display:block;margin-bottom:4px">Contenu</label><textarea id="et-body" rows="5" style="width:100%;background:var(--slate-700);border:1.5px solid var(--slate-600);border-radius:8px;padding:9px 12px;color:#fff;font-size:.82rem;resize:vertical;line-height:1.5"></textarea>';
+  html+='<div style="font-size:.72rem;color:var(--slate-500);margin-top:4px">Variables : {prénom} {date} {lieu} {heure} {groupe_sanguin}</div></div>';
+  html+='</div>';
+  html+='<div style="display:flex;gap:8px;margin-top:1.25rem">';
+  html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--slate-600);color:#fff;font-weight:600;font-size:.85rem;border:none;cursor:pointer" onclick="this.closest(\'.modal-overlay\').remove()">Annuler</button>';
+  html+='<button style="flex:1;padding:10px;border-radius:8px;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;font-weight:700;font-size:.85rem;border:none;cursor:pointer" onclick="showToast(\'success\',\'Modèle enregistré.\');this.closest(\'.modal-overlay\').remove()">✓ Enregistrer</button>';
+  html+='</div></div></div>';
+  document.getElementById('modalContainer').innerHTML=html;
+}
+
+function openNewCampagne(){
+  openEditCampagne('','SMS','draft','');
+  // patch title
+  setTimeout(function(){var h=document.querySelector('.modal-box h3');if(h)h.textContent='Nouvelle campagne';},50);
+}
+
 function openCollecteDetail(id){
   var c=allCollectes.find(function(x){return x.id===id;});
   if(!c)return;
@@ -2216,7 +2454,7 @@ function openCollecteDetail(id){
 
   html+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
   if(isActive||c.status==='past') html+='<button style="flex:1;padding:10px;border-radius:8px;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;font-weight:700;border:none;cursor:pointer;font-size:.85rem" onclick="this.closest(\'.modal-overlay\').remove();generateCollecteReport('+c.id+')">📄 Rapport de collecte</button>';
-  if(c.status==='future') html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--amber-500);color:#0a0a12;font-weight:600;border:none;cursor:pointer;font-size:.85rem" onclick="showToast(\'success\',\'📢 Campagne SMS envoyée à 218 donneurs de la zone.\');this.closest(\'.modal-overlay\').remove()">📢 Notifier donneurs</button>';
+  if(c.status==='future') html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--amber-500);color:#0a0a12;font-weight:600;border:none;cursor:pointer;font-size:.85rem" onclick="this.closest(\'.modal-overlay\').remove();openNotifyDonors('+c.id+')">📢 Notifier donneurs</button>';
   html+='<button style="flex:1;padding:10px;border-radius:8px;background:var(--slate-600);color:#fff;font-weight:600;border:none;cursor:pointer;font-size:.85rem" onclick="this.closest(\'.modal-overlay\').remove();voirSurCarte('+c.id+')">🗺️ Voir sur carte</button>';
   html+='</div></div></div>';
 
@@ -2424,7 +2662,7 @@ function renderCampagnes(){
       '<div style="flex:1;min-width:150px"><div style="font-weight:600">'+c.name+'</div><div style="font-size:.75rem;color:var(--slate-400)">'+c.type+' · '+c.date+'</div></div>'+
       '<span style="padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:700;background:rgba(200,169,96,.08);color:'+statusColor+'">'+statusLabel+'</span>'+
       '<div style="font-size:.8rem;color:var(--slate-300)">'+c.sent+' envoyés · '+c.open+' ouvert</div>'+
-      '<button style="padding:5px 12px;border-radius:6px;background:var(--slate-600);color:#fff;font-size:.75rem;font-weight:600;border:none;cursor:pointer" onclick="showToast(\'info\',\'Campagne «'+c.name+'» ouverte en édition.\')">Modifier</button>'+
+      '<button style="padding:5px 12px;border-radius:6px;background:var(--slate-600);color:#fff;font-size:.75rem;font-weight:600;border:none;cursor:pointer" onclick="editCampagneById(this);" data-name="'+encodeURIComponent(c.name)+'" data-type="'+c.type+'" data-status="'+c.status+'" data-date="'+c.date+'">Modifier</button>'+
       '</div>';
   }).join('');
 
@@ -2439,7 +2677,7 @@ function renderCampagnes(){
       '<div style="font-weight:700;margin-bottom:4px;font-size:.9rem">'+t.name+'</div>'+
       '<div style="font-size:.8rem;color:var(--slate-400);line-height:1.5;margin-bottom:10px">'+t.desc+'</div>'+
       '<div style="display:flex;gap:6px"><button style="flex:1;padding:6px;border-radius:6px;background:var(--amber-500);color:#0a0a12;font-weight:600;font-size:.75rem;border:none;cursor:pointer" onclick="showToast(\'success\',\'Modèle «'+t.name+'» utilisé pour nouvelle campagne.\')">Utiliser</button>'+
-      '<button style="flex:1;padding:6px;border-radius:6px;background:var(--slate-600);color:#fff;font-size:.75rem;border:none;cursor:pointer" onclick="showToast(\'info\',\'Modèle «'+t.name+'» ouvert en édition.\')">Modifier</button></div>'+
+      '<button style="flex:1;padding:6px;border-radius:6px;background:var(--slate-600);color:#fff;font-size:.75rem;border:none;cursor:pointer" onclick="openEditTemplate(\''+t.name+'\')">Modifier</button></div>'+
       '</div>';
   }).join('');
 }
@@ -2557,6 +2795,205 @@ function printCollecteReport(){
 var el1=document.getElementById('simDate');if(el1)el1.value=iso;
 var el2=document.getElementById('routeDate');if(el2)el2.value=iso;})();
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
+
+// ========================= JUMEAU NUMÉRIQUE =========================
+// Recherche par phénotype + planification par scénario (intégré depuis /digitaltwin).
+// Fréquences populationnelles hard-codées, ordonnées par numéro ISBT.
+const twinAboFreq = { A:0.40, B:0.11, O:0.44, AB:0.05 };
+const twinGroupes = {
+  MNS:  { actif:false, antigenes:['M','N','S','s'],
+          freq:{M:0.78,N:0.72,S:0.55,s:0.89}, positifs:{} },
+  Rh:   { actif:false, antigenes:['D','C','E','c','e'],
+          freq:{D:0.85,C:0.68,E:0.29,c:0.80,e:0.98}, positifs:{} },
+  Kell: { actif:false, antigenes:['K','k','Kpa','Kpb','Jsa','Jsb'],
+          freq:{K:0.09,k:0.99,Kpa:0.02,Kpb:0.99,Jsa:0.01,Jsb:0.99}, positifs:{} },
+  Duffy:{ actif:false, antigenes:['Fya','Fyb'],
+          freq:{Fya:0.66,Fyb:0.83}, positifs:{} }
+};
+// rare : modificateur (%) sur les poches à phénotype rare ; generale : sur le stock total
+const twinScenarios = {
+  'Aucun':                        { rare:  0, generale:  0 },
+  'Pandémie':                     { rare:-40, generale: 20 },
+  'Catastrophe phase aiguë':      { rare: 40, generale: 20 },
+  'Catastrophe « worst case »':   { rare:-40, generale:-60 },
+  'Vacances d\'été':              { rare:-30, generale:-30 },
+  'Fêtes de fin d\'année':        { rare:-40, generale:-30 },
+  'Campagne de sensibilisation':  { rare: 50, generale: 30 },
+  'Marketing':                    { rare: 40, generale: 60 },
+  'Appel d\'urgence':             { rare:100, generale: 70 },
+  'Sensibilisation TV-radio':     { rare: 30, generale: 20 },
+  'Autre':                        { rare:  0, generale:  0 }
+};
+const twinPlages = ['08h00 – 10h00','10h00 – 12h00','12h00 – 14h00','14h00 – 16h00','16h00 – 18h00','18h00 – 20h00'];
+const twinTauxRareBase = 0.07; // part de poches à phénotype rare dans le stock
+var twinMap = null, twinHeat = null, twinZones = null, twinInit = false;
+
+// Sites de collecte = quartiers de la région sélectionnée (stock de base dérivé du bassin de donneurs)
+function twinSites(){
+  var r = regions[selectedRegion];
+  return (r.quartiers||[]).filter(function(q){return q.lat&&q.lng;}).map(function(q){
+    return { nom:q.name, lat:q.lat, lng:q.lng, base:Math.max(40, Math.round(q.donors*0.18)) };
+  });
+}
+
+function twinBuildForm(){
+  if(twinInit) return;
+  twinInit = true;
+  var g = document.getElementById('twinGroups');
+  g.innerHTML = Object.keys(twinGroupes).map(function(gname){
+    var grp = twinGroupes[gname];
+    return '<div class="twin-group" id="twinGrp-'+gname+'">'
+      +'<div class="twin-group-row" onclick="twinToggleGroup(\''+gname+'\')">'
+      +'<input type="checkbox" id="twinGrpCb-'+gname+'" onclick="event.stopPropagation();twinToggleGroup(\''+gname+'\',this.checked)">'
+      +'<span class="gname">'+gname+'</span><span class="ghint" id="twinGrpHint-'+gname+'">ignoré</span></div>'
+      +'<div class="twin-antigens hidden" id="twinAg-'+gname+'">'
+      +grp.antigenes.map(function(ag){
+        return '<label><input type="checkbox" onchange="twinGroupes[\''+gname+'\'].positifs[\''+ag+'\']=this.checked"> '+ag+'</label>';
+      }).join('')+'</div></div>';
+  }).join('');
+  var h = document.getElementById('twinHeure');
+  h.innerHTML = twinPlages.map(function(p){return '<option>'+p+'</option>';}).join('');
+  var s = document.getElementById('twinScenario');
+  s.innerHTML = Object.keys(twinScenarios).map(function(n){return '<option>'+n+'</option>';}).join('');
+  document.getElementById('twinDate').value = new Date().toISOString().slice(0,10);
+}
+function twinToggleGroup(gname, forced){
+  var grp = twinGroupes[gname];
+  grp.actif = (typeof forced==='boolean') ? forced : !grp.actif;
+  document.getElementById('twinGrpCb-'+gname).checked = grp.actif;
+  document.getElementById('twinAg-'+gname).classList.toggle('hidden', !grp.actif);
+  document.getElementById('twinGrpHint-'+gname).textContent = grp.actif ? 'inclus dans la recherche' : 'ignoré';
+}
+function twinScenarioChange(){
+  document.getElementById('twinAutreWrap').classList.toggle('hidden', document.getElementById('twinScenario').value!=='Autre');
+}
+
+function initTwinMap(){
+  twinBuildForm();
+  var r = regions[selectedRegion];
+  document.getElementById('twinRegionName').textContent = r.name;
+  if(twinMap){ twinMap.remove(); twinMap = null; }
+  twinMap = L.map('twinMap',{zoomControl:true}).setView(r.center, r.zoom);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains:'abcd',maxZoom:19
+  }).addTo(twinMap);
+  twinHeat = (typeof L.heatLayer==='function') ? L.heatLayer([],{radius:34,blur:26,maxZoom:15}).addTo(twinMap) : null;
+  twinZones = L.layerGroup().addTo(twinMap);
+  document.getElementById('twinCount').textContent = '0';
+  document.getElementById('twinStatus').textContent = 'Carte de chaleur des sites de collecte — lancez une recherche ou une simulation.';
+  document.getElementById('twinResult').classList.remove('show');
+  setTimeout(function(){ if(twinMap) twinMap.invalidateSize(); },150);
+}
+
+// Probabilité qu'une poche corresponde au phénotype demandé
+function twinProbabilite(){
+  var p = 1, abo = document.getElementById('twinAbo').value;
+  if(abo) p *= twinAboFreq[abo];
+  Object.keys(twinGroupes).forEach(function(gname){
+    var grp = twinGroupes[gname];
+    if(!grp.actif) return;
+    grp.antigenes.forEach(function(ag){
+      var f = grp.freq[ag];
+      p *= grp.positifs[ag] ? f : (1-f);
+    });
+  });
+  return p;
+}
+function twinShuffle(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
+  return a;
+}
+// Jitter gaussien (Box-Muller) : nuage dense au centre, dégradé vers l'extérieur
+function twinJitter(lat,lng,ecart){
+  var u1=Math.random()||1e-9, u2=Math.random(), r=Math.sqrt(-2*Math.log(u1));
+  return [lat + r*Math.cos(2*Math.PI*u2)*ecart, lng + r*Math.sin(2*Math.PI*u2)*ecart];
+}
+function twinDateFr(){
+  var iso = document.getElementById('twinDate').value || new Date().toISOString().slice(0,10);
+  return new Date(iso+'T00:00:00').toLocaleDateString('fr-CH',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+}
+
+// Dessine les résultats : heat + zone survolable + tableau récapitulatif
+function twinDessiner(resultats, msgVide, statut, labelValeur, labelTotal){
+  if(!twinMap) initTwinMap();
+  if(twinHeat) twinHeat.setLatLngs([]);
+  twinZones.clearLayers();
+  var res = document.getElementById('twinResult');
+  if(!resultats.length){
+    document.getElementById('twinCount').textContent='0';
+    document.getElementById('twinStatus').textContent='';
+    res.classList.remove('show');
+    showToast('warning', msgVide);
+    return;
+  }
+  var heure = document.getElementById('twinHeure').value, dateFr = twinDateFr();
+  var maxRatio = Math.max.apply(null, resultats.map(function(x){return x.valeur/x.total;}));
+  var points = [];
+  resultats.forEach(function(x){
+    var ratio = x.valeur/x.total;
+    var intensite = maxRatio>0 ? Math.max(0.25, ratio/maxRatio) : 0.5;
+    x.intensite = intensite;
+    points.push([x.site.lat, x.site.lng, intensite]);
+    for(var i=0;i<45;i++){ var p=twinJitter(x.site.lat,x.site.lng,0.0013); points.push([p[0],p[1],intensite]); }
+    var zone = L.circleMarker([x.site.lat,x.site.lng],{
+      radius: 34 + intensite*22, stroke:!twinHeat, color:'#C8A960', weight:1,
+      fillColor:'#E63946', fillOpacity: twinHeat?0:0.15+intensite*0.35, interactive:true
+    }).addTo(twinZones);
+    zone.bindTooltip('<div class="t">'+x.site.nom+'</div>'
+      +'<div class="r"><span class="k">Date</span><span class="v">'+dateFr+'</span></div>'
+      +'<div class="r"><span class="k">Plage horaire</span><span class="v">'+heure+'</span></div>'
+      +'<div class="r"><span class="k">'+labelValeur+'</span><span class="v">'+x.valeur+'</span></div>'
+      +'<div class="r"><span class="k">'+labelTotal+'</span><span class="v">'+x.total+'</span></div>',
+      {sticky:true, direction:'top', opacity:1, className:'twin-tip'});
+  });
+  if(twinHeat) twinHeat.setLatLngs(points);
+  document.getElementById('twinCount').textContent = resultats.length;
+  document.getElementById('twinStatus').textContent = statut;
+  res.innerHTML = '<table><tr><th>Site</th><th style="text-align:right">'+labelValeur+'</th><th style="text-align:right">'+labelTotal+'</th><th style="width:30%">Intensité</th></tr>'
+    + resultats.map(function(x){
+      return '<tr><td>'+x.site.nom+'</td><td class="num" style="color:var(--amber-400)">'+x.valeur+'</td><td class="num">'+x.total+'</td>'
+        +'<td><div class="twin-bar"><i style="width:'+Math.round(x.intensite*100)+'%"></i></div></td></tr>';
+    }).join('') + '</table>';
+  res.classList.add('show');
+  setTimeout(function(){ if(twinMap) twinMap.invalidateSize(); },100);
+}
+
+// Panneau 01 — ne dépend que de l'ABO et des antigènes
+function twinRechercher(){
+  var proba = twinProbabilite();
+  var tirage = twinShuffle(twinSites()).slice(0, Math.floor(Math.random()*3)+1);
+  var resultats = [];
+  tirage.forEach(function(site){
+    var brute = site.base*proba;
+    var corr = brute>0 ? Math.max(1, Math.round(brute)) : 0; // proba>0 => au moins 1 poche
+    corr = Math.min(corr, site.base);
+    if(corr>0) resultats.push({site:site, total:site.base, valeur:corr});
+  });
+  twinDessiner(resultats, 'Aucune zone trouvée pour cette recherche.',
+    'Recherche phénotype (p = '+(proba*100<0.01?'< 0.01':(proba*100).toFixed(2))+' %) — '+twinDateFr()+' — '+document.getElementById('twinHeure').value+'.',
+    'Poches correspondantes', 'Poches totales');
+  if(resultats.length) showToast('success', resultats.reduce(function(s,x){return s+x.valeur;},0)+' poche(s) compatible(s) sur '+resultats.length+' site(s).');
+}
+
+// Panneau 02 — ne dépend que du scénario / date / plage
+function twinSimuler(){
+  var nom = document.getElementById('twinScenario').value;
+  var mod = twinScenarios[nom] || {rare:0,generale:0};
+  var tirage = twinShuffle(twinSites()).slice(0, Math.floor(Math.random()*3)+1);
+  var resultats = [];
+  tirage.forEach(function(site){
+    var total = Math.max(0, Math.round(site.base*(1+mod.generale/100)));
+    var rare = Math.round(site.base*twinTauxRareBase*(1+mod.rare/100));
+    rare = Math.min(Math.max(rare,0), total);
+    if(total>0) resultats.push({site:site, total:total, valeur:rare});
+  });
+  var fmt = function(v){return (v>0?'+':'')+v+' %';};
+  twinDessiner(resultats, 'Aucune zone trouvée pour ce scénario.',
+    'Simulation « '+nom+' » (rares '+fmt(mod.rare)+', stock '+fmt(mod.generale)+') — '+twinDateFr()+' — '+document.getElementById('twinHeure').value+'.',
+    'Poches rares (estimées)', 'Poches totales (estimées)');
+}
 </script>
 </body>
 </html>

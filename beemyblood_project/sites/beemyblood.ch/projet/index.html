@@ -71,11 +71,7 @@ section{padding:56px 24px}
 .more-grid.open{max-height:3000px;margin-top:14px}
 
 /* HACKATHON */
-.hack-section{background:var(--dark-surface);scroll-margin-top:60px}
-.hack-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.hack-day{padding:28px;border-radius:var(--radius);background:var(--dark-card);border:1px solid rgba(200,169,96,.05)}
-.hack-day h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px}
-.hack-day .day-date{font-size:14px;color:var(--gold);font-weight:600;margin-bottom:16px}
+
 .prog-item{display:flex;gap:10px;margin-bottom:12px;font-size:15px}.prog-item:last-child{margin-bottom:0}
 .prog-time{color:var(--gold);font-weight:600;white-space:nowrap;min-width:55px}
 .prog-what{color:var(--text-dim);line-height:1.5}.prog-what b{color:var(--text);font-weight:600}
@@ -84,14 +80,24 @@ section{padding:56px 24px}
 .ptag{padding:10px 18px;border-radius:99px;background:rgba(200,169,96,.03);border:1px solid rgba(200,169,96,.08);font-size:14px;color:var(--text-dim);font-weight:500;transition:all .2s}
 .ptag:hover{border-color:rgba(200,169,96,.22);color:var(--text)}
 
-.btn-hack{padding:16px 36px;border-radius:12px;background:linear-gradient(135deg,var(--red),#c0392b);color:#fff!important;font-weight:700;font-size:16px;transition:transform .2s,box-shadow .2s;display:inline-block;line-height:1.4}
-.btn-hack:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(230,57,70,.25);color:#fff!important}
+
 
 .eco-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .eco{padding:18px 28px;border-radius:12px;background:var(--dark-card);border:1px solid rgba(200,169,96,.08);font-size:16px;font-weight:600;color:var(--text-dim);transition:all .3s;text-decoration:none}
 .eco:hover{border-color:rgba(200,169,96,.2);color:var(--text)}
 .eco span{margin-right:6px}
 
+/* COMPARISON */
+.cmp-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid rgba(200,169,96,.12);background:var(--dark-card)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+.cmp th,.cmp td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid rgba(200,169,96,.08)}
+.cmp th{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+.cmp th.us,.cmp td.us{background:rgba(200,169,96,.05);color:var(--text)}
+.cmp th.us{color:var(--gold)}
+.cmp td{color:var(--text-dim)}
+.cmp td:first-child{color:var(--text);font-weight:600;width:34%}
+.cmp tr:last-child td{border-bottom:none}
+.cmp .no{color:var(--text-muted)}
 footer{padding:28px 24px;text-align:center;border-top:1px solid rgba(200,169,96,.05);font-size:13px;color:var(--text-muted);line-height:2}
 footer a{color:var(--gold)}
 
@@ -110,19 +116,7 @@ footer a{color:var(--gold)}
   .stitle{font-size:28px;margin-bottom:14px}
   .sdesc{font-size:16px;margin-bottom:28px}
 
-  .feat-grid,.more-grid,.hack-grid{grid-template-columns:1fr}
-  .feat{padding:22px 18px}
-  .feat h3{font-size:17px}
-  .feat p{font-size:14px}
-  .feat-icon{font-size:26px}
-
-  .hack-day{padding:22px 18px}
-  .hack-day h3{font-size:20px}
-  .prog-item{font-size:14px}
-
-  .ptag{padding:9px 14px;font-size:13px}
-  .profiles{gap:6px}
-  .btn-hack{padding:14px 28px;font-size:15px;width:100%}
+  .feat-grid,.more-grid{grid-template-columns:1fr}
 
   .eco-grid{flex-direction:column;align-items:stretch}
   .eco{text-align:center;font-size:15px;padding:16px 20px}
@@ -145,7 +139,8 @@ footer a{color:var(--gold)}
   <a href="../" class="nav-brand"><span class="bee">🐝</span> BeeMyBlood™</a>
   <div class="nav-links">
     <a href="#" class="active">Le projet</a>
-    <a href="#hackathon">Hackathon</a>
+    <a href="#distinction">Ce qui nous distingue</a>
+    <a href="../">Accueil</a>
   </div>
 </nav>
 
@@ -198,56 +193,24 @@ footer a{color:var(--gold)}
   </div>
 </section>
 
-<!-- HACKATHON -->
-<section class="hack-section" id="hackathon">
+<section id="distinction">
   <div class="container">
-    <div class="stitle reveal">Hackathon des HUG <span style="color:var(--red-soft)">#9</span></div>
-    <div class="sdesc reveal reveal-d1">Le 9ᵉ Hackathon des Hôpitaux Universitaires de Genève est l'occasion de pousser BeeMyBlood plus loin — 36 heures au Centre de l'innovation, les 20 et 21 mars 2026.</div>
-
-    <div style="text-align:center" class="reveal reveal-d2">
-      <p style="color:var(--text-dim);font-size:15px;margin-bottom:14px">Ouvert à toutes et tous :</p>
-      <div class="profiles">
-        <span class="ptag">🧑‍💻 Développeur·se·s</span>
-        <span class="ptag">🎨 Designers</span>
-        <span class="ptag">🩺 Soignant·e·s</span>
-        <span class="ptag">🎭 Artistes</span>
-        <span class="ptag">💉 Donneur·se·s</span>
-        <span class="ptag">💛 Patient·e·s</span>
-        <span class="ptag">👥 Citoyen·ne·s</span>
-        <span class="ptag">📋 Managers</span>
-        <span class="ptag">⚖️ Juristes</span>
-        <span class="ptag">📣 Communication</span>
-        <span class="ptag">🔒 Sécurité</span>
-        <span class="ptag">📊 Data</span>
-        <span class="ptag">🔬 Chercheur·se·s</span>
-        <span class="ptag">… et bien d'autres</span>
-      </div>
+    <div class="stitle reveal">Ce qui nous <span class="gold">distingue</span></div>
+    <p class="sdesc reveal reveal-d1">Les outils existants digitalisent la prise de rendez-vous et la fidélisation des donneur·se·s. C'est nécessaire, mais ce n'est que le premier maillon. BeeMyBlood couvre la chaîne entière, du bras du donneur à la veine du patient.</p>
+    <div class="cmp-wrap reveal reveal-d2">
+      <table class="cmp">
+        <tr><th></th><th>Apps de rendez-vous et gestionnaires de centres</th><th class="us">BeeMyBlood</th></tr>
+        <tr><td>Donneur·se·s : éligibilité, rendez-vous, fidélisation</td><td>✔</td><td class="us">✔ + gamification, HémoRush™, parrainage</td></tr>
+        <tr><td>Receveur·se·s et patient·e·s</td><td class="no">—</td><td class="us">✔ espace dédié : transfusions, chélation, droits</td></tr>
+        <tr><td>Professionnel·le·s : stocks, cartographie, itinéraires bus</td><td>partiel</td><td class="us">✔ tableau de bord temps réel, 9 régions</td></tr>
+        <tr><td>Assistant IA spécialisé transfusion</td><td class="no">—</td><td class="us">✔ trois BeeBots alignés sur les directives CRS</td></tr>
+        <tr><td>Phénotypes rares et réseau européen (EBA)</td><td class="no">—</td><td class="us">✔ recherche PSL Suisse + EBA</td></tr>
+        <tr><td>Jumeau numérique et scénarios de crise</td><td class="no">—</td><td class="us">✔ stock, pandémie, catastrophe, campagnes</td></tr>
+        <tr><td>Indicateurs d'équité d'accès</td><td class="no">—</td><td class="us">✔ par région et par quartier</td></tr>
+        <tr><td>Modèle</td><td>propriétaire, abonnement</td><td class="us">open source AGPL-3.0, hébergé en Suisse, HL7 FHIR</td></tr>
+      </table>
     </div>
-
-    <div class="hack-grid reveal">
-      <div class="hack-day"><h3>Jour 1</h3><div class="day-date">Vendredi 20 mars 2026</div>
-        <div class="prog-item"><span class="prog-time">08:30</span><div class="prog-what"><b>Accueil & café</b></div></div>
-        <div class="prog-item"><span class="prog-time">09:00</span><div class="prog-what"><b>Ouverture</b> — présentation des défis</div></div>
-        <div class="prog-item"><span class="prog-time">09:30</span><div class="prog-what"><b>C'est parti !</b> — 36h chrono</div></div>
-        <div class="prog-item"><span class="prog-time">12:30</span><div class="prog-what">Déjeuner</div></div>
-        <div class="prog-item"><span class="prog-time">14:00</span><div class="prog-what"><b>Coaching</b> — mentors disponibles</div></div>
-        <div class="prog-item"><span class="prog-time">19:00</span><div class="prog-what">Dîner & networking</div></div>
-        <div class="prog-item"><span class="prog-time">22:00+</span><div class="prog-what"><b>Night shift</b></div></div>
-      </div>
-      <div class="hack-day"><h3>Jour 2</h3><div class="day-date">Samedi 21 mars 2026</div>
-        <div class="prog-item"><span class="prog-time">08:00</span><div class="prog-what">Petit-déjeuner</div></div>
-        <div class="prog-item"><span class="prog-time">09:00</span><div class="prog-what"><b>Sprint final</b></div></div>
-        <div class="prog-item"><span class="prog-time">12:00</span><div class="prog-what">Déjeuner</div></div>
-        <div class="prog-item"><span class="prog-time">14:00</span><div class="prog-what"><b>Freeze !</b> — préparation pitchs</div></div>
-        <div class="prog-item"><span class="prog-time">15:00</span><div class="prog-what"><b>Pitchs devant le jury</b></div></div>
-        <div class="prog-item"><span class="prog-time">17:00</span><div class="prog-what"><b>Délibération & prix</b></div></div>
-        <div class="prog-item"><span class="prog-time">18:00</span><div class="prog-what"><b>Apéritif de clôture</b> 🎉</div></div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:40px" class="reveal">
-      <a href="https://www.hug.ch/centre-innovation/hackathon-9" target="_blank" class="btn-hack">S'inscrire avant le 26 février sur le site des HUG →</a>
-    </div>
+    <p class="sdesc reveal reveal-d3" style="margin:24px 0 0">Porté par un laboratoire de recherche (Convivens Lab, HES-SO) avec les acteurs de terrain (CTS des HUG, SIMED, Transfusion CRS), BeeMyBlood est conçu comme une infrastructure publique de santé numérique, pas comme un produit à louer.</p>
   </div>
 </section>
 
