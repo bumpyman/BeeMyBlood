@@ -36,3 +36,6 @@ build/
 # BeeMyBlood server config (API key) — never commit
 config.php
 beemyblood_project/sites/beemyblood.ch/config.php
+
+# cache du endpoint de données (créé par PHP)
+beemyblood_project/sites/beemyblood.ch/api/cache/

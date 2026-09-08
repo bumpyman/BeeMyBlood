@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.4.0 — 2026-09-08 — real daily data in the donor space, cleaner public mode
+
+### Added
+- `api/donnees.php`: server-side endpoint that fetches, every 6 hours, the official blood-group barometer of Transfusion CRS Suisse (public API, 7 regions: Geneva, Transfusion Interrégionale, Switzerland, Zurich, Basel, Central Switzerland, Grisons), the HUG mobile collection calendar (Geneva) and a Swiss French news feed on blood donation (Google News RSS, Swiss media first). Cached in `api/cache/`, last good copy served if a source is down.
+- Donor space: the stock block shows the official barometer by region with the official date and levels (Élevé, Normal, Bas, Critique); the home news carousel and a "Dans la presse aujourd'hui" card in the news view show real articles; the collections view lists the next HUG mobile collections with address and hours and links to the official search for other cantons. The "live" toast only appears when a group is really critical in the selected region.
+
+### Changed
+- Public mode fixes: no "Prototype interactif" badge, visitor avatar with "Connexion" label instead of a fake profile, notifications reserved to invited testers, VR tab reserved (not functional yet), fictional counters hidden, old access screens hidden before load (no more flash).
+
 ## v0.3.0 — 2026-09-08 — public donor space, developer role, mobile floating controls
 
 ### Added

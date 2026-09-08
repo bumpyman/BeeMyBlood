@@ -1292,7 +1292,10 @@ body.light-mode .badge-item.earned{background:rgba(184,134,11,.04);border-color:
 .map-dark .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.82) contrast(.92) saturate(.55)}
 /* mode public : éléments réservés masqués, onglets réservés marqués */
 body.bmb-public .alpha-only{display:none!important}
+body:not(.bmb-public) .public-only{display:none!important}
 body.bmb-public .nav-tab.bmb-reserve::after{content:" 🔒";font-size:.75em;opacity:.7}
+/* ancien écran d'accès neutralisé : l'entrée se fait par acces.js */
+#gate-overlay{display:none!important}
 </style>
 </head>
 <body>
@@ -1353,6 +1356,7 @@ function stockRow(g,w,s,me){
 function selectCanton(btn){
   document.querySelectorAll('.canton-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
+  if(btn.dataset.institut){ bmbAfficherStock(btn.dataset.institut); return; }
   var d=CANTON_STOCKS[btn.dataset.canton];
   if(!d)return;
   document.getElementById('stock-canton-label').textContent='🩸 '+d.label;
@@ -1365,7 +1369,6 @@ function selectCanton(btn){
   document.getElementById('stock-canton-extra').innerHTML=extra;
 }
 document.addEventListener('DOMContentLoaded',function(){
-  selectCanton(document.querySelector('.canton-btn[data-canton="GE"]'));
   document.getElementById('gate-input')?.focus();
   // Disable transitions briefly so initial state renders instantly
   var style=document.createElement('style');
@@ -1418,7 +1421,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hamburger-label">Plus</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-      <div class="nav-notif" onclick="toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot"></div>
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();go('dashboard');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
       <div class="notif-dropdown" id="notif-dd">
         <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
         <div class="notif-item unread" style="display:flex" onclick="go('dashboard')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></div>
@@ -1435,8 +1438,8 @@ document.addEventListener('DOMContentLoaded',function(){
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="go('profil')">
-      <div class="nav-avatar">AK</div>
-      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Profil</span>
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </div>
   </div>
 </nav>
@@ -1476,7 +1479,6 @@ document.addEventListener('DOMContentLoaded',function(){
 <div class="hero" style="position:relative">
   <div class="hero-cells" id="hero-cells"></div>
   <div style="position:relative;z-index:1;width:100%">
-  <div class="hero-badge">🩸 Prototype interactif — BeeMyBlood™ 2026</div>
   <h1>Donner son sang,<br><span class="glow">une expérience héroïque</span></h1>
   <p class="hero-sub">BeeMyBlood™ transforme le don de sang en parcours premium, personnalisé et ludique.</p>
   <div style="font-size:20px;font-weight:600;margin:0 auto 12px;text-align:center;animation:slideUp .5s ease .3s both;opacity:0;line-height:1.6" class="hero-tagline">Chaque donneur est un héros,<br class="mob-br"> <span style="color:var(--gold)">pas un numéro.</span></div>
@@ -1570,15 +1572,8 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="card" style="margin-top:12px;padding:16px">
         <!-- Canton selector -->
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-          <span style="font-size:13px;font-weight:600;color:var(--text-muted)">Canton :</span>
-          <div style="display:flex;gap:6px;flex-wrap:wrap" id="canton-btns">
-            <button class="canton-btn active" data-canton="GE" onclick="selectCanton(this)">Genève</button>
-            <button class="canton-btn" data-canton="VD" onclick="selectCanton(this)">Vaud</button>
-            <button class="canton-btn" data-canton="VS" onclick="selectCanton(this)">Valais</button>
-            <button class="canton-btn" data-canton="FR" onclick="selectCanton(this)">Fribourg</button>
-            <button class="canton-btn" data-canton="NE" onclick="selectCanton(this)">Neuchâtel</button>
-            <button class="canton-btn" data-canton="JU" onclick="selectCanton(this)">Jura</button>
-          </div>
+          <span style="font-size:13px;font-weight:600;color:var(--text-muted)">Région :</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap" id="canton-btns"><span style="font-size:12px;color:var(--text-muted)">Chargement du baromètre officiel…</span></div>
         </div>
         <!-- Stock bars - CE -->
         <div id="stock-canton-label" style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🩸 CTS HUG — Genève</div>
@@ -1586,7 +1581,8 @@ document.addEventListener('DOMContentLoaded',function(){
         <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--dark-border)">
           <div id="stock-canton-extra"></div>
         </div>
-        <div style="margin-top:8px;text-align:center"><a href="#" onclick="go('flux');return false" style="color:var(--gold);font-size:12px;font-weight:600">📊 Flux CTS complet →</a></div>
+        <div id="stock-source" style="margin-top:8px;font-size:11px;color:var(--text-muted);text-align:center"></div>
+        <div class="alpha-only" style="margin-top:8px;text-align:center"><a href="#" onclick="go('flux');return false" style="color:var(--gold);font-size:12px;font-weight:600">📊 Flux CTS complet →</a></div>
       </div>
     </div><!-- hero-stock-acc -->
   </div>
@@ -2600,7 +2596,8 @@ document.addEventListener('DOMContentLoaded',function(){
 <!-- ==================== COLLECTES ==================== -->
 <div class="view" id="v-collectes">
   <div class="sec-header"><div class="sec-label">📍 Carte interactive</div><div class="sec-title">Où donner en Suisse</div><div class="sec-sub">Centres permanents CRS · Collectes mobiles · Prochains événements</div></div>
-  <div class="card" id="map-card" style="position:relative;padding:0;overflow:hidden">
+  <div class="card" id="collectes-hug" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🚌 Prochaines collectes mobiles — Genève (CTS HUG)</div><span class="badge" id="collectes-hug-maj"></span></div><div id="collectes-hug-liste" style="font-size:13px;color:var(--text-muted)">Chargement du calendrier officiel…</div></div>
+<div class="card" id="map-card" style="position:relative;padding:0;overflow:hidden">
     <div class="fs-btn" style="z-index:1001" onclick="toggleFS(document.getElementById('map-card'))">⛶</div>
     <div id="map-recenter" onclick="recenterMap()" style="position:absolute;bottom:12px;right:12px;z-index:1000;width:38px;height:38px;border-radius:50%;background:var(--dark-card);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:all .2s" title="Ma position">◎</div>
     <div id="map-nav-btns" style="position:absolute;bottom:12px;left:12px;z-index:1000;display:flex;gap:4px;flex-wrap:wrap">
@@ -3302,6 +3299,8 @@ document.addEventListener('DOMContentLoaded',function(){
 <!-- ==================== ACTUALITÉS ==================== -->
 <div class="view" id="v-actualites">
   <div class="sec-header"><div class="sec-label">📰 Veille transfusionnelle</div><div class="sec-title">Actualités du don du sang</div><div class="sec-sub">Suisse, Europe et monde — politique, science et engagement citoyen</div></div>
+
+  <div class="card" id="actus-jour" style="margin-bottom:16px"><div class="card-header"><div class="card-title">📰 Dans la presse aujourd’hui</div><span class="badge" id="actus-jour-date"></span></div><div id="actus-jour-liste" style="font-size:13px;color:var(--text-muted)">Chargement des actualités…</div></div>
 
   <!-- BREAKING -->
   <div class="card" style="border:2px solid var(--red);margin-bottom:16px">
@@ -5471,7 +5470,7 @@ function go(id){
 document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>go(t.dataset.v)));
 
 // ===== MODE PUBLIC : vues réservées aux testeurs invités (connexion demandée au moment d'y aller) =====
-var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,hemorush:1,impact:1,profil:1,settings:1};
+var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,hemorush:1,impact:1,profil:1,settings:1,vr:1};
 (function(){
   var goLibre = go;
   window.go = function(id){
@@ -8272,6 +8271,70 @@ document.addEventListener('click',function(e){
   setTimeout(()=>wave.remove(),600);
 });
 
+// ===== DONNÉES DU JOUR (stocks officiels, collectes HUG, actualités) — api/donnees.php, cache 6 h =====
+var BMB_DONNEES=null;
+function bmbEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+function bmbAfficherStock(code){
+  if(!BMB_DONNEES) return;
+  var r=BMB_DONNEES.stocks.filter(function(s){return s.code===code;})[0]; if(!r) return;
+  var lbl=document.getElementById('stock-canton-label'); if(lbl) lbl.textContent='🩸 '+r.label+(r.date?' · '+r.date:'');
+  var map={eleve:'good',normal:'ok',bas:'low',critique:'crit',inconnu:'low'};
+  var rows=r.groupes.map(function(g){ var s=map[g.niveau]||'low'; var col=g.niveau==='inconnu'?'var(--text-muted)':STOCK_COLORS[s];
+    return '<div class="stock-row"><span class="stock-grp" style="color:'+col+'">'+g.groupe+'</span><div class="stock-bar-bg"><div class="stock-bar bar-'+s+'" style="width:'+g.taux+'%"></div></div><span class="stock-lbl" style="color:'+col+'">'+g.libelle+'</span></div>'; }).join('');
+  var el=document.getElementById('stock-canton-rows'); if(el) el.innerHTML=rows;
+  var ex=document.getElementById('stock-canton-extra'); if(ex) ex.innerHTML='';
+  var src=document.getElementById('stock-source'); if(src) src.innerHTML='Source : baromètre officiel de Transfusion CRS Suisse (blutspende.ch), mis à jour quotidiennement · Élevé, Normal, Bas, Critique. <a href="https://www.blutspende.ch/fr" target="_blank" rel="noopener" style="color:var(--gold)">Voir le baromètre</a>';
+}
+function bmbRenderDonnees(d){
+  BMB_DONNEES=d;
+  // stocks : boutons par région
+  var btns=document.getElementById('canton-btns');
+  if(btns){
+    if(d.stocks&&d.stocks.length){
+      btns.innerHTML=d.stocks.map(function(s,i){ return '<button class="canton-btn'+(i===0?' active':'')+'" data-institut="'+s.code+'" onclick="selectCanton(this)">'+bmbEsc(s.court)+'</button>'; }).join('');
+      bmbAfficherStock(d.stocks[0].code);
+      var crit=(d.stocks[0].groupes||[]).filter(function(g){return g.niveau==='critique';}).map(function(g){return g.groupe;});
+      var lt=document.getElementById('live-toast'); if(lt&&crit.length){ lt.classList.remove('alpha-only'); document.getElementById('lt-text').textContent='Stock '+crit.join(', ')+' critique — '+d.stocks[0].label+' (baromètre officiel)'; }
+    } else {
+      btns.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Baromètre officiel indisponible pour le moment · <a href="https://www.blutspende.ch/fr" target="_blank" rel="noopener" style="color:var(--gold)">le consulter sur blutspende.ch</a></span>';
+      var rows=document.getElementById('stock-canton-rows'); if(rows) rows.innerHTML='';
+    }
+  }
+  // actualités : carrousel de l'accueil + liste dans la vue Actualités
+  var feed=document.getElementById('newsFeed'), dotsWrap=document.querySelector('.news-dot')&&document.querySelector('.news-dot').parentElement;
+  var actus=(d.actualites||[]).slice(0,8);
+  if(feed){
+    if(actus.length){
+      feed.innerHTML=actus.slice(0,5).map(function(a){ return '<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius)"><div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">📰 '+bmbEsc(a.source)+' · '+bmbEsc(a.date)+'</div><div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:8px">'+bmbEsc(a.titre)+'</div><a href="'+bmbEsc(a.url)+'" target="_blank" rel="noopener" style="color:var(--gold);font-size:12px;font-weight:600">Lire l’article →</a></div>'; }).join('');
+      newsTotal=Math.min(5,actus.length); newsIdx=0; feed.style.transform='translateX(0)';
+      if(dotsWrap) dotsWrap.innerHTML=actus.slice(0,5).map(function(_,i){ return '<span class="news-dot'+(i===0?' active':'')+'" onclick="goNewsSlide('+i+')"></span>'; }).join('');
+    } else {
+      feed.innerHTML='<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);text-align:center;font-size:13px;color:var(--text-muted)">Actualités indisponibles pour le moment. <a href="https://www.blutspende.ch/fr" target="_blank" rel="noopener" style="color:var(--gold)">Transfusion CRS Suisse</a></div>';
+      newsTotal=1; if(dotsWrap) dotsWrap.innerHTML='';
+    }
+  }
+  var liste=document.getElementById('actus-jour-liste');
+  if(liste){
+    liste.innerHTML=actus.length ? actus.map(function(a){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:74px;font-family:var(--font-mono);font-size:11px;color:var(--gold);padding-top:2px">'+bmbEsc(a.date)+'</div><div style="flex:1"><a href="'+bmbEsc(a.url)+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px;line-height:1.4">'+bmbEsc(a.titre)+'</a><div style="font-size:11px;color:var(--text-muted)">'+bmbEsc(a.source)+'</div></div></div>'; }).join('')+'<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Sélection automatique (Google Actualités, Suisse, français), actualisée chaque jour. Les titres sont ceux des médias.</div>'
+      : 'Actualités indisponibles pour le moment.';
+    var dd=document.getElementById('actus-jour-date'); if(dd&&d.maj) dd.textContent=new Date(d.maj).toLocaleDateString('fr-CH');
+  }
+  // collectes HUG
+  var cl=document.getElementById('collectes-hug-liste');
+  if(cl){
+    var cs=(d.collectes&&d.collectes.geneve)||[];
+    cl.innerHTML=(cs.length ? cs.map(function(c){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:86px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc(c.date||'')+'</div><div style="flex:1"><a href="'+bmbEsc(c.url||'#')+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+bmbEsc(c.titre)+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([c.adresse,(c.npa||'')+' '+(c.localite||'')].filter(Boolean).join(', '))+(c.debut?' · '+bmbEsc(c.debut)+(c.fin?'–'+bmbEsc(c.fin):''):'')+'</div></div></div>'; }).join('') : '<div>Aucune collecte annoncée par les HUG pour le moment.</div>')
+      +'<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Source : calendrier officiel du CTS des HUG, actualisé chaque jour · Autres cantons : <a href="'+bmbEsc((d.collectes&&d.collectes.autres_cantons_url)||'https://www.blutspende.ch/fr/dates-de-collecte-de-sang')+'" target="_blank" rel="noopener" style="color:var(--gold)">recherche officielle par localité</a></div>';
+    var cm=document.getElementById('collectes-hug-maj'); if(cm&&d.maj) cm.textContent='màj '+new Date(d.maj).toLocaleDateString('fr-CH');
+  }
+}
+function bmbChargerDonnees(){
+  fetch('../api/donnees.php',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(bmbRenderDonnees)
+    .catch(function(){ bmbRenderDonnees({stocks:[],actualites:[],collectes:{geneve:[]}}); });
+}
+document.addEventListener('DOMContentLoaded', bmbChargerDonnees);
+
 // News feed carousel
 var newsIdx=0,newsTotal=3,newsTimer;
 function goNewsSlide(i){
@@ -8290,7 +8353,7 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
 
 <!-- BEEBOT FAB -->
 <!-- LIVE TOAST -->
-<div class="live-toast" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
 
 <button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
 <div class="beebot-panel" id="beebot-panel">
