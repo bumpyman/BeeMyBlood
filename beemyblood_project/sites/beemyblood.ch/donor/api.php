@@ -18,6 +18,7 @@
 $bmbConfig = file_exists(__DIR__ . '/../config.php') ? require __DIR__ . '/../config.php' : [];
 define('ANTHROPIC_API_KEY', $bmbConfig['anthropic_api_key'] ?? 'YOUR_API_KEY_HERE');
 define('BMB_MODEL', $bmbConfig['model'] ?? 'claude-opus-5');
+define('BMB_WORKSPACE', $bmbConfig['anthropic_workspace_id'] ?? '');
 
 // Headers CORS pour permettre les requêtes depuis le navigateur
 header('Content-Type: application/json; charset=utf-8');
@@ -194,7 +195,7 @@ curl_setopt_array($ch, [
         'Content-Type: application/json',
         'x-api-key: ' . ANTHROPIC_API_KEY,
         'anthropic-version: 2023-06-01'
-    ],
+    ] + (BMB_WORKSPACE !== '' ? ['anthropic-workspace-id: ' . BMB_WORKSPACE] : []),
     CURLOPT_POSTFIELDS => json_encode($requestData, JSON_UNESCAPED_UNICODE),
     CURLOPT_TIMEOUT => 30,
     CURLOPT_SSL_VERIFYPEER => true

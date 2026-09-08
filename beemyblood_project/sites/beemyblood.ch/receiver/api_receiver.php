@@ -12,6 +12,7 @@
 $bmbConfig = file_exists(__DIR__ . '/../config.php') ? require __DIR__ . '/../config.php' : [];
 $ANTHROPIC_API_KEY = $bmbConfig['anthropic_api_key'] ?? '';
 $MODEL = $bmbConfig['model'] ?? 'claude-opus-5';
+$WORKSPACE_ID = $bmbConfig['anthropic_workspace_id'] ?? '';
 $MAX_TOKENS = 2048;
 
 // ==================== CORS ====================
@@ -87,7 +88,7 @@ curl_setopt_array($ch, [
         'Content-Type: application/json',
         'x-api-key: ' . $ANTHROPIC_API_KEY,
         'anthropic-version: 2023-06-01'
-    ],
+    ] + ($WORKSPACE_ID !== '' ? ['anthropic-workspace-id: ' . $WORKSPACE_ID] : []),
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => json_encode($payload),
     CURLOPT_RETURNTRANSFER => true,

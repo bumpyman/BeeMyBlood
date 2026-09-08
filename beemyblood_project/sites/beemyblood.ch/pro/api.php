@@ -13,7 +13,8 @@
 
 // Clé API et modèle lus depuis config.php (hors dépôt git) — voir config.example.php
 $bmbConfig = file_exists(__DIR__ . '/../config.php') ? require __DIR__ . '/../config.php' : [];
-$apiKey = $bmbConfig['anthropic_api_key'] ?? '';  // clé lue depuis ../config.php
+$apiKey = $bmbConfig['anthropic_api_key'] ?? '';
+$workspaceId = $bmbConfig['anthropic_workspace_id'] ?? '';  // clé lue depuis ../config.php
 
 // ─────────────────────────────────────────────────────────────────
 
@@ -126,7 +127,7 @@ curl_setopt_array($ch, [
         'Content-Type: application/json',
         'x-api-key: ' . $apiKey,
         'anthropic-version: 2023-06-01'
-    ],
+    ] + ($workspaceId !== '' ? ['anthropic-workspace-id: ' . $workspaceId] : []),
     CURLOPT_POSTFIELDS => json_encode($payload),
     CURLOPT_TIMEOUT => 30,
     CURLOPT_CONNECTTIMEOUT => 10
