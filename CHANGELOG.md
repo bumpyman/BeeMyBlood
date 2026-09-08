@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4.3 — 2026-09-08 — no fictional collections for visitors, region choice
+
+### Changed
+- Donor space, public mode, collections view: visitors only see the header, the official collection list and the map of real permanent centres. The demo blocks (nearby collections list, weekly table, smart detection, AR guidance) and the fictional mobile-collection markers (Molard, HES-SO Battelle, Cornavin, Uni Dufour) are reserved to invited testers, where fictional data is acceptable because it is a demo.
+- The collection card offers a region choice: Genève shows the HUG list read every day; Vaud · Valais · Berne, Fribourg, Neuchâtel · Jura and "Toute la Suisse" say clearly that the dates are not yet imported and link to the official calendar of the responsible service.
+- Lock badges on the mobile bottom bar, mobile menu and home tiles now render (a regex had lost its backslashes).
+- Label "Prochaines collectes près de toi" (was "près de chez toi") in the invited mode.
+
 ## v0.4.2 — 2026-09-08 — locks on mobile, no fictional toasts in public mode
 
 ### Changed

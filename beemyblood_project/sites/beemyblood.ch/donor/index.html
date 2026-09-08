@@ -244,7 +244,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 /* LIVE TOAST */
 .live-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(26,26,46,.85);border:1px solid rgba(200,169,96,.2);border-radius:12px;padding:8px 14px;font-size:12px;color:var(--text);z-index:1800;display:flex;align-items:center;gap:10px;max-width:420px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;pointer-events:none;backdrop-filter:blur(12px)}
 .live-toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-@media(max-width:640px){.live-toast{left:12px;right:12px;transform:translateX(0) translateY(80px);max-width:none}.live-toast.show{transform:translateX(0) translateY(0)}}
+@media(max-width:640px){.live-toast{left:64px;right:12px;transform:translateX(0) translateY(80px);max-width:none}.live-toast.show{transform:translateX(0) translateY(0)}}
 
 /* COUNTDOWN SVG RING */
 .cd-ring{position:relative;width:90px;height:90px;flex-shrink:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
@@ -2598,7 +2598,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <!-- ==================== COLLECTES ==================== -->
 <div class="view" id="v-collectes">
   <div class="sec-header"><div class="sec-label">📍 Carte interactive</div><div class="sec-title">Où donner en Suisse</div><div class="sec-sub">Centres permanents CRS · Collectes mobiles · Prochains événements</div></div>
-  <div class="card" id="collectes-hug" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🚌 Prochaines collectes mobiles — Genève (CTS HUG)</div><span class="badge" id="collectes-hug-maj"></span></div><div id="collectes-hug-liste" style="font-size:13px;color:var(--text-muted)">Chargement du calendrier officiel…</div></div>
+  <div class="card" id="collectes-hug" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🚌 Prochaines collectes mobiles</div><span class="badge" id="collectes-hug-maj"></span></div><div id="collectes-regions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="collectes-hug-liste" style="font-size:13px;color:var(--text-muted)">Chargement du calendrier officiel…</div></div>
 <div class="card" id="map-card" style="position:relative;padding:0;overflow:hidden">
     <div class="fs-btn" style="z-index:1001" onclick="toggleFS(document.getElementById('map-card'))">⛶</div>
     <div id="map-recenter" onclick="recenterMap()" style="position:absolute;bottom:12px;right:12px;z-index:1000;width:38px;height:38px;border-radius:50%;background:var(--dark-card);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:all .2s" title="Ma position">◎</div>
@@ -2610,7 +2610,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div id="map-radius-ctrl" style="position:absolute;top:12px;right:48px;z-index:1000;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:8px;padding:6px 10px;box-shadow:0 2px 8px rgba(0,0,0,.4);font-size:12px;color:var(--text-dim)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span>📏</span><span id="radius-label" style="font-weight:600;color:var(--gold)">1 km</span></div><input type="range" id="radius-slider" min="1" max="20" value="1" oninput="updateRadius(this.value)" style="width:100px;accent-color:var(--gold)"></div>
     <div id="mapid"></div>
   </div>
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="coll-list-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Prochaines collectes près de chez toi <span class="acc-arrow">▼</span></button>
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="coll-list-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Prochaines collectes près de toi <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="coll-list-acc">
   <div style="margin-top:8px;display:flex;flex-direction:column;gap:10px" id="collecte-list">
     <div class="collecte-card" onclick="flyTo(46.1926,6.1492,16)"><div class="ico" style="background:rgba(230,57,70,.1)">🏥</div><div class="info"><div class="name">Centre de transfusion sanguine HUG</div><div class="detail">Rue Gabrielle-Perret-Gentil 6 · Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h</div></div><div class="status"><span class="dot" style="background:var(--green)"></span><span style="color:var(--green)">Calme</span><div style="font-size:14px;color:var(--text-muted);margin-top:2px">~35 min · 1.2 km</div></div></div>
@@ -5482,7 +5482,9 @@ var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,impact:1,profil:1,settings:1,
   // cadenas sur les onglets réservés tant qu'on n'est pas connecté
   document.querySelectorAll('.nav-tab').forEach(function(t){ if(BMB_RESERVE[t.dataset.v]) t.classList.add('bmb-reserve'); });
   // idem pour la barre du bas, le menu mobile et les tuiles de l'accueil (onclick=go('x') / goMob('x'))
-  document.querySelectorAll('[onclick]').forEach(function(el){ var m=(el.getAttribute('onclick')||'').match(/^s*go(?:Mob)?('([a-z]+)')/); if(m&&BMB_RESERVE[m[1]]) el.classList.add('bmb-reserve'); });
+  document.querySelectorAll('[onclick]').forEach(function(el){ var m=(el.getAttribute('onclick')||'').match(/^\s*go(?:Mob)?\('([a-z]+)'\)/); if(m&&BMB_RESERVE[m[1]]) el.classList.add('bmb-reserve'); });
+  // vue Collectes : pour un visiteur, seuls l'en-tête, les collectes officielles des HUG et la carte des centres sont montrés (le reste est une démonstration)
+  document.querySelectorAll('#v-collectes > *').forEach(function(el){ if(!(el.id==='collectes-hug'||el.id==='map-card'||el.classList.contains('sec-header'))) el.classList.add('alpha-only'); });
 })();
 
 // ===== NAV OVERFLOW (Priority+ pattern) =====
@@ -7193,7 +7195,8 @@ function initMap(){
       {lat:47.0551,lng:8.3193,name:'Transfusion CRS Suisse centrale — Lucerne',detail:'Maihofstrasse 1, 6004 Luzern<br>Centre permanent · Tél. 041 418 70 20<br><a class="popup-btn" href="https://www.bsd-luzern.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
       {lat:47.3960,lng:8.4478,name:'Transfusion CRS Zürich — Schlieren',detail:'Rütistrasse 19, 8952 Schlieren<br>Centre permanent · Tél. 058 272 52 52<br><a class="popup-btn" href="https://www.blutspendezurich.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
     ];
-    pts.forEach(p=>{
+    // visiteur : pas de collectes mobiles fictives (🎪) sur la carte, seuls les centres réels
+    pts.filter(function(p){ return !(document.body.classList.contains('bmb-public') && p.emoji==='🎪'); }).forEach(p=>{
       L.marker([p.lat,p.lng],{icon:ico(p.color,p.emoji)}).addTo(map)
         .bindPopup('<strong>'+p.name+'</strong><br>'+p.detail,{maxWidth:250});
     });
@@ -8324,12 +8327,29 @@ function bmbRenderDonnees(d){
       : 'Actualités indisponibles pour le moment.';
     var dd=document.getElementById('actus-jour-date'); if(dd&&d.maj) dd.textContent=new Date(d.maj).toLocaleDateString('fr-CH');
   }
-  // collectes HUG
+  // collectes : Genève en liste (calendrier HUG lu chaque jour), autres régions vers leur calendrier officiel
+  var REGIONS_COLL=[
+    {id:'geneve',label:'Genève',liste:true},
+    {id:'tir',label:'Vaud · Valais · Berne',url:'https://www.ichspendeblut.ch/fr/ou-donner',org:'Transfusion Interrégionale CRS'},
+    {id:'fr',label:'Fribourg',url:'https://www.transfusion-fr.ch/',org:'Transfusion CRS Fribourg (HFR)'},
+    {id:'nej',label:'Neuchâtel · Jura',url:'https://www.srnjts.ch/donner/collectes-mobiles/',org:'SRNJTS'},
+    {id:'ch',label:'Toute la Suisse',url:'https://www.blutspende.ch/fr/dates-de-collecte-de-sang',org:'Transfusion CRS Suisse (recherche par localité)'}
+  ];
+  window.bmbCollectesRegion=function(id){
+    var r=REGIONS_COLL.filter(function(x){return x.id===id;})[0]||REGIONS_COLL[0];
+    document.querySelectorAll('#collectes-regions button').forEach(function(b){ b.classList.toggle('active', b.dataset.region===r.id); });
+    var cl2=document.getElementById('collectes-hug-liste'); if(!cl2) return;
+    if(r.liste){ cl2.innerHTML=window.bmbCollectesGeneveHtml||''; return; }
+    cl2.innerHTML='<div style="padding:6px 0">Pour '+bmbEsc(r.label)+', les dates de collecte sont publiées par '+bmbEsc(r.org)+'. Nous ne les reprenons pas encore automatiquement.</div><a href="'+bmbEsc(r.url)+'" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="margin-top:6px">📅 Voir le calendrier officiel →</a>';
+  };
+  var rg=document.getElementById('collectes-regions');
+  if(rg) rg.innerHTML=REGIONS_COLL.map(function(r,i){ return '<button class="canton-btn'+(i===0?' active':'')+'" data-region="'+r.id+'" onclick="bmbCollectesRegion(\''+r.id+'\')">'+bmbEsc(r.label)+'</button>'; }).join('');
   var cl=document.getElementById('collectes-hug-liste');
   if(cl){
     var cs=(d.collectes&&d.collectes.geneve)||[];
-    cl.innerHTML=(cs.length ? cs.map(function(c){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:86px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc(c.date||'')+'</div><div style="flex:1"><a href="'+bmbEsc(c.url||'#')+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+bmbEsc(c.titre)+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([c.adresse,(c.npa||'')+' '+(c.localite||'')].filter(Boolean).join(', '))+(c.debut?' · '+bmbEsc(c.debut)+(c.fin?'–'+bmbEsc(c.fin):''):'')+'</div></div></div>'; }).join('') : '<div>Aucune collecte annoncée par les HUG pour le moment.</div>')
-      +'<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Source : calendrier officiel du CTS des HUG, actualisé chaque jour · Autres cantons : <a href="'+bmbEsc((d.collectes&&d.collectes.autres_cantons_url)||'https://www.blutspende.ch/fr/dates-de-collecte-de-sang')+'" target="_blank" rel="noopener" style="color:var(--gold)">recherche officielle par localité</a></div>';
+    window.bmbCollectesGeneveHtml=(cs.length ? '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Genève — calendrier du CTS des HUG</div>'+cs.map(function(c){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:86px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc(c.date||'')+'</div><div style="flex:1"><a href="'+bmbEsc(c.url||'#')+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+bmbEsc(c.titre)+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([c.adresse,(c.npa||'')+' '+(c.localite||'')].filter(Boolean).join(', '))+(c.debut?' · '+bmbEsc(c.debut)+(c.fin?'–'+bmbEsc(c.fin):''):'')+'</div></div></div>'; }).join('') : '<div>Aucune collecte annoncée par les HUG pour le moment.</div>')
+      +'<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Source : calendrier officiel du CTS des HUG, actualisé chaque jour.</div>';
+    cl.innerHTML=window.bmbCollectesGeneveHtml;
     var cm=document.getElementById('collectes-hug-maj'); if(cm&&d.maj) cm.textContent='màj '+new Date(d.maj).toLocaleDateString('fr-CH');
   }
 }
