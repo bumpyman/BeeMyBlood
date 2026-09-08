@@ -71,13 +71,13 @@
     if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
-  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel, puis vous restez connecté·e sur cet appareil.<br>Hébergé en Suisse (site : Infomaniak, Genève · comptes : Supabase, Zurich) · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
+  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Une fois connecté·e, vous le restez sur cet appareil.<br>Hébergé en Suisse (site : Infomaniak, Genève · comptes : Supabase, Zurich) · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
 
   // ---------- Étape 1 : courriel ----------
   function ecranCourriel(pre){
-    ecran(etapes(1)+'<div class="bmba-h">'+(PUBLIC?'Fonction réservée aux testeurs invités':'Connexion par courriel')+'</div><p class="bmba-p">'+(PUBLIC?'Le test d’éligibilité, la carte des centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Le reste (tableau de bord, défis, flux, HémoRush, impact, profil) est réservé aux personnes invitées. ':'')+'Saisissez l’adresse avec laquelle votre accès a été approuvé. Un <b>code de connexion à chiffres</b> vous est envoyé par courriel à chaque connexion ; il remplace le mot de passe.</p>'
+    ecran(etapes(1)+'<div class="bmba-h">'+(PUBLIC?'Fonction réservée aux testeurs invités':'Connexion par courriel')+'</div><p class="bmba-p">'+(PUBLIC?'Le test d’éligibilité, la carte des centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Le reste (tableau de bord, défis, flux, HémoRush, impact, profil) est réservé aux personnes invitées. ':'')+'Saisissez l’adresse avec laquelle votre accès a été approuvé. Vous recevrez un code par courriel ; il n’y a pas de mot de passe.</p>'
       +'<input class="bmba-in" id="bmbaEmail" type="email" autocomplete="email" inputmode="email" placeholder="prenom.nom@exemple.ch" value="'+(pre||'')+'">'
-      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code de connexion</button>'+(PUBLIC?'<button class="bmba-btn sec" id="bmbaLibre">Continuer sans compte</button>':'')+'<div class="bmba-err" id="bmbaErr"></div>'+pied);
+      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code</button>'+(PUBLIC?'<button class="bmba-btn sec" id="bmbaLibre">Continuer sans compte</button>':'')+'<div class="bmba-err" id="bmbaErr"></div>'+pied);
     var libre=document.getElementById('bmbaLibre'); if(libre) libre.onclick=function(){ attente=null; fermer(); };
     var go = function(){
       var email = (document.getElementById('bmbaEmail').value||'').trim().toLowerCase();
@@ -85,7 +85,7 @@
       var b=document.getElementById('bmbaSend'); b.disabled=true; b.textContent='Envoi…';
       sb.auth.signInWithOtp({ email:email, options:{ shouldCreateUser:true, emailRedirectTo: location.href.split('#')[0] } })
         .then(function(r){ if(r.error) throw r.error; try{ localStorage.setItem('bmba_email', email); }catch(e){} ecranCode(email); })
-        .catch(function(e){ b.disabled=false; b.textContent='Recevoir mon code de connexion'; document.getElementById('bmbaErr').textContent=msgErreur(e); });
+        .catch(function(e){ b.disabled=false; b.textContent='Recevoir mon code'; document.getElementById('bmbaErr').textContent=msgErreur(e); });
     };
     document.getElementById('bmbaSend').onclick = go;
     document.getElementById('bmbaEmail').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
@@ -93,12 +93,12 @@
 
   // ---------- Étape 2 : code reçu par courriel ----------
   function ecranCode(email){
-    ecran(etapes(2)+'<div class="bmba-h">Vérifiez votre boîte courriel</div><p class="bmba-p">Un message vient d’être envoyé à <b>'+email+'</b>. Saisissez le <b>code de connexion à chiffres</b> qu’il contient (pas le code d’invitation BMB‑…, qui n’existe plus). Utilisez le dernier message reçu. Pensez au dossier « indésirables ».</p>'
+    ecran(etapes(2)+'<div class="bmba-h">Saisissez le code reçu</div><p class="bmba-p">Un code de connexion vient d’être envoyé à <b>'+email+'</b>. Recopiez-le ci-dessous. Si rien n’arrive, vérifiez le dossier « indésirables ».</p>'
       +'<input class="bmba-in code" id="bmbaOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="········">'
       +'<button class="bmba-btn" id="bmbaVerif">Valider</button><button class="bmba-btn sec" id="bmbaBack">Changer d’adresse</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
     var go = function(){
       var token=(document.getElementById('bmbaOtp').value||'').replace(/\D/g,'');
-      if(token.length<6){ document.getElementById('bmbaErr').textContent='Le code comporte 6 à 8 chiffres.'; return; }
+      if(token.length<6){ document.getElementById('bmbaErr').textContent='Recopiez le code complet reçu par courriel.'; return; }
       var b=document.getElementById('bmbaVerif'); b.disabled=true; b.textContent='Vérification…';
       // Un compte jamais confirmé reçoit un code de type « signup » : on essaie les deux types
       sb.auth.verifyOtp({ email:email, token:token, type:'email' })
