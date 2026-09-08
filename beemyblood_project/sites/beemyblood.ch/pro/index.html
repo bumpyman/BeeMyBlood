@@ -79,7 +79,21 @@ input,select{font-family:inherit;outline:none}
 .container{max-width:1400px;margin:0 auto;padding:1.5rem}
 
 /* Tabs */
-.tabs{display:flex;gap:1rem;margin-bottom:1.25rem;overflow-x:auto;padding-bottom:.5rem;flex-wrap:nowrap;scrollbar-width:thin;scrollbar-color:rgba(200,169,96,.2) transparent}
+.tabs{display:flex;gap:.9rem 1rem;margin-bottom:1.25rem;flex-wrap:wrap;padding-bottom:.25rem}
+.tab-menu-btn{display:none;width:100%;align-items:center;justify-content:space-between;gap:.5rem;padding:.7rem .9rem;margin-bottom:.75rem;border-radius:.75rem;background:var(--slate-800);border:1px solid var(--slate-600);color:var(--slate-300);font-size:.9rem;font-weight:600;cursor:pointer}
+.tab-menu-btn b{color:var(--amber-400)}
+@media(max-width:760px){
+  .tab-menu-btn{display:flex}
+  .tabs{display:none;flex-direction:column;gap:.6rem;background:var(--slate-800);border:1px solid var(--slate-600);border-radius:.75rem;padding:.75rem}
+  .tabs.open{display:flex}
+  .tab-group{border-right:none;border-bottom:1px solid var(--slate-700);padding:0 0 .6rem}.tab-group:last-child{border-bottom:none;padding-bottom:0}
+  .tab-group-tabs{flex-wrap:wrap}
+  .tabs.open .tab-group-tabs .tab{font-size:.85rem!important;padding:.6rem .85rem!important;width:auto!important;height:auto!important}
+  .tabs.open .tab svg{width:16px!important;height:16px!important}
+  .twin-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .twin-plan-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  #twinMap{height:60vh;min-height:320px}
+}
 .tab-group{display:flex;flex-direction:column;gap:.3rem;flex-shrink:0;padding-right:1rem;border-right:1px solid var(--slate-700)}.tab-group:last-child{border-right:none;padding-right:0}
 .tab-group-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-500);padding-left:.3rem;font-weight:700}
 .tab-group-tabs{display:flex;gap:.35rem}
@@ -595,6 +609,7 @@ body.map-fullscreen .toast-container{z-index:100003!important}
 
   <div class="container">
     <!-- Tabs -->
+    <button class="tab-menu-btn" id="tabMenuBtn" type="button" onclick="document.getElementById('tabBar').classList.toggle('open')" aria-controls="tabBar"><span>Menu · <b id="tabMenuCurrent">Tableau de bord</b></span><span>☰</span></button>
     <div class="tabs" id="tabBar">
       <div class="tab-group">
         <div class="tab-group-label">Piloter</div>
@@ -825,11 +840,11 @@ body.map-fullscreen .toast-container{z-index:100003!important}
               Jumeau numérique — <span id="twinRegionName">Genève</span>
             </div>
             <div class="twin-steps">
-              <span class="twin-step on" id="twinStep1"><b>1</b> Configurer</span>
+              <span class="twin-step on" id="twinStep1"><b>1</b> Choisir</span>
               <span class="twin-step" id="twinStep2"><b>2</b> Simuler</span>
-              <span class="twin-step" id="twinStep3"><b>3</b> Analyser</span>
+              <span class="twin-step" id="twinStep3"><b>3</b> Lire les résultats</span>
             </div>
-            <div class="twin-empty" id="twinEmpty">Choisissez un phénotype ou un scénario à droite, puis lancez la simulation. Chaque résultat est une médiane sur 30 tirages avec son intervalle P10–P90 : aucun chiffre n'est affiché sans le repère qui permet de le juger.</div>
+            <div class="twin-empty" id="twinEmpty"><b style="color:var(--amber-400)">Comment ça marche.</b> Le jumeau numérique est une copie virtuelle du stock de sang de la région. Vous lui posez une question (« combien de poches compatibles avec ce profil ? » ou « que se passe-t-il pendant les vacances d'été ? »), il rejoue la situation plusieurs dizaines de fois avec un peu de hasard, comme dans la vraie vie, puis vous donne la valeur la plus probable et la fourchette dans laquelle le résultat tombe 8 fois sur 10. Choisissez à droite, puis lancez.</div>
             <div class="twin-kpis hidden" id="twinKpis"></div>
             <div id="twinMap"></div>
             <div class="twin-head">
@@ -840,17 +855,17 @@ body.map-fullscreen .toast-container{z-index:100003!important}
             <details class="twin-limits">
               <summary>Ce que ce panneau ne dit pas</summary>
               <ul>
-                <li>Les fréquences antigéniques sont des moyennes populationnelles européennes ; elles ne décrivent pas la composition réelle du bassin de donneurs de chaque site.</li>
-                <li>Le stock de base est dérivé du nombre de donneurs par quartier (données de démonstration), pas d'un inventaire ISBT 128 réel.</li>
-                <li>Un scénario mesure l'effet d'un choix, ce n'est pas une prévision : la version BeeOS v2 branchera les programmes opératoires, la saisonnalité et le stock réel à 14 jours.</li>
-                <li>Deux résultats dont les intervalles se recouvrent sont présentés comme non distinguables, même si leurs médianes diffèrent.</li>
+                <li>Les fréquences des groupes sanguins sont des moyennes européennes ; elles ne décrivent pas la population réelle de chaque quartier.</li>
+                <li>Le stock de départ est estimé à partir du nombre de donneurs par quartier (données de démonstration), pas d'un inventaire réel.</li>
+                <li>Un scénario mesure l'effet d'un choix, ce n'est pas une prévision météo : la prochaine version branchera les vrais stocks, les programmes opératoires et la saisonnalité.</li>
+                <li>Quand deux fourchettes se chevauchent, nous disons que la différence est trop faible pour être sûre, même si les valeurs centrales diffèrent.</li>
               </ul>
             </details>
           </div>
         </div>
         <div>
           <div class="sidebar-card">
-            <h4><span class="twin-tag">01</span> Phénotype recherché</h4>
+            <h4><span class="twin-tag">01</span> Quel sang cherchez-vous ?</h4>
             <div class="twin-field">
               <label for="twinAbo">Groupe sanguin (ABO)</label>
               <select id="twinAbo">
@@ -862,13 +877,13 @@ body.map-fullscreen .toast-container{z-index:100003!important}
               </select>
             </div>
             <div class="twin-field">
-              <span class="lbl">Systèmes antigéniques (ordre ISBT)</span>
+              <span class="lbl">Profil détaillé (cochez un système pour préciser les antigènes présents)</span>
               <div class="twin-groups" id="twinGroups"></div>
             </div>
             <button class="btn-twin" id="twinBtnSearch" onclick="twinRechercher()">🔎 Rechercher les poches compatibles</button>
           </div>
           <div class="sidebar-card" style="margin-top:1rem">
-            <h4><span class="twin-tag plan">02</span> Scénario &amp; planification</h4>
+            <h4><span class="twin-tag plan">02</span> Que se passe-t-il si… ?</h4>
             <div class="twin-plan-grid">
               <div class="twin-field">
                 <label for="twinDate">Date</label>
@@ -888,15 +903,15 @@ body.map-fullscreen .toast-container{z-index:100003!important}
             </div>
             <div class="twin-plan-grid">
               <div class="twin-field">
-                <label for="twinSeed">Graine aléatoire</label>
+                <label for="twinSeed" title="Le même numéro redonne exactement la même simulation : utile pour comparer deux scénarios à conditions égales">Numéro de tirage</label>
                 <input type="number" id="twinSeed" value="42" min="1" max="99999">
               </div>
               <div class="twin-field">
-                <label for="twinRuns">Tirages</label>
+                <label for="twinRuns" title="Plus il y a de simulations, plus la fourchette est fiable, mais plus le calcul est long">Nombre de simulations</label>
                 <select id="twinRuns"><option value="10">10</option><option value="30" selected>30</option><option value="100">100</option></select>
               </div>
             </div>
-            <button class="btn-twin plan" id="twinBtnSim" onclick="twinSimuler()">🔮 Simuler le scénario</button>
+            <button class="btn-twin plan" id="twinBtnSim" onclick="twinSimuler()">🔮 Simuler ce scénario</button>
           </div>
         </div>
       </div>
@@ -1479,6 +1494,8 @@ document.getElementById('loginEmail').addEventListener('keypress',e=>{if(e.key==
 // ========================= TABS =========================
 function switchTab(tab){
   currentTab=tab;
+  var tb=document.getElementById('tabBar'); if(tb) tb.classList.remove('open');
+  var cur=document.querySelector('.tab[data-tab="'+tab+'"]'), lbl=document.getElementById('tabMenuCurrent'); if(cur&&lbl) lbl.textContent=cur.textContent.trim();
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
   ['dashboard','carto','twin','match','route','collectes','equity','botpro','protocoles','stocks','campagnes'].forEach(p=>{
     var el=document.getElementById('panel-'+p);
@@ -2879,7 +2896,7 @@ const twinGroupes = {
 };
 // rare : modificateur (%) sur les poches à phénotype rare ; generale : sur le stock total
 const twinScenarios = {
-  'Aucun (référence)':            { rare:  0, generale:  0 },
+  'Situation normale (référence)': { rare:  0, generale:  0 },
   'Pandémie':                     { rare:-40, generale: 20 },
   'Catastrophe phase aiguë':      { rare: 40, generale: 20 },
   'Catastrophe « worst case »':   { rare:-40, generale:-60 },
@@ -3023,22 +3040,22 @@ function twinDessiner(res, ref, ctx){
   var joursCls = jours<3?'bad':jours<twinSeuilJours?'warn':'ok';
   var tension = res.sites.filter(function(x){ return x.val.med < 0.5*maxVal; }).length;
   var kpis = [
-    { cls:'neutral', v:res.val.med, l:ctx.labelValeur+' (tous sites)', t:'P10–P90 : '+res.val.p10+'–'+res.val.p90+' · '+ctx.runs+' tirages' },
-    { cls:joursCls, v:jours.toFixed(1)+' j', l:'Couverture du besoin régional ('+r.need+' PSL/jour)', t:'cible ≥ '+twinSeuilJours+' j · critique < 3 j' },
-    { cls:tension?'warn':'ok', v:tension+'/'+res.sites.length, l:'Sites en tension', t:'moins de 50 % du meilleur site' }
+    { cls:'neutral', v:res.val.med, l:ctx.labelValeur+' sur la région (valeur la plus probable)', t:'8 fois sur 10 entre '+res.val.p10+' et '+res.val.p90+' · '+ctx.runs+' simulations' },
+    { cls:joursCls, v:jours.toFixed(1)+' j', l:'Jours de besoin couverts par le stock ('+r.need+' poches/jour)', t:'objectif ≥ '+twinSeuilJours+' jours · critique sous 3 jours' },
+    { cls:tension?'warn':'ok', v:tension+'/'+res.sites.length, l:'Sites en tension', t:'sites avec moins de la moitié du meilleur site' }
   ];
   if(ref){
     var same = twinOverlap(res.val, ref.val);
     var delta = ref.val.med ? Math.round((res.val.med-ref.val.med)/ref.val.med*100) : 0;
-    kpis.push({ cls:same?'neutral':(delta>=0?'ok':'bad'), v:same?'≈':(delta>0?'+':'')+delta+' %', l:'Écart vs scénario de référence', t:same?'intervalles recouvrants : non distinguable':'réf. '+ref.val.med+' ['+ref.val.p10+'–'+ref.val.p90+']' });
+    kpis.push({ cls:same?'neutral':(delta>=0?'ok':'bad'), v:same?'≈':(delta>0?'+':'')+delta+' %', l:'Écart avec la situation normale', t:same?'différence trop faible pour être sûre':'normalement '+ref.val.med+' (entre '+ref.val.p10+' et '+ref.val.p90+')' });
   } else {
-    kpis.push({ cls:'neutral', v:(ctx.proba*100<0.01?'< 0.01':(ctx.proba*100).toFixed(2))+' %', l:'Probabilité de compatibilité par poche', t:'fréquences ISBT · '+ctx.pheno });
+    kpis.push({ cls:'neutral', v:(ctx.proba*100<0.01?'< 0.01':(ctx.proba*100).toFixed(2))+' %', l:'Chance qu\'une poche prise au hasard soit compatible', t:'profil : '+ctx.pheno });
   }
   document.getElementById('twinKpis').innerHTML = kpis.map(function(k){ return '<div class="twin-kpi '+k.cls+'"><div class="v">'+k.v+'</div><div class="l">'+k.l+'</div><div class="t">'+k.t+'</div></div>'; }).join('');
   document.getElementById('twinKpis').classList.remove('hidden');
   document.getElementById('twinEmpty').classList.add('hidden');
   document.getElementById('twinStatus').textContent = ctx.statut;
-  document.getElementById('twinRun').innerHTML = 'run <code>'+ctx.runId+'</code> · graine <code>'+ctx.seed+'</code>';
+  document.getElementById('twinRun').innerHTML = 'simulation <code>'+ctx.runId+'</code> · numéro de tirage <code>'+ctx.seed+'</code> (le même numéro redonne le même résultat)';
 
   // Tableau par site, trié par valeur
   var rows = res.sites.slice().sort(function(a,b){return b.val.med-a.val.med;}).map(function(x){
@@ -3046,16 +3063,16 @@ function twinDessiner(res, ref, ctx){
     return '<tr><td>'+x.site.nom+'</td><td class="num" style="color:var(--amber-400)">'+x.val.med+'</td><td class="rng">'+x.val.p10+'–'+x.val.p90+'</td><td class="num">'+x.tot.med+'</td>'
       +'<td><div class="twin-bar"><i style="width:'+Math.round(t*100)+'%;background:'+twinHeatColor(t)+'"></i></div></td></tr>';
   }).join('');
-  var html = '<table><tr><th>Site</th><th style="text-align:right">'+ctx.labelValeur+'</th><th style="text-align:right">P10–P90</th><th style="text-align:right">'+ctx.labelTotal+'</th><th style="width:26%">Intensité</th></tr>'+rows+'</table>';
+  var html = '<table><tr><th>Site</th><th style="text-align:right">'+ctx.labelValeur+'</th><th style="text-align:right">8 fois sur 10 entre</th><th style="text-align:right">'+ctx.labelTotal+'</th><th style="width:26%">Intensité</th></tr>'+rows+'</table>';
   if(ref){
     var same2 = twinOverlap(res.val, ref.val);
-    html += '<div class="twin-cmp"><b>Comparaison à la référence « Aucun »</b> (mêmes tirages, graine '+ctx.seed+') : '
-      +(same2 ? 'les intervalles se recouvrent, l\'effet du scénario n\'est pas distinguable de l\'aléa d\'approvisionnement.'
-              : 'poches rares '+ref.val.med+' → '+res.val.med+' (médiane), stock total '+ref.total.med+' → '+res.total.med+'.')+'</div>';
-    html += '<div class="twin-reco"><b>Levier à mesurer</b> : '+ctx.reco+' Aucun impact chiffré n\'est annoncé avant qu\'un run ne l\'ait établi : modifiez le scénario et relancez avec la même graine.</div>';
+    html += '<div class="twin-cmp"><b>Comparé à la situation normale</b> (mêmes tirages, numéro '+ctx.seed+') : '
+      +(same2 ? 'les deux fourchettes se chevauchent, la différence est trop faible pour être attribuée au scénario plutôt qu\'au hasard des dons.'
+              : 'poches rares '+ref.val.med+' → '+res.val.med+', stock total '+ref.total.med+' → '+res.total.med+' (valeurs les plus probables).')+'</div>';
+    html += '<div class="twin-reco"><b>Piste d\'action</b> : '+ctx.reco+' Nous n\'annonçons aucun chiffre avant de l\'avoir simulé : changez le scénario et relancez avec le même numéro de tirage pour comparer à conditions égales.</div>';
   } else {
-    html += '<div class="twin-reco"><b>Lecture</b> : '+res.val.med+' poche(s) compatible(s) attendue(s) sur la région (intervalle '+res.val.p10+'–'+res.val.p90+'). '
-      +(res.val.med<3 ? 'Phénotype rare : privilégier la recherche PSL Suisse + EBA et le Rare Donor File plutôt que le stock local.' : 'Stock local suffisant pour une demande standard ; réserver via la recherche PSL.')+'</div>';
+    html += '<div class="twin-reco"><b>Lecture</b> : '+res.val.med+' poche(s) compatible(s) attendue(s) sur la région (8 fois sur 10 entre '+res.val.p10+' et '+res.val.p90+'). '
+      +(res.val.med<3 ? 'Sang rare : passer par la recherche de produits sanguins en Suisse et en Europe (onglet Recherche PSL) et le registre des donneurs rares plutôt que par le stock local.' : 'Le stock local suffit pour une demande courante ; réservez via l\'onglet Recherche PSL.')+'</div>';
   }
   document.getElementById('twinResult').innerHTML = html;
   document.getElementById('twinResult').classList.add('show');
@@ -3075,7 +3092,7 @@ function twinRechercher(){
   setTimeout(function(){
     var c = twinCtxBase(); c.proba = twinProbabilite(); c.pheno = twinPhenoLabel();
     var res = twinRun('pheno', {rare:0,generale:0}, c.proba, c.seed, c.runs);
-    c.labelValeur='Poches compatibles'; c.labelTotal='Poches totales';
+    c.labelValeur='Poches compatibles'; c.labelTotal='Poches en stock';
     c.legend='Poches compatibles ('+c.pheno+') par site'; c.statut='Recherche phénotype — '+c.pheno+' — '+c.dateFr+' — '+c.heure;
     twinDessiner(res, null, c); twinLast={mode:'pheno',res:res};
     twinBusy('twinBtnSearch',false);
@@ -3091,15 +3108,15 @@ function twinSimuler(){
     var res = twinRun('scen', mod, 0, c.seed, c.runs);
     var ref = twinRun('scen', {rare:0,generale:0}, 0, c.seed, c.runs);
     var fmt=function(v){return (v>0?'+':'')+v+' %';};
-    c.labelValeur='Poches rares'; c.labelTotal='Stock total';
+    c.labelValeur='Poches rares'; c.labelTotal='Poches en stock';
     c.legend='Poches à phénotype rare par site — scénario « '+nom+' »';
-    c.statut='Scénario « '+nom+' » (rares '+fmt(mod.rare)+', stock '+fmt(mod.generale)+') — '+c.dateFr+' — '+c.heure;
+    c.statut='Scénario « '+nom+' » (sangs rares '+fmt(mod.rare)+', stock total '+fmt(mod.generale)+') — '+c.dateFr+' — '+c.heure;
     c.reco = mod.rare<0 ? 'lancer une campagne ciblée « groupes rares » ou un appel d\'urgence pour compenser la baisse des phénotypes rares.'
            : mod.generale<0 ? 'renforcer les collectes mobiles sur les sites en tension avant la baisse de stock.'
            : 'prolonger les créneaux des sites les plus rentables et sécuriser la logistique de stockage.';
-    twinDessiner(res, nom.indexOf('Aucun')===0?null:ref, c); twinLast={mode:'scen',res:res,ref:ref};
+    twinDessiner(res, nom.indexOf('Situation normale')===0?null:ref, c); twinLast={mode:'scen',res:res,ref:ref};
     twinBusy('twinBtnSim',false);
-    showToast('success','Scénario « '+nom+' » simulé : '+res.val.med+' poches rares (P10–P90 '+res.val.p10+'–'+res.val.p90+').');
+    showToast('success','Scénario « '+nom+' » simulé : '+res.val.med+' poches rares, 8 fois sur 10 entre '+res.val.p10+' et '+res.val.p90+'.');
   },250);
 }
 </script>

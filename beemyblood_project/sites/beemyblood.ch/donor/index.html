@@ -7958,8 +7958,7 @@ function generateHUGPDF(){
   ['Q n°','Visa accueil','Visa infirmier','Visa médecin','Pouls','TA','Hb capillaire','Groupe sanguin','Type de don','N° prélèvement','Durée','Heure fin'].forEach(function(l){html+='<div class="reserved-field"><label>'+l+'</label></div>';});
   html+='</div></div>';
   html+='<div class="footer">ANH-Art7.6v3 - Document pré-rempli via BeeMyBlood™ | '+today+'</div>';
-  html+='<script>window.onload=function(){window.print();}<\/script><script src="../lexique.js" defer></script>
-</body></html>';
+  html+='<script>window.onload=function(){window.print();}<\/script></body></html>';
   var blob=new Blob([html],{type:'text/html'});
   var url=URL.createObjectURL(blob);
   var link=document.createElement('a');
@@ -8306,5 +8305,6 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
   </div>
 </div>
 
+<script src="../lexique.js" defer></script>
 </body>
 </html>

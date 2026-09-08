@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.1.3 — 2026-09-08 — digital twin in plain words, mobile navigation
+
+### Changed
+- Digital twin rewritten for non-specialists: "Comment ça marche" intro, steps renamed (Choisir, Simuler, Lire les résultats), "graine aléatoire" becomes "numéro de tirage" and "tirages" becomes "nombre de simulations" with inline help, P10–P90 shown as "8 fois sur 10 entre x et y", median as "valeur la plus probable", the reference scenario is "Situation normale", "non distinguable" becomes "différence trop faible pour être sûre"; the glossary gains nine simulation terms.
+- Professional portal: the tab bar no longer scrolls horizontally; groups wrap on desktop and collapse into a "Menu · onglet courant" button on phones, with labels visible in the open menu.
+- Landing page on phones: compact portal cards and tighter hero.
+- Glossary button stays at the bottom edge unless the page has a fixed bottom bar, in which case it moves above it.
+
+### Fixed
+- v0.1.2 donor page: the glossary script tag had been injected inside a JavaScript string (print template), which broke the page's scripts. The tag is now at the real end of the page.
+
 ## v0.1.2 — 2026-09-08 — plain language and shared glossary
 
 ### Added

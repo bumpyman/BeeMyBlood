@@ -50,12 +50,20 @@
     ['Système compagnon', 'Logiciel qui s\'ajoute aux systèmes existants sans les remplacer : il lit d\'abord, écrit ensuite.'],
     ['Primo-donneur', 'Personne qui donne son sang pour la première fois.'],
     ['Collecte mobile', 'Don du sang organisé hors du centre, dans un bus ou une salle communale, une école, une entreprise.'],
-    ['TIR', 'Transfusion Interrégionale CRS : service de transfusion de Suisse romande (Épalinges, Vaud).']
+    ['TIR', 'Transfusion Interrégionale CRS : service de transfusion de Suisse romande (Épalinges, Vaud).'],
+    ['Simulation', 'Calcul qui rejoue une situation (un stock, une collecte) plusieurs fois avec un peu de hasard, pour voir ce qui arrive le plus souvent.'],
+    ['Scénario', 'Situation hypothétique que l\'on teste dans le jumeau numérique : vacances, pandémie, campagne, appel d\'urgence.'],
+    ['Valeur la plus probable', 'Le résultat du milieu quand on classe toutes les simulations : la moitié donne plus, la moitié donne moins (la médiane).'],
+    ['Fourchette', 'Intervalle dans lequel le résultat tombe 8 fois sur 10 (entre le 10e et le 90e centile des simulations).'],
+    ['Numéro de tirage', 'Un numéro qui fixe le hasard de la simulation : le même numéro redonne exactement le même résultat, ce qui permet de comparer deux scénarios à conditions égales.'],
+    ['Situation normale', 'Le scénario de référence, sans événement particulier, auquel les autres scénarios sont comparés.'],
+    ['Sites en tension', 'Sites de collecte dont le résultat est inférieur à la moitié du meilleur site de la région.'],
+    ['Jours couverts', 'Nombre de jours pendant lesquels le stock estimé couvre le besoin quotidien de la région.']
   ];
   var DICT = {}; TERMES.forEach(function(t){ DICT[t[0]] = t[1]; });
   // Sigles à souligner automatiquement dans le texte (ordre : les plus longs d'abord)
   var AUTO = ['Rare Donor File','HL7 FHIR','Phénotype étendu','phénotype étendu','Jumeau numérique','jumeau numérique','Système compagnon','système compagnon','Primo-donneur','primo-donneur','Collecte mobile','collecte mobile',
-              'Hémovigilance','hémovigilance','Polytransfusé','polytransfusé','Drépanocytose','drépanocytose','Thalassémie','thalassémie','Chélation','chélation','Ferritine','ferritine','Aphérèse','aphérèse','Phénotype','phénotype',
+              'Hémovigilance','hémovigilance','Numéro de tirage','numéro de tirage','Situation normale','situation normale','Sites en tension','Valeur la plus probable','valeur la plus probable','Polytransfusé','polytransfusé','Drépanocytose','drépanocytose','Thalassémie','thalassémie','Chélation','chélation','Ferritine','ferritine','Aphérèse','aphérèse','Phénotype','phénotype',
               'Swissmedic','HES-SO','SIMED','UNIGE','AGPL-3.0','BeeOS','nLPD','RGPD','FHIR','SoHO','ISBT','OFSP','CRS','CTS','PSL','PFC','RAI','ABO','EBA','HUG','HEG','TIR','Kell','Duffy','Kidd'];
   var RE = new RegExp('(^|[^\\wÀ-ÿ-])(' + AUTO.map(function(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('|') + ')(?![\\wÀ-ÿ-])', 'g');
   function key(w){ var k=w.charAt(0).toUpperCase()+w.slice(1); return DICT[k]?k:(DICT[w]?w:null); }
@@ -132,6 +140,8 @@
 
   function init(){
     document.body.appendChild(pill);
+    // si la page a une barre fixe en bas (menu mobile), on remonte le bouton ; sinon il reste en bas
+    try{ var fixedBottom=[].slice.call(document.querySelectorAll('nav,div,footer')).some(function(el){ var cs=getComputedStyle(el); return cs.position==='fixed'&&parseInt(cs.bottom,10)===0&&el.offsetHeight>0&&el.offsetHeight<120&&el.offsetWidth>window.innerWidth*0.8; }); if(!fixedBottom) pill.style.bottom='14px'; }catch(e){}
     wrap(document.body);
     // contenu injecté plus tard (onglets, chats) : on repasse, sans excès
     var pending=false; new MutationObserver(function(muts){ if(pending) return; pending=true; setTimeout(function(){ pending=false; muts.forEach(function(mu){ mu.addedNodes.forEach(function(n){ if(n.nodeType===1&&!n.closest('.bmb-pop,.bmb-box,.leaflet-container')) wrap(n); }); }); },400); })
