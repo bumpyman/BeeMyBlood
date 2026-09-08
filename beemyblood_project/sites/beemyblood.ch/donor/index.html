@@ -2722,7 +2722,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="flex:1"><div style="font-size:14px;font-weight:600">BeeMyBlood™ Assistant</div><div style="font-size:13px;color:var(--green)">● En ligne</div></div>
     </div>
     <div class="chat-msgs" id="chat-msgs">
-      <div class="msg bot">Salut Amine ! 👋 Pose-moi n'importe quelle question sur le don de sang. Je suis là pour toi ! 🐝</div>
+      <div class="msg bot">Salut<span class="bmb-prenom"></span> ! 👋 Pose-moi n'importe quelle question sur le don de sang. Je suis là pour toi ! 🐝</div>
     </div>
     <div class="chat-sugg" id="chat-sugg">
       <button class="chat-sg" onclick="chatSg(this)">Suis-je éligible ?</button>
@@ -6902,7 +6902,7 @@ groups.forEach(recv=>{
 });
 
 // ===== CHATBOT — AI-powered with CTS HUG knowledge base =====
-const SYSTEM_PROMPT=`Tu es l'assistant BeeMyBlood™, un chatbot chaleureux et bienveillant spécialisé dans le don de sang à Genève. Tu tutoies l'utilisateur (Amine, 21 ans, étudiant, groupe B+). Tu réponds en français, de façon concise (max 150 mots), avec un ton jeune et encourageant.
+const SYSTEM_PROMPT=`Tu es l'assistant BeeMyBlood™, un chatbot chaleureux et bienveillant spécialisé dans le don de sang à Genève. Tu tutoies l'utilisateur. Tu réponds en français, de façon concise (max 150 mots), avec un ton jeune et encourageant.
 
 CONNAISSANCES CLÉS (source: CTS HUG & Transfusion CRS Suisse, fév. 2026):
 

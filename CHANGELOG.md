@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.6 — 2026-09-08 — chatbots greet visitors without a persona
+
+### Fixed
+- BeeBot donor and BeeBot receveur opened with "Salut Amine" / "Bonjour Eleonora" even for visitors. The greeting is now generic, and shows the connected person's first name once logged in. The unused client-side prompt no longer describes a fictional user. Fictional testimonials keep their own names.
+
 ## v0.4.5 — 2026-09-08 — your own name in the spaces
 
 ### Changed

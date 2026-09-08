@@ -184,11 +184,12 @@
     var SKIP = {SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1,OPTION:1};
     if(d.noms.length){
       var re = new RegExp('\\b(' + d.noms.join('|') + ')\\b', 'g');
-      var w = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT, { acceptNode:function(n){ var p=n.parentNode; if(!p||SKIP[p.nodeName]||p.closest('.bmba-wrap,.bmba-user,.bmb-box')) return NodeFilter.FILTER_REJECT; return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP; } });
+      var w = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT, { acceptNode:function(n){ var p=n.parentNode; if(!p||SKIP[p.nodeName]||p.closest('.bmba-wrap,.bmba-user,.bmb-box')) return NodeFilter.FILTER_REJECT; if(/T[ée]moignage/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT; return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP; } });
       var nodes=[], n; while((n=w.nextNode())) nodes.push(n);
       nodes.forEach(function(t){ t.nodeValue = t.nodeValue.replace(re, id.prenom); });
       document.querySelectorAll('[title]').forEach(function(el){ if(re.test(el.title)) el.title = el.title.replace(re, id.prenom); re.lastIndex=0; });
     }
+    document.querySelectorAll('.bmb-prenom').forEach(function(el){ el.textContent=' '+id.prenom; });
     if(d.initiales.length){
       document.querySelectorAll('div,span,a,b,strong').forEach(function(el){ if(el.children.length===0 && d.initiales.indexOf(el.textContent.trim())>=0) el.textContent = id.initiales; });
     }
