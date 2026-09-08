@@ -46,10 +46,10 @@ footer{padding:16px;text-align:center;font-size:12px;color:var(--muted)}
 <main>
   <div class="box" id="box">
     <h1>Demander un accès <span>alpha</span></h1>
-    <p class="lead">BeeMyBlood est en phase de test. L’accès aux espaces se fait sur invitation, après un court accord de confidentialité. Aucun mot de passe : vous vous connecterez avec un code reçu par courriel.</p>
+    <p class="lead">BeeMyBlood est en phase de test. L’accès aux espaces se fait sur invitation, après un court accord de confidentialité. Aucun mot de passe : vous vous connectez avec un code reçu par courriel, puis vous restez connecté·e sur votre appareil.</p>
     <div class="steps">
       <div class="step"><b>1 · Vous demandez</b>Ce formulaire, une minute.</div>
-      <div class="step"><b>2 · Nous approuvons</b>Vous recevez un code d’invitation par courriel, en général sous 48 h.</div>
+      <div class="step"><b>2 · Nous approuvons</b>Espace par espace ; vous recevez un courriel de confirmation, en général sous 48 h.</div>
       <div class="step"><b>3 · Vous entrez</b>Connexion par courriel, signature de l’accord, accès à votre espace.</div>
     </div>
     <form id="f" novalidate>
@@ -59,42 +59,42 @@ footer{padding:16px;text-align:center;font-size:12px;color:var(--muted)}
       <input id="email" type="email" autocomplete="email" inputmode="email" required placeholder="prenom.nom@exemple.ch">
       <label for="org">Organisation (facultatif)</label>
       <input id="org" autocomplete="organization" placeholder="Ex. CTS HUG, association, entreprise, particulier">
-      <label>Je souhaite tester en tant que</label>
+      <label>Espaces souhaités (un ou plusieurs)</label>
       <div class="roles" id="roles">
-        <label class="role"><input type="radio" name="role" value="donneur"><span class="ic">🩸</span>Donneur·se</label>
-        <label class="role"><input type="radio" name="role" value="receveur"><span class="ic">💛</span>Receveur·se</label>
-        <label class="role"><input type="radio" name="role" value="pro"><span class="ic">🏥</span>Professionnel·le</label>
+        <label class="role"><input type="checkbox" name="role" value="donneur"><span class="ic">🩸</span>Donneur·se</label>
+        <label class="role"><input type="checkbox" name="role" value="receveur"><span class="ic">💛</span>Receveur·se</label>
+        <label class="role"><input type="checkbox" name="role" value="pro"><span class="ic">🏥</span>Professionnel·le</label>
       </div>
       <label for="motif">Pourquoi souhaitez-vous tester BeeMyBlood ? (facultatif)</label>
       <textarea id="motif" placeholder="Votre lien avec le don ou la transfusion, ce que vous aimeriez évaluer…"></textarea>
       <button class="btn" id="btn" type="submit">Envoyer ma demande</button>
       <div class="err" id="err"></div>
     </form>
-    <p class="small">Vos nom, courriel, organisation et rôle servent uniquement à gérer l’accès et à documenter le test. Hébergement dans l’UE (Supabase) et en Suisse (Infomaniak), conservation trois ans au plus, suppression sur demande à <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a>. Déjà invité·e ? <a href="../donor/">Espace donneur·se</a> · <a href="../receiver/">Espace receveur·se</a> · <a href="../pro/">Portail professionnel</a>.</p>
+    <p class="small">Vos nom, courriel, organisation et rôle servent uniquement à gérer l’accès et à documenter le test. Hébergement dans l’UE (Supabase) et en Suisse (Infomaniak), conservation trois ans au plus, suppression sur demande à <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a>. Déjà invité·e ? <a href="../connexion/">Se connecter</a>.</p>
   </div>
 </main>
 <footer>© 2026 BeeMyBlood™ · Convivens Lab · HEG Genève (HES-SO) · AGPL-3.0</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 var sb = window.supabase && window.supabase.createClient('https://uyrpozgbfklqfltnduvv.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5cnBvemdiZmtscWZsdG5kdXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjEwNDMsImV4cCI6MjEwNDQzNzA0M30.pKHaT9sBOvWgnNTISgfJ4Gc5N-yiiEmShGl-acPZgVE');
-document.querySelectorAll('.role').forEach(function(l){ l.addEventListener('click', function(){ document.querySelectorAll('.role').forEach(function(x){x.classList.remove('on');}); l.classList.add('on'); }); });
+document.querySelectorAll('.role input').forEach(function(i){ i.addEventListener('change', function(){ i.closest('.role').classList.toggle('on', i.checked); }); });
 document.getElementById('f').addEventListener('submit', function(e){
   e.preventDefault();
   var err=document.getElementById('err'), btn=document.getElementById('btn');
   var nom=document.getElementById('nom').value.trim(), email=document.getElementById('email').value.trim().toLowerCase();
-  var role=(document.querySelector('input[name=role]:checked')||{}).value;
+  var roles=[].slice.call(document.querySelectorAll('input[name=role]:checked')).map(function(i){return i.value;});
   if(nom.length<2){ err.textContent='Indiquez votre prénom et votre nom.'; return; }
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Adresse courriel invalide.'; return; }
-  if(!role){ err.textContent='Choisissez le rôle avec lequel vous souhaitez tester.'; return; }
+  if(!roles.length){ err.textContent='Cochez au moins un espace.'; return; }
   if(!sb){ err.textContent='Le service de demande est indisponible. Écrivez à contact@beemyblood.ch.'; return; }
   err.textContent=''; btn.disabled=true; btn.textContent='Envoi…';
-  sb.rpc('demander_acces', { p:{ nom:nom, email:email, organisation:document.getElementById('org').value.trim(), role:role, motif:document.getElementById('motif').value.trim() } })
+  sb.rpc('demander_acces', { p:{ nom:nom, email:email, organisation:document.getElementById('org').value.trim(), roles:roles, role:roles[0], motif:document.getElementById('motif').value.trim() } })
     .then(function(r){
       if(r.error) throw r.error;
       var deja = r.data && r.data.deja;
       document.getElementById('box').innerHTML = '<h1>Merci, <span>'+nom.replace(/</g,'&lt;')+'</span></h1>'
         + '<div class="ok">'+(deja ? '<b>Une demande est déjà en cours</b> pour '+email+'. Inutile d’en refaire une : vous recevrez votre code d’invitation dès qu’elle sera approuvée.' : '<b>Votre demande est enregistrée.</b> Vous recevrez un code d’invitation à <b>'+email+'</b> une fois la demande approuvée, en général sous 48 h.')
-        + '<br><br>Ensuite : ouvrez votre espace, saisissez votre courriel, validez le code reçu, entrez votre code d’invitation, signez l’accord de confidentialité. C’est tout.</div>'
+        + '<br><br>Ensuite : ouvrez <a href="../connexion/">la page de connexion</a>, saisissez votre courriel, validez le code reçu par courriel, signez l’accord de confidentialité, et choisissez votre espace. C’est tout.</div>'
         + '<p class="small">Une question ? <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a> · <a href="../">Retour à l’accueil</a></p>';
     })
     .catch(function(ex){

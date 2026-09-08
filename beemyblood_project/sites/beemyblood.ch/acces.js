@@ -11,9 +11,12 @@
   if(location.hostname==='www.beemyblood.ch'){ location.replace('https://beemyblood.ch'+location.pathname+location.search+location.hash); return; }
   var SUPABASE_URL = 'https://uyrpozgbfklqfltnduvv.supabase.co';
   var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5cnBvemdiZmtscWZsdG5kdXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjEwNDMsImV4cCI6MjEwNDQzNzA0M30.pKHaT9sBOvWgnNTISgfJ4Gc5N-yiiEmShGl-acPZgVE';
-  // Qui peut entrer où : admin partout, pro partout, receveur dans receveur + donneur, donneur chez lui
-  var DROITS = { admin:['donneur','receveur','pro','admin'], pro:['donneur','receveur','pro'], receveur:['donneur','receveur'], donneur:['donneur'] };
-  var LIBELLES = { donneur:'Espace donneur·se', receveur:'Espace receveur·se', pro:'Portail professionnel', admin:'Administration' };
+  // Espaces : un compte a une liste d'espaces approuvés ; l'admin a tout
+  var LIBELLES = { donneur:'Espace donneur·se', receveur:'Espace receveur·se', pro:'Portail professionnel', admin:'Administration', connexion:'Connexion' };
+  var CHEMINS = { donneur:'donor/', receveur:'receiver/', pro:'pro/', admin:'admin/' };
+  var ICONES = { donneur:'🩸', receveur:'💛', pro:'🏥', admin:'🛠️' };
+  function rolesDe(e){ var r = (e && e.roles && e.roles.length) ? e.roles.slice() : (e && e.role ? [e.role] : []); if(e && (e.admin || e.role==='admin' || r.indexOf('admin')>=0)) r = ['donneur','receveur','pro','admin']; return r; }
+  function peutAcceder(e, espace){ return rolesDe(e).indexOf(espace) >= 0; }
 
   var script = document.currentScript || (function(){ var s=document.querySelectorAll('script[data-espace]'); return s[s.length-1]; })();
   var ESPACE = (script && script.getAttribute('data-espace')) || 'donneur';
@@ -32,6 +35,7 @@
     + '.bmba-in.code{text-align:center;letter-spacing:6px;font-size:22px;font-weight:700}'
     + '.bmba-btn{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#C8A960,#B89730);color:#0a0a12;font:inherit;font-weight:700;font-size:15px;cursor:pointer}.bmba-btn:disabled{opacity:.55;cursor:wait}'
     + '.bmba-btn.sec{background:transparent;color:#C8A960;border:1px solid rgba(200,169,96,.35);margin-top:8px}'
+    + '.bmba-choix{display:block;text-align:center;text-decoration:none;margin-bottom:8px}'
     + '.bmba-err{color:#ff6b6b;font-size:13px;min-height:18px;margin:6px 0 4px}.bmba-ok{color:#4ade80;font-size:13px;margin:6px 0}'
     + '.bmba-foot{margin-top:16px;font-size:12px;color:#5a5a72;text-align:center;line-height:1.6}.bmba-foot a{color:#C8A960;text-decoration:none}'
     + '.bmba-nda{max-height:44vh;overflow:auto;padding:14px 16px;background:#0a0a12;border:1px solid rgba(200,169,96,.18);border-radius:12px;font-size:13.5px;line-height:1.6;color:#d8d3c7;white-space:pre-wrap;margin-bottom:10px}'
@@ -64,7 +68,7 @@
     if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
-  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel à chaque connexion.<br>Hébergé en Suisse et dans l’UE · <a href="'+RACINE+'">Retour à l’accueil</a> · <a href="#" id="bmbaDevLink" style="color:#5a5a72">Accès développeur</a></div>';
+  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel, puis vous restez connecté·e sur cet appareil.<br>Hébergé en Suisse et dans l’UE · <a href="'+RACINE+'">Retour à l’accueil</a> · <a href="#" id="bmbaDevLink" style="color:#5a5a72">Accès développeur</a></div>';
 
   // ---------- Accès rapide développeur (identifiant + mot de passe en dur, session du navigateur seulement) ----------
   var DEV = { id:'developer', mdp:'teambmb' };
@@ -75,7 +79,7 @@
       +'<button class="bmba-btn" id="bmbaDevGo">Entrer</button><button class="bmba-btn sec" id="bmbaDevBack">Retour à la connexion par courriel</button><div class="bmba-err" id="bmbaErr"></div>');
     var go=function(){
       var id=(document.getElementById('bmbaDevId').value||'').trim().toLowerCase(), mdp=document.getElementById('bmbaDevMdp').value||'';
-      if(id===DEV.id && mdp===DEV.mdp){ try{ sessionStorage.setItem('bmba_dev','1'); }catch(e){} etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', dev:true }; deverrouiller(); }
+      if(id===DEV.id && mdp===DEV.mdp){ try{ sessionStorage.setItem('bmba_dev','1'); }catch(e){} etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', roles:['donneur','receveur','pro'], dev:true }; if(ESPACE==='connexion'){ ecranChoix(); } else { deverrouiller(); } }
       else document.getElementById('bmbaErr').textContent='Identifiant ou mot de passe incorrect.';
     };
     document.getElementById('bmbaDevGo').onclick=go;
@@ -160,9 +164,21 @@
     }).catch(function(e){ ecran('<div class="bmba-h">Accord indisponible</div><p class="bmba-p">'+msgErreur(e)+'</p><button class="bmba-btn" onclick="location.reload()">Réessayer</button>'); });
   }
 
+  // ---------- Page de connexion unique : choix de l'espace ----------
+  function ecranChoix(){
+    var r = rolesDe(etat).filter(function(x){ return x!=='admin' || etat.admin; });
+    if(r.length===1){ location.replace(RACINE+CHEMINS[r[0]]); return; }
+    ecran('<div class="bmba-h">Bonjour '+(etat.nom||etat.email)+'</div><p class="bmba-p">Choisissez l’espace à ouvrir. Vous restez connecté·e sur cet appareil.</p>'
+      + r.map(function(x){ return '<a class="bmba-btn bmba-choix" href="'+RACINE+CHEMINS[x]+'">'+ICONES[x]+' '+LIBELLES[x]+'</a>'; }).join('')
+      + '<button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button>');
+    document.getElementById('bmbaOut').onclick=deconnecter;
+  }
+
   function ecranRefus(){
-    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">Votre invitation (« '+etat.role+' ») ne donne pas accès à cet espace. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a> pour l’étendre.</p>'
-      +'<a class="bmba-btn" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'">Retour à l’accueil</a><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button>');
+    var r = rolesDe(etat).filter(function(x){ return x!=='admin'; });
+    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">Votre accès couvre : '+(r.length? r.map(function(x){return LIBELLES[x];}).join(', ') : 'aucun espace')+'. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a> pour l’étendre à cet espace.</p>'
+      + r.map(function(x){ return '<a class="bmba-btn bmba-choix" href="'+RACINE+CHEMINS[x]+'">'+ICONES[x]+' '+LIBELLES[x]+'</a>'; }).join('')
+      +'<a class="bmba-btn sec" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'">Retour à l’accueil</a><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button>');
     document.getElementById('bmbaOut').onclick = deconnecter;
   }
 
@@ -178,7 +194,7 @@
     document.body.style.overflow='';
     if(!document.querySelector('.bmba-user')){
       var u=document.createElement('div'); u.className='bmba-user';
-      u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b> · '+etat.role+'</span><button type="button" title="Se déconnecter">Quitter</button>';
+      u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b></span><a href="'+RACINE+'connexion/" title="Changer d’espace" style="color:#C8A960;text-decoration:none">Espaces</a><button type="button" title="Se déconnecter">Quitter</button>';
       u.querySelector('button').onclick=deconnecter; document.body.appendChild(u);
       // se place juste au-dessus du bouton Lexique (bas gauche), jamais sur les menus de la page
       var placer=function(){ var pill=document.querySelector('.bmb-pill'); u.style.bottom = pill ? (parseInt(getComputedStyle(pill).bottom,10)+38)+'px' : '14px'; };
@@ -191,7 +207,7 @@
 
   // ---------- Orchestration ----------
   function suite(){
-    if(etatDev()){ etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', dev:true }; deverrouiller(); return Promise.resolve(); }
+    if(etatDev()){ etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', roles:['donneur','receveur','pro'], dev:true }; if(ESPACE==='connexion'){ ecranChoix(); } else { deverrouiller(); } return Promise.resolve(); }
     return sb.auth.getSession().then(function(s){
       if(!s.data || !s.data.session){ etat=null; var pre=''; try{ pre=localStorage.getItem('bmba_email')||''; }catch(e){} ecranCourriel(pre); return null; }
       return sb.rpc('mon_etat');
@@ -202,7 +218,8 @@
       if(!etat.connecte){ ecranCourriel(); return; }
       if(!etat.acces){ ecranInvitation(); return; }
       if(!etat.nda_signe){ ecranNda(); return; }
-      if((DROITS[etat.role]||[]).indexOf(ESPACE) < 0){ ecranRefus(); return; }
+      if(ESPACE==='connexion'){ ecranChoix(); return; }
+      if(!peutAcceder(etat, ESPACE)){ ecranRefus(); return; }
       deverrouiller();
     }).catch(function(e){ ecran('<div class="bmba-h">Connexion impossible</div><p class="bmba-p">'+msgErreur(e)+'</p><button class="bmba-btn" onclick="location.reload()">Réessayer</button>'+pied); });
   }

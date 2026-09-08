@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.2.2 — 2026-09-08 — single login page, multi-space requests, no invitation code
+
+### Added
+- `connexion/`: one login page for everyone. After the email code and the NDA, it lists the spaces the account may open, or redirects directly when there is only one. Linked from the landing page, the request form and the session badge ("Espaces").
+- Access requests can target one, two or three spaces (checkboxes); the administrator approves any subset, can change it later ("Mettre à jour"), and the prefilled confirmation email lists the opened spaces and the ones left closed. SQL: `supabase/2026-09-08-multi-espaces.sql` (columns `roles`, `roles_approuves` on requests and `roles` on accounts; updated functions).
+
+### Changed
+- No more invitation code: an approved request activates by itself at the first login with the approved email (`supabase/2026-09-08-activation-automatique.sql`). The status screen explains pending, refused or missing requests.
+- Login wording says "code de connexion à chiffres" everywhere and accepts 6 to 8 digits; codes of never-confirmed accounts are accepted too; www.beemyblood.ch redirects to beemyblood.ch so the remembered session is shared.
+- Session badge moved to the bottom-left above the glossary button, off the page menus.
+
+### Operations
+- Email templates (Magic Link and Confirm signup) must contain only `{{ .Token }}`, no link: the Infomaniak SMTP quoted-printable wrap corrupts the token inside links.
+
 ## v0.2.1 — 2026-09-08 — developer quick access
 
 ### Added

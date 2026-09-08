@@ -47,7 +47,8 @@ beemyblood_project/sites/beemyblood.ch/   # deployable web root (upload as-is to
 ├── api.php                    # BeeBot proxy for the landing/alpha pages
 ├── lexique.js                 # shared glossary: acronyms explained on hover/tap + full list
 ├── acces.js                   # shared alpha access: email code, invitation, NDA (Supabase)
-├── acces/index.html           # public access request form
+├── acces/index.html           # public access request form (1 to 3 spaces)
+├── connexion/index.html       # single login page, then choice of space
 ├── admin/index.html           # admin: approve requests, codes, signatures, journal
 ├── config.example.php         # copy to config.php and add your Anthropic API key
 └── alpha_index.html, old_index.html, index_landing_classic.html   # earlier versions

@@ -50,7 +50,7 @@ tr:last-child td{border-bottom:none}
   <div class="card hidden" id="pan-acces"><h2>Comptes activés</h2><div class="wrap" id="acces"></div></div>
   <div class="card hidden" id="pan-signatures"><h2>Accords de confidentialité signés</h2><div class="wrap" id="signatures"></div></div>
   <div class="card hidden" id="pan-journal"><h2>Journal des accès (200 derniers)</h2><div class="wrap" id="journal"></div></div>
-  <p class="muted">Approuver ouvre l’accès pour l’adresse du demandeur pendant 30 jours : dès sa première connexion avec cette adresse, le compte est activé, sans code à saisir. Pensez à lui envoyer le courriel d’invitation (bouton ✉️). Les données ne sont accessibles qu’aux adresses listées dans la table <code>admins</code>.</p>
+  <p class="muted">Cochez les espaces à ouvrir puis approuvez : l’accès est lié à l’adresse du demandeur, s’active à sa première connexion et peut être modifié ensuite (« Mettre à jour »). Le courriel de confirmation (bouton ✉️) liste les espaces ouverts et, le cas échéant, ceux qui ne le sont pas. Les données ne sont accessibles qu’aux adresses listées dans la table <code>admins</code>.</p>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="admin" data-racine="../" defer></script>
@@ -58,12 +58,21 @@ tr:last-child td{border-bottom:none}
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 function dt(s){ return s ? new Date(s).toLocaleString('fr-CH',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}) : ''; }
 var ROLES={donneur:'Donneur·se',receveur:'Receveur·se',pro:'Professionnel·le',admin:'Admin'};
+var URLS={donneur:'https://beemyblood.ch/donor/',receveur:'https://beemyblood.ch/receiver/',pro:'https://beemyblood.ch/pro/'};
+function rolesDe(d){ return (d.roles_approuves&&d.roles_approuves.length)?d.roles_approuves:(d.roles&&d.roles.length?d.roles:(d.role?[d.role]:[])); }
+function libRoles(r){ return (r||[]).map(function(x){return ROLES[x]||x;}).join(', '); }
 var sb, codes={};
 document.querySelectorAll('.tab').forEach(function(t){ t.onclick=function(){ document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===t);}); ['demandes','acces','signatures','journal'].forEach(function(p){ document.getElementById('pan-'+p).classList.toggle('hidden', p!==t.dataset.t); }); }; });
 
-function lienCourriel(d, code){
-  var sujet='Votre invitation à la version alpha de BeeMyBlood';
-  var corps='Bonjour '+d.nom+',\n\nVotre demande d’accès à BeeMyBlood (rôle : '+(ROLES[d.role]||d.role)+') est approuvée. Votre accès est ouvert pour l’adresse '+d.email+' pendant 30 jours ; il devient permanent à votre première connexion.\n\nPour entrer :\n1. Ouvrez https://beemyblood.ch/'+(d.role==='pro'?'pro/':d.role==='receveur'?'receiver/':'donor/')+'\n2. Saisissez cette adresse courriel : vous recevez aussitôt un code de connexion à chiffres par courriel (il n’y a pas de mot de passe)\n3. Validez ce code, puis lisez et signez l’accord de confidentialité à l’écran\n\nLes données affichées sont fictives ou simulées : n’y saisissez aucune donnée réelle de patient. Merci pour votre aide, vos retours sont précieux.\n\nDavid-Zacharie Issom\nConvivens Lab, HEG Genève (HES-SO)\ncontact@beemyblood.ch';
+function lienCourriel(d){
+  var appr=(d.roles_approuves&&d.roles_approuves.length)?d.roles_approuves:rolesDe(d);
+  var dem=(d.roles&&d.roles.length)?d.roles:appr;
+  var refus=dem.filter(function(x){return appr.indexOf(x)<0;});
+  var sujet='Votre accès à la version alpha de BeeMyBlood';
+  var corps='Bonjour '+d.nom+',\n\nVotre demande d’accès à BeeMyBlood est approuvée pour '+(appr.length>1?'les espaces suivants':'l’espace suivant')+' :\n'
+    + appr.map(function(x){return '• '+ROLES[x]+' — '+URLS[x];}).join('\n')
+    + (refus.length? '\n\nNon ouvert pour l’instant : '+libRoles(refus)+'. Nous reviendrons vers vous si cela évolue.' : '')
+    + '\n\nVotre accès est lié à l’adresse '+d.email+' et reste ouvert 30 jours pour une première connexion ; ensuite il est permanent.\n\nPour entrer :\n1. Ouvrez https://beemyblood.ch/connexion/\n2. Saisissez cette adresse courriel : vous recevez aussitôt un code de connexion à chiffres (il n’y a pas de mot de passe) et vous restez connecté·e sur votre appareil\n3. Lisez et signez l’accord de confidentialité, puis choisissez votre espace\n\nLes données affichées sont fictives ou simulées : n’y saisissez aucune donnée réelle de patient. Merci pour votre aide, vos retours sont précieux.\n\nDavid-Zacharie Issom\nConvivens Lab, HEG Genève (HES-SO)\ncontact@beemyblood.ch';
   return 'mailto:'+encodeURIComponent(d.email)+'?subject='+encodeURIComponent(sujet)+'&body='+encodeURIComponent(corps);
 }
 
@@ -72,13 +81,14 @@ function chargerDemandes(){
     if(r.error) throw r.error;
     var rows=r.data||[]; var attente=rows.filter(function(d){return d.statut==='en_attente';}).length;
     document.getElementById('nbAttente').textContent=attente+' en attente';
-    document.getElementById('demandes').innerHTML = rows.length ? '<table><tr><th>Date</th><th>Nom</th><th>Courriel</th><th>Rôle</th><th>Organisation / motif</th><th>Statut</th><th></th></tr>'
+    document.getElementById('demandes').innerHTML = rows.length ? '<table><tr><th>Date</th><th>Nom</th><th>Courriel</th><th>Espaces</th><th>Organisation / motif</th><th>Statut</th><th></th></tr>'
       + rows.map(function(d){
         var code=codes[d.id];
-        var act = d.statut==='en_attente' ? '<button class="b p" data-a="ok" data-id="'+d.id+'">Approuver</button> <button class="b d" data-a="non" data-id="'+d.id+'">Refuser</button>'
-                : d.statut==='approuvee' ? '<div class="mail">Accès ouvert jusqu’au '+dt(d.code_expire_le)+' · <a href="'+lienCourriel(d,'')+'">✉️ Envoyer le courriel d’invitation</a></div> <button class="b" data-a="ok" data-id="'+d.id+'" title="Prolonge l’ouverture de 30 jours">Prolonger</button>'
-                : d.statut==='activee' ? '<span class="muted">compte actif</span>' : '<span class="muted">'+esc(d.note_admin||'')+'</span>';
-        return '<tr><td class="muted">'+dt(d.cree_le)+'</td><td>'+esc(d.nom)+'</td><td>'+esc(d.email)+'</td><td>'+(ROLES[d.role]||esc(d.role))+'</td><td><b>'+esc(d.organisation||'')+'</b><br><span class="muted">'+esc(d.motif||'')+'</span></td><td><span class="st '+d.statut+'">'+d.statut.replace('_',' ')+'</span></td><td>'+act+'</td></tr>';
+        var cases = ['donneur','receveur','pro'].map(function(x){ return '<label style="display:inline-flex;gap:4px;align-items:center;margin-right:8px;font-size:12px"><input type="checkbox" data-role="'+x+'" '+((d.roles||[]).indexOf(x)>=0?'checked':'')+'> '+ROLES[x]+'</label>'; }).join('');
+        var act = d.statut==='en_attente' ? '<div style="margin-bottom:6px">'+cases+'</div><button class="b p" data-a="ok" data-id="'+d.id+'">Approuver les espaces cochés</button> <button class="b d" data-a="non" data-id="'+d.id+'">Refuser</button>'
+                : d.statut==='approuvee' ? '<div class="mail">Ouvert jusqu’au '+dt(d.code_expire_le)+' · <a href="'+lienCourriel(d)+'">✉️ Envoyer le courriel de confirmation</a></div><div style="margin:6px 0">'+cases.replace(/checked/g,'').replace(/data-role="(donneur|receveur|pro)"/g,function(m0,x){ return 'data-role="'+x+'"'+((d.roles_approuves||[]).indexOf(x)>=0?' checked':''); })+'</div><button class="b" data-a="ok" data-id="'+d.id+'" title="Met à jour les espaces et prolonge de 30 jours">Mettre à jour</button>'
+                : d.statut==='activee' ? '<span class="muted">compte actif · '+libRoles(d.roles_approuves)+'</span><div style="margin:6px 0">'+cases.replace(/checked/g,'').replace(/data-role="(donneur|receveur|pro)"/g,function(m0,x){ return 'data-role="'+x+'"'+((d.roles_approuves||[]).indexOf(x)>=0?' checked':''); })+'</div><button class="b" data-a="ok" data-id="'+d.id+'" title="Modifie les espaces du compte">Mettre à jour</button>' : '<span class="muted">'+esc(d.note_admin||'')+'</span>';
+        return '<tr><td class="muted">'+dt(d.cree_le)+'</td><td>'+esc(d.nom)+'</td><td>'+esc(d.email)+'</td><td>'+libRoles(d.roles&&d.roles.length?d.roles:[d.role])+(d.roles_approuves&&d.statut!=='en_attente'?'<br><span class="muted">approuvé : '+libRoles(d.roles_approuves)+'</span>':'')+'</td><td><b>'+esc(d.organisation||'')+'</b><br><span class="muted">'+esc(d.motif||'')+'</span></td><td><span class="st '+d.statut+'">'+d.statut.replace('_',' ')+'</span></td><td>'+act+'</td></tr>';
       }).join('')+'</table>' : '<p class="muted">Aucune demande pour le moment.</p>';
   }).catch(function(e){ document.getElementById('demandes').innerHTML='<p style="color:var(--red)">'+esc(e.message)+'</p>'; });
 }
@@ -86,7 +96,7 @@ function chargerTableau(){
   sb.rpc('admin_tableau').then(function(r){
     if(r.error||!r.data) throw (r.error||new Error('non admin'));
     var t=r.data;
-    document.getElementById('acces').innerHTML = t.acces.length ? '<table><tr><th>Activé le</th><th>Nom</th><th>Courriel</th><th>Rôle</th></tr>'+t.acces.map(function(a){return '<tr><td class="muted">'+dt(a.active_le)+'</td><td>'+esc(a.nom)+'</td><td>'+esc(a.email)+'</td><td>'+(ROLES[a.role]||esc(a.role))+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Aucun compte activé.</p>';
+    document.getElementById('acces').innerHTML = t.acces.length ? '<table><tr><th>Activé le</th><th>Nom</th><th>Courriel</th><th>Espaces</th></tr>'+t.acces.map(function(a){return '<tr><td class="muted">'+dt(a.active_le)+'</td><td>'+esc(a.nom)+'</td><td>'+esc(a.email)+'</td><td>'+libRoles(a.roles&&a.roles.length?a.roles:[a.role])+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Aucun compte activé.</p>';
     document.getElementById('signatures').innerHTML = t.signatures.length ? '<table><tr><th>Signé le</th><th>Nom signé</th><th>Courriel</th><th>Version</th></tr>'+t.signatures.map(function(s){return '<tr><td class="muted">'+dt(s.signe_le)+'</td><td>'+esc(s.nom_signe)+'</td><td>'+esc(s.email)+'</td><td>'+esc(s.version)+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Aucune signature.</p>';
     document.getElementById('journal').innerHTML = t.journal.length ? '<table><tr><th>Quand</th><th>Courriel</th><th>Espace</th></tr>'+t.journal.map(function(j){return '<tr><td class="muted">'+dt(j.at)+'</td><td>'+esc(j.email)+'</td><td>'+esc(j.espace)+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Journal vide.</p>';
   }).catch(function(e){ document.getElementById('acces').innerHTML='<p style="color:var(--red)">'+esc(e.message)+'</p>'; });
@@ -95,7 +105,9 @@ document.getElementById('demandes').addEventListener('click', function(e){
   var b=e.target.closest('button[data-a]'); if(!b) return;
   var id=b.dataset.id; b.disabled=true;
   if(b.dataset.a==='ok'){
-    sb.rpc('admin_approuver',{p_id:id,p_jours:30}).then(function(r){ if(r.error) throw r.error; codes[id]=r.data.code; chargerDemandes(); chargerTableau(); }).catch(function(ex){ alert(ex.message); b.disabled=false; });
+    var roles=[].slice.call(b.closest('td').querySelectorAll('input[data-role]:checked')).map(function(i){return i.dataset.role;});
+    if(!roles.length){ alert('Cochez au moins un espace.'); b.disabled=false; return; }
+    sb.rpc('admin_approuver',{p_id:id,p_roles:roles,p_jours:30}).then(function(r){ if(r.error) throw r.error; chargerDemandes(); chargerTableau(); }).catch(function(ex){ alert(ex.message); b.disabled=false; });
   } else {
     var note=prompt('Motif du refus (facultatif, visible dans la liste) :','');
     if(note===null){ b.disabled=false; return; }

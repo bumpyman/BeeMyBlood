@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>BeeMyBlood™ — Se connecter</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a12;color:#f0ece2;font-family:'DM Sans',sans-serif;min-height:100vh}
+.fallback{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;color:#8b8b9e;font-size:14px}
+.fallback a{color:#C8A960}
+</style>
+</head>
+<body>
+<div class="fallback" id="fallback">Chargement de la connexion… <br><br>Si rien ne s’affiche, <a href="../">retournez à l’accueil</a>.</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="connexion" data-racine="../" defer></script>
+</body>
+</html>
