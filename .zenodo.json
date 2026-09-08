@@ -1,0 +1,32 @@
+{
+  "title": "BeeMyBlood: an open platform connecting blood donors, recipients and transfusion professionals in Switzerland",
+  "description": "<p>BeeMyBlood is an open-source digital platform for the blood supply chain: a donor space (eligibility test, centres and collections, HémoRush game), a recipient space (transfusion journey, iron chelation, rights), a professional portal (stocks, cartography, rare phenotypes, digital twin with scenario simulation) and Claude-based BeeBot assistants aligned with the criteria of Transfusion CRS Suisse. It shows official daily data (blood-group barometer, collection dates, news) and runs an invitation-based alpha with email login and an on-screen confidentiality agreement.</p><p>Developed at Convivens Lab, Haute école de gestion de Genève (HES-SO), with the Geneva University Hospitals transfusion centre (CTS HUG), SIMED (University of Geneva) and Transfusion Interrégionale CRS. Live demo: <a href=\"https://beemyblood.ch\">beemyblood.ch</a>.</p>",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "AGPL-3.0-or-later",
+  "creators": [
+    {
+      "name": "Issom, David-Zacharie",
+      "affiliation": "Convivens Lab, Haute école de gestion de Genève (HES-SO)"
+    }
+  ],
+  "keywords": [
+    "blood donation",
+    "transfusion medicine",
+    "digital health",
+    "digital twin",
+    "health equity",
+    "rare blood phenotypes",
+    "Switzerland",
+    "open source"
+  ],
+  "language": "fra",
+  "related_identifiers": [
+    {
+      "identifier": "https://beemyblood.ch",
+      "relation": "isSupplementTo",
+      "resource_type": "other",
+      "scheme": "url"
+    }
+  ]
+}

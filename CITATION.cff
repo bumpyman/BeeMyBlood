@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use BeeMyBlood, please cite it as below."
+type: software
+title: "BeeMyBlood: an open platform connecting blood donors, recipients and transfusion professionals in Switzerland"
+abstract: "BeeMyBlood is an open-source digital platform for the blood supply chain: a donor space (eligibility, centres, collections, game), a recipient space (transfusion journey, iron chelation, rights), a professional portal (stocks, cartography, rare phenotypes, digital twin), and Claude-based BeeBot assistants aligned with Swiss Red Cross transfusion criteria. Developed at Convivens Lab, HEG Geneva (HES-SO), with the Geneva University Hospitals transfusion centre, SIMED (University of Geneva) and Transfusion Interrégionale CRS."
+authors:
+  - family-names: Issom
+    given-names: David-Zacharie
+    affiliation: "Convivens Lab, Haute école de gestion de Genève (HES-SO)"
+repository-code: "https://github.com/bumpyman/BeeMyBlood"
+url: "https://beemyblood.ch"
+license: AGPL-3.0-or-later
+keywords:
+  - blood donation
+  - transfusion medicine
+  - digital health
+  - digital twin
+  - health equity
+  - Switzerland
+  - open source
+version: 0.4.7
+date-released: 2026-09-08
