@@ -108,7 +108,9 @@
       var token=(document.getElementById('bmbaOtp').value||'').replace(/\D/g,'');
       if(token.length<6){ document.getElementById('bmbaErr').textContent='Le code comporte 6 à 8 chiffres.'; return; }
       var b=document.getElementById('bmbaVerif'); b.disabled=true; b.textContent='Vérification…';
+      // Un compte jamais confirmé reçoit un code de type « signup » : on essaie les deux types
       sb.auth.verifyOtp({ email:email, token:token, type:'email' })
+        .then(function(r){ if(!r.error) return r; return sb.auth.verifyOtp({ email:email, token:token, type:'signup' }).then(function(r2){ return r2.error ? r : r2; }); })
         .then(function(r){ if(r.error) throw r.error; return suite(); })
         .catch(function(e){ b.disabled=false; b.textContent='Valider'; document.getElementById('bmbaErr').textContent=msgErreur(e); });
     };
