@@ -50,7 +50,7 @@
     ['Système compagnon', 'Logiciel qui s\'ajoute aux systèmes existants sans les remplacer : il lit d\'abord, écrit ensuite.'],
     ['Primo-donneur', 'Personne qui donne son sang pour la première fois.'],
     ['Collecte mobile', 'Don du sang organisé hors du centre, dans un bus ou une salle communale, une école, une entreprise.'],
-    ['TIR', 'Transfusion Interrégionale CRS : service de transfusion de Suisse romande (Épalinges, Vaud).'],
+    ['TIR', 'Transfusion Interrégionale CRS : le service de transfusion des cantons de Berne, Vaud et Valais.'],
     ['Simulation', 'Calcul qui rejoue une situation (un stock, une collecte) plusieurs fois avec un peu de hasard, pour voir ce qui arrive le plus souvent.'],
     ['Scénario', 'Situation hypothétique que l\'on teste dans le jumeau numérique : vacances, pandémie, campagne, appel d\'urgence.'],
     ['Valeur la plus probable', 'Le résultat du milieu quand on classe toutes les simulations : la moitié donne plus, la moitié donne moins (la médiane).'],

@@ -25,7 +25,7 @@ $FORCE    = isset($_GET['force']) && $_GET['force'] === '1';
 
 $INSTITUTS = [
     'geneve'         => ['label' => 'Genève (CTS HUG)',                 'court' => 'Genève'],
-    'irb'            => ['label' => 'Transfusion Interrégionale CRS',   'court' => 'Interrégionale'],
+    'irb'            => ['label' => 'Transfusion Interrégionale CRS · Berne, Vaud, Valais', 'court' => 'Interrégionale (BE, VD, VS)'],
     'gesamt'         => ['label' => 'Suisse entière',                   'court' => 'Suisse'],
     'zuerich'        => ['label' => 'Zurich',                           'court' => 'Zurich'],
     'basel'          => ['label' => 'Bâle',                             'court' => 'Bâle'],
