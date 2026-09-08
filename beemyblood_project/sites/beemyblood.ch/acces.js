@@ -12,16 +12,18 @@
   var SUPABASE_URL = 'https://uyrpozgbfklqfltnduvv.supabase.co';
   var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5cnBvemdiZmtscWZsdG5kdXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjEwNDMsImV4cCI6MjEwNDQzNzA0M30.pKHaT9sBOvWgnNTISgfJ4Gc5N-yiiEmShGl-acPZgVE';
   // Espaces : un compte a une liste d'espaces approuvés ; l'admin a tout
-  var LIBELLES = { donneur:'Espace donneur·se', receveur:'Espace receveur·se', pro:'Portail professionnel', admin:'Administration', connexion:'Connexion' };
+  var LIBELLES = { donneur:'Espace donneur·se', receveur:'Espace receveur·se', pro:'Portail professionnel', admin:'Administration', connexion:'Connexion', developpeur:'Développeur' };
   var CHEMINS = { donneur:'donor/', receveur:'receiver/', pro:'pro/', admin:'admin/' };
   var ICONES = { donneur:'🩸', receveur:'💛', pro:'🏥', admin:'🛠️' };
-  function rolesDe(e){ var r = (e && e.roles && e.roles.length) ? e.roles.slice() : (e && e.role ? [e.role] : []); if(e && (e.admin || e.role==='admin' || r.indexOf('admin')>=0)) r = ['donneur','receveur','pro','admin']; return r; }
+  function rolesDe(e){ var r = (e && e.roles && e.roles.length) ? e.roles.slice() : (e && e.role ? [e.role] : []); if(e && (e.admin || e.developpeur || e.role==='admin' || r.indexOf('admin')>=0 || r.indexOf('developpeur')>=0)) r = ['donneur','receveur','pro','admin']; return r.filter(function(x){ return x!=='developpeur'; }); }
   function peutAcceder(e, espace){ return rolesDe(e).indexOf(espace) >= 0; }
 
   var script = document.currentScript || (function(){ var s=document.querySelectorAll('script[data-espace]'); return s[s.length-1]; })();
   var ESPACE = (script && script.getAttribute('data-espace')) || 'donneur';
   var RACINE = (script && script.getAttribute('data-racine')) || '../';
-  var sb = null, etat = null, callbacks = [];
+  // Mode public : la page reste visible sans compte ; la connexion n'est demandée qu'au moment d'ouvrir une fonction réservée
+  var PUBLIC = !!(script && script.getAttribute('data-public'));
+  var sb = null, etat = null, callbacks = [], attente = null, deverrouille = false;
 
   var css = '.bmba-wrap{position:fixed;inset:0;z-index:100050;background:#0a0a12;color:#f0ece2;display:flex;align-items:center;justify-content:center;padding:18px;font:15px/1.55 "DM Sans",system-ui,sans-serif;overflow:auto}'
     + '.bmba-wrap *{box-sizing:border-box}'
@@ -42,7 +44,8 @@
     + '.bmba-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:8px 0 12px;cursor:pointer}.bmba-check input{width:18px;height:18px;accent-color:#C8A960;margin-top:2px;flex:none}'
     + '.bmba-user{position:fixed;left:12px;bottom:52px;z-index:100040;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:12px "DM Sans",system-ui,sans-serif;color:#8b8b9e;background:rgba(18,18,30,.9);border:1px solid rgba(200,169,96,.2);border-radius:99px;padding:5px 10px;display:flex;gap:8px;align-items:center;backdrop-filter:blur(8px)}'
     + '.bmba-user b{color:#E8D5A3;font-weight:600}.bmba-user button{background:none;border:none;color:#C8A960;cursor:pointer;font:inherit;padding:0}'
-    + '@media(max-width:640px){.bmba-box{padding:22px 16px 18px;border-radius:14px}.bmba-user{font-size:11px;left:10px;padding:4px 9px}}';
+    + '.bmba-menu{position:fixed;z-index:100045;left:10px;background:#12121e;color:#f0ece2;border:1px solid rgba(200,169,96,.3);border-radius:12px;padding:10px 12px;font:13px/1.6 "DM Sans",system-ui,sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.5);min-width:200px}.bmba-menu b{color:#E8D5A3;display:block;margin-bottom:4px}.bmba-menu a,.bmba-menu button{display:block;width:100%;text-align:left;background:none;border:0;color:#C8A960;font:inherit;padding:6px 0;cursor:pointer;text-decoration:none}'
+    + '@media(max-width:640px){.bmba-box{padding:22px 16px 18px;border-radius:14px}.bmba-user{left:54px;width:38px;height:38px;padding:0;border-radius:50%;justify-content:center;font-size:17px;max-width:none;overflow:visible}.bmba-user span,.bmba-user a,.bmba-user button{display:none}.bmba-user::before{content:"👤"}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   // Neutralise les anciens écrans d'accès de la page (codés en dur), sans les supprimer
@@ -68,31 +71,14 @@
     if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
-  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel, puis vous restez connecté·e sur cet appareil.<br>Hébergé en Suisse et dans l’UE · <a href="'+RACINE+'">Retour à l’accueil</a> · <a href="#" id="bmbaDevLink" style="color:#5a5a72">Accès développeur</a></div>';
-
-  // ---------- Accès rapide développeur (identifiant + mot de passe en dur, session du navigateur seulement) ----------
-  var DEV = { id:'developer', mdp:'teambmb' };
-  function etatDev(){ try{ return sessionStorage.getItem('bmba_dev')==='1'; }catch(e){ return false; } }
-  function ecranDev(){
-    ecran('<div class="bmba-h">Accès développeur</div><p class="bmba-p">Entrée directe pour l’équipe, sans courriel ni NDA. Valable pour cet onglet uniquement, rien n’est enregistré côté serveur.</p>'
-      +'<input class="bmba-in" id="bmbaDevId" placeholder="Identifiant" autocomplete="username"><input class="bmba-in" id="bmbaDevMdp" type="password" placeholder="Mot de passe" autocomplete="current-password">'
-      +'<button class="bmba-btn" id="bmbaDevGo">Entrer</button><button class="bmba-btn sec" id="bmbaDevBack">Retour à la connexion par courriel</button><div class="bmba-err" id="bmbaErr"></div>');
-    var go=function(){
-      var id=(document.getElementById('bmbaDevId').value||'').trim().toLowerCase(), mdp=document.getElementById('bmbaDevMdp').value||'';
-      if(id===DEV.id && mdp===DEV.mdp){ try{ sessionStorage.setItem('bmba_dev','1'); }catch(e){} etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', roles:['donneur','receveur','pro'], dev:true }; if(ESPACE==='connexion'){ ecranChoix(); } else { deverrouiller(); } }
-      else document.getElementById('bmbaErr').textContent='Identifiant ou mot de passe incorrect.';
-    };
-    document.getElementById('bmbaDevGo').onclick=go;
-    document.getElementById('bmbaDevMdp').addEventListener('keydown',function(e){ if(e.key==='Enter') go(); });
-    document.getElementById('bmbaDevBack').onclick=function(){ ecranCourriel(); };
-  }
-  document.addEventListener('click', function(e){ if(e.target && e.target.id==='bmbaDevLink'){ e.preventDefault(); ecranDev(); } });
+  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel, puis vous restez connecté·e sur cet appareil.<br>Hébergé en Suisse et dans l’UE · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
 
   // ---------- Étape 1 : courriel ----------
   function ecranCourriel(pre){
-    ecran(etapes(1)+'<div class="bmba-h">Connexion par courriel</div><p class="bmba-p">Saisissez l’adresse avec laquelle votre accès a été approuvé. Un <b>code de connexion à chiffres</b> vous est envoyé par courriel à chaque connexion ; il remplace le mot de passe.</p>'
+    ecran(etapes(1)+'<div class="bmba-h">'+(PUBLIC?'Fonction réservée aux testeurs invités':'Connexion par courriel')+'</div><p class="bmba-p">'+(PUBLIC?'Le test d’éligibilité, la carte des centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Le reste (tableau de bord, défis, flux, HémoRush, impact, profil) est réservé aux personnes invitées. ':'')+'Saisissez l’adresse avec laquelle votre accès a été approuvé. Un <b>code de connexion à chiffres</b> vous est envoyé par courriel à chaque connexion ; il remplace le mot de passe.</p>'
       +'<input class="bmba-in" id="bmbaEmail" type="email" autocomplete="email" inputmode="email" placeholder="prenom.nom@exemple.ch" value="'+(pre||'')+'">'
-      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code de connexion</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
+      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code de connexion</button>'+(PUBLIC?'<button class="bmba-btn sec" id="bmbaLibre">Continuer sans compte</button>':'')+'<div class="bmba-err" id="bmbaErr"></div>'+pied);
+    var libre=document.getElementById('bmbaLibre'); if(libre) libre.onclick=function(){ attente=null; fermer(); };
     var go = function(){
       var email = (document.getElementById('bmbaEmail').value||'').trim().toLowerCase();
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ document.getElementById('bmbaErr').textContent='Adresse courriel invalide.'; return; }
@@ -166,7 +152,7 @@
 
   // ---------- Page de connexion unique : choix de l'espace ----------
   function ecranChoix(){
-    var r = rolesDe(etat).filter(function(x){ return x!=='admin' || etat.admin; });
+    var r = rolesDe(etat).filter(function(x){ return x!=='admin' || etat.admin || etat.developpeur; });
     if(r.length===1){ location.replace(RACINE+CHEMINS[r[0]]); return; }
     ecran('<div class="bmba-h">Bonjour '+(etat.nom||etat.email)+'</div><p class="bmba-p">Choisissez l’espace à ouvrir. Vous restez connecté·e sur cet appareil.</p>'
       + r.map(function(x){ return '<a class="bmba-btn bmba-choix" href="'+RACINE+CHEMINS[x]+'">'+ICONES[x]+' '+LIBELLES[x]+'</a>'; }).join('')
@@ -182,11 +168,11 @@
     document.getElementById('bmbaOut').onclick = deconnecter;
   }
 
-  function deconnecter(){ try{ sessionStorage.removeItem('bmba_dev'); }catch(e){} sb.auth.signOut().then(function(){ etat=null; ecranCourriel(); var u=document.querySelector('.bmba-user'); if(u) u.remove(); }); }
+  function deconnecter(){ sb.auth.signOut().then(function(){ etat=null; deverrouille=false; var u=document.querySelector('.bmba-user'); if(u) u.remove(); if(PUBLIC){ location.reload(); } else { ecranCourriel(); } }); }
 
   // ---------- Déverrouillage de la page ----------
   function deverrouiller(){
-    fermer();
+    fermer(); deverrouille = true; document.body.classList.remove('bmb-public'); document.body.classList.add('bmb-alpha');
     var el;
     if((el=document.getElementById('gate-overlay'))) el.remove();                              // espace donneur
     if((el=document.getElementById('gate'))) el.style.display='none';                           // espace receveur
@@ -194,22 +180,24 @@
     document.body.style.overflow='';
     if(!document.querySelector('.bmba-user')){
       var u=document.createElement('div'); u.className='bmba-user';
-      u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b></span><a href="'+RACINE+'connexion/" title="Changer d’espace" style="color:#C8A960;text-decoration:none">Espaces</a><button type="button" title="Se déconnecter">Quitter</button>';
+      u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b>'+(etat.developpeur?' · dev':'')+'</span><a href="'+RACINE+'connexion/" title="Changer d’espace" style="color:#C8A960;text-decoration:none">Espaces</a><button type="button" title="Se déconnecter">Quitter</button>';
       u.querySelector('button').onclick=deconnecter; document.body.appendChild(u);
+      // sur mobile la pastille ouvre un petit menu (nom, espaces, quitter)
+      u.addEventListener('click', function(ev){ if(window.innerWidth>640) return; if(ev.target.tagName==='BUTTON'||ev.target.tagName==='A') return; var old=document.querySelector('.bmba-menu'); if(old){ old.remove(); return; } var m=document.createElement('div'); m.className='bmba-menu'; m.innerHTML='<b>'+(etat.nom||etat.email)+'</b><a href="'+RACINE+'connexion/">Changer d’espace</a><button type="button">Se déconnecter</button>'; m.querySelector('button').onclick=deconnecter; m.style.bottom=(parseInt(getComputedStyle(u).bottom,10)+46)+'px'; document.body.appendChild(m); setTimeout(function(){ document.addEventListener('click', function h(e2){ if(!m.contains(e2.target)&&e2.target!==u){ m.remove(); document.removeEventListener('click',h); } }); },0); });
       // se place juste au-dessus du bouton Lexique (bas gauche), jamais sur les menus de la page
-      var placer=function(){ var pill=document.querySelector('.bmb-pill'); u.style.bottom = pill ? (parseInt(getComputedStyle(pill).bottom,10)+38)+'px' : '14px'; };
+      var placer=function(){ var pill=document.querySelector('.bmb-pill'); u.style.bottom = pill ? (parseInt(getComputedStyle(pill).bottom,10)+(window.innerWidth<=640?0:38))+'px' : '14px'; };
       placer(); setTimeout(placer,900); setTimeout(placer,2500); window.addEventListener('resize',placer);
     }
-    if(!etat.dev) sb.rpc('journaliser_acces', { p_espace: ESPACE }).then(function(){}, function(){});
+    sb.rpc('journaliser_acces', { p_espace: ESPACE }).then(function(){}, function(){});
     if(typeof window.bmbDeverrouiller==='function'){ try{ window.bmbDeverrouiller(etat); }catch(e){} }
     callbacks.forEach(function(fn){ try{ fn(etat); }catch(e){} });
+    if(attente){ var fn2=attente; attente=null; try{ fn2(etat); }catch(e){} }
   }
 
   // ---------- Orchestration ----------
   function suite(){
-    if(etatDev()){ etat={ connecte:true, email:'developer', nom:'Développeur', role:'admin', roles:['donneur','receveur','pro'], dev:true }; if(ESPACE==='connexion'){ ecranChoix(); } else { deverrouiller(); } return Promise.resolve(); }
     return sb.auth.getSession().then(function(s){
-      if(!s.data || !s.data.session){ etat=null; var pre=''; try{ pre=localStorage.getItem('bmba_email')||''; }catch(e){} ecranCourriel(pre); return null; }
+      if(!s.data || !s.data.session){ etat=null; if(PUBLIC && !attente){ fermer(); document.body.classList.add('bmb-public'); return null; } var pre=''; try{ pre=localStorage.getItem('bmba_email')||''; }catch(e){} ecranCourriel(pre); return null; }
       return sb.rpc('mon_etat');
     }).then(function(r){
       if(r===null) return;
@@ -242,10 +230,12 @@
       return;
     }
     sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, { auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } });
-    ecran('<div class="bmba-h">Vérification de votre accès…</div><p class="bmba-p">Un instant.</p>');
+    if(!PUBLIC) ecran('<div class="bmba-h">Vérification de votre accès…</div><p class="bmba-p">Un instant.</p>'); else document.body.classList.add('bmb-public');
     sb.auth.getSession().then(function(){ return suite(); });
     sb.auth.onAuthStateChange(function(ev){ if(ev==='SIGNED_IN' && (!etat || !etat.connecte)) suite(); });
   }
-  window.BeeAcces = { onDeverrouille:function(fn){ if(etat && wrap && wrap.style.display==='none') fn(etat); else callbacks.push(fn); }, etat:function(){ return etat; }, deconnecter:deconnecter, client:function(){ return sb; }, espace:ESPACE };
+  // exiger(fn) : demande la connexion (écran), puis exécute fn une fois l'espace déverrouillé
+  function exiger(fn){ if(deverrouille){ if(fn) fn(etat); return; } attente = fn || function(){}; suite(); }
+  window.BeeAcces = { onDeverrouille:function(fn){ if(deverrouille) fn(etat); else callbacks.push(fn); }, etat:function(){ return etat; }, deverrouille:function(){ return deverrouille; }, exiger:exiger, deconnecter:deconnecter, client:function(){ return sb; }, espace:ESPACE, public:PUBLIC };
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

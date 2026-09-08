@@ -73,7 +73,7 @@
     + '.bmb-pop b{color:#E8D5A3;display:block;margin-bottom:3px}'
     + '.bmb-pill{position:fixed;left:12px;bottom:14px;z-index:100000;padding:7px 12px;border-radius:99px;background:rgba(18,18,30,.92);color:#E8D5A3;border:1px solid rgba(200,169,96,.35);font:600 12px "DM Sans",system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,.4)}'
     + '.bmb-pill:hover{background:rgba(200,169,96,.15)}'
-    + '@media(max-width:640px){.bmb-pill{bottom:76px;left:10px;padding:6px 10px}}'
+    + '@media(max-width:640px){.bmb-pill{bottom:76px;left:10px;padding:0;width:38px;height:38px;border-radius:50%;font-size:17px;display:flex;align-items:center;justify-content:center}.bmb-pill span{display:none}}'
     + '.bmb-modal{position:fixed;inset:0;z-index:100020;background:rgba(10,10,18,.75);display:flex;align-items:center;justify-content:center;padding:16px}'
     + '.bmb-box{background:#12121e;color:#f0ece2;border:1px solid rgba(200,169,96,.3);border-radius:16px;width:100%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;font:14px/1.55 "DM Sans",system-ui,sans-serif}'
     + '.bmb-box header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid rgba(200,169,96,.15)}'
@@ -135,7 +135,7 @@
     m.addEventListener('click',function(e){ if(e.target===m) m.remove(); });
     document.body.appendChild(m); m.querySelector('input').focus();
   }
-  var pill=document.createElement('button'); pill.className='bmb-pill'; pill.type='button'; pill.textContent='📖 Lexique'; pill.title='Sigles et termes expliqués';
+  var pill=document.createElement('button'); pill.className='bmb-pill'; pill.type='button'; pill.innerHTML='📖<span> Lexique</span>'; pill.title='Sigles et termes expliqués';
   pill.addEventListener('click',openLexique);
 
   function init(){

@@ -1290,6 +1290,9 @@ body.light-mode .badge-item.earned{background:rgba(184,134,11,.04);border-color:
 .tour-step-dots span.active{background:var(--gold)}
 .tour-btns{display:flex;gap:8px;justify-content:flex-end}
 .map-dark .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.82) contrast(.92) saturate(.55)}
+/* mode public : éléments réservés masqués, onglets réservés marqués */
+body.bmb-public .alpha-only{display:none!important}
+body.bmb-public .nav-tab.bmb-reserve::after{content:" 🔒";font-size:.75em;opacity:.7}
 </style>
 </head>
 <body>
@@ -1485,7 +1488,7 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 
   <!-- IMPACT COUNTERS -->
-  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:2px 0 2px">
+  <div class="alpha-only" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:2px 0 2px">
     <div style="text-align:center"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)" id="cnt-donors">0</div><div style="font-size:12px;color:var(--text-muted)">donneurs actifs</div></div>
     <div style="text-align:center"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--red-soft)" id="cnt-lives">0</div><div style="font-size:12px;color:var(--text-muted)">vies sauvées</div></div>
     <div style="text-align:center"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--green)" id="cnt-liters">0</div><div style="font-size:12px;color:var(--text-muted)">litres collectés</div></div>
@@ -5467,6 +5470,18 @@ function go(id){
 }
 document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>go(t.dataset.v)));
 
+// ===== MODE PUBLIC : vues réservées aux testeurs invités (connexion demandée au moment d'y aller) =====
+var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,hemorush:1,impact:1,profil:1,settings:1};
+(function(){
+  var goLibre = go;
+  window.go = function(id){
+    if(BMB_RESERVE[id] && window.BeeAcces && !window.BeeAcces.deverrouille()){ window.BeeAcces.exiger(function(){ goLibre(id); }); return; }
+    goLibre(id);
+  };
+  // cadenas sur les onglets réservés tant qu'on n'est pas connecté
+  document.querySelectorAll('.nav-tab').forEach(function(t){ if(BMB_RESERVE[t.dataset.v]) t.classList.add('bmb-reserve'); });
+})();
+
 // ===== NAV OVERFLOW (Priority+ pattern) =====
 function updateNavOverflow(){
   const container=document.getElementById('nav-tabs');
@@ -8306,7 +8321,7 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="../acces.js" data-espace="donneur" data-racine="../" defer></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
 <script src="../lexique.js" defer></script>
 </body>
 </html>

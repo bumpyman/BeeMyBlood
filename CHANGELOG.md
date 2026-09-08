@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.0 — 2026-09-08 — public donor space, developer role, mobile floating controls
+
+### Added
+- Donor space public mode: the page opens without an account. Eligibility test, centre map, guide, videos, FAQ, news, contact and BeeBot are open to everyone; dashboard, challenges, live feed, HémoRush, impact, profile and settings ask for the invited-tester login at the moment they are opened (lock mark on their tabs), with a "Continuer sans compte" way out. The fictional hero counters are hidden in public mode. `acces.js` gained `data-public`, `BeeAcces.exiger(fn)` and `BeeAcces.deverrouille()`.
+- Role "developpeur" (SQL `supabase/2026-09-08-role-developpeur.sql`): granted from the admin page like any space, it opens the three spaces and the administration page; the account still logs in by email and signs the NDA.
+
+### Changed
+- The hard-coded developer bypass (identifier and password in the page source) is removed.
+- On phones the glossary button and the session badge become two small round buttons at the bottom-left, above the page's bottom bar; the badge opens a small menu (name, change space, sign out). Nothing overlaps the bottom-right buttons any more.
+
 ## v0.2.2 — 2026-09-08 — single login page, multi-space requests, no invitation code
 
 ### Added
