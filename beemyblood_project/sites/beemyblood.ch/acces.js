@@ -34,9 +34,9 @@
     + '.bmba-foot{margin-top:16px;font-size:12px;color:#5a5a72;text-align:center;line-height:1.6}.bmba-foot a{color:#C8A960;text-decoration:none}'
     + '.bmba-nda{max-height:44vh;overflow:auto;padding:14px 16px;background:#0a0a12;border:1px solid rgba(200,169,96,.18);border-radius:12px;font-size:13.5px;line-height:1.6;color:#d8d3c7;white-space:pre-wrap;margin-bottom:10px}'
     + '.bmba-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:8px 0 12px;cursor:pointer}.bmba-check input{width:18px;height:18px;accent-color:#C8A960;margin-top:2px;flex:none}'
-    + '.bmba-user{position:fixed;top:8px;right:10px;z-index:100040;font:12px "DM Sans",system-ui,sans-serif;color:#8b8b9e;background:rgba(18,18,30,.9);border:1px solid rgba(200,169,96,.2);border-radius:99px;padding:5px 10px;display:flex;gap:8px;align-items:center;backdrop-filter:blur(8px)}'
+    + '.bmba-user{position:fixed;left:12px;bottom:52px;z-index:100040;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:12px "DM Sans",system-ui,sans-serif;color:#8b8b9e;background:rgba(18,18,30,.9);border:1px solid rgba(200,169,96,.2);border-radius:99px;padding:5px 10px;display:flex;gap:8px;align-items:center;backdrop-filter:blur(8px)}'
     + '.bmba-user b{color:#E8D5A3;font-weight:600}.bmba-user button{background:none;border:none;color:#C8A960;cursor:pointer;font:inherit;padding:0}'
-    + '@media(max-width:640px){.bmba-box{padding:22px 16px 18px;border-radius:14px}.bmba-user{top:auto;bottom:8px;right:8px;font-size:11px}}';
+    + '@media(max-width:640px){.bmba-box{padding:22px 16px 18px;border-radius:14px}.bmba-user{font-size:11px;left:10px;padding:4px 9px}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   // Neutralise les anciens écrans d'accès de la page (codés en dur), sans les supprimer
@@ -181,6 +181,9 @@
       var u=document.createElement('div'); u.className='bmba-user';
       u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b> · '+etat.role+'</span><button type="button" title="Se déconnecter">Quitter</button>';
       u.querySelector('button').onclick=deconnecter; document.body.appendChild(u);
+      // se place juste au-dessus du bouton Lexique (bas gauche), jamais sur les menus de la page
+      var placer=function(){ var pill=document.querySelector('.bmb-pill'); u.style.bottom = pill ? (parseInt(getComputedStyle(pill).bottom,10)+38)+'px' : '14px'; };
+      placer(); setTimeout(placer,900); setTimeout(placer,2500); window.addEventListener('resize',placer);
     }
     if(!etat.dev) sb.rpc('journaliser_acces', { p_espace: ESPACE }).then(function(){}, function(){});
     if(typeof window.bmbDeverrouiller==='function'){ try{ window.bmbDeverrouiller(etat); }catch(e){} }
