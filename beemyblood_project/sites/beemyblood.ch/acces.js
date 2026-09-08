@@ -84,16 +84,16 @@
 
   // ---------- Étape 1 : courriel ----------
   function ecranCourriel(pre){
-    ecran(etapes(1)+'<div class="bmba-h">Connexion par courriel</div><p class="bmba-p">Saisissez l’adresse indiquée dans votre demande d’accès. Vous recevrez par courriel un code de connexion (6 à 8 chiffres) valable une heure.</p>'
+    ecran(etapes(1)+'<div class="bmba-h">Connexion par courriel</div><p class="bmba-p">Saisissez l’adresse avec laquelle votre accès a été approuvé. Un <b>code de connexion à chiffres</b> vous est envoyé par courriel à chaque connexion ; il remplace le mot de passe.</p>'
       +'<input class="bmba-in" id="bmbaEmail" type="email" autocomplete="email" inputmode="email" placeholder="prenom.nom@exemple.ch" value="'+(pre||'')+'">'
-      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
+      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code de connexion</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
     var go = function(){
       var email = (document.getElementById('bmbaEmail').value||'').trim().toLowerCase();
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ document.getElementById('bmbaErr').textContent='Adresse courriel invalide.'; return; }
       var b=document.getElementById('bmbaSend'); b.disabled=true; b.textContent='Envoi…';
       sb.auth.signInWithOtp({ email:email, options:{ shouldCreateUser:true, emailRedirectTo: location.href.split('#')[0] } })
         .then(function(r){ if(r.error) throw r.error; try{ localStorage.setItem('bmba_email', email); }catch(e){} ecranCode(email); })
-        .catch(function(e){ b.disabled=false; b.textContent='Recevoir mon code'; document.getElementById('bmbaErr').textContent=msgErreur(e); });
+        .catch(function(e){ b.disabled=false; b.textContent='Recevoir mon code de connexion'; document.getElementById('bmbaErr').textContent=msgErreur(e); });
     };
     document.getElementById('bmbaSend').onclick = go;
     document.getElementById('bmbaEmail').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
@@ -101,7 +101,7 @@
 
   // ---------- Étape 2 : code reçu par courriel ----------
   function ecranCode(email){
-    ecran(etapes(2)+'<div class="bmba-h">Vérifiez votre boîte courriel</div><p class="bmba-p">Un message a été envoyé à <b>'+email+'</b>. Saisissez le code qu’il contient (6 à 8 chiffres). Utilisez toujours le dernier message reçu : chaque nouvelle demande annule le code précédent. Pensez au dossier « indésirables ».</p>'
+    ecran(etapes(2)+'<div class="bmba-h">Vérifiez votre boîte courriel</div><p class="bmba-p">Un message vient d’être envoyé à <b>'+email+'</b>. Saisissez le <b>code de connexion à chiffres</b> qu’il contient (pas le code d’invitation BMB‑…, qui n’existe plus). Utilisez le dernier message reçu. Pensez au dossier « indésirables ».</p>'
       +'<input class="bmba-in code" id="bmbaOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="········">'
       +'<button class="bmba-btn" id="bmbaVerif">Valider</button><button class="bmba-btn sec" id="bmbaBack">Changer d’adresse</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
     var go = function(){
@@ -119,21 +119,18 @@
     document.getElementById('bmbaBack').onclick = function(){ ecranCourriel(email); };
   }
 
-  // ---------- Étape 2b : code d'invitation ----------
+  // ---------- Étape 2b : pas d'accès pour ce courriel ----------
   function ecranInvitation(){
-    ecran(etapes(2)+'<div class="bmba-h">Votre code d’invitation</div><p class="bmba-p">Connecté·e comme <b>'+etat.email+'</b>. Saisissez le code reçu après l’approbation de votre demande (format BMB-XXXX-XXXX).</p>'
-      +'<input class="bmba-in code" id="bmbaInv" autocomplete="off" placeholder="BMB-XXXX-XXXX" style="letter-spacing:2px;font-size:18px">'
-      +'<button class="bmba-btn" id="bmbaAct">Activer</button><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
-    var go = function(){
-      var code=(document.getElementById('bmbaInv').value||'').trim().toUpperCase();
-      var b=document.getElementById('bmbaAct'); b.disabled=true; b.textContent='Activation…';
-      sb.rpc('activer_invitation', { p_code: code })
-        .then(function(r){ if(r.error) throw r.error; return suite(); })
-        .catch(function(e){ b.disabled=false; b.textContent='Activer'; document.getElementById('bmbaErr').textContent=msgErreur(e); });
-    };
-    document.getElementById('bmbaAct').onclick = go;
-    document.getElementById('bmbaInv').addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
-    document.getElementById('bmbaOut').onclick = deconnecter;
+    var d=etat.demande, txt;
+    if(d==='en_attente') txt='Votre demande d’accès pour <b>'+etat.email+'</b> est enregistrée et <b>en attente d’approbation</b>. Vous recevrez un courriel dès qu’elle sera validée ; il suffira alors de vous reconnecter ici.';
+    else if(d==='refusee') txt='La demande d’accès pour <b>'+etat.email+'</b> n’a pas été retenue. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a> si vous pensez qu’il s’agit d’une erreur.';
+    else if(d==='activee') txt='Cet accès a déjà été activé avec un autre compte. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
+    else txt='Aucune invitation n’est associée à <b>'+etat.email+'</b>. Si vous avez fait votre demande avec une autre adresse, reconnectez-vous avec celle-ci. Sinon, demandez un accès : vous entrerez automatiquement dès l’approbation.';
+    ecran(etapes(2)+'<div class="bmba-h">Accès pas encore ouvert</div><p class="bmba-p">'+txt+'</p>'
+      +(d?'' : '<a class="bmba-btn" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'acces/">Demander un accès</a>')
+      +'<button class="bmba-btn sec" id="bmbaRetry">Vérifier à nouveau</button><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
+    document.getElementById('bmbaRetry').onclick=function(){ suite(); };
+    document.getElementById('bmbaOut').onclick=deconnecter;
   }
 
   // ---------- Étape 3 : NDA ----------
