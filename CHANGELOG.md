@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.4.7 — 2026-09-08 — key rotation, history purge, workspace header
+
+### Security
+- The Anthropic API key committed in February was revoked and replaced; the whole git history was rewritten so that no commit contains it any more.
+- The unused hackathon edition is removed from the repository.
+
+### Changed
+- The four BeeBot proxies accept an optional `anthropic_workspace_id` in `config.php` and send the `anthropic-workspace-id` header when set (required for keys created at organization level).
+- Landing page: one-line footer with links to Convivens Lab and HEG Genève, stats strip removed, "1 don, 3 vies" card.
+
+### Fixed
+- The floating BeeBot of the donor space greeted visitors as Amine; it now greets without a name, or with the connected person's first name.
+
 ## v0.4.6 — 2026-09-08 — chatbots greet visitors without a persona
 
 ### Fixed
