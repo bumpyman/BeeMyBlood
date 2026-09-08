@@ -59,7 +59,7 @@ beemyblood_project/sites/beemyblood.ch/   # deployable web root (upload as-is to
 
 - **Frontend** — single-file HTML/CSS/JS pages, Leaflet + leaflet.heat for maps, Vue 3 in the standalone digital twin.
 - **AI** — Claude (Anthropic) through small PHP proxies. One shared `config.php` holds the API key and the model alias (`claude-opus-5` by default).
-- **Hosting** — Infomaniak, Geneva, Switzerland. No database: all demo data is local to the pages.
+- **Hosting** — everything in Switzerland: the site at Infomaniak (Geneva), the access database (accounts, requests, NDA signatures, access log) at Supabase (Zurich region). The demo content of the spaces is local to the pages; daily real data (stocks, collections, news) comes from `api/donnees.php`.
 
 ## Deployment
 
@@ -76,13 +76,13 @@ For local frontend work you can open the HTML files directly or serve the folder
 
 ## Data and privacy
 
-Demo data only. The pages send nothing to a server except the BeeBot questions, which go through the PHP proxy to the Anthropic API. Hosted in Switzerland, designed for nLPD/GDPR compliance and HL7 FHIR interoperability.
+The spaces show demo data only. The pages send to a server: the BeeBot questions (PHP proxy to the Anthropic API), the access requests and logins (Supabase, Zurich), and nothing else. Hosted in Switzerland, designed for nLPD/GDPR compliance and HL7 FHIR interoperability.
 
 ## Author and context
 
 **David-Zacharie Issom, PhD** — Assistant Professor HES, Head of Convivens Lab, HEG Geneva (HES-SO). davidzac.issom@hes-so.ch
 
-BeeMyBlood is part of research on digital health infrastructures for equitable and participatory health systems. The hackathon edition was prepared for Hackathon HUG #9 (21 March 2026).
+BeeMyBlood is part of research on digital health infrastructures for equitable and participatory health systems.
 
 ## License
 

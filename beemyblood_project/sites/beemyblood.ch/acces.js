@@ -71,7 +71,7 @@
     if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
-  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel, puis vous restez connecté·e sur cet appareil.<br>Hébergé en Suisse et dans l’UE · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
+  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Aucun mot de passe : un code vous est envoyé par courriel, puis vous restez connecté·e sur cet appareil.<br>Hébergé en Suisse (site : Infomaniak, Genève · comptes : Supabase, Zurich) · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
 
   // ---------- Étape 1 : courriel ----------
   function ecranCourriel(pre){

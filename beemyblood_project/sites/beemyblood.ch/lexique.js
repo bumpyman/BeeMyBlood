@@ -36,7 +36,7 @@
     ['HUG', 'Hôpitaux universitaires de Genève.'],
     ['HES-SO', 'Haute école spécialisée de Suisse occidentale ; la HEG Genève en fait partie.'],
     ['HEG', 'Haute école de gestion de Genève, où est né BeeMyBlood (Convivens Lab).'],
-    ['SIMED', 'Service d\'informatique médicale de l\'Université de Genève.'],
+    ['SIMED', 'Service des sciences de l\'information médicale de l\'Université de Genève.'],
     ['UNIGE', 'Université de Genève.'],
     ['nLPD', 'Nouvelle loi fédérale suisse sur la protection des données (2023).'],
     ['RGPD', 'Règlement européen sur la protection des données.'],

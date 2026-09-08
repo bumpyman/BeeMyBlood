@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.1 — 2026-09-08 — HémoRush public, hosting facts
+
+### Changed
+- HémoRush™ is open to everyone in the donor space (it works and it is the attractive part).
+- Hosting stated correctly everywhere: site at Infomaniak (Geneva), access database at Supabase (Zurich); no EU mention. README corrected (no more "no database" claim, hackathon sentence removed). NDA article 5 aligned (`supabase/2026-09-08-nda-hebergement.sql`).
+- Glossary: SIMED is the Service des sciences de l'information médicale of the University of Geneva.
+
 ## v0.4.0 — 2026-09-08 — real daily data in the donor space, cleaner public mode
 
 ### Added

@@ -5470,7 +5470,7 @@ function go(id){
 document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>go(t.dataset.v)));
 
 // ===== MODE PUBLIC : vues réservées aux testeurs invités (connexion demandée au moment d'y aller) =====
-var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,hemorush:1,impact:1,profil:1,settings:1,vr:1};
+var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,impact:1,profil:1,settings:1,vr:1}; // HémoRush reste ouvert à tous : c est le jeu qui attire
 (function(){
   var goLibre = go;
   window.go = function(id){
