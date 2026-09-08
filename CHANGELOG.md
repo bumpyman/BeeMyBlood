@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.2.0 — 2026-09-08 — invitation, email login and NDA on Supabase
+
+### Added
+- `supabase/schema.sql`: tables for access requests, activated accounts, NDA versions and signatures, access journal, and an admin list; everything is closed by row-level security and exposed only through security-definer functions (request, current NDA, my state, activate invitation, sign NDA, log access, admin list/approve/refuse/dashboard). Includes NDA v1-2026-09 in French.
+- `acces.js`: shared access overlay for the three spaces. Email-only login with a 6-digit code or magic link (Supabase Auth, no password), invitation code `BMB-XXXX-XXXX` tied to the requester's email and valid 30 days, NDA that must be scrolled to the end and signed with a typed name, role-based entry (admin > pro > receveur > donneur), session badge with sign-out, per-space access log.
+- `acces/`: public request form (name, email, organisation, role, motive) with a three-step explanation.
+- `admin/`: admin page (login as an address listed in `admins`): pending requests, approve with a one-time displayed code and a prefilled invitation email, refuse with note, activated accounts, signed agreements, last 200 accesses.
+- Landing and project pages link to the request form.
+
+### Changed
+- The hard-coded gates (`teambmb`, demo password on the professional portal) no longer open anything; the pages keep their markup but `acces.js` is the only entrance.
+
+### Operations
+- Run `supabase/schema.sql` once in the Supabase SQL editor; set Site URL and redirect allowlist to https://beemyblood.ch; add `{{ .Token }}` to the Magic Link email template; configure a custom SMTP (Infomaniak mailbox) to avoid the built-in email rate limit.
+
 ## v0.1.3 — 2026-09-08 — digital twin in plain words, mobile navigation
 
 ### Changed

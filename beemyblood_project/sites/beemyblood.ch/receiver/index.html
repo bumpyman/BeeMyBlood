@@ -158,7 +158,7 @@ Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
 </div>
 <script>
 function tryGate(){
-  var codes=['teambmb'];
+  var codes=[]; // accès géré par acces.js (invitation + courriel + NDA)
   var v=document.getElementById('gateCode').value.trim().toLowerCase();
   if(codes.indexOf(v)>=0){
     document.getElementById('gate').style.opacity='0';
@@ -726,5 +726,7 @@ function renderTour(){var s=tourSteps[tourIdx];var dots='';for(var i=0;i<tourSte
 
 document.addEventListener('DOMContentLoaded',function(){buildHist();buildDroits();buildThk();buildChk();mkCh('chHome',hD)});
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
-</script><script src="../lexique.js" defer></script>
+</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="receveur" data-racine="../" defer></script>
+<script src="../lexique.js" defer></script>
 </body></html>

@@ -1319,7 +1319,7 @@ body.light-mode .badge-item.earned{background:rgba(184,134,11,.04);border-color:
 </div>
 <script>
 function checkGate(){
-  const codes=['teambmb'];
+  const codes=[]; // accès géré par acces.js (invitation + courriel + NDA)
   const v=document.getElementById('gate-input').value.trim().toLowerCase();
   if(codes.includes(v)){
     document.getElementById('gate-overlay').style.opacity='0';
@@ -8305,6 +8305,8 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" defer></script>
 <script src="../lexique.js" defer></script>
 </body>
 </html>

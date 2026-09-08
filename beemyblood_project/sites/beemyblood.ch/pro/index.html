@@ -1471,7 +1471,7 @@ let mapCircles = [];
 function doLogin(){
   const email = document.getElementById('loginEmail').value;
   const pw = document.getElementById('loginPassword').value;
-  if(email === 'admin@beemyblood.ch' && pw === 'admin1234567890'){
+  if(false && email === 'admin@beemyblood.ch' && pw === 'admin1234567890'){ // remplacé par acces.js (invitation + courriel + NDA)
     document.getElementById('loginPage').style.display='none';
     document.getElementById('mainApp').style.display='block';
     renderAll();
@@ -3120,6 +3120,8 @@ function twinSimuler(){
   },250);
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="pro" data-racine="../" defer></script>
 <script src="../lexique.js" defer></script>
 </body>
 </html>

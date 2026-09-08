@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>BeeMyBlood™ — Administration des accès</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#0a0a12;--card:#12121e;--gold:#C8A960;--gold-light:#E8D5A3;--text:#f0ece2;--dim:#8b8b9e;--muted:#5a5a72;--line:rgba(200,169,96,.15);--red:#ff6b6b;--green:#4ade80;--blue:#60a5fa}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.5;font-size:14px}
+a{color:var(--gold);text-decoration:none}
+nav{padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap}
+.brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text)}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 48px}
+h1{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px}
+.lead{color:var(--dim);margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+.card h2{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;background:rgba(200,169,96,.12);color:var(--gold-light)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid rgba(200,169,96,.07);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.st{font-size:11px;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.st.en_attente{background:rgba(245,158,11,.15);color:#f59e0b}.st.approuvee{background:rgba(96,165,250,.15);color:var(--blue)}.st.activee{background:rgba(74,222,128,.15);color:var(--green)}.st.refusee{background:rgba(255,107,107,.15);color:var(--red)}
+.b{padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--gold);font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+.b.p{background:linear-gradient(135deg,var(--gold),#B89730);color:#0a0a12;border:none;font-weight:700}
+.b.d{color:var(--red)}
+.b:disabled{opacity:.5;cursor:wait}
+.code{font-family:ui-monospace,monospace;font-size:16px;letter-spacing:2px;color:var(--gold-light);background:#0a0a12;padding:6px 10px;border-radius:8px;display:inline-block}
+.muted{color:var(--muted);font-size:12px}
+.wrap{overflow-x:auto}
+.mail{margin-top:8px;padding:10px;border-radius:10px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.2);font-size:13px;line-height:1.5}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:7px 12px;border-radius:99px;border:1px solid var(--line);cursor:pointer;font-size:13px;color:var(--dim)}
+.tab.on{background:rgba(200,169,96,.12);color:var(--gold-light);border-color:rgba(200,169,96,.4)}
+.hidden{display:none}
+@media(max-width:640px){td,th{padding:6px 5px}}
+</style>
+</head>
+<body>
+<nav><a class="brand" href="../">🐝 BeeMyBlood™ <span class="badge">admin</span></a><span class="muted" id="qui"></span></nav>
+<main>
+  <h1>Accès alpha</h1>
+  <p class="lead">Demandes d’invitation, comptes activés, accords signés et journal des connexions.</p>
+  <div class="tabs"><span class="tab on" data-t="demandes">Demandes</span><span class="tab" data-t="acces">Comptes</span><span class="tab" data-t="signatures">Accords signés</span><span class="tab" data-t="journal">Journal</span></div>
+  <div class="card" id="pan-demandes"><h2>Demandes <span class="badge" id="nbAttente">…</span> <button class="b" id="refresh" style="margin-left:auto">Actualiser</button></h2><div class="wrap" id="demandes">Chargement…</div></div>
+  <div class="card hidden" id="pan-acces"><h2>Comptes activés</h2><div class="wrap" id="acces"></div></div>
+  <div class="card hidden" id="pan-signatures"><h2>Accords de confidentialité signés</h2><div class="wrap" id="signatures"></div></div>
+  <div class="card hidden" id="pan-journal"><h2>Journal des accès (200 derniers)</h2><div class="wrap" id="journal"></div></div>
+  <p class="muted">Un code d’invitation n’est affiché qu’une seule fois, à l’approbation : copiez-le dans le courriel au testeur (bouton « Courriel »). Il est lié à l’adresse du demandeur et expire après 30 jours. Les données ne sont accessibles qu’aux adresses listées dans la table <code>admins</code>.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="admin" data-racine="../" defer></script>
+<script>
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function dt(s){ return s ? new Date(s).toLocaleString('fr-CH',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}) : ''; }
+var ROLES={donneur:'Donneur·se',receveur:'Receveur·se',pro:'Professionnel·le',admin:'Admin'};
+var sb, codes={};
+document.querySelectorAll('.tab').forEach(function(t){ t.onclick=function(){ document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===t);}); ['demandes','acces','signatures','journal'].forEach(function(p){ document.getElementById('pan-'+p).classList.toggle('hidden', p!==t.dataset.t); }); }; });
+
+function lienCourriel(d, code){
+  var sujet='Votre invitation à la version alpha de BeeMyBlood';
+  var corps='Bonjour '+d.nom+',\n\nVotre demande d’accès à BeeMyBlood (rôle : '+(ROLES[d.role]||d.role)+') est approuvée.\n\nVotre code d’invitation : '+code+'\n(valable 30 jours, lié à l’adresse '+d.email+')\n\nPour entrer :\n1. Ouvrez https://beemyblood.ch/'+(d.role==='pro'?'pro/':d.role==='receveur'?'receiver/':'donor/')+'\n2. Saisissez votre adresse courriel et validez le code à 6 chiffres reçu\n3. Entrez votre code d’invitation\n4. Lisez et signez l’accord de confidentialité\n\nLes données affichées sont fictives ou simulées : n’y saisissez aucune donnée réelle de patient. Merci pour votre aide, vos retours sont précieux.\n\nDavid-Zacharie Issom\nConvivens Lab, HEG Genève (HES-SO)\ncontact@beemyblood.ch';
+  return 'mailto:'+encodeURIComponent(d.email)+'?subject='+encodeURIComponent(sujet)+'&body='+encodeURIComponent(corps);
+}
+
+function chargerDemandes(){
+  sb.rpc('admin_lister_demandes').then(function(r){
+    if(r.error) throw r.error;
+    var rows=r.data||[]; var attente=rows.filter(function(d){return d.statut==='en_attente';}).length;
+    document.getElementById('nbAttente').textContent=attente+' en attente';
+    document.getElementById('demandes').innerHTML = rows.length ? '<table><tr><th>Date</th><th>Nom</th><th>Courriel</th><th>Rôle</th><th>Organisation / motif</th><th>Statut</th><th></th></tr>'
+      + rows.map(function(d){
+        var code=codes[d.id];
+        var act = d.statut==='en_attente' ? '<button class="b p" data-a="ok" data-id="'+d.id+'">Approuver</button> <button class="b d" data-a="non" data-id="'+d.id+'">Refuser</button>'
+                : d.statut==='approuvee' ? (code ? '<span class="code">'+code+'</span><div class="mail">Code affiché une seule fois. <a href="'+lienCourriel(d,code)+'">✉️ Envoyer le courriel d’invitation</a></div>' : '<span class="muted">code envoyé · expire '+dt(d.code_expire_le)+'</span> <button class="b" data-a="ok" data-id="'+d.id+'" title="Génère un nouveau code, l’ancien ne marche plus">Nouveau code</button>')
+                : d.statut==='activee' ? '<span class="muted">compte actif</span>' : '<span class="muted">'+esc(d.note_admin||'')+'</span>';
+        return '<tr><td class="muted">'+dt(d.cree_le)+'</td><td>'+esc(d.nom)+'</td><td>'+esc(d.email)+'</td><td>'+(ROLES[d.role]||esc(d.role))+'</td><td><b>'+esc(d.organisation||'')+'</b><br><span class="muted">'+esc(d.motif||'')+'</span></td><td><span class="st '+d.statut+'">'+d.statut.replace('_',' ')+'</span></td><td>'+act+'</td></tr>';
+      }).join('')+'</table>' : '<p class="muted">Aucune demande pour le moment.</p>';
+  }).catch(function(e){ document.getElementById('demandes').innerHTML='<p style="color:var(--red)">'+esc(e.message)+'</p>'; });
+}
+function chargerTableau(){
+  sb.rpc('admin_tableau').then(function(r){
+    if(r.error||!r.data) throw (r.error||new Error('non admin'));
+    var t=r.data;
+    document.getElementById('acces').innerHTML = t.acces.length ? '<table><tr><th>Activé le</th><th>Nom</th><th>Courriel</th><th>Rôle</th></tr>'+t.acces.map(function(a){return '<tr><td class="muted">'+dt(a.active_le)+'</td><td>'+esc(a.nom)+'</td><td>'+esc(a.email)+'</td><td>'+(ROLES[a.role]||esc(a.role))+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Aucun compte activé.</p>';
+    document.getElementById('signatures').innerHTML = t.signatures.length ? '<table><tr><th>Signé le</th><th>Nom signé</th><th>Courriel</th><th>Version</th></tr>'+t.signatures.map(function(s){return '<tr><td class="muted">'+dt(s.signe_le)+'</td><td>'+esc(s.nom_signe)+'</td><td>'+esc(s.email)+'</td><td>'+esc(s.version)+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Aucune signature.</p>';
+    document.getElementById('journal').innerHTML = t.journal.length ? '<table><tr><th>Quand</th><th>Courriel</th><th>Espace</th></tr>'+t.journal.map(function(j){return '<tr><td class="muted">'+dt(j.at)+'</td><td>'+esc(j.email)+'</td><td>'+esc(j.espace)+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Journal vide.</p>';
+  }).catch(function(e){ document.getElementById('acces').innerHTML='<p style="color:var(--red)">'+esc(e.message)+'</p>'; });
+}
+document.getElementById('demandes').addEventListener('click', function(e){
+  var b=e.target.closest('button[data-a]'); if(!b) return;
+  var id=b.dataset.id; b.disabled=true;
+  if(b.dataset.a==='ok'){
+    sb.rpc('admin_approuver',{p_id:id,p_jours:30}).then(function(r){ if(r.error) throw r.error; codes[id]=r.data.code; chargerDemandes(); chargerTableau(); }).catch(function(ex){ alert(ex.message); b.disabled=false; });
+  } else {
+    var note=prompt('Motif du refus (facultatif, visible dans la liste) :','');
+    if(note===null){ b.disabled=false; return; }
+    sb.rpc('admin_refuser',{p_id:id,p_note:note}).then(function(r){ if(r.error) throw r.error; chargerDemandes(); }).catch(function(ex){ alert(ex.message); b.disabled=false; });
+  }
+});
+document.getElementById('refresh').onclick=function(){ chargerDemandes(); chargerTableau(); };
+window.bmbDeverrouiller=function(etat){
+  sb=window.BeeAcces.client();
+  document.getElementById('qui').textContent=etat.email;
+  chargerDemandes(); chargerTableau();
+};
+</script>
+</body>
+</html>

@@ -21,6 +21,10 @@ Most digital tools in the blood sector stop at the donor: booking, reminders, re
 | Equity-of-access indicators | — | ✔ per region and per district |
 | Model | proprietary SaaS | open source AGPL-3.0, hosted in Switzerland, HL7 FHIR |
 
+## Alpha access (invitation, email login, NDA)
+
+The three spaces are behind a shared access module, `acces.js`, backed by Supabase (email-only one-time codes, no passwords). A visitor requests access on `/acces`, an administrator approves it on `/admin` and sends the invitation code, the tester logs in with their email, activates the code and signs the confidentiality agreement on screen. Everything is stored in the Supabase project through security-definer functions defined in `supabase/schema.sql` (run once in the SQL editor). The anon key embedded in the pages is public by design; all tables are closed by row-level security.
+
 ## The three spaces
 
 - **Donor space** (`/donor`) — eligibility check against CRS criteria, pre-donation questionnaire, centre map with schedules, video guides, gamified journey, BeeBot donor assistant.
@@ -42,6 +46,9 @@ beemyblood_project/sites/beemyblood.ch/   # deployable web root (upload as-is to
 ├── hackathon/                 # Hackathon HUG #9 edition
 ├── api.php                    # BeeBot proxy for the landing/alpha pages
 ├── lexique.js                 # shared glossary: acronyms explained on hover/tap + full list
+├── acces.js                   # shared alpha access: email code, invitation, NDA (Supabase)
+├── acces/index.html           # public access request form
+├── admin/index.html           # admin: approve requests, codes, signatures, journal
 ├── config.example.php         # copy to config.php and add your Anthropic API key
 └── alpha_index.html, old_index.html, index_landing_classic.html   # earlier versions
 ```
