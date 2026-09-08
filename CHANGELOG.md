@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.1 — 2026-09-08 — maps, digital twin v2, positioning
+
+### Added
+- Digital twin rebuilt as a functional twin (configure → simulate → analyse): reproducible seeded runs with common random numbers between a scenario and its reference, results as median with P10–P90 interval, KPI tiles with targets and thresholds, comparison to the reference scenario flagged as "not distinguishable" when intervals overlap, a "what this panel does not say" disclosure, and a lever card that carries no figure until a run has produced one. Inspired by the HEG bachelor thesis "Digital Twin des urgences pédiatriques des HUG" (Morsch, Poupard-Kuimi, Gonçalves Silva, 2026).
+- Professional portal tab bar grouped into four families: Piloter, Cartographier, Anticiper, Agir.
+- Landing page: "Le luxe communal" section (blood donation as rare, precious and heroic), clearer hero with three verbs (je donne, je reçois, je soigne), positioning aligned with the strategy (14-day prediction, rarity score, companion system, BeeOS, SoHO 2027).
+- Project page: comparison rows on rarity score, 14-day prediction and companion-system integration.
+
+### Changed
+- Digital twin heatmap now uses the same blurred-circle style and colour ramp as the Cartography tab; the leaflet.heat dependency was removed.
+- All maps use OpenStreetMap tiles with a CSS dark filter instead of CARTO basemaps, which now require an API key and watermarked the maps.
+
 ## v0.1.0 — 2026-09-08 — first alpha release
 
 ### Added

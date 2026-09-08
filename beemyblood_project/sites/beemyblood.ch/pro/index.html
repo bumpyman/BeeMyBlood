@@ -20,7 +20,6 @@
 <title>BeeMyBlood Pro — Portail Professionnel</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
 <!-- heatmap via CSS circles -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
@@ -80,7 +79,10 @@ input,select{font-family:inherit;outline:none}
 .container{max-width:1400px;margin:0 auto;padding:1.5rem}
 
 /* Tabs */
-.tabs{display:flex;gap:.4rem;margin-bottom:1.25rem;overflow-x:auto;padding-bottom:.5rem;flex-wrap:nowrap;scrollbar-width:thin;scrollbar-color:rgba(200,169,96,.2) transparent}
+.tabs{display:flex;gap:1rem;margin-bottom:1.25rem;overflow-x:auto;padding-bottom:.5rem;flex-wrap:nowrap;scrollbar-width:thin;scrollbar-color:rgba(200,169,96,.2) transparent}
+.tab-group{display:flex;flex-direction:column;gap:.3rem;flex-shrink:0;padding-right:1rem;border-right:1px solid var(--slate-700)}.tab-group:last-child{border-right:none;padding-right:0}
+.tab-group-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-500);padding-left:.3rem;font-weight:700}
+.tab-group-tabs{display:flex;gap:.35rem}
 .tab{display:flex;align-items:center;gap:.4rem;padding:.55rem .85rem;border-radius:.75rem;font-size:.8rem;font-weight:500;white-space:nowrap;transition:all .2s;background:var(--slate-800);color:var(--slate-300);flex-shrink:0}
 .tab:hover{background:var(--slate-700)}
 .tab.active{background:linear-gradient(135deg,var(--amber-500),var(--amber-600));color:#0a0a12;box-shadow:0 4px 12px rgba(200,169,96,.25)}
@@ -462,44 +464,66 @@ body.map-fullscreen .toast-container{z-index:100003!important}
 .btn-sim:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(200,169,96,.3)}
 .sim-result{margin-top:1rem;padding:1rem;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:.5rem;display:none}
 .sim-result.show{display:block;animation:fadeIn .3s}
+.map-dark .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.82) contrast(.92) saturate(.55)}
 /* ===== Jumeau numérique (phénotype + scénarios) ===== */
-#twinMap{height:calc(100vh - 300px);min-height:420px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
-.twin-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.75rem;font-size:.8rem;color:var(--slate-400)}
-.twin-head b{color:var(--amber-400);font-weight:700}
+#twinMap{height:calc(100vh - 330px);min-height:400px;border-radius:.75rem;z-index:1;background:var(--slate-900)}
+.twin-steps{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.twin-step{display:flex;align-items:center;gap:.5rem;padding:.4rem .75rem;border-radius:99px;border:1px solid var(--slate-600);font-size:.75rem;color:var(--slate-400)}
+.twin-step b{width:18px;height:18px;border-radius:50%;background:var(--slate-700);color:var(--amber-400);display:inline-flex;align-items:center;justify-content:center;font-size:.7rem}
+.twin-step.on{border-color:rgba(200,169,96,.5);color:var(--slate-300)}
+.twin-step.on b{background:var(--amber-500);color:#0a0a12}
+.twin-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.9rem}
+.twin-kpi{padding:.7rem .8rem;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.6rem;min-height:74px}
+.twin-kpi .v{font-size:1.35rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.twin-kpi .l{font-size:.68rem;color:var(--slate-400);margin-top:.2rem;line-height:1.35}
+.twin-kpi .t{font-size:.65rem;color:var(--slate-500);margin-top:.25rem}
+.twin-kpi.ok .v{color:var(--green-400)}.twin-kpi.warn .v{color:#f59e0b}.twin-kpi.bad .v{color:var(--red-400)}.twin-kpi.neutral .v{color:var(--amber-400)}
+.twin-empty{padding:1rem;border:1px dashed var(--slate-600);border-radius:.6rem;font-size:.8rem;color:var(--slate-400);margin-bottom:.9rem;line-height:1.5}
+.twin-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin:.6rem 0 .5rem;font-size:.75rem;color:var(--slate-400);flex-wrap:wrap}
+.twin-head code{font-family:ui-monospace,monospace;color:var(--amber-400);background:rgba(200,169,96,.08);padding:1px 6px;border-radius:4px;font-size:.7rem}
 .twin-tag{font-size:.65rem;letter-spacing:.06em;padding:2px 7px;border-radius:4px;font-weight:700;background:rgba(200,169,96,.12);color:var(--amber-400)}
 .twin-tag.plan{background:rgba(59,130,246,.15);color:var(--blue-400)}
-.twin-field{margin-top:.75rem}
-.twin-field label,.twin-field .lbl{display:block;font-size:.75rem;color:var(--slate-400);margin-bottom:.35rem}
-.twin-field select,.twin-field input[type="date"],.twin-field textarea{width:100%;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .6rem;color:#fff;font-size:.85rem;font-family:inherit;color-scheme:dark}
+.twin-field{margin-top:.7rem}
+.twin-field label,.twin-field .lbl{display:block;font-size:.72rem;color:var(--slate-400);margin-bottom:.3rem}
+.twin-field select,.twin-field input[type="date"],.twin-field input[type="number"],.twin-field textarea{width:100%;background:var(--slate-700);border:1px solid var(--slate-600);border-radius:.5rem;padding:.5rem .6rem;color:#fff;font-size:.85rem;font-family:inherit;color-scheme:dark}
 .twin-field select option{background:#1e1e2e;color:#fff}
-.twin-field textarea{resize:vertical;min-height:60px}
-.twin-groups{display:flex;flex-direction:column;gap:.4rem}
+.twin-field textarea{resize:vertical;min-height:56px}
+.twin-groups{display:flex;flex-direction:column;gap:.35rem}
 .twin-group{border:1px solid var(--slate-600);border-radius:.5rem;overflow:hidden}
-.twin-group-row{display:flex;align-items:center;gap:.5rem;padding:.5rem .65rem;background:var(--slate-700);cursor:pointer;user-select:none;font-size:.85rem}
+.twin-group-row{display:flex;align-items:center;gap:.5rem;padding:.45rem .65rem;background:var(--slate-700);cursor:pointer;user-select:none;font-size:.82rem}
 .twin-group-row input{accent-color:var(--amber-500);width:15px;height:15px}
 .twin-group-row .gname{font-weight:700;color:var(--amber-400);min-width:48px}
-.twin-group-row .ghint{margin-left:auto;font-size:.7rem;color:var(--slate-500)}
-.twin-antigens{display:flex;flex-wrap:wrap;gap:.35rem .8rem;padding:.5rem .65rem .6rem 1.9rem;border-top:1px solid var(--slate-600)}
+.twin-group-row .ghint{margin-left:auto;font-size:.68rem;color:var(--slate-500)}
+.twin-antigens{display:flex;flex-wrap:wrap;gap:.3rem .8rem;padding:.45rem .65rem .55rem 1.9rem;border-top:1px solid var(--slate-600)}
 .twin-antigens label{display:flex;align-items:center;gap:.3rem;font-size:.8rem;cursor:pointer;color:var(--slate-300)}
 .twin-antigens input{accent-color:var(--blue-500);width:14px;height:14px}
-.twin-plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.btn-twin{width:100%;margin-top:1rem;padding:.7rem;border-radius:.5rem;font-weight:700;font-size:.9rem;cursor:pointer;border:none;color:#0a0a12;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));transition:all .2s}
+.twin-plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.btn-twin{width:100%;margin-top:.9rem;padding:.65rem;border-radius:.5rem;font-weight:700;font-size:.88rem;cursor:pointer;border:none;color:#0a0a12;background:linear-gradient(135deg,var(--amber-500),var(--amber-600));transition:all .2s}
 .btn-twin.plan{background:linear-gradient(135deg,var(--blue-500),var(--blue-600));color:#fff}
-.btn-twin:hover{filter:brightness(1.08)}
-.twin-result{margin-top:1rem;display:none}
+.btn-twin:hover{filter:brightness(1.08)}.btn-twin:disabled{opacity:.6;cursor:wait}
+.twin-result{margin-top:.9rem;display:none}
 .twin-result.show{display:block;animation:fadeIn .3s}
-.twin-result table{width:100%;font-size:.8rem;border-collapse:collapse}
-.twin-result th{font-size:.7rem;color:var(--slate-400);font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid var(--slate-600)}
-.twin-result td{padding:5px 6px;border-bottom:1px solid var(--slate-700)}
-.twin-result td.num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
-.twin-bar{height:6px;border-radius:3px;background:var(--slate-700);overflow:hidden}
-.twin-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--amber-500),var(--red-500))}
-.twin-tip{background:rgba(10,10,18,.94)!important;color:#f0ece2!important;border:1px solid rgba(200,169,96,.3)!important;border-radius:8px!important;box-shadow:0 4px 14px rgba(0,0,0,.5)!important;font-size:.78rem;line-height:1.5;min-width:200px;padding:8px 10px!important}
+.twin-result table{width:100%;font-size:.78rem;border-collapse:collapse}
+.twin-result th{font-size:.66rem;color:var(--slate-400);font-weight:500;text-align:left;padding:4px 6px;border-bottom:1px solid var(--slate-600);white-space:nowrap}
+.twin-result td{padding:5px 6px;border-bottom:1px solid var(--slate-700);vertical-align:middle}
+.twin-result td.num{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.twin-result td.rng{color:var(--slate-400);font-size:.72rem;white-space:nowrap;text-align:right}
+.twin-bar{height:6px;border-radius:3px;background:var(--slate-700);overflow:hidden;min-width:60px}
+.twin-bar i{display:block;height:100%}
+.twin-cmp{margin-top:.6rem;padding:.6rem .8rem;border-radius:.5rem;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.2);font-size:.78rem;line-height:1.5;color:var(--slate-300)}
+.twin-cmp b{color:var(--blue-400)}
+.twin-reco{margin-top:.6rem;padding:.6rem .8rem;border-radius:.5rem;background:rgba(200,169,96,.05);border:1px solid rgba(200,169,96,.18);font-size:.78rem;line-height:1.5;color:var(--slate-300)}
+.twin-reco b{color:var(--amber-400)}
+.twin-limits{margin-top:.6rem;font-size:.72rem;color:var(--slate-500)}
+.twin-limits summary{cursor:pointer;color:var(--slate-400)}
+.twin-limits ul{margin:.4rem 0 0 1.1rem;line-height:1.5}
+.twin-marker{border-radius:50%;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;color:#fff}
+.twin-tip{background:rgba(10,10,18,.94)!important;color:#f0ece2!important;border:1px solid rgba(200,169,96,.3)!important;border-radius:8px!important;box-shadow:0 4px 14px rgba(0,0,0,.5)!important;font-size:.76rem;line-height:1.5;min-width:210px;padding:8px 10px!important}
 .twin-tip::before{border-top-color:rgba(10,10,18,.94)!important}
 .twin-tip .t{font-weight:700;color:var(--amber-400);margin-bottom:3px}
 .twin-tip .r{display:flex;justify-content:space-between;gap:10px}
-.twin-tip .r .k{color:var(--slate-400)}
-.twin-tip .r .v{font-weight:700}
+.twin-tip .r .k{color:var(--slate-400)}.twin-tip .r .v{font-weight:700}
+@media(max-width:900px){.twin-kpis{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -572,50 +596,70 @@ body.map-fullscreen .toast-container{z-index:100003!important}
   <div class="container">
     <!-- Tabs -->
     <div class="tabs" id="tabBar">
-      <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Tableau de bord
-      </button>
-      <button class="tab" data-tab="carto" onclick="switchTab('carto')">
-        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Cartographie
-      </button>
-      <button class="tab" data-tab="twin" onclick="switchTab('twin')">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
-        Jumeau numérique
-      </button>
-      <button class="tab" data-tab="match" onclick="switchTab('match')">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Recherche PSL
-      </button>
-      <button class="tab" data-tab="route" onclick="switchTab('route')">
-        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-        Itinéraires bus
-      </button>
-      <button class="tab" data-tab="collectes" onclick="switchTab('collectes')">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Planification
-      </button>
-      <button class="tab" data-tab="equity" onclick="switchTab('equity')">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        Équité
-      </button>
-      <button class="tab" data-tab="botpro" onclick="switchTab('botpro')">
-        <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7v1H3v-1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2z"/><rect x="1" y="17" width="22" height="4" rx="1"/></svg>
-        BeeBot Pro
-      </button>
-      <button class="tab" data-tab="stocks" onclick="switchTab('stocks')">
-        <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
-        Stocks
-      </button>
-      <button class="tab" data-tab="campagnes" onclick="switchTab('campagnes')">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
-        Campagnes
-      </button>
-      <button class="tab" data-tab="protocoles" onclick="switchTab('protocoles')">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Protocoles CRS
-      </button>
+      <div class="tab-group">
+        <div class="tab-group-label">Piloter</div>
+        <div class="tab-group-tabs">
+          <button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Tableau de bord
+          </button>
+          <button class="tab" data-tab="stocks" onclick="switchTab('stocks')">
+            <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+            Stocks
+          </button>
+          <button class="tab" data-tab="equity" onclick="switchTab('equity')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            Équité
+          </button>
+        </div>
+      </div>
+      <div class="tab-group">
+        <div class="tab-group-label">Cartographier</div>
+        <div class="tab-group-tabs">
+          <button class="tab" data-tab="carto" onclick="switchTab('carto')">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Cartographie
+          </button>
+          <button class="tab" data-tab="route" onclick="switchTab('route')">
+            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Itinéraires bus
+          </button>
+          <button class="tab" data-tab="collectes" onclick="switchTab('collectes')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Planification
+          </button>
+        </div>
+      </div>
+      <div class="tab-group">
+        <div class="tab-group-label">Anticiper</div>
+        <div class="tab-group-tabs">
+          <button class="tab" data-tab="twin" onclick="switchTab('twin')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
+            Jumeau numérique
+          </button>
+          <button class="tab" data-tab="match" onclick="switchTab('match')">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Recherche PSL
+          </button>
+        </div>
+      </div>
+      <div class="tab-group">
+        <div class="tab-group-label">Agir</div>
+        <div class="tab-group-tabs">
+          <button class="tab" data-tab="campagnes" onclick="switchTab('campagnes')">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+            Campagnes
+          </button>
+          <button class="tab" data-tab="botpro" onclick="switchTab('botpro')">
+            <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7v1H3v-1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2z"/><rect x="1" y="17" width="22" height="4" rx="1"/></svg>
+            BeeBot Pro
+          </button>
+          <button class="tab" data-tab="protocoles" onclick="switchTab('protocoles')">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Protocoles CRS
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Region bar -->
@@ -780,18 +824,33 @@ body.map-fullscreen .toast-container{z-index:100003!important}
               <svg style="stroke:var(--amber-400)" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
               Jumeau numérique — <span id="twinRegionName">Genève</span>
             </div>
-            <div class="twin-head">
-              <span id="twinStatus">Carte de chaleur des sites de collecte — lancez une recherche ou une simulation.</span>
-              <span><b id="twinCount">0</b> site(s) affiché(s)</span>
+            <div class="twin-steps">
+              <span class="twin-step on" id="twinStep1"><b>1</b> Configurer</span>
+              <span class="twin-step" id="twinStep2"><b>2</b> Simuler</span>
+              <span class="twin-step" id="twinStep3"><b>3</b> Analyser</span>
             </div>
+            <div class="twin-empty" id="twinEmpty">Choisissez un phénotype ou un scénario à droite, puis lancez la simulation. Chaque résultat est une médiane sur 30 tirages avec son intervalle P10–P90 : aucun chiffre n'est affiché sans le repère qui permet de le juger.</div>
+            <div class="twin-kpis hidden" id="twinKpis"></div>
             <div id="twinMap"></div>
+            <div class="twin-head">
+              <span id="twinStatus"></span>
+              <span id="twinRun"></span>
+            </div>
             <div class="twin-result" id="twinResult"></div>
-            <p style="font-size:.7rem;color:var(--slate-500);margin-top:.6rem;line-height:1.5">Simulation de stock à partir des fréquences antigéniques populationnelles (ordre ISBT) et de modificateurs de scénario. Données locales de démonstration, aucune connexion serveur.</p>
+            <details class="twin-limits">
+              <summary>Ce que ce panneau ne dit pas</summary>
+              <ul>
+                <li>Les fréquences antigéniques sont des moyennes populationnelles européennes ; elles ne décrivent pas la composition réelle du bassin de donneurs de chaque site.</li>
+                <li>Le stock de base est dérivé du nombre de donneurs par quartier (données de démonstration), pas d'un inventaire ISBT 128 réel.</li>
+                <li>Un scénario mesure l'effet d'un choix, ce n'est pas une prévision : la version BeeOS v2 branchera les programmes opératoires, la saisonnalité et le stock réel à 14 jours.</li>
+                <li>Deux résultats dont les intervalles se recouvrent sont présentés comme non distinguables, même si leurs médianes diffèrent.</li>
+              </ul>
+            </details>
           </div>
         </div>
         <div>
           <div class="sidebar-card">
-            <h4><span class="twin-tag">01</span> Recherche par phénotype</h4>
+            <h4><span class="twin-tag">01</span> Phénotype recherché</h4>
             <div class="twin-field">
               <label for="twinAbo">Groupe sanguin (ABO)</label>
               <select id="twinAbo">
@@ -803,13 +862,13 @@ body.map-fullscreen .toast-container{z-index:100003!important}
               </select>
             </div>
             <div class="twin-field">
-              <span class="lbl">Systèmes antigéniques</span>
+              <span class="lbl">Systèmes antigéniques (ordre ISBT)</span>
               <div class="twin-groups" id="twinGroups"></div>
             </div>
-            <button class="btn-twin" onclick="twinRechercher()">🔎 Rechercher les poches</button>
+            <button class="btn-twin" id="twinBtnSearch" onclick="twinRechercher()">🔎 Rechercher les poches compatibles</button>
           </div>
           <div class="sidebar-card" style="margin-top:1rem">
-            <h4><span class="twin-tag plan">02</span> Planification &amp; scénario</h4>
+            <h4><span class="twin-tag plan">02</span> Scénario &amp; planification</h4>
             <div class="twin-plan-grid">
               <div class="twin-field">
                 <label for="twinDate">Date</label>
@@ -827,7 +886,17 @@ body.map-fullscreen .toast-container{z-index:100003!important}
             <div class="twin-field hidden" id="twinAutreWrap">
               <textarea id="twinAutre" placeholder="Décrivez le scénario…"></textarea>
             </div>
-            <button class="btn-twin plan" onclick="twinSimuler()">🔮 Planifier &amp; simuler</button>
+            <div class="twin-plan-grid">
+              <div class="twin-field">
+                <label for="twinSeed">Graine aléatoire</label>
+                <input type="number" id="twinSeed" value="42" min="1" max="99999">
+              </div>
+              <div class="twin-field">
+                <label for="twinRuns">Tirages</label>
+                <select id="twinRuns"><option value="10">10</option><option value="30" selected>30</option><option value="100">100</option></select>
+              </div>
+            </div>
+            <button class="btn-twin plan" id="twinBtnSim" onclick="twinSimuler()">🔮 Simuler le scénario</button>
           </div>
         </div>
       </div>
@@ -1603,10 +1672,10 @@ function initMap(){
     mw.appendChild(fb);
   }
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains:'abcd',maxZoom:19
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:19
   }).addTo(map);
+  map.getContainer().classList.add('map-dark');
 
   setTimeout(()=>map.invalidateSize(),150);
 
@@ -2797,22 +2866,20 @@ var el2=document.getElementById('routeDate');if(el2)el2.value=iso;})();
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
 
 // ========================= JUMEAU NUMÉRIQUE =========================
-// Recherche par phénotype + planification par scénario (intégré depuis /digitaltwin).
-// Fréquences populationnelles hard-codées, ordonnées par numéro ISBT.
+// Fonctionnel twin (configurer → simuler → analyser), inspiré du TB « Digital Twin des
+// urgences pédiatriques HUG » : tirages reproductibles (graine), variables aléatoires
+// communes entre scénarios, résultats donnés en médiane + intervalle P10–P90.
+// Fréquences antigéniques populationnelles, ordonnées par numéro ISBT.
 const twinAboFreq = { A:0.40, B:0.11, O:0.44, AB:0.05 };
 const twinGroupes = {
-  MNS:  { actif:false, antigenes:['M','N','S','s'],
-          freq:{M:0.78,N:0.72,S:0.55,s:0.89}, positifs:{} },
-  Rh:   { actif:false, antigenes:['D','C','E','c','e'],
-          freq:{D:0.85,C:0.68,E:0.29,c:0.80,e:0.98}, positifs:{} },
-  Kell: { actif:false, antigenes:['K','k','Kpa','Kpb','Jsa','Jsb'],
-          freq:{K:0.09,k:0.99,Kpa:0.02,Kpb:0.99,Jsa:0.01,Jsb:0.99}, positifs:{} },
-  Duffy:{ actif:false, antigenes:['Fya','Fyb'],
-          freq:{Fya:0.66,Fyb:0.83}, positifs:{} }
+  MNS:  { actif:false, antigenes:['M','N','S','s'], freq:{M:0.78,N:0.72,S:0.55,s:0.89}, positifs:{} },
+  Rh:   { actif:false, antigenes:['D','C','E','c','e'], freq:{D:0.85,C:0.68,E:0.29,c:0.80,e:0.98}, positifs:{} },
+  Kell: { actif:false, antigenes:['K','k','Kpa','Kpb','Jsa','Jsb'], freq:{K:0.09,k:0.99,Kpa:0.02,Kpb:0.99,Jsa:0.01,Jsb:0.99}, positifs:{} },
+  Duffy:{ actif:false, antigenes:['Fya','Fyb'], freq:{Fya:0.66,Fyb:0.83}, positifs:{} }
 };
 // rare : modificateur (%) sur les poches à phénotype rare ; generale : sur le stock total
 const twinScenarios = {
-  'Aucun':                        { rare:  0, generale:  0 },
+  'Aucun (référence)':            { rare:  0, generale:  0 },
   'Pandémie':                     { rare:-40, generale: 20 },
   'Catastrophe phase aiguë':      { rare: 40, generale: 20 },
   'Catastrophe « worst case »':   { rare:-40, generale:-60 },
@@ -2825,36 +2892,42 @@ const twinScenarios = {
   'Autre':                        { rare:  0, generale:  0 }
 };
 const twinPlages = ['08h00 – 10h00','10h00 – 12h00','12h00 – 14h00','14h00 – 16h00','16h00 – 18h00','18h00 – 20h00'];
-const twinTauxRareBase = 0.07; // part de poches à phénotype rare dans le stock
-var twinMap = null, twinHeat = null, twinZones = null, twinInit = false;
+const twinTauxRareBase = 0.07;      // part de poches à phénotype rare dans le stock
+const twinSeuilJours = 5;           // cible de couverture (jours) ; < 3 = critique
+const twinRamp = [[59,130,246],[34,197,94],[234,179,8],[239,68,68],[185,28,28]]; // même rampe que Cartographie
+var twinMap = null, twinLayers = null, twinInit = false, twinLast = null;
 
-// Sites de collecte = quartiers de la région sélectionnée (stock de base dérivé du bassin de donneurs)
+// --- aléatoire reproductible (mulberry32) + lois utilitaires ---
+function twinRng(seed){ var a=seed>>>0; return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function twinBinom(n,p,rnd){ if(n<=0||p<=0) return 0; if(p>=1) return n; if(n<300){ var k=0; for(var i=0;i<n;i++) if(rnd()<p) k++; return k; }
+  var u1=rnd()||1e-9, u2=rnd(), z=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2); return Math.max(0,Math.min(n,Math.round(n*p+z*Math.sqrt(n*p*(1-p))))); }
+function twinQ(arr,q){ var a=arr.slice().sort(function(x,y){return x-y;}); var i=(a.length-1)*q, lo=Math.floor(i), hi=Math.ceil(i); return a[lo]+(a[hi]-a[lo])*(i-lo); }
+function twinStats(arr){ return { med:Math.round(twinQ(arr,.5)), p10:Math.round(twinQ(arr,.1)), p90:Math.round(twinQ(arr,.9)) }; }
+function twinHeatColor(t){ t=Math.max(0,Math.min(1,t)); var idx=t*(twinRamp.length-1), lo=Math.floor(idx), hi=Math.min(lo+1,twinRamp.length-1), f=idx-lo;
+  return 'rgb('+Math.round(twinRamp[lo][0]+(twinRamp[hi][0]-twinRamp[lo][0])*f)+','+Math.round(twinRamp[lo][1]+(twinRamp[hi][1]-twinRamp[lo][1])*f)+','+Math.round(twinRamp[lo][2]+(twinRamp[hi][2]-twinRamp[lo][2])*f)+')'; }
+
+// Sites = quartiers de la région sélectionnée ; stock de base dérivé du bassin de donneurs
 function twinSites(){
   var r = regions[selectedRegion];
   return (r.quartiers||[]).filter(function(q){return q.lat&&q.lng;}).map(function(q){
-    return { nom:q.name, lat:q.lat, lng:q.lng, base:Math.max(40, Math.round(q.donors*0.18)) };
+    return { id:q.id, nom:q.name, lat:q.lat, lng:q.lng, base:Math.max(40, Math.round(q.donors*0.18)), need:q.needScore||0.5 };
   });
 }
 
 function twinBuildForm(){
   if(twinInit) return;
   twinInit = true;
-  var g = document.getElementById('twinGroups');
-  g.innerHTML = Object.keys(twinGroupes).map(function(gname){
+  document.getElementById('twinGroups').innerHTML = Object.keys(twinGroupes).map(function(gname){
     var grp = twinGroupes[gname];
-    return '<div class="twin-group" id="twinGrp-'+gname+'">'
-      +'<div class="twin-group-row" onclick="twinToggleGroup(\''+gname+'\')">'
+    return '<div class="twin-group"><div class="twin-group-row" onclick="twinToggleGroup(\''+gname+'\')">'
       +'<input type="checkbox" id="twinGrpCb-'+gname+'" onclick="event.stopPropagation();twinToggleGroup(\''+gname+'\',this.checked)">'
       +'<span class="gname">'+gname+'</span><span class="ghint" id="twinGrpHint-'+gname+'">ignoré</span></div>'
       +'<div class="twin-antigens hidden" id="twinAg-'+gname+'">'
-      +grp.antigenes.map(function(ag){
-        return '<label><input type="checkbox" onchange="twinGroupes[\''+gname+'\'].positifs[\''+ag+'\']=this.checked"> '+ag+'</label>';
-      }).join('')+'</div></div>';
+      +grp.antigenes.map(function(ag){ return '<label><input type="checkbox" onchange="twinGroupes[\''+gname+'\'].positifs[\''+ag+'\']=this.checked"> '+ag+'</label>'; }).join('')
+      +'</div></div>';
   }).join('');
-  var h = document.getElementById('twinHeure');
-  h.innerHTML = twinPlages.map(function(p){return '<option>'+p+'</option>';}).join('');
-  var s = document.getElementById('twinScenario');
-  s.innerHTML = Object.keys(twinScenarios).map(function(n){return '<option>'+n+'</option>';}).join('');
+  document.getElementById('twinHeure').innerHTML = twinPlages.map(function(p){return '<option>'+p+'</option>';}).join('');
+  document.getElementById('twinScenario').innerHTML = Object.keys(twinScenarios).map(function(n){return '<option>'+n+'</option>';}).join('');
   document.getElementById('twinDate').value = new Date().toISOString().slice(0,10);
 }
 function twinToggleGroup(gname, forced){
@@ -2864,9 +2937,8 @@ function twinToggleGroup(gname, forced){
   document.getElementById('twinAg-'+gname).classList.toggle('hidden', !grp.actif);
   document.getElementById('twinGrpHint-'+gname).textContent = grp.actif ? 'inclus dans la recherche' : 'ignoré';
 }
-function twinScenarioChange(){
-  document.getElementById('twinAutreWrap').classList.toggle('hidden', document.getElementById('twinScenario').value!=='Autre');
-}
+function twinScenarioChange(){ document.getElementById('twinAutreWrap').classList.toggle('hidden', document.getElementById('twinScenario').value!=='Autre'); }
+function twinSetStep(n){ [1,2,3].forEach(function(i){ document.getElementById('twinStep'+i).classList.toggle('on', i<=n); }); }
 
 function initTwinMap(){
   twinBuildForm();
@@ -2874,14 +2946,18 @@ function initTwinMap(){
   document.getElementById('twinRegionName').textContent = r.name;
   if(twinMap){ twinMap.remove(); twinMap = null; }
   twinMap = L.map('twinMap',{zoomControl:true}).setView(r.center, r.zoom);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains:'abcd',maxZoom:19
-  }).addTo(twinMap);
-  twinHeat = (typeof L.heatLayer==='function') ? L.heatLayer([],{radius:34,blur:26,maxZoom:15}).addTo(twinMap) : null;
-  twinZones = L.layerGroup().addTo(twinMap);
-  document.getElementById('twinCount').textContent = '0';
-  document.getElementById('twinStatus').textContent = 'Carte de chaleur des sites de collecte — lancez une recherche ou une simulation.';
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:19}).addTo(twinMap);
+  twinMap.getContainer().classList.add('map-dark');
+  twinLayers = L.layerGroup().addTo(twinMap);
+  var legend=L.control({position:'bottomleft'});
+  legend.onAdd=function(){ var d=L.DomUtil.create('div','map-legend-ctrl'); d.innerHTML='<div style="font-weight:700;color:#C8A960;margin-bottom:4px;font-size:.8rem">🗺️ Jumeau numérique</div>'
+    +'<div id="twinLegendTxt" style="line-height:1.5;color:#f0ece2;font-size:.72rem">Lancez une recherche ou un scénario</div>'
+    +'<div style="margin-top:8px;display:flex;align-items:center;gap:6px"><span style="color:#3b82f6;font-size:.65rem">Faible</span><div style="flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#3b82f6,#22c55e,#eab308,#ef4444,#b91c1c)"></div><span style="color:#ef4444;font-size:.65rem">Élevé</span></div>'; return d; };
+  legend.addTo(twinMap);
+  twinSetStep(1);
+  document.getElementById('twinKpis').classList.add('hidden');
+  document.getElementById('twinEmpty').classList.remove('hidden');
+  document.getElementById('twinStatus').textContent=''; document.getElementById('twinRun').textContent='';
   document.getElementById('twinResult').classList.remove('show');
   setTimeout(function(){ if(twinMap) twinMap.invalidateSize(); },150);
 }
@@ -2890,109 +2966,141 @@ function initTwinMap(){
 function twinProbabilite(){
   var p = 1, abo = document.getElementById('twinAbo').value;
   if(abo) p *= twinAboFreq[abo];
-  Object.keys(twinGroupes).forEach(function(gname){
-    var grp = twinGroupes[gname];
-    if(!grp.actif) return;
-    grp.antigenes.forEach(function(ag){
-      var f = grp.freq[ag];
-      p *= grp.positifs[ag] ? f : (1-f);
-    });
-  });
+  Object.keys(twinGroupes).forEach(function(gname){ var grp=twinGroupes[gname]; if(!grp.actif) return;
+    grp.antigenes.forEach(function(ag){ p *= grp.positifs[ag] ? grp.freq[ag] : (1-grp.freq[ag]); }); });
   return p;
 }
-function twinShuffle(arr){
-  var a = arr.slice();
-  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
-  return a;
+function twinPhenoLabel(){
+  var parts=[]; var abo=document.getElementById('twinAbo').value; if(abo) parts.push(abo);
+  Object.keys(twinGroupes).forEach(function(g){ var grp=twinGroupes[g]; if(!grp.actif) return;
+    parts.push(g+' '+grp.antigenes.map(function(ag){return ag+(grp.positifs[ag]?'+':'−');}).join('')); });
+  return parts.length?parts.join(' · '):'tout phénotype';
 }
-// Jitter gaussien (Box-Muller) : nuage dense au centre, dégradé vers l'extérieur
-function twinJitter(lat,lng,ecart){
-  var u1=Math.random()||1e-9, u2=Math.random(), r=Math.sqrt(-2*Math.log(u1));
-  return [lat + r*Math.cos(2*Math.PI*u2)*ecart, lng + r*Math.sin(2*Math.PI*u2)*ecart];
-}
-function twinDateFr(){
-  var iso = document.getElementById('twinDate').value || new Date().toISOString().slice(0,10);
-  return new Date(iso+'T00:00:00').toLocaleDateString('fr-CH',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+function twinDateFr(){ var iso=document.getElementById('twinDate').value||new Date().toISOString().slice(0,10); return new Date(iso+'T00:00:00').toLocaleDateString('fr-CH',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}); }
+
+// Un « run » = N tirages sur tous les sites. mode 'pheno' : poches compatibles ; mode 'scen' : poches rares.
+// Le même seed sert au scénario et à sa référence (variables aléatoires communes).
+function twinRun(mode, mod, proba, seed, runs){
+  var sites = twinSites(), rnd = twinRng(seed), perSite = sites.map(function(){return {tot:[],val:[]};});
+  for(var k=0;k<runs;k++){
+    sites.forEach(function(s,i){
+      var bruit = 0.85 + rnd()*0.30;                          // aléa d'approvisionnement ±15 %
+      var total = Math.max(0, Math.round(s.base*(1+mod.generale/100)*bruit));
+      var p = mode==='pheno' ? proba : Math.min(1, twinTauxRareBase*(1+mod.rare/100));
+      var val = twinBinom(total, p, rnd);
+      perSite[i].tot.push(total); perSite[i].val.push(val);
+    });
+  }
+  var out = sites.map(function(s,i){ return { site:s, tot:twinStats(perSite[i].tot), val:twinStats(perSite[i].val) }; });
+  var totals = [], vals = [];
+  for(var k2=0;k2<runs;k2++){ var t=0,v=0; perSite.forEach(function(ps){t+=ps.tot[k2];v+=ps.val[k2];}); totals.push(t); vals.push(v); }
+  return { sites:out, total:twinStats(totals), val:twinStats(vals) };
 }
 
-// Dessine les résultats : heat + zone survolable + tableau récapitulatif
-function twinDessiner(resultats, msgVide, statut, labelValeur, labelTotal){
+function twinOverlap(a,b){ return !(a.p90 < b.p10 || b.p90 < a.p10); }
+
+// Dessine heat (cercles flous, comme Cartographie) + marqueurs + KPIs + tableau
+function twinDessiner(res, ref, ctx){
   if(!twinMap) initTwinMap();
-  if(twinHeat) twinHeat.setLatLngs([]);
-  twinZones.clearLayers();
-  var res = document.getElementById('twinResult');
-  if(!resultats.length){
-    document.getElementById('twinCount').textContent='0';
-    document.getElementById('twinStatus').textContent='';
-    res.classList.remove('show');
-    showToast('warning', msgVide);
-    return;
-  }
-  var heure = document.getElementById('twinHeure').value, dateFr = twinDateFr();
-  var maxRatio = Math.max.apply(null, resultats.map(function(x){return x.valeur/x.total;}));
-  var points = [];
-  resultats.forEach(function(x){
-    var ratio = x.valeur/x.total;
-    var intensite = maxRatio>0 ? Math.max(0.25, ratio/maxRatio) : 0.5;
-    x.intensite = intensite;
-    points.push([x.site.lat, x.site.lng, intensite]);
-    for(var i=0;i<45;i++){ var p=twinJitter(x.site.lat,x.site.lng,0.0013); points.push([p[0],p[1],intensite]); }
-    var zone = L.circleMarker([x.site.lat,x.site.lng],{
-      radius: 34 + intensite*22, stroke:!twinHeat, color:'#C8A960', weight:1,
-      fillColor:'#E63946', fillOpacity: twinHeat?0:0.15+intensite*0.35, interactive:true
-    }).addTo(twinZones);
-    zone.bindTooltip('<div class="t">'+x.site.nom+'</div>'
-      +'<div class="r"><span class="k">Date</span><span class="v">'+dateFr+'</span></div>'
-      +'<div class="r"><span class="k">Plage horaire</span><span class="v">'+heure+'</span></div>'
-      +'<div class="r"><span class="k">'+labelValeur+'</span><span class="v">'+x.valeur+'</span></div>'
-      +'<div class="r"><span class="k">'+labelTotal+'</span><span class="v">'+x.total+'</span></div>',
-      {sticky:true, direction:'top', opacity:1, className:'twin-tip'});
+  twinLayers.clearLayers();
+  var r = regions[selectedRegion];
+  var maxVal = Math.max.apply(null, res.sites.map(function(x){return x.val.med;}))||1;
+  res.sites.forEach(function(x){
+    var t = x.val.med/maxVal;
+    L.circle([x.site.lat,x.site.lng],{radius:Math.max(800,t*2800),color:'transparent',fillColor:twinHeatColor(t),fillOpacity:.45,className:'heat-circle'}).addTo(twinLayers);
+    var icon = L.divIcon({className:'',html:'<div class="twin-marker" style="width:30px;height:30px;background:'+twinHeatColor(t)+'">'+x.val.med+'</div>',iconSize:[30,30],iconAnchor:[15,15]});
+    L.marker([x.site.lat,x.site.lng],{icon:icon}).addTo(twinLayers).bindTooltip(
+      '<div class="t">'+x.site.nom+'</div>'
+      +'<div class="r"><span class="k">'+ctx.labelValeur+'</span><span class="v">'+x.val.med+' <span style="color:#8b8b9e;font-weight:400">['+x.val.p10+'–'+x.val.p90+']</span></span></div>'
+      +'<div class="r"><span class="k">'+ctx.labelTotal+'</span><span class="v">'+x.tot.med+'</span></div>'
+      +'<div class="r"><span class="k">Date · plage</span><span class="v">'+ctx.dateFr+' · '+ctx.heure+'</span></div>',
+      {direction:'top',opacity:1,className:'twin-tip'});
   });
-  if(twinHeat) twinHeat.setLatLngs(points);
-  document.getElementById('twinCount').textContent = resultats.length;
-  document.getElementById('twinStatus').textContent = statut;
-  res.innerHTML = '<table><tr><th>Site</th><th style="text-align:right">'+labelValeur+'</th><th style="text-align:right">'+labelTotal+'</th><th style="width:30%">Intensité</th></tr>'
-    + resultats.map(function(x){
-      return '<tr><td>'+x.site.nom+'</td><td class="num" style="color:var(--amber-400)">'+x.valeur+'</td><td class="num">'+x.total+'</td>'
-        +'<td><div class="twin-bar"><i style="width:'+Math.round(x.intensite*100)+'%"></i></div></td></tr>';
-    }).join('') + '</table>';
-  res.classList.add('show');
+  var lg=document.getElementById('twinLegendTxt'); if(lg) lg.textContent = ctx.legend;
+
+  // KPIs : chaque valeur avec sa cible ou son seuil
+  var jours = res.total.med / Math.max(1, r.need);                       // couverture stock total (jours de besoin régional)
+  var joursCls = jours<3?'bad':jours<twinSeuilJours?'warn':'ok';
+  var tension = res.sites.filter(function(x){ return x.val.med < 0.5*maxVal; }).length;
+  var kpis = [
+    { cls:'neutral', v:res.val.med, l:ctx.labelValeur+' (tous sites)', t:'P10–P90 : '+res.val.p10+'–'+res.val.p90+' · '+ctx.runs+' tirages' },
+    { cls:joursCls, v:jours.toFixed(1)+' j', l:'Couverture du besoin régional ('+r.need+' PSL/jour)', t:'cible ≥ '+twinSeuilJours+' j · critique < 3 j' },
+    { cls:tension?'warn':'ok', v:tension+'/'+res.sites.length, l:'Sites en tension', t:'moins de 50 % du meilleur site' }
+  ];
+  if(ref){
+    var same = twinOverlap(res.val, ref.val);
+    var delta = ref.val.med ? Math.round((res.val.med-ref.val.med)/ref.val.med*100) : 0;
+    kpis.push({ cls:same?'neutral':(delta>=0?'ok':'bad'), v:same?'≈':(delta>0?'+':'')+delta+' %', l:'Écart vs scénario de référence', t:same?'intervalles recouvrants : non distinguable':'réf. '+ref.val.med+' ['+ref.val.p10+'–'+ref.val.p90+']' });
+  } else {
+    kpis.push({ cls:'neutral', v:(ctx.proba*100<0.01?'< 0.01':(ctx.proba*100).toFixed(2))+' %', l:'Probabilité de compatibilité par poche', t:'fréquences ISBT · '+ctx.pheno });
+  }
+  document.getElementById('twinKpis').innerHTML = kpis.map(function(k){ return '<div class="twin-kpi '+k.cls+'"><div class="v">'+k.v+'</div><div class="l">'+k.l+'</div><div class="t">'+k.t+'</div></div>'; }).join('');
+  document.getElementById('twinKpis').classList.remove('hidden');
+  document.getElementById('twinEmpty').classList.add('hidden');
+  document.getElementById('twinStatus').textContent = ctx.statut;
+  document.getElementById('twinRun').innerHTML = 'run <code>'+ctx.runId+'</code> · graine <code>'+ctx.seed+'</code>';
+
+  // Tableau par site, trié par valeur
+  var rows = res.sites.slice().sort(function(a,b){return b.val.med-a.val.med;}).map(function(x){
+    var t = x.val.med/maxVal;
+    return '<tr><td>'+x.site.nom+'</td><td class="num" style="color:var(--amber-400)">'+x.val.med+'</td><td class="rng">'+x.val.p10+'–'+x.val.p90+'</td><td class="num">'+x.tot.med+'</td>'
+      +'<td><div class="twin-bar"><i style="width:'+Math.round(t*100)+'%;background:'+twinHeatColor(t)+'"></i></div></td></tr>';
+  }).join('');
+  var html = '<table><tr><th>Site</th><th style="text-align:right">'+ctx.labelValeur+'</th><th style="text-align:right">P10–P90</th><th style="text-align:right">'+ctx.labelTotal+'</th><th style="width:26%">Intensité</th></tr>'+rows+'</table>';
+  if(ref){
+    var same2 = twinOverlap(res.val, ref.val);
+    html += '<div class="twin-cmp"><b>Comparaison à la référence « Aucun »</b> (mêmes tirages, graine '+ctx.seed+') : '
+      +(same2 ? 'les intervalles se recouvrent, l\'effet du scénario n\'est pas distinguable de l\'aléa d\'approvisionnement.'
+              : 'poches rares '+ref.val.med+' → '+res.val.med+' (médiane), stock total '+ref.total.med+' → '+res.total.med+'.')+'</div>';
+    html += '<div class="twin-reco"><b>Levier à mesurer</b> : '+ctx.reco+' Aucun impact chiffré n\'est annoncé avant qu\'un run ne l\'ait établi : modifiez le scénario et relancez avec la même graine.</div>';
+  } else {
+    html += '<div class="twin-reco"><b>Lecture</b> : '+res.val.med+' poche(s) compatible(s) attendue(s) sur la région (intervalle '+res.val.p10+'–'+res.val.p90+'). '
+      +(res.val.med<3 ? 'Phénotype rare : privilégier la recherche PSL Suisse + EBA et le Rare Donor File plutôt que le stock local.' : 'Stock local suffisant pour une demande standard ; réserver via la recherche PSL.')+'</div>';
+  }
+  document.getElementById('twinResult').innerHTML = html;
+  document.getElementById('twinResult').classList.add('show');
+  twinSetStep(3);
   setTimeout(function(){ if(twinMap) twinMap.invalidateSize(); },100);
 }
 
-// Panneau 01 — ne dépend que de l'ABO et des antigènes
+function twinCtxBase(){
+  return { seed:parseInt(document.getElementById('twinSeed').value,10)||42, runs:parseInt(document.getElementById('twinRuns').value,10)||30,
+           heure:document.getElementById('twinHeure').value, dateFr:twinDateFr(), runId:(Date.now()%100000).toString(36).toUpperCase() };
+}
+function twinBusy(btnId, on){ var b=document.getElementById(btnId); if(!b) return; b.disabled=on; if(on){ b.dataset.txt=b.textContent; b.textContent='⏳ Simulation en cours…'; } else if(b.dataset.txt){ b.textContent=b.dataset.txt; } }
+
+// Panneau 01 — ne dépend que de l'ABO et des antigènes (aucun modificateur de scénario)
 function twinRechercher(){
-  var proba = twinProbabilite();
-  var tirage = twinShuffle(twinSites()).slice(0, Math.floor(Math.random()*3)+1);
-  var resultats = [];
-  tirage.forEach(function(site){
-    var brute = site.base*proba;
-    var corr = brute>0 ? Math.max(1, Math.round(brute)) : 0; // proba>0 => au moins 1 poche
-    corr = Math.min(corr, site.base);
-    if(corr>0) resultats.push({site:site, total:site.base, valeur:corr});
-  });
-  twinDessiner(resultats, 'Aucune zone trouvée pour cette recherche.',
-    'Recherche phénotype (p = '+(proba*100<0.01?'< 0.01':(proba*100).toFixed(2))+' %) — '+twinDateFr()+' — '+document.getElementById('twinHeure').value+'.',
-    'Poches correspondantes', 'Poches totales');
-  if(resultats.length) showToast('success', resultats.reduce(function(s,x){return s+x.valeur;},0)+' poche(s) compatible(s) sur '+resultats.length+' site(s).');
+  twinSetStep(2); twinBusy('twinBtnSearch',true);
+  setTimeout(function(){
+    var c = twinCtxBase(); c.proba = twinProbabilite(); c.pheno = twinPhenoLabel();
+    var res = twinRun('pheno', {rare:0,generale:0}, c.proba, c.seed, c.runs);
+    c.labelValeur='Poches compatibles'; c.labelTotal='Poches totales';
+    c.legend='Poches compatibles ('+c.pheno+') par site'; c.statut='Recherche phénotype — '+c.pheno+' — '+c.dateFr+' — '+c.heure;
+    twinDessiner(res, null, c); twinLast={mode:'pheno',res:res};
+    twinBusy('twinBtnSearch',false);
+    showToast('success', res.val.med+' poche(s) compatible(s) attendue(s) sur '+res.sites.length+' site(s).');
+  },250);
 }
 
-// Panneau 02 — ne dépend que du scénario / date / plage
+// Panneau 02 — ne dépend que du scénario / date / plage (aucun filtre de phénotype)
 function twinSimuler(){
-  var nom = document.getElementById('twinScenario').value;
-  var mod = twinScenarios[nom] || {rare:0,generale:0};
-  var tirage = twinShuffle(twinSites()).slice(0, Math.floor(Math.random()*3)+1);
-  var resultats = [];
-  tirage.forEach(function(site){
-    var total = Math.max(0, Math.round(site.base*(1+mod.generale/100)));
-    var rare = Math.round(site.base*twinTauxRareBase*(1+mod.rare/100));
-    rare = Math.min(Math.max(rare,0), total);
-    if(total>0) resultats.push({site:site, total:total, valeur:rare});
-  });
-  var fmt = function(v){return (v>0?'+':'')+v+' %';};
-  twinDessiner(resultats, 'Aucune zone trouvée pour ce scénario.',
-    'Simulation « '+nom+' » (rares '+fmt(mod.rare)+', stock '+fmt(mod.generale)+') — '+twinDateFr()+' — '+document.getElementById('twinHeure').value+'.',
-    'Poches rares (estimées)', 'Poches totales (estimées)');
+  twinSetStep(2); twinBusy('twinBtnSim',true);
+  setTimeout(function(){
+    var c = twinCtxBase(), nom = document.getElementById('twinScenario').value, mod = twinScenarios[nom]||{rare:0,generale:0};
+    var res = twinRun('scen', mod, 0, c.seed, c.runs);
+    var ref = twinRun('scen', {rare:0,generale:0}, 0, c.seed, c.runs);
+    var fmt=function(v){return (v>0?'+':'')+v+' %';};
+    c.labelValeur='Poches rares'; c.labelTotal='Stock total';
+    c.legend='Poches à phénotype rare par site — scénario « '+nom+' »';
+    c.statut='Scénario « '+nom+' » (rares '+fmt(mod.rare)+', stock '+fmt(mod.generale)+') — '+c.dateFr+' — '+c.heure;
+    c.reco = mod.rare<0 ? 'lancer une campagne ciblée « groupes rares » ou un appel d\'urgence pour compenser la baisse des phénotypes rares.'
+           : mod.generale<0 ? 'renforcer les collectes mobiles sur les sites en tension avant la baisse de stock.'
+           : 'prolonger les créneaux des sites les plus rentables et sécuriser la logistique de stockage.';
+    twinDessiner(res, nom.indexOf('Aucun')===0?null:ref, c); twinLast={mode:'scen',res:res,ref:ref};
+    twinBusy('twinBtnSim',false);
+    showToast('success','Scénario « '+nom+' » simulé : '+res.val.med+' poches rares (P10–P90 '+res.val.p10+'–'+res.val.p90+').');
+  },250);
 }
 </script>
 </body>

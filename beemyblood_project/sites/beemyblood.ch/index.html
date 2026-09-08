@@ -38,7 +38,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .nav-links{display:flex;gap:24px;align-items:center}
 .nav-links a{color:var(--text-dim);font-size:15px;font-weight:500}.nav-links a:hover{color:var(--gold)}
 
-.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:90px 24px 60px;position:relative;overflow:hidden}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:110px 24px 56px;position:relative;overflow:hidden}
+.hero-promise{font-size:clamp(15px,1.8vw,17px);color:var(--text-muted);max-width:560px;margin:-12px auto 36px;line-height:1.7;animation:fadeUp .6s .2s ease both}
+.portal p{font-size:13px;color:var(--text-muted);margin-top:4px}
+.block{max-width:720px;margin:0 auto;padding:40px 24px 56px;text-align:center}
+.block-kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px}
+.block h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3.6vw,34px);font-weight:800;line-height:1.25;margin-bottom:28px}
+.block h2 span{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.luxe{position:relative}
+.luxe::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(230,57,70,.06),transparent 65%);pointer-events:none}
+.luxe-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative}
+.luxe-item{padding:24px 18px;border-radius:14px;border:1px solid rgba(200,169,96,.12);background:var(--dark-card)}
+.lx-num{font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:var(--gold);line-height:1}
+.lx-title{font-size:15px;font-weight:700;margin:10px 0 6px}
+.lx-desc{font-size:13.5px;color:var(--text-dim);line-height:1.6}
 .hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:min(800px,100vw);height:min(800px,100vw);border-radius:50%;background:radial-gradient(circle,rgba(200,169,96,.06) 0%,transparent 70%);pointer-events:none}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,6.5vw,80px);font-weight:800;line-height:1.05;margin-bottom:16px;animation:fadeUp .6s ease both}
 .hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -53,7 +66,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .portal.coming{opacity:.55;pointer-events:none;position:relative}
 .portal.coming .coming-badge{display:block;margin-top:10px;font-size:13px;padding:4px 12px;border-radius:8px;background:rgba(200,169,96,.08);border:1px solid rgba(200,169,96,.15);color:var(--text-muted);font-weight:500}
 
-.cta-projet{display:block;max-width:560px;width:100%;margin-top:8px;padding:20px 28px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(200,169,96,.03));border:2px solid rgba(200,169,96,.25);text-decoration:none;color:var(--text);transition:all .35s;animation:fadeUp .6s .3s ease both;position:relative;overflow:hidden;cursor:pointer}
+.cta-projet{display:block;max-width:560px;width:100%;margin:0 auto;padding:20px 28px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(200,169,96,.03));border:2px solid rgba(200,169,96,.25);text-decoration:none;color:var(--text);transition:all .35s;animation:fadeUp .6s .3s ease both;position:relative;overflow:hidden;cursor:pointer}
 .cta-projet::after{content:'';position:absolute;top:0;right:0;width:200px;height:100%;background:linear-gradient(90deg,transparent,rgba(200,169,96,.04));pointer-events:none}
 .cta-projet:hover{border-color:rgba(200,169,96,.55);transform:translateY(-3px);box-shadow:0 12px 40px rgba(200,169,96,.12);color:var(--text)}
 .cta-btn{display:inline-block;margin-top:12px;padding:10px 24px;border-radius:10px;background:linear-gradient(135deg,rgba(200,169,96,.12),rgba(200,169,96,.06));border:1.5px solid rgba(200,169,96,.3);font-size:14px;font-weight:600;color:var(--gold);transition:all .2s}
@@ -74,15 +87,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .mi-desc{font-size:13px;color:var(--text-muted);line-height:1.5}
 .mission-baseline{font-size:15px;color:var(--text-dim);max-width:500px;margin:32px auto 36px;line-height:1.6}
 
-.why{max-width:680px;width:100%;margin:8px auto 28px;animation:fadeUp .6s .35s ease both}
-.why-title{font-family:'Playfair Display',serif;font-size:clamp(19px,2.8vw,26px);font-weight:800;line-height:1.3;margin-bottom:18px}
-.why-title span{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
 .why-item{padding:16px 16px 14px;border-radius:12px;border:1px solid rgba(200,169,96,.1);background:var(--dark-card);display:flex;gap:12px;align-items:flex-start}
 .wi-icon{font-size:22px;line-height:1;margin-top:2px}
 .wi-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px}
 .wi-desc{font-size:13px;color:var(--text-dim);line-height:1.55}
-.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:22px}
 .stats div{padding:10px 18px;border-radius:10px;background:rgba(200,169,96,.05);border:1px solid rgba(200,169,96,.12);font-size:12px;color:var(--text-dim);display:flex;align-items:baseline;gap:6px}
 .stats b{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold)}
 .partners{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:680px;margin:0 auto;animation:fadeUp .6s .45s ease both;padding-top:8px}
@@ -96,6 +106,8 @@ footer a{color:var(--gold)}
   .portals{grid-template-columns:1fr;max-width:320px}
   .mission-grid{grid-template-columns:repeat(2,1fr)}
   .why-grid{grid-template-columns:1fr}
+  .luxe-grid{grid-template-columns:1fr}
+  .block{padding:28px 18px 40px}
   .cta-projet{padding:20px 18px}.cta-content{text-align:center}.cta-left{text-align:center}
 }
 </style>
@@ -109,49 +121,55 @@ footer a{color:var(--gold)}
 <section class="hero">
   <h1>🐝 <span class="gold">BeeMyBlood</span><sup style="font-size:.3em;color:var(--text-muted);-webkit-text-fill-color:var(--text-muted)">™</sup></h1>
   <p class="hero-sub">La médecine transfusionnelle, augmentée.</p>
-
-  <p class="mission-tagline">Chaque poche de sang a une histoire.<br><span>Nous les relions.</span></p>
+  <p class="hero-promise">Une plateforme ouverte qui relie donneur·se·s, patient·e·s et professionnel·le·s, du bras du donneur à la veine du patient.</p>
 
   <div class="portals">
     <a href="donor/" class="portal">
       <div class="portal-icon">🩸</div>
-      <h3>Espace donneur·se</h3>
-    </a>
-    <a href="pro/" class="portal">
-      <div class="portal-icon">🏥</div>
-      <h3>Espace pro</h3>
+      <h3>Je donne</h3>
+      <p>Espace donneur·se</p>
     </a>
     <a href="receiver/" class="portal">
       <div class="portal-icon">💛</div>
-      <h3>Espace receveur·se</h3>
+      <h3>Je reçois</h3>
+      <p>Espace receveur·se</p>
+    </a>
+    <a href="pro/" class="portal">
+      <div class="portal-icon">🏥</div>
+      <h3>Je soigne</h3>
+      <p>Espace professionnel</p>
     </a>
   </div>
+</section>
 
-  <p class="mission-baseline">Du bras du donneur à la veine du patient — un écosystème unique reliant donneurs, receveurs et professionnels.</p>
-
-  <div class="mission-grid">
-    <div class="mission-item"><div class="mi-icon">🔓</div><div class="mi-title">Simplifier</div><div class="mi-desc">Le don et la réception de sang, pour tout le monde</div></div>
-    <div class="mission-item"><div class="mi-icon">🛡️</div><div class="mi-title">Sécuriser</div><div class="mi-desc">L'approvisionnement en produits sanguins labiles</div></div>
-    <div class="mission-item"><div class="mi-icon">⚖️</div><div class="mi-title">Rendre plus équitable</div><div class="mi-desc">L'accès au sang, des donneurs aux receveurs</div></div>
-    <div class="mission-item"><div class="mi-icon">🔬</div><div class="mi-title">Innover</div><div class="mi-desc">Digital twin, IA, suivi prédictif au service des patients</div></div>
+<section class="block luxe">
+  <p class="block-kicker">Le luxe communal</p>
+  <h2>Le don de sang est un luxe.<br><span>Le seul qui se partage.</span></h2>
+  <div class="luxe-grid">
+    <div class="luxe-item"><div class="lx-num">2,4 %</div><div class="lx-title">Rare</div><div class="lx-desc">Seule une personne sur quarante donne son sang en Suisse. Ce geste n'a rien d'ordinaire.</div></div>
+    <div class="luxe-item"><div class="lx-num">3</div><div class="lx-title">Précieux</div><div class="lx-desc">Une poche peut servir jusqu'à trois personnes. Aucune industrie ne sait la fabriquer.</div></div>
+    <div class="luxe-item"><div class="lx-num">45 min</div><div class="lx-title">Héroïque</div><div class="lx-desc">Un acte que personne ne peut accomplir à votre place, et que BeeMyBlood traite comme tel : accueil, reconnaissance, retour d'impact.</div></div>
   </div>
+</section>
 
-  <div class="why">
-    <p class="why-title">Au-delà de la prise de rendez-vous :<br><span>la seule plateforme qui couvre toute la chaîne transfusionnelle.</span></p>
-    <div class="why-grid">
-      <div class="why-item"><div class="wi-icon">💛</div><div><div class="wi-title">Les receveur·se·s au centre</div><div class="wi-desc">Un espace patient dédié : transfusions, chélation, droits, RAI. Les outils existants s'arrêtent au donneur.</div></div></div>
-      <div class="why-item"><div class="wi-icon">🤖</div><div><div class="wi-title">Trois BeeBots spécialisés</div><div class="wi-desc">Une IA calibrée sur les directives Transfusion CRS, pour les donneur·se·s, les patient·e·s et les clinicien·ne·s.</div></div></div>
-      <div class="why-item"><div class="wi-icon">🔬</div><div><div class="wi-title">Jumeau numérique</div><div class="wi-desc">Phénotypes rares, scénarios de crise, planification des collectes : anticiper les pénuries plutôt que les subir.</div></div></div>
-      <div class="why-item"><div class="wi-icon">🔓</div><div><div class="wi-title">Ouvert et souverain</div><div class="wi-desc">Code AGPL-3.0, hébergé en Suisse, nLPD/RGPD, HL7 FHIR. Pas de boîte noire, pas de dépendance à un fournisseur.</div></div></div>
-    </div>
-    <div class="stats">
-      <div><b>3</b> espaces reliés</div>
-      <div><b>14</b> fonctionnalités</div>
-      <div><b>18</b> sites CTS cartographiés</div>
-      <div><b>100%</b> open source</div>
-    </div>
+<section class="block">
+  <p class="block-kicker">Pourquoi BeeMyBlood</p>
+  <h2>Au-delà de la prise de rendez-vous :<br><span>toute la chaîne transfusionnelle.</span></h2>
+  <div class="why-grid">
+    <div class="why-item"><div class="wi-icon">💛</div><div><div class="wi-title">Les receveur·se·s au centre</div><div class="wi-desc">Un espace patient dédié : transfusions, chélation, droits, compatibilité. Les outils existants s'arrêtent au donneur.</div></div></div>
+    <div class="why-item"><div class="wi-icon">🔮</div><div><div class="wi-title">Prédire à 14 jours</div><div class="wi-desc">Un jumeau numérique de la filière : stock, saisonnalité, scénarios de crise et de campagne, pour anticiper les pénuries plutôt que les subir.</div></div></div>
+    <div class="why-item"><div class="wi-icon">🧬</div><div><div class="wi-title">Score de rareté</div><div class="wi-desc">Phénotypes étendus, appariement patient et recherche PSL en Suisse et dans le réseau européen, pour les personnes polytransfusées.</div></div></div>
+    <div class="why-item"><div class="wi-icon">🔓</div><div><div class="wi-title">Ouvert et souverain</div><div class="wi-desc">Noyau BeeOS sous AGPL-3.0, hébergé en Suisse, HL7 FHIR, prêt pour SoHO 2027. Un système compagnon qui lit d'abord, écrit ensuite.</div></div></div>
   </div>
+  <div class="stats">
+    <div><b>3</b> espaces reliés</div>
+    <div><b>3</b> assistants BeeBot</div>
+    <div><b>9</b> régions suisses</div>
+    <div><b>100 %</b> open source</div>
+  </div>
+</section>
 
+<section class="block" style="padding-top:0">
   <a href="projet/" class="cta-projet">
     <div class="cta-content">
       <div class="cta-left">
@@ -161,9 +179,6 @@ footer a{color:var(--gold)}
       </div>
     </div>
   </a>
-
-
-
 </section>
 
 <footer>
