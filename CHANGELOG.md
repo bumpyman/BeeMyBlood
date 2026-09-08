@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.5.0 — 2026-09-08 — first citable release
+
+First regular (non pre-release) release, archived on Zenodo. Same content as v0.4.7 plus citation metadata (CITATION.cff, .zenodo.json with ORCID).
+
 ## v0.4.7 — 2026-09-08 — key rotation, history purge, workspace header
 
 ### Security
