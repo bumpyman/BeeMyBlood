@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.2 — 2026-09-08 — plain language and shared glossary
+
+### Added
+- `lexique.js`, a shared glossary loaded by the five main pages: 45 acronyms and medical terms (CRS, CTS, PSL, RAI, phénotype, chélation, EBA, ISBT, nLPD, HL7 FHIR, SoHO, AGPL-3.0, BeeOS…) explained in plain French. Recognised terms get a dotted underline with a tooltip on hover and a popover on click or tap; a floating "Lexique" button opens the searchable full list. Dynamic content (tabs, chats) is covered too.
+
+### Changed
+- Landing page and project page rewritten in plainer language: acronyms expanded or replaced on first sight (products, standards, licence, data protection, European blood regulation), "prototype confidentiel" replaced by "prototype de recherche".
+
 ## v0.1.1 — 2026-09-08 — maps, digital twin v2, positioning
 
 ### Added

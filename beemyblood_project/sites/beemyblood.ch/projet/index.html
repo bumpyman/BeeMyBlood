@@ -199,15 +199,15 @@ footer a{color:var(--gold)}
     <p class="sdesc reveal reveal-d1">Les outils existants digitalisent la prise de rendez-vous et la fidélisation des donneur·se·s. C'est nécessaire, mais ce n'est que le premier maillon. BeeMyBlood couvre la chaîne entière, du bras du donneur à la veine du patient.</p>
     <div class="cmp-wrap reveal reveal-d2">
       <table class="cmp">
-        <tr><th></th><th>Apps de rendez-vous et gestionnaires de centres</th><th class="us">BeeMyBlood</th></tr>
+        <tr><th></th><th>Applications de rendez-vous et logiciels de gestion des centres</th><th class="us">BeeMyBlood</th></tr>
         <tr><td>Donneur·se·s : éligibilité, rendez-vous, fidélisation</td><td>✔</td><td class="us">✔ + gamification, HémoRush™, parrainage</td></tr>
         <tr><td>Receveur·se·s et patient·e·s</td><td class="no">—</td><td class="us">✔ espace dédié : transfusions, chélation, droits</td></tr>
-        <tr><td>Professionnel·le·s : stocks, cartographie, itinéraires bus</td><td>partiel</td><td class="us">✔ tableau de bord temps réel, 9 régions</td></tr>
-        <tr><td>Assistant IA spécialisé transfusion</td><td class="no">—</td><td class="us">✔ trois BeeBots alignés sur les directives CRS</td></tr>
-        <tr><td>Phénotypes rares et réseau européen (EBA)</td><td class="no">—</td><td class="us">✔ score de rareté, recherche PSL Suisse + EBA, Rare Donor File</td></tr>
+        <tr><td>Professionnel·le·s : stocks, cartographie, itinéraires bus</td><td>partiel</td><td class="us">✔ tableau de bord en temps réel, 9 régions suisses</td></tr>
+        <tr><td>Assistant IA spécialisé transfusion</td><td class="no">—</td><td class="us">✔ trois assistants BeeBot alignés sur les directives de Transfusion CRS Suisse (Croix-Rouge)</td></tr>
+        <tr><td>Sangs rares et réseau européen</td><td class="no">—</td><td class="us">✔ score de rareté, recherche de produits sanguins en Suisse puis dans le réseau européen (EBA), registre national des donneurs rares</td></tr>
         <tr><td>Jumeau numérique et prédiction à 14 jours</td><td class="no">—</td><td class="us">✔ scénarios de crise et de campagne, intervalles d'incertitude, graine reproductible</td></tr>
         <tr><td>Indicateurs d'équité d'accès</td><td class="no">—</td><td class="us">✔ par région et par quartier</td></tr>
-        <tr><td>Modèle</td><td>propriétaire, abonnement</td><td class="us">noyau BeeOS open source AGPL-3.0, hébergé en Suisse, HL7 FHIR, prêt pour SoHO 2027</td></tr>
+        <tr><td>Modèle</td><td>propriétaire, abonnement</td><td class="us">code source public (BeeOS, licence AGPL-3.0), hébergé en Suisse, standards d'échange hospitaliers (HL7 FHIR), prêt pour le règlement européen du sang (SoHO, 2027)</td></tr>
         <tr><td>Intégration</td><td>remplacement du système en place</td><td class="us">système compagnon : lit d'abord, écrit ensuite, remplace seulement si l'établissement le décide</td></tr>
       </table>
     </div>
@@ -246,5 +246,6 @@ function toggleMore(btn){
 }
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
 </script>
+<script src="../lexique.js" defer></script>
 </body>
 </html>

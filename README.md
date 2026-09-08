@@ -41,6 +41,7 @@ beemyblood_project/sites/beemyblood.ch/   # deployable web root (upload as-is to
 ├── digitaltwin/index.html     # standalone digital twin prototype (Vue + Leaflet)
 ├── hackathon/                 # Hackathon HUG #9 edition
 ├── api.php                    # BeeBot proxy for the landing/alpha pages
+├── lexique.js                 # shared glossary: acronyms explained on hover/tap + full list
 ├── config.example.php         # copy to config.php and add your Anthropic API key
 └── alpha_index.html, old_index.html, index_landing_classic.html   # earlier versions
 ```
