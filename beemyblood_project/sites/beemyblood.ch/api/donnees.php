@@ -42,7 +42,8 @@ $NIVEAUX = [
 ];
 
 // ---------- cache ----------
-if (!$FORCE && is_file($CACHE) && (time() - filemtime($CACHE)) < $TTL) {
+// cache valide : moins de 6 h ET plus récent que ce script (un nouveau donnees.php invalide le cache tout seul)
+if (!$FORCE && is_file($CACHE) && (time() - filemtime($CACHE)) < $TTL && filemtime($CACHE) >= filemtime(__FILE__)) {
     readfile($CACHE);
     exit;
 }
