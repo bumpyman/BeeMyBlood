@@ -7,6 +7,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 (function(){
+  // Une seule origine pour que la session mémorisée soit la même partout : www → sans www
+  if(location.hostname==='www.beemyblood.ch'){ location.replace('https://beemyblood.ch'+location.pathname+location.search+location.hash); return; }
   var SUPABASE_URL = 'https://uyrpozgbfklqfltnduvv.supabase.co';
   var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5cnBvemdiZmtscWZsdG5kdXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjEwNDMsImV4cCI6MjEwNDQzNzA0M30.pKHaT9sBOvWgnNTISgfJ4Gc5N-yiiEmShGl-acPZgVE';
   // Qui peut entrer où : admin partout, pro partout, receveur dans receveur + donneur, donneur chez lui
