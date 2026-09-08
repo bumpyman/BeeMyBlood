@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.4.4 — 2026-09-08 — real collection dates for every Romandie canton and Berne
+
+### Added
+- `api/donnees.php` now reads the national collection-date list of Transfusion CRS Suisse (blutspende.ch, one request per canton: Genève, Vaud, Valais, Berne, Fribourg, Neuchâtel, Jura): mobile collections first, then centre appointment slots, with weekday, date, locality, venue, hours and the official booking link. Cached 6 hours like the rest.
+- Donor space, collections card: the region buttons now show real dates for each of these cantons; Genève keeps the detailed HUG list; "Ailleurs en Suisse" links to the official search.
+
+### Fixed
+- Eligibility view: the "Remplir le questionnaire HUG" button did nothing (nested double quotes broke its handler); it now opens the questionnaire section and scrolls to it.
+
 ## v0.4.3 — 2026-09-08 — no fictional collections for visitors, region choice
 
 ### Changed

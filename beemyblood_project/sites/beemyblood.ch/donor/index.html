@@ -2346,7 +2346,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
     <div style="margin-top:12px;padding:12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);text-align:center">
       <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">✅ Éligible ? Passe directement au questionnaire médical</div>
-      <button class="btn btn-gold btn-sm" onclick="document.querySelector('[data-target="quest-hug-acc"]').click();setTimeout(function(){document.getElementById('quest-hug-acc').scrollIntoView({behavior:'smooth'});},400)">📋 Remplir le questionnaire HUG</button>
+      <button class="btn btn-gold btn-sm" onclick="var t=document.querySelector('[data-target=quest-hug-acc]');if(t&&!t.classList.contains('open'))t.click();setTimeout(function(){document.getElementById('quest-hug-acc').scrollIntoView({behavior:'smooth',block:'start'});},400)">📋 Remplir le questionnaire HUG</button>
     </div>
 
   <!-- QUESTIONNAIRE MÉDICAL HUG COMPLET -->
@@ -8330,16 +8330,22 @@ function bmbRenderDonnees(d){
   // collectes : Genève en liste (calendrier HUG lu chaque jour), autres régions vers leur calendrier officiel
   var REGIONS_COLL=[
     {id:'geneve',label:'Genève',liste:true},
-    {id:'tir',label:'Vaud · Valais · Berne',url:'https://www.ichspendeblut.ch/fr/ou-donner',org:'Transfusion Interrégionale CRS'},
-    {id:'fr',label:'Fribourg',url:'https://www.transfusion-fr.ch/',org:'Transfusion CRS Fribourg (HFR)'},
-    {id:'nej',label:'Neuchâtel · Jura',url:'https://www.srnjts.ch/donner/collectes-mobiles/',org:'SRNJTS'},
-    {id:'ch',label:'Toute la Suisse',url:'https://www.blutspende.ch/fr/dates-de-collecte-de-sang',org:'Transfusion CRS Suisse (recherche par localité)'}
+    {id:'VD',label:'Vaud'},{id:'VS',label:'Valais'},{id:'BE',label:'Berne'},{id:'FR',label:'Fribourg'},{id:'NE',label:'Neuchâtel'},{id:'JU',label:'Jura'},
+    {id:'ch',label:'Ailleurs en Suisse',url:'https://www.blutspende.ch/fr/dates-de-collecte-de-sang',org:'Transfusion CRS Suisse (recherche par localité)'}
   ];
+  var CANTONS_DATA=(d.collectes&&d.collectes.cantons)||{};
+  function bmbCantonHtml(code){
+    var c=CANTONS_DATA[code]; if(!c||!c.items||!c.items.length) return '<div style="padding:6px 0">Aucune date publiée pour ce canton en ce moment. <a href="https://www.blutspende.ch/fr/dates-de-collecte-de-sang" target="_blank" rel="noopener" style="color:var(--gold)">Recherche officielle</a></div>';
+    return '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">'+bmbEsc(c.nom)+' — dates publiées par Transfusion CRS Suisse (collectes mobiles d’abord, puis rendez-vous en centre)</div>'
+      + c.items.map(function(x){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:104px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc((x.jour?x.jour+' ':'')+(x.date||''))+'</div><div style="flex:1"><a href="'+bmbEsc(x.url||'https://www.blutspende.ch/fr/dates-de-collecte-de-sang')+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+(x.mobile?'🚌 ':'🏥 ')+bmbEsc(x.localite||'')+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([x.lieu,x.horaire].filter(Boolean).join(' · '))+(x.type&&x.type!=='Don de sang'?' · '+bmbEsc(x.type):'')+'</div></div></div>'; }).join('')
+      + '<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Source : Transfusion CRS Suisse (blutspende.ch), actualisé chaque jour · <a href="'+bmbEsc(c.url)+'" target="_blank" rel="noopener" style="color:var(--gold)">toutes les dates et réservation</a></div>';
+  }
   window.bmbCollectesRegion=function(id){
     var r=REGIONS_COLL.filter(function(x){return x.id===id;})[0]||REGIONS_COLL[0];
     document.querySelectorAll('#collectes-regions button').forEach(function(b){ b.classList.toggle('active', b.dataset.region===r.id); });
     var cl2=document.getElementById('collectes-hug-liste'); if(!cl2) return;
     if(r.liste){ cl2.innerHTML=window.bmbCollectesGeneveHtml||''; return; }
+    if(CANTONS_DATA[r.id]!==undefined || /^[A-Z]{2}$/.test(r.id)){ cl2.innerHTML=bmbCantonHtml(r.id); return; }
     cl2.innerHTML='<div style="padding:6px 0">Pour '+bmbEsc(r.label)+', les dates de collecte sont publiées par '+bmbEsc(r.org)+'. Nous ne les reprenons pas encore automatiquement.</div><a href="'+bmbEsc(r.url)+'" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="margin-top:6px">📅 Voir le calendrier officiel →</a>';
   };
   var rg=document.getElementById('collectes-regions');

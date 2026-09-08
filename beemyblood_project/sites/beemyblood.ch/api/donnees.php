@@ -114,6 +114,41 @@ if ($html) {
     $erreurs[] = 'collectes:hug:fetch';
 }
 
+// ---------- 2b. collectes par canton : liste nationale de Transfusion CRS Suisse (blutspende.ch) ----------
+// La recherche « dates de collecte » du site national accepte une requête GET par canton et rend une liste HTML :
+// centres (RDV) puis collectes mobiles, chacune en <li class="blutspendetermine"> (jour, date, type, lieu, horaire, lien).
+$CANTONS = ['GE' => 'Genève', 'VD' => 'Vaud', 'VS' => 'Valais', 'BE' => 'Berne', 'FR' => 'Fribourg', 'NE' => 'Neuchâtel', 'JU' => 'Jura'];
+$MOIS = ['janvier'=>1,'février'=>2,'mars'=>3,'avril'=>4,'mai'=>5,'juin'=>6,'juillet'=>7,'août'=>8,'septembre'=>9,'octobre'=>10,'novembre'=>11,'décembre'=>12];
+$cantons = [];
+foreach ($CANTONS as $code => $nom) {
+    $url = 'https://www.blutspende.ch/fr/dates-de-collecte-de-sang/liste-des-horaires?location_search_form%5Bcanton_id%5D=' . $code . '&location_search_form%5Bradius%5D=25&location_search_form%5Bterm%5D=';
+    $page = bmb_get($url, 12);
+    if (!$page) { $erreurs[] = 'collectes:' . $code . ':fetch'; continue; }
+    $posMobile = strpos($page, 'id="mobile_venue_appointments"');
+    $items = [];
+    if (preg_match_all('#<li class="blutspendetermine[^"]*">(.*?)</li>#s', $page, $lis, PREG_OFFSET_CAPTURE)) {
+        foreach ($lis[1] as $li) {
+            $row = $li[0]; $offset = $li[1];
+            $it = ['canton' => $code, 'mobile' => ($posMobile !== false && $offset > $posMobile)];
+            if (preg_match('#class="weekday[^"]*"[^>]*>(.*?)</p>#s', $row, $m)) $it['jour'] = ucfirst(strtolower(bmb_texte($m[1])));
+            if (preg_match('#class="date[^"]*"[^>]*>(.*?)</p>#s', $row, $m)) {
+                $it['date'] = bmb_texte($m[1]);
+                if (preg_match('/(\d{1,2})\s+([a-zéû]+)\s+(\d{4})/u', mb_strtolower($it['date']), $d) && isset($MOIS[$d[2]])) $it['date_iso'] = sprintf('%04d-%02d-%02d', $d[3], $MOIS[$d[2]], $d[1]);
+            }
+            if (preg_match('#class="type[^"]*"[^>]*>(.*?)</p>#s', $row, $m)) $it['type'] = bmb_texte($m[1]);
+            if (preg_match('#class="location[^"]*">.*?<h3[^>]*>(.*?)</h3>\s*<p[^>]*>(.*?)</p>\s*<div[^>]*>(.*?)</div>#s', $row, $m)) {
+                $it['localite'] = bmb_texte($m[1]); $it['lieu'] = bmb_texte($m[2]); $it['horaire'] = preg_replace('/\s+/', ' ', str_replace('–', '–', bmb_texte($m[3])));
+            }
+            if (preg_match('#href="(/fr/dates-de-collecte-de-sang/dates/[^"]+)"#', $row, $m)) $it['url'] = 'https://www.blutspende.ch' . $m[1];
+            if (!empty($it['date']) && !empty($it['localite'])) $items[] = $it;
+        }
+    }
+    if (!$items) { $erreurs[] = 'collectes:' . $code . ':parse'; }
+    // collectes mobiles d'abord, puis créneaux des centres ; 12 par canton au plus
+    usort($items, function ($a, $b) { if ($a['mobile'] !== $b['mobile']) return $a['mobile'] ? -1 : 1; return strcmp((string) ($a['date_iso'] ?? ''), (string) ($b['date_iso'] ?? '')); });
+    $cantons[$code] = ['nom' => $nom, 'items' => array_slice($items, 0, 12), 'url' => 'https://www.blutspende.ch/fr/dates-de-collecte-de-sang'];
+}
+
 // ---------- 3. actualités (Google Actualités, Suisse, français) ----------
 $actus = [];
 $requete = '("don du sang" OR "don de sang" OR "dons de sang" OR "donneurs de sang") (suisse OR romand OR romande OR genève OR vaud OR valais OR fribourg OR neuchâtel OR jura OR HUG OR CHUV OR "Croix-Rouge" OR transfusion)';
@@ -157,18 +192,18 @@ if ($rss) {
 $out = [
     'maj' => date('c'),
     'stocks' => $stocks,
-    'collectes' => ['geneve' => $collectes, 'autres_cantons_url' => 'https://www.blutspende.ch/fr/dates-de-collecte-de-sang'],
+    'collectes' => ['geneve' => $collectes, 'cantons' => $cantons, 'autres_cantons_url' => 'https://www.blutspende.ch/fr/dates-de-collecte-de-sang'],
     'actualites' => $actus,
     'sources' => [
         'stocks' => 'Transfusion CRS Suisse — baromètre des groupes sanguins (blutspende.ch)',
-        'collectes' => 'CTS des HUG — calendrier des collectes (hug.ch)',
+        'collectes' => 'CTS des HUG — calendrier des collectes (hug.ch) ; Transfusion CRS Suisse — dates de collecte par canton (blutspende.ch)',
         'actualites' => 'Google Actualités (Suisse, français)',
     ],
     'erreurs' => $erreurs,
 ];
 
 $json = json_encode($out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-$ok = $stocks || $collectes || $actus;
+$ok = $stocks || $collectes || $cantons || $actus;
 if ($ok) {
     if (!is_dir(dirname($CACHE))) @mkdir(dirname($CACHE), 0755, true);
     @file_put_contents($CACHE, $json, LOCK_EX);
