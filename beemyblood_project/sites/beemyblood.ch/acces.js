@@ -58,7 +58,7 @@
     var t = { courriel_invalide:'Adresse courriel invalide.', code_invalide:'Code d’invitation inconnu. Vérifiez les majuscules et les tirets.', courriel_different:'Ce code a été délivré pour une autre adresse courriel. Connectez-vous avec l’adresse indiquée dans votre demande.', code_expire:'Ce code a expiré. Demandez un nouveau code à contact@beemyblood.ch.', acces_manquant:'Activez d’abord votre code d’invitation.', nom_manquant:'Indiquez votre nom complet.', version_obsolete:'Le texte a été mis à jour, rechargez la page.', non_admin:'Réservé aux administrateurs.' };
     for (var k in t) if (m.indexOf(k) >= 0) return t[k];
     if (/rate limit|too many/i.test(m)) return 'Trop de tentatives, réessayez dans quelques minutes.';
-    if (/otp|token|expired|invalid/i.test(m)) return 'Code incorrect ou expiré. Demandez-en un nouveau.';
+    if (/otp|token|expired|invalid/i.test(m)) return 'Code incorrect ou déjà utilisé. Demandez un nouveau code et saisissez celui du dernier courriel reçu.';
     if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
@@ -84,7 +84,7 @@
 
   // ---------- Étape 1 : courriel ----------
   function ecranCourriel(pre){
-    ecran(etapes(1)+'<div class="bmba-h">Connexion par courriel</div><p class="bmba-p">Saisissez l’adresse indiquée dans votre demande d’accès. Vous recevrez un code à 6 chiffres (ou un lien) valable quelques minutes.</p>'
+    ecran(etapes(1)+'<div class="bmba-h">Connexion par courriel</div><p class="bmba-p">Saisissez l’adresse indiquée dans votre demande d’accès. Vous recevrez par courriel un code de connexion (6 à 8 chiffres) valable une heure.</p>'
       +'<input class="bmba-in" id="bmbaEmail" type="email" autocomplete="email" inputmode="email" placeholder="prenom.nom@exemple.ch" value="'+(pre||'')+'">'
       +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
     var go = function(){
@@ -101,12 +101,12 @@
 
   // ---------- Étape 2 : code reçu par courriel ----------
   function ecranCode(email){
-    ecran(etapes(2)+'<div class="bmba-h">Vérifiez votre boîte courriel</div><p class="bmba-p">Un message a été envoyé à <b>'+email+'</b>. Saisissez le code à 6 chiffres qu’il contient, ou cliquez simplement sur le lien du message. Pensez au dossier « indésirables ».</p>'
-      +'<input class="bmba-in code" id="bmbaOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="······">'
+    ecran(etapes(2)+'<div class="bmba-h">Vérifiez votre boîte courriel</div><p class="bmba-p">Un message a été envoyé à <b>'+email+'</b>. Saisissez le code qu’il contient (6 à 8 chiffres). Utilisez toujours le dernier message reçu : chaque nouvelle demande annule le code précédent. Pensez au dossier « indésirables ».</p>'
+      +'<input class="bmba-in code" id="bmbaOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="········">'
       +'<button class="bmba-btn" id="bmbaVerif">Valider</button><button class="bmba-btn sec" id="bmbaBack">Changer d’adresse</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
     var go = function(){
       var token=(document.getElementById('bmbaOtp').value||'').replace(/\D/g,'');
-      if(token.length<6){ document.getElementById('bmbaErr').textContent='Le code comporte 6 chiffres.'; return; }
+      if(token.length<6){ document.getElementById('bmbaErr').textContent='Le code comporte 6 à 8 chiffres.'; return; }
       var b=document.getElementById('bmbaVerif'); b.disabled=true; b.textContent='Vérification…';
       sb.auth.verifyOtp({ email:email, token:token, type:'email' })
         .then(function(r){ if(r.error) throw r.error; return suite(); })

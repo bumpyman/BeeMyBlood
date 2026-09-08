@@ -63,7 +63,7 @@ document.querySelectorAll('.tab').forEach(function(t){ t.onclick=function(){ doc
 
 function lienCourriel(d, code){
   var sujet='Votre invitation à la version alpha de BeeMyBlood';
-  var corps='Bonjour '+d.nom+',\n\nVotre demande d’accès à BeeMyBlood (rôle : '+(ROLES[d.role]||d.role)+') est approuvée.\n\nVotre code d’invitation : '+code+'\n(valable 30 jours, lié à l’adresse '+d.email+')\n\nPour entrer :\n1. Ouvrez https://beemyblood.ch/'+(d.role==='pro'?'pro/':d.role==='receveur'?'receiver/':'donor/')+'\n2. Saisissez votre adresse courriel et validez le code à 6 chiffres reçu\n3. Entrez votre code d’invitation\n4. Lisez et signez l’accord de confidentialité\n\nLes données affichées sont fictives ou simulées : n’y saisissez aucune donnée réelle de patient. Merci pour votre aide, vos retours sont précieux.\n\nDavid-Zacharie Issom\nConvivens Lab, HEG Genève (HES-SO)\ncontact@beemyblood.ch';
+  var corps='Bonjour '+d.nom+',\n\nVotre demande d’accès à BeeMyBlood (rôle : '+(ROLES[d.role]||d.role)+') est approuvée.\n\nVotre code d’invitation : '+code+'\n(valable 30 jours, lié à l’adresse '+d.email+')\n\nPour entrer :\n1. Ouvrez https://beemyblood.ch/'+(d.role==='pro'?'pro/':d.role==='receveur'?'receiver/':'donor/')+'\n2. Saisissez votre adresse courriel et validez le code reçu par courriel\n3. Entrez votre code d’invitation\n4. Lisez et signez l’accord de confidentialité\n\nLes données affichées sont fictives ou simulées : n’y saisissez aucune donnée réelle de patient. Merci pour votre aide, vos retours sont précieux.\n\nDavid-Zacharie Issom\nConvivens Lab, HEG Genève (HES-SO)\ncontact@beemyblood.ch';
   return 'mailto:'+encodeURIComponent(d.email)+'?subject='+encodeURIComponent(sujet)+'&body='+encodeURIComponent(corps);
 }
 
