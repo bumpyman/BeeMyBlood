@@ -16,7 +16,7 @@
     { id:'rappels',  nom:'Rappels',  ico:'<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>' },
     { id:'journal',  nom:'Journal & rapports', ico:'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>' }
   ];
-  var IDS = TABS.map(function(t){ return t.id; });
+  var IDS = TABS.map(function(t){ return t.id; }).concat(['fluxcts']);
 
   // ---------- style ----------
   var css = '.cy-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}'
@@ -64,11 +64,11 @@
   // ---------- état : serveur (Supabase) ou démonstration locale ----------
   var E = null, MODE = 'local', CHARGEMENT = false, SEL = null, ACCUEIL = null, OUVERT = null;
   function etatLocal(){
-    var k = cle(), r = rng('bmb-'+k), reg = region(), donneurs = [], p = { nom:reg.name, lits:4, creneau_min:30, ouverture:'08:00', fermeture:'17:00', reservation_url:(LIENS[k]||LIENS.geneve)[0], reservation_label:(LIENS[k]||LIENS.geneve)[1], rappels:{r1:true,r2:true,r3:true,r4:true} };
+    var k = cle(), r = rng('bmb-'+k), reg = region(), donneurs = [], LITS = { geneve:10, vaud:8, berne:8, zurich:8, valais:5, tessin:5 }, p = { nom:reg.name, lits:LITS[k]||4, creneau_min:30, ouverture:'08:00', fermeture:'17:00', reservation_url:(LIENS[k]||LIENS.geneve)[0], reservation_label:(LIENS[k]||LIENS.geneve)[1], rappels:{r1:true,r2:true,r3:true,r4:true} };
     for(var i=0;i<42;i++){ var sexe=r()<.52?'F':'H', dernier=new Date(Date.now()-Math.floor(r()*420)*86400000);
       donneurs.push({ id:'D'+(1000+i), prenom:PRENOMS[Math.floor(r()*PRENOMS.length)], nom:NOMS[Math.floor(r()*NOMS.length)], sexe:sexe, age:18+Math.floor(r()*52), groupe:tirerGroupe(r), pheno:PHENOS[Math.floor(r()*PHENOS.length)], dons:1+Math.floor(r()*18), dernier:dernier, consent:{ version:r()<.8?'v2026-02':'v2025-06', signe:new Date(dernier.getTime()-Math.floor(r()*30)*86400000) }, canal:r()<.6?'courriel':(r()<.7?'SMS':'push'), tel:'+41 7'+Math.floor(r()*10)+' '+String(100+Math.floor(r()*900))+' '+String(10+Math.floor(r()*90))+' '+String(10+Math.floor(r()*90)), hb:sexe==='F'?118+Math.floor(r()*30):128+Math.floor(r()*35), poids:48+Math.floor(r()*50), voyage:r()<.15, medic:r()<.1, demo:true }); }
     var slots = creneaux(p), resa = [], now = maintenant(), idx = 0;
-    while(resa.length<44 && idx<400){ idx++; var s=slots[Math.floor(r()*slots.length)]; if(resa.filter(function(x){return x.heure===s;}).length>=p.lits) continue; var d=donneurs[Math.floor(r()*donneurs.length)]; if(resa.some(function(x){return x.donneur===d.id;})) continue; var hh=heureNum(s), statut; if(hh+0.5<now) statut=r()<.9?'termine':'noshow'; else if(hh<=now) statut=['arrive','questionnaire','prelevement'][Math.floor(r()*3)]; else statut=r()<.75?'confirme':'reserve'; resa.push({ id:'R'+(100+resa.length), heure:s, donneur:d.id, statut:statut, lit:resa.filter(function(x){return x.heure===s;}).length+1 }); }
+    while(resa.length<Math.min(70, Math.round(slots.length*p.lits*0.55)) && idx<600){ idx++; var s=slots[Math.floor(r()*slots.length)]; if(resa.filter(function(x){return x.heure===s;}).length>=p.lits) continue; var d=donneurs[Math.floor(r()*donneurs.length)]; if(resa.some(function(x){return x.donneur===d.id;})) continue; var hh=heureNum(s), statut; if(hh+0.5<now) statut=r()<.9?'termine':'noshow'; else if(hh<=now) statut=['arrive','questionnaire','prelevement'][Math.floor(r()*3)]; else statut=r()<.75?'confirme':'reserve'; resa.push({ id:'R'+(100+resa.length), heure:s, donneur:d.id, statut:statut, lit:resa.filter(function(x){return x.heure===s;}).length+1 }); }
     var attente = donneurs.filter(function(d){ return !resa.some(function(x){return x.donneur===d.id;}); }).slice(0,5).map(function(d){ return { id:'A'+d.id, donneur:d.id }; });
     var e = { donneurs:donneurs, resa:resa, attente:attente, slots:slots, p:p, journal:[], semaine:[], evenements:{clics_7j:0,clics_jour:0,clics_30j:0} };
     for(var j=0;j<7;j++) e.semaine.push({ jour:iso(new Date(Date.now()+j*86400000)), n: j===0? resa.length : 28+Math.floor(rng('s'+k+j)()*40) });
@@ -273,7 +273,8 @@
       client().rpc('cd_exporter', { p_region:cle(), p_du:du, p_au:au }).then(function(r){ if(r.error) throw r.error; telecharger('beemyblood-reservations-'+du+'-'+au+'.csv', csv([['Jour','Heure','Lit','Statut','Source','Prénom','Nom','Groupe','Sexe','Hb','Poids']].concat((r.data||[]).map(function(x){ return [x.jour, x.heure, x.lit, x.statut, x.source, x.prenom, x.nom, x.groupe, x.sexe, x.hb, x.poids]; })))); }).catch(function(e){ toast('error', erreur(e)); }); };
   }
 
-  var RENDU = { agenda:rAgenda, donneurs:rDonneurs, accueil:rAccueil, rappels:rRappels, journal:rJournal };
+  function rFluxCts(){ var el=document.getElementById('cy-fluxcts'); if(!el) return; var url='flux/?region='+cle(); el.innerHTML='<div class="card"><div class="card-title"><svg style="stroke:var(--amber-400)" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Flux CTS — <span style="color:var(--amber-400);font-weight:400">'+h(region().name)+'</span><a class="cy-btn p s" style="margin-left:auto" href="'+url+'" target="_blank" rel="noopener">↗ Ouvrir en plein écran</a></div><p class="cy-muted" style="margin-bottom:.7rem">L’écran du centre pour un téléviseur ou un second poste : stocks du baromètre officiel, activité du jour, dons par heure, prochaines collectes et actualités. Il se met à jour toutes les 30 secondes et n’affiche aucun nom. Le Flux donneurs, pour la salle d’attente, s’ouvre depuis l’onglet Accueil.</p><div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:.75rem;overflow:hidden;border:1px solid var(--slate-700);background:#000"><iframe src="'+url+'&embed=1" title="Flux CTS" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div></div>'; }
+  var RENDU = { agenda:rAgenda, donneurs:rDonneurs, accueil:rAccueil, rappels:rRappels, journal:rJournal, fluxcts:rFluxCts };
 
   // ---------- insertion dans la page ----------
   function installer(){
@@ -282,17 +283,20 @@
     g.innerHTML = '<div class="tab-group-label">Opérer</div><div class="tab-group-tabs">'+TABS.map(function(t){ return '<button class="tab" data-tab="'+t.id+'" onclick="switchTab(\''+t.id+'\')"><svg viewBox="0 0 24 24">'+t.ico+'</svg>'+t.nom+'</button>'; }).join('')+'</div>';
     var groups = bar.querySelectorAll('.tab-group'); var agir0 = groups[groups.length-1];
     bar.insertBefore(g, agir0);
+    var piloter = groups[0] && groups[0].querySelector('.tab-group-tabs'); if(piloter){ var bt=document.createElement('button'); bt.className='tab'; bt.dataset.tab='fluxcts'; bt.setAttribute('onclick',"switchTab('fluxcts')"); bt.innerHTML='<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Flux CTS'; piloter.appendChild(bt); }
     var ref = document.getElementById('panel-campagnes');
     TABS.forEach(function(t){ var p = document.createElement('div'); p.id = 'panel-'+t.id; p.className = 'hidden'; p.innerHTML = '<div id="cy-'+t.id+'"><div class="card"><p class="cy-muted">Chargement…</p></div></div>'; ref.parentNode.insertBefore(p, ref); });
+    var pf = document.createElement('div'); pf.id='panel-fluxcts'; pf.className='hidden'; pf.innerHTML='<div id="cy-fluxcts"></div>'; ref.parentNode.insertBefore(pf, ref);
     var st0 = window.switchTab, cr0 = window.changeRegion;
     window.switchTab = function(tab){
       st0(tab);
       IDS.forEach(function(id){ var p=document.getElementById('panel-'+id); if(p) p.classList.toggle('hidden', id!==tab); });
-      if(IDS.indexOf(tab)>=0){ var rb=document.querySelector('.region-bar'); if(rb) rb.style.display=''; if(!E){ if(!CHARGEMENT) charger(function(){ RENDU[tab](); }); } else RENDU[tab](); }
+      if(tab==='fluxcts'){ var rb0=document.querySelector('.region-bar'); if(rb0) rb0.style.display=''; RENDU.fluxcts(); }
+      else if(IDS.indexOf(tab)>=0){ var rb=document.querySelector('.region-bar'); if(rb) rb.style.display=''; if(!E){ if(!CHARGEMENT) charger(function(){ RENDU[tab](); }); } else RENDU[tab](); }
     };
     window.changeRegion = function(){ cr0.apply(this, arguments); E = null; SEL = null; ACCUEIL = null; var ct = courant(); if(IDS.indexOf(ct)>=0) charger(function(){ RENDU[ct](); }); };
     if(window.BeeAcces && window.BeeAcces.onDeverrouille) window.BeeAcces.onDeverrouille(function(){ E = null; var ct = courant(); if(IDS.indexOf(ct)>=0) charger(function(){ RENDU[ct](); }); });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', installer); else installer();
-  window.BeeCycle = { recharger:function(){ E=null; recharger(courant()); }, mode:function(){ return MODE; }, charger:function(cb){ charger(function(){ cb(E, MODE); }); }, flux:function(cb){ var sb=client(); var local=function(){ if(!E){ E=etatLocal(); MODE='local'; } cb({ lits:E.p.lits, file:E.resa.filter(function(x){return x.statut==='arrive'||x.statut==='questionnaire';}).map(function(x){ return { code:codeAppel(x), statut:x.statut, depuis:null }; }), encours:E.resa.filter(function(x){return x.statut==='prelevement';}).map(function(x){ return { code:codeAppel(x), lit:x.lit }; }) }, MODE); }; if(!sb){ local(); return; } sb.rpc('cd_flux', { p_region: cle() }).then(function(r){ if(r.error||!r.data) throw (r.error||new Error('vide')); MODE='serveur'; cb(r.data, 'serveur'); }).catch(function(){ MODE='local'; local(); }); } };
+  window.BeeCycle = { recharger:function(){ E=null; recharger(courant()); }, mode:function(){ return MODE; }, charger:function(cb){ charger(function(){ cb(E, MODE); }); }, flux:function(cb){ var sb=client(); var local=function(){ if(!E){ E=etatLocal(); MODE='local'; } var dj={}, ph=[]; for(var i=0;i<24;i++) ph.push(0); E.resa.forEach(function(x){ if(x.statut==='termine'){ var d=donneur(x.donneur); if(d){ dj[d.groupe]=(dj[d.groupe]||0)+1; } var hh=parseInt(x.heure,10); if(hh>=0&&hh<24) ph[hh]++; } }); cb({ lits:E.p.lits, file:E.resa.filter(function(x){return x.statut==='arrive'||x.statut==='questionnaire';}).map(function(x){ return { code:codeAppel(x), statut:x.statut, depuis:null }; }), encours:E.resa.filter(function(x){return x.statut==='prelevement';}).map(function(x){ return { code:codeAppel(x), lit:x.lit }; }), dons_jour:dj, par_heure:ph }, MODE); }; if(!sb){ local(); return; } sb.rpc('cd_flux', { p_region: cle() }).then(function(r){ if(r.error||!r.data) throw (r.error||new Error('vide')); MODE='serveur'; cb(r.data, 'serveur'); }).catch(function(){ MODE='local'; local(); }); } };
 })();

@@ -21,20 +21,27 @@ main{flex:1;display:grid;grid-template-columns:1.2fr 1fr;gap:20px;padding:22px 3
 .col h2{font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-400);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
 .col h2 b{font-size:14px;color:var(--amber-400);text-transform:none;letter-spacing:0;font-weight:600}
 .list{display:flex;flex-direction:column;gap:10px;overflow:hidden}
-.row{display:grid;grid-template-columns:56px 1fr auto;gap:16px;align-items:center;padding:14px 18px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);font-size:22px}
+.row{display:grid;grid-template-columns:56px 1fr auto;gap:16px;align-items:center;padding:12px 18px;transition:background .4s,border-color .4s;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);font-size:22px}
 .row .n{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:var(--amber-400);text-align:center}
 .row .who{font-weight:700}.row .who small{display:block;font-size:14px;color:var(--slate-400);font-weight:500;margin-top:2px}
 .row .st{font-size:15px;font-weight:700;padding:6px 12px;border-radius:8px;white-space:nowrap}
 .st.att{background:rgba(232,213,163,.15);color:var(--amber-400)}.st.q{background:rgba(192,132,252,.18);color:var(--purple-400)}.st.p{background:rgba(255,107,107,.18);color:var(--red-400)}.st.next{background:rgba(74,222,128,.2);color:var(--green-400)}
 .row.next{border-color:rgba(74,222,128,.5);background:rgba(74,222,128,.06)}
-.lits{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.lit{border-radius:14px;padding:16px;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);min-height:96px}
+.lits{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.lit{border-radius:14px;padding:14px 16px;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);min-height:96px;transition:background .4s,border-color .4s}
 .lit.libre{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.25)}
 .lit span{display:block;font-size:13px;color:var(--slate-400);text-transform:uppercase;letter-spacing:.08em}
 .lit b{display:block;font-size:24px;margin-top:6px}.lit small{font-size:14px;color:var(--slate-400)}
 .msg{margin-top:auto;padding-top:18px;font-size:18px;color:var(--slate-400);line-height:1.5}.msg b{color:#f0ece2}
 footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;justify-content:space-between;border-top:1px solid rgba(200,169,96,.1)}
 .vide{color:var(--slate-400);font-size:18px;padding:20px 0}
+.code{display:inline-block;padding:6px 16px;border:2px solid var(--amber-500);border-radius:12px;background:rgba(200,169,96,.08);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:30px;font-weight:800;letter-spacing:.18em;color:var(--amber-400);line-height:1.2}
+.lit .code{font-size:22px;padding:4px 12px;margin-top:6px}
+@keyframes bmbIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes bmbPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.45)}50%{box-shadow:0 0 0 10px rgba(74,222,128,0)}}
+.row,.lit{animation:bmbIn .45s ease both}.row.next{animation:bmbIn .45s ease both,bmbPulse 2.2s ease-out .5s infinite}
+.row:nth-child(2){animation-delay:.05s}.row:nth-child(3){animation-delay:.1s}.row:nth-child(4){animation-delay:.15s}.row:nth-child(5){animation-delay:.2s}.row:nth-child(n+6){animation-delay:.25s}
+.clock{transition:opacity .3s}
 @media(max-width:900px){main{grid-template-columns:1fr;padding:14px}header{padding:14px}.clock{font-size:32px}.row{font-size:18px;grid-template-columns:44px 1fr auto;padding:12px}.row .n{font-size:22px}}
 </style>
 </head>
@@ -47,7 +54,7 @@ footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;just
   <section class="col">
     <h2>File d’attente <b id="attenteInfo"></b></h2>
     <div class="list" id="file"></div>
-    <div class="msg">Cet écran n’affiche aucun nom. Vous êtes appelé·e par le <b>code à quatre caractères</b> remis à l’accueil. <b>Merci pour votre don</b> : une poche peut aider jusqu’à trois personnes.</div>
+    <div class="msg"><b>Merci pour votre don.</b> Une poche peut aider jusqu’à trois personnes.</div>
   </section>
   <section class="col">
     <h2>Lits de prélèvement <b id="litsInfo"></b></h2>
@@ -69,16 +76,18 @@ footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;just
 (function(){
   var CONSEILS = ['Buvez un verre d’eau avant le don et prévoyez un moment de repos après.','Après le don, gardez le pansement deux heures et évitez les efforts intenses aujourd’hui.','Un don de sang total dure une dizaine de minutes ; l’ensemble du parcours, environ quarante-cinq minutes.','Les hommes peuvent donner tous les 84 jours, les femmes tous les 112 jours.','Pensez à réserver votre prochain rendez-vous en ligne avant de partir.'];
   var ci = 0;
+  var signature = '';
   function rendre(F, mode){
+    var sig = JSON.stringify([F.lits, F.file, F.encours, mode]); if(sig===signature) return; signature = sig;
     var r = regions[selectedRegion]||{name:selectedRegion};
     document.getElementById('lieu').textContent = 'Flux donneurs · '+(r.site? r.site+' · ' : '')+r.name;
-    document.getElementById('mode').textContent = mode==='serveur' ? 'Agenda du centre, en direct · aucun nom n’est transmis à cet écran' : 'Démonstration · aucun nom n’est affiché';
+    document.getElementById('mode').textContent = mode==='serveur' ? '' : 'Démonstration';
     var lits = F.lits||4, enCours = F.encours||[], file = F.file||[], libres = Math.max(0, lits-enCours.length);
     var html = file.map(function(x,i){ var next = i<libres; var attente = next ? 'à vous' : '≈ '+(8+Math.ceil((i-libres+1)/Math.max(1,lits))*12)+' min';
-      return '<div class="row'+(next?' next':'')+'"><div class="n">'+(i+1)+'</div><div class="who">Code '+x.code+'</div><span class="st '+(next?'next':(x.statut==='questionnaire'?'q':'att'))+'">'+(next?'Prochain·e, présentez-vous':(x.statut==='questionnaire'?'Questionnaire · '+attente:'En attente · '+attente))+'</span></div>'; }).join('');
+      return '<div class="row'+(next?' next':'')+'"><div class="n">'+(i+1)+'</div><div class="who"><span class="code">'+x.code+'</span></div><span class="st '+(next?'next':(x.statut==='questionnaire'?'q':'att'))+'">'+(next?'Prochain·e, présentez-vous':(x.statut==='questionnaire'?'Questionnaire · '+attente:'En attente · '+attente))+'</span></div>'; }).join('');
     document.getElementById('file').innerHTML = html || '<div class="vide">Personne n’attend en ce moment. Bienvenue !</div>';
     document.getElementById('attenteInfo').textContent = file.length ? file.length+' personne'+(file.length>1?'s':'')+' · attente estimée '+(8+Math.ceil(Math.max(0,file.length-libres)/Math.max(1,lits))*12)+' min' : '';
-    var lh = ''; for(var l=1;l<=lits;l++){ var x = enCours.filter(function(y){return y.lit===l;})[0]; lh += '<div class="lit'+(x?'':' libre')+'"><span>Lit '+l+'</span>'+(x?'<b>Code '+x.code+'</b><small>prélèvement en cours</small>':'<b>Libre</b><small>prêt à accueillir</small>')+'</div>'; }
+    var lh = ''; for(var l=1;l<=lits;l++){ var x = enCours.filter(function(y){return y.lit===l;})[0]; lh += '<div class="lit'+(x?'':' libre')+'"><span>Lit '+l+'</span>'+(x?'<span class="code">'+x.code+'</span><small style="display:block;margin-top:6px">prélèvement en cours</small>':'<b>Libre</b><small>prêt à accueillir</small>')+'</div>'; }
     document.getElementById('lits').innerHTML = lh;
     document.getElementById('litsInfo').textContent = enCours.length+' sur '+lits+' occupés';
   }

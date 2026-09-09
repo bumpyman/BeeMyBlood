@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>BeeMyBlood™ — Flux CTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--slate-900:#0a0a12;--slate-800:#12121e;--slate-700:#26263a;--slate-500:#5a5a72;--slate-400:#8b8b9e;--amber-400:#E8D5A3;--amber-500:#C8A960;--green-400:#4ade80;--blue-400:#60a5fa;--red-400:#ff6b6b;--purple-400:#c084fc}
+html,body{height:100%}
+body{background:var(--slate-900);color:#f0ece2;font-family:'DM Sans',system-ui,sans-serif;display:flex;flex-direction:column;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 30px;border-bottom:1px solid rgba(200,169,96,.15)}
+.brand{font-family:'Playfair Display',serif;font-size:24px;font-weight:800}.brand span{color:var(--amber-500)}
+.brand small{display:block;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--slate-400)}
+.clock{font-family:'Playfair Display',serif;font-size:40px;font-weight:800;line-height:1}
+main{flex:1;display:grid;grid-template-columns:1.1fr 1fr .9fr;gap:16px;padding:18px 30px}
+.col{display:flex;flex-direction:column;gap:14px;min-height:0}
+.card{background:var(--slate-800);border:1px solid var(--slate-700);border-radius:18px;padding:18px 20px}
+.card h2{font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-400);margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline}
+.card h2 b{font-size:12px;color:var(--amber-400);text-transform:none;letter-spacing:0;font-weight:600}
+.stocks{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.g{border-radius:12px;padding:12px 10px;text-align:center;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);transition:background .6s,border-color .6s}
+.g b{display:block;font-family:'Playfair Display',serif;font-size:26px;font-weight:800}
+.g .bar{height:8px;border-radius:4px;background:rgba(255,255,255,.08);margin:8px 0 6px;overflow:hidden}.g .bar i{display:block;height:100%;width:0;border-radius:4px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.g small{font-size:12px;color:var(--slate-400)}
+.g.green{border-color:rgba(74,222,128,.35)}.g.yellow{border-color:rgba(234,179,8,.45)}.g.red{border-color:rgba(255,107,107,.55);background:rgba(255,107,107,.08)}
+.big{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.big div{border-radius:12px;padding:12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06)}
+.big b{display:block;font-family:'Playfair Display',serif;font-size:38px;font-weight:800;line-height:1.05}.big span{font-size:12px;color:var(--slate-400)}
+.hours{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;align-items:end;height:110px;margin-top:6px}
+.hours div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:11px;color:var(--slate-500)}
+.hours i{display:block;width:100%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--amber-400),var(--amber-500));height:0;transition:height 1s cubic-bezier(.2,.8,.2,1);margin-bottom:4px}
+.pg{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.pg span{font-size:13px;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06)}.pg span b{color:var(--amber-400)}
+.list{display:flex;flex-direction:column;gap:8px}
+.it{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);font-size:15px;line-height:1.4;animation:in .5s ease both}
+.it small{display:block;color:var(--slate-400);font-size:12px;margin-top:2px}
+.it b{color:var(--amber-400);font-weight:700}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+footer{padding:10px 30px;font-size:13px;color:var(--slate-500);display:flex;justify-content:space-between;border-top:1px solid rgba(200,169,96,.1)}
+.vide{color:var(--slate-400);font-size:14px}
+@media(max-width:1100px){main{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){main{grid-template-columns:1fr;padding:12px}header{padding:12px}.clock{font-size:30px}.stocks{grid-template-columns:repeat(4,1fr)}.big b{font-size:30px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">🐝 <span>BeeMyBlood</span>™<small id="lieu">Flux CTS</small></div>
+  <div class="clock" id="clock">--:--</div>
+</header>
+<main>
+  <div class="col">
+    <div class="card"><h2>Stocks par groupe <b id="stockSrc"></b></h2><div class="stocks" id="stocks"></div></div>
+    <div class="card"><h2>Prochaines collectes mobiles <b id="collSrc"></b></h2><div class="list" id="collectes"></div></div>
+  </div>
+  <div class="col">
+    <div class="card"><h2>Aujourd’hui au centre <b id="jourSrc"></b></h2><div class="big"><div><b id="nDons">0</b><span>dons terminés</span></div><div><b id="nLits">0</b><span id="nLitsSub">lits occupés</span></div><div><b id="nAtt">0</b><span>personnes en attente</span></div></div><div class="pg" id="parGroupe"></div></div>
+    <div class="card"><h2>Dons par heure</h2><div class="hours" id="heures"></div></div>
+  </div>
+  <div class="col">
+    <div class="card" style="flex:1"><h2>Actualités du don <b id="newsSrc"></b></h2><div class="list" id="news"></div></div>
+  </div>
+</main>
+<footer><span id="maj">Mise à jour automatique toutes les 30 secondes</span><span id="mode"></span></footer>
+
+<script>
+  var selectedRegion = (new URLSearchParams(location.search).get('region')) || 'geneve';
+  var currentTab = 'fluxcts';
+  var regions = { geneve:{name:'Genève', site:'CTS des HUG', api:'geneve'}, vaud:{name:'Vaud', site:'Transfusion Interrégionale CRS', api:'irb'}, valais:{name:'Valais', site:'Transfusion Interrégionale CRS', api:'irb'}, fribourg:{name:'Fribourg', api:'irb'}, neuchatel:{name:'Neuchâtel', api:'irb'}, jura:{name:'Jura', api:'irb'}, berne:{name:'Berne', site:'Transfusion Interrégionale CRS', api:'irb'}, zurich:{name:'Zürich', site:'Blutspende Zürich', api:'zuerich'}, tessin:{name:'Tessin', api:'gesamt'} };
+  function showToast(){}
+</script>
+<script src="../cycle.js"></script>
+<script>
+(function(){
+  var GROUPES = ['O−','O+','A−','A+','B−','B+','AB−','AB+'];
+  var LIB = { green:'bon', blue:'élevé', yellow:'à surveiller', red:'critique', grey:'inconnu' };
+  var donnees = null, sigFlux = '';
+  function h(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function tick(){ document.getElementById('clock').textContent = new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'}); }
+  function rendreDonnees(j){
+    var r = regions[selectedRegion]||{}, code = r.api||'gesamt', e = (j.stocks||[]).filter(function(s){ return s.code===code; })[0] || (j.stocks||[])[0];
+    document.getElementById('lieu').textContent = 'Flux CTS · '+(r.site? r.site+' · ' : '')+(r.name||selectedRegion);
+    if(e && e.groupes){
+      document.getElementById('stockSrc').textContent = 'baromètre officiel, '+h(e.label)+(e.date?' · '+e.date:'');
+      document.getElementById('stocks').innerHTML = GROUPES.map(function(g){ var x = e.groupes.filter(function(y){ return y.groupe.replace('-','−')===g; })[0]; if(!x) return ''; var taux = x.taux!=null? x.taux : ({green:80,blue:100,yellow:55,red:30,grey:60}[x.couleur]||60); var col = {green:'#4ade80',blue:'#60a5fa',yellow:'#eab308',red:'#ff6b6b',grey:'#8b8b9e'}[x.couleur]||'#8b8b9e'; return '<div class="g '+(x.couleur||'grey')+'"><b>'+g+'</b><div class="bar"><i data-w="'+Math.min(100,taux)+'" style="background:'+col+'"></i></div><small>'+(x.libelle||LIB[x.couleur]||'')+'</small></div>'; }).join('');
+      setTimeout(function(){ document.querySelectorAll('#stocks .bar i').forEach(function(i){ i.style.width = i.dataset.w+'%'; }); }, 50);
+    } else { document.getElementById('stocks').innerHTML = '<div class="vide">Baromètre indisponible pour le moment.</div>'; }
+    var cs = ((j.collectes||{}).geneve||[]); var cantonKey = { geneve:'GE', vaud:'VD', valais:'VS', fribourg:'FR', neuchatel:'NE', jura:'JU', berne:'BE', zurich:'ZH', tessin:'TI' }[selectedRegion];
+    if(selectedRegion!=='geneve' && j.collectes && j.collectes.cantons && j.collectes.cantons[cantonKey]) cs = (j.collectes.cantons[cantonKey].items||[]).map(function(x){ return { titre:(x.lieu||x.localite||'Collecte'), date:x.date, localite:x.localite, debut:(x.horaire||'').split('–')[0], fin:(x.horaire||'').split('–')[1] }; });
+    document.getElementById('collSrc').textContent = selectedRegion==='geneve' ? 'calendrier des HUG' : 'Transfusion CRS Suisse';
+    document.getElementById('collectes').innerHTML = cs.length ? cs.slice(0,4).map(function(c){ return '<div class="it"><b>'+h(c.date||'')+'</b> · '+h(c.titre||'')+'<small>'+h([c.adresse,c.localite].filter(Boolean).join(', '))+(c.debut?' · '+h(String(c.debut).trim())+(c.fin?'–'+h(String(c.fin).trim()):''):'')+'</small></div>'; }).join('') : '<div class="vide">Aucune collecte annoncée.</div>';
+    var news = (j.actualites||[]).slice(0,5);
+    document.getElementById('newsSrc').textContent = 'presse suisse';
+    document.getElementById('news').innerHTML = news.length ? news.map(function(n){ return '<div class="it">'+h(n.titre)+'<small>'+h(n.source||'')+(n.date?' · '+h(n.date):'')+'</small></div>'; }).join('') : '<div class="vide">Aucune actualité.</div>';
+  }
+  function rendreFlux(F, mode){
+    var sig = JSON.stringify([F.lits, F.file, F.encours, F.dons_jour, F.par_heure, mode]); if(sig===sigFlux) return; sigFlux = sig;
+    document.getElementById('mode').textContent = mode==='serveur' ? '' : 'Démonstration pour l’activité du jour · stocks et collectes réels';
+    var dj = F.dons_jour||{}, tot = 0; GROUPES.forEach(function(g){ tot += dj[g]||0; });
+    document.getElementById('jourSrc').textContent = new Date().toLocaleDateString('fr-CH',{weekday:'long',day:'numeric',month:'long'});
+    document.getElementById('nDons').textContent = tot;
+    document.getElementById('nLits').textContent = (F.encours||[]).length; document.getElementById('nLitsSub').textContent = 'lits occupés sur '+(F.lits||0);
+    document.getElementById('nAtt').textContent = (F.file||[]).length;
+    document.getElementById('parGroupe').innerHTML = GROUPES.filter(function(g){ return dj[g]; }).map(function(g){ return '<span>'+g+' <b>'+dj[g]+'</b></span>'; }).join('') || '<span class="vide">Aucun don terminé pour l’instant.</span>';
+    var ph = F.par_heure||[], max = Math.max.apply(null, ph.concat([1]));
+    document.getElementById('heures').innerHTML = []; var hh=''; for(var k=8;k<=18;k++){ hh += '<div><i data-h="'+Math.round((ph[k]||0)/max*90)+'"></i>'+k+'h</div>'; } document.getElementById('heures').innerHTML = hh;
+    setTimeout(function(){ document.querySelectorAll('#heures i').forEach(function(i){ i.style.height = i.dataset.h+'px'; }); }, 50);
+  }
+  function rafraichir(){
+    fetch('../../api/donnees.php').then(function(r){ return r.json(); }).then(rendreDonnees).catch(function(){});
+    if(window.BeeCycle && BeeCycle.flux) BeeCycle.flux(function(F, mode){ rendreFlux(F, mode); document.getElementById('maj').textContent = 'Mis à jour à '+new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' · toutes les 30 secondes'; });
+  }
+  tick(); setInterval(tick, 10000); rafraichir(); setInterval(rafraichir, 30000);
+  if(window.BeeAcces && window.BeeAcces.onDeverrouille) window.BeeAcces.onDeverrouille(function(){ rafraichir(); });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../../acces.js" data-espace="pro" data-racine="../../" defer></script>
+</body>
+</html>

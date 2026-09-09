@@ -108,17 +108,19 @@ alter table public.cd_journal enable row level security;
 alter table public.cd_evenements enable row level security;
 
 -- ---------- régions et liens de réservation en ligne (redirection vers l'outil officiel) ----------
-insert into public.cd_parametres (region, nom, reservation_url, reservation_label) values
-  ('geneve',   'Genève',    'https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1', 'Réservation en ligne du CTS des HUG (OneDoc)'),
-  ('vaud',     'Vaud',      'https://reservation.ichspendeblut.ch', 'Réservation Transfusion Interrégionale CRS'),
-  ('valais',   'Valais',    'https://reservation.ichspendeblut.ch', 'Réservation Transfusion Interrégionale CRS'),
-  ('fribourg', 'Fribourg',  'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse'),
-  ('neuchatel','Neuchâtel', 'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse'),
-  ('jura',     'Jura',      'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse'),
-  ('berne',    'Berne',     'https://reservation.ichspendeblut.ch', 'Réservation Transfusion Interrégionale CRS'),
-  ('zurich',   'Zürich',    'https://www.blutspendezurich.ch', 'Réservation Blutspende Zürich'),
-  ('tessin',   'Tessin',    'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse')
+insert into public.cd_parametres (region, nom, lits, reservation_url, reservation_label) values
+  ('geneve',   'Genève',    10, 'https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1', 'Réservation en ligne du CTS des HUG (OneDoc)'),
+  ('vaud',     'Vaud',      8,  'https://reservation.ichspendeblut.ch', 'Réservation Transfusion Interrégionale CRS'),
+  ('valais',   'Valais',    5,  'https://reservation.ichspendeblut.ch', 'Réservation Transfusion Interrégionale CRS'),
+  ('fribourg', 'Fribourg',  4,  'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse'),
+  ('neuchatel','Neuchâtel', 4,  'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse'),
+  ('jura',     'Jura',      4,  'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse'),
+  ('berne',    'Berne',     8,  'https://reservation.ichspendeblut.ch', 'Réservation Transfusion Interrégionale CRS'),
+  ('zurich',   'Zürich',    8,  'https://www.blutspendezurich.ch', 'Réservation Blutspende Zürich'),
+  ('tessin',   'Tessin',    5,  'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', 'Dates et réservation, Transfusion CRS Suisse')
 on conflict (region) do nothing;
+-- nombre de lits réglé par centre (valeurs indicatives, modifiables dans cd_parametres)
+update public.cd_parametres set lits = v.lits from (values ('geneve',10),('vaud',8),('berne',8),('zurich',8),('valais',5),('tessin',5)) as v(region, lits) where cd_parametres.region = v.region and cd_parametres.lits = 4;
 
 -- ---------- droits ----------
 create or replace function public.cd_est_pro() returns boolean
@@ -185,7 +187,7 @@ begin
     v_m := v_m + v_p.creneau_min; if v_m >= 60 then v_h := v_h + 1; v_m := v_m - 60; end if;
   end loop;
   v_now := extract(hour from (now() at time zone 'Europe/Zurich')) + extract(minute from (now() at time zone 'Europe/Zurich'))/60.0;
-  for k in 1..40 loop
+  for k in 1..least(90, (array_length(v_slots,1) * v_p.lits * 55 / 100)) loop
     v_slot := v_slots[1+floor(random()*array_length(v_slots,1))::int];
     select count(*) into v_lit from public.cd_reservations where region = p_region and jour = current_date and heure = v_slot;
     if v_lit >= v_p.lits then continue; end if;
@@ -376,6 +378,8 @@ language sql stable security definer set search_path = public, extensions as $$
              from public.cd_reservations r where r.region = p_region and r.jour = current_date and r.statut in ('arrive','questionnaire')),
     'encours', (select coalesce(jsonb_agg(jsonb_build_object('code', upper(right(replace(r.id::text, '-', ''), 4)), 'lit', r.lit) order by r.lit), '[]'::jsonb)
              from public.cd_reservations r where r.region = p_region and r.jour = current_date and r.statut = 'prelevement'),
+    'dons_jour', (select coalesce(jsonb_object_agg(g.groupe, g.n), '{}'::jsonb) from (select d.groupe, count(*) as n from public.cd_reservations r join public.cd_donneurs d on d.id = r.donneur_id where r.region = p_region and r.jour = current_date and r.statut = 'termine' and d.groupe is not null group by d.groupe) g),
+    'par_heure', (select coalesce(jsonb_agg(coalesce(c.n, 0) order by h.h), '[]'::jsonb) from generate_series(0, 23) h(h) left join (select split_part(r.heure, ':', 1)::int as hh, count(*) as n from public.cd_reservations r where r.region = p_region and r.jour = current_date and r.statut = 'termine' and r.heure is not null group by 1) c on c.hh = h.h),
     'serveur', now()
   ) else null end
 $$;

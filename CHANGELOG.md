@@ -11,6 +11,10 @@
 ### Flux donneurs (waiting-room screen)
 - New page pro/salle/ for a large screen or a second workstation: queue positions, estimated wait and bed occupancy, refreshed every 20 s. People are shown only by the four-character call code handed at reception; the screen receives codes and statuses only (RPC cd_flux), never names. The reception screen displays the call code to hand over.
 
+### Flux CTS (centre screen)
+- New page pro/flux/ and a « Flux CTS » tab in the professional portal (embedded preview plus full-screen opening): official stock barometer per group, today's activity (completed donations, beds, waiting people, donations per hour, from cd_flux counts only), next mobile collections and Swiss news, refreshed every 30 s.
+- Flux donneurs: call code shown alone in a framed badge, entrance animation and pulse on the person called, beds grid sized to the centre (10 beds at the HUG in the seed).
+
 ### Digital twin wording
 - All screens rewritten in plain professional French: numbered steps (Scénario, Résultats, Comparaison, Poste de régulation), an introduction and a guide per screen, « numéro de tirage », « nombre de simulations », « marge d’incertitude », « précautions de lecture »; glossary entries added (marge d’incertitude, mise en régime, événement simulé, poste de régulation, substitution ABO, jours de couverture).
 
