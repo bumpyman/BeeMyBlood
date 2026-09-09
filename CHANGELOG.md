@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Access requests: the team receives an email for each new request (Supabase trigger with pg_net calling api/notif.php, which sends the mail from the Infomaniak server). New config keys admin_email and notif_secret.
+- Daily data cache reduced from 6 hours to 1 hour.
+
 ## v0.5.2 — 2026-09-09 — project page, FAQ, privacy and legal pages
 
 ### Project page and information pages

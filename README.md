@@ -76,6 +76,10 @@ curl -s -X POST https://your-domain/api.php -H "Content-Type: application/json" 
 
 For local frontend work you can open the HTML files directly or serve the folder with any static server. The BeeBots need PHP.
 
+### Email notification of access requests
+
+Each new row in demandes_acces triggers (via pg_net, see supabase/2026-09-09-notification-demandes.sql) a POST to api/notif.php, which emails the request to admin_email from config.php. The trigger sends the header X-BMB-Secret; it must equal notif_secret in config.php, otherwise the call is refused. The recent calls and their HTTP status are visible in Supabase with .
+
 ### Daily data cache
 
 `api/donnees.php` fetches the official stock barometer, the HUG collection calendar and the news feed, and keeps the result for 1 hour in `api/cache/donnees.json` (created by PHP, git-ignored). After uploading a new `donnees.php`, or whenever you want fresh data right away, open once:
