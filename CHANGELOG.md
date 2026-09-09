@@ -5,6 +5,7 @@
 ### Centre operations backend
 - Supabase schema for the donation cycle (supabase/2026-09-09-cycle-du-don.sql): cd_donneurs, cd_reservations (incl. waiting list), cd_consentements, cd_journal (chained hashes computed server-side), cd_parametres (beds, slots, online booking link per region), cd_evenements; RPCs cd_etat, cd_donneur_enregistrer, cd_reservation_creer, cd_attente_placer, cd_reservation_statut, cd_consentement_signer, cd_rappels_regler, cd_parametres_regler, cd_journaliser, cd_exporter, cd_evenement (anon). Demonstration set seeded per region on first use.
 - pro/cycle.js now reads and writes through these functions, with a local demonstration fallback and a « enregistré / démonstration locale » badge.
+- Agenda: clicking a booking opens explicit action buttons (confirm, arrived, questionnaire checked, admit, done, absent, defer, reopen) instead of a silent step-forward; donor file and waiting list stay visible while scrolling.
 - Real booking by redirection: « Réserver » on every published collection in the donor space and on the OneDoc links, with anonymous click counting shown in the professional agenda.
 
 ### Flux donneurs (waiting-room screen)
