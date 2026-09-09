@@ -19,9 +19,18 @@ Most digital tools in the blood sector stop at the donor: booking, reminders, re
 | Professionals: stocks, maps, mobile-unit routing | partial | ✔ real-time dashboard, 9 Swiss regions |
 | Transfusion-specialised AI assistant | — | ✔ three BeeBots aligned with Swiss Red Cross (CRS) directives |
 | Rare phenotypes and European network (EBA) | — | ✔ labile blood product search, Switzerland + EBA |
-| Digital twin and crisis scenarios | — | ✔ stock simulation: pandemic, disaster, campaigns |
+| Centre operations: agenda and bookings, reception, e-consent, reminders, audit trail, reporting | ✔ | ✔ in the professional portal, chained audit journal, CRS and SoHO exports |
+| Digital twin and crisis scenarios | — | ✔ discrete-event engine, replications with 95 % confidence intervals, eight episodes, two-run comparison, replayable regulation desk |
 | Equity-of-access indicators | — | ✔ per region and per district |
 | Model | proprietary SaaS | open source AGPL-3.0, hosted in Switzerland, HL7 FHIR |
+
+## Digital twin (pro/jumeau.js)
+
+The professional portal ships a browser-only digital twin of the regional blood chain, transposed from the HEG Geneva Bachelor thesis *Digital Twin des urgences pédiatriques des HUG* (Morsch, Poupard-Kuimi, Gonçalves Silva, 2026): discrete-event engine with an event heap, one seeded random stream per source of randomness, replications aggregated with Student 95 % intervals, Little's law checked at every replication, declarative scenario with cumulative episodes (pandemic, summer, heatwave, campaign, major accident, group shortage, laboratory outage, extra mobile collection), five screens (Scenario with a pre-run judgement, Results, two-run Comparison with a five-state rule, Regulation desk replaying the first replication hour by hour, Phenotypes). The starting stock reads the official barometer through api/donnees.php; everything else is demonstration data.
+
+## Centre operations (pro/cycle.js)
+
+An « Opérer » tab group covers the daily donation cycle with demonstration data: agenda and bookings (4 beds, 30-minute slots, waiting list, no-show estimate), donor file (eligibility interval per Transfusion CRS rules, consent version, preferred channel), reception (pre-filled questionnaire, e-consent with one-time code, vitals, aptitude decision), reminders (confirmation, next eligibility, lapsed donors, targeted call on groups under tension), chained audit journal with daily closing and CSV exports.
 
 ## Alpha access (invitation, email login, NDA)
 

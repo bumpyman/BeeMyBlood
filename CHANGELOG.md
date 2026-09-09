@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Professional portal
+- Digital twin v2 (pro/jumeau.js): discrete-event engine, seeded streams, replications with 95 % intervals, Little check, eight cumulative episodes, screens Scenario / Results / Comparison / Regulation desk / Phenotypes, real barometer as starting stock, JSON export. Transposed from the HUG paediatric emergency digital twin thesis (HEG Genève 2026).
+- New « Opérer » tab group (pro/cycle.js): agenda and bookings, donor file, reception and e-consent, reminders, audit journal and reports, with CSV exports.
+
+### Wording
+- Landing and project pages state the digitalisation mission (open code, public standards, Swiss quality); comparison table covers centre operations and the new twin.
+
 - Access requests: the team receives an email for each new request (Supabase trigger with pg_net calling api/notif.php, which sends the mail from the Infomaniak server). New config keys admin_email and notif_secret.
 - Daily data cache reduced from 6 hours to 1 hour.
 - Admin page: "Retirer l’accès" button on active accounts (new RPC admin_retirer_acces, supabase/2026-09-09-retirer-acces.sql) and "Annuler l’approbation" on approved requests.
