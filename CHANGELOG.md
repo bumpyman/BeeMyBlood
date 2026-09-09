@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.6.1 — 2026-09-09 — HUG questionnaire flow
 
 ### Donor space
 - Eligibility result: the « Générer mon formulaire pré-rempli » button, which produced a document with the demonstration identity, is replaced by « Remplir mon questionnaire HUG », which opens the real three-step questionnaire (information, consent, medical questions) and prefills only the connected person's name.
