@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.5.2 — 2026-09-09 — project page, FAQ, privacy and legal pages
 
 ### Project page and information pages
 - Project page: new section "Pourquoi BeeMyBlood ?" (the name: pollination, hive, sting, dance, sentinel, gold and black) and a "Contribuer" section (test, code, partnership, citation) with three buttons: FAQ, Confidentialité, Mentions légales. Navigation reduced to two links on mobile.
