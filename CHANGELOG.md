@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.6.0 — 2026-09-09 — centre operations backend, display screens, real booking by redirection
 
 ### Centre operations backend
 - Supabase schema for the donation cycle (supabase/2026-09-09-cycle-du-don.sql): cd_donneurs, cd_reservations (incl. waiting list), cd_consentements, cd_journal (chained hashes computed server-side), cd_parametres (beds, slots, online booking link per region), cd_evenements; RPCs cd_etat, cd_donneur_enregistrer, cd_reservation_creer, cd_attente_placer, cd_reservation_statut, cd_consentement_signer, cd_rappels_regler, cd_parametres_regler, cd_journaliser, cd_exporter, cd_evenement (anon). Demonstration set seeded per region on first use.
@@ -38,6 +38,7 @@
 - Donor file: first-time donors returning within 12 months.
 
 ### Wording
+- Professional portal: tab groups shown as framed cards with gold labels.
 - Landing and project pages state the digitalisation mission (open code, public standards, Swiss quality); comparison table covers centre operations and the new twin.
 
 - Access requests: the team receives an email for each new request (Supabase trigger with pg_net calling api/notif.php, which sends the mail from the Infomaniak server). New config keys admin_email and notif_secret.
