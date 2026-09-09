@@ -33,7 +33,7 @@
     + '.cy-hash{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.68rem;color:var(--slate-500)}'
     + '.cy-muted{font-size:.8rem;color:var(--slate-400)}.cy-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}'
     + '.cy-row.ouvert{border-color:var(--amber-400)}.cy-acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:.4rem;padding-top:.5rem;border-top:1px dashed var(--slate-700);align-items:center}'
-    + '.cy-sticky{position:sticky;top:.6rem}'
+    + '[id^=cy-] .grid-2-1>div:last-child{align-self:stretch}[id^=cy-] .grid-2-1>div:first-child>.card{position:static}.cy-sticky{position:sticky;top:70px}'
     + '.cy-mode{font-size:.68rem;padding:.2rem .55rem;border-radius:99px;border:1px solid var(--slate-700);color:var(--slate-400);margin-left:auto;font-weight:600}.cy-mode.ok{color:var(--green-400);border-color:rgba(74,222,128,.4)}.cy-mode.local{color:var(--amber-400);border-color:rgba(232,213,163,.4)}'
     + '@media(max-width:768px){.cy-kpis{grid-template-columns:1fr 1fr}.cy-week{grid-template-columns:repeat(7,1fr);gap:.25rem}.cy-day{padding:.35rem .1rem}.cy-form{grid-template-columns:1fr}.cy-row{grid-template-columns:52px 1fr;grid-template-rows:auto auto}.cy-row .cy-st{grid-column:2}.cy-table th:nth-child(n+5),.cy-table td:nth-child(n+5){display:none}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
