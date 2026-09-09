@@ -6,7 +6,7 @@
  */
 (function(){
   var TERMES = [
-    ['Luxe communal', 'Le concept fondateur de BeeMyBlood. Le sang a tout d\'un produit de luxe : rare, précieux, impossible à fabriquer. Mais il ne s\'achète pas et ne se possède pas : il n\'existe que partagé, offert par les uns, reçu par les autres. BeeMyBlood entoure donc chaque don des égards d\'un service de luxe : accueil, reconnaissance, retour d\'impact.'],
+    ['Luxe communal', 'Concept fondateur de BeeMyBlood. Le sang est rare, précieux et impossible à fabriquer, comme un produit de luxe, et il existe seulement partagé, offert par les uns et reçu par les autres. BeeMyBlood entoure donc chaque don des égards d\'une maison de luxe, avec un accueil soigné, de la reconnaissance et un retour sur l\'impact du don.'],
     ['CRS', 'Croix-Rouge suisse. « Transfusion CRS Suisse » est l\'organisation faîtière qui fixe les critères du don de sang en Suisse.'],
     ['CTS', 'Centre de transfusion sanguine : le lieu où l\'on donne son sang et où les poches sont préparées.'],
     ['PSL', 'Produits sanguins labiles : globules rouges, plaquettes et plasma issus d\'un don, à durée de conservation courte.'],

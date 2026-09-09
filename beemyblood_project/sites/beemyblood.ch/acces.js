@@ -70,16 +70,16 @@
     for (var k in t) if (m.indexOf(k) >= 0) return t[k];
     if (/rate limit|too many/i.test(m)) return 'Trop de tentatives, réessayez dans quelques minutes.';
     if (/otp|token|expired|invalid/i.test(m)) return 'Code incorrect ou déjà utilisé. Demandez un nouveau code et saisissez celui du dernier courriel reçu.';
-    if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
+    if (/fetch|network/i.test(m)) return 'Le serveur est injoignable. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
   var pied = '<div class="bmba-foot">Hébergé en Suisse · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
 
   // ---------- Étape 1 : courriel ----------
   var INTRO = {
-    donneur: 'Test d’éligibilité, centres, guide, FAQ et BeeBot : ouverts à tout le monde. Tableau de bord, défis, HémoRush, impact et profil : sur invitation.',
-    receveur: 'L’espace receveur·se est en phase de test : il s’ouvre sur invitation.',
-    pro: 'Le portail professionnel est en phase de test : il s’ouvre sur invitation.',
+    donneur: 'Le test d’éligibilité, les centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Le tableau de bord, les défis, HémoRush, l’impact et le profil s’ouvrent sur invitation.',
+    receveur: 'L’espace receveur·se est en phase de test et s’ouvre sur invitation.',
+    pro: 'Le portail professionnel est en phase de test et s’ouvre sur invitation.',
     admin: 'L’administration est réservée à l’équipe du projet.',
     connexion: 'Saisissez l’adresse avec laquelle votre accès a été approuvé.'
   };
@@ -90,11 +90,11 @@
       +(choix?'<div class="bmba-q">Déjà invité·e ?</div>':'')
       +'<input class="bmba-in" id="bmbaEmail" type="email" autocomplete="email" inputmode="email" placeholder="prenom.nom@exemple.ch" value="'+(pre||'')+'">'
       +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code</button>'
-      +'<p class="bmba-note">'+(choix?'Même adresse que votre demande. ':'')+'Un code par courriel, pas de mot de passe. Vous restez connecté·e sur cet appareil.</p>'
+      +'<p class="bmba-note">'+(choix?'Même adresse que votre demande. ':'')+'Un code reçu par courriel remplace le mot de passe. Vous restez connecté·e sur cet appareil.</p>'
       +'<div class="bmba-err" id="bmbaErr"></div>'
       +(choix?'<div class="bmba-q">Pas encore invité·e ?</div>':'')
       +'<a class="bmba-btn sec bmba-choix" href="'+RACINE+'acces/'+(choix?'?espace='+ESPACE:'')+'">Demander un accès</a>'
-      +(PUBLIC?'<button class="bmba-btn sec" id="bmbaLibre">Continuer sans compte</button>':'')+pied);
+      +(PUBLIC?'<button class="bmba-btn sec" id="bmbaLibre">Poursuivre la visite</button>':'')+pied);
     var libre=document.getElementById('bmbaLibre'); if(libre) libre.onclick=function(){ attente=null; fermer(); };
     var go = function(){
       var email = (document.getElementById('bmbaEmail').value||'').trim().toLowerCase();
@@ -134,7 +134,7 @@
     if(d==='en_attente') txt='Votre demande pour <b>'+etat.email+'</b> est <b>en attente d’approbation</b>. Vous recevrez un courriel dès qu’elle sera validée.';
     else if(d==='refusee') txt='La demande pour <b>'+etat.email+'</b> n’a pas été retenue. Une erreur ? Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
     else if(d==='activee') txt='Cet accès est déjà activé sur un autre compte. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
-    else txt='Aucune invitation pour <b>'+etat.email+'</b>. Vous avez fait votre demande avec une autre adresse ? Reconnectez-vous avec celle-ci. Sinon, demandez un accès.';
+    else txt='L’adresse <b>'+etat.email+'</b> attend encore une invitation. Vous avez fait votre demande avec une autre adresse ? Reconnectez-vous avec celle-ci. Sinon, demandez un accès.';
     ecran(etapes(2)+'<div class="bmba-h">Accès pas encore ouvert</div><p class="bmba-p">'+txt+'</p>'
       +(d?'' : '<a class="bmba-btn" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'acces/'+(ESPACE!=='connexion'?'?espace='+ESPACE:'')+'">Demander un accès</a>')
       +'<button class="bmba-btn sec" id="bmbaRetry">Vérifier à nouveau</button><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
@@ -179,7 +179,7 @@
 
   function ecranRefus(){
     var r = rolesDe(etat).filter(function(x){ return x!=='admin'; });
-    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">Votre accès couvre : '+(r.length? r.map(function(x){return LIBELLES[x];}).join(', ') : 'aucun espace')+'. Pour l’étendre, écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.</p>'
+    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">'+(r.length? 'Votre accès couvre '+r.map(function(x){return LIBELLES[x];}).join(', ')+'.' : 'Votre compte attend encore un espace approuvé.')+' Pour l’étendre, écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.</p>'
       + r.map(function(x){ return '<a class="bmba-btn bmba-choix" href="'+RACINE+CHEMINS[x]+'">'+ICONES[x]+' '+LIBELLES[x]+'</a>'; }).join('')
       +'<a class="bmba-btn sec" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'">Retour à l’accueil</a><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button>');
     document.getElementById('bmbaOut').onclick = deconnecter;
