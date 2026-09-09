@@ -86,7 +86,7 @@ function chargerDemandes(){
         var code=codes[d.id];
         var cases = ['donneur','receveur','pro','developpeur'].map(function(x){ return '<label style="display:inline-flex;gap:4px;align-items:center;margin-right:8px;font-size:12px"><input type="checkbox" data-role="'+x+'" '+((d.roles||[]).indexOf(x)>=0?'checked':'')+'> '+ROLES[x]+'</label>'; }).join('');
         var act = d.statut==='en_attente' ? '<div style="margin-bottom:6px">'+cases+'</div><button class="b p" data-a="ok" data-id="'+d.id+'">Approuver les espaces cochés</button> <button class="b d" data-a="non" data-id="'+d.id+'">Refuser</button>'
-                : d.statut==='approuvee' ? '<div class="mail">Ouvert jusqu’au '+dt(d.code_expire_le)+' · <a href="'+lienCourriel(d)+'">✉️ Envoyer le courriel de confirmation</a></div><div style="margin:6px 0">'+cases.replace(/checked/g,'').replace(/data-role="(donneur|receveur|pro|developpeur)"/g,function(m0,x){ return 'data-role="'+x+'"'+((d.roles_approuves||[]).indexOf(x)>=0?' checked':''); })+'</div><button class="b" data-a="ok" data-id="'+d.id+'" title="Met à jour les espaces et prolonge de 30 jours">Mettre à jour</button>'
+                : d.statut==='approuvee' ? '<div class="mail">Ouvert jusqu’au '+dt(d.code_expire_le)+' · <a href="'+lienCourriel(d)+'">✉️ Envoyer le courriel de confirmation</a> · <button class="b d" data-a="non" data-id="'+d.id+'">Annuler l’approbation</button></div><div style="margin:6px 0">'+cases.replace(/checked/g,'').replace(/data-role="(donneur|receveur|pro|developpeur)"/g,function(m0,x){ return 'data-role="'+x+'"'+((d.roles_approuves||[]).indexOf(x)>=0?' checked':''); })+'</div><button class="b" data-a="ok" data-id="'+d.id+'" title="Met à jour les espaces et prolonge de 30 jours">Mettre à jour</button>'
                 : d.statut==='activee' ? '<span class="muted">compte actif · '+libRoles(d.roles_approuves)+'</span><div style="margin:6px 0">'+cases.replace(/checked/g,'').replace(/data-role="(donneur|receveur|pro|developpeur)"/g,function(m0,x){ return 'data-role="'+x+'"'+((d.roles_approuves||[]).indexOf(x)>=0?' checked':''); })+'</div><button class="b" data-a="ok" data-id="'+d.id+'" title="Modifie les espaces du compte">Mettre à jour</button>' : '<span class="muted">'+esc(d.note_admin||'')+'</span>';
         return '<tr><td class="muted">'+dt(d.cree_le)+'</td><td>'+esc(d.nom)+'</td><td>'+esc(d.email)+'</td><td>'+libRoles(d.roles&&d.roles.length?d.roles:[d.role])+(d.roles_approuves&&d.statut!=='en_attente'?'<br><span class="muted">approuvé : '+libRoles(d.roles_approuves)+'</span>':'')+'</td><td><b>'+esc(d.organisation||'')+'</b><br><span class="muted">'+esc(d.motif||'')+'</span></td><td><span class="st '+d.statut+'">'+d.statut.replace('_',' ')+'</span></td><td>'+act+'</td></tr>';
       }).join('')+'</table>' : '<p class="muted">Aucune demande pour le moment.</p>';
@@ -96,7 +96,7 @@ function chargerTableau(){
   sb.rpc('admin_tableau').then(function(r){
     if(r.error||!r.data) throw (r.error||new Error('non admin'));
     var t=r.data;
-    document.getElementById('acces').innerHTML = t.acces.length ? '<table><tr><th>Activé le</th><th>Nom</th><th>Courriel</th><th>Espaces</th></tr>'+t.acces.map(function(a){return '<tr><td class="muted">'+dt(a.active_le)+'</td><td>'+esc(a.nom)+'</td><td>'+esc(a.email)+'</td><td>'+libRoles(a.roles&&a.roles.length?a.roles:[a.role])+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Aucun compte activé.</p>';
+    document.getElementById('acces').innerHTML = t.acces.length ? '<table><tr><th>Activé le</th><th>Nom</th><th>Courriel</th><th>Espaces</th><th></th></tr>'+t.acces.map(function(a){return '<tr><td class="muted">'+dt(a.active_le)+'</td><td>'+esc(a.nom)+'</td><td>'+esc(a.email)+'</td><td>'+libRoles(a.roles&&a.roles.length?a.roles:[a.role])+'</td><td><button class="b d" data-a="retirer" data-email="'+esc(a.email)+'">Retirer l’accès</button></td></tr>';}).join('')+'</table>' : '<p class="muted">Aucun compte activé.</p>';
     document.getElementById('signatures').innerHTML = t.signatures.length ? '<table><tr><th>Signé le</th><th>Nom signé</th><th>Courriel</th><th>Version</th></tr>'+t.signatures.map(function(s){return '<tr><td class="muted">'+dt(s.signe_le)+'</td><td>'+esc(s.nom_signe)+'</td><td>'+esc(s.email)+'</td><td>'+esc(s.version)+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Aucune signature.</p>';
     document.getElementById('journal').innerHTML = t.journal.length ? '<table><tr><th>Quand</th><th>Courriel</th><th>Espace</th></tr>'+t.journal.map(function(j){return '<tr><td class="muted">'+dt(j.at)+'</td><td>'+esc(j.email)+'</td><td>'+esc(j.espace)+'</td></tr>';}).join('')+'</table>' : '<p class="muted">Journal vide.</p>';
   }).catch(function(e){ document.getElementById('acces').innerHTML='<p style="color:var(--red)">'+esc(e.message)+'</p>'; });
@@ -113,6 +113,13 @@ document.getElementById('demandes').addEventListener('click', function(e){
     if(note===null){ b.disabled=false; return; }
     sb.rpc('admin_refuser',{p_id:id,p_note:note}).then(function(r){ if(r.error) throw r.error; chargerDemandes(); }).catch(function(ex){ alert(ex.message); b.disabled=false; });
   }
+});
+document.getElementById('acces').addEventListener('click', function(e){
+  var b=e.target.closest('button[data-a="retirer"]'); if(!b) return;
+  var email=b.dataset.email;
+  if(!confirm('Retirer l’accès de '+email+' ? Le compte est supprimé et ses demandes passent en « refusée ». La personne pourra redemander un accès.')) return;
+  b.disabled=true;
+  sb.rpc('admin_retirer_acces',{p_email:email,p_note:'Accès retiré par l’administration'}).then(function(r){ if(r.error) throw r.error; chargerDemandes(); chargerTableau(); }).catch(function(ex){ alert(/auto_retrait/.test(ex.message)?'Vous ne pouvez pas retirer votre propre accès.':ex.message); b.disabled=false; });
 });
 document.getElementById('refresh').onclick=function(){ chargerDemandes(); chargerTableau(); };
 window.bmbDeverrouiller=function(etat){

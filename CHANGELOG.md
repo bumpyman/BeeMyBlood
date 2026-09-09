@@ -4,6 +4,7 @@
 
 - Access requests: the team receives an email for each new request (Supabase trigger with pg_net calling api/notif.php, which sends the mail from the Infomaniak server). New config keys admin_email and notif_secret.
 - Daily data cache reduced from 6 hours to 1 hour.
+- Admin page: "Retirer l’accès" button on active accounts (new RPC admin_retirer_acces, supabase/2026-09-09-retirer-acces.sql) and "Annuler l’approbation" on approved requests.
 
 ## v0.5.2 — 2026-09-09 — project page, FAQ, privacy and legal pages
 
