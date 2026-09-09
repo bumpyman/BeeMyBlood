@@ -1,10 +1,15 @@
 # Changelog
 
-## Unreleased
+## v0.5.3 — 2026-09-09 — digital twin v2, centre operations, ideas from the Bachelor theses
 
 ### Professional portal
 - Digital twin v2 (pro/jumeau.js): discrete-event engine, seeded streams, replications with 95 % intervals, Little check, eight cumulative episodes, screens Scenario / Results / Comparison / Regulation desk / Phenotypes, real barometer as starting stock, JSON export. Transposed from the HUG paediatric emergency digital twin thesis (HEG Genève 2026).
 - New « Opérer » tab group (pro/cycle.js): agenda and bookings, donor file, reception and e-consent, reminders, audit journal and reports, with CSV exports.
+
+### From the Bachelor theses (Leal, Albadri, Bouzo, Stankov, HEG Genève 2025-2026)
+- Twin episodes « Fêtes de fin d’année » and « Relais communautaire »; cost of missing units at 267 CHF per unit (CTS HUG figure).
+- Donor space: « add to my calendar » (.ics with reminder) on every published mobile collection (HUG and Transfusion CRS dates).
+- Donor file: first-time donors returning within 12 months.
 
 ### Wording
 - Landing and project pages state the digitalisation mission (open code, public standards, Swiss quality); comparison table covers centre operations and the new twin.

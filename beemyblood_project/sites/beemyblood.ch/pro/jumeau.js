@@ -33,6 +33,8 @@
     accident: { nom:'Accident majeur', desc:'Demande vitale immédiate de concentrés érythrocytaires, substitution autorisée.', champs:[['jour','Jour',45],['heure','Heure',14],['cgr','Poches demandées',60]] },
     rupture:  { nom:'Rupture d’un groupe', desc:'Le stock d’un groupe tombe à zéro et ses donneur·se·s répondent peu pendant deux semaines.', champs:[['jour','Jour',30],['groupe','Groupe (0 à 7 : O−, O+, A−, A+, B−, B+, AB−, AB+)',4],['reponse','Dons du groupe (%)',-70]] },
     labo:     { nom:'Panne du laboratoire', desc:'Le délai de qualification des poches est multiplié.', champs:[['debut','Début (jour)',50],['duree','Durée (jours)',5],['facteur','Facteur sur le délai',3]] },
+    fetes:    { nom:'Fêtes de fin d’année', desc:'Dons en forte baisse pendant les fêtes, demande maintenue.', champs:[['debut','Début (jour)',80],['duree','Durée (jours)',14],['dons','Dons (%)',-40],['demande','Demande (%)',0],['ajourn','Ajournements (+ points)',3]] },
+    relais:   { nom:'Relais communautaire', desc:'Supporters d’un club, entreprise ou bouche-à-oreille de patient·e·s : afflux court et ciblé.', champs:[['debut','Début (jour)',35],['duree','Durée (jours)',3],['dons','Dons (%)',30],['demande','Demande (%)',0],['ajourn','Ajournements (+ points)',4]] },
     mobile:   { nom:'Collecte mobile supplémentaire', desc:'Une collecte de plus, chaque semaine, le jour choisi.', champs:[['jourSemaine','Jour (0 lundi à 6 dimanche)',1],['dons','Dons supplémentaires',25]] }
   };
 
@@ -66,7 +68,7 @@
     var e = { dons:1, demande:1, ajourn:0, qualif:1, extraDons:{}, ruptures:[], accidents:[] };
     (sc.episodes||[]).forEach(function(ep){
       var p = ep.p;
-      if(ep.type==='pandemie'||ep.type==='ete'||ep.type==='canicule'||ep.type==='campagne'){
+      if(ep.type==='pandemie'||ep.type==='ete'||ep.type==='canicule'||ep.type==='campagne'||ep.type==='fetes'||ep.type==='relais'){
         if(d>=p.debut && d<p.debut+p.duree){ e.dons*=1+p.dons/100; e.demande*=1+p.demande/100; e.ajourn+=p.ajourn; }
         if(ep.type==='pandemie' && d>=p.debut+p.duree && d<p.debut+p.duree+42){ e.demande*=1.15; }
       }
@@ -239,7 +241,7 @@
     var sc = r.sc, k = r.kpi, pire = r.pire, cp = k.couv[pire].moy, pct = Math.min(100, Math.round(cp/sc.cibleJours*100));
     var kpis = '<div class="jm-kpis">'
       + '<div class="jm-kpi"><span>Groupe le plus tendu</span><div class="jm-arc" style="--p:'+pct+';--c:'+couleurCouv(cp,sc)+'"><i>'+pire+'</i></div><small style="text-align:center">'+f1(cp)+' j de couverture ± '+f1(k.couv[pire].ic)+'</small></div>'
-      + '<div class="jm-kpi"><span>Poches manquantes</span><b>'+pm(k.missingTot)+'</b><small>demandes hors délai, sur '+sc.horizon+' jours</small></div>'
+      + '<div class="jm-kpi"><span>Poches manquantes</span><b>'+pm(k.missingTot)+'</b><small>demandes hors délai, sur '+sc.horizon+' jours · achat hors canton ≈ '+Math.round(k.missingTot.moy*267).toLocaleString('fr-CH')+' CHF</small></div>'
       + '<div class="jm-kpi"><span>Péremption</span><b>'+pm(k.perim,' %')+'</b><small>poches périmées sur poches qualifiées</small></div>'
       + '<div class="jm-kpi"><span>Service, priorités vitale et urgente</span><b>'+f1((k.service[1].moy+k.service[2].moy)/2)+' %</b><small>'+f1(k.service[1].moy)+' % vitale · '+f1(k.service[2].moy)+' % urgente</small></div>'
       + '<div class="jm-kpi"><span>Dons qualifiés</span><b>'+Math.round(k.dons.moy).toLocaleString('fr-CH')+'</b><small>'+Math.round(k.demandes.moy).toLocaleString('fr-CH')+' demandes · '+Math.round(k.subst.moy)+' poches substituées</small></div></div>';
@@ -253,7 +255,7 @@
       + '<div class="jm-h">Couverture médiane par semaine</div>'+heat
       + '<div class="jm-h">Par groupe</div>'+table
       + '<div class="jm-actions" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem"><button class="jm-btn s" id="jm-exp">Exporter le run (JSON)</button><button class="jm-btn s" id="jm-ref">Prendre comme référence</button><button class="jm-btn s" id="jm-var">Prendre comme variante</button><button class="jm-btn s" id="jm-poste">Rejouer au poste de régulation</button></div>'
-      + '<details class="jm-limits"><summary>Ce que ce panneau ne dit pas</summary><ul><li>Le résultat décrit ce que la filière produirait sous les conditions déclarées, jamais ce qui arrivera.</li><li>Les groupes rares reposent sur peu de poches : leurs intervalles sont larges, c’est voulu.</li><li>Deux valeurs dont les intervalles se recouvrent ne se distinguent pas, même si les moyennes diffèrent.</li></ul></details></div>';
+      + '<details class="jm-limits"><summary>Ce que ce panneau ne dit pas</summary><ul><li>Le résultat décrit ce que la filière produirait sous les conditions déclarées, jamais ce qui arrivera.</li><li>Les groupes rares reposent sur peu de poches : leurs intervalles sont larges, c’est voulu.</li><li>Deux valeurs dont les intervalles se recouvrent ne se distinguent pas, même si les moyennes diffèrent.</li><li>Le coût des poches manquantes suppose un achat hors canton à 267 CHF par concentré, chiffre cité par le CTS des HUG dans les travaux de Bachelor.</li></ul></details></div>';
   }
 
   function dessinerSerie(){

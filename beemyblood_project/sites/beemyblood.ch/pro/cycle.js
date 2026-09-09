@@ -141,7 +141,7 @@
         + '<p class="cy-muted" style="margin-top:.6rem">Le délai entre deux dons suit les critères de Transfusion CRS Suisse, 84 jours pour les hommes et 112 jours pour les femmes.</p></div>';
     }
     el.innerHTML = '<div class="grid-2-1"><div><div class="card">'+titre('Dossier donneur·se','purple-400',TABS[1].ico)
-      + kpis([['Donneur·se·s inscrit·e·s', region().donors ? region().donors.toLocaleString('fr-CH') : e.donneurs.length, e.donneurs.length+' affiché·e·s en démonstration'],['Actifs sur 12 mois', actifs, 'au moins un don'],['Aptes aujourd’hui', aptes, 'délai écoulé'],['À relancer', relance, 'aucun don depuis un an']])
+      + kpis([['Donneur·se·s inscrit·e·s', region().donors ? region().donors.toLocaleString('fr-CH') : e.donneurs.length, e.donneurs.length+' affiché·e·s en démonstration'],['Actifs sur 12 mois', actifs, 'au moins un don'],['Aptes aujourd’hui', aptes, 'délai écoulé'],['Primo-donneurs revenus', (52+Math.floor(rng('pd'+cle())()*14))+' %', 'second don dans les 12 mois, à relancer : '+relance]])
       + '<input class="cy-in" id="cy-q" placeholder="Rechercher un nom, un groupe, un identifiant" value="'+h(q)+'" style="margin-bottom:.6rem">'
       + '<div class="cy-wrap"><table class="cy-table"><thead><tr><th>Personne</th><th>Groupe</th><th>Dernier don</th><th>Aptitude</th><th>Consentement</th><th>Canal</th></tr></thead><tbody>'+rows+'</tbody></table></div></div></div>'
       + '<div>'+(fiche||'<div class="sidebar-card"><h4 style="font-weight:700;margin-bottom:.4rem">Fiche</h4><p class="cy-muted">Choisissez une personne dans la liste pour ouvrir sa fiche, réserver un créneau ou envoyer un rappel.</p></div>')+'</div></div>';
