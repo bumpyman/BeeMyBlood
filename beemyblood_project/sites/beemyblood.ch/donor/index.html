@@ -18,6 +18,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BeeMyBlood™ — Portail Donneur</title>
+<script>(function(){try{var r=document.documentElement,t=localStorage.getItem('bmb-taille'),c=localStorage.getItem('bmb-contraste'),a=localStorage.getItem('bmb-animations');if(t&&t!=='normale')r.setAttribute('data-taille',t);if(c==='renforce')r.setAttribute('data-contraste','renforce');if(a==='reduites')r.setAttribute('data-animations','reduites');}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -1220,6 +1221,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <header>
 <nav>
   <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <button type="button" id="bmb-prefs-btn" class="nav-home-btn" style="border:1px solid var(--couleur-bordure)" aria-label="Préférences d'affichage" title="Préférences d'affichage">⚙️</button>
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" data-v="hero">Accueil</button>
@@ -8257,5 +8259,6 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
 <script src="../lexique.js" defer></script>
+<script src="../preferences.js" defer></script>
 </body>
 </html>
