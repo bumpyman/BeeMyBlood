@@ -15,6 +15,10 @@
 - New page pro/flux/ and a « Flux CTS » tab in the professional portal (embedded preview plus full-screen opening): official stock barometer per group, today's activity (completed donations, beds, waiting people, donations per hour, from cd_flux counts only), next mobile collections and Swiss news, refreshed every 30 s.
 - Flux donneurs: call code shown alone in a framed badge, entrance animation and pulse on the person called, beds grid sized to the centre (10 beds at the HUG in the seed).
 
+### Display screens
+- Flux CTS alternates between the dashboard and the animated flow map of the donor space (collections, centre, laboratory, hospitals), with a toggle; titles reduced to the centre name; the two screens are tabs of the Piloter group with an embedded preview that follows its content height and a full-screen button.
+- Session badge reduced to a round icon everywhere, with the menu on click; hidden on the display screens.
+
 ### Digital twin wording
 - All screens rewritten in plain professional French: numbered steps (Scénario, Résultats, Comparaison, Poste de régulation), an introduction and a guide per screen, « numéro de tirage », « nombre de simulations », « marge d’incertitude », « précautions de lecture »; glossary entries added (marge d’incertitude, mise en régime, événement simulé, poste de régulation, substitution ABO, jours de couverture).
 

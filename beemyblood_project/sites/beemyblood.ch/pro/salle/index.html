@@ -45,9 +45,9 @@ footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;just
 @media(max-width:900px){main{grid-template-columns:1fr;padding:14px}header{padding:14px}.clock{font-size:32px}.row{font-size:18px;grid-template-columns:44px 1fr auto;padding:12px}.row .n{font-size:22px}}
 </style>
 </head>
-<body>
+<body data-bmba-ecran="1">
 <header>
-  <div class="brand">🐝 <span>BeeMyBlood</span>™<small id="lieu">Flux donneurs · Centre de transfusion</small></div>
+  <div class="brand">🐝 <span>BeeMyBlood</span>™<small id="lieu"></small></div>
   <div class="clock" id="clock">--:--</div>
 </header>
 <main>
@@ -80,7 +80,7 @@ footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;just
   function rendre(F, mode){
     var sig = JSON.stringify([F.lits, F.file, F.encours, mode]); if(sig===signature) return; signature = sig;
     var r = regions[selectedRegion]||{name:selectedRegion};
-    document.getElementById('lieu').textContent = 'Flux donneurs · '+(r.site? r.site+' · ' : '')+r.name;
+    document.getElementById('lieu').textContent = (r.site? r.site+' · ' : '')+r.name;
     document.getElementById('mode').textContent = mode==='serveur' ? '' : 'Démonstration';
     var lits = F.lits||4, enCours = F.encours||[], file = F.file||[], libres = Math.max(0, lits-enCours.length);
     var html = file.map(function(x,i){ var next = i<libres; var attente = next ? 'à vous' : '≈ '+(8+Math.ceil((i-libres+1)/Math.max(1,lits))*12)+' min';

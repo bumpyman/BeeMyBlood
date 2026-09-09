@@ -39,17 +39,249 @@ main{flex:1;display:grid;grid-template-columns:1.1fr 1fr .9fr;gap:16px;padding:1
 .it small{display:block;color:var(--slate-400);font-size:12px;margin-top:2px}
 .it b{color:var(--amber-400);font-weight:700}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+:root{--font-body:'DM Sans',system-ui,sans-serif;--font-display:'Playfair Display',serif;--font-mono:ui-monospace,Menlo,Consolas,monospace;--gold:#C8A960;--green:#2ECC71;--red:#E63946;--red-soft:#ff6b6b;--blue:#4FC3F7;--text-muted:#8b8b9e;--text-dim:#b9b4a8}
+.vues{display:flex;gap:6px;margin-left:18px}.vues button{padding:6px 12px;border-radius:99px;border:1px solid var(--slate-700);background:var(--slate-800);color:#f0ece2;font:inherit;font-size:13px;font-weight:600;cursor:pointer}.vues button.on{background:var(--amber-500);color:#0a0a12;border-color:var(--amber-500)}
+#vue-carte{display:none;flex:1;padding:18px 30px}#vue-carte.on{display:flex;flex-direction:column}main.off{display:none}
+.carte-wrap{position:relative;flex:1;min-height:420px;background:linear-gradient(180deg,#0a0e14,#111820);border-radius:18px;overflow:hidden;border:1px solid var(--slate-700)}
+.carte-wrap svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.flux-hud{position:absolute;top:10px;left:0;right:0;padding:8px 14px;display:flex;justify-content:space-between;align-items:start;pointer-events:none;z-index:4}
+.flux-hud-left,.flux-hud-right{display:flex;flex-direction:column;gap:6px}
+.flux-stat{text-align:center;padding:8px 16px;background:rgba(10,14,20,.85);backdrop-filter:blur(8px);border-radius:10px;border:1px solid rgba(255,255,255,.06)}
+.flux-stat-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:800}
+.flux-stat-lbl{font-size:11px;color:var(--slate-400);text-transform:uppercase;letter-spacing:.5px}
+.carte-leg{font-size:13px;color:var(--slate-400);margin-top:10px;line-height:1.5}
 footer{padding:10px 30px;font-size:13px;color:var(--slate-500);display:flex;justify-content:space-between;border-top:1px solid rgba(200,169,96,.1)}
 .vide{color:var(--slate-400);font-size:14px}
 @media(max-width:1100px){main{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){main{grid-template-columns:1fr;padding:12px}header{padding:12px}.clock{font-size:30px}.stocks{grid-template-columns:repeat(4,1fr)}.big b{font-size:30px}}
 </style>
 </head>
-<body>
+<body data-bmba-ecran="1">
 <header>
-  <div class="brand">🐝 <span>BeeMyBlood</span>™<small id="lieu">Flux CTS</small></div>
+  <div class="brand">🐝 <span>BeeMyBlood</span>™<small id="lieu"></small></div>
+  <div style="display:flex;align-items:center"><div class="vues"><button id="b-tab" class="on">Tableau de bord</button><button id="b-carte">Carte des flux</button></div></div>
   <div class="clock" id="clock">--:--</div>
 </header>
+<section id="vue-carte">
+  <div class="carte-wrap">
+    <svg id="flux-map" viewBox="20 0 860 480" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <!-- Glow filter for CTS -->
+        <filter id="cts-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <!-- Particle glow -->
+        <filter id="p-glow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="3"/></filter>
+        <!-- Flow path marker -->
+        <marker id="arrow-out" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6" fill="rgba(255,255,255,.5)"/></marker>
+      </defs>
+
+      <!-- ROADS -->
+      <g stroke="rgba(255,255,255,.1)" fill="none" stroke-linecap="round">
+        <path d="M 0,355 L 900,355" stroke-width="18"/><!-- Bd de la Cluse -->
+        <path d="M 0,280 L 240,280" stroke-width="12"/><!-- Rue G-P-Gentil -->
+        <path d="M 45,0 L 45,550" stroke-width="10"/><!-- Rue Sautter/Lombard -->
+        <path d="M 330,0 Q 500,80 810,185" stroke-width="14"/><!-- Av de la Roseraie -->
+        <path d="M 770,120 L 770,380" stroke-width="10"/><!-- Rue Alcide-Jentzer -->
+      </g>
+      <!-- Road labels -->
+      <g font-size="9" fill="rgba(255,255,255,.18)" font-family="var(--font-body)">
+        <text x="450" y="370" text-anchor="middle">Bd de la Cluse</text>
+        <text x="600" y="90" text-anchor="middle" transform="rotate(-14,600,90)">Av. de la Roseraie</text>
+        <text x="32" y="400" text-anchor="middle" transform="rotate(-90,32,400)">Rue Sautter</text>
+      </g>
+
+      <!-- BUILDINGS — non-medical (dimmed) -->
+      <g fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1.5" rx="4">
+        <rect x="230" y="50" width="45" height="75" rx="4"/><!-- Gasparin -->
+        <rect x="220" y="148" width="48" height="58" rx="4"/><!-- Klein -->
+        <rect x="278" y="140" width="32" height="108" rx="4"/><!-- Prévost -->
+        <rect x="322" y="168" width="38" height="110" rx="4"/><!-- Stern -->
+        <rect x="552" y="185" width="56" height="130" rx="4"/><!-- Julliard -->
+        <rect x="670" y="185" width="60" height="42" rx="4"/><!-- Ophtalmologie -->
+      </g>
+      <g font-size="9" fill="rgba(255,255,255,.35)" font-family="var(--font-body)" text-anchor="middle" font-weight="500">
+        <text x="252" y="92">Gasparin</text>
+        <text x="244" y="182">Klein</text>
+        <text x="294" y="200">Prévost</text>
+        <text x="341" y="228">Stern</text>
+        <text x="580" y="255">Julliard</text>
+        <text x="700" y="210">Ophtalmo.</text>
+      </g>
+
+      <!-- BUILDINGS — medical destinations (brighter) -->
+      <!-- Bât. Opéra / Chirurgie -->
+      <rect x="385" y="175" width="165" height="105" rx="6" fill="rgba(230,57,70,.06)" stroke="rgba(230,57,70,.2)" stroke-width="1.5"/>
+      <text x="467" y="218" text-anchor="middle" font-size="11" fill="rgba(230,57,70,.8)" font-weight="700" font-family="var(--font-body)">Bât. Opéra</text>
+      <text x="467" y="231" text-anchor="middle" font-size="8.5" fill="rgba(230,57,70,.6)" font-family="var(--font-body)">Chirurgie · Transplant. · SI</text>
+
+      <!-- Urgences Adultes -->
+      <rect x="118" y="255" width="105" height="42" rx="5" fill="rgba(240,160,75,.06)" stroke="rgba(240,160,75,.25)" stroke-width="1.5"/>
+      <text x="170" y="278" text-anchor="middle" font-size="10" fill="rgba(240,160,75,.85)" font-weight="700" font-family="var(--font-body)">Urgences Adultes</text>
+
+      <!-- Radio-Oncologie -->
+      <rect x="548" y="135" width="88" height="40" rx="5" fill="rgba(155,89,182,.06)" stroke="rgba(155,89,182,.25)" stroke-width="1.5"/>
+      <text x="592" y="154" text-anchor="middle" font-size="10" fill="rgba(155,89,182,.85)" font-weight="700" font-family="var(--font-body)">Radio-Oncologie</text>
+      <text x="592" y="166" text-anchor="middle" font-size="8" fill="rgba(155,89,182,.65)" font-family="var(--font-body)">Hématologie</text>
+
+      <!-- Urgences Enfants -->
+      <rect x="795" y="205" width="75" height="26" rx="4" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.25)" stroke-width="1.5"/>
+      <text x="832" y="222" text-anchor="middle" font-size="9.5" fill="rgba(79,195,247,.85)" font-weight="700" font-family="var(--font-body)">Urg. Enfants</text>
+
+      <!-- Hôpital des Enfants / Néonat -->
+      <rect x="795" y="235" width="75" height="50" rx="4" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.2)" stroke-width="1.5"/>
+      <text x="832" y="258" text-anchor="middle" font-size="9.5" fill="rgba(79,195,247,.8)" font-weight="700" font-family="var(--font-body)">Hôp. Enfants</text>
+      <text x="832" y="270" text-anchor="middle" font-size="8" fill="rgba(79,195,247,.6)" font-family="var(--font-body)">Néonatologie</text>
+
+      <!-- Maternité -->
+      <rect x="630" y="280" width="118" height="65" rx="5" fill="rgba(46,204,113,.06)" stroke="rgba(46,204,113,.2)" stroke-width="1.5"/>
+      <text x="689" y="310" text-anchor="middle" font-size="10.5" fill="rgba(46,204,113,.8)" font-weight="700" font-family="var(--font-body)">Maternité</text>
+      <text x="689" y="323" text-anchor="middle" font-size="8" fill="rgba(46,204,113,.6)" font-family="var(--font-body)">Obstétrique</text>
+
+      <!-- MEA — coin Bd de la Cluse / Rue Willy-Donzé -->
+      <rect x="795" y="290" width="55" height="50" rx="4" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <text x="822" y="320" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.4)" font-weight="700" font-family="var(--font-body)">MEA</text>
+
+      <!-- ===== CTS — BÂT. MORIER (SOURCE) ===== -->
+      <rect x="90" y="105" width="92" height="52" rx="7" fill="rgba(200,169,96,.1)" stroke="rgba(200,169,96,.6)" stroke-width="2.5" filter="url(#cts-glow)"/>
+      <text x="136" y="126" text-anchor="middle" font-size="12" fill="#C8A960" font-weight="700" font-family="var(--font-display)">🩸 CTS</text>
+      <text x="136" y="138" text-anchor="middle" font-size="9" fill="rgba(200,169,96,.8)" font-weight="600" font-family="var(--font-body)">Bât. Morier</text>
+
+      <!-- ===== BÂT. LABORATOIRES (adjacent CTS, heavy traffic) ===== -->
+      <rect x="55" y="30" width="112" height="52" rx="6" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.3)" stroke-width="1.5"/>
+      <text x="111" y="52" text-anchor="middle" font-size="10.5" fill="rgba(79,195,247,.85)" font-weight="700" font-family="var(--font-body)">Bât. Laboratoires</text>
+      <text x="111" y="65" text-anchor="middle" font-size="8" fill="rgba(79,195,247,.6)" font-family="var(--font-body)">Analyses · Sérologie · RAI</text>
+      <!-- CTS pulse ring -->
+      <rect x="90" y="105" width="92" height="52" rx="7" fill="none" stroke="rgba(200,169,96,.3)" stroke-width="1">
+        <animate attributeName="stroke-opacity" values=".3;0;.3" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="x" values="90;85;90" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="105;100;105" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="width" values="92;102;92" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="height" values="52;62;52" dur="2s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- ===== FLOW PATHS (dashed lines) ===== -->
+      <g fill="none" stroke-dasharray="4,6" stroke-linecap="round" opacity=".55">
+        <!-- CTS → Laboratoires (tubes, échantillons — high traffic) -->
+        <path id="fp-lab-up" d="M130,105 C125,95 118,88 111,82" stroke="#4FC3F7" stroke-width="2.5"/>
+        <!-- Laboratoires → CTS (résultats, validations — high traffic) -->
+        <path id="fp-lab-dn" d="M115,82 C120,90 128,98 136,105" stroke="#2ECC71" stroke-width="2"/>
+        <!-- CTS → Urgences Adultes -->
+        <path id="fp1" d="M136,162 C136,200 155,240 170,255" stroke="#F0A04B" stroke-width="2"/>
+        <!-- CTS → Opéra / Chirurgie -->
+        <path id="fp2" d="M190,131 C260,131 320,180 375,210" stroke="#E63946" stroke-width="2"/>
+        <!-- CTS → Radio-Onco -->
+        <path id="fp3" d="M190,120 C300,100 430,110 550,145" stroke="#9B59B6" stroke-width="2"/>
+        <!-- CTS → Soins Intensifs (via Opéra) -->
+        <path id="fp4" d="M190,140 C280,150 380,200 440,255" stroke="#F4D03F" stroke-width="2"/>
+        <!-- CTS → Maternité -->
+        <path id="fp5" d="M160,162 C200,250 400,300 630,305" stroke="#2ECC71" stroke-width="1.5"/>
+        <!-- CTS → Hôp Enfants -->
+        <path id="fp6" d="M190,125 C350,110 600,170 780,245" stroke="#4FC3F7" stroke-width="1.5"/>
+        <!-- CTS → Érythrocytaphérèse -->
+        <path id="fp7" d="M160,105 C200,90 240,60 260,42" stroke="#C8A960" stroke-width="1.5"/>
+        <!-- CTS → Julliard (CE) -->
+        <path id="fp8" d="M182,131 C300,140 420,180 560,250" stroke="#E63946" stroke-width="1.5"/>
+      </g>
+
+      <!-- ===== EXTERNAL FLOW ARROWS ===== -->
+      <g fill="none" stroke-dasharray="6,8" stroke-linecap="round" opacity=".25" marker-end="url(#arrow-out)">
+        <!-- Plasma → Octapharma (off-screen right) -->
+        <path d="M190,145 C250,160 400,340 600,360 Q 750,370 900,365" stroke="#F4D03F" stroke-width="2"/>
+        <!-- CE → Hôpitaux cantonaux (off-screen top-right) -->
+        <path d="M190,115 C300,80 500,40 700,20 L 900,0" stroke="#E63946" stroke-width="1.5"/>
+      </g>
+      <!-- External labels -->
+      <g font-size="8" font-family="var(--font-body)" font-style="italic">
+        <text x="550" y="385" fill="rgba(244,208,63,.45)" font-style="italic" font-size="8.5">→ Fractionnement plasma (Octapharma)</text>
+        <text x="430" y="14" fill="rgba(230,57,70,.35)">→ Cliniques & hôpitaux externes (La Tour, HNe…)</text>
+      </g>
+
+      <!-- ===== ANIMATED PARTICLES (sparse, realistic pace) ===== -->
+      <!-- CTS ↔ Lab (tubes/résultats — most frequent traffic) -->
+      <circle r="4" fill="#4FC3F7" opacity=".85" filter="url(#p-glow)">
+        <animateMotion dur="2.5s" repeatCount="indefinite" path="M130,105 C125,95 118,88 111,82"/></circle>
+      <circle r="3.5" fill="#4FC3F7" opacity=".6" filter="url(#p-glow)">
+        <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M130,105 C125,95 118,88 111,82"/></circle>
+      <circle r="4" fill="#2ECC71" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.8s" path="M115,82 C120,90 128,98 136,105"/></circle>
+
+      <!-- CE → Urgences (red) -->
+      <circle r="4.5" fill="#E63946" opacity=".85" filter="url(#p-glow)">
+        <animateMotion dur="5s" repeatCount="indefinite" path="M136,162 C136,200 155,240 170,255"/></circle>
+
+      <!-- CE → Opéra / Chirurgie (red) -->
+      <circle r="4.5" fill="#E63946" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="5.5s" repeatCount="indefinite" begin="2s" path="M190,131 C260,131 320,180 375,210"/></circle>
+
+      <!-- CP → Radio-Onco (purple) -->
+      <circle r="4" fill="#9B59B6" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="6s" repeatCount="indefinite" begin="1s" path="M190,120 C300,100 430,110 550,145"/></circle>
+
+      <!-- PFC → Soins Intensifs (yellow) -->
+      <circle r="3" fill="#F4D03F" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="6s" repeatCount="indefinite" begin="3s" path="M190,140 C280,150 380,200 440,255"/></circle>
+
+      <!-- CE → Maternité -->
+      <circle r="4" fill="#E63946" opacity=".75" filter="url(#p-glow)">
+        <animateMotion dur="7s" repeatCount="indefinite" begin="4s" path="M160,162 C200,250 400,300 630,305"/></circle>
+
+      <!-- CE → Hôp Enfants -->
+      <circle r="2.5" fill="#E63946" opacity=".45" filter="url(#p-glow)">
+        <animateMotion dur="8s" repeatCount="indefinite" begin="5s" path="M190,125 C350,110 600,170 780,245"/></circle>
+
+      <!-- CE phénotypés → Érythrocytaphérèse (gold) -->
+      <circle r="2.5" fill="#C8A960" opacity=".85" filter="url(#p-glow)">
+        <animateMotion dur="4s" repeatCount="indefinite" begin="2s" path="M160,105 C200,90 240,60 260,42"/></circle>
+
+      <!-- Plasma → Octapharma (yellow, très lent) -->
+      <circle r="2.5" fill="#F4D03F" opacity=".35" filter="url(#p-glow)">
+        <animateMotion dur="12s" repeatCount="indefinite" path="M190,145 C250,160 400,340 600,360 Q750,370 900,365"/></circle>
+
+      <!-- CE → Hôp cantonaux (red, très lent) -->
+      <circle r="2.5" fill="#E63946" opacity=".3" filter="url(#p-glow)">
+        <animateMotion dur="10s" repeatCount="indefinite" begin="3s" path="M190,115 C300,80 500,40 700,20 L900,0"/></circle>
+
+      <!-- ===== ENTRÉES — Commande externe → CTS ===== -->
+      <!-- Commande externe (bas) → CTS : CE rouge, lent -->
+      <circle r="4" fill="#E63946" opacity=".5" filter="url(#p-glow)">
+        <animateMotion dur="8s" repeatCount="indefinite" path="M400,390 C300,340 200,260 136,148"/></circle>
+      <!-- Commande externe (gauche) → CTS : CP violet, lent -->
+      <circle r="3.5" fill="#9B59B6" opacity=".45" filter="url(#p-glow)">
+        <animateMotion dur="9s" repeatCount="indefinite" begin="4s" path="M0,60 C40,75 80,95 130,122"/></circle>
+      <!-- Commande externe (droite) → CTS : PFC jaune, lent -->
+      <circle r="3.5" fill="#F4D03F" opacity=".45" filter="url(#p-glow)">
+        <animateMotion dur="10s" repeatCount="indefinite" begin="6s" path="M860,120 C650,105 400,105 148,128"/></circle>
+
+      <!-- Labels entrées — aux points d'origine des particules, flèches vers CTS -->
+      <text x="855" y="112" text-anchor="end" font-size="9" fill="rgba(200,169,96,.7)" font-weight="700" font-family="var(--font-body)">← Commande externe</text>
+
+      <!-- Érythrocytaphérèse label (near Lab, top) -->
+      <rect x="228" y="30" width="110" height="18" rx="3" fill="rgba(200,169,96,.08)" stroke="rgba(200,169,96,.2)" stroke-width="1"/>
+      <text x="283" y="42" text-anchor="middle" font-size="9" fill="rgba(200,169,96,.75)" font-weight="700" font-family="var(--font-body)">Érythrocytaphérèse</text>
+
+      <!-- LEGEND in SVG (bottom-right, hidden on mobile) -->
+      <g class="flux-svg-legend" transform="translate(200,420)" font-size="10" font-family="var(--font-body)">
+        <rect x="-8" y="-14" width="480" height="52" rx="5" fill="rgba(10,14,20,.75)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <circle cx="10" cy="0" r="5" fill="#E63946"/><text x="22" y="4" fill="rgba(255,255,255,.75)">CE · Globules rouges</text>
+        <circle cx="150" cy="0" r="5" fill="#9B59B6"/><text x="162" y="4" fill="rgba(255,255,255,.75)">CP · Plaquettes</text>
+        <circle cx="280" cy="0" r="5" fill="#F4D03F"/><text x="292" y="4" fill="rgba(255,255,255,.75)">PFC · Plasma</text>
+        <circle cx="390" cy="0" r="5" fill="#C8A960"/><text x="402" y="4" fill="rgba(255,255,255,.75)">CE phénotypés</text>
+        <circle cx="10" cy="24" r="5" fill="#4FC3F7"/><text x="22" y="28" fill="rgba(255,255,255,.75)">CTS → Labo</text>
+        <circle cx="150" cy="24" r="5" fill="#2ECC71"/><text x="162" y="28" fill="rgba(255,255,255,.75)">Labo → CTS</text>
+        <text x="280" y="28" fill="rgba(200,169,96,.7)" font-weight="600">● Commande externe → CTS</text>
+      </g>
+    </svg>
+    <div class="flux-hud">
+      <div class="flux-hud-left"><div class="flux-stat"><div class="flux-stat-val" style="color:var(--green)" id="fx-in">0</div><div class="flux-stat-lbl">Dons du jour</div></div><div class="flux-stat"><div class="flux-stat-val" style="color:var(--red-soft)" id="fx-out">0</div><div class="flux-stat-lbl">En prélèvement</div></div></div>
+      <div class="flux-hud-right"><div class="flux-stat"><div class="flux-stat-val" style="color:var(--gold)" id="fx-stock">—</div><div class="flux-stat-lbl">Groupes en tension</div></div><div class="flux-stat"><div class="flux-stat-val" style="color:var(--blue)" id="fx-plaq">0</div><div class="flux-stat-lbl">En attente</div></div></div>
+    </div>
+  </div>
+  <div class="carte-leg">Le schéma montre le trajet des produits sanguins entre les collectes, le centre de transfusion, le laboratoire et les hôpitaux. Les points qui circulent illustrent ces flux ; les compteurs viennent de l’agenda du jour et du baromètre officiel.</div>
+</section>
 <main>
   <div class="col">
     <div class="card"><h2>Stocks par groupe <b id="stockSrc"></b></h2><div class="stocks" id="stocks"></div></div>
@@ -78,14 +310,21 @@ footer{padding:10px 30px;font-size:13px;color:var(--slate-500);display:flex;just
   var LIB = { green:'bon', blue:'élevé', yellow:'à surveiller', red:'critique', grey:'inconnu' };
   var donnees = null, sigFlux = '';
   function h(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  var VUE = (new URLSearchParams(location.search).get('vue')) || 'tab', EMBED = !!(new URLSearchParams(location.search).get('embed')), tension = null;
+  function montrer(v){ VUE = v; document.getElementById('vue-carte').classList.toggle('on', v==='carte'); document.querySelector('main').classList.toggle('off', v==='carte'); document.getElementById('b-tab').classList.toggle('on', v!=='carte'); document.getElementById('b-carte').classList.toggle('on', v==='carte'); }
+  document.getElementById('b-tab').onclick=function(){ montrer('tab'); clearInterval(alt); };
+  document.getElementById('b-carte').onclick=function(){ montrer('carte'); clearInterval(alt); };
+  var alt = EMBED ? null : setInterval(function(){ montrer(VUE==='carte'?'tab':'carte'); }, 45000);
+  montrer(VUE);
   function tick(){ document.getElementById('clock').textContent = new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'}); }
   function rendreDonnees(j){
     var r = regions[selectedRegion]||{}, code = r.api||'gesamt', e = (j.stocks||[]).filter(function(s){ return s.code===code; })[0] || (j.stocks||[])[0];
-    document.getElementById('lieu').textContent = 'Flux CTS · '+(r.site? r.site+' · ' : '')+(r.name||selectedRegion);
+    document.getElementById('lieu').textContent = (r.site? r.site+' · ' : '')+(r.name||selectedRegion);
     if(e && e.groupes){
       document.getElementById('stockSrc').textContent = 'baromètre officiel, '+h(e.label)+(e.date?' · '+e.date:'');
       document.getElementById('stocks').innerHTML = GROUPES.map(function(g){ var x = e.groupes.filter(function(y){ return y.groupe.replace('-','−')===g; })[0]; if(!x) return ''; var taux = x.taux!=null? x.taux : ({green:80,blue:100,yellow:55,red:30,grey:60}[x.couleur]||60); var col = {green:'#4ade80',blue:'#60a5fa',yellow:'#eab308',red:'#ff6b6b',grey:'#8b8b9e'}[x.couleur]||'#8b8b9e'; return '<div class="g '+(x.couleur||'grey')+'"><b>'+g+'</b><div class="bar"><i data-w="'+Math.min(100,taux)+'" style="background:'+col+'"></i></div><small>'+(x.libelle||LIB[x.couleur]||'')+'</small></div>'; }).join('');
       setTimeout(function(){ document.querySelectorAll('#stocks .bar i').forEach(function(i){ i.style.width = i.dataset.w+'%'; }); }, 50);
+      tension = e.groupes.filter(function(x){ return x.couleur==='red'||x.couleur==='yellow'; }).map(function(x){ return x.groupe; }); document.getElementById('fx-stock').textContent = tension.length ? tension.join(' ') : 'aucun';
     } else { document.getElementById('stocks').innerHTML = '<div class="vide">Baromètre indisponible pour le moment.</div>'; }
     var cs = ((j.collectes||{}).geneve||[]); var cantonKey = { geneve:'GE', vaud:'VD', valais:'VS', fribourg:'FR', neuchatel:'NE', jura:'JU', berne:'BE', zurich:'ZH', tessin:'TI' }[selectedRegion];
     if(selectedRegion!=='geneve' && j.collectes && j.collectes.cantons && j.collectes.cantons[cantonKey]) cs = (j.collectes.cantons[cantonKey].items||[]).map(function(x){ return { titre:(x.lieu||x.localite||'Collecte'), date:x.date, localite:x.localite, debut:(x.horaire||'').split('–')[0], fin:(x.horaire||'').split('–')[1] }; });
@@ -103,6 +342,7 @@ footer{padding:10px 30px;font-size:13px;color:var(--slate-500);display:flex;just
     document.getElementById('nDons').textContent = tot;
     document.getElementById('nLits').textContent = (F.encours||[]).length; document.getElementById('nLitsSub').textContent = 'lits occupés sur '+(F.lits||0);
     document.getElementById('nAtt').textContent = (F.file||[]).length;
+    document.getElementById('fx-in').textContent = tot; document.getElementById('fx-out').textContent = (F.encours||[]).length; document.getElementById('fx-plaq').textContent = (F.file||[]).length;
     document.getElementById('parGroupe').innerHTML = GROUPES.filter(function(g){ return dj[g]; }).map(function(g){ return '<span>'+g+' <b>'+dj[g]+'</b></span>'; }).join('') || '<span class="vide">Aucun don terminé pour l’instant.</span>';
     var ph = F.par_heure||[], max = Math.max.apply(null, ph.concat([1]));
     document.getElementById('heures').innerHTML = []; var hh=''; for(var k=8;k<=18;k++){ hh += '<div><i data-h="'+Math.round((ph[k]||0)/max*90)+'"></i>'+k+'h</div>'; } document.getElementById('heures').innerHTML = hh;
