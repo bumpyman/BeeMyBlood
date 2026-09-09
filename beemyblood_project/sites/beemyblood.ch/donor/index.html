@@ -527,7 +527,11 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .pouch{background:var(--couleur-surface);border:3px solid var(--couleur-bordure);border-radius:14px;padding:14px 19px;min-width:100px;flex:1;text-align:center;cursor:pointer;transition:all .15s ease;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .pouch:active{transform:scale(.92)}
 .pouch.compatible{border-color:rgba(30,123,52,.4);background:rgba(30,123,52,.06);animation:compatPulse 1s infinite}
+.pouch.incompatible{border-color:rgba(161,27,20,.35);background:rgba(161,27,20,.05);opacity:.65}
 @keyframes compatPulse{0%,100%{box-shadow:0 0 0 0 rgba(30,123,52,.2)}50%{box-shadow:0 0 0 6px rgba(30,123,52,0)}}
+.pouch-compat-badge{font-size:12px;font-weight:700;margin-top:3px;min-height:15px}
+.pouch.compatible .pouch-compat-badge{color:var(--couleur-succes)}
+.pouch.incompatible .pouch-compat-badge{color:var(--couleur-erreur)}
 .pouch.selected{border-color:var(--couleur-principale);background:rgba(242,169,59,.08);box-shadow:0 0 16px rgba(242,169,59,.2)}
 .pouch.used{opacity:.2;pointer-events:none;transform:scale(.9)}
 .pouch-type{font-family:var(--font-mono);font-size:38px;font-weight:700;color:var(--couleur-erreur)}
@@ -571,7 +575,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .chat-sg{padding:7px 12px;border-radius:18px;background:transparent;border:1px solid var(--couleur-bordure);color:var(--couleur-texte-secondaire);font-size:11px;font-weight:500;cursor:pointer;transition:var(--transition);font-family:var(--font-body)}
 .chat-sg:hover{border-color:var(--couleur-principale-survol);color:var(--couleur-principale-survol)}
 .chat-in-wrap{padding:12px 18px;border-top:1px solid var(--couleur-bordure);display:flex;gap:10px}
-.chat-in{flex:1;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:10px;font-family:var(--font-body);font-size:13px;color:var(--couleur-texte);outline:none;transition:var(--transition)}
+.chat-in{flex:1;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:10px;font-family:var(--font-body);font-size:13px;color:var(--couleur-texte);transition:var(--transition)}
 .chat-in:focus{border-color:var(--couleur-focus)}.chat-in::placeholder{color:var(--couleur-texte-secondaire)}
 .chat-send{width:40px;height:40px;border-radius:10px;background:var(--couleur-accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--couleur-fond);font-size:16px;transition:var(--transition)}
 .chat-send:hover{background:var(--couleur-principale-survol);transform:scale(1.05)}
@@ -595,7 +599,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .leaflet-control-attribution,.leaflet-control-zoom{z-index:500!important}
 .leaflet-top,.leaflet-bottom{z-index:500!important}
 .popup-btn{display:inline-block;margin-top:8px;padding:6px 14px;background:var(--couleur-accent);color:var(--couleur-fond);border-radius:8px;font-weight:600;font-size:12px;text-decoration:none;font-family:var(--font-body)}
-.collecte-card{background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);padding:14px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:var(--transition)}
+.collecte-card{width:100%;text-align:left;font:inherit;color:inherit;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);padding:14px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:var(--transition)}
 .collecte-card:hover{border-color:var(--couleur-principale-survol)}
 .collecte-card .ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .collecte-card .info{flex:1}.collecte-card .name{font-weight:600;font-size:13px}.collecte-card .detail{font-size:11px;color:var(--couleur-texte-secondaire);margin-top:2px}
@@ -610,7 +614,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .elig-q{font-size:17px;font-weight:600;margin-bottom:20px;line-height:1.5}
 .elig-q .num{color:var(--couleur-principale);font-family:var(--font-mono)}
 .elig-opts{display:flex;flex-direction:column;gap:10px}
-.elig-opt{padding:14px 18px;background:var(--couleur-surface);border:2px solid var(--couleur-bordure);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);font-size:15px;display:flex;align-items:center;gap:10px}
+.elig-opt{width:100%;text-align:left;font:inherit;color:inherit;padding:14px 18px;background:var(--couleur-surface);border:2px solid var(--couleur-bordure);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);font-size:15px;display:flex;align-items:center;gap:10px}
 .elig-opt:hover{border-color:var(--couleur-principale-survol)}
 .elig-opt.selected{border-color:var(--couleur-principale);background:rgba(242,169,59,.08)}
 .elig-opt .check{width:20px;height:20px;border-radius:50%;border:2px solid var(--couleur-bordure);display:flex;align-items:center;justify-content:center;transition:var(--transition);font-size:12px;flex-shrink:0}
@@ -780,7 +784,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .sp-action:hover{color:var(--couleur-principale-survol)}
 .sp-like.liked{color:var(--couleur-erreur)}
 .sp-comment-form{display:flex;gap:8px;margin-top:10px;animation:slideUp .2s ease}
-.sp-comment-form input{flex:1;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:8px;padding:8px 12px;color:var(--couleur-texte);font-size:12px;outline:none}
+.sp-comment-form input{flex:1;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:8px;padding:8px 12px;color:var(--couleur-texte);font-size:12px}
 .sp-comment-form input:focus{border-color:var(--couleur-focus)}
 .sp-comment-form button{background:var(--couleur-accent);color:var(--couleur-fond);border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer}
 .sp-comment-bubble{background:var(--couleur-surface);border-radius:10px;padding:8px 12px;margin-top:8px;font-size:12px;color:var(--couleur-texte-secondaire);animation:slideUp .2s ease}
@@ -1091,7 +1095,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .beebot-msg.bot{background:var(--couleur-surface);color:var(--couleur-texte);align-self:flex-start;border-bottom-left-radius:4px}
 .beebot-msg.user{background:var(--couleur-accent);color:var(--couleur-fond);align-self:flex-end;border-bottom-right-radius:4px}
 .beebot-input{display:flex;gap:6px;padding:10px;border-top:1px solid var(--couleur-bordure)}
-.beebot-input input{flex:1;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:20px;padding:8px 14px;color:var(--couleur-texte);font-size:14px;outline:none}
+.beebot-input input{flex:1;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:20px;padding:8px 14px;color:var(--couleur-texte);font-size:14px}
 .beebot-input button{background:var(--couleur-accent);color:var(--couleur-fond);border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;flex-shrink:0}
 @media(max-width:640px){.beebot-fab{bottom:90px;right:12px;width:48px;height:48px;font-size:22px}.beebot-panel{right:8px;left:8px;width:auto;bottom:150px;max-height:60vh}}
 
@@ -1129,7 +1133,7 @@ body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb
     <p style="font-size:0.9rem;color:var(--couleur-texte-secondaire);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--couleur-surface);color:var(--couleur-texte);font-family:var(--font-body);outline:none;transition:border-color .2s"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--couleur-surface);color:var(--couleur-texte);font-family:var(--font-body);transition:border-color .2s"
         onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
@@ -1237,14 +1241,14 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
   </div>
   <div class="nav-right">
-    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+    <button type="button" class="hamburger" id="hamburger" onclick="toggleMobMenu()" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="mob-menu">
       <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
-      <div class="hamburger-label">Plus</div>
-    </div>
+      <div class="hamburger-label" aria-hidden="true">Plus</div>
+    </button>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();go('dashboard');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="nav-notif" role="button" tabindex="0" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();go('dashboard');return;}toggleNotif(event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
       <div class="notif-dropdown" id="notif-dd">
-        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--couleur-principale);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><button type="button" style="font-size:14px;color:var(--couleur-principale);cursor:pointer;background:none;border:none;font-family:inherit;padding:0" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</button></div>
         <div class="notif-item unread" style="display:flex" onclick="go('dashboard')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></div>
         <div class="notif-item unread" style="display:flex" onclick="go('impact')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></div>
         <div class="notif-item" style="display:flex" onclick="go('collectes')"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></div>
@@ -1254,14 +1258,14 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
       <span style="font-size:9px;color:var(--couleur-texte-secondaire);font-weight:600;letter-spacing:.5px">Notifs</span>
     </div>
-    <div class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="go('settings')">
+    <button type="button" class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:none;border:none;font:inherit" onclick="go('settings')">
       <div style="width:34px;height:34px;border-radius:50%;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
       <span style="font-size:9px;color:var(--couleur-texte-secondaire);font-weight:600;letter-spacing:.5px">Param.</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="go('profil')">
+    </button>
+    <button type="button" style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:none;border:none;font:inherit" onclick="go('profil')">
       <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--couleur-texte-secondaire);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
-    </div>
+    </button>
   </div>
 </nav>
 </header>
@@ -2055,7 +2059,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="acc-body" id="hr-game-acc">
   <!-- GAME AREA -->
   <div class="game-wrap" id="game-wrap">
-    <div class="fs-btn" style="z-index:15" onclick="toggleFS(document.getElementById('game-wrap'))">⛶</div>
+    <button type="button" class="fs-btn" style="z-index:15" onclick="toggleFS(document.getElementById('game-wrap'))" aria-label="Plein écran">⛶</button>
     <div class="particles" id="particles"></div>
 
     <!-- START OVERLAY -->
@@ -2068,11 +2072,11 @@ document.addEventListener('DOMContentLoaded',function(){
       <!-- MODE SELECTOR — Apprentissage first -->
       <div style="font-size:15px;font-weight:700;color:var(--couleur-principale);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;margin-top:6px;animation:glowText 2.5s ease-in-out infinite">▼ Choisis ton mode de jeu ▼</div>
       <div class="mode-grid">
-        <div class="mode-card sel" onclick="selMode(1,this)"><div class="mode-card-icon">📚</div><div class="mode-card-name">Apprentissage</div><div class="mode-card-sub">Guidé, 0 chrono</div></div>
-        <div class="mode-card" onclick="selMode(0,this)"><div class="mode-card-icon">⚡</div><div class="mode-card-name">Rush</div><div class="mode-card-sub">2 min chrono</div></div>
-        <div class="mode-card" onclick="selMode(2,this)"><div class="mode-card-icon">❤️</div><div class="mode-card-name">Survie</div><div class="mode-card-sub">3 vies</div></div>
-        <div class="mode-card" onclick="selMode(3,this)"><div class="mode-card-icon">🧠</div><div class="mode-card-name">Quiz</div><div class="mode-card-sub">QCM</div></div>
-        <div class="mode-card" onclick="selMode(4,this)"><div class="mode-card-icon">🌊</div><div class="mode-card-name">Vagues</div><div class="mode-card-sub">Difficulté ↑</div></div>
+        <button type="button" class="mode-card sel" onclick="selMode(1,this)"><div class="mode-card-icon">📚</div><div class="mode-card-name">Apprentissage</div><div class="mode-card-sub">Guidé, 0 chrono</div></button>
+        <button type="button" class="mode-card" onclick="selMode(0,this)"><div class="mode-card-icon">⚡</div><div class="mode-card-name">Rush</div><div class="mode-card-sub">2 min chrono</div></button>
+        <button type="button" class="mode-card" onclick="selMode(2,this)"><div class="mode-card-icon">❤️</div><div class="mode-card-name">Survie</div><div class="mode-card-sub">3 vies</div></button>
+        <button type="button" class="mode-card" onclick="selMode(3,this)"><div class="mode-card-icon">🧠</div><div class="mode-card-name">Quiz</div><div class="mode-card-sub">QCM</div></button>
+        <button type="button" class="mode-card" onclick="selMode(4,this)"><div class="mode-card-icon">🌊</div><div class="mode-card-name">Vagues</div><div class="mode-card-sub">Difficulté ↑</div></button>
       </div>
 
       <!-- COMPACT RULES -->
@@ -2221,15 +2225,15 @@ document.addEventListener('DOMContentLoaded',function(){
     <!-- ====== ÉTAPE 2 : Consentement ====== -->
     <div id="qhug-step2" style="display:none;flex-direction:column;gap:10px">
       <div style="font-size:12px;font-weight:700;color:var(--couleur-principale);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">✅ Étape 2/3 — Consentement</div>
-      <div style="padding:14px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.8;color:var(--couleur-texte-secondaire)">
-        <div style="font-size:14px;font-weight:700;color:var(--couleur-texte);margin-bottom:10px">En cochant ci-dessous, je confirme :</div>
+      <fieldset style="padding:14px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.8;color:var(--couleur-texte-secondaire);margin:0">
+        <legend style="font-size:14px;font-weight:700;color:var(--couleur-texte);margin-bottom:10px;padding:0">En cochant ci-dessous, je confirme :</legend>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--couleur-succes)"><span>Je consens à donner de mon sang.</span></label>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--couleur-succes)"><span>Je confirme avoir lu et compris le Formulaire d'information ANH Art.7.7 et avoir reçu toutes les explications nécessaires.</span></label>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--couleur-succes)"><span>Je confirme l'exactitude de mes données personnelles et la véracité de mes réponses au questionnaire médical.</span></label>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--couleur-succes)"><span>Je sais que mon sang est soumis à des tests biologiques (pouvant comporter des méthodes génétiques) et qu'un échantillon sera conservé. J'accepte d'être informé(e) des résultats en cas d'anomalie.</span></label>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--couleur-succes)"><span>J'accepte que certains composants de mon don puissent être utilisés pour la fabrication de médicaments et qu'une partie soit utilisée pour la recherche médicale après anonymisation définitive.</span></label>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--couleur-succes)"><span>Je comprends que mes données sont soumises au secret médical, utilisées par Transfusion CRS Suisse et les SRTS, et que seules les informations codées sont transmises pour les soins aux patients.</span></label>
-      </div>
+      </fieldset>
       <div style="display:flex;gap:8px">
         <button class="btn btn-outline" onclick="qhugGoStep(1)">← Retour</button>
         <button class="btn btn-gold" id="qhug-step2-next" onclick="qhugGoStep(3)" style="opacity:.5;pointer-events:none">Continuer → Questionnaire</button>
@@ -2421,7 +2425,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="sec-header"><div class="sec-label">📍 Carte interactive</div><div class="sec-title">Où donner en Suisse</div><div class="sec-sub">Centres permanents CRS · Collectes mobiles · Prochains événements</div></div>
   <div class="card" id="collectes-hug" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🚌 Prochaines collectes mobiles</div><span class="badge" id="collectes-hug-maj"></span></div><div id="collectes-regions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="collectes-hug-liste" style="font-size:13px;color:var(--couleur-texte-secondaire)">Chargement du calendrier officiel…</div></div>
 <div class="card" id="map-card" style="position:relative;padding:0;overflow:hidden">
-    <div class="fs-btn" style="z-index:1001" onclick="toggleFS(document.getElementById('map-card'))">⛶</div>
+    <button type="button" class="fs-btn" style="z-index:1001" onclick="toggleFS(document.getElementById('map-card'))" aria-label="Plein écran">⛶</button>
     <div id="map-recenter" onclick="recenterMap()" style="position:absolute;bottom:12px;right:12px;z-index:1000;width:38px;height:38px;border-radius:50%;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:all .2s" title="Ma position">◎</div>
     <div id="map-nav-btns" style="position:absolute;bottom:12px;left:12px;z-index:1000;display:flex;gap:4px;flex-wrap:wrap">
       <button onclick="map.flyTo([46.8,8.2],8,{duration:.8})" style="background:var(--couleur-surface);color:var(--couleur-principale);border:1px solid var(--couleur-accent);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.4)">🇨🇭 Suisse</button>
@@ -2434,12 +2438,12 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="coll-list-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Prochaines collectes près de toi <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="coll-list-acc">
   <div style="margin-top:8px;display:flex;flex-direction:column;gap:10px" id="collecte-list">
-    <div class="collecte-card" onclick="flyTo(46.1926,6.1492,16)"><div class="ico" style="background:rgba(161,27,20,.1)">🏥</div><div class="info"><div class="name">Centre de transfusion sanguine HUG</div><div class="detail">Rue Gabrielle-Perret-Gentil 6 · Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h</div></div><div class="status"><span class="dot" style="background:var(--couleur-succes)"></span><span style="color:var(--couleur-succes)">Calme</span><div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:2px">~35 min · 1.2 km</div></div></div>
-    <div class="collecte-card" style="border-color:var(--couleur-accent)" onclick="flyTo(46.1993,6.1428,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name" style="color:var(--couleur-principale)">Collecte mobile — Uni Dufour</div><div class="detail">Rue Charles-Galland 2 · Auj. 10h–17h · ☕ Café offert</div></div><div class="status"><span class="dot" style="background:var(--couleur-succes)"></span><span style="color:var(--couleur-succes)">Calme</span><div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:2px">~30 min · 200m</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.2017,6.1500,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name">Collecte mobile — Place du Molard</div><div class="detail">Place du Molard · Demain 11h–18h · 🎵 Musique & collations</div></div><div class="status" style="color:var(--couleur-texte-secondaire)">Demain<div style="font-size:14px;margin-top:2px">850m</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.1780,6.1395,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name">Collecte mobile — Campus HES-SO Battelle</div><div class="detail">Route de Drize 7, Carouge · Jeudi 10h–16h · 🎓 Étudiants</div></div><div class="status" style="color:var(--couleur-texte-secondaire)">Jeudi<div style="font-size:14px;margin-top:2px">1.5 km</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.1920,6.1830,16)"><div class="ico" style="background:rgba(161,27,20,.1)">🏥</div><div class="info"><div class="name">Clinique des Grangettes</div><div class="detail">Ch. des Grangettes 7, Chêne-Bougeries · Lun–Ven 8h–16h</div></div><div class="status"><span class="dot" style="background:var(--couleur-avertissement)"></span><span style="color:var(--couleur-avertissement)">Modéré</span><div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:2px">~45 min · 4.1 km</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.2100,6.1427,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name">Collecte Gare Cornavin</div><div class="detail">Place de Cornavin · Vendredi 9h–16h · 🚂 Hall principal</div></div><div class="status" style="color:var(--couleur-texte-secondaire)">Vendredi<div style="font-size:14px;margin-top:2px">1.8 km</div></div></div>
+    <button type="button" class="collecte-card" onclick="flyTo(46.1926,6.1492,16)"><div class="ico" style="background:rgba(161,27,20,.1)">🏥</div><div class="info"><div class="name">Centre de transfusion sanguine HUG</div><div class="detail">Rue Gabrielle-Perret-Gentil 6 · Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h</div></div><div class="status"><span class="dot" style="background:var(--couleur-succes)"></span><span style="color:var(--couleur-succes)">Calme</span><div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:2px">~35 min · 1.2 km</div></div></button>
+    <button type="button" class="collecte-card" style="border-color:var(--couleur-accent)" onclick="flyTo(46.1993,6.1428,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name" style="color:var(--couleur-principale)">Collecte mobile — Uni Dufour</div><div class="detail">Rue Charles-Galland 2 · Auj. 10h–17h · ☕ Café offert</div></div><div class="status"><span class="dot" style="background:var(--couleur-succes)"></span><span style="color:var(--couleur-succes)">Calme</span><div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:2px">~30 min · 200m</div></div></button>
+    <button type="button" class="collecte-card" onclick="flyTo(46.2017,6.1500,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name">Collecte mobile — Place du Molard</div><div class="detail">Place du Molard · Demain 11h–18h · 🎵 Musique & collations</div></div><div class="status" style="color:var(--couleur-texte-secondaire)">Demain<div style="font-size:14px;margin-top:2px">850m</div></div></button>
+    <button type="button" class="collecte-card" onclick="flyTo(46.1780,6.1395,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name">Collecte mobile — Campus HES-SO Battelle</div><div class="detail">Route de Drize 7, Carouge · Jeudi 10h–16h · 🎓 Étudiants</div></div><div class="status" style="color:var(--couleur-texte-secondaire)">Jeudi<div style="font-size:14px;margin-top:2px">1.5 km</div></div></button>
+    <button type="button" class="collecte-card" onclick="flyTo(46.1920,6.1830,16)"><div class="ico" style="background:rgba(161,27,20,.1)">🏥</div><div class="info"><div class="name">Clinique des Grangettes</div><div class="detail">Ch. des Grangettes 7, Chêne-Bougeries · Lun–Ven 8h–16h</div></div><div class="status"><span class="dot" style="background:var(--couleur-avertissement)"></span><span style="color:var(--couleur-avertissement)">Modéré</span><div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:2px">~45 min · 4.1 km</div></div></button>
+    <button type="button" class="collecte-card" onclick="flyTo(46.2100,6.1427,16)"><div class="ico" style="background:rgba(242,169,59,.1)">🎪</div><div class="info"><div class="name">Collecte Gare Cornavin</div><div class="detail">Place de Cornavin · Vendredi 9h–16h · 🚂 Hall principal</div></div><div class="status" style="color:var(--couleur-texte-secondaire)">Vendredi<div style="font-size:14px;margin-top:2px">1.8 km</div></div></button>
   </div>
 
   </div><!-- /acc-body coll-list -->
@@ -2583,7 +2587,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div style="flex-shrink:0;overflow:hidden;background:rgba(13,13,20,.85);backdrop-filter:blur(8px);padding:7px 16px;border-bottom:1px solid rgba(242,169,59,.15);z-index:5" id="fx-ticker-wrap">
       <div id="fx-ticker" style="display:flex;gap:32px;animation:tickerScroll 30s linear infinite;white-space:nowrap;font-size:13px;color:var(--couleur-texte-secondaire)"></div>
     </div>
-    <div class="fs-btn" onclick="toggleFS(this.parentElement)" title="Plein écran">⛶</div>
+    <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" title="Plein écran" aria-label="Plein écran">⛶</button>
     <!-- MAP AREA — fills remaining space -->
     <div style="flex:1;position:relative;min-height:0">
     <!-- SVG SCHEMATIC MAP -->
@@ -2830,7 +2834,7 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
   <div class="grid-1-2" style="margin-top:16px">
     <div class="card" style="position:relative">
-      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
       <div class="card-header"><div class="card-title">📊 Stock par groupe</div></div>
       <div class="flux-group-bar" id="fx-bars">
         <div class="flux-bar" style="background:linear-gradient(to top,var(--couleur-erreur),var(--couleur-erreur));height:18%"><div class="flux-bar-val" style="color:var(--couleur-erreur)">14</div><div class="flux-bar-lbl">O-</div></div>
@@ -2856,7 +2860,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-dest-acc" style="font-size:13px;padding:6px 10px;margin:10px 0">🏥 Destinations (24h) <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="flux-dest-acc">
     <div class="card" style="position:relative">
-      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
       <div class="card-header"><div class="card-title">🏥 Destinations (24h)</div></div>
       <div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-bottom:10px;line-height:1.5">CE&nbsp;=&nbsp;Globules rouges · CP&nbsp;=&nbsp;Plaquettes · PFC&nbsp;=&nbsp;Plasma</div>
       <div style="display:flex;flex-direction:column;gap:6px" id="fx-dests">
@@ -2886,7 +2890,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-alertes-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🔴 Alertes <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="flux-alertes-acc">
     <div class="card" style="position:relative">
-      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
       <div class="card-header"><div class="card-title">🔴 Alertes</div><span class="badge badge-red">4</span></div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div style="padding:6px 8px;background:rgba(161,27,20,.08);border:1px solid rgba(161,27,20,.12);border-radius:var(--radius-sm);font-size:15px">
@@ -2913,7 +2917,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="acc-body" id="flux-hourly-acc">
   <!-- FLUX HORAIRE -->
   <div class="card" style="position:relative;display:flex;flex-direction:column">
-    <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+    <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
     <div class="card-header"><div class="card-title">📈 Flux horaire</div><div id="fx-hourly-sub" style="font-size:14px;color:var(--couleur-texte-secondaire)">Dons / tranche de 2h</div></div>
     <div style="display:flex;align-items:end;gap:10px;height:280px;padding:8px 16px 0;max-width:700px;margin:0 auto;width:100%" id="fx-hourly"></div>
     <div style="display:flex;justify-content:space-around;margin-top:6px;font-size:14px;color:var(--couleur-texte-secondaire);padding:0 16px;max-width:700px;margin:6px auto 0;width:100%"><span>7h</span><span>9h</span><span>11h</span><span>13h</span><span>15h</span><span>17h</span><span>19h</span></div>
@@ -2959,7 +2963,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-live-acc" style="font-size:13px;padding:6px 10px;margin:10px 0">⚡ Activité live <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="flux-live-acc">
   <div class="card" style="position:relative;margin-top:6px">
-    <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+    <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
     <div class="card-header"><div class="card-title">⚡ Activité live</div><span class="badge badge-green" id="fx-activity-badge" style="animation:pulseG 2s infinite">● LIVE</span></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;font-size:15px;color:var(--couleur-texte-secondaire)"><span>🩸 CE = Globules rouges</span><span>💜 CP = Plaquettes</span><span>💛 PFC = Plasma</span></div>
     <div class="flux-feed" id="fx-feed" style="max-height:360px"></div>
@@ -2969,7 +2973,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-donors-acc" style="font-size:13px;padding:6px 10px;margin-top:10px">👥 Derniers donneurs <span class="acc-arrow">▼</span></button>
     <div class="acc-body" id="flux-donors-acc">
     <div class="card" style="position:relative;margin-top:6px">
-      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
       <div class="card-header"><div class="card-title">👥 Derniers donneurs</div></div>
       <div style="display:flex;flex-direction:column;gap:5px;max-height:420px;overflow-y:auto" id="fx-donors">
         <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(242,169,59,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🦅</div><div style="flex:1;min-width:0"><div style="font-weight:600">Faucon-283</div><div style="font-size:13px;color:var(--couleur-texte-secondaire)">B+ · CE validé · 14:23</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">Rare 🧬</span></div>
@@ -2992,7 +2996,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="acc-body" id="flux-products-acc">
   <div class="grid-3" style="margin-top:8px">
     <div class="card" style="text-align:center;border-top:3px solid var(--couleur-erreur);position:relative">
-      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
       <div style="font-size:32px;margin-bottom:6px">🩸</div>
       <div style="font-weight:700;font-size:15px;color:var(--couleur-erreur)">Globules rouges (CE)</div>
       <div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:4px;line-height:1.5">Concentrés érythrocytaires · <strong>42j max</strong> · Chirurgie, urgences, anémies, drépanocytose, thalassémie, grossesses à risque, cancers du sang, accidents</div>
@@ -3000,7 +3004,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="font-size:15px;color:var(--couleur-texte-secondaire)">poches en stock</div>
     </div>
     <div class="card" style="text-align:center;border-top:3px solid var(--couleur-principale);position:relative">
-      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
       <div style="font-size:32px;margin-bottom:6px">💜</div>
       <div style="font-weight:700;font-size:15px;color:var(--couleur-principale)">Concentrés plaquettaires</div>
       <div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:4px;line-height:1.5">Plaquettes · <strong>5j max</strong> · Oncologie, leucémies, greffes</div>
@@ -3008,7 +3012,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="font-size:15px;color:var(--couleur-texte-secondaire)">unités en stock</div>
     </div>
     <div class="card" style="text-align:center;border-top:3px solid var(--couleur-avertissement);position:relative">
-      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <button type="button" class="fs-btn" onclick="toggleFS(this.parentElement)" aria-label="Plein écran">⛶</button>
       <div style="font-size:32px;margin-bottom:6px">💛</div>
       <div style="font-weight:700;font-size:15px;color:var(--couleur-avertissement)">Plasma frais congelé</div>
       <div style="font-size:14px;color:var(--couleur-texte-secondaire);margin-top:4px;line-height:1.5">Plasma · <strong>3 ans max</strong> · Brûlures, hémorragies massives</div>
@@ -3041,7 +3045,7 @@ document.addEventListener('DOMContentLoaded',function(){
             <source src="Demo_VR_pour_le_don_de_sang.mp4" type="video/mp4">
           </video>
           <div style="position:absolute;top:8px;left:8px;z-index:3"><span class="badge badge-gold" style="font-size:15px">🥽 Démo VR</span></div>
-          <div class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-vr')">⛶</div>
+          <button type="button" class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-vr')" aria-label="Plein écran">⛶</button>
         </div>
         <div style="padding:14px">
           <div style="font-weight:700;font-size:15px;color:var(--couleur-principale)">🥽 Démo VR — Réalité virtuelle pendant le don</div>
@@ -3061,7 +3065,7 @@ document.addEventListener('DOMContentLoaded',function(){
             <source src="Guide_5_Steps.mp4" type="video/mp4">
           </video>
           <div style="position:absolute;top:8px;left:8px;z-index:3"><span class="badge badge-gold" style="font-size:15px">📺 Guide</span></div>
-          <div class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-guide')">⛶</div>
+          <button type="button" class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-guide')" aria-label="Plein écran">⛶</button>
         </div>
         <div style="padding:14px">
           <div style="font-weight:700;font-size:15px;color:var(--couleur-principale)">📺 Guide du don — Les 5 étapes</div>
@@ -3081,7 +3085,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="vid-grid">
     <!-- Video 1: Témoignage -->
     <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(0)" id="vid-0" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+      <div class="vid-player" onclick="playVid(0)" id="vid-0" style="position:relative"><button type="button" class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)" aria-label="Plein écran">⛶</button>
         <canvas id="vc-0"></canvas>
         <div class="vid-overlay" id="vo-0"><div class="vid-play-btn">▶</div><div class="vid-title">💬 Témoignage — Amine, 21 ans</div></div>
         <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-0" style="width:0%"></div></div><div class="vid-time" id="vt-0">0:00 / 0:30</div></div>
@@ -3090,7 +3094,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <!-- Video 2: Guide du don -->
     <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(1)" id="vid-1" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+      <div class="vid-player" onclick="playVid(1)" id="vid-1" style="position:relative"><button type="button" class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)" aria-label="Plein écran">⛶</button>
         <canvas id="vc-1"></canvas>
         <div class="vid-overlay" id="vo-1"><div class="vid-play-btn">▶</div><div class="vid-title">📺 Le don en 30 secondes</div></div>
         <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-1" style="width:0%"></div></div><div class="vid-time" id="vt-1">0:00 / 0:30</div></div>
@@ -3099,7 +3103,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <!-- Video 3: VR Simulation -->
     <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(2)" id="vid-2" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+      <div class="vid-player" onclick="playVid(2)" id="vid-2" style="position:relative"><button type="button" class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)" aria-label="Plein écran">⛶</button>
         <canvas id="vc-2"></canvas>
         <div class="vid-overlay" id="vo-2"><div class="vid-play-btn">▶</div><div class="vid-title">🥽 Simulation VR — Plage tropicale</div></div>
         <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-2" style="width:0%"></div></div><div class="vid-time" id="vt-2">0:00 / 0:30</div></div>
@@ -3108,7 +3112,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <!-- Video 4: AR Simulation -->
     <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(3)" id="vid-3" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+      <div class="vid-player" onclick="playVid(3)" id="vid-3" style="position:relative"><button type="button" class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)" aria-label="Plein écran">⛶</button>
         <canvas id="vc-3"></canvas>
         <div class="vid-overlay" id="vo-3"><div class="vid-play-btn">▶</div><div class="vid-title">📱 Guidage AR vers la collecte</div></div>
         <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-3" style="width:0%"></div></div><div class="vid-time" id="vt-3">0:00 / 0:30</div></div>
@@ -3266,15 +3270,15 @@ document.addEventListener('DOMContentLoaded',function(){
     <div style="display:flex;flex-direction:column;gap:12px">
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--couleur-texte-secondaire);display:block;margin-bottom:4px">Votre nom</label>
-        <input type="text" id="contact-name" placeholder="Prénom Nom" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;outline:none;box-sizing:border-box">
+        <input type="text" id="contact-name" placeholder="Prénom Nom" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;box-sizing:border-box">
       </div>
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--couleur-texte-secondaire);display:block;margin-bottom:4px">Email</label>
-        <input type="email" id="contact-email" placeholder="votre@email.ch" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;outline:none;box-sizing:border-box">
+        <input type="email" id="contact-email" placeholder="votre@email.ch" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;box-sizing:border-box">
       </div>
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--couleur-texte-secondaire);display:block;margin-bottom:4px">Sujet</label>
-        <select id="contact-subject" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;outline:none;box-sizing:border-box;appearance:auto">
+        <select id="contact-subject" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;box-sizing:border-box;appearance:auto">
           <option value="">— Choisir un sujet —</option>
           <option value="question">Question sur le don de sang</option>
           <option value="bug">Signaler un bug</option>
@@ -3288,7 +3292,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--couleur-texte-secondaire);display:block;margin-bottom:4px">Message</label>
-        <textarea id="contact-msg" rows="5" placeholder="Votre message..." style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;outline:none;resize:vertical;font-family:var(--font-body);box-sizing:border-box"></textarea>
+        <textarea id="contact-msg" rows="5" placeholder="Votre message..." style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;resize:vertical;font-family:var(--font-body);box-sizing:border-box"></textarea>
       </div>
       <button class="btn btn-gold" id="contact-send-btn" onclick="sendContact()" style="align-self:flex-start">📤 Envoyer</button>
       <div id="contact-status" style="font-size:13px;margin-top:4px;display:none"></div>
@@ -4811,7 +4815,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="sec-header"><div class="sec-label">❓ Questions fréquentes</div><div class="sec-title">Tout comprendre sur le don de sang</div><div class="sec-sub">Les réponses simples aux questions que tout le monde se pose</div></div>
 
 
-  <div style="margin-bottom:12px"><input type="text" id="faq-search" placeholder="🔍 Rechercher dans la FAQ..." oninput="filterFAQ(this.value)" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;font-family:var(--font-body);outline:none;box-sizing:border-box" onfocus="this.style.borderColor='var(--couleur-focus)'" onblur="this.style.borderColor='var(--couleur-bordure)'"></div>
+  <div style="margin-bottom:12px"><input type="text" id="faq-search" placeholder="🔍 Rechercher dans la FAQ..." oninput="filterFAQ(this.value)" style="width:100%;padding:10px 14px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:var(--radius-sm);color:var(--couleur-texte);font-size:14px;font-family:var(--font-body);box-sizing:border-box" onfocus="this.style.borderColor='var(--couleur-focus)'" onblur="this.style.borderColor='var(--couleur-bordure)'"></div>
   <!-- GLOSSAIRE PRODUITS SANGUINS -->
   <div class="card" style="margin-bottom:16px">
     <div class="card-header"><div class="card-title">🩸 Les produits sanguins — c'est quoi exactement ?</div></div>
@@ -5366,8 +5370,8 @@ window.addEventListener('resize',updateNavOverflow);
 setTimeout(updateNavOverflow,100);
 
 // ===== NOTIFICATION CENTER =====
-function toggleNotif(e){e.stopPropagation();document.getElementById('notif-dd').classList.toggle('open')}
-document.addEventListener('click',()=>{const dd=document.getElementById('notif-dd');if(dd)dd.classList.remove('open')});
+function toggleNotif(e){e.stopPropagation();var dd=document.getElementById('notif-dd');dd.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',dd.classList.contains('open')?'true':'false');}
+document.addEventListener('click',()=>{const dd=document.getElementById('notif-dd');if(dd)dd.classList.remove('open');const nb=document.querySelector('.nav-notif');if(nb)nb.setAttribute('aria-expanded','false');});
 function markAllRead(){
   document.querySelectorAll('.notif-item.unread').forEach(n=>n.classList.remove('unread'));
   const dot=document.querySelector('.nav-notif-dot');if(dot)dot.style.display='none';
@@ -5484,13 +5488,14 @@ window.addEventListener('resize',function(){
 function toggleMobMenu(){
   const h=document.getElementById('hamburger');
   const m=document.getElementById('mob-menu');
-  if(h)h.classList.toggle('open');
+  if(h){h.classList.toggle('open');h.setAttribute('aria-expanded',h.classList.contains('open')?'true':'false');}
   if(m)m.classList.toggle('show');
 }
 function goMob(id){
   go(id);
   document.getElementById('mob-menu').classList.remove('show');
   document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('hamburger').setAttribute('aria-expanded','false');
   // Update mobile bottom bar
   document.querySelectorAll('.mob-bottom-btn').forEach(b=>b.classList.remove('active'));
   const mbb=document.querySelector('.mob-bottom-btn[onclick*="'+id+'"]');
@@ -6445,7 +6450,7 @@ function spawnRound(){
     const g=GROUPS[Math.floor(Math.random()*GROUPS.length)];usedGroups.push(g);
     const p=PATIENTS_DATA[Math.floor(Math.random()*PATIENTS_DATA.length)];
     const urg=gMode===4?Math.random()<(0.2+gWave*0.1):Math.random()<.25;
-    const el=document.createElement('div');el.className='pat'+(urg?' urgent':'');el.dataset.need=g;
+    const el=document.createElement('button');el.type='button';el.className='pat'+(urg?' urgent':'');el.dataset.need=g;
     el.onclick=()=>selectPat(el);
 
     // Find which groups can donate to this patient
@@ -6453,7 +6458,7 @@ function spawnRound(){
     const donorStr=donors.join(', ');
 
     el.innerHTML=(urg?'<div class="pat-urg">🚨 URGENT</div>':'')+
-      '<div class="pat-emoji">'+p.emoji+'</div><div class="pat-need" style="color:var(--'+(urg?'orange':'blue')+')">'+g+'</div><div class="pat-lbl">'+p.lbl+'</div>'+
+      '<div class="pat-emoji">'+p.emoji+'</div><div class="pat-need" style="color:var(--'+(urg?'couleur-avertissement':'couleur-fonctionnelle')+')">'+g+'</div><div class="pat-lbl">'+p.lbl+'</div>'+
       (gMode===1?'<div class="pat-hint">Accepte : '+donorStr+'</div>':'');
     el.classList.add('card-pop');el.style.animationDelay=(i*0.08)+'s';
     pEl.appendChild(el);
@@ -6506,13 +6511,13 @@ function spawnRound(){
   }
 
   pouchGroups.forEach((g,pi)=>{
-    const el=document.createElement('div');el.className='pouch';el.dataset.type=g;
+    const el=document.createElement('button');el.type='button';el.className='pouch';el.dataset.type=g;
     el.onclick=()=>matchPouch(el);
     // Random expiry date (35-42 days from now)
     const expDays=35+Math.floor(Math.random()*8);
     const expDate=new Date(Date.now()+expDays*864e5);
     const expStr=String(expDate.getDate()).padStart(2,'0')+'/'+String(expDate.getMonth()+1).padStart(2,'0');
-    el.innerHTML='<div class="pouch-type">'+g+'</div><div class="pouch-sub">Exp. '+expStr+'</div>';
+    el.innerHTML='<div class="pouch-type">'+g+'</div><div class="pouch-sub">Exp. '+expStr+'</div><div class="pouch-compat-badge"></div>';
     el.classList.add('card-pop');el.style.animationDelay=(0.15+pi*0.06)+'s';
     bEl.appendChild(el);
   });
@@ -6529,10 +6534,14 @@ function selectPat(el){
   const need=el.dataset.need;
   document.querySelectorAll('.pouch:not(.used)').forEach(p=>{
     p.classList.remove('compatible','incompatible');
+    const badge=p.querySelector('.pouch-compat-badge');
     if(gMode===1){
       const canDonate=COMPAT[p.dataset.type]&&COMPAT[p.dataset.type].includes(need);
       p.classList.toggle('compatible',canDonate);
       p.classList.toggle('incompatible',!canDonate);
+      if(badge)badge.textContent=canDonate?'✓ Compatible':'✕ Incompatible';
+    } else if(badge){
+      badge.textContent='';
     }
   });
 
@@ -7293,8 +7302,8 @@ function renderElig(){
   if(eligStep>=ELIG_QS.length){renderEligResult();return;}
   const q=ELIG_QS[eligStep];
   let h='<div class="elig-progress">'+ELIG_QS.map((_,i)=>'<div class="elig-step'+(i<eligStep?' done':i===eligStep?' current':'')+'"></div>').join('')+'</div>';
-  h+='<div class="elig-q"><span class="num">'+(eligStep+1)+'/'+ELIG_QS.length+'</span> — '+q.q+'</div>';
-  h+='<div class="elig-opts">'+q.opts.map((o,i)=>'<div class="elig-opt" onclick="eligAnswer('+i+')"><div class="check"></div><span>'+o+'</span></div>').join('')+'</div>';
+  h+='<div class="elig-q" id="elig-q-label"><span class="num">'+(eligStep+1)+'/'+ELIG_QS.length+'</span> — '+q.q+'</div>';
+  h+='<div class="elig-opts" role="radiogroup" aria-labelledby="elig-q-label">'+q.opts.map((o,i)=>'<button type="button" class="elig-opt" role="radio" aria-checked="false" onclick="eligAnswer('+i+')"><span class="check" aria-hidden="true"></span><span>'+o+'</span></button>').join('')+'</div>';
   if(eligStep>0)h+='<div class="elig-nav"><button class="btn btn-outline btn-sm" onclick="eligStep--;renderElig()">← Retour</button><div></div></div>';
   card.innerHTML=h;
 }
@@ -7302,7 +7311,7 @@ function eligAnswer(i){
   eligAnswers[eligStep]=i;
   const q=ELIG_QS[eligStep];
   const opts=document.querySelectorAll('.elig-opt');
-  opts[i].classList.add('selected');opts[i].querySelector('.check').textContent='✓';
+  opts[i].classList.add('selected');opts[i].setAttribute('aria-checked','true');opts[i].querySelector('.check').textContent='✓';
   
   // If answer is NOT ok and there's a ko message → stop immediately
   if(!q.ok.includes(i)&&q.ko){
@@ -7716,22 +7725,24 @@ function initQHUG(){
   if(!ct)return;
   ct.innerHTML=qhugItems.map(function(q){
     var subH=q.sub?'<input id="qh-sub-'+q.n+'" placeholder="'+q.sub+'" style="margin-top:4px;width:100%;padding:6px;background:var(--couleur-surface);border:1px solid var(--couleur-bordure);border-radius:4px;color:var(--couleur-texte);font-size:12px;display:none;box-sizing:border-box">':'';
-    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--couleur-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--couleur-principale);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--couleur-texte-secondaire)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button class="qh-yn" data-q="'+q.n+'" data-v="OUI" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--couleur-bordure);background:none;color:var(--couleur-texte-secondaire);font-size:12px;cursor:pointer">Oui</button><button class="qh-yn" data-q="'+q.n+'" data-v="NON" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--couleur-bordure);background:none;color:var(--couleur-texte-secondaire);font-size:12px;cursor:pointer">Non</button></div></div>';
+    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--couleur-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--couleur-principale);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--couleur-texte-secondaire)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button type="button" class="qh-yn" data-q="'+q.n+'" data-v="OUI" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--couleur-bordure);background:none;color:var(--couleur-texte-secondaire);font-size:12px;font-weight:400;cursor:pointer">Oui</button><button type="button" class="qh-yn" data-q="'+q.n+'" data-v="NON" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--couleur-bordure);background:none;color:var(--couleur-texte-secondaire);font-size:12px;font-weight:400;cursor:pointer">Non</button></div></div>';
   }).join('');
 }
 function selectQH(el){
   var q=el.getAttribute('data-q'),v=el.getAttribute('data-v');
-  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--couleur-texte-secondaire)';b.style.borderColor='var(--couleur-bordure)';});
+  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--couleur-texte-secondaire)';b.style.borderColor='var(--couleur-bordure)';b.style.fontWeight='400';b.setAttribute('aria-pressed','false');});
   el.style.background=v==='OUI'?'rgba(161,27,20,.2)':'rgba(30,123,52,.2)';
   el.style.color=v==='OUI'?'var(--couleur-erreur)':'var(--couleur-succes)';
   el.style.borderColor=v==='OUI'?'var(--couleur-erreur)':'var(--couleur-succes)';
+  el.style.fontWeight='700';
+  el.setAttribute('aria-pressed','true');
   el.setAttribute('data-selected','1');
   var sub=document.getElementById('qh-sub-'+q);
   if(sub)sub.style.display=v==='OUI'?'block':'none';
 }
 function resetHUGForm(){
   document.querySelectorAll('#qhug-form input,#qhug-form select').forEach(function(i){i.value='';});
-  document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--couleur-texte-secondaire)';b.style.borderColor='var(--couleur-bordure)';b.removeAttribute('data-selected');});
+  document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--couleur-texte-secondaire)';b.style.borderColor='var(--couleur-bordure)';b.style.fontWeight='400';b.setAttribute('aria-pressed','false');b.removeAttribute('data-selected');});
   document.querySelectorAll('[id^="qh-sub-"]').forEach(function(s){s.style.display='none';s.value='';});
 }
 function generateHUGPDF(){

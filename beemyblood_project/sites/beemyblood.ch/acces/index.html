@@ -23,7 +23,7 @@ h1 span{color:var(--couleur-principale)}
 .step{padding:10px;border-radius:12px;background:rgba(242,169,59,.05);border:1px solid rgba(242,169,59,.12);font-size:12.5px;color:var(--couleur-texte-secondaire);line-height:1.4}
 .step b{display:block;color:var(--couleur-principale);font-size:13px;margin-bottom:2px}
 label{display:block;font-size:13px;color:var(--couleur-texte-secondaire);margin:12px 0 5px}
-input,select,textarea{width:100%;padding:12px 13px;border-radius:12px;border:1px solid rgba(242,169,59,.25);background:var(--couleur-fond);color:var(--couleur-texte);font:inherit;font-size:16px;outline:none}
+input,select,textarea{width:100%;padding:12px 13px;border-radius:12px;border:1px solid rgba(242,169,59,.25);background:var(--couleur-fond);color:var(--couleur-texte);font:inherit;font-size:16px}
 input:focus,select:focus,textarea:focus{border-color:var(--couleur-focus)}
 select option{background:var(--couleur-surface)}
 textarea{min-height:90px;resize:vertical}
@@ -53,22 +53,24 @@ footer{padding:16px;text-align:center;font-size:12px;color:var(--couleur-texte-s
       <div class="step"><b>3 · Vous entrez</b>Connexion par courriel, signature de l’accord, accès à votre espace.</div>
     </div>
     <form id="f" novalidate>
-      <label for="nom">Prénom et nom</label>
-      <input id="nom" autocomplete="name" required placeholder="Ex. Marie Dupont">
-      <label for="email">Adresse courriel (celle avec laquelle vous vous connecterez)</label>
-      <input id="email" type="email" autocomplete="email" inputmode="email" required placeholder="prenom.nom@exemple.ch">
+      <label for="nom">Prénom et nom (obligatoire)</label>
+      <input id="nom" autocomplete="name" required aria-required="true" placeholder="Ex. Marie Dupont">
+      <label for="email">Adresse courriel — celle avec laquelle vous vous connecterez (obligatoire)</label>
+      <input id="email" type="email" autocomplete="email" inputmode="email" required aria-required="true" placeholder="prenom.nom@exemple.ch">
       <label for="org">Organisation (facultatif)</label>
       <input id="org" autocomplete="organization" placeholder="Ex. CTS HUG, association, entreprise, particulier">
-      <label>Espaces souhaités (un ou plusieurs)</label>
-      <div class="roles" id="roles">
-        <label class="role"><input type="checkbox" name="role" value="donneur"><span class="ic">🩸</span>Donneur·se</label>
-        <label class="role"><input type="checkbox" name="role" value="receveur"><span class="ic">💛</span>Receveur·se</label>
-        <label class="role"><input type="checkbox" name="role" value="pro"><span class="ic">🏥</span>Professionnel·le</label>
-      </div>
+      <fieldset style="border:0;padding:0;margin:12px 0 5px">
+        <legend style="font-size:13px;color:var(--couleur-texte-secondaire);padding:0;margin-bottom:5px">Espaces souhaités — un ou plusieurs (obligatoire)</legend>
+        <div class="roles" id="roles">
+          <label class="role"><input type="checkbox" name="role" value="donneur"><span class="ic">🩸</span>Donneur·se</label>
+          <label class="role"><input type="checkbox" name="role" value="receveur"><span class="ic">💛</span>Receveur·se</label>
+          <label class="role"><input type="checkbox" name="role" value="pro"><span class="ic">🏥</span>Professionnel·le</label>
+        </div>
+      </fieldset>
       <label for="motif">Pourquoi souhaitez-vous tester BeeMyBlood ? (facultatif)</label>
       <textarea id="motif" placeholder="Votre lien avec le don ou la transfusion, ce que vous aimeriez évaluer…"></textarea>
       <button class="btn" id="btn" type="submit">Envoyer ma demande</button>
-      <div class="err" id="err"></div>
+      <div class="err" id="err" role="alert" aria-live="assertive"></div>
     </form>
     <p class="small">Vos nom, courriel, organisation et rôle servent uniquement à gérer l’accès et à documenter le test. Hébergement en Suisse (site chez Infomaniak à Genève, comptes chez Supabase à Zurich), conservation trois ans au plus, suppression sur demande à <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a> (<a href="../projet/confidentialite/">détails</a>). Déjà invité·e ? <a href="../connexion/">Se connecter</a>.</p>
   </div>
