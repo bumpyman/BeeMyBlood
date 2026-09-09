@@ -6,6 +6,12 @@
  */
 (function(){
   var TERMES = [
+    ['Marge d’incertitude', 'Écart, noté ±, autour d’un résultat de simulation. La valeur réelle se situe dans cette marge dix-neuf fois sur vingt. Deux résultats dont les marges se recouvrent ne se distinguent pas.'],
+    ['Mise en régime', 'Jours simulés avant le début de la mesure, le temps que le stock atteigne un état stable. Ils ne comptent pas dans les résultats.'],
+    ['Événement simulé', 'Modification temporaire des dons, des commandes ou du laboratoire (pandémie, canicule, campagne, accident majeur…) ajoutée à la situation de référence pour en mesurer l’effet.'],
+    ['Poste de régulation', 'Écran du jumeau numérique qui rejoue une journée simulée heure par heure : stock par groupe, commandes en attente, poches qui périment, événements du jour.'],
+    ['Substitution ABO', 'Servir une commande avec un groupe sanguin compatible quand le groupe demandé manque, par exemple du O négatif à la place d’un autre groupe. Réservée, selon le réglage, aux commandes vitales et urgentes.'],
+    ['Jours de couverture', 'Nombre de jours pendant lesquels le stock d’un groupe couvre les commandes habituelles. Moins de 3 jours : risque de pénurie ; de 3 à 5 jours : tension.'],
     ['Luxe communal', 'Concept fondateur de BeeMyBlood. Le sang est rare, précieux et impossible à fabriquer, comme un produit de luxe, et il existe seulement partagé, offert par les uns et reçu par les autres. BeeMyBlood entoure donc chaque don des égards d\'une maison de luxe, avec un accueil soigné, de la reconnaissance et un retour sur l\'impact du don.'],
     ['CRS', 'Croix-Rouge suisse. « Transfusion CRS Suisse » est l\'organisation faîtière qui fixe les critères du don de sang en Suisse.'],
     ['CTS', 'Centre de transfusion sanguine : le lieu où l\'on donne son sang et où les poches sont préparées.'],
@@ -63,7 +69,7 @@
   ];
   var DICT = {}; TERMES.forEach(function(t){ DICT[t[0]] = t[1]; });
   // Sigles à souligner automatiquement dans le texte (ordre : les plus longs d'abord)
-  var AUTO = ['Luxe communal','luxe communal','Rare Donor File','HL7 FHIR','Phénotype étendu','phénotype étendu','Jumeau numérique','jumeau numérique','Système compagnon','système compagnon','Primo-donneur','primo-donneur','Collecte mobile','collecte mobile',
+  var AUTO = ['Luxe communal','luxe communal','Marge d’incertitude','marge d’incertitude','Mise en régime','mise en régime','Poste de régulation','poste de régulation','Substitution ABO','substitution ABO','Jours de couverture','jours de couverture','Événement simulé','événement simulé','Rare Donor File','HL7 FHIR','Phénotype étendu','phénotype étendu','Jumeau numérique','jumeau numérique','Système compagnon','système compagnon','Primo-donneur','primo-donneur','Collecte mobile','collecte mobile',
               'Hémovigilance','hémovigilance','Numéro de tirage','numéro de tirage','Situation normale','situation normale','Sites en tension','Valeur la plus probable','valeur la plus probable','Polytransfusé','polytransfusé','Drépanocytose','drépanocytose','Thalassémie','thalassémie','Chélation','chélation','Ferritine','ferritine','Aphérèse','aphérèse','Phénotype','phénotype',
               'Swissmedic','HES-SO','SIMED','UNIGE','AGPL-3.0','BeeOS','nLPD','RGPD','FHIR','SoHO','ISBT','OFSP','CRS','CTS','PSL','PFC','RAI','ABO','EBA','HUG','HEG','TIR','Kell','Duffy','Kidd'];
   var RE = new RegExp('(^|[^\\wÀ-ÿ-])(' + AUTO.map(function(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('|') + ')(?![\\wÀ-ÿ-])', 'g');

@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Centre operations backend
+- Supabase schema for the donation cycle (supabase/2026-09-09-cycle-du-don.sql): cd_donneurs, cd_reservations (incl. waiting list), cd_consentements, cd_journal (chained hashes computed server-side), cd_parametres (beds, slots, online booking link per region), cd_evenements; RPCs cd_etat, cd_donneur_enregistrer, cd_reservation_creer, cd_attente_placer, cd_reservation_statut, cd_consentement_signer, cd_rappels_regler, cd_parametres_regler, cd_journaliser, cd_exporter, cd_evenement (anon). Demonstration set seeded per region on first use.
+- pro/cycle.js now reads and writes through these functions, with a local demonstration fallback and a « enregistré / démonstration locale » badge.
+- Real booking by redirection: « Réserver » on every published collection in the donor space and on the OneDoc links, with anonymous click counting shown in the professional agenda.
+
+### Digital twin wording
+- All screens rewritten in plain professional French: numbered steps (Scénario, Résultats, Comparaison, Poste de régulation), an introduction and a guide per screen, « numéro de tirage », « nombre de simulations », « marge d’incertitude », « précautions de lecture »; glossary entries added (marge d’incertitude, mise en régime, événement simulé, poste de régulation, substitution ABO, jours de couverture).
+
+### Landing page
+- Mission block rewritten (« Numériser la chaîne du sang, du donneur au patient ») and displayed as a full-width banner above the four squares.
+
 ## v0.5.3 — 2026-09-09 — digital twin v2, centre operations, ideas from the Bachelor theses
 
 ### Professional portal

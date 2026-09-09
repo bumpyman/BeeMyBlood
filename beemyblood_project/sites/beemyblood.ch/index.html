@@ -91,6 +91,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .mission-baseline{font-size:15px;color:var(--text-dim);max-width:500px;margin:32px auto 36px;line-height:1.6}
 
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
+.why-item.wide{grid-column:1/-1}
 .why-item{padding:16px 16px 14px;border-radius:12px;border:1px solid rgba(200,169,96,.1);background:var(--dark-card);display:flex;gap:12px;align-items:flex-start}
 .wi-icon{font-size:22px;line-height:1;margin-top:2px}
 .wi-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px}
@@ -167,7 +168,7 @@ footer a{color:var(--gold)}
   <p class="block-kicker">Pourquoi BeeMyBlood</p>
   <h2>Au-delà de la prise de rendez-vous :<br><span>toute la chaîne transfusionnelle.</span></h2>
   <div class="why-grid">
-    <div class="why-item"><div class="wi-icon">🧭</div><div><div class="wi-title">Numériser la filière, en ouvert</div><div class="wi-desc">La chaîne du sang tourne encore avec des tableurs, du papier et des systèmes fermés. BeeMyBlood la numérise de bout en bout, de l'agenda du centre au chevet du patient, en code ouvert, sur des standards publics (HL7 FHIR, ISBT 128) et avec l'exigence suisse de qualité et de protection des données.</div></div></div>
+    <div class="why-item wide"><div class="wi-icon">🧭</div><div><div class="wi-title">Numériser la chaîne du sang, du donneur au patient</div><div class="wi-desc">En Suisse, le parcours d'une poche de sang, du don jusqu'à la transfusion, passe encore par des tableurs, des formulaires papier et des logiciels fermés qui communiquent mal entre eux. BeeMyBlood relie chaque étape avec un logiciel dont le code est public, qui parle le langage des hôpitaux (HL7 FHIR, ISBT 128) et qui reste hébergé en Suisse.</div></div></div>
     <div class="why-item"><div class="wi-icon">💛</div><div><div class="wi-title">Les receveur·se·s au centre</div><div class="wi-desc">Un espace patient dédié : comprendre sa transfusion, son traitement du fer, ses droits, sa compatibilité. Les outils existants s'arrêtent au donneur.</div></div></div>
     <div class="why-item"><div class="wi-icon">🔮</div><div><div class="wi-title">Prédire à 14 jours</div><div class="wi-desc">Un jumeau numérique de la filière : stock, saisonnalité, scénarios de crise et de campagne, pour anticiper les pénuries plutôt que les subir.</div></div></div>
     <div class="why-item"><div class="wi-icon">🧬</div><div><div class="wi-title">Le sang compatible, même rare</div><div class="wi-desc">Trouver un sang très compatible pour les personnes transfusées régulièrement, en Suisse puis dans le réseau européen, grâce au profil sanguin détaillé (phénotype).</div></div></div>
