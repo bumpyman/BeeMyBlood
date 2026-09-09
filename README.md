@@ -78,7 +78,7 @@ For local frontend work you can open the HTML files directly or serve the folder
 
 ### Email notification of access requests
 
-Each new row in demandes_acces triggers (via pg_net, see supabase/2026-09-09-notification-demandes.sql) a POST to api/notif.php, which emails the request to admin_email from config.php. The trigger sends the header X-BMB-Secret; it must equal notif_secret in config.php, otherwise the call is refused. The recent calls and their HTTP status are visible in Supabase with `select * from net._http_response order by id desc limit 5;`.
+Each new row in demandes_acces triggers (via pg_net, see supabase/2026-09-09-notification-demandes.sql) a POST to api/notif.php, which emails the request to admin_email from config.php. The trigger sends the header X-BMB-Secret; it must equal notif_secret in config.php, otherwise the call is refused. Sending goes through SMTP when smtp_user and smtp_pass are set in config.php (a mailbox of the domain, mail.infomaniak.com, port 465), otherwise through PHP mail(), which Infomaniak disables by default (Manager > Web hosting > PHP). The recent calls and their HTTP status are visible in Supabase with `select * from net._http_response order by id desc limit 5;`.
 
 ### Daily data cache
 

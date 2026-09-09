@@ -5,6 +5,9 @@
  * voir supabase/2026-09-09-notification-demandes.sql. Le déclencheur envoie l'en-tête
  * X-BMB-Secret, qui doit correspondre à 'notif_secret' dans config.php ; le destinataire
  * est 'admin_email' dans config.php.
+ * Envoi : par SMTP si 'smtp_user' et 'smtp_pass' sont renseignés dans config.php
+ * (compte courriel du domaine, serveur mail.infomaniak.com, port 465), sinon par la
+ * fonction mail() de PHP, qu'Infomaniak désactive par défaut (Manager > Hébergement > PHP).
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 header('Content-Type: application/json; charset=utf-8');
@@ -44,11 +47,49 @@ $corps = "Une nouvelle demande d’accès alpha a été déposée le $quand.\n\n
        . "Approuver ou refuser la demande : {$racine}admin/\n\n"
        . "Ce message est envoyé automatiquement par beemyblood.ch.\n";
 
-$entetes = "From: BeeMyBlood <no-reply@beemyblood.ch>\r\n"
-         . (filter_var($email, FILTER_VALIDATE_EMAIL) ? "Reply-To: $email\r\n" : '')
-         . "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
+$smtpUser = (string)($cfg['smtp_user'] ?? '');
+$smtpPass = (string)($cfg['smtp_pass'] ?? '');
+$from     = (string)($cfg['smtp_from'] ?? '') ?: ($smtpUser !== '' ? $smtpUser : 'no-reply@beemyblood.ch');
+$replyTo  = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : '';
 $sujetEnc = '=?UTF-8?B?' . base64_encode($sujet) . '?=';
 
-$ok = @mail($to, $sujetEnc, $corps, $entetes);
+// ---------- SMTP minimal (SSL implicite, AUTH LOGIN) ----------
+function bmb_smtp_envoyer(string $host, int $port, string $user, string $pass, string $from, string $to, string $replyTo, string $sujetEnc, string $corps, string &$journal): bool {
+    $journal = '';
+    $fp = @stream_socket_client(($port === 465 ? 'ssl://' : 'tcp://') . $host . ':' . $port, $errno, $errstr, 15);
+    if (!$fp) { $journal = "connexion impossible : $errstr"; return false; }
+    stream_set_timeout($fp, 15);
+    $lire = function () use ($fp) { $r = ''; while (($l = fgets($fp, 1024)) !== false) { $r .= $l; if (preg_match('/^\d{3} /', $l)) break; } return $r; };
+    $dire = function (string $cmd, string $attendu) use ($fp, $lire, &$journal) { fwrite($fp, $cmd . "\r\n"); $r = $lire(); $journal .= trim($r) . "\n"; return str_starts_with($r, $attendu); };
+    $ok = str_starts_with($lire(), '220');
+    $ok = $ok && $dire('EHLO beemyblood.ch', '250');
+    if ($ok && $port !== 465) { $ok = $dire('STARTTLS', '220') && stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) && $dire('EHLO beemyblood.ch', '250'); }
+    $ok = $ok && $dire('AUTH LOGIN', '334') && $dire(base64_encode($user), '334') && $dire(base64_encode($pass), '235');
+    $ok = $ok && $dire('MAIL FROM:<' . $from . '>', '250') && $dire('RCPT TO:<' . $to . '>', '250') && $dire('DATA', '354');
+    if ($ok) {
+        $msg = "From: BeeMyBlood <$from>\r\nTo: <$to>\r\n" . ($replyTo !== '' ? "Reply-To: <$replyTo>\r\n" : '')
+             . "Subject: $sujetEnc\r\nDate: " . date('r') . "\r\nMessage-ID: <" . bin2hex(random_bytes(8)) . "@beemyblood.ch>\r\n"
+             . "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n"
+             . preg_replace('/^\./m', '..', str_replace("\n", "\r\n", $corps));
+        $ok = $dire($msg . "\r\n.", '250');
+    }
+    $dire('QUIT', '221');
+    fclose($fp);
+    return $ok;
+}
+
+$journal = '';
+if ($smtpUser !== '' && $smtpPass !== '') {
+    $ok = bmb_smtp_envoyer((string)($cfg['smtp_host'] ?? 'mail.infomaniak.com'), (int)($cfg['smtp_port'] ?? 465), $smtpUser, $smtpPass, $from, $to, $replyTo, $sujetEnc, $corps, $journal);
+    $voie = 'smtp';
+} elseif (function_exists('mail')) {
+    $entetes = "From: BeeMyBlood <$from>\r\n" . ($replyTo !== '' ? "Reply-To: $replyTo\r\n" : '')
+             . "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
+    $ok = @mail($to, $sujetEnc, $corps, $entetes);
+    $voie = 'mail';
+} else {
+    $ok = false; $voie = 'aucune';
+    $journal = "La fonction mail() est désactivée sur cet hébergement et aucun compte SMTP n'est renseigné dans config.php (smtp_user, smtp_pass).";
+}
 if (!$ok) { http_response_code(500); }
-echo json_encode(['ok' => (bool)$ok, 'destinataire' => $ok ? $to : null], JSON_UNESCAPED_UNICODE);
+echo json_encode(['ok' => (bool)$ok, 'voie' => $voie, 'destinataire' => $ok ? $to : null, 'detail' => $ok ? null : trim($journal)], JSON_UNESCAPED_UNICODE);

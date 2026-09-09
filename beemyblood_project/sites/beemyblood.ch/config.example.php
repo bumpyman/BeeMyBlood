@@ -15,4 +15,10 @@ return [
     // (même valeur que __SECRET__ dans supabase/2026-09-09-notification-demandes.sql ; une chaîne aléatoire d'au moins 24 caractères)
     'admin_email' => 'contact@beemyblood.ch',
     'notif_secret' => '',
+    // Envoi SMTP des notifications (recommandé : Infomaniak désactive mail() par défaut) : un compte courriel du domaine
+    'smtp_host' => 'mail.infomaniak.com',
+    'smtp_port' => 465,
+    'smtp_user' => '',
+    'smtp_pass' => '',
+    'smtp_from' => '',
 ];
