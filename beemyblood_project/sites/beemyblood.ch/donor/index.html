@@ -1225,20 +1225,11 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" data-v="hero">Accueil</button>
-    <button class="nav-tab" data-v="dashboard">Dashboard</button>
-    <button class="nav-tab" data-v="communaute">Défis</button>
-    <button class="nav-tab" data-v="actualites">Actualités</button>
-    <button class="nav-tab" data-v="flux">Flux CTS</button>
-    <button class="nav-tab" data-v="guide">Guide</button>
     <button class="nav-tab" data-v="eligibilite">Éligibilité</button>
     <button class="nav-tab" data-v="hemorush">HémoRush™</button>
     <button class="nav-tab" data-v="collectes">Collectes</button>
-    <button class="nav-tab" data-v="impact">Impact</button>
-    <button class="nav-tab" data-v="chatbot">BeeBot™</button>
-    <button class="nav-tab" data-v="vr">VR</button>
-    <button class="nav-tab" data-v="videos">Vidéos</button>
-    <button class="nav-tab" data-v="faq">FAQ</button>
-    <button class="nav-tab" data-v="contact">Contact</button>
+    <button type="button" class="nav-tab nav-cat" data-v="" aria-haspopup="true" aria-expanded="false" aria-controls="nav-cat-espace" onclick="toggleNavCat(event,'nav-cat-espace',this)">Mon espace ▾</button>
+    <button type="button" class="nav-tab nav-cat" data-v="" aria-haspopup="true" aria-expanded="false" aria-controls="nav-cat-decouvrir" onclick="toggleNavCat(event,'nav-cat-decouvrir',this)">Découvrir ▾</button>
     <button class="nav-tab" data-v="settings">⚙️</button>
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
   </div>
@@ -1272,6 +1263,21 @@ document.addEventListener('DOMContentLoaded',function(){
 </nav>
 </header>
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-overflow-menu" id="nav-cat-espace">
+  <button class="nav-tab" data-v="dashboard">📊 Dashboard</button>
+  <button class="nav-tab" data-v="communaute">⚔️ Défis</button>
+  <button class="nav-tab" data-v="actualites">📰 Actualités</button>
+  <button class="nav-tab" data-v="flux">📺 Flux CTS</button>
+  <button class="nav-tab" data-v="impact">💛 Impact</button>
+</div>
+<div class="nav-overflow-menu" id="nav-cat-decouvrir">
+  <button class="nav-tab" data-v="guide">📖 Guide</button>
+  <button class="nav-tab" data-v="chatbot">🐝 BeeBot™</button>
+  <button class="nav-tab" data-v="vr">🥽 VR</button>
+  <button class="nav-tab" data-v="videos">🎬 Vidéos</button>
+  <button class="nav-tab" data-v="faq">❓ FAQ</button>
+  <button class="nav-tab" data-v="contact">📬 Contact</button>
+</div>
 
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mob-menu">
@@ -5273,6 +5279,7 @@ function sendComment(btn){
 }
 
 function go(id){
+  if(!id)return; // déclencheurs de catégorie (data-v="") : ils ouvrent un panneau, ne changent pas de vue
   updateBreadcrumb(id);
   // Close mobile menu if open
   var mm=document.getElementById('mob-menu');if(mm)mm.classList.remove('show');
@@ -5293,6 +5300,9 @@ function go(id){
   if(id==='videos')setTimeout(initVideoThumbs,200);
   // Close notif dropdown
   const dd=document.getElementById('notif-dd');if(dd)dd.classList.remove('open');
+  // Close category dropdowns and reflect the current view on their trigger
+  closeNavCats();
+  updateNavCatActive();
   // Refresh nav overflow to update active states
   setTimeout(updateNavOverflow,50);
 }
@@ -5322,8 +5332,9 @@ function updateNavOverflow(){
   if(!container||!overflowBtn||!overflowMenu)return;
   // If nav-tabs is hidden (very small screen), skip
   if(getComputedStyle(container).display==='none')return;
-  // Show all tabs first to measure
-  const tabs=container.querySelectorAll('.nav-tab');
+  // Show all tabs first to measure (les déclencheurs de catégorie restent toujours visibles :
+  // le menu "⋯ Plus" ne sait qu'appeler go(), pas rouvrir un panneau de catégorie)
+  const tabs=container.querySelectorAll('.nav-tab:not(.nav-cat)');
   tabs.forEach(t=>t.style.display='');
   overflowBtn.style.display='none';
   // Get available width (container width minus padding and overflow btn width)
@@ -5370,6 +5381,49 @@ function closeOverflowMenu(){
 document.addEventListener('click',()=>closeOverflowMenu());
 window.addEventListener('resize',updateNavOverflow);
 setTimeout(updateNavOverflow,100);
+
+// ===== NAV : catégories regroupées (Mon espace / Découvrir) =====
+var NAV_CATS=['nav-cat-espace','nav-cat-decouvrir'];
+function closeNavCats(){
+  NAV_CATS.forEach(function(id){
+    var m=document.getElementById(id);if(m)m.classList.remove('open');
+    var t=document.querySelector('.nav-cat[aria-controls="'+id+'"]');if(t)t.setAttribute('aria-expanded','false');
+  });
+}
+function toggleNavCat(e,panelId,trigger){
+  e.stopPropagation();
+  closeOverflowMenu();
+  var menu=document.getElementById(panelId);
+  var willOpen=!menu.classList.contains('open');
+  // Un seul panneau ouvert à la fois
+  NAV_CATS.forEach(function(id){
+    if(id!==panelId){
+      var m=document.getElementById(id);if(m)m.classList.remove('open');
+      var t=document.querySelector('.nav-cat[aria-controls="'+id+'"]');if(t)t.setAttribute('aria-expanded','false');
+    }
+  });
+  if(willOpen){
+    var r=trigger.getBoundingClientRect();
+    menu.style.top=(r.bottom+6)+'px';
+    menu.style.left=r.left+'px';
+    menu.style.right='auto';
+  }
+  menu.classList.toggle('open',willOpen);
+  trigger.setAttribute('aria-expanded',willOpen?'true':'false');
+}
+// Reflète la vue active sur le déclencheur de catégorie (surlignage cohérent avec les autres onglets)
+function updateNavCatActive(){
+  NAV_CATS.forEach(function(id){
+    var panel=document.getElementById(id);
+    var trigger=document.querySelector('.nav-cat[aria-controls="'+id+'"]');
+    if(!panel||!trigger)return;
+    var actif=panel.querySelector('.nav-tab.active');
+    trigger.classList.toggle('active',!!actif);
+  });
+}
+document.addEventListener('click',closeNavCats);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeNavCats();});
+setTimeout(updateNavCatActive,100);
 
 // ===== NOTIFICATION CENTER =====
 function toggleNotif(e){e.stopPropagation();var dd=document.getElementById('notif-dd');dd.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',dd.classList.contains('open')?'true':'false');}
