@@ -11,6 +11,7 @@
 - The "alpha on invitation / request / log in" line under the hero is removed; the spaces themselves open the entry screen.
 - Luxe communal: one-line definition under the title; labels "Trop rare !", "Hyper précieux !", "Juste héroïque !".
 - "Score de rareté" becomes "Le sang compatible, même rare"; project card wording adjusted.
+- Glossary: new entry "Luxe communal" explaining the founding concept, underlined wherever the term appears.
 
 ### Citation
 - Zenodo DOI (concept 10.5281/zenodo.22667009) in README and CITATION.cff.

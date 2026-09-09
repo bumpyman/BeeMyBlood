@@ -6,6 +6,7 @@
  */
 (function(){
   var TERMES = [
+    ['Luxe communal', 'Le concept fondateur de BeeMyBlood. Le sang a tout d\'un produit de luxe : rare, précieux, impossible à fabriquer. Mais il ne s\'achète pas et ne se possède pas : il n\'existe que partagé, offert par les uns, reçu par les autres. BeeMyBlood entoure donc chaque don des égards d\'un service de luxe : accueil, reconnaissance, retour d\'impact.'],
     ['CRS', 'Croix-Rouge suisse. « Transfusion CRS Suisse » est l\'organisation faîtière qui fixe les critères du don de sang en Suisse.'],
     ['CTS', 'Centre de transfusion sanguine : le lieu où l\'on donne son sang et où les poches sont préparées.'],
     ['PSL', 'Produits sanguins labiles : globules rouges, plaquettes et plasma issus d\'un don, à durée de conservation courte.'],
@@ -62,7 +63,7 @@
   ];
   var DICT = {}; TERMES.forEach(function(t){ DICT[t[0]] = t[1]; });
   // Sigles à souligner automatiquement dans le texte (ordre : les plus longs d'abord)
-  var AUTO = ['Rare Donor File','HL7 FHIR','Phénotype étendu','phénotype étendu','Jumeau numérique','jumeau numérique','Système compagnon','système compagnon','Primo-donneur','primo-donneur','Collecte mobile','collecte mobile',
+  var AUTO = ['Luxe communal','luxe communal','Rare Donor File','HL7 FHIR','Phénotype étendu','phénotype étendu','Jumeau numérique','jumeau numérique','Système compagnon','système compagnon','Primo-donneur','primo-donneur','Collecte mobile','collecte mobile',
               'Hémovigilance','hémovigilance','Numéro de tirage','numéro de tirage','Situation normale','situation normale','Sites en tension','Valeur la plus probable','valeur la plus probable','Polytransfusé','polytransfusé','Drépanocytose','drépanocytose','Thalassémie','thalassémie','Chélation','chélation','Ferritine','ferritine','Aphérèse','aphérèse','Phénotype','phénotype',
               'Swissmedic','HES-SO','SIMED','UNIGE','AGPL-3.0','BeeOS','nLPD','RGPD','FHIR','SoHO','ISBT','OFSP','CRS','CTS','PSL','PFC','RAI','ABO','EBA','HUG','HEG','TIR','Kell','Duffy','Kidd'];
   var RE = new RegExp('(^|[^\\wÀ-ÿ-])(' + AUTO.map(function(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('|') + ')(?![\\wÀ-ÿ-])', 'g');
