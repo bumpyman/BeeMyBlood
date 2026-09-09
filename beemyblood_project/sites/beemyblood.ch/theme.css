@@ -1,0 +1,118 @@
+/*
+  BeeMyBlood — Système de jetons de couleur, nommés par fonction (pas par teinte).
+  Palette validée dans le brief de refonte (contrastes vérifiés par scripts/verifier-contrastes.js).
+  Inclus sur : accueil (index.html), connexion (via acces.js), espace donneur (donor/index.html).
+*/
+
+:root{
+  /* Palette fonctionnelle — thème clair (défaut) */
+  --couleur-principale: #B3261E;         /* titres importants, boutons d'action, éléments à mettre en évidence — 6.54:1 */
+  --couleur-principale-survol: #8A1E17;  /* état :hover de --couleur-principale — 9.22:1 */
+  --couleur-accent: #F2A93B;             /* décoratif uniquement — jamais de texte sur fond clair */
+  --couleur-texte: #1A1A1A;              /* texte courant — 17.4:1 */
+  --couleur-texte-secondaire: #595959;   /* mentions, légendes — 7.0:1 */
+  --couleur-fond: #ffffff;
+  --couleur-surface: #FAF8F5;            /* cartes, panneaux — toujours utilisée avec --couleur-bordure */
+  --couleur-bordure: #767676;            /* séparateurs, contours de champs — 4.54:1 */
+  --couleur-focus: #0B72B9;              /* anneau de focus — 5.09:1 */
+  --couleur-erreur: #A11B14;             /* messages d'erreur — 7.83:1 */
+  --couleur-succes: #1E7B34;             /* messages de confirmation — 5.33:1 */
+  --couleur-fonctionnelle: #0B72B9;      /* états dans HémoRush — 5.09:1 */
+  /* Ajout au-delà de la liste du brief : un 3e statut (avertissement/modéré) existait déjà dans
+     le produit (affluence des centres, stock bas, contre-indications temporaires) et ne peut pas
+     être rendu correctement avec seulement erreur/succès sans perdre du sens. Voir rapport final. */
+  --couleur-avertissement: #B35900;      /* statuts « modéré », stock bas, CIT — 4.83:1 */
+
+  /* Teintes faibles dérivées, pour remplacer les fonds/halos translucides codés en dur (rgba(...)) */
+  --couleur-principale-faible: rgba(179,38,30,.08);
+  --couleur-accent-faible: rgba(242,169,59,.15);
+  --couleur-erreur-faible: rgba(161,27,20,.10);
+  --couleur-succes-faible: rgba(30,123,52,.10);
+  --couleur-avertissement-faible: rgba(179,89,0,.10);
+  --couleur-fonctionnelle-faible: rgba(11,114,185,.10);
+
+  /* Échelle de texte (étape 7) */
+  --echelle-texte: 1;
+}
+
+/* Contraste renforcé (étape 7, réglage 2/3) — redéfinit uniquement les jetons concernés */
+:root[data-contraste="renforce"]{
+  --couleur-texte-secondaire: #1A1A1A;
+  --couleur-bordure: #1A1A1A;
+  --couleur-principale-survol: #6E1712;
+  --couleur-focus: #08507F;
+}
+
+/* Thème sombre — fonctionnalité existante conservée (bouton dans les Paramètres du donneur),
+   distincte du réglage « Contraste » de l'étape 7. Mêmes jetons, valeurs adaptées à un fond sombre. */
+:root[data-theme="sombre"]{
+  --couleur-principale: #FF8A80;
+  --couleur-principale-survol: #FF9B9B;
+  --couleur-accent: #F2A93B;
+  --couleur-texte: #E8E6E3;
+  --couleur-texte-secondaire: #ADADC0;
+  --couleur-fond: #0D0D14;
+  --couleur-surface: #1C1C2E;
+  --couleur-bordure: #6B6B85;
+  --couleur-focus: #4FC3F7;
+  --couleur-erreur: #FF8A80;
+  --couleur-succes: #6FCF7E;
+  --couleur-fonctionnelle: #4FC3F7;
+  --couleur-avertissement: #FFB74D;
+
+  --couleur-principale-faible: rgba(255,138,128,.12);
+  --couleur-accent-faible: rgba(242,169,59,.15);
+  --couleur-erreur-faible: rgba(255,138,128,.12);
+  --couleur-succes-faible: rgba(111,207,126,.12);
+  --couleur-avertissement-faible: rgba(255,183,77,.12);
+  --couleur-fonctionnelle-faible: rgba(79,195,247,.12);
+}
+
+/* Taille du texte (étape 7, réglage 1/3) */
+:root[data-taille="grande"]{ --echelle-texte: 1.15; }
+:root[data-taille="tres-grande"]{ --echelle-texte: 1.3; }
+html{ zoom: var(--echelle-texte, 1); }
+
+/* Focus clavier (étape 5) */
+:focus-visible{
+  outline: 3px solid var(--couleur-focus);
+  outline-offset: 2px;
+}
+
+/* Lien d'évitement (étape 5) */
+.lien-evitement{
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  background: var(--couleur-fond);
+  color: var(--couleur-texte);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 2px solid var(--couleur-principale);
+  font-weight: 600;
+  text-decoration: none;
+}
+.lien-evitement:focus{
+  left: 1rem;
+  top: 1rem;
+}
+
+/* Mouvement (étape 6) — respecte le réglage système ... */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* ... et le réglage du panneau (étape 7, réglage 3/3), qui force le même comportement */
+html[data-animations="reduites"] *,
+html[data-animations="reduites"] *::before,
+html[data-animations="reduites"] *::after{
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
