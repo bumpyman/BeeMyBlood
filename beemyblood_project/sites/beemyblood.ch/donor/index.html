@@ -7512,7 +7512,7 @@ function renderEligResult(){
   });
   const card=document.getElementById('elig-card');
   if(pass){
-    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">🎉</div><h3 style="color:var(--green)">Vous êtes probablement éligible !</h3><p>Tous les voyants sont au vert. La validation finale se fera avec le médecin du centre de transfusion.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" class="btn btn-gold" style="text-decoration:none">📅 Prendre RDV sur OneDoc</a><button class="btn btn-outline" onclick="generateForm()">📄 Générer mon formulaire pré-rempli</button><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
+    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">🎉</div><h3 style="color:var(--green)">Vous êtes probablement éligible !</h3><p>Tous les voyants sont au vert. La validation finale se fera avec le médecin du centre de transfusion.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" class="btn btn-gold" style="text-decoration:none">📅 Prendre RDV sur OneDoc</a><button class="btn btn-outline" onclick="generateForm()">📝 Remplir mon questionnaire HUG</button><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
   }else{
     card.innerHTML='<div class="elig-result"><div class="elig-result-icon">⚠️</div><h3 style="color:var(--orange)">Éligibilité à vérifier</h3><p>Quelques points nécessitent une vérification avec le médecin :</p><ul style="text-align:left;margin:12px 0;padding-left:20px;font-size:15px;color:var(--text-dim);line-height:1.8">'+warnings.map(w=>'<li>'+w+'</li>').join('')+'</ul><p>Cela ne veut pas forcément dire que vous ne pouvez pas donner — le médecin du CTS pourra vous confirmer.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-gold" onclick="goChat()">🤖 Vérifier avec le chatbot IA</button><a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" class="btn btn-outline" style="text-decoration:none">🏥 Contacter le CTS HUG</a><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
     // Store warnings for chatbot context
@@ -7521,114 +7521,17 @@ function renderEligResult(){
   document.getElementById('form-area').style.display=pass?'block':'none';
 }
 function generateForm(){
-  document.getElementById('form-area').style.display='block';
-  const genre=eligAnswers[7]===0?'F':eligAnswers[7]===1?'M':'';
-  const primo=eligAnswers[6]===0;
-  const today=new Date().toLocaleDateString('fr-CH');
-  const fp=document.getElementById('form-preview');
-  const q=(n,txt,sub)=>`<tr><td style="padding:6px 4px;vertical-align:top;font-size:15px;width:30px;font-weight:600;color:#333">${n}</td><td style="padding:6px 4px;font-size:15px;line-height:1.5;color:#333">${sub?'<span style="font-weight:600">'+sub+'</span> ':''}${txt}</td><td style="padding:6px 4px;text-align:center;vertical-align:top"><div class="box"></div></td><td style="padding:6px 4px;text-align:center;vertical-align:top"><div class="box"></div></td><td style="padding:6px 4px;width:30px"></td></tr>`;
-  fp.innerHTML=`
-<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;border-bottom:3px solid #B91C1C;padding-bottom:10px">
-  <div>
-    <div style="font-size:14px;color:#B91C1C;font-weight:700;letter-spacing:1px">HÔPITAUX UNIVERSITAIRES DE GENÈVE</div>
-    <h2 style="margin:4px 0 2px;color:#B91C1C">Centre de Transfusion Sanguine</h2>
-    <div style="font-size:14px;color:#666">Rue Gabrielle-Perret-Gentil 6, 1205 Genève<br>Accueil.Donneurs@hug.ch · www.dondusang.ch · T. +41(0)22 372 39 01</div>
-  </div>
-  <div style="text-align:right;font-size:9.5px;color:#666;border:1px solid #ddd;padding:6px 10px;border-radius:4px">
-    <strong>Heures d'accueil :</strong><br>
-    Lu, Ma, Me, Ve : 7h30–15h<br>
-    Jeudi : 11h–19h<br>
-    Samedi 1er et 3e : 8h30–12h
-  </div>
-</div>
-
-<div style="text-align:center;font-size:14px;font-weight:700;letter-spacing:2px;margin:16px 0 4px;color:#1a1a1a">INSCRIPTION AU DON DU SANG</div>
-<div style="text-align:center;font-size:14px;color:#888;margin-bottom:16px">Merci de présenter une pièce d'identité · Pré-rempli par BeeMyBlood™ le ${today}</div>
-
-<div class="form-row"><div class="form-field"><label>Nom</label><div class="val">Konaté</div></div><div class="form-field"><label>Prénom(s)</label><div class="val">Amine</div></div></div>
-<div class="form-row"><div class="form-field"><label>Date de naissance</label><div class="val">15.03.2004</div></div><div class="form-field"><label>Sexe</label><div class="val">${genre==='M'?'M ⬤  F ○':'M ○  F ⬤'}</div></div><div class="form-field"><label>Nom de naissance</label><div class="val">Konaté</div></div></div>
-<div class="form-row"><div class="form-field" style="flex:2"><label>Adresse</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div></div>
-<div class="form-row"><div class="form-field"><label>NPA</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div><div class="form-field"><label>Localité</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div><div class="form-field"><label>Tél. mobile</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div></div>
-<div class="form-row"><div class="form-field"><label>Profession/employeur</label><div class="val">Étudiant / Université de Genève</div></div><div class="form-field"><label>Médecin traitant</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div></div>
-<div class="form-row"><div class="form-field"><label>Poids</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div><div class="form-field"><label>Taille (cm)</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div><div class="form-field"><label>E-mail</label><div class="val" style="border-bottom:1px dashed #ccc">&nbsp;</div></div></div>
-
-<div style="margin:16px 0 8px;padding:10px;background:#f8f4f0;border-radius:4px;font-size:14px;line-height:1.6;color:#555">
-  <em>Vous venez de lire le Formulaire d'information ANH Art.7.7. En signant, vous confirmez :</em><br>
-  ▪ Je consens à donner de mon sang.<br>
-  ▪ Je confirme avoir lu et compris le Formulaire d'Information pour les donneuses/donneurs de sang.<br>
-  ▪ Je confirme l'exactitude de mes données personnelles et la véracité de mes réponses.<br>
-  ▪ J'accepte les tests biologiques (y compris méthodes génétiques si nécessaire) et d'être informé(e) en cas d'anomalie.<br>
-  ▪ J'accepte que certains composants soient utilisés pour la fabrication de médicaments ou la recherche après anonymisation.<br>
-  ▪ Les données sont soumises au secret médical (Transfusion CRS Suisse / SRTS / Loi sur la protection des données).
-</div>
-
-<div class="form-section">Questionnaire médical</div>
-<table style="width:100%;border-collapse:collapse">
-<thead><tr style="background:#f5f0e8"><td colspan="2" style="padding:4px;font-size:14px"></td><td style="padding:4px;text-align:center;font-size:15px;font-weight:700">OUI</td><td style="padding:4px;text-align:center;font-size:15px;font-weight:700">NON</td><td style="padding:4px;font-size:15px;text-align:center">visa</td></tr></thead>
-<tbody>
-${q('1.','Avez-vous déjà fait un don de sang ? Si oui, quand ? .................... Où ? ....................')}
-${q('2.','Pesez-vous plus de 50 kg ?')}
-${q('3.','Vous sentez-vous actuellement en bonne santé ?')}
-${q('4.','Au cours des 14 derniers jours, avez-vous eu un traitement dentaire ou d\'hygiène dentaire ?')}
-${q('5.','Au cours des 4 dernières semaines, avez-vous reçu des soins médicaux ou eu de la fièvre à plus de 38°C ou d\'autres maladies légères (diarrhée, rhume) ?')}
-${q('6.','Au cours des 4 dernières semaines, avez-vous pris des médicaments — même sans prescription (comprimés, injections, suppositoires) ? Si oui, lesquels ? ......................','a)')}
-${q('','Au cours des 4 dernières semaines, avez-vous pris des médicaments contre l\'hyperplasie prostatique ou la chute des cheveux (Proscar®, Finasterid-Mepha, Propecia®) ou contre l\'acné/eczéma (Roaccutan®, Curakne®, Isotretinoin®) ou contre la dépression (lithium, Lithiofor®) ou la migraine (Topamax®) ou les troubles bipolaires (Convulex®, Tegretol®) ?','b)')}
-${q('','Au cours des 2 derniers mois, avez-vous pris des médicaments contre l\'endométriose (Lucrin Depot®) ?','c)')}
-${q('','Au cours des 4 derniers mois, avez-vous pris une thérapie antirétrovirale PEP/PrEP (VIH) (Truvada®, Isentress®, Prezista®/Norvir®) ou reçu des médicaments fabriqués à partir de sang ?','d)')}
-${q('','Au cours des 6 derniers mois, avez-vous pris des médicaments contre l\'hyperplasie prostatique (Avodart®, Duodart®) ?','e)')}
-${q('','Au cours des 6 derniers mois, avez-vous reçu des cytostatiques (Méthotrexate® contre le psoriasis ou l\'arthrite) ?','f)')}
-${q('','Au cours des 3 dernières années, avez-vous pris du Neotigason®, Acicutan® (psoriasis) ou Erivedge® (carcinome basocellulaire) ?','g)')}
-${q('7.','Avez-vous reçu une immunothérapie (cellules ou sérum d\'origine humaine ou animale) ?','a)')}
-${q('','Au cours des 12 derniers mois, avez-vous été vacciné(e) contre la rage ou le tétanos ?','b)')}
-${q('','Au cours des 4 dernières semaines, avez-vous reçu d\'autres vaccins ? Si oui, lesquels ? .................. Quand ? ..................','c)')}
-${q('8.','Affection cardio-vasculaire ou pulmonaire (problème de pression artérielle, infarctus, problèmes respiratoires, AVC, AIT, perte de conscience) ?','a)')}
-${q('','Maladie de la peau (blessure, éruption, eczéma, bouton de fièvre) ou affections allergiques (rhume des foins, asthme, allergie médicamenteuse) ?','b)')}
-${q('','Autres maladies (diabète, maladie du sang, de la coagulation, affection vasculaire, rénale, maladie nerveuse, épilepsie, cancer, ostéoporose) ?','c)')}
-${q('9.','Au cours des 3 dernières années ou depuis votre dernier don, avez-vous : □ séjourné à l\'hôpital ? □ eu un accident ? □ été opéré(e) ?')}
-${q('10.','Avez-vous reçu une greffe de tissu humain ou animal ou une transplantation d\'organe ?','a)')}
-${q('','Avez-vous subi une opération du cerveau ou de la moelle épinière à l\'étranger ?','b)')}
-${q('','Avez-vous été traité(e) par hormone de croissance ou reçu des injections d\'hormones pour traiter l\'infertilité avant le 01.01.1986 ?','c)')}
-${q('','Vous, ou un membre de votre famille, êtes-vous susceptible d\'être atteint(e) par la maladie de Creutzfeldt-Jakob ?','d)')}
-${q('','Au cours des 4 derniers mois, avez-vous bénéficié d\'une transfusion sanguine ?','e)')}
-${q('11.','Au cours des 6 derniers mois, avez-vous voyagé hors de la Suisse ? Si oui, où ? .................. Depuis quand de retour ? ..................','a)')}
-${q('','Avez-vous présenté des symptômes sur place ou depuis votre retour (fièvre) ? Si oui : ..................','b)')}
-${q('12.','Êtes-vous né(e) hors de la Suisse, y avez-vous grandi ou vécu >6 mois ? Si oui, pays ? .................. Depuis quand en Suisse ? ..................','a)')}
-${q('','Votre mère est-elle née dans un pays extra-européen, y a-t-elle grandi ou vécu >6 mois ? Si oui, pays ? ..................','b)')}
-${q('13.','Avez-vous présenté : □ Toxoplasmose □ Mononucléose □ Amibiase □ Shigellose □ FSME □ Bilharziose □ Gonorrhée □ Ostéomyélite □ Fièvre rhumatismale □ Tuberculose □ Fièvre récurrente □ Fièvre Q □ Guillain-Barré ? Quand ? ..................','a)')}
-${q('','Avez-vous présenté : □ Paludisme/Malaria □ Chagas □ Brucellose □ Echinococcose □ Leishmaniose □ Lymphogranulome vénérien □ Filariose □ Babésiose □ Ebola □ autres infections graves ? ..................','b)')}
-${q('','Au cours des 4 dernières semaines, avez-vous été piqué(e) par une tique ?','c)')}
-${q('','Au cours des 4 dernières semaines, avez-vous eu un contact avec une personne ayant une maladie infectieuse ? Si oui : ..................','d)')}
-${q('14.','Au cours des 4 derniers mois : □ tatouage □ gastro-coloscopie □ sangsues □ piercing □ acupuncture □ épilation électrique □ maquillage permanent/Microblading □ contact avec du sang étranger ? Si oui, quand ? .......... où ? ..........')}
-${q('15.','Nouveau ou changement de partenaire sexuel(le) au cours des 4 derniers mois ?','a)')}
-${q('','Rapport(s) sexuel(s) (protégé ou non) avec plus de deux personnes au cours des 4 derniers mois ?','b)')}
-${q('','Rapport(s) sexuel(s) sous l\'influence de drogues de synthèse au cours des 12 derniers mois ?','c)')}
-${q('','Rapport(s) sexuel(s) pour lesquels vous avez reçu de l\'argent ou d\'autres prestations au cours des 12 derniers mois ?','d)')}
-${q('','Injection de drogue ?','e)')}
-${q('','Avez-vous été testé positif pour le HIV (sida) ou l\'hépatite B ou C ?','f)')}
-${q('','Avez-vous déjà eu la Syphilis ?','g)')}
-${q('16.','Votre partenaire de vie/sexuel(le)/logement a-t-il/elle eu une jaunisse (hépatite B ou C) au cours des 6 derniers mois ?','a)')}
-${q('','Votre partenaire sexuel(le) a-t-il/elle contracté le virus Zika au cours des 3 derniers mois ?','b)')}
-${q('17.','Au cours des 12 derniers mois, rapports sexuels avec un(e) partenaire exposé(e) aux situations 15 et/ou 16 ?','a)')}
-${q('','Au cours des 4 derniers mois, rapports sexuels avec un(e) partenaire ayant séjourné >6 mois dans un pays à taux élevé de HIV/HBV/HBC ou y ayant reçu une transfusion ?','b)')}
-${q('18.','Si cela vous concerne : avez-vous déjà été enceinte ? Si oui, quand pour la dernière fois ? ..................','a)')}
-</tbody>
-</table>
-
-<div style="margin-top:20px;padding-top:14px;border-top:2px solid #B91C1C">
-  <div class="form-row">
-    <div class="form-field"><label>Date</label><div class="val">${today}</div></div>
-    <div class="form-field" style="flex:2"><label>Nom, prénom</label><div class="val">Konaté, Amine</div></div>
-    <div class="form-field"><label>Date de naissance</label><div class="val">15.03.2004</div></div>
-  </div>
-  <div style="margin-top:12px"><label style="font-size:15px;color:#888">Signature</label><div style="border-bottom:1px solid #ccc;height:50px"></div></div>
-</div>
-
-<div style="margin-top:14px;font-size:8.5px;color:#aaa;text-align:center;border-top:1px solid #eee;padding-top:8px">
-  Réf. ANH-Art7.6v3 · 1er fév. 2026 · 4.1.FO.0210-v9.0<br>
-  Pré-rempli par BeeMyBlood™ · La validation médicale finale est effectuée par le médecin du CTS.<br>
-  Le formulaire d'information ANH Art.7.7 est disponible sur les lieux de collecte et sur <a href="https://jedonnemonsang.ch" style="color:#B91C1C">jedonnemonsang.ch</a>
-</div>`;
-  fp.scrollIntoView({behavior:'smooth'});
+  var area=document.getElementById('form-area'); if(area) area.style.display='none';
+  var t=document.querySelector('[data-target=quest-hug-acc]'); if(t && !t.classList.contains('open')) t.click();
+  try{ if(typeof qhugGoStep==='function') qhugGoStep(1); }catch(e){}
+  // nom et prénom de la personne connectée, si elle l'est ; le reste se remplit à la main
+  try{
+    var et = window.BeeAcces && window.BeeAcces.etat && window.BeeAcces.etat();
+    if(et && et.nom){ var parts=String(et.nom).trim().split(/\s+/); var pre=document.getElementById('qh-prenom'), nom=document.getElementById('qh-nom'); if(pre && !pre.value) pre.value=parts.slice(0,-1).join(' ')||parts[0]; if(nom && !nom.value && parts.length>1) nom.value=parts[parts.length-1]; }
+    var g=(typeof eligAnswers!=='undefined')?(eligAnswers[7]===0?'F':eligAnswers[7]===1?'M':''):''; var sx=document.getElementById('qh-sexe'); if(sx && g && !sx.value) sx.value=g;
+  }catch(e){}
+  setTimeout(function(){ var cible=document.getElementById('qhug-step1'); if(cible) cible.scrollIntoView({behavior:'smooth',block:'start'}); }, 350);
+  if(typeof showToast==='function' && !(document.body.classList.contains('bmb-public'))) showToast('info','Trois étapes : information, consentement, questionnaire. Le PDF se génère à la fin, avec vos réponses.');
 }
 
 // ===== VR =====
@@ -7918,6 +7821,10 @@ function generateHUGPDF(){
     var el=document.getElementById('qh-'+k);d[k]=el?el.value:'';
   });
   if(!d.nom||!d.prenom||!d.ddn){alert('Merci de remplir au minimum : Nom, Prénom et Date de naissance.');return;}
+  var cbs=document.querySelectorAll('.qhug-consent-cb'); var cbOk=cbs.length? [].every.call(cbs,function(c){return c.checked;}) : true;
+  if(!cbOk){ alert('Merci de cocher les six déclarations de l’étape 2 (consentement) avant de générer le PDF.'); return; }
+  var manquantes=qhugItems.filter(function(q){ return !document.querySelector('.qh-yn[data-q="'+q.n+'"][data-selected="1"]'); });
+  if(manquantes.length){ alert('Il reste '+manquantes.length+' question'+(manquantes.length>1?'s':'')+' sans réponse ('+manquantes.slice(0,6).map(function(q){return q.n;}).join(', ')+(manquantes.length>6?'…':'')+'). Le questionnaire doit être complet.'); var first=document.querySelector('.qh-yn[data-q="'+manquantes[0].n+'"]'); if(first) first.scrollIntoView({behavior:'smooth',block:'center'}); return; }
   var answers={};
   qhugItems.forEach(function(q){
     var btns=document.querySelectorAll('.qh-yn[data-q="'+q.n+'"][data-selected="1"]');

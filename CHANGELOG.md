@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Donor space
+- Eligibility result: the « Générer mon formulaire pré-rempli » button, which produced a document with the demonstration identity, is replaced by « Remplir mon questionnaire HUG », which opens the real three-step questionnaire (information, consent, medical questions) and prefills only the connected person's name.
+- The PDF is generated only when the six consent statements are ticked and every medical question is answered.
+
 ## v0.6.0 — 2026-09-09 — centre operations backend, display screens, real booking by redirection
 
 ### Centre operations backend
