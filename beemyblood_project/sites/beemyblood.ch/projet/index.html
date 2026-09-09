@@ -86,6 +86,7 @@ section{padding:56px 24px}
 .eco{padding:18px 28px;border-radius:12px;background:var(--dark-card);border:1px solid rgba(200,169,96,.08);font-size:16px;font-weight:600;color:var(--text-dim);transition:all .3s;text-decoration:none}
 .eco:hover{border-color:rgba(200,169,96,.2);color:var(--text)}
 .eco span{margin-right:6px}
+.infos{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px}.infos a{padding:10px 18px;border-radius:99px;border:1px solid rgba(200,169,96,.25);font-size:14px;font-weight:600;color:var(--gold)}.infos a:hover{background:rgba(200,169,96,.1)}
 
 /* COMPARISON */
 .cmp-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid rgba(200,169,96,.12);background:var(--dark-card)}
@@ -105,8 +106,9 @@ footer a{color:var(--gold)}
 @media(max-width:480px){
   nav{padding:12px 16px}
   .nav-brand{font-size:16px}.nav-brand .bee{font-size:20px}
-  .nav-links{gap:12px}
+  .nav-links{gap:10px}
   .nav-links a{font-size:14px;font-weight:600;color:var(--gold)}
+  .nav-links a.active,.nav-links a[href="../acces/"]{display:none}
 
   .hero{padding:72px 16px 24px}
   .hero h1{font-size:36px;margin-bottom:24px}
@@ -139,7 +141,7 @@ footer a{color:var(--gold)}
   <a href="../" class="nav-brand"><span class="bee">🐝</span> BeeMyBlood™</a>
   <div class="nav-links">
     <a href="#" class="active">Le projet</a>
-    <a href="#distinction">Ce qui nous distingue</a>
+    <a href="faq/">FAQ</a>
     <a href="../acces/">Demander un accès</a>
     <a href="../">Accueil</a>
   </div>
@@ -157,6 +159,22 @@ footer a{color:var(--gold)}
   <p class="hero-p" style="margin-top:24px;animation-delay:.34s">Entre les donneur·se·s prêt·e·s à aider et les patient·e·s qui attendent, il y a des <strong style="color:var(--text)">vides que personne ne comble</strong>.</p>
 
   <p class="hero-p" style="margin-top:24px;animation-delay:.42s">BeeMyBlood veut les combler : <strong style="color:var(--text)">faciliter le don</strong>, <strong style="color:var(--text)">outiller les professionnel·le·s</strong>, et faire en sorte que chaque patient·e reçoive ce dont il ou elle a besoin, <strong style="color:var(--gold)">à temps</strong>.</p>
+</section>
+
+<!-- POURQUOI CE NOM -->
+<section id="nom" style="padding-top:24px">
+  <div class="container">
+    <div class="stitle reveal">Pourquoi <span class="gold">BeeMyBlood</span> ?</div>
+    <p class="sdesc reveal reveal-d1">« Bee my blood » se lit « be my blood » : sois mon sang. Une invitation, pas une injonction. Et l’abeille dit le reste.</p>
+    <div class="feat-grid">
+      <div class="feat reveal reveal-d1"><div class="feat-icon">🌸</div><h3>La pollinisation</h3><p>L’abeille transporte de fleur en fleur ce qui permet la vie. Du bras de la personne qui donne à la veine de celle qui reçoit, le sang fait le même voyage, et il a besoin d’un passeur.</p></div>
+      <div class="feat reveal reveal-d2"><div class="feat-icon">🍯</div><h3>La ruche</h3><p>Personne ne fabrique le miel seul. Chaque abeille en apporte une goutte et toute la ruche en vit. C’est le luxe communal : un bien précieux qui n’existe que partagé.</p></div>
+      <div class="feat reveal reveal-d3"><div class="feat-icon">💉</div><h3>La piqûre</h3><p>Une seconde de piqûre, quarante-cinq minutes, jusqu’à trois vies. Le petit mal et le grand bien tiennent dans le même geste.</p></div>
+      <div class="feat reveal reveal-d4"><div class="feat-icon">💃</div><h3>La danse</h3><p>Par une danse, les abeilles s’indiquent où sont les fleurs. BeeBot, la carte des centres et le jumeau numérique jouent ce rôle : dire où le sang manque et où aller.</p></div>
+      <div class="feat reveal reveal-d1"><div class="feat-icon">🐝</div><h3>La sentinelle</h3><p>La santé des abeilles renseigne sur celle d’un territoire. Les réserves de sang aussi : quand elles baissent, c’est tout un système de santé qui se tend.</p></div>
+      <div class="feat reveal reveal-d2"><div class="feat-icon">✨</div><h3>L’or et le noir</h3><p>Les couleurs de la ruche, et celles du luxe. Elles rappellent que donner son sang n’a rien d’ordinaire et mérite l’accueil réservé aux gestes rares.</p></div>
+    </div>
+  </div>
 </section>
 
 <!-- FONCTIONNALITÉS -->
@@ -227,6 +245,21 @@ footer a{color:var(--gold)}
       <a href="https://www.unige.ch/medecine/simed/" target="_blank" class="eco"><span>🔬</span>SIMED — Université de Genève</a>
       <a href="https://www.transfusion.ch" target="_blank" class="eco"><span>🩸</span>Transfusion Interrégionale CRS</a>
     </div>
+  </div>
+</section>
+
+<!-- CONTRIBUER -->
+<section id="contribuer" style="background:var(--dark-surface)">
+  <div class="container" style="text-align:center">
+    <div class="stitle reveal">Contribuer</div>
+    <div class="sdesc reveal reveal-d1" style="margin-left:auto;margin-right:auto">Le projet avance avec celles et ceux qui le testent, le critiquent et le complètent.</div>
+    <div class="eco-grid reveal reveal-d2">
+      <a href="../acces/" class="eco"><span>🧪</span>Tester : demander un accès</a>
+      <a href="https://github.com/bumpyman/BeeMyBlood" target="_blank" rel="noopener" class="eco"><span>💻</span>Code source et tickets (GitHub)</a>
+      <a href="mailto:contact@beemyblood.ch" class="eco"><span>🤝</span>Partenariat : contact@beemyblood.ch</a>
+      <a href="https://doi.org/10.5281/zenodo.22667009" target="_blank" rel="noopener" class="eco"><span>📚</span>Citer : DOI 10.5281/zenodo.22667009</a>
+    </div>
+    <div class="infos reveal reveal-d3"><a href="faq/">❓ FAQ</a><a href="confidentialite/">🔒 Confidentialité</a><a href="mentions-legales/">⚖️ Mentions légales</a></div>
   </div>
 </section>
 

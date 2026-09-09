@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Project page and information pages
+- Project page: new section "Pourquoi BeeMyBlood ?" (the name: pollination, hive, sting, dance, sentinel, gold and black) and a "Contribuer" section (test, code, partnership, citation) with three buttons: FAQ, Confidentialité, Mentions légales. Navigation reduced to two links on mobile.
+- New pages: projet/faq (15 questions about the site and the project), projet/confidentialite (nLPD privacy notice: no trackers, third-party resources, tester account data, BeeBot via Anthropic, rights) and projet/mentions-legales (publisher, hosting, licence, data sources, disclaimers, applicable law).
+- Request form links to the privacy notice.
+
 ## v0.5.1 — 2026-09-09 — clearer entry screens, Zenodo DOI
 
 ### Access

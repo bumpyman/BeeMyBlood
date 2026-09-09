@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BeeMyBlood™ — Questions fréquentes</title>
+<meta name="description" content="Questions fréquentes sur BeeMyBlood : ce que c'est, qui le porte, ce qui est vrai, comment obtenir un accès, ce que devient vos données.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#0a0a12;--dark-card:#12121e;--gold:#C8A960;--gold-light:#E8D5A3;--text:#f0ece2;--text-dim:#8b8b9e;--text-muted:#5a5a72}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.7}
+a{color:var(--gold);text-decoration:none}a:hover{color:var(--gold-light)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(10,10,18,.85);border-bottom:1px solid rgba(200,169,96,.08)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.nav-links{display:flex;gap:16px}.nav-links a{color:var(--text-dim);font-size:14px;font-weight:500;white-space:nowrap}.nav-links a:hover{color:var(--gold)}
+main{max-width:760px;margin:0 auto;padding:96px 24px 40px}
+h1{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,44px);font-weight:800;line-height:1.15;margin-bottom:10px}h1 span{color:var(--gold)}
+.lead{color:var(--text-dim);font-size:17px;margin-bottom:22px}
+.infos{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}.infos a{padding:8px 14px;border-radius:99px;border:1px solid rgba(200,169,96,.25);font-size:13.5px;font-weight:600}.infos a.on{background:rgba(200,169,96,.12)}
+details{border:1px solid rgba(200,169,96,.12);border-radius:14px;background:var(--dark-card);margin-bottom:10px}
+summary{cursor:pointer;padding:14px 18px;font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}summary::after{content:'+';color:var(--gold);font-weight:400;flex:none}details[open] summary::after{content:'–'}
+details p{padding:0 18px 14px;color:var(--text-dim);font-size:15.5px}details p+p{margin-top:-6px}
+b{color:var(--text)}
+footer{padding:24px;text-align:center;border-top:1px solid rgba(200,169,96,.05);font-size:13px;color:var(--text-muted);line-height:2}
+@media(max-width:480px){nav{padding:12px 16px}.nav-links{gap:12px}main{padding:84px 16px 32px}summary{font-size:15px}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../../" class="nav-brand">🐝 BeeMyBlood™</a>
+  <div class="nav-links"><a href="../">Le projet</a><a href="../../">Accueil</a></div>
+</nav>
+<main>
+  <h1>Questions <span>fréquentes</span></h1>
+  <p class="lead">Sur le site et le projet. Pour les questions sur le don lui-même (éligibilité, déroulement, plaquettes), la FAQ de l’espace donneur·se et BeeBot sont ouverts à tout le monde.</p>
+  <div class="infos"><a class="on" href="./">❓ FAQ</a><a href="../confidentialite/">🔒 Confidentialité</a><a href="../mentions-legales/">⚖️ Mentions légales</a></div>
+
+  <details open><summary>Qu’est-ce que BeeMyBlood ?</summary><p>Une plateforme ouverte pour la chaîne du sang en Suisse : un espace pour les personnes qui donnent, un pour celles qui reçoivent, un pour les professionnel·le·s de la transfusion. C’est un projet de recherche du Convivens Lab (HEG Genève, HES-SO), pas un produit commercial.</p></details>
+  <details><summary>Pourquoi ce nom ?</summary><p>« Bee my blood » se lit « be my blood » : sois mon sang. Une invitation. Et l’abeille transporte de fleur en fleur ce qui permet la vie, comme le sang voyage d’un bras à une veine. <a href="../#nom">L’explication complète est sur la page du projet.</a></p></details>
+  <details><summary>Est-ce un service officiel du don du sang ?</summary><p>Non. Le don est organisé par Transfusion CRS Suisse et les services régionaux, à Genève par le centre de transfusion des HUG. BeeMyBlood les complète, il ne les remplace pas. Pour donner, vous prenez rendez-vous chez eux ; le site vous y guide.</p></details>
+  <details><summary>Les informations affichées sont-elles vraies ?</summary><p>Sans compte, oui : les stocks, les dates de collecte et les actualités viennent de sources officielles et sont rafraîchies chaque jour.</p><p>Dans les espaces réservés aux testeurs, une partie des données est fictive (personnages, historiques, notifications). C’est une démonstration, signalée comme telle.</p></details>
+  <details><summary>Pourquoi certaines fonctions sont-elles cadenassées ?</summary><p>Le site est en version alpha. Les fonctions encore en test s’ouvrent aux personnes invitées, qui les évaluent avec nous.</p></details>
+  <details><summary>Comment obtenir un accès ?</summary><p>Remplissez <a href="../../acces/">le formulaire de demande</a>, une minute. Nous approuvons espace par espace, en général sous 48 h, et vous recevez un courriel. Ensuite : connexion avec votre adresse, code reçu par courriel, signature de l’accord de confidentialité à l’écran.</p></details>
+  <details><summary>Faut-il un mot de passe ?</summary><p>Non. À chaque connexion, un code à usage unique arrive par courriel. Vous restez ensuite connecté·e sur votre appareil.</p></details>
+  <details><summary>BeeBot remplace-t-il un·e médecin ?</summary><p>Non. BeeBot est une intelligence artificielle (Claude, d’Anthropic) qui répond à partir des critères de Transfusion CRS Suisse. Ses réponses informent, elles ne soignent pas. En cas de doute, le personnel du centre de transfusion ou votre médecin tranche.</p></details>
+  <details><summary>Que deviennent mes questions à BeeBot ?</summary><p>Elles passent par notre serveur, puis par l’interface d’Anthropic, aux États-Unis. Nous ne les conservons pas. N’y inscrivez ni nom, ni résultat d’analyse, ni information de santé qui permettrait de vous identifier.</p></details>
+  <details><summary>Quelles données conservez-vous ?</summary><p>Sans compte : aucune donnée personnelle, hormis les journaux techniques de l’hébergeur. Avec un accès testeur : nom, courriel, organisation, espaces demandés et signature de l’accord. Tout est détaillé dans la page <a href="../confidentialite/">Confidentialité</a>.</p></details>
+  <details><summary>Est-ce gratuit ? Y a-t-il de la publicité ?</summary><p>Gratuit, sans publicité, sans revente de données. Le projet est porté par la recherche publique.</p></details>
+  <details><summary>Le code est-il ouvert ?</summary><p>Oui, sous licence AGPL-3.0, sur <a href="https://github.com/bumpyman/BeeMyBlood" target="_blank" rel="noopener">GitHub</a>. Chaque version est archivée et citable : <a href="https://doi.org/10.5281/zenodo.22667009" target="_blank" rel="noopener">DOI 10.5281/zenodo.22667009</a>.</p></details>
+  <details><summary>BeeMyBlood est-il un dispositif médical ?</summary><p>Non. C’est un prototype de recherche. Il ne pose aucun diagnostic et ne prend aucune décision clinique.</p></details>
+  <details><summary>Comment contribuer ou signaler un problème ?</summary><p>Écrivez à <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a> ou ouvrez un ticket sur GitHub. Les centres, associations et hôpitaux qui souhaitent tester le projet sont les bienvenus.</p></details>
+  <details><summary>Sur quel appareil ?</summary><p>N’importe quel navigateur récent. Le site est pensé d’abord pour le téléphone.</p></details>
+</main>
+<footer>© 2026 <b>BeeMyBlood™</b> · <a href="https://www.convivens.ch" target="_blank" rel="noopener">Convivens Lab</a>, <a href="https://www.hesge.ch/heg/" target="_blank" rel="noopener">HEG Genève</a> · <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a></footer>
+<script src="../../lexique.js" defer></script>
+</body>
+</html>
