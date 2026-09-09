@@ -78,6 +78,7 @@ footer{padding:16px;text-align:center;font-size:12px;color:var(--muted)}
 <script>
 var sb = window.supabase && window.supabase.createClient('https://uyrpozgbfklqfltnduvv.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5cnBvemdiZmtscWZsdG5kdXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjEwNDMsImV4cCI6MjEwNDQzNzA0M30.pKHaT9sBOvWgnNTISgfJ4Gc5N-yiiEmShGl-acPZgVE');
 document.querySelectorAll('.role input').forEach(function(i){ i.addEventListener('change', function(){ i.closest('.role').classList.toggle('on', i.checked); }); });
+(function(){ var q=/[?&]espace=(donneur|receveur|pro)\b/.exec(location.search); var i=q && document.querySelector('.role input[value="'+q[1]+'"]'); if(i){ i.checked=true; i.closest('.role').classList.add('on'); } })();
 document.getElementById('f').addEventListener('submit', function(e){
   e.preventDefault();
   var err=document.getElementById('err'), btn=document.getElementById('btn');
@@ -93,8 +94,8 @@ document.getElementById('f').addEventListener('submit', function(e){
       if(r.error) throw r.error;
       var deja = r.data && r.data.deja;
       document.getElementById('box').innerHTML = '<h1>Merci, <span>'+nom.replace(/</g,'&lt;')+'</span></h1>'
-        + '<div class="ok">'+(deja ? '<b>Une demande est déjà en cours</b> pour '+email+'. Inutile d’en refaire une : vous recevrez votre code d’invitation dès qu’elle sera approuvée.' : '<b>Votre demande est enregistrée.</b> Vous recevrez un code d’invitation à <b>'+email+'</b> une fois la demande approuvée, en général sous 48 h.')
-        + '<br><br>Ensuite : ouvrez <a href="../connexion/">la page de connexion</a>, saisissez votre courriel, validez le code reçu par courriel, signez l’accord de confidentialité, et choisissez votre espace. C’est tout.</div>'
+        + '<div class="ok">'+(deja ? '<b>Une demande est déjà en cours</b> pour '+email+'. Inutile d’en refaire une : vous recevrez un courriel dès qu’elle sera approuvée.' : '<b>Votre demande est enregistrée.</b> Vous recevrez un courriel à <b>'+email+'</b> dès qu’elle sera approuvée, en général sous 48 h.')
+        + '<br><br>Ensuite : <a href="../connexion/">connectez-vous</a> avec cette adresse, validez le code reçu par courriel et signez l’accord de confidentialité. C’est tout.</div>'
         + '<p class="small">Une question ? <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a> · <a href="../">Retour à l’accueil</a></p>';
     })
     .catch(function(ex){

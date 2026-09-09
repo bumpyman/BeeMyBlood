@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.5.1 — 2026-09-09 — clearer entry screens, Zenodo DOI
+
+### Access
+- One entry screen per space, in short French: "Espace réservé aux testeurs invités" (pro, recipient), "Fonction réservée aux testeurs invités" (donor, when a locked function or the login button is clicked). Two clear paths: already invited (email, code) or not yet (request access, with the space pre-selected on the request form).
+- Shorter messages on the code, pending-request, space-choice and refusal screens; lighter footer.
+- Request form: no more mention of an invitation code (access activates at the first login after approval).
+
+### Landing page
+- The "alpha on invitation / request / log in" line under the hero is removed; the spaces themselves open the entry screen.
+- Luxe communal: one-line definition under the title; labels "Trop rare !", "Hyper précieux !", "Juste héroïque !".
+- "Score de rareté" becomes "Le sang compatible, même rare"; project card wording adjusted.
+
+### Citation
+- Zenodo DOI (concept 10.5281/zenodo.22667009) in README and CITATION.cff.
+
 ## v0.5.0 — 2026-09-08 — first citable release
 
 First regular (non pre-release) release, archived on Zenodo. Same content as v0.4.7 plus citation metadata (CITATION.cff, .zenodo.json with ORCID).

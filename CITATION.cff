@@ -10,6 +10,14 @@ authors:
     orcid: "https://orcid.org/0000-0001-6604-6595"
 repository-code: "https://github.com/bumpyman/BeeMyBlood"
 url: "https://beemyblood.ch"
+doi: 10.5281/zenodo.22667009
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22667009
+    description: "Concept DOI, resolves to the latest version"
+  - type: doi
+    value: 10.5281/zenodo.22667010
+    description: "Version 0.5.0"
 license: AGPL-3.0-or-later
 keywords:
   - blood donation
@@ -19,5 +27,5 @@ keywords:
   - health equity
   - Switzerland
   - open source
-version: 0.5.0
-date-released: 2026-09-08
+version: 0.5.1
+date-released: 2026-09-09

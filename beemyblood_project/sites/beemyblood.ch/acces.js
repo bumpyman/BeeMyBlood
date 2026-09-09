@@ -38,6 +38,8 @@
     + '.bmba-btn{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#C8A960,#B89730);color:#0a0a12;font:inherit;font-weight:700;font-size:15px;cursor:pointer}.bmba-btn:disabled{opacity:.55;cursor:wait}'
     + '.bmba-btn.sec{background:transparent;color:#C8A960;border:1px solid rgba(200,169,96,.35);margin-top:8px}'
     + '.bmba-choix{display:block;text-align:center;text-decoration:none;margin-bottom:8px}'
+    + '.bmba-q{font-size:13px;font-weight:700;color:#E8D5A3;margin:14px 0 8px}.bmba-q:first-of-type{margin-top:4px}'
+    + '.bmba-note{font-size:12.5px;color:#8b8b9e;margin:8px 0 0;line-height:1.5}'
     + '.bmba-err{color:#ff6b6b;font-size:13px;min-height:18px;margin:6px 0 4px}.bmba-ok{color:#4ade80;font-size:13px;margin:6px 0}'
     + '.bmba-foot{margin-top:16px;font-size:12px;color:#5a5a72;text-align:center;line-height:1.6}.bmba-foot a{color:#C8A960;text-decoration:none}'
     + '.bmba-nda{max-height:44vh;overflow:auto;padding:14px 16px;background:#0a0a12;border:1px solid rgba(200,169,96,.18);border-radius:12px;font-size:13.5px;line-height:1.6;color:#d8d3c7;white-space:pre-wrap;margin-bottom:10px}'
@@ -56,7 +58,7 @@
   var wrap = null;
   function ecran(html, large){
     if(!wrap){ wrap = document.createElement('div'); wrap.className='bmba-wrap'; document.body.appendChild(wrap); }
-    wrap.innerHTML = '<div class="bmba-box'+(large?' large':'')+'"><div class="bmba-logo">🐝 <span>BeeMyBlood</span>™</div><div class="bmba-sub">'+(LIBELLES[ESPACE]||ESPACE)+' · version alpha sur invitation</div>'+html+'</div>';
+    wrap.innerHTML = '<div class="bmba-box'+(large?' large':'')+'"><div class="bmba-logo">🐝 <span>BeeMyBlood</span>™</div><div class="bmba-sub">'+(LIBELLES[ESPACE]||ESPACE)+' · version alpha</div>'+html+'</div>';
     wrap.style.display='flex';
     var f = wrap.querySelector('input'); if(f) setTimeout(function(){ f.focus(); }, 50);
   }
@@ -71,13 +73,28 @@
     if (/fetch|network/i.test(m)) return 'Pas de connexion au serveur. Vérifiez votre réseau.';
     return 'Une erreur est survenue : ' + m.slice(0, 140);
   }
-  var pied = '<div class="bmba-foot">Pas encore d’invitation ? <a href="'+RACINE+'acces/">Demander un accès</a> · Une fois connecté·e, vous le restez sur cet appareil.<br>Hébergé en Suisse (site : Infomaniak, Genève · comptes : Supabase, Zurich) · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
+  var pied = '<div class="bmba-foot">Hébergé en Suisse · <a href="'+RACINE+'">Retour à l’accueil</a></div>';
 
   // ---------- Étape 1 : courriel ----------
+  var INTRO = {
+    donneur: 'Test d’éligibilité, centres, guide, FAQ et BeeBot : ouverts à tout le monde. Tableau de bord, défis, HémoRush, impact et profil : sur invitation.',
+    receveur: 'L’espace receveur·se est en phase de test : il s’ouvre sur invitation.',
+    pro: 'Le portail professionnel est en phase de test : il s’ouvre sur invitation.',
+    admin: 'L’administration est réservée à l’équipe du projet.',
+    connexion: 'Saisissez l’adresse avec laquelle votre accès a été approuvé.'
+  };
   function ecranCourriel(pre){
-    ecran(etapes(1)+'<div class="bmba-h">'+(PUBLIC?'Fonction réservée aux testeurs invités':'Connexion par courriel')+'</div><p class="bmba-p">'+(PUBLIC?'Le test d’éligibilité, la carte des centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Le reste (tableau de bord, défis, flux, HémoRush, impact, profil) est réservé aux personnes invitées. ':'')+'Saisissez l’adresse avec laquelle votre accès a été approuvé. Vous recevrez un code par courriel ; il n’y a pas de mot de passe.</p>'
+    var choix = ESPACE!=='connexion';
+    var titre = !choix ? 'Se connecter' : (PUBLIC ? 'Fonction réservée aux testeurs invités' : 'Espace réservé aux testeurs invités');
+    ecran(etapes(1)+'<div class="bmba-h">'+titre+'</div><p class="bmba-p">'+(INTRO[ESPACE]||INTRO.connexion)+'</p>'
+      +(choix?'<div class="bmba-q">Déjà invité·e ?</div>':'')
       +'<input class="bmba-in" id="bmbaEmail" type="email" autocomplete="email" inputmode="email" placeholder="prenom.nom@exemple.ch" value="'+(pre||'')+'">'
-      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code</button>'+(PUBLIC?'<button class="bmba-btn sec" id="bmbaLibre">Continuer sans compte</button>':'')+'<div class="bmba-err" id="bmbaErr"></div>'+pied);
+      +'<button class="bmba-btn" id="bmbaSend">Recevoir mon code</button>'
+      +'<p class="bmba-note">'+(choix?'Même adresse que votre demande. ':'')+'Un code par courriel, pas de mot de passe. Vous restez connecté·e sur cet appareil.</p>'
+      +'<div class="bmba-err" id="bmbaErr"></div>'
+      +(choix?'<div class="bmba-q">Pas encore invité·e ?</div>':'')
+      +'<a class="bmba-btn sec bmba-choix" href="'+RACINE+'acces/'+(choix?'?espace='+ESPACE:'')+'">Demander un accès</a>'
+      +(PUBLIC?'<button class="bmba-btn sec" id="bmbaLibre">Continuer sans compte</button>':'')+pied);
     var libre=document.getElementById('bmbaLibre'); if(libre) libre.onclick=function(){ attente=null; fermer(); };
     var go = function(){
       var email = (document.getElementById('bmbaEmail').value||'').trim().toLowerCase();
@@ -93,7 +110,7 @@
 
   // ---------- Étape 2 : code reçu par courriel ----------
   function ecranCode(email){
-    ecran(etapes(2)+'<div class="bmba-h">Saisissez le code reçu</div><p class="bmba-p">Un code de connexion vient d’être envoyé à <b>'+email+'</b>. Recopiez-le ci-dessous. Si rien n’arrive, vérifiez le dossier « indésirables ».</p>'
+    ecran(etapes(2)+'<div class="bmba-h">Saisissez le code reçu</div><p class="bmba-p">Un code vient d’être envoyé à <b>'+email+'</b>. Rien reçu ? Vérifiez les courriels indésirables.</p>'
       +'<input class="bmba-in code" id="bmbaOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="········">'
       +'<button class="bmba-btn" id="bmbaVerif">Valider</button><button class="bmba-btn sec" id="bmbaBack">Changer d’adresse</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
     var go = function(){
@@ -114,12 +131,12 @@
   // ---------- Étape 2b : pas d'accès pour ce courriel ----------
   function ecranInvitation(){
     var d=etat.demande, txt;
-    if(d==='en_attente') txt='Votre demande d’accès pour <b>'+etat.email+'</b> est enregistrée et <b>en attente d’approbation</b>. Vous recevrez un courriel dès qu’elle sera validée ; il suffira alors de vous reconnecter ici.';
-    else if(d==='refusee') txt='La demande d’accès pour <b>'+etat.email+'</b> n’a pas été retenue. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a> si vous pensez qu’il s’agit d’une erreur.';
-    else if(d==='activee') txt='Cet accès a déjà été activé avec un autre compte. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
-    else txt='Aucune invitation n’est associée à <b>'+etat.email+'</b>. Si vous avez fait votre demande avec une autre adresse, reconnectez-vous avec celle-ci. Sinon, demandez un accès : vous entrerez automatiquement dès l’approbation.';
+    if(d==='en_attente') txt='Votre demande pour <b>'+etat.email+'</b> est <b>en attente d’approbation</b>. Vous recevrez un courriel dès qu’elle sera validée.';
+    else if(d==='refusee') txt='La demande pour <b>'+etat.email+'</b> n’a pas été retenue. Une erreur ? Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
+    else if(d==='activee') txt='Cet accès est déjà activé sur un autre compte. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
+    else txt='Aucune invitation pour <b>'+etat.email+'</b>. Vous avez fait votre demande avec une autre adresse ? Reconnectez-vous avec celle-ci. Sinon, demandez un accès.';
     ecran(etapes(2)+'<div class="bmba-h">Accès pas encore ouvert</div><p class="bmba-p">'+txt+'</p>'
-      +(d?'' : '<a class="bmba-btn" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'acces/">Demander un accès</a>')
+      +(d?'' : '<a class="bmba-btn" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'acces/'+(ESPACE!=='connexion'?'?espace='+ESPACE:'')+'">Demander un accès</a>')
       +'<button class="bmba-btn sec" id="bmbaRetry">Vérifier à nouveau</button><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button><div class="bmba-err" id="bmbaErr"></div>'+pied);
     document.getElementById('bmbaRetry').onclick=function(){ suite(); };
     document.getElementById('bmbaOut').onclick=deconnecter;
@@ -154,7 +171,7 @@
   function ecranChoix(){
     var r = rolesDe(etat).filter(function(x){ return x!=='admin' || etat.admin || etat.developpeur; });
     if(r.length===1){ location.replace(RACINE+CHEMINS[r[0]]); return; }
-    ecran('<div class="bmba-h">Bonjour '+(etat.nom||etat.email)+'</div><p class="bmba-p">Choisissez l’espace à ouvrir. Vous restez connecté·e sur cet appareil.</p>'
+    ecran('<div class="bmba-h">Bonjour '+(etat.nom||etat.email)+'</div><p class="bmba-p">Quel espace ouvrir ?</p>'
       + r.map(function(x){ return '<a class="bmba-btn bmba-choix" href="'+RACINE+CHEMINS[x]+'">'+ICONES[x]+' '+LIBELLES[x]+'</a>'; }).join('')
       + '<button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button>');
     document.getElementById('bmbaOut').onclick=deconnecter;
@@ -162,7 +179,7 @@
 
   function ecranRefus(){
     var r = rolesDe(etat).filter(function(x){ return x!=='admin'; });
-    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">Votre accès couvre : '+(r.length? r.map(function(x){return LIBELLES[x];}).join(', ') : 'aucun espace')+'. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a> pour l’étendre à cet espace.</p>'
+    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">Votre accès couvre : '+(r.length? r.map(function(x){return LIBELLES[x];}).join(', ') : 'aucun espace')+'. Pour l’étendre, écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.</p>'
       + r.map(function(x){ return '<a class="bmba-btn bmba-choix" href="'+RACINE+CHEMINS[x]+'">'+ICONES[x]+' '+LIBELLES[x]+'</a>'; }).join('')
       +'<a class="bmba-btn sec" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'">Retour à l’accueil</a><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button>');
     document.getElementById('bmbaOut').onclick = deconnecter;

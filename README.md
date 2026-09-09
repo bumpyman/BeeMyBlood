@@ -4,6 +4,8 @@
 
 > 🚧 Alpha release — a research prototype from [Convivens Lab](https://www.convivens.ch), HEG Geneva (HES-SO), built with the Geneva University Hospitals transfusion centre (CTS HUG), SIMED (UNIGE) and Transfusion Interrégionale CRS. Not a medical device.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22667009.svg)](https://doi.org/10.5281/zenodo.22667009)
+
 Live demo: **https://beemyblood.ch**
 
 ## Why BeeMyBlood
@@ -93,6 +95,12 @@ The spaces show demo data only. The pages send to a server: the BeeBot questions
 **David-Zacharie Issom, PhD** — Assistant Professor HES, Head of Convivens Lab, HEG Geneva (HES-SO). davidzac.issom@hes-so.ch
 
 BeeMyBlood is part of research on digital health infrastructures for equitable and participatory health systems.
+
+### How to cite
+
+Every release is archived on Zenodo. The concept DOI [10.5281/zenodo.22667009](https://doi.org/10.5281/zenodo.22667009) always resolves to the latest version; each release also has its own DOI (v0.5.0: [10.5281/zenodo.22667010](https://doi.org/10.5281/zenodo.22667010)). Citation metadata is in [CITATION.cff](CITATION.cff).
+
+> Issom, D.-Z. (2026). *BeeMyBlood: an open platform connecting blood donors, recipients and transfusion professionals in Switzerland* (software). Convivens Lab, HEG Genève (HES-SO). https://doi.org/10.5281/zenodo.22667009
 
 ## License
 

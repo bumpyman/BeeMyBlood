@@ -54,6 +54,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;display:fl
 .lx-num{font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:var(--gold);line-height:1}
 .lx-title{font-size:15px;font-weight:700;margin:10px 0 6px}
 .lx-desc{font-size:13.5px;color:var(--text-dim);line-height:1.6}
+.luxe-hint{max-width:560px;margin:-10px auto 24px;font-size:14px;color:var(--text-dim);line-height:1.6;text-align:center;position:relative}
 .hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:min(800px,100vw);height:min(800px,100vw);border-radius:50%;background:radial-gradient(circle,rgba(200,169,96,.06) 0%,transparent 70%);pointer-events:none}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,6.5vw,80px);font-weight:800;line-height:1.05;margin-bottom:16px;animation:fadeUp .6s ease both}
 .hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -149,16 +150,16 @@ footer a{color:var(--gold)}
       <p>Espace professionnel</p>
     </a>
   </div>
-  <p class="hero-access">Version alpha sur invitation. <a href="acces/">Demander un accès</a> · déjà invité·e ? <a href="connexion/">Se connecter</a></p>
 </section>
 
 <section class="block luxe">
   <p class="block-kicker">Le luxe communal</p>
   <h2>Le don de sang est un luxe.<br><span>Le seul qui se partage.</span></h2>
+  <p class="luxe-hint">Un luxe communal, c’est un bien rare et précieux que l’argent n’achète pas : on ne peut que l’offrir, et le recevoir.</p>
   <div class="luxe-grid">
-    <div class="luxe-item"><div class="lx-num">2,4 %</div><div class="lx-title">Rare</div><div class="lx-desc">Seule une personne sur quarante donne son sang en Suisse. Ce geste n'a rien d'ordinaire.</div></div>
-    <div class="luxe-item"><div class="lx-num">1 don, 3 vies</div><div class="lx-title">Précieux</div><div class="lx-desc">Un seul don peut aider jusqu'à trois personnes. Aucune industrie ne sait fabriquer du sang.</div></div>
-    <div class="luxe-item"><div class="lx-num">45 min</div><div class="lx-title">Héroïque</div><div class="lx-desc">Un acte que personne ne peut accomplir à votre place, et que BeeMyBlood traite comme tel : accueil, reconnaissance, retour d'impact.</div></div>
+    <div class="luxe-item"><div class="lx-num">2,4 %</div><div class="lx-title">Trop rare&#8239;!</div><div class="lx-desc">Seule une personne sur quarante donne son sang en Suisse. Ce geste n'a rien d'ordinaire.</div></div>
+    <div class="luxe-item"><div class="lx-num">1 don, 3 vies</div><div class="lx-title">Hyper précieux&#8239;!</div><div class="lx-desc">Un seul don peut aider jusqu'à trois personnes. Aucune industrie ne sait fabriquer du sang.</div></div>
+    <div class="luxe-item"><div class="lx-num">45 min</div><div class="lx-title">Juste héroïque&#8239;!</div><div class="lx-desc">Un acte que personne ne peut accomplir à votre place, et que BeeMyBlood traite comme tel : accueil, reconnaissance, retour d'impact.</div></div>
   </div>
 </section>
 
@@ -168,7 +169,7 @@ footer a{color:var(--gold)}
   <div class="why-grid">
     <div class="why-item"><div class="wi-icon">💛</div><div><div class="wi-title">Les receveur·se·s au centre</div><div class="wi-desc">Un espace patient dédié : comprendre sa transfusion, son traitement du fer, ses droits, sa compatibilité. Les outils existants s'arrêtent au donneur.</div></div></div>
     <div class="why-item"><div class="wi-icon">🔮</div><div><div class="wi-title">Prédire à 14 jours</div><div class="wi-desc">Un jumeau numérique de la filière : stock, saisonnalité, scénarios de crise et de campagne, pour anticiper les pénuries plutôt que les subir.</div></div></div>
-    <div class="why-item"><div class="wi-icon">🧬</div><div><div class="wi-title">Score de rareté</div><div class="wi-desc">Trouver un sang très compatible pour les personnes transfusées régulièrement, en Suisse puis dans le réseau européen, grâce au profil sanguin détaillé (phénotype).</div></div></div>
+    <div class="why-item"><div class="wi-icon">🧬</div><div><div class="wi-title">Le sang compatible, même rare</div><div class="wi-desc">Trouver un sang très compatible pour les personnes transfusées régulièrement, en Suisse puis dans le réseau européen, grâce au profil sanguin détaillé (phénotype).</div></div></div>
     <div class="why-item"><div class="wi-icon">🔓</div><div><div class="wi-title">Ouvert et souverain</div><div class="wi-desc"><a href="https://github.com/bumpyman/BeeMyBlood" target="_blank" rel="noopener">Code source public</a> (licence AGPL-3.0), données hébergées en Suisse et protégées (nLPD), compatible avec les standards d'échange des hôpitaux. Un système compagnon qui s'ajoute à l'existant sans le remplacer.</div></div></div>
   </div>
   </div>
@@ -179,7 +180,7 @@ footer a{color:var(--gold)}
     <div class="cta-content">
       <div class="cta-left">
         <span class="cta-title">En savoir plus sur le projet</span>
-        <span class="cta-desc">Genèse, objectifs, partenaires et comment contribuer.</span>
+        <span class="cta-desc">Sa genèse, ses objectifs, les partenaires et comment contribuer.</span>
         <span class="cta-btn">Découvrir →</span>
       </div>
     </div>
