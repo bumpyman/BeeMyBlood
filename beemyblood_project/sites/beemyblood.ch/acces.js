@@ -25,28 +25,34 @@
   var PUBLIC = !!(script && script.getAttribute('data-public'));
   var sb = null, etat = null, callbacks = [], attente = null, deverrouille = false;
 
-  var css = '.bmba-wrap{position:fixed;inset:0;z-index:100050;background:#0a0a12;color:#f0ece2;display:flex;align-items:center;justify-content:center;padding:18px;font:15px/1.55 "DM Sans",system-ui,sans-serif;overflow:auto}'
+  // .bmba-wrap/.bmba-user/.bmba-menu restent volontairement sombres quel que soit le thème de la
+  // page (modale de connexion, pastille et menu flottants) : les jetons de theme.css sont donc
+  // redéfinis localement avec les valeurs "thème sombre", ce qui marche aussi sans theme.css
+  // (pages hors périmètre de la refonte qui n'incluent pas ce fichier).
+  var css = '.bmba-wrap,.bmba-user,.bmba-menu{--couleur-fond:#0D0D14;--couleur-surface:#1C1C2E;--couleur-texte:#E8E6E3;--couleur-texte-secondaire:#ADADC0;--couleur-principale:#FF8A80;--couleur-principale-survol:#FF9B9B;--couleur-erreur:#FF8A80;--couleur-succes:#6FCF7E;--couleur-focus:#4FC3F7;--couleur-bordure:#6B6B85}'
+    + '.bmba-wrap{position:fixed;inset:0;z-index:100050;background:var(--couleur-fond);color:var(--couleur-texte);display:flex;align-items:center;justify-content:center;padding:18px;font:15px/1.55 "DM Sans",system-ui,sans-serif;overflow:auto}'
     + '.bmba-wrap *{box-sizing:border-box}'
-    + '.bmba-box{width:100%;max-width:440px;background:#12121e;border:1px solid rgba(200,169,96,.22);border-radius:18px;padding:26px 22px 22px;box-shadow:0 20px 60px rgba(0,0,0,.5);margin:auto}'
+    + '.bmba-box{width:100%;max-width:440px;background:var(--couleur-surface);border:1px solid rgba(242,169,59,.22);border-radius:18px;padding:26px 22px 22px;box-shadow:0 20px 60px rgba(0,0,0,.5);margin:auto}'
     + '.bmba-box.large{max-width:680px}'
-    + '.bmba-logo{font-family:"Playfair Display",Georgia,serif;font-size:24px;font-weight:800;text-align:center;margin-bottom:2px}.bmba-logo span{color:#C8A960}'
-    + '.bmba-sub{text-align:center;color:#8b8b9e;font-size:13px;margin-bottom:18px}'
-    + '.bmba-h{font-size:18px;font-weight:700;margin:6px 0 6px}.bmba-p{color:#b9b4a8;font-size:14px;margin:0 0 14px}'
-    + '.bmba-step{display:flex;gap:6px;justify-content:center;margin-bottom:16px}.bmba-step i{width:8px;height:8px;border-radius:50%;background:rgba(200,169,96,.25)}.bmba-step i.on{background:#C8A960}'
-    + '.bmba-in{width:100%;padding:13px 14px;border-radius:12px;border:1px solid rgba(200,169,96,.25);background:#0a0a12;color:#fff;font:inherit;font-size:16px;outline:none;margin-bottom:10px}.bmba-in:focus{border-color:#C8A960}'
+    + '.bmba-logo{font-family:"Playfair Display",Georgia,serif;font-size:24px;font-weight:800;text-align:center;margin-bottom:2px}.bmba-logo span{color:var(--couleur-principale)}'
+    + '.bmba-sub{text-align:center;color:var(--couleur-texte-secondaire);font-size:13px;margin-bottom:18px}'
+    + '.bmba-h{font-size:18px;font-weight:700;margin:6px 0 6px}.bmba-p{color:var(--couleur-texte-secondaire);font-size:14px;margin:0 0 14px}'
+    + '.bmba-step{display:flex;gap:6px;justify-content:center;margin-bottom:16px}.bmba-step i{width:8px;height:8px;border-radius:50%;background:rgba(242,169,59,.25)}.bmba-step i.on{background:var(--couleur-principale)}'
+    + '.bmba-in{width:100%;padding:13px 14px;border-radius:12px;border:1px solid rgba(242,169,59,.25);background:var(--couleur-fond);color:var(--couleur-texte);font:inherit;font-size:16px;outline:none;margin-bottom:10px}.bmba-in:focus{border-color:var(--couleur-focus)}'
     + '.bmba-in.code{text-align:center;letter-spacing:6px;font-size:22px;font-weight:700}'
-    + '.bmba-btn{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#C8A960,#B89730);color:#0a0a12;font:inherit;font-weight:700;font-size:15px;cursor:pointer}.bmba-btn:disabled{opacity:.55;cursor:wait}'
-    + '.bmba-btn.sec{background:transparent;color:#C8A960;border:1px solid rgba(200,169,96,.35);margin-top:8px}'
+    + '.bmba-btn{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--couleur-principale),var(--couleur-principale-survol));color:var(--couleur-fond);font:inherit;font-weight:700;font-size:15px;cursor:pointer}.bmba-btn:disabled{opacity:.55;cursor:wait}'
+    + '.bmba-btn.sec{background:transparent;color:var(--couleur-principale);border:1px solid var(--couleur-principale);margin-top:8px}'
     + '.bmba-choix{display:block;text-align:center;text-decoration:none;margin-bottom:8px}'
-    + '.bmba-q{font-size:13px;font-weight:700;color:#E8D5A3;margin:14px 0 8px}.bmba-q:first-of-type{margin-top:4px}'
-    + '.bmba-note{font-size:12.5px;color:#8b8b9e;margin:8px 0 0;line-height:1.5}'
-    + '.bmba-err{color:#ff6b6b;font-size:13px;min-height:18px;margin:6px 0 4px}.bmba-ok{color:#4ade80;font-size:13px;margin:6px 0}'
-    + '.bmba-foot{margin-top:16px;font-size:12px;color:#5a5a72;text-align:center;line-height:1.6}.bmba-foot a{color:#C8A960;text-decoration:none}'
-    + '.bmba-nda{max-height:44vh;overflow:auto;padding:14px 16px;background:#0a0a12;border:1px solid rgba(200,169,96,.18);border-radius:12px;font-size:13.5px;line-height:1.6;color:#d8d3c7;white-space:pre-wrap;margin-bottom:10px}'
-    + '.bmba-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:8px 0 12px;cursor:pointer}.bmba-check input{width:18px;height:18px;accent-color:#C8A960;margin-top:2px;flex:none}'
-    + '.bmba-user{position:fixed;left:12px;bottom:52px;z-index:100040;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:12px "DM Sans",system-ui,sans-serif;color:#8b8b9e;background:rgba(18,18,30,.9);border:1px solid rgba(200,169,96,.2);border-radius:99px;padding:5px 10px;display:flex;gap:8px;align-items:center;backdrop-filter:blur(8px)}'
-    + '.bmba-user b{color:#E8D5A3;font-weight:600}.bmba-user button{background:none;border:none;color:#C8A960;cursor:pointer;font:inherit;padding:0}'
-    + '.bmba-menu{position:fixed;z-index:100045;left:10px;background:#12121e;color:#f0ece2;border:1px solid rgba(200,169,96,.3);border-radius:12px;padding:10px 12px;font:13px/1.6 "DM Sans",system-ui,sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.5);min-width:200px}.bmba-menu b{color:#E8D5A3;display:block;margin-bottom:4px}.bmba-menu a,.bmba-menu button{display:block;width:100%;text-align:left;background:none;border:0;color:#C8A960;font:inherit;padding:6px 0;cursor:pointer;text-decoration:none}'
+    + '.bmba-q{font-size:13px;font-weight:700;color:var(--couleur-principale);margin:14px 0 8px}.bmba-q:first-of-type{margin-top:4px}'
+    + '.bmba-note{font-size:12.5px;color:var(--couleur-texte-secondaire);margin:8px 0 0;line-height:1.5}'
+    + '.bmba-err{color:var(--couleur-erreur);font-size:13px;min-height:18px;margin:6px 0 4px}.bmba-ok{color:var(--couleur-succes);font-size:13px;margin:6px 0}'
+    + '.bmba-foot{margin-top:16px;font-size:12px;color:var(--couleur-texte-secondaire);text-align:center;line-height:1.6}.bmba-foot a{color:var(--couleur-principale);text-decoration:none}'
+    + '.bmba-nda{max-height:44vh;overflow:auto;padding:14px 16px;background:var(--couleur-fond);border:1px solid rgba(242,169,59,.18);border-radius:12px;font-size:13.5px;line-height:1.6;color:var(--couleur-texte);white-space:pre-wrap;margin-bottom:10px}'
+    + '.bmba-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:8px 0 12px;cursor:pointer}.bmba-check input{width:18px;height:18px;accent-color:var(--couleur-principale);margin-top:2px;flex:none}'
+    + '.bmba-user{position:fixed;left:12px;bottom:52px;z-index:100040;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:12px "DM Sans",system-ui,sans-serif;color:var(--couleur-texte-secondaire);background:rgba(18,18,30,.9);border:1px solid rgba(242,169,59,.2);border-radius:99px;padding:5px 10px;display:flex;gap:8px;align-items:center;backdrop-filter:blur(8px)}'
+    + '.bmba-user b{color:var(--couleur-principale);font-weight:600}.bmba-user button{background:none;border:none;color:var(--couleur-principale);cursor:pointer;font:inherit;padding:0}'
+    + '.bmba-menu{position:fixed;z-index:100045;left:10px;background:var(--couleur-surface);color:var(--couleur-texte);border:1px solid rgba(242,169,59,.3);border-radius:12px;padding:10px 12px;font:13px/1.6 "DM Sans",system-ui,sans-serif;box-shadow:0 8px 28px rgba(0,0,0,.5);min-width:200px}.bmba-menu b{color:var(--couleur-principale);display:block;margin-bottom:4px}.bmba-menu a,.bmba-menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--couleur-principale);font:inherit;padding:6px 0;cursor:pointer;text-decoration:none}'
+    + '.bmba-wrap :focus-visible,.bmba-user :focus-visible,.bmba-menu :focus-visible{outline:3px solid var(--couleur-focus);outline-offset:2px}'
     + '@media(max-width:640px){.bmba-box{padding:22px 16px 18px;border-radius:14px}.bmba-user{left:54px;width:38px;height:38px;padding:0;border-radius:50%;justify-content:center;font-size:17px;max-width:none;overflow:visible}.bmba-user span,.bmba-user a,.bmba-user button{display:none}.bmba-user::before{content:"👤"}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -132,8 +138,8 @@
   function ecranInvitation(){
     var d=etat.demande, txt;
     if(d==='en_attente') txt='Votre demande pour <b>'+etat.email+'</b> est <b>en attente d’approbation</b>. Vous recevrez un courriel dès qu’elle sera validée.';
-    else if(d==='refusee') txt='La demande pour <b>'+etat.email+'</b> n’a pas été retenue. Une erreur ? Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
-    else if(d==='activee') txt='Cet accès est déjà activé sur un autre compte. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.';
+    else if(d==='refusee') txt='La demande pour <b>'+etat.email+'</b> n’a pas été retenue. Une erreur ? Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:var(--couleur-principale)">contact@beemyblood.ch</a>.';
+    else if(d==='activee') txt='Cet accès est déjà activé sur un autre compte. Écrivez à <a href="mailto:contact@beemyblood.ch" style="color:var(--couleur-principale)">contact@beemyblood.ch</a>.';
     else txt='L’adresse <b>'+etat.email+'</b> attend encore une invitation. Vous avez fait votre demande avec une autre adresse ? Reconnectez-vous avec celle-ci. Sinon, demandez un accès.';
     ecran(etapes(2)+'<div class="bmba-h">Accès pas encore ouvert</div><p class="bmba-p">'+txt+'</p>'
       +(d?'' : '<a class="bmba-btn" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'acces/'+(ESPACE!=='connexion'?'?espace='+ESPACE:'')+'">Demander un accès</a>')
@@ -179,7 +185,7 @@
 
   function ecranRefus(){
     var r = rolesDe(etat).filter(function(x){ return x!=='admin'; });
-    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">'+(r.length? 'Votre accès couvre '+r.map(function(x){return LIBELLES[x];}).join(', ')+'.' : 'Votre compte attend encore un espace approuvé.')+' Pour l’étendre, écrivez à <a href="mailto:contact@beemyblood.ch" style="color:#C8A960">contact@beemyblood.ch</a>.</p>'
+    ecran('<div class="bmba-h">Espace non autorisé</div><p class="bmba-p">'+(r.length? 'Votre accès couvre '+r.map(function(x){return LIBELLES[x];}).join(', ')+'.' : 'Votre compte attend encore un espace approuvé.')+' Pour l’étendre, écrivez à <a href="mailto:contact@beemyblood.ch" style="color:var(--couleur-principale)">contact@beemyblood.ch</a>.</p>'
       + r.map(function(x){ return '<a class="bmba-btn bmba-choix" href="'+RACINE+CHEMINS[x]+'">'+ICONES[x]+' '+LIBELLES[x]+'</a>'; }).join('')
       +'<a class="bmba-btn sec" style="display:block;text-align:center;text-decoration:none" href="'+RACINE+'">Retour à l’accueil</a><button class="bmba-btn sec" id="bmbaOut">Se déconnecter</button>');
     document.getElementById('bmbaOut').onclick = deconnecter;
@@ -227,7 +233,7 @@
     document.body.style.overflow='';
     if(!document.querySelector('.bmba-user')){
       var u=document.createElement('div'); u.className='bmba-user';
-      u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b>'+(etat.developpeur?' · dev':'')+'</span><a href="'+RACINE+'connexion/" title="Changer d’espace" style="color:#C8A960;text-decoration:none">Espaces</a><button type="button" title="Se déconnecter">Quitter</button>';
+      u.innerHTML='<span>👤 <b>'+(etat.nom||etat.email)+'</b>'+(etat.developpeur?' · dev':'')+'</span><a href="'+RACINE+'connexion/" title="Changer d’espace" style="color:var(--couleur-principale);text-decoration:none">Espaces</a><button type="button" title="Se déconnecter">Quitter</button>';
       u.querySelector('button').onclick=deconnecter; document.body.appendChild(u);
       // sur mobile la pastille ouvre un petit menu (nom, espaces, quitter)
       u.addEventListener('click', function(ev){ if(window.innerWidth>640) return; if(ev.target.tagName==='BUTTON'||ev.target.tagName==='A') return; var old=document.querySelector('.bmba-menu'); if(old){ old.remove(); return; } var m=document.createElement('div'); m.className='bmba-menu'; m.innerHTML='<b>'+(etat.nom||etat.email)+'</b><a href="'+RACINE+'connexion/">Changer d’espace</a><button type="button">Se déconnecter</button>'; m.querySelector('button').onclick=deconnecter; m.style.bottom=(parseInt(getComputedStyle(u).bottom,10)+46)+'px'; document.body.appendChild(m); setTimeout(function(){ document.addEventListener('click', function h(e2){ if(!m.contains(e2.target)&&e2.target!==u){ m.remove(); document.removeEventListener('click',h); } }); },0); });

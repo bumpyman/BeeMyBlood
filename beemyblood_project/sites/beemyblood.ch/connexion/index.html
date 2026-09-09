@@ -6,11 +6,13 @@
 <meta name="robots" content="noindex">
 <title>BeeMyBlood™ — Se connecter</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../theme.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a12;color:#f0ece2;font-family:'DM Sans',sans-serif;min-height:100vh}
-.fallback{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;color:#8b8b9e;font-size:14px}
-.fallback a{color:#C8A960}
+/* Reste volontairement sombre, cohérent avec la modale de connexion (acces.js) qui la remplace aussitôt. */
+body{--couleur-fond:#0D0D14;--couleur-texte:#E8E6E3;--couleur-texte-secondaire:#ADADC0;--couleur-principale:#FF8A80;background:var(--couleur-fond);color:var(--couleur-texte);font-family:'DM Sans',sans-serif;min-height:100vh}
+.fallback{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;color:var(--couleur-texte-secondaire);font-size:14px}
+.fallback a{color:var(--couleur-principale)}
 </style>
 </head>
 <body>
