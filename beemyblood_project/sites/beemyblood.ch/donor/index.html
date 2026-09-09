@@ -44,7 +44,7 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 a{color:var(--couleur-principale-survol);text-decoration:none}a:hover{text-decoration:underline}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--couleur-bordure);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;overflow:visible}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--couleur-bordure);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;overflow:visible}
 .nav-brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--couleur-principale);cursor:pointer;flex-shrink:0}
 .nav-brand .bee{font-size:22px;filter:drop-shadow(0 0 8px rgba(245,197,24,.4))}
 .nav-home-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid rgba(242,169,59,.15);color:var(--couleur-texte-secondaire);font-size:15px;text-decoration:none;transition:all .2s;flex-shrink:0}
@@ -259,7 +259,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .mob-item-icon{font-size:28px}
 .mob-item-label{font-size:13px;font-weight:600;color:var(--couleur-texte-secondaire);text-align:center}
 .mob-item.active .mob-item-label{color:var(--couleur-principale)}
-.mob-section-label{font-size:12px;font-weight:600;color:var(--couleur-texte-secondaire);text-transform:uppercase;letter-spacing:1px;padding:10px 4px 4px}
+.mob-section-label{font-size:12px;font-weight:600;color:var(--couleur-texte-inverse);text-transform:uppercase;letter-spacing:1px;padding:10px 4px 4px}
 @media(max-height:700px){.mob-item{padding:8px 4px;gap:2px}.mob-item-icon{font-size:22px}.mob-item-label{font-size:11px}.mob-menu-grid{gap:6px}.mob-section-label{padding:6px 4px 2px;font-size:11px}.mob-menu{padding:8px}}
 
 
