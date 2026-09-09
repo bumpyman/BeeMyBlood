@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>BeeMyBlood™ — Flux donneurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--slate-900:#0a0a12;--slate-800:#12121e;--slate-700:#26263a;--slate-500:#5a5a72;--slate-400:#8b8b9e;--amber-400:#E8D5A3;--amber-500:#C8A960;--green-400:#4ade80;--blue-400:#60a5fa;--red-400:#ff6b6b;--purple-400:#c084fc;--emerald-400:#34d399}
+html,body{height:100%}
+body{background:var(--slate-900);color:#f0ece2;font-family:'DM Sans',system-ui,sans-serif;display:flex;flex-direction:column;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 32px;border-bottom:1px solid rgba(200,169,96,.15)}
+.brand{font-family:'Playfair Display',serif;font-size:26px;font-weight:800}.brand span{color:var(--amber-500)}
+.brand small{display:block;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--slate-400)}
+.clock{font-family:'Playfair Display',serif;font-size:44px;font-weight:800;line-height:1}
+main{flex:1;display:grid;grid-template-columns:1.2fr 1fr;gap:20px;padding:22px 32px}
+.col{background:var(--slate-800);border:1px solid var(--slate-700);border-radius:20px;padding:22px 24px;display:flex;flex-direction:column;min-height:0}
+.col h2{font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-400);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.col h2 b{font-size:14px;color:var(--amber-400);text-transform:none;letter-spacing:0;font-weight:600}
+.list{display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.row{display:grid;grid-template-columns:56px 1fr auto;gap:16px;align-items:center;padding:14px 18px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);font-size:22px}
+.row .n{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:var(--amber-400);text-align:center}
+.row .who{font-weight:700}.row .who small{display:block;font-size:14px;color:var(--slate-400);font-weight:500;margin-top:2px}
+.row .st{font-size:15px;font-weight:700;padding:6px 12px;border-radius:8px;white-space:nowrap}
+.st.att{background:rgba(232,213,163,.15);color:var(--amber-400)}.st.q{background:rgba(192,132,252,.18);color:var(--purple-400)}.st.p{background:rgba(255,107,107,.18);color:var(--red-400)}.st.next{background:rgba(74,222,128,.2);color:var(--green-400)}
+.row.next{border-color:rgba(74,222,128,.5);background:rgba(74,222,128,.06)}
+.lits{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.lit{border-radius:14px;padding:16px;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);min-height:96px}
+.lit.libre{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.25)}
+.lit span{display:block;font-size:13px;color:var(--slate-400);text-transform:uppercase;letter-spacing:.08em}
+.lit b{display:block;font-size:24px;margin-top:6px}.lit small{font-size:14px;color:var(--slate-400)}
+.msg{margin-top:auto;padding-top:18px;font-size:18px;color:var(--slate-400);line-height:1.5}.msg b{color:#f0ece2}
+footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;justify-content:space-between;border-top:1px solid rgba(200,169,96,.1)}
+.vide{color:var(--slate-400);font-size:18px;padding:20px 0}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:14px}header{padding:14px}.clock{font-size:32px}.row{font-size:18px;grid-template-columns:44px 1fr auto;padding:12px}.row .n{font-size:22px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">🐝 <span>BeeMyBlood</span>™<small id="lieu">Flux donneurs · Centre de transfusion</small></div>
+  <div class="clock" id="clock">--:--</div>
+</header>
+<main>
+  <section class="col">
+    <h2>File d’attente <b id="attenteInfo"></b></h2>
+    <div class="list" id="file"></div>
+    <div class="msg">Cet écran n’affiche aucun nom. Vous êtes appelé·e par le <b>code à quatre caractères</b> remis à l’accueil. <b>Merci pour votre don</b> : une poche peut aider jusqu’à trois personnes.</div>
+  </section>
+  <section class="col">
+    <h2>Lits de prélèvement <b id="litsInfo"></b></h2>
+    <div class="lits" id="lits"></div>
+    <div class="msg" id="conseil">Buvez un verre d’eau avant le don et prévoyez un moment de repos après.</div>
+  </section>
+</main>
+<footer><span id="maj">Mise à jour automatique toutes les 20 secondes</span><span id="mode"></span></footer>
+
+<script>
+  // région suivie par l'écran : ?region=geneve (par défaut). cycle.js lit ces deux globales.
+  var selectedRegion = (new URLSearchParams(location.search).get('region')) || 'geneve';
+  var currentTab = 'salle';
+  var regions = { geneve:{name:'Genève', site:'CTS des HUG'}, vaud:{name:'Vaud', site:'Transfusion Interrégionale CRS'}, valais:{name:'Valais', site:'Transfusion Interrégionale CRS'}, fribourg:{name:'Fribourg'}, neuchatel:{name:'Neuchâtel'}, jura:{name:'Jura'}, berne:{name:'Berne', site:'Transfusion Interrégionale CRS'}, zurich:{name:'Zürich', site:'Blutspende Zürich'}, tessin:{name:'Tessin'} };
+  function showToast(){}
+</script>
+<script src="../cycle.js"></script>
+<script>
+(function(){
+  var CONSEILS = ['Buvez un verre d’eau avant le don et prévoyez un moment de repos après.','Après le don, gardez le pansement deux heures et évitez les efforts intenses aujourd’hui.','Un don de sang total dure une dizaine de minutes ; l’ensemble du parcours, environ quarante-cinq minutes.','Les hommes peuvent donner tous les 84 jours, les femmes tous les 112 jours.','Pensez à réserver votre prochain rendez-vous en ligne avant de partir.'];
+  var ci = 0;
+  function rendre(F, mode){
+    var r = regions[selectedRegion]||{name:selectedRegion};
+    document.getElementById('lieu').textContent = 'Flux donneurs · '+(r.site? r.site+' · ' : '')+r.name;
+    document.getElementById('mode').textContent = mode==='serveur' ? 'Agenda du centre, en direct · aucun nom n’est transmis à cet écran' : 'Démonstration · aucun nom n’est affiché';
+    var lits = F.lits||4, enCours = F.encours||[], file = F.file||[], libres = Math.max(0, lits-enCours.length);
+    var html = file.map(function(x,i){ var next = i<libres; var attente = next ? 'à vous' : '≈ '+(8+Math.ceil((i-libres+1)/Math.max(1,lits))*12)+' min';
+      return '<div class="row'+(next?' next':'')+'"><div class="n">'+(i+1)+'</div><div class="who">Code '+x.code+'</div><span class="st '+(next?'next':(x.statut==='questionnaire'?'q':'att'))+'">'+(next?'Prochain·e, présentez-vous':(x.statut==='questionnaire'?'Questionnaire · '+attente:'En attente · '+attente))+'</span></div>'; }).join('');
+    document.getElementById('file').innerHTML = html || '<div class="vide">Personne n’attend en ce moment. Bienvenue !</div>';
+    document.getElementById('attenteInfo').textContent = file.length ? file.length+' personne'+(file.length>1?'s':'')+' · attente estimée '+(8+Math.ceil(Math.max(0,file.length-libres)/Math.max(1,lits))*12)+' min' : '';
+    var lh = ''; for(var l=1;l<=lits;l++){ var x = enCours.filter(function(y){return y.lit===l;})[0]; lh += '<div class="lit'+(x?'':' libre')+'"><span>Lit '+l+'</span>'+(x?'<b>Code '+x.code+'</b><small>prélèvement en cours</small>':'<b>Libre</b><small>prêt à accueillir</small>')+'</div>'; }
+    document.getElementById('lits').innerHTML = lh;
+    document.getElementById('litsInfo').textContent = enCours.length+' sur '+lits+' occupés';
+  }
+  function tick(){ var d=new Date(); document.getElementById('clock').textContent = d.toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit'}); }
+  function rafraichir(){ if(!window.BeeCycle || !BeeCycle.flux){ setTimeout(rafraichir, 1000); return; } BeeCycle.flux(function(F, mode){ rendre(F, mode); document.getElementById('maj').textContent = 'Mis à jour à '+new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' · toutes les 20 secondes'; }); }
+  tick(); setInterval(tick, 10000);
+  rafraichir(); setInterval(rafraichir, 20000);
+  setInterval(function(){ ci=(ci+1)%CONSEILS.length; document.getElementById('conseil').textContent = CONSEILS[ci]; }, 15000);
+  if(window.BeeAcces && window.BeeAcces.onDeverrouille) window.BeeAcces.onDeverrouille(function(){ rafraichir(); });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../../acces.js" data-espace="pro" data-racine="../../" defer></script>
+</body>
+</html>

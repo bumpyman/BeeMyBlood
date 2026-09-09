@@ -367,6 +367,20 @@ begin
   insert into public.cd_evenements (region, type, ref) values (left(coalesce(p->>'region','inconnue'), 40), v_type, left(coalesce(p->>'ref',''), 200));
 end $$;
 
+-- ---------- écran de salle d'attente (Flux donneurs) : codes d'appel et statuts seulement, jamais de nom ----------
+create or replace function public.cd_flux(p_region text) returns jsonb
+language sql stable security definer set search_path = public, extensions as $$
+  select case when public.cd_est_pro() then jsonb_build_object(
+    'lits', (select lits from public.cd_parametres where region = p_region),
+    'file', (select coalesce(jsonb_agg(jsonb_build_object('code', upper(right(replace(r.id::text, '-', ''), 4)), 'statut', r.statut, 'depuis', r.maj_le) order by r.maj_le), '[]'::jsonb)
+             from public.cd_reservations r where r.region = p_region and r.jour = current_date and r.statut in ('arrive','questionnaire')),
+    'encours', (select coalesce(jsonb_agg(jsonb_build_object('code', upper(right(replace(r.id::text, '-', ''), 4)), 'lit', r.lit) order by r.lit), '[]'::jsonb)
+             from public.cd_reservations r where r.region = p_region and r.jour = current_date and r.statut = 'prelevement'),
+    'serveur', now()
+  ) else null end
+$$;
+grant execute on function public.cd_flux(text) to authenticated;
+
 -- ---------- export d'une période ----------
 create or replace function public.cd_exporter(p_region text, p_du date, p_au date) returns jsonb
 language sql stable security definer set search_path = public, extensions as $$

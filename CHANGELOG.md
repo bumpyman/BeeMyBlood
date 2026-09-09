@@ -7,6 +7,9 @@
 - pro/cycle.js now reads and writes through these functions, with a local demonstration fallback and a « enregistré / démonstration locale » badge.
 - Real booking by redirection: « Réserver » on every published collection in the donor space and on the OneDoc links, with anonymous click counting shown in the professional agenda.
 
+### Flux donneurs (waiting-room screen)
+- New page pro/salle/ for a large screen or a second workstation: queue positions, estimated wait and bed occupancy, refreshed every 20 s. People are shown only by the four-character call code handed at reception; the screen receives codes and statuses only (RPC cd_flux), never names. The reception screen displays the call code to hand over.
+
 ### Digital twin wording
 - All screens rewritten in plain professional French: numbered steps (Scénario, Résultats, Comparaison, Poste de régulation), an introduction and a guide per screen, « numéro de tirage », « nombre de simulations », « marge d’incertitude », « précautions de lecture »; glossary entries added (marge d’incertitude, mise en régime, événement simulé, poste de régulation, substitution ABO, jours de couverture).
 
