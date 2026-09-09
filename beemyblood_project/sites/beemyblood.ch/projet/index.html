@@ -86,6 +86,14 @@ section{padding:56px 24px}
 .eco{padding:18px 28px;border-radius:12px;background:var(--dark-card);border:1px solid rgba(200,169,96,.08);font-size:16px;font-weight:600;color:var(--text-dim);transition:all .3s;text-decoration:none}
 .eco:hover{border-color:rgba(200,169,96,.2);color:var(--text)}
 .eco span{margin-right:6px}
+.don{max-width:640px;margin:28px auto 0;padding:22px 24px;border-radius:var(--radius);background:var(--dark-card);border:1px solid rgba(200,169,96,.18);text-align:left}
+.don-t{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;margin-bottom:8px}
+.don p{font-size:14.5px;color:var(--text-dim);line-height:1.6;margin-bottom:14px}
+.don-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:14px;line-height:1.6;color:var(--text)}
+.don-grid span{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-top:8px}.don-grid span:first-child{margin-top:0}
+.don-grid code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;color:var(--gold-light);letter-spacing:.5px;display:block}
+.don-copy{margin-top:14px;padding:10px 18px;border-radius:10px;border:1px solid rgba(200,169,96,.35);background:transparent;color:var(--gold);font:inherit;font-size:14px;font-weight:600;cursor:pointer}.don-copy:hover{background:rgba(200,169,96,.1)}
+@media(max-width:480px){.don{padding:18px 16px}.don-grid{grid-template-columns:1fr}}
 .infos{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px}.infos a{padding:10px 18px;border-radius:99px;border:1px solid rgba(200,169,96,.25);font-size:14px;font-weight:600;color:var(--gold)}.infos a:hover{background:rgba(200,169,96,.1)}
 
 /* COMPARISON */
@@ -258,6 +266,15 @@ footer a{color:var(--gold)}
       <a href="https://github.com/bumpyman/BeeMyBlood" target="_blank" rel="noopener" class="eco"><span>💻</span>Code source et tickets (GitHub)</a>
       <a href="mailto:contact@beemyblood.ch" class="eco"><span>🤝</span>Proposer un partenariat</a>
       <a href="https://doi.org/10.5281/zenodo.22667009" target="_blank" rel="noopener" class="eco"><span>📚</span>Citer le projet (DOI)</a>
+    </div>
+    <div class="don reveal reveal-d3" id="don">
+      <div class="don-t">💛 Soutenir le projet</div>
+      <p>Les dons financent le développement, l’hébergement et les tests avec les centres partenaires. Ils sont reçus par la HES-SO Genève pour le projet BeeMyBlood.</p>
+      <div class="don-grid">
+        <div><span>En faveur de</span>Projet BeeMyBlood<br>HES-SO Genève – HEG<br>Rue de la Tambourine 17, 1227 Carouge</div>
+        <div><span>IBAN</span><code>CH09 0900 0000 1760 7292 9</code><span>BIC</span>POFICHBEXXX<br>PostFinance SA, Mingerstrasse 20, 3030 Berne</div>
+      </div>
+      <button type="button" class="don-copy" onclick="navigator.clipboard&&navigator.clipboard.writeText('CH0909000000176072929').then(function(){var b=document.querySelector('.don-copy');b.textContent='IBAN copié';setTimeout(function(){b.textContent='Copier l’IBAN';},2000);})">Copier l’IBAN</button>
     </div>
     <div class="infos reveal reveal-d3"><a href="faq/">❓ FAQ</a><a href="confidentialite/">🔒 Confidentialité</a><a href="mentions-legales/">⚖️ Mentions légales</a></div>
   </div>
