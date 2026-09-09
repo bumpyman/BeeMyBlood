@@ -125,10 +125,15 @@ footer a{color:var(--couleur-principale)}
 </head>
 <body>
 
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+
+<header>
 <nav>
   <div class="nav-brand" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="bee">🐝</span> BeeMyBlood™</div>
 </nav>
+</header>
 
+<main id="contenu" tabindex="-1">
 <section class="hero">
   <h1>🐝 <span class="gold">BeeMyBlood</span><sup style="font-size:.3em;color:var(--couleur-texte-secondaire);-webkit-text-fill-color:var(--couleur-texte-secondaire)">™</sup></h1>
   <p class="hero-sub">La médecine transfusionnelle, augmentée.</p>
@@ -137,17 +142,17 @@ footer a{color:var(--couleur-principale)}
   <div class="portals">
     <a href="donor/" class="portal">
       <div class="portal-icon">🩸</div>
-      <h3>Je donne</h3>
+      <h2>Je donne</h2>
       <p>Espace donneur·se</p>
     </a>
     <a href="receiver/" class="portal">
       <div class="portal-icon">💛</div>
-      <h3>Je reçois</h3>
+      <h2>Je reçois</h2>
       <p>Espace receveur·se</p>
     </a>
     <a href="pro/" class="portal">
       <div class="portal-icon">🏥</div>
-      <h3>Je soigne</h3>
+      <h2>Je soigne</h2>
       <p>Espace professionnel</p>
     </a>
   </div>
@@ -187,6 +192,7 @@ footer a{color:var(--couleur-principale)}
     </div>
   </a>
 </section>
+</main>
 
 <footer>
   © 2026 <strong>BeeMyBlood™</strong> · <a href="https://www.convivens.ch" target="_blank" rel="noopener">Convivens Lab</a>, <a href="https://www.hesge.ch/heg/" target="_blank" rel="noopener">HEG Genève</a> · <a href="mailto:contact@beemyblood.ch">contact@beemyblood.ch</a>

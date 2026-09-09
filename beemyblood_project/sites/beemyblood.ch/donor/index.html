@@ -1118,6 +1118,8 @@ body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb
 </head>
 <body>
 
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--couleur-fond);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
@@ -1211,6 +1213,7 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 
+<header>
 <nav>
   <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
@@ -1261,6 +1264,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
   </div>
 </nav>
+</header>
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
 
 <!-- MOBILE MENU -->
@@ -1292,6 +1296,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
   <span onclick="go('hero')" style="cursor:pointer;color:var(--couleur-principale)">🏠 Accueil</span> <span style="margin:0 4px;color:var(--couleur-texte-secondaire)">›</span> <span id="bc-current" style="color:var(--couleur-texte)"></span>
 </div>
+<main id="contenu" tabindex="-1">
 <!-- ==================== HERO ==================== -->
 <div class="view active" id="v-hero">
 <div class="hero" style="position:relative">
@@ -5167,6 +5172,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
   <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
 </div>
+</main>
 
 <!-- FOOTER -->
 <footer class="app-footer">
@@ -7742,7 +7748,7 @@ function generateHUGPDF(){
     if(sub)answers[q.n+'_sub']=sub.value;
   });
   var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Questionnaire Don du Sang - HUG</title>';
-  html+='<style>@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
+  html+='<style>:root{--couleur-succes:#1E7B34;--couleur-erreur:#A11B14;--couleur-texte-inverse:#ffffff}@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
   html+='h1{font-size:14px;text-align:center;margin:5px 0}h2{font-size:11px;margin:8px 0 4px;color:var(--couleur-succes);border-bottom:1px solid var(--couleur-succes);padding-bottom:2px}';
   html+='.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--couleur-succes);padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
   html+='.info{font-size:8px;color:#666;margin:2px 0}.row{display:flex;gap:8px;margin:2px 0;flex-wrap:wrap}.field{border-bottom:1px dotted #999;min-width:100px;padding:1px 3px;flex:1}';
