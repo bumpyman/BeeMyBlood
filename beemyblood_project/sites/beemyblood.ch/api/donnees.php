@@ -1,7 +1,7 @@
 <?php
 /**
  * BeeMyBlood — données du jour (stocks officiels, collectes, actualités)
- * GET /api/donnees.php  → JSON, mis en cache 6 heures dans api/cache/.
+ * GET /api/donnees.php  → JSON, mis en cache 1 heure dans api/cache/.
  *
  * Sources :
  *  - Stocks : API publique du baromètre de Transfusion CRS Suisse
@@ -18,7 +18,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Cache-Control: public, max-age=900');
 
-$TTL      = 6 * 3600;                       // durée de vie du cache
+$TTL      = 3600;                           // durée de vie du cache
 $CACHE    = __DIR__ . '/cache/donnees.json';
 $UA       = 'Mozilla/5.0 (compatible; BeeMyBlood/0.3; +https://beemyblood.ch; contact@beemyblood.ch)';
 $FORCE    = isset($_GET['force']) && $_GET['force'] === '1';
@@ -42,7 +42,7 @@ $NIVEAUX = [
 ];
 
 // ---------- cache ----------
-// cache valide : moins de 6 h ET plus récent que ce script (un nouveau donnees.php invalide le cache tout seul)
+// cache valide : moins de 1 h ET plus récent que ce script (un nouveau donnees.php invalide le cache tout seul)
 if (!$FORCE && is_file($CACHE) && (time() - filemtime($CACHE)) < $TTL && filemtime($CACHE) >= filemtime(__FILE__)) {
     readfile($CACHE);
     exit;

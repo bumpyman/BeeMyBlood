@@ -52,7 +52,7 @@ beemyblood_project/sites/beemyblood.ch/   # deployable web root (upload as-is to
 ├── acces/index.html           # public access request form (1 to 3 spaces)
 ├── connexion/index.html       # single login page, then choice of space
 ├── admin/index.html           # admin: approve requests, spaces, signatures, journal
-├── api/donnees.php            # daily data: official stock barometer, collection dates per canton, HUG list, Swiss news (cached 6 h)
+├── api/donnees.php            # daily data: official stock barometer, collection dates per canton, HUG list, Swiss news (cached 1 h)
 ├── config.example.php         # copy to config.php and add your Anthropic API key
 └── alpha_index.html, old_index.html, index_landing_classic.html   # earlier versions
 ```
@@ -78,13 +78,13 @@ For local frontend work you can open the HTML files directly or serve the folder
 
 ### Daily data cache
 
-`api/donnees.php` fetches the official stock barometer, the HUG collection calendar and the news feed, and keeps the result for 6 hours in `api/cache/donnees.json` (created by PHP, git-ignored). After uploading a new `donnees.php`, or whenever you want fresh data right away, open once:
+`api/donnees.php` fetches the official stock barometer, the HUG collection calendar and the news feed, and keeps the result for 1 hour in `api/cache/donnees.json` (created by PHP, git-ignored). After uploading a new `donnees.php`, or whenever you want fresh data right away, open once:
 
 ```bash
 curl -s "https://beemyblood.ch/api/donnees.php?force=1" | head -c 300
 ```
 
-Otherwise the change shows up at the latest 6 hours later. If the cache folder is not writable on the server, everything still works, just without caching.
+Otherwise the change shows up at the latest 1 hour later. If the cache folder is not writable on the server, everything still works, just without caching.
 
 ## Data and privacy
 
