@@ -31,6 +31,10 @@
   --couleur-avertissement-faible: rgba(179,89,0,.10);
   --couleur-fonctionnelle-faible: rgba(11,114,185,.10);
 
+  /* Texte/icônes sur un fond intentionnellement sombre et fixe (ex. vignette vidéo,
+     bouton plein écran flottant), indépendant du thème clair/sombre de la page. */
+  --couleur-texte-inverse: #ffffff;
+
   /* Échelle de texte (étape 7) */
   --echelle-texte: 1;
 }
