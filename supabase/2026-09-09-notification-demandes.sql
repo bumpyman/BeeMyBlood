@@ -12,13 +12,13 @@ create or replace function public.bmb_notifier_demande() returns trigger
 language plpgsql security definer set search_path = public, extensions as $$
 begin
   perform net.http_post(
-    url     := 'https://beemyblood.ch/api/notif.php',
-    headers := jsonb_build_object('Content-Type', 'application/json', 'X-BMB-Secret', '__SECRET__'),
-    body    := jsonb_build_object(
+    url     => 'https://beemyblood.ch/api/notif.php',
+    headers => jsonb_build_object('Content-Type', 'application/json', 'X-BMB-Secret', '__SECRET__'),
+    body    => jsonb_build_object(
       'type', 'demande', 'id', new.id, 'nom', new.nom, 'email', new.email,
       'organisation', new.organisation, 'roles', to_jsonb(coalesce(new.roles, array[new.role])),
       'motif', new.motif, 'cree_le', new.cree_le),
-    timeout_milliseconds := 8000
+    timeout_milliseconds => 8000
   );
   return new;
 end $$;
