@@ -35,6 +35,8 @@ main{flex:1;display:grid;grid-template-columns:1.2fr 1fr;gap:20px;padding:22px 3
 .msg{margin-top:auto;padding-top:18px;font-size:18px;color:var(--slate-400);line-height:1.5}.msg b{color:#f0ece2}
 footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;justify-content:space-between;border-top:1px solid rgba(200,169,96,.1)}
 .vide{color:var(--slate-400);font-size:18px;padding:20px 0}
+.tip{margin-top:auto;display:flex;align-items:center;gap:18px;padding:18px 22px;border-radius:16px;background:linear-gradient(135deg,rgba(200,169,96,.16),rgba(200,169,96,.05));border:1px solid rgba(200,169,96,.4);font-size:24px;font-weight:600;line-height:1.35;color:#f5f0e4;transition:opacity .5s,transform .5s}.tip.out{opacity:0;transform:translateY(8px)}.tip-ico{font-size:44px;line-height:1;flex:none}
+@media(max-width:900px){.tip{font-size:18px;padding:14px 16px}.tip-ico{font-size:32px}}
 .code{display:inline-block;padding:6px 16px;border:2px solid var(--amber-500);border-radius:12px;background:rgba(200,169,96,.08);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:30px;font-weight:800;letter-spacing:.18em;color:var(--amber-400);line-height:1.2}
 .lit .code{font-size:22px;padding:4px 12px;margin-top:6px}
 @keyframes bmbIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -59,7 +61,7 @@ footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;just
   <section class="col">
     <h2>Lits de prélèvement <b id="litsInfo"></b></h2>
     <div class="lits" id="lits"></div>
-    <div class="msg" id="conseil">Buvez un verre d’eau avant le don et prévoyez un moment de repos après.</div>
+    <div class="tip" id="conseil"></div>
   </section>
 </main>
 <footer><span id="maj">Mise à jour automatique toutes les 20 secondes</span><span id="mode"></span></footer>
@@ -74,7 +76,7 @@ footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;just
 <script src="../cycle.js"></script>
 <script>
 (function(){
-  var CONSEILS = ['Buvez un verre d’eau avant le don et prévoyez un moment de repos après.','Après le don, gardez le pansement deux heures et évitez les efforts intenses aujourd’hui.','Un don de sang total dure une dizaine de minutes ; l’ensemble du parcours, environ quarante-cinq minutes.','Les hommes peuvent donner tous les 84 jours, les femmes tous les 112 jours.','Pensez à réserver votre prochain rendez-vous en ligne avant de partir.'];
+  var CONSEILS = [['💧','Buvez un grand verre d’eau avant le don, et encore après : cela aide le corps à récupérer.'],['🍲','Mangez quelque chose avant le don. Après, un bouillon, une collation et une boisson vous attendent.'],['🛋️','Après le don, restez assis·e un moment et évitez les efforts intenses aujourd’hui.'],['⏱️','Le prélèvement dure une dizaine de minutes ; le parcours complet, environ quarante-cinq minutes.'],['🩹','Gardez le pansement deux heures et évitez de porter des charges lourdes avec ce bras.'],['📅','Les hommes peuvent donner tous les 84 jours, les femmes tous les 112 jours. Réservez le prochain rendez-vous avant de partir.'],['💛','Une seule poche peut aider jusqu’à trois personnes. Merci d’être là.']];
   var ci = 0;
   var signature = '';
   function rendre(F, mode){
@@ -95,7 +97,8 @@ footer{padding:12px 32px;font-size:14px;color:var(--slate-500);display:flex;just
   function rafraichir(){ if(!window.BeeCycle || !BeeCycle.flux){ setTimeout(rafraichir, 1000); return; } BeeCycle.flux(function(F, mode){ rendre(F, mode); document.getElementById('maj').textContent = 'Mis à jour à '+new Date().toLocaleTimeString('fr-CH',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' · toutes les 20 secondes'; }); }
   tick(); setInterval(tick, 10000);
   rafraichir(); setInterval(rafraichir, 20000);
-  setInterval(function(){ ci=(ci+1)%CONSEILS.length; document.getElementById('conseil').textContent = CONSEILS[ci]; }, 15000);
+  function conseil(){ var el=document.getElementById('conseil'); el.classList.add('out'); setTimeout(function(){ ci=(ci+1)%CONSEILS.length; el.innerHTML='<span class="tip-ico">'+CONSEILS[ci][0]+'</span><span>'+CONSEILS[ci][1]+'</span>'; el.classList.remove('out'); }, 500); }
+  document.getElementById('conseil').innerHTML='<span class="tip-ico">'+CONSEILS[0][0]+'</span><span>'+CONSEILS[0][1]+'</span>'; setInterval(conseil, 12000);
   if(window.BeeAcces && window.BeeAcces.onDeverrouille) window.BeeAcces.onDeverrouille(function(){ rafraichir(); });
 })();
 </script>
