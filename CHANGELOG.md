@@ -12,6 +12,7 @@
 
 ### Landing page
 - Mission block rewritten (« Numériser la chaîne du sang, du donneur au patient ») and displayed as a full-width banner above the four squares.
+- « Soutenir le projet » link in the header, pointing to the donation block of the project page.
 
 ## v0.5.3 — 2026-09-09 — digital twin v2, centre operations, ideas from the Bachelor theses
 
