@@ -1,4 +1,7 @@
 <?php
+// Jamais d'avertissement HTML avant le JSON (PHP 8.5 chez Infomaniak)
+ini_set('display_errors', '0');
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING & ~E_NOTICE);
 /**
  * BeeMyBlood Pro — BeeBot Pro API
  * Proxy vers l'API Anthropic Claude pour les questions transfusionnelles
@@ -136,7 +139,6 @@ curl_setopt_array($ch, [
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlError = curl_error($ch);
-curl_close($ch);
 
 if ($curlError) {
     http_response_code(502);

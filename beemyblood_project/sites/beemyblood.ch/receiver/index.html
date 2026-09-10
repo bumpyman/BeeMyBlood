@@ -4,7 +4,7 @@
     AGPL-3.0
 -->
 <!DOCTYPE html><html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover, interactive-widget=resizes-content">
 <title>BeeMyBlood™ — Espace Receveur</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
 <script>
@@ -138,7 +138,19 @@ main{margin-top:56px;max-width:1200px;margin-left:auto;margin-right:auto;padding
 @media(max-width:600px){.chb{height:260px}}
 /* ancien écran d'accès neutralisé : l'entrée se fait par acces.js */
 #gate{display:none!important}
-</style></head><body>
+</style><style id="bmb-chat-mobile">
+@media(max-width:640px){
+  #v-bot h2{display:none}
+  #v-bot .cd{position:fixed;left:0;right:0;top:calc(var(--bmb-vvt,0px) + 48px);height:calc(var(--bmb-vvh,100dvh) - 48px - 48px);display:flex;flex-direction:column;border-radius:0;border-left:0;border-right:0;margin:0;z-index:900;padding:.6rem .6rem calc(.6rem + env(safe-area-inset-bottom,0px));box-sizing:border-box;overflow:hidden}
+  html.bmb-kb #v-bot .cd{height:calc(var(--bmb-vvh,100dvh) - 48px)}
+  html.bmb-kb .bnav,html.bmb-kb .bmb-pill{display:none!important}
+  body:has(#v-bot.on) .bmb-pill{display:none!important}
+  #v-bot .chb{flex:1;height:auto!important;min-height:0}
+  #chatIn{font-size:16px!important;min-height:44px}
+  #v-bot .btn.bp{min-height:44px;font-weight:700}
+}
+</style>
+</head><body>
 <!-- ==================== GATE PAGE ==================== -->
 <div id="gate" style="position:fixed;inset:0;z-index:99999;background:var(--dk);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
 <div style="text-align:center;max-width:400px;width:100%">
@@ -436,7 +448,7 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">🤖 BeeBot Receveur</h2>
 <div class="cd">
 <div class="chb" id="chatBox"><div class="cm cb">Bonjour<span class="bmb-prenom"></span> ! Posez-moi vos questions sur les transfusions, la thalassémie, la chélation, vos droits... 💛</div></div>
-<div style="display:flex;gap:.4rem"><input type="text" class="fi" id="chatIn" placeholder="Votre question..." onkeydown="if(event.key==='Enter')sendChat()" style="flex:1"><button class="btn bp bs2" onclick="sendChat()">Envoyer</button></div>
+<div style="display:flex;gap:.4rem"><input type="text" class="fi" id="chatIn" placeholder="Votre question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendChat()" style="flex:1"><button class="btn bp bs2" onclick="sendChat()">Envoyer</button></div>
 <div style="display:flex;gap:.3rem;margin-top:.4rem;flex-wrap:wrap">
 <button class="btn bo bs2" onclick="document.getElementById('chatIn').value='Qu\x27est-ce que la RAI ?';sendChat()">RAI ?</button>
 <button class="btn bo bs2" onclick="document.getElementById('chatIn').value='Effets secondaires Exjade ?';sendChat()">Exjade ?</button>
@@ -714,7 +726,7 @@ function formatBotReply(s){
   }
   return mdToHtml(s);
 }
-function sendChat(){var i=document.getElementById('chatIn');var m=i.value.trim();if(!m)return;var b=document.getElementById('chatBox');b.innerHTML+='<div class="cm cu">'+m.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div>';i.value='';b.scrollTop=b.scrollHeight;b.innerHTML+='<div class="cm cb" id="bT" style="opacity:.6">BeeBot réfléchit<span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></div>';b.scrollTop=b.scrollHeight;fetch('api_receiver.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:m})}).then(function(r){return r.json()}).then(function(d){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">'+(d.reply?formatBotReply(d.reply):(d.error||'Erreur'))+'</div>';b.scrollTop=b.scrollHeight}).catch(function(){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">Erreur de connexion. 022 372 39 49.</div>';b.scrollTop=b.scrollHeight})}
+function sendChat(){var i=document.getElementById('chatIn');var m=i.value.trim();if(!m)return;var b=document.getElementById('chatBox');b.innerHTML+='<div class="cm cu">'+m.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div>';i.value='';b.scrollTop=b.scrollHeight;b.innerHTML+='<div class="cm cb" id="bT" style="opacity:.6">BeeBot réfléchit<span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></div>';b.scrollTop=b.scrollHeight;fetch('api_receiver.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:m})}).then(function(r){return r.text()}).then(function(t){return JSON.parse(t.replace(/^[sS]*?(?={)/,''))}).then(function(d){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">'+(d.reply?formatBotReply(d.reply):(d.error||'Erreur'))+'</div>';b.scrollTop=b.scrollHeight}).catch(function(){var e=document.getElementById('bT');if(e)e.remove();b.innerHTML+='<div class="cm cb">Erreur de connexion. 022 372 39 49.</div>';b.scrollTop=b.scrollHeight})}
 
 var breathTimer=null;
 function startBreath(mode){stopBreath();var el=document.getElementById('breathC');var s=mode==='calm'?[{t:'Inspirez',d:4000,s:'exp'},{t:'Retenez',d:7000,s:'exp'},{t:'Expirez',d:8000,s:'ctr'}]:[{t:'Inspirez',d:4000,s:'exp'},{t:'Retenez',d:4000,s:'exp'},{t:'Expirez',d:4000,s:'ctr'},{t:'Retenez',d:4000,s:'ctr'}];var idx=0;function tick(){el.textContent=s[idx].t;el.className='bc '+s[idx].s;breathTimer=setTimeout(function(){idx=(idx+1)%s.length;tick()},s[idx].d)}tick()}
@@ -731,4 +743,6 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
 </script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="receveur" data-racine="../" defer></script>
 <script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
 </body></html>

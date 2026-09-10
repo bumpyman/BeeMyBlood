@@ -58,7 +58,6 @@ function bmb_get($url, $timeout = 12) {
     ]);
     $body = curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
     return ($body !== false && $code >= 200 && $code < 300) ? $body : null;
 }
 function bmb_texte($html) {

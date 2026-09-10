@@ -1,4 +1,7 @@
 <?php
+// Jamais d'avertissement HTML avant le JSON (PHP 8.5 chez Infomaniak)
+ini_set('display_errors', '0');
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING & ~E_NOTICE);
 /**
  * BeeMyBlood - API Proxy pour Anthropic Claude
  * À placer sur Infomaniak dans le même dossier que index.html
@@ -164,7 +167,7 @@ if (isset($data['history']) && is_array($data['history'])) {
 // S'assurer que le dernier message est bien le message utilisateur courant
 // (au cas où l'historique ne l'inclurait pas)
 $lastMsg = end($messages);
-if ($lastMsg['role'] !== 'user' || $lastMsg['content'] !== $userMessage) {
+if (!$lastMsg || $lastMsg['role'] !== 'user' || $lastMsg['content'] !== $userMessage) {
     $messages[] = [
         'role' => 'user',
         'content' => $userMessage
@@ -204,7 +207,6 @@ curl_setopt_array($ch, [
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlError = curl_error($ch);
-curl_close($ch);
 
 // ============================================================
 // TRAITEMENT DE LA RÉPONSE

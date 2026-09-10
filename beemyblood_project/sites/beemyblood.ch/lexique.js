@@ -6,6 +6,8 @@
  */
 (function(){
   var TERMES = [
+    ['Label BeeMyBlood Ready', 'Reconnaissance délivrée à un établissement ou à un logiciel qui échange ses données de la filière sang dans les formats ouverts du projet et qui publie ses indicateurs. Trois niveaux, Bronze, Argent et Or, correspondent aux stades 3, 5 et 7 du modèle de maturité.'],
+    ['Modèle de maturité', 'Échelle de 0 à 7 qui décrit la transformation numérique d’un service de transfusion sur huit dimensions, des données au parcours donneur et à l’équité. Le stade global est le plus bas des huit. Auto-évaluation gratuite dans l’espace professionnel.'],
     ['Marge d’incertitude', 'Écart, noté ±, autour d’un résultat de simulation. La valeur réelle se situe dans cette marge dix-neuf fois sur vingt. Deux résultats dont les marges se recouvrent ne se distinguent pas.'],
     ['Mise en régime', 'Jours simulés avant le début de la mesure, le temps que le stock atteigne un état stable. Ils ne comptent pas dans les résultats.'],
     ['Événement simulé', 'Modification temporaire des dons, des commandes ou du laboratoire (pandémie, canicule, campagne, accident majeur…) ajoutée à la situation de référence pour en mesurer l’effet.'],

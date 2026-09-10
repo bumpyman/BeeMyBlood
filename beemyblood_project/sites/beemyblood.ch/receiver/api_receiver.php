@@ -1,4 +1,7 @@
 <?php
+// Jamais d'avertissement HTML avant le JSON (PHP 8.5 chez Infomaniak)
+ini_set('display_errors', '0');
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING & ~E_NOTICE);
 /*
  * BeeMyBlood – BeeBot Receveur API Proxy
  * Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
@@ -98,7 +101,6 @@ curl_setopt_array($ch, [
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $error = curl_error($ch);
-curl_close($ch);
 
 if ($error) {
     echo json_encode(['error' => 'Erreur réseau : ' . $error]);

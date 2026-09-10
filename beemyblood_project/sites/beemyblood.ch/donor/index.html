@@ -16,7 +16,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>BeeMyBlood™ — Portail Donneur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1298,6 +1298,27 @@ body.bmb-public .mob-bottom-btn.bmb-reserve,body.bmb-public .mob-item.bmb-reserv
 body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb-reserve::after,body.bmb-public .hero-feat.bmb-reserve::after{content:"🔒";position:absolute;top:4px;right:8px;font-size:11px;line-height:1;opacity:.9}
 /* ancien écran d'accès neutralisé : l'entrée se fait par acces.js */
 #gate-overlay{display:none!important}
+</style>
+<style id="bmb-chat-mobile">
+.chat-send-lbl{display:none}
+@media(max-width:640px){
+  #v-chatbot{padding:0!important}
+  #v-chatbot .chat-container{position:fixed;left:0;right:0;top:calc(var(--bmb-vvt,0px) + 56px);height:calc(var(--bmb-vvh,100dvh) - 56px - 76px)!important;border-radius:0;border-left:0;border-right:0;z-index:1400}
+  html.bmb-kb #v-chatbot .chat-container{height:calc(var(--bmb-vvh,100dvh) - 56px)!important}
+  html.bmb-kb .mob-bottom,html.bmb-kb .bmb-pill,html.bmb-kb .beebot-fab{display:none!important}
+  body:has(#v-chatbot.active) .beebot-fab,body:has(#v-chatbot.active) .bmb-pill,body:has(.beebot-panel.open) .bmb-pill,body:has(.beebot-panel.open) .beebot-fab{display:none!important}
+  .chat-sugg{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.chat-sugg::-webkit-scrollbar{display:none}.chat-sg{white-space:nowrap;flex-shrink:0}
+  .chat-in-wrap{padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px))!important;gap:8px!important}
+  .chat-in{font-size:16px!important;min-height:44px;padding:10px 14px!important}
+  .chat-send{width:auto!important;min-width:44px;height:44px!important;padding:0 16px;font-weight:700;font-size:15px!important;gap:6px;border-radius:12px!important}
+  .chat-send-lbl{display:inline}
+  .beebot-panel{position:fixed;top:var(--bmb-vvt,0px)!important;left:0!important;right:0!important;bottom:auto!important;height:var(--bmb-vvh,100dvh);max-height:none!important;width:auto!important;border-radius:0!important;border:0!important;z-index:2000}
+  .beebot-msgs{max-height:none!important}
+  .beebot-input{padding:10px 12px!important;gap:8px!important}
+  .beebot-input input{font-size:16px!important;min-height:44px}
+  .beebot-input button{width:auto!important;min-width:44px;height:44px!important;border-radius:22px!important;padding:0 16px;font-weight:700;font-size:15px!important}
+  body.bmb-panel-open{overflow:hidden}
+}
 </style>
 </head>
 <body>
@@ -2733,8 +2754,8 @@ document.addEventListener('DOMContentLoaded',function(){
       <button class="chat-sg" onclick="chatSg(this)">Prendre RDV</button>
     </div>
     <div class="chat-in-wrap">
-      <input class="chat-in" id="chat-in" placeholder="Pose ta question à BeeBot (IA Claude)..." onkeydown="if(event.key==='Enter')chatSend()">
-      <button class="chat-send" onclick="chatSend()">→</button>
+      <input class="chat-in" id="chat-in" placeholder="Pose ta question à BeeBot…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')chatSend()">
+      <button class="chat-send" onclick="chatSend()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer</span>➤</button>
     </div>
   </div>
 </div>
@@ -7090,7 +7111,7 @@ async function chatReply(t){
         history:chatHistory.slice(-20)
       })
     });
-    const data=await resp.json();
+    const data=JSON.parse((await resp.text()).replace(/^[\s\S]*?(?=\{)/,''));
     typing.remove();
     if(data.reply){
       chatApiAvailable=true;
@@ -7245,7 +7266,7 @@ function filterFAQ(q){
   fv.querySelectorAll('div[style*="uppercase"]').forEach(function(h){h.style.display=q?'none':'';});
 }
 // ===== BEEBOT =====
-function toggleBeeBot(){document.getElementById('beebot-panel').classList.toggle('open');}
+function toggleBeeBot(){var p=document.getElementById('beebot-panel');p.classList.toggle('open');var o=p.classList.contains('open');document.body.classList.toggle('bmb-panel-open',o);if(o){var m=document.getElementById('beebot-msgs');if(m)m.scrollTop=m.scrollHeight;}}
 async function sendBeeBot(){
   var inp=document.getElementById('beebot-in');var q=inp.value.trim();if(!q)return;inp.value='';
   var msgs=document.getElementById('beebot-msgs');
@@ -7265,7 +7286,7 @@ async function sendBeeBot(){
       body:JSON.stringify({message:q,history:[{role:'user',content:q}]})
     });
     if(!resp.ok) throw new Error('HTTP '+resp.status);
-    var data=await resp.json();
+    var data=JSON.parse((await resp.text()).replace(/^[\s\S]*?(?=\{)/,''));
     if(data.reply){
       apiOk=true;
       typEl.remove();
@@ -8325,8 +8346,8 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
 <br><br>Que veux-tu savoir ?</div>
   </div>
   <div class="beebot-input">
-    <input type="text" id="beebot-in" placeholder="Pose ta question..." onkeydown="if(event.key==='Enter')sendBeeBot()">
-    <button onclick="sendBeeBot()">→</button>
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
   </div>
   <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
     <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
@@ -8339,5 +8360,7 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
 <script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
 </body>
 </html>

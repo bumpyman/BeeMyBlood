@@ -1,4 +1,7 @@
 <?php
+// Jamais d'avertissement HTML avant le JSON (PHP 8.5 chez Infomaniak)
+ini_set('display_errors', '0');
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING & ~E_NOTICE);
 /**
  * BeeMyBlood — courriel à l'équipe quand une demande d'accès est déposée.
  * Appelé par un déclencheur Supabase (pg_net) sur chaque insertion dans demandes_acces,

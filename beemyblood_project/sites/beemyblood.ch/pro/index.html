@@ -16,7 +16,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>BeeMyBlood Pro — Portail Professionnel</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -541,6 +541,17 @@ body.map-fullscreen .toast-container{z-index:100003!important}
 /* ancien écran d'accès neutralisé : l'entrée se fait par acces.js */
 #loginPage{display:none!important}
 </style>
+<style id="bmb-chat-mobile">
+.chat-send-lbl{display:none}
+@media(max-width:640px){
+  #proBotBox{height:calc(var(--bmb-vvh,100dvh) - 150px)!important;min-height:360px}
+  html.bmb-kb #proBotBox{height:calc(var(--bmb-vvh,100dvh) - 90px)!important}
+  #proBotInput{font-size:16px!important;min-height:44px}
+  #proBotSend{width:auto!important;min-width:44px;height:44px!important;border-radius:22px!important;padding:0 16px;font-weight:700;gap:6px}
+  .chat-send-lbl{display:inline}
+  #proBotSugg{overflow-x:auto;white-space:nowrap;scrollbar-width:none}#proBotSugg::-webkit-scrollbar{display:none}
+}
+</style>
 </head>
 <body>
 
@@ -1038,7 +1049,7 @@ body.map-fullscreen .toast-container{z-index:100003!important}
           BeeBot Pro — Assistant IA transfusionnel
         </div>
         <p style="font-size:.85rem;color:var(--slate-400);margin-bottom:1rem">Posez vos questions cliniques : protocoles de compatibilité, phénotypes rares, interprétation des RAI, seuils de stock, guidelines CRS, transfusion massive, drépanocytose…</p>
-        <div style="background:var(--slate-900);border:1px solid var(--slate-700);border-radius:.75rem;overflow:hidden;display:flex;flex-direction:column;height:520px">
+        <div id="proBotBox" style="background:var(--slate-900);border:1px solid var(--slate-700);border-radius:.75rem;overflow:hidden;display:flex;flex-direction:column;height:520px">
           <div style="padding:.75rem 1rem;background:var(--slate-800);border-bottom:1px solid var(--slate-700);display:flex;align-items:center;gap:.75rem">
             <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue-400),var(--blue-600));display:flex;align-items:center;justify-content:center;font-size:16px">🐝</div>
             <div>
@@ -1056,8 +1067,8 @@ body.map-fullscreen .toast-container{z-index:100003!important}
             <button class="prosg" onclick="proSg(this)">Duffy négatif</button>
           </div>
           <div style="display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid var(--slate-700)">
-            <input id="proBotInput" type="text" placeholder="Question clinique ou transfusionnelle..." style="flex:1;background:var(--slate-800);border:1px solid var(--slate-600);border-radius:1.5rem;padding:.6rem 1rem;color:#fff;font-size:.9rem;outline:none" onkeydown="if(event.key==='Enter')proSend()" onfocus="this.style.borderColor='var(--blue-500)'" onblur="this.style.borderColor='var(--slate-600)'">
-            <button onclick="proSend()" style="width:38px;height:38px;border-radius:50%;background:var(--blue-500);color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">→</button>
+            <input id="proBotInput" type="text" placeholder="Question clinique ou transfusionnelle…" enterkeyhint="send" autocomplete="off" style="flex:1;background:var(--slate-800);border:1px solid var(--slate-600);border-radius:1.5rem;padding:.6rem 1rem;color:#fff;font-size:.9rem;outline:none" onkeydown="if(event.key==='Enter')proSend()" onfocus="this.style.borderColor='var(--blue-500)'" onblur="this.style.borderColor='var(--slate-600)'">
+            <button id="proBotSend" onclick="proSend()" aria-label="Envoyer" style="width:38px;height:38px;border-radius:50%;background:var(--blue-500);color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><span class="chat-send-lbl">Envoyer </span>→</button>
           </div>
         </div>
         <div style="margin-top:1rem;padding:.75rem 1rem;background:var(--slate-800);border:1px solid var(--slate-700);border-radius:.5rem;font-size:.75rem;color:var(--slate-400)">
@@ -2351,7 +2362,7 @@ function proSend(){
 function proCallAPI(q){
   // Try API first, fallback to local KB
   fetch('api.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,context:'pro'})})
-  .then(function(r){if(!r.ok)throw new Error('API unavailable');return r.json();})
+  .then(function(r){if(!r.ok)throw new Error('API unavailable');return r.text();}).then(function(t){return JSON.parse(t.replace(/^[sS]*?(?={)/,''));})
   .then(function(data){
     proRemoveTyping();
     if(data.answer) proAddMsg(data.answer,false);
@@ -3127,5 +3138,7 @@ function twinSimuler(){
 <script src="jumeau.js"></script>
 <script src="../acces.js" data-espace="pro" data-racine="../" defer></script>
 <script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
 </body>
 </html>

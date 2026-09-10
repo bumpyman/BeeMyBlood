@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BeeMyBlood™ — Maturité numérique de votre service</title>
+<meta name="description" content="Auto-évaluation gratuite de la maturité numérique d’un service de transfusion, d’une banque de sang hospitalière ou d’un centre de collecte, sur une échelle de 0 à 7 et huit dimensions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--slate-900:#0a0a12;--slate-800:#12121e;--slate-700:#26263a;--slate-600:#3a3a52;--slate-500:#5a5a72;--slate-400:#8b8b9e;--amber-400:#E8D5A3;--amber-500:#C8A960;--green-400:#4ade80;--blue-400:#60a5fa;--red-400:#ff6b6b;--purple-400:#c084fc;--ink:#f0ece2}
+html{scroll-behavior:smooth}
+body{background:var(--slate-900);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.55}
+a{color:var(--amber-400)}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 28px;border-bottom:1px solid rgba(200,169,96,.15);position:sticky;top:0;background:rgba(10,10,18,.94);backdrop-filter:blur(12px);z-index:20}
+.brand{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;text-decoration:none;color:var(--ink)}.brand span{color:var(--amber-500)}
+.brand small{display:block;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--slate-400)}
+.hdr-stage{font-size:14px;color:var(--slate-400);text-align:right}.hdr-stage b{display:block;font-family:'Playfair Display',serif;font-size:26px;color:var(--amber-400);line-height:1.1}
+main{max-width:1040px;margin:0 auto;padding:28px 20px 80px}
+h1{font-family:'Playfair Display',serif;font-size:34px;line-height:1.15;margin-bottom:10px}
+h1 em{color:var(--amber-500);font-style:normal}
+.lead{font-size:17px;color:var(--slate-400);max-width:760px;margin-bottom:22px}
+.card{background:var(--slate-800);border:1px solid var(--slate-700);border-radius:18px;padding:22px 24px;margin-bottom:18px}
+.card h2{font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-400);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card h2 .st{font-family:'Playfair Display',serif;font-size:22px;color:var(--amber-400);text-transform:none;letter-spacing:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+label.f{display:block;font-size:14px;color:var(--slate-400);margin-bottom:6px}
+select,input[type=number]{width:100%;padding:11px 12px;border-radius:10px;background:var(--slate-900);border:1px solid var(--slate-600);color:var(--ink);font:inherit;font-size:16px}
+.dim{margin-bottom:14px}
+.dim-head{display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none}
+.dim-head .ico{font-size:26px;width:38px;text-align:center}
+.dim-head h3{font-size:18px;flex:1}
+.dim-head p{font-size:14px;color:var(--slate-400)}
+.dim-stage{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--amber-400);min-width:64px;text-align:right}
+.dim-stage small{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--slate-400);display:block;font-weight:500}
+.crit{list-style:none;margin-top:12px;display:none;gap:6px;flex-direction:column}
+.dim.open .crit{display:flex}
+.crit li{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.crit li.ok{background:rgba(74,222,128,.07);border-color:rgba(74,222,128,.25)}
+.crit li.skip{opacity:.55}
+.crit input{width:22px;height:22px;accent-color:var(--amber-500);margin-top:2px;cursor:pointer}
+.crit .n{font-family:'Playfair Display',serif;font-size:18px;color:var(--amber-400);font-weight:800;display:flex;align-items:center;gap:6px}
+.crit label{cursor:pointer;font-size:15px}
+.crit label small{display:block;color:var(--slate-400);font-size:13px;margin-top:2px}
+.chev{transition:transform .2s;color:var(--slate-400)}.dim.open .chev{transform:rotate(90deg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.btn{padding:12px 20px;border-radius:12px;border:1px solid var(--slate-600);background:var(--slate-800);color:var(--ink);font:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.btn.gold{background:var(--amber-500);color:var(--slate-900);border-color:var(--amber-500)}
+.btn:hover{filter:brightness(1.1)}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+@media(max-width:760px){.res-grid{grid-template-columns:1fr}}
+.big{font-family:'Playfair Display',serif;font-size:64px;line-height:1;color:var(--amber-400)}.big small{font-family:'DM Sans',sans-serif;font-size:16px;color:var(--slate-400);display:block;font-weight:500;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid}
+.badge.none{color:var(--slate-400);border-color:var(--slate-600)}
+.badge.bronze{color:#e0a86b;border-color:#e0a86b;background:rgba(224,168,107,.1)}
+.badge.argent{color:#d9dde5;border-color:#d9dde5;background:rgba(217,221,229,.1)}
+.badge.or{color:var(--amber-400);border-color:var(--amber-500);background:rgba(200,169,96,.14)}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:150px 1fr 34px;gap:10px;align-items:center;font-size:14px}
+.bar .tr{height:10px;border-radius:5px;background:var(--slate-700);overflow:hidden}.bar .fl{height:100%;background:linear-gradient(90deg,var(--amber-500),var(--amber-400));border-radius:5px;transition:width .5s}
+.bar b{text-align:right;font-family:'Playfair Display',serif;color:var(--amber-400)}
+.gaps{list-style:none;display:flex;flex-direction:column;gap:8px}
+.gaps li{padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);font-size:15px}
+.gaps li b{color:var(--amber-400)}
+.gaps li small{display:block;color:var(--slate-400);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--slate-700);vertical-align:top}
+th{color:var(--slate-400);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+td.num{text-align:right;white-space:nowrap;font-weight:700}
+.note{font-size:13px;color:var(--slate-400);margin-top:10px}
+.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.stage{padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);font-size:14px}
+.stage b{font-family:'Playfair Display',serif;font-size:20px;color:var(--amber-400);display:block}
+footer{padding:16px 28px;font-size:13px;color:var(--slate-500);border-top:1px solid rgba(200,169,96,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.hidden{display:none}
+#radar{width:100%;max-width:380px;height:auto;display:block;margin:0 auto}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--slate-800);border:1px solid var(--amber-500);color:var(--ink);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:50}
+.toast.show{opacity:1}
+@media print{
+  header,.btns,.dim .crit,footer .noprint,.no-print{display:none!important}
+  body{background:#fff;color:#111}
+  .card{border:1px solid #ccc;background:#fff;break-inside:avoid}
+  .big,.dim-stage,.bar b,.gaps li b,.card h2 .st{color:#7a5a12}
+  main{padding:0}
+  #resultats{display:block!important}
+}
+@media(max-width:640px){
+  header{padding:12px 16px}.brand{font-size:19px}.hdr-stage{display:none}
+  h1{font-size:26px}.card{padding:16px}
+  .bar{grid-template-columns:110px 1fr 30px}
+  .dim-head h3{font-size:16px}.dim-head p{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="../../">Bee<span>My</span>Blood™ <small>Maturité numérique de votre service</small></a>
+  <div class="hdr-stage">Stade global<b id="hdr-stage">–</b></div>
+</header>
+
+<main>
+  <h1>Où en est votre service dans sa <em>transformation numérique</em> ?</h1>
+  <p class="lead">Quinze minutes, aucune inscription. Cochez ce qui est en place dans votre service. Vous obtenez un stade de 0 à 7, un profil par dimension, les prochaines étapes concrètes et un ordre de grandeur de la valeur récupérable. Les critères sont publiés sous licence libre et s’appliquent à tout établissement, quel que soit son logiciel.</p>
+
+  <div class="card">
+    <h2>Votre établissement</h2>
+    <div class="grid">
+      <div><label class="f" for="type">Type d’établissement</label>
+        <select id="type"><option value="regional">Service régional de transfusion</option><option value="hopital">Banque de sang hospitalière</option><option value="collecte">Centre ou site de collecte</option></select></div>
+      <div><label class="f" for="poches">Poches délivrées ou collectées par an</label><input type="number" id="poches" min="0" step="100" value="22000" inputmode="numeric"></div>
+      <div><label class="f" for="rdv">Rendez-vous de don par an</label><input type="number" id="rdv" min="0" step="100" value="9000" inputmode="numeric"></div>
+      <div><label class="f" for="postes">Postes administratifs à l’accueil</label><input type="number" id="postes" min="0" step="1" value="3" inputmode="numeric"></div>
+    </div>
+    <p class="note">Ces valeurs servent uniquement au calcul de la valeur récupérable. Elles restent dans votre navigateur. Rien n’est transmis à BeeMyBlood.</p>
+  </div>
+
+  <div class="card">
+    <h2>Les huit dimensions <span style="font-size:13px;text-transform:none;letter-spacing:0;font-weight:500">Cochez chaque critère en place. Les critères sont cumulatifs : le stade d’une dimension est le dernier critère atteint sans interruption.</span></h2>
+    <div id="dims"></div>
+    <div class="btns">
+      <button class="btn gold" onclick="calculer(true)">Voir mon résultat</button>
+      <button class="btn" onclick="toutOuvrir()">Tout déplier</button>
+      <button class="btn" onclick="reinit()">Recommencer</button>
+    </div>
+  </div>
+
+  <div id="resultats" class="hidden">
+    <div class="card">
+      <h2>Résultat <span class="st" id="res-date"></span></h2>
+      <div class="res-grid">
+        <div>
+          <div class="big" id="res-stage">–<small id="res-stage-lbl"></small></div>
+          <p style="margin:14px 0 8px"><span class="badge none" id="res-badge">Label BeeMyBlood Ready : non atteint</span></p>
+          <p id="res-phrase" style="font-size:15px;color:var(--slate-400)"></p>
+        </div>
+        <div><svg id="radar" viewBox="0 0 380 380" role="img" aria-label="Profil par dimension"></svg></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Profil par dimension</h2>
+      <div class="bars" id="res-bars"></div>
+    </div>
+
+    <div class="card">
+      <h2>Prochaines étapes <span style="font-size:13px;text-transform:none;letter-spacing:0;font-weight:500">Le premier critère manquant de chaque dimension, en commençant par les plus en retard</span></h2>
+      <ul class="gaps" id="res-gaps"></ul>
+    </div>
+
+    <div class="card">
+      <h2>Valeur récupérable, ordre de grandeur</h2>
+      <table><thead><tr><th>Levier</th><th>Hypothèse</th><th style="text-align:right">Par an</th></tr></thead><tbody id="res-val"></tbody><tfoot><tr><th>Total</th><th></th><th class="num" id="res-val-tot"></th></tr></tfoot></table>
+      <p class="note">Hypothèses reprises du dossier BeeMyBlood : une poche achetée hors canton coûte 267 francs et une prévision fiable en évite un cinquième ; des rappels réglés sur le besoin réduisent les absences d’un tiers, un créneau récupéré vaut 150 francs ; un point de péremption en moins vaut 200 francs par poche ; l’accueil numérique libère une heure par jour et par poste à 60 francs. Chaque levier est pondéré par l’écart restant de la dimension concernée. Ce sont des ordres de grandeur, à remplacer par vos propres mesures.</p>
+    </div>
+
+    <div class="btns">
+      <button class="btn gold" onclick="window.print()">Imprimer le rapport</button>
+      <button class="btn" onclick="exporter()">Enregistrer mes réponses</button>
+      <a class="btn" id="mail-eval" href="#">Demander une évaluation validée</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Méthode</h2>
+    <p style="font-size:15px;margin-bottom:12px">Le modèle de maturité BeeMyBlood décrit la transformation numérique d’un service de transfusion sur une échelle de 0 à 7, inspirée des modèles de maturité hospitaliers, et sur huit dimensions. Chaque dimension comporte sept critères cumulatifs. Le stade global est le stade le plus bas atteint sur les huit dimensions, ce qui met en évidence le point faible plutôt que le point fort. Le label BeeMyBlood Ready reprend ces stades : Bronze dès le stade 3, Argent dès le stade 5, Or au stade 7.</p>
+    <div class="stages">
+      <div class="stage"><b>0 à 1</b>Papier et tableurs. Les données existent, mais restent inaccessibles hors du système de production.</div>
+      <div class="stage"><b>2 à 3</b>Exports réguliers, premiers outils en ligne pour les donneurs, journal des opérations tenu à jour.</div>
+      <div class="stage"><b>4 à 5</b>Raccordement en lecture par formats ouverts, prévision avec marge d’incertitude, consentement électronique, indicateurs suivis.</div>
+      <div class="stage"><b>6 à 7</b>Échange validé dans les deux sens, appariement phénotypique, traçabilité complète conforme SoHO, indicateurs d’équité publiés.</div>
+    </div>
+    <p class="note">Grille version 1.0 du 10 septembre 2026, publiée sous licence CC BY 4.0. L’auto-évaluation est gratuite et anonyme. L’évaluation validée, avec preuves et tests de conformité, délivre le certificat et le badge, valables deux ans. Les critères sont révisés chaque année par le comité d’interopérabilité du projet.</p>
+  </div>
+</main>
+
+<footer>
+  <span>BeeMyBlood™ · Convivens Lab · HEG-Genève (HES-SO)</span>
+  <span><a href="../../projet/">Le projet</a> · <a href="../../projet/confidentialite/">Confidentialité</a></span>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// ---------- Grille de maturité, version 1.0 ----------
+var DIMS = [
+  {id:'donnees', ico:'🔗', nom:'Données et raccordement', desc:'Comment vos données sortent du système de production et y reviennent.', crit:[
+    ['Les données de stock, de dons et de commandes peuvent être extraites du système de production', 'Au moins sous forme de fichier, par une personne du service.'],
+    ['Des exports structurés sont produits à intervalle régulier', 'Fichiers avec un format stable, au moins chaque semaine.'],
+    ['Un dictionnaire des données est tenu à jour', 'Chaque champ exporté est défini, avec son unité et sa source.'],
+    ['Les publications ouvertes sont automatisées', 'Stocks par groupe et dates de collecte publiés sans ressaisie.'],
+    ['Une interface de lecture aux formats ouverts est en service', 'HL7 FHIR ou HL7 v2, identifiants ISBT 128, documentée.'],
+    ['Des écritures encadrées reviennent dans le système de production', 'Recommandations ou réservations soumises à validation humaine, connecteur validé.'],
+    ['L’échange fonctionne dans les deux sens, validé et audité', 'Connecteur validé GAMP 5, suite de tests de conformité exécutée à chaque version.'],
+  ]},
+  {id:'donneur', ico:'🩸', nom:'Parcours donneur', desc:'Réservation, rappels, retour d’impact, fidélisation.', crit:[
+    ['Les horaires et lieux de collecte sont publiés en ligne', 'Page à jour, consultable sur téléphone.'],
+    ['La réservation en ligne est possible', 'Par un outil propre ou par le canal national.'],
+    ['Un rappel est envoyé avant chaque rendez-vous', 'Courriel ou message, au moins la veille.'],
+    ['Le donneur reçoit un retour sur l’usage de son don', 'Message ou tableau de bord après qualification.'],
+    ['Les rappels sont réglés sur le besoin', 'Prochaine date d’aptitude, retour des inactifs, appel ciblé par groupe.'],
+    ['Le retour au deuxième don et les absences sont mesurés et suivis', 'Indicateurs mensuels avec objectif.'],
+    ['Le parcours est personnalisé selon le profil du donneur', 'Phénotype, historique, préférences de notification, et résultats mesurés sur une cohorte.'],
+  ]},
+  {id:'quotidien', ico:'🗂️', nom:'Quotidien du centre', desc:'Agenda, accueil, consentement, journal, rapports.', crit:[
+    ['Un agenda partagé gère les créneaux et les lits', 'Outil unique pour toute l’équipe.'],
+    ['Le questionnaire médical peut être préparé à l’avance par le donneur', 'En ligne ou sur tablette à l’accueil.'],
+    ['Un journal des opérations est tenu et consultable', 'Qui a fait quoi et quand, pour chaque don.'],
+    ['Les rapports d’activité sont produits sans ressaisie', 'Clôture de journée et exports en un clic.'],
+    ['Le consentement est recueilli et conservé électroniquement', 'Signature confirmée, horodatée, retrouvable.'],
+    ['Le journal est infalsifiable', 'Chaque écriture porte l’empreinte de la précédente ; un contrôle détecte toute modification.'],
+    ['L’attente en salle est rendue lisible aux donneurs et pilotée', 'Écran de salle par codes, temps d’attente mesuré et réduit.'],
+  ]},
+  {id:'anticipation', ico:'📈', nom:'Anticipation', desc:'Prévision des stocks, scénarios, décisions comparées.', crit:[
+    ['Le stock par groupe est connu chaque jour', 'Chiffre disponible le matin, sans recalcul manuel.'],
+    ['Des seuils d’alerte par groupe déclenchent une action', 'Seuils écrits, appliqués de la même façon par tous.'],
+    ['Les jours de couverture sont calculés automatiquement', 'Stock rapporté à la demande habituelle, par groupe.'],
+    ['Une prévision à sept jours est produite et consultée', 'Fondée sur l’historique et la saisonnalité.'],
+    ['La prévision porte sa marge d’incertitude et sa précision est mesurée', 'Erreur suivie dans le temps, marge affichée.'],
+    ['Des scénarios sont comparés avant de décider', 'Collecte supplémentaire, appel ciblé, événement : effets comparés à conditions égales.'],
+    ['Le jumeau numérique est calibré sur les données réelles et alerte à quatorze jours', 'Signaux hospitaliers intégrés, recalibration périodique documentée.'],
+  ]},
+  {id:'phenotype', ico:'🧬', nom:'Phénotypes et équité', desc:'Donneurs rares, appariement, indicateurs d’équité.', crit:[
+    ['Les phénotypes étendus des donneurs réguliers sont enregistrés', 'Au-delà du groupe et du Rhésus, pour une part définie des donneurs.'],
+    ['Les donneurs rares sont identifiés et inscrits au registre national', 'Procédure écrite, inscription vérifiée.'],
+    ['La recherche de poches compatibles par profil est possible sans appel téléphonique', 'Recherche par marqueurs dans un outil.'],
+    ['Le recrutement cible les communautés où les phénotypes manquent', 'Actions datées, avec relais communautaires.'],
+    ['Un score de rareté oriente le suivi des donneurs', 'Priorité de rappel et de fidélisation selon la rareté.'],
+    ['L’appariement des poches aux patients transfusés régulièrement est assisté', 'Proposition multicritère, décision humaine.'],
+    ['Les indicateurs d’équité sont publiés', 'Couverture du registre, délai de réunion des poches, substitutions, en ligne.'],
+  ]},
+  {id:'vigilance', ico:'🛡️', nom:'Vigilance et conformité', desc:'Traçabilité, déclarations, préparation aux exigences SoHO.', crit:[
+    ['Chaque poche est identifiée au standard ISBT 128', 'Étiquetage et lecture par code-barres.'],
+    ['Le chemin donneur, poche, patient peut être reconstitué', 'En moins d’une journée, sur demande.'],
+    ['Les réactions et incidents sont déclarés selon une procédure écrite', 'Formulaire Swissmedic rempli à partir des données du dossier.'],
+    ['Le chemin donneur, poche, patient est reconstitué en un clic', 'Traçabilité immédiate dans un outil.'],
+    ['Les déclarations sont préparées automatiquement', 'Champs préremplis, complétude vérifiée.'],
+    ['Les exports réglementaires sont produits au format exigé', 'Registres et alertes prêts pour une inspection.'],
+    ['La conformité aux exigences SoHO est démontrée', 'Inspection blanche réussie, plan d’urgence et alerte rapide en place.'],
+  ]},
+  {id:'securite', ico:'🔐', nom:'Gouvernance et sécurité', desc:'Protection des données, identité, hébergement, audit.', crit:[
+    ['Chaque utilisateur a son propre compte', 'Fin des comptes partagés.'],
+    ['Les droits d’accès sont définis par rôle et revus chaque année', 'Liste des rôles, revue datée.'],
+    ['Une convention de données existe pour chaque échange avec l’extérieur', 'Finalités, minimisation, durée de conservation.'],
+    ['Les données sont hébergées en Suisse ou dans un cadre équivalent', 'Contrat d’hébergement vérifié.'],
+    ['L’authentification est forte', 'Second facteur ou identité électronique.'],
+    ['Les accès et les actions sont journalisés et audités', 'Revue périodique des journaux, écarts traités.'],
+    ['Le service est certifié ou audité par un tiers', 'ISO 27001 ou audit indépendant équivalent, renouvelé.'],
+  ]},
+  {id:'patients', ico:'💛', nom:'Patients et communautés', desc:'Information, co-conception, transparence.', crit:[
+    ['Les patients transfusés disposent d’une information écrite sur leur parcours', 'Document ou page à jour.'],
+    ['Un canal permet aux patients et aux associations de poser des questions', 'Adresse, permanence ou assistant en ligne.'],
+    ['Les associations de patients et de donneurs sont consultées', 'Au moins une rencontre par an, compte rendu.'],
+    ['Des outils sont co-conçus avec les patients et les donneurs', 'Ateliers documentés, partenaires patients associés.'],
+    ['Un espace numérique dédié aux patients transfusés est en usage', 'Parcours, droits, préparation des traitements.'],
+    ['Les partenaires patients sont rémunérés et associés aux décisions', 'Rôle formalisé, participation aux comités.'],
+    ['Les indicateurs du service sont publiés dans un observatoire accessible à tous', 'Mise à jour au moins trimestrielle.'],
+  ]},
+];
+var CLE = 'bmb_maturite_v1';
+var etat = {};
+try { etat = JSON.parse(localStorage.getItem(CLE) || '{}'); } catch (e) { etat = {}; }
+
+function rendre() {
+  var h = '';
+  DIMS.forEach(function (d) {
+    h += '<div class="dim" id="dim-' + d.id + '"><div class="dim-head" onclick="basculer(\'' + d.id + '\')"><span class="ico">' + d.ico + '</span><div style="flex:1"><h3>' + d.nom + '</h3><p>' + d.desc + '</p></div><div class="dim-stage"><span id="st-' + d.id + '">0</span><small>sur 7</small></div><span class="chev">▶</span></div><ul class="crit">';
+    d.crit.forEach(function (c, i) {
+      var id = d.id + '-' + (i + 1); var chk = (etat[d.id] || [])[i] ? ' checked' : '';
+      h += '<li id="li-' + id + '"><span class="n">' + (i + 1) + ' <input type="checkbox" id="' + id + '"' + chk + ' onchange="coche(\'' + d.id + '\',' + i + ',this.checked)"></span><label for="' + id + '">' + c[0] + '<small>' + c[1] + '</small></label></li>';
+    });
+    h += '</ul></div>';
+  });
+  document.getElementById('dims').innerHTML = h;
+  DIMS.forEach(function (d) { majDim(d.id); });
+  var ouvert = false; DIMS.forEach(function (d) { if (!ouvert && stade(d.id) < 7) { document.getElementById('dim-' + d.id).classList.add('open'); ouvert = true; } });
+  majEntete();
+}
+function basculer(id) { document.getElementById('dim-' + id).classList.toggle('open'); }
+function toutOuvrir() { document.querySelectorAll('.dim').forEach(function (e) { e.classList.add('open'); }); }
+function coche(id, i, v) { etat[id] = etat[id] || [false, false, false, false, false, false, false]; etat[id][i] = v; try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) {} majDim(id); majEntete(); if (!document.getElementById('resultats').classList.contains('hidden')) calculer(false); }
+function stade(id) { var a = etat[id] || []; var s = 0; for (var i = 0; i < 7; i++) { if (a[i]) s = i + 1; else break; } return s; }
+function majDim(id) {
+  var s = stade(id); document.getElementById('st-' + id).textContent = s;
+  var a = etat[id] || [];
+  for (var i = 0; i < 7; i++) { var li = document.getElementById('li-' + id + '-' + (i + 1)); li.classList.toggle('ok', i < s); li.classList.toggle('skip', !!a[i] && i >= s); }
+}
+function stadeGlobal() { return Math.min.apply(null, DIMS.map(function (d) { return stade(d.id); })); }
+function majEntete() { document.getElementById('hdr-stage').textContent = stadeGlobal() + ' / 7'; }
+function label(s) { return s >= 7 ? ['or', 'Or'] : s >= 5 ? ['argent', 'Argent'] : s >= 3 ? ['bronze', 'Bronze'] : ['none', null]; }
+var PHRASES = ['Le numérique reste à construire : les données existent mais ne sortent pas du système de production.', 'Premiers exports en place. Le prochain palier consiste à rendre ces exports réguliers et documentés.', 'Le service publie et exporte. Les outils en ligne pour les donneurs et le journal des opérations sont les prochains chantiers.', 'Base solide, éligible au label Bronze. Le raccordement en lecture et la prévision ouvrent le stade suivant.', 'Le service lit ses données par formats ouverts et anticipe. Consentement électronique, marge d’incertitude et indicateurs suivis mènent au stade 5.', 'Service avancé, éligible au label Argent. Scénarios comparés, écritures encadrées et appariement assisté conduisent au stade 6.', 'Service de référence. Il reste l’échange validé dans les deux sens, la conformité SoHO démontrée et la publication des indicateurs.', 'Service exemplaire, éligible au label Or. La filière a besoin de votre retour d’expérience.'];
+function fr(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '’'); }
+function calculer(defiler) {
+  var g = stadeGlobal(); var res = document.getElementById('resultats'); res.classList.remove('hidden');
+  document.getElementById('res-stage').firstChild.textContent = g;
+  document.getElementById('res-stage-lbl').textContent = 'stade global sur 7';
+  document.getElementById('res-date').textContent = new Date().toLocaleDateString('fr-CH', { day: 'numeric', month: 'long', year: 'numeric' });
+  var l = label(g); var b = document.getElementById('res-badge'); b.className = 'badge ' + l[0]; b.textContent = l[1] ? '🏅 Label BeeMyBlood Ready : niveau ' + l[1] + ' atteignable' : 'Label BeeMyBlood Ready : non atteint (Bronze dès le stade 3)';
+  document.getElementById('res-phrase').textContent = PHRASES[g];
+  // barres
+  var bars = ''; DIMS.forEach(function (d) { var s = stade(d.id); bars += '<div class="bar"><span>' + d.ico + ' ' + d.nom + '</span><div class="tr"><div class="fl" style="width:' + (s / 7 * 100) + '%"></div></div><b>' + s + '</b></div>'; });
+  document.getElementById('res-bars').innerHTML = bars;
+  // écarts, triés par stade croissant
+  var tri = DIMS.slice().sort(function (a, b2) { return stade(a.id) - stade(b2.id); }); var gaps = '';
+  tri.forEach(function (d) { var s = stade(d.id); if (s >= 7) return; var c = d.crit[s]; gaps += '<li><b>' + d.nom + ' · vers le stade ' + (s + 1) + '</b> ' + c[0] + '<small>' + c[1] + '</small></li>'; });
+  document.getElementById('res-gaps').innerHTML = gaps || '<li>Toutes les dimensions sont au stade 7.</li>';
+  // radar
+  radar(DIMS.map(function (d) { return stade(d.id); }));
+  // valeur
+  var poches = +document.getElementById('poches').value || 0, rdv = +document.getElementById('rdv').value || 0, postes = +document.getElementById('postes').value || 0;
+  var ecart = function (id) { return (7 - stade(id)) / 7; };
+  var lev = [
+    ['Achats hors canton évités', 'Une poche sur cinq achetée à 267 francs, un cinquième évitable, pondéré par l’écart en anticipation', poches * 0.2 * 0.2 * 267 * ecart('anticipation')],
+    ['Absences aux rendez-vous réduites', 'Un rendez-vous sur dix manqué, un tiers évitable, 150 francs le créneau, pondéré par l’écart du parcours donneur', rdv * 0.1 * (1 / 3) * 150 * ecart('donneur')],
+    ['Péremption réduite', 'Un point de péremption en moins à 200 francs la poche, pondéré par l’écart en anticipation et en données', poches * 0.01 * 200 * (ecart('anticipation') + ecart('donnees')) / 2],
+    ['Temps administratif libéré', 'Une heure par jour et par poste, 250 jours, 60 francs, pondérée par l’écart du quotidien', postes * 250 * 60 * ecart('quotidien')],
+  ];
+  var tot = 0, rows = ''; lev.forEach(function (x) { tot += x[2]; rows += '<tr><td>' + x[0] + '</td><td style="color:var(--slate-400)">' + x[1] + '</td><td class="num">' + fr(x[2]) + ' fr.</td></tr>'; });
+  document.getElementById('res-val').innerHTML = rows; document.getElementById('res-val-tot').textContent = fr(tot) + ' fr. par an';
+  // courriel
+  var corps = 'Bonjour,\n\nNotre établissement a réalisé l’auto-évaluation BeeMyBlood (stade global ' + g + '/7 : ' + DIMS.map(function (d) { return d.nom + ' ' + stade(d.id); }).join(', ') + ').\nNous souhaitons une évaluation validée.\n\nÉtablissement :\nPersonne de contact :\n';
+  document.getElementById('mail-eval').href = 'mailto:david-zacharie.issom@hesge.ch?subject=' + encodeURIComponent('Évaluation validée BeeMyBlood Ready') + '&body=' + encodeURIComponent(corps);
+  if (defiler) res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function radar(v) {
+  var n = v.length, cx = 190, cy = 190, R = 140, s = '';
+  for (var k = 1; k <= 7; k++) { var pts = []; for (var i = 0; i < n; i++) { var a = -Math.PI / 2 + i * 2 * Math.PI / n; pts.push((cx + R * k / 7 * Math.cos(a)).toFixed(1) + ',' + (cy + R * k / 7 * Math.sin(a)).toFixed(1)); } s += '<polygon points="' + pts.join(' ') + '" fill="none" stroke="' + (k === 7 ? '#3a3a52' : '#26263a') + '" stroke-width="1"/>'; }
+  var poly = [];
+  for (var j = 0; j < n; j++) { var a2 = -Math.PI / 2 + j * 2 * Math.PI / n; var x = cx + R * Math.cos(a2), y = cy + R * Math.sin(a2); s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="#26263a"/>'; var lx = cx + (R + 22) * Math.cos(a2), ly = cy + (R + 22) * Math.sin(a2); s += '<text x="' + lx.toFixed(1) + '" y="' + (ly + 5).toFixed(1) + '" text-anchor="middle" font-size="15">' + DIMS[j].ico + '</text>'; poly.push((cx + R * v[j] / 7 * Math.cos(a2)).toFixed(1) + ',' + (cy + R * v[j] / 7 * Math.sin(a2)).toFixed(1)); }
+  s += '<polygon points="' + poly.join(' ') + '" fill="rgba(200,169,96,.28)" stroke="#C8A960" stroke-width="2.5" stroke-linejoin="round"/>';
+  poly.forEach(function (p) { var c = p.split(','); s += '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="4" fill="#E8D5A3"/>'; });
+  document.getElementById('radar').innerHTML = s;
+}
+function exporter() {
+  var data = { grille: '1.0', date: new Date().toISOString(), type: document.getElementById('type').value, poches: document.getElementById('poches').value, rdv: document.getElementById('rdv').value, stades: {}, reponses: etat };
+  DIMS.forEach(function (d) { data.stades[d.id] = stade(d.id); }); data.stadeGlobal = stadeGlobal();
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'beemyblood-maturite-' + new Date().toISOString().slice(0, 10) + '.json'; document.body.appendChild(a); a.click(); a.remove();
+  toast('Réponses enregistrées dans un fichier.');
+}
+function reinit() { if (!confirm('Effacer toutes les réponses ?')) return; etat = {}; try { localStorage.removeItem(CLE); } catch (e) {} document.getElementById('resultats').classList.add('hidden'); rendre(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function toast(t) { var e = document.getElementById('toast'); e.textContent = t; e.classList.add('show'); setTimeout(function () { e.classList.remove('show'); }, 2500); }
+rendre();
+</script>
+</body>
+</html>

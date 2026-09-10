@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.6.2 — 2026-09-10 — chatbot fix, mobile chat, maturity self-assessment
+
+### Chatbot (all spaces)
+- Fix: on Infomaniak's PHP 8.5, the proxies printed HTML warnings before the JSON reply, so the browser fell back to the generic « Bonne question ! » answer for any question outside the small local knowledge base. All six PHP endpoints (landing, donor, professional, receiver chatbots, daily data, notification) now never display warnings, the deprecated curl_close() call is removed and the last-message check is guarded.
+- The donor, receiver and professional pages parse the reply tolerantly (anything before the first `{` is ignored), which protects against future PHP changes.
+
+### Mobile ergonomics of the BeeBots
+- On screens up to 640 px, the chat window is fixed and fills the space between the header and the bottom bar; when the keyboard opens it shrinks to the visible viewport (visualViewport API), the bottom bar and floating buttons hide, and the last message stays above the input.
+- Send button labelled « Envoyer ➤ », 44 px high; Enter key marked « Envoyer »; input at 16 px to avoid iOS zoom; suggestion chips on one scrollable line; floating bee and glossary buttons hidden while a conversation is open.
+- Donor floating BeeBot panel becomes a full-screen sheet on mobile; receiver BeeBot and BeeBot Pro adapted the same way. Desktop unchanged.
+
+### Maturity self-assessment (pro/maturite/)
+- New public page: a maturity model for transfusion services on a 0–7 scale, eight dimensions (data and connection, donor journey, centre operations, anticipation, phenotypes and equity, vigilance and compliance, governance and security, patients and communities), seven cumulative criteria each. Overall stage is the lowest dimension.
+- Immediate report: stage, BeeMyBlood Ready label level (Bronze from stage 3, Silver from 5, Gold at 7), radar, bars per dimension, next criterion per dimension, order of magnitude of recoverable value from four levers, printable report, JSON export, request for a validated assessment. Answers stay in the browser. Grid v1.0 under CC BY 4.0.
+- Link from the project page; glossary entries « Label BeeMyBlood Ready » and « Modèle de maturité ».
+
 ## v0.6.1 — 2026-09-09 — HUG questionnaire flow
 
 ### Donor space
