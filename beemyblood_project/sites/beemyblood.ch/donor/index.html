@@ -215,6 +215,7 @@ a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--dark-border);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;overflow:visible}
 .lien-evitement{position:absolute;left:-9999px;top:0;z-index:10000;padding:10px 16px;background:var(--gold);color:var(--dark);font-weight:600;border-radius:0 0 8px 0;text-decoration:none}
 .lien-evitement:focus{left:0}
+.qh-yn[aria-pressed="true"]::before{content:'✓ ';font-weight:700}
 .nav-brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold);cursor:pointer;flex-shrink:0}
 .nav-brand .bee{font-size:22px;filter:drop-shadow(0 0 8px rgba(245,197,24,.4))}
 .nav-home-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid rgba(200,169,96,.15);color:var(--text-muted);font-size:15px;text-decoration:none;transition:all .2s;flex-shrink:0}
@@ -703,6 +704,9 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .pouch{background:var(--dark-surface);border:3px solid var(--dark-border);border-radius:14px;padding:14px 19px;min-width:100px;flex:1;text-align:center;cursor:pointer;transition:all .15s ease;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .pouch:active{transform:scale(.92)}
 .pouch.compatible{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.06);animation:compatPulse 1s infinite}
+.pouch.compatible::after{content:'✓ OK';display:block;font-size:11px;font-weight:700;color:var(--green);margin-top:4px}
+.pouch.incompatible{border-color:rgba(230,57,70,.35);background:rgba(230,57,70,.06);opacity:.6}
+.pouch.incompatible::after{content:'✗ Non';display:block;font-size:11px;font-weight:700;color:var(--red-soft);margin-top:4px}
 @keyframes compatPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,204,113,.2)}50%{box-shadow:0 0 0 6px rgba(46,204,113,0)}}
 .pouch.selected{border-color:var(--gold);background:rgba(200,169,96,.08);box-shadow:0 0 16px rgba(200,169,96,.2)}
 .pouch.used{opacity:.2;pointer-events:none;transform:scale(.9)}
@@ -1579,7 +1583,7 @@ document.addEventListener('DOMContentLoaded',function(){
             <span style="font-size:14px;font-weight:700;color:var(--text)">Critères de dons assouplis</span>
           </div>
           <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Transfusion CRS Suisse élargit les critères d'éligibilité avec l'autorisation de Swissmedic. Les personnes ayant reçu une transfusion ou séjourné au Royaume-Uni dans les années 80-90 pourront de nouveau donner.</div>
-          <div style="margin-top:8px"><a href="#" onclick="go('actualites');return false" style="color:var(--gold);font-size:12px;font-weight:600">📰 Plus d'actualités →</a></div>
+          <div style="margin-top:8px"><a href="#" onclick="go('actualites');return false" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
         </div>
 
         <!-- SLIDE 3: Baisse des dons -->
@@ -1589,7 +1593,7 @@ document.addEventListener('DOMContentLoaded',function(){
             <span style="font-size:14px;font-weight:700;color:var(--text)">260'349 dons en Suisse (−1.3%)</span>
           </div>
           <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Tendance baissière pour la 3ᵉ année consécutive. Depuis le 1ᵉʳ janvier 2025, la gratuité du don et l'interdiction de discrimination sont inscrites dans la loi (LPTh).</div>
-          <div style="margin-top:8px"><a href="#" onclick="go('actualites');return false" style="color:var(--gold);font-size:12px;font-weight:600">📰 Plus d'actualités →</a></div>
+          <div style="margin-top:8px"><a href="#" onclick="go('actualites');return false" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
         </div>
 
       </div>
@@ -1620,7 +1624,7 @@ document.addEventListener('DOMContentLoaded',function(){
           <div id="stock-canton-extra"></div>
         </div>
         <div id="stock-source" style="margin-top:8px;font-size:11px;color:var(--text-muted);text-align:center"></div>
-        <div class="alpha-only" style="margin-top:8px;text-align:center"><a href="#" onclick="go('flux');return false" style="color:var(--gold);font-size:12px;font-weight:600">📊 Flux CTS complet →</a></div>
+        <div class="alpha-only" style="margin-top:8px;text-align:center"><a href="#" onclick="go('flux');return false" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📊 Flux CTS complet →</a></div>
       </div>
     </div><!-- hero-stock-acc -->
   </div>
@@ -7834,22 +7838,23 @@ function initQHUG(){
   if(!ct)return;
   ct.innerHTML=qhugItems.map(function(q){
     var subH=q.sub?'<input id="qh-sub-'+q.n+'" placeholder="'+q.sub+'" style="margin-top:4px;width:100%;padding:6px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:4px;color:var(--text);font-size:12px;display:none;box-sizing:border-box">':'';
-    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--dark-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--gold);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--text-dim)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button class="qh-yn" data-q="'+q.n+'" data-v="OUI" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Oui</button><button class="qh-yn" data-q="'+q.n+'" data-v="NON" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Non</button></div></div>';
+    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--dark-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--gold);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--text-dim)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button class="qh-yn" data-q="'+q.n+'" data-v="OUI" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Oui</button><button class="qh-yn" data-q="'+q.n+'" data-v="NON" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Non</button></div></div>';
   }).join('');
 }
 function selectQH(el){
   var q=el.getAttribute('data-q'),v=el.getAttribute('data-v');
-  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';});
-  el.style.background=v==='OUI'?'rgba(230,57,70,.2)':'rgba(46,204,113,.2)';
-  el.style.color=v==='OUI'?'var(--red-soft)':'var(--green)';
+  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.setAttribute('aria-pressed','false');});
+  el.style.background=v==='OUI'?'var(--red-soft)':'var(--green)';
+  el.style.color='var(--dark)';
   el.style.borderColor=v==='OUI'?'var(--red-soft)':'var(--green)';
+  el.setAttribute('aria-pressed','true');
   el.setAttribute('data-selected','1');
   var sub=document.getElementById('qh-sub-'+q);
   if(sub)sub.style.display=v==='OUI'?'block':'none';
 }
 function resetHUGForm(){
   document.querySelectorAll('#qhug-form input,#qhug-form select').forEach(function(i){i.value='';});
-  document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.removeAttribute('data-selected');});
+  document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.removeAttribute('data-selected');b.setAttribute('aria-pressed','false');});
   document.querySelectorAll('[id^="qh-sub-"]').forEach(function(s){s.style.display='none';s.value='';});
 }
 function generateHUGPDF(){
