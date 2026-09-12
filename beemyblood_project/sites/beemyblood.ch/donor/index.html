@@ -36,6 +36,15 @@
   --shadow:0 8px 32px rgba(0,0,0,.4);
   --shadow-gold:0 0 40px rgba(200,169,96,.15);
   --transition:.3s cubic-bezier(.4,0,.2,1);
+  --black:#000;--vr-blue-dark:#0077b6;--vr-blue-light:#00b4d8;--game-text-on-gold:#0a0a12;
+  --canvas-grad-dark:#0a0e14;--canvas-grad-light:#111820;--navy-panel:#1a1a2e;--card-navy:#16213e;
+  --wrapped-grad-1:#1a0a2e;--wrapped-grad-2:#2d1b4e;--wrapped-grad-3:#1a2040;--preview-text:#1a1a1a;
+  --vr-indigo-dark:#1b1464;--vr-indigo-light:#6c63ff;--vr-green-dark:#2d6a4f;--vr-green-light:#52b788;
+  --green-light:#5dde9e;--red-light:#ff6b7a;--orange-light:#ffb74d;--mint-light:#69f0ae;
+  --preview-label:#666;--preview-border:#999;--preview-divider:#ddd;--preview-red:#b91c1c;
+  --stock-purple:#9b59b6;--stock-purple-light:#c39bd3;--stock-orange:#e67e22;--stock-orange-light:#f0a04b;
+  --stock-yellow:#f4d03f;--stock-yellow-light:#f7dc6f;--game-text-light:#f0ece2;
+  --gold-deep:#e8a825;--red-bright:#ff4757;--white:#fff;--vr-orange-dark:#ff6b35;
 }
 
 /* ===== LIGHT MODE ===== */
@@ -152,7 +161,7 @@ body.light-mode .game-over-overlay{background:rgba(245,245,247,.97)!important;co
 body.light-mode .game-over-overlay *{color:#1A1A2E!important}
 body.light-mode .game-over-overlay .btn-gold{color:#0a0a12!important}
 body.light-mode .game-over-overlay .btn-outline{color:#1A1A2E!important;border-color:rgba(26,26,46,.3)!important}
-.hr-rule-text{color:#fff}
+.hr-rule-text{color:var(--white)}
 body.light-mode .hr-rule-text{color:#1A1A2E!important}
 /* Broad light mode: override common inline dark patterns */
 body.light-mode .sec-header .sec-title,body.light-mode .card-title,body.light-mode .card-header .card-title{color:#1A1A2E!important}
@@ -277,7 +286,7 @@ html:has(body.has-fullscreen),body.has-fullscreen{overflow:hidden!important;heig
 .daily-fact:active{transform:scale(.99)}
 
 /* SHAREABLE DONOR CARD */
-.donor-card{position:relative;width:100%;max-width:380px;aspect-ratio:1.6/1;margin:0 auto;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#1a1a2e 100%);border:1px solid rgba(200,169,96,.3);box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(200,169,96,.15)}
+.donor-card{position:relative;width:100%;max-width:380px;aspect-ratio:1.6/1;margin:0 auto;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,var(--navy-panel) 0%,var(--card-navy) 40%,var(--navy-panel) 100%);border:1px solid rgba(200,169,96,.3);box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(200,169,96,.15)}
 .donor-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(200,169,96,.08) 50%,transparent 70%);animation:cardShine 4s ease-in-out infinite;pointer-events:none}
 .donor-card::after{content:'';position:absolute;bottom:-30%;left:-30%;width:160%;height:160%;background:radial-gradient(circle at 30% 80%,rgba(230,57,70,.06),transparent 50%);pointer-events:none}
 .donor-card-inner{position:relative;z-index:1;padding:20px;height:100%;display:flex;flex-direction:column;justify-content:space-between}
@@ -312,7 +321,7 @@ body.light-mode .bc-bar{background:rgba(248,249,250,.95)!important;border-bottom
 body.light-mode .bc-bar span{color:#555!important}
 body.light-mode .bc-bar span[style*="color:var(--gold)"]{color:#8B6914!important}
 body.light-mode #bc-current{color:#1A1A2E!important}
-.hero-tagline{color:#fff}
+.hero-tagline{color:var(--white)}
 body.light-mode .hero-tagline{color:#1A1A2E}
 .hero h1 .glow{background:linear-gradient(135deg,var(--gold),var(--gold-glow),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3s ease infinite}
 @keyframes shimmer{0%,100%{background-position:0% center}50%{background-position:200% center}}
@@ -333,7 +342,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,169,96,.4);text-decoration:none}
 .btn-outline{background:transparent;border:1.5px solid var(--dark-border);color:var(--text)}
 .btn-outline:hover{border-color:var(--gold);color:var(--gold);text-decoration:none}
-.btn-red{background:linear-gradient(135deg,var(--red),#FF4757);color:#fff}
+.btn-red{background:linear-gradient(135deg,var(--red),var(--red-bright));color:var(--white)}
 .btn-red:hover{transform:translateY(-2px)}
 .btn-sm{padding:8px 16px;font-size:12px;border-radius:8px}
 
@@ -429,7 +438,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 
 /* FULLSCREEN */
 .fs-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:var(--text-dim);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;z-index:10;transition:var(--transition);backdrop-filter:blur(4px)}
-.fs-btn:hover{background:rgba(200,169,96,.3);color:#fff;border-color:var(--gold)}
+.fs-btn:hover{background:rgba(200,169,96,.3);color:var(--white);border-color:var(--gold)}
 .fs-btn~.card-header,.fs-btn~div>.card-header{padding-right:36px}
 .card.fullscreen,.flux-canvas-wrap.fullscreen{position:fixed!important;inset:0!important;z-index:2000!important;border-radius:0!important;max-width:none!important;width:100%!important;height:100%!important;overflow-y:auto!important;margin:0!important;padding:32px 40px!important;background:var(--dark)!important;border:none!important;display:flex!important;flex-direction:column!important}
 .game-wrap.fullscreen{position:fixed!important;inset:0!important;z-index:2000!important;border-radius:0!important;max-width:none!important;width:100%!important;height:100%!important;overflow:hidden!important;margin:0!important;padding:32px 40px!important;background:var(--dark)!important;border:none!important;display:flex!important;flex-direction:column!important}
@@ -476,7 +485,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .stock-grp{font-family:var(--font-mono);font-weight:500;font-size:14px;min-width:72px;text-align:left;white-space:nowrap}
 .stock-bar-bg{flex:1;height:8px;background:var(--dark-surface);border-radius:4px;overflow:hidden}
 .stock-bar{height:100%;border-radius:4px;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
-.bar-crit{background:linear-gradient(90deg,var(--red),var(--red-soft))}.bar-low{background:linear-gradient(90deg,var(--orange),#FFB74D)}.bar-ok{background:linear-gradient(90deg,var(--green),var(--green-soft))}.bar-good{background:linear-gradient(90deg,var(--teal),#69F0AE)}
+.bar-crit{background:linear-gradient(90deg,var(--red),var(--red-soft))}.bar-low{background:linear-gradient(90deg,var(--orange),var(--orange-light))}.bar-ok{background:linear-gradient(90deg,var(--green),var(--green-soft))}.bar-good{background:linear-gradient(90deg,var(--teal),var(--mint-light))}
 .stock-lbl{font-size:13px;font-weight:600;min-width:58px;text-align:right;white-space:nowrap}
 
 /* DASH WELCOME */
@@ -493,7 +502,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .xp-txt{font-size:10px;color:var(--text-muted);text-align:center;margin-top:3px}
 
 /* BLOOD GROUP */
-.blood-big{font-family:var(--font-display);font-size:56px;font-weight:700;background:linear-gradient(135deg,var(--red),#FF6B6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.blood-big{font-family:var(--font-display);font-size:56px;font-weight:700;background:linear-gradient(135deg,var(--red),var(--red-soft));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
 
 /* TIMELINE */
 .tl-item{display:flex;gap:14px;padding:14px 0;position:relative}
@@ -682,7 +691,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 @keyframes urgPulse{0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,.3)}50%{box-shadow:0 0 0 8px rgba(230,57,70,0)}}
 .pat.matched{border-color:var(--green);background:rgba(46,204,113,.08);pointer-events:none;animation:matchPop .4s ease}
 @keyframes matchPop{0%{transform:scale(1)}30%{transform:scale(1.08)}100%{transform:scale(.92);opacity:.4}}
-.pat-urg{position:absolute;top:-7px;right:-7px;background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase}
+.pat-urg{position:absolute;top:-7px;right:-7px;background:var(--red);color:var(--white);font-size:13px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase}
 .pat-emoji{font-size:49px;margin-bottom:4px}
 .pat-need{font-family:var(--font-mono);font-size:38px;font-weight:700;margin-bottom:2px}
 .pat-lbl{font-size:16px;color:var(--text-dim)}
@@ -702,11 +711,11 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .game-fb.ko{visibility:visible;opacity:1;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.25);color:var(--red-soft);animation:fbIn .25s ease}
 @keyframes fbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 .game-start-overlay{position:absolute;inset:0;background:rgba(13,13,20,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);padding:16px;text-align:center;overflow-y:auto;gap:4px}
-.game-over-overlay{position:absolute;inset:0;background:rgba(13,13,20,.96);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);text-align:center;padding:20px 16px;overflow-y:auto;min-height:50vh;color:#f0ece2!important}
+.game-over-overlay{position:absolute;inset:0;background:rgba(13,13,20,.96);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);text-align:center;padding:20px 16px;overflow-y:auto;min-height:50vh;color:var(--game-text-light)!important}
 .game-over-overlay.show{display:flex}
-.game-over-overlay *{color:#f0ece2!important}
-.game-over-overlay .btn-gold{color:#0a0a12!important}
-.game-over-overlay .btn-outline{color:#f0ece2!important;border-color:rgba(240,236,226,.4)!important}
+.game-over-overlay *{color:var(--game-text-light)!important}
+.game-over-overlay .btn-gold{color:var(--game-text-on-gold)!important}
+.game-over-overlay .btn-outline{color:var(--game-text-light)!important;border-color:rgba(240,236,226,.4)!important}
 
 /* GAME SCORE POPUP */
 .score-popup{position:absolute;pointer-events:none;font-family:var(--font-mono);font-weight:700;font-size:22px;z-index:20;animation:scorePop .8s ease-out forwards}
@@ -740,16 +749,16 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .chat-send:hover{background:var(--gold-glow);transform:scale(1.05)}
 
 /* MAP */
-#mapid{height:400px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--dark-border);background:#1a1a2e;touch-action:none}
-#map-card.fullscreen{padding:0!important;overflow:hidden!important;display:block!important;background:#1a1a2e!important}
+#mapid{height:400px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--dark-border);background:var(--navy-panel);touch-action:none}
+#map-card.fullscreen{padding:0!important;overflow:hidden!important;display:block!important;background:var(--navy-panel)!important}
 #map-card.fullscreen #mapid{position:absolute!important;inset:0!important;height:100%!important;width:100%!important;border-radius:0!important;border:none!important}
 #map-card.fullscreen .fs-btn{position:fixed;top:12px;right:12px;z-index:2001}
 #map-card.fullscreen #map-nav-btns{z-index:2001;bottom:20px}
 #map-card.fullscreen #map-recenter{z-index:2001;bottom:20px}
 #map-recenter:hover{background:var(--dark-surface);border-color:var(--blue);color:var(--blue)}
-.leaflet-container{background:#1a1a2e!important;-webkit-transform:translateZ(0);transform:translateZ(0);will-change:transform}
-.leaflet-tile-pane{background:#1a1a2e!important;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
-.leaflet-tile{background:#1a1a2e!important;will-change:transform}
+.leaflet-container{background:var(--navy-panel)!important;-webkit-transform:translateZ(0);transform:translateZ(0);will-change:transform}
+.leaflet-tile-pane{background:var(--navy-panel)!important;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
+.leaflet-tile{background:var(--navy-panel)!important;will-change:transform}
 .leaflet-map-pane,.leaflet-proxy{-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
 .leaflet-popup-content-wrapper{background:var(--dark-card)!important;color:var(--text)!important;border:1px solid var(--dark-border)!important;border-radius:12px!important;box-shadow:var(--shadow)!important}
 .leaflet-popup-tip{background:var(--dark-card)!important}
@@ -785,23 +794,23 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .elig-result p{color:var(--text-dim);font-size:14px;line-height:1.6}
 
 /* FORM GEN */
-.form-preview{background:#fff;color:#1a1a1a;border-radius:var(--radius);padding:40px;max-width:600px;margin:20px auto;font-family:serif;font-size:14px;line-height:1.7}
-.form-preview h2{font-size:18px;margin-bottom:4px;color:#B91C1C}
-.form-preview .subtitle{font-size:12px;color:#666;margin-bottom:20px}
+.form-preview{background:var(--white);color:var(--preview-text);border-radius:var(--radius);padding:40px;max-width:600px;margin:20px auto;font-family:serif;font-size:14px;line-height:1.7}
+.form-preview h2{font-size:18px;margin-bottom:4px;color:var(--preview-red)}
+.form-preview .subtitle{font-size:12px;color:var(--preview-label);margin-bottom:20px}
 .form-row{display:flex;gap:16px;margin-bottom:12px}
 .form-field{flex:1}
-.form-field label{display:block;font-size:11px;color:#888;margin-bottom:2px}
-.form-field .val{padding:6px 0;border-bottom:1px solid #ddd;font-weight:600;font-size:13px}
-.form-section{font-weight:700;font-size:13px;margin:16px 0 8px;padding-bottom:4px;border-bottom:2px solid #B91C1C;color:#B91C1C}
+.form-field label{display:block;font-size:11px;color:var(--toggle-knob-off);margin-bottom:2px}
+.form-field .val{padding:6px 0;border-bottom:1px solid var(--preview-divider);font-weight:600;font-size:13px}
+.form-section{font-weight:700;font-size:13px;margin:16px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--preview-red);color:var(--preview-red)}
 .form-check{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:12px}
-.form-check .box{width:14px;height:14px;border:1.5px solid #999;border-radius:2px;flex-shrink:0}
+.form-check .box{width:14px;height:14px;border:1.5px solid var(--preview-border);border-radius:2px;flex-shrink:0}
 
 /* VR */
 .vr-box{background:linear-gradient(135deg,rgba(79,195,247,.04),rgba(187,134,252,.04));border:1px solid rgba(79,195,247,.12);border-radius:var(--radius);padding:36px;text-align:center;position:relative;overflow:hidden}
 .vr-envs{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
 .vr-env{width:180px;height:120px;border-radius:var(--radius-sm);border:2px solid var(--dark-border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden}
 .vr-env::before{content:'';position:absolute;inset:0;opacity:0;transition:var(--transition)}
-.vr-env:nth-child(1)::before{background:linear-gradient(135deg,#FF6B35,#F7931E)}.vr-env:nth-child(2)::before{background:linear-gradient(135deg,#2D6A4F,#52B788)}.vr-env:nth-child(3)::before{background:linear-gradient(135deg,#1B1464,#6C63FF)}.vr-env:nth-child(4)::before{background:linear-gradient(135deg,#0077B6,#00B4D8)}
+.vr-env:nth-child(1)::before{background:linear-gradient(135deg,var(--vr-orange-dark),var(--vr-orange-light))}.vr-env:nth-child(2)::before{background:linear-gradient(135deg,var(--vr-green-dark),var(--vr-green-light))}.vr-env:nth-child(3)::before{background:linear-gradient(135deg,var(--vr-indigo-dark),var(--vr-indigo-light))}.vr-env:nth-child(4)::before{background:linear-gradient(135deg,var(--vr-blue-dark),var(--vr-blue-light))}
 .vr-env:hover::before{opacity:.12}.vr-env:hover{border-color:var(--blue);transform:translateY(-3px)}
 .vr-env.sel{border-color:var(--blue);box-shadow:0 0 16px rgba(79,195,247,.15)}.vr-env.sel::before{opacity:.15}
 .vr-env-emoji{font-size:36px;position:relative}.vr-env-name{font-size:12px;font-weight:600;position:relative}
@@ -842,7 +851,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 /* STOCK GAUGE */
 .stock-gauge{position:relative;width:100%;height:24px;background:var(--dark-surface);border-radius:12px;overflow:hidden}
 .stock-gauge-fill{height:100%;border-radius:12px;transition:width 1s cubic-bezier(.4,0,.2,1)}
-.stock-gauge-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.stock-gauge-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--white);text-shadow:0 1px 3px rgba(0,0,0,.5)}
 
 /* BLOOD CELLS BACKGROUND */
 .hero-cells{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
@@ -975,7 +984,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .micro-learn-text{font-size:12px;color:var(--text-dim);line-height:1.6}
 
 /* FLUX CTS VISUALIZATION */
-.flux-canvas-wrap{position:relative;width:100%;height:500px;background:linear-gradient(180deg,#0a0e14,#111820);border-radius:var(--radius);overflow:hidden;border:1px solid var(--dark-border);display:flex;flex-direction:column}
+.flux-canvas-wrap{position:relative;width:100%;height:500px;background:linear-gradient(180deg,var(--canvas-grad-dark),var(--canvas-grad-light));border-radius:var(--radius);overflow:hidden;border:1px solid var(--dark-border);display:flex;flex-direction:column}
 .flux-canvas-wrap svg{width:100%;height:100%;display:block}
 @keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .flux-hud{position:absolute;top:8px;left:0;right:0;padding:8px 12px;display:flex;justify-content:space-between;align-items:start;pointer-events:none;z-index:4}
@@ -1023,7 +1032,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .flux-bar-val{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600}
 
 /* VIDEO PLAYER */
-.vid-player{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--radius);overflow:hidden;cursor:pointer}
+.vid-player{position:relative;width:100%;aspect-ratio:16/9;background:var(--black);border-radius:var(--radius);overflow:hidden;cursor:pointer}
 .vid-player canvas{width:100%;height:100%;display:block}
 .card.fullscreen .vid-player{aspect-ratio:auto;height:100%}
 .card.fullscreen .vid-player canvas{width:100%;height:100%}
@@ -1032,7 +1041,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .vid-overlay.hidden{opacity:0;pointer-events:none}
 .vid-play-btn{width:64px;height:64px;border-radius:50%;background:rgba(200,169,96,.9);display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:transform .2s;box-shadow:0 4px 20px rgba(200,169,96,.3)}
 .vid-play-btn:hover{transform:scale(1.1)}
-.vid-title{margin-top:12px;font-size:14px;font-weight:600;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.vid-title{margin-top:12px;font-size:14px;font-weight:600;color:var(--white);text-shadow:0 2px 8px rgba(0,0,0,.5)}
 .vid-controls{position:absolute;bottom:0;left:0;right:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,.7));display:flex;align-items:center;gap:10px;z-index:4;opacity:0;transition:opacity .3s}
 .vid-player:hover .vid-controls{opacity:1}
 .vid-progress{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden;cursor:pointer}
@@ -1077,7 +1086,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 /* SETTING TOGGLES */
 .setting-toggle{width:44px;height:24px;border-radius:12px;background:var(--dark-border);position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
 .setting-toggle.on{background:var(--green)}
-.setting-knob{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.setting-knob{width:20px;height:20px;border-radius:50%;background:var(--white);position:absolute;top:2px;left:2px;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .setting-toggle.on .setting-knob{transform:translateX(20px)}
 .pheno-row{display:flex;align-items:center;gap:6px;padding:3px 0}
 .pheno-sys{font-size:10px;font-weight:600;color:var(--text-muted);min-width:44px;text-transform:uppercase;letter-spacing:.3px}
@@ -1100,7 +1109,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 /* CONVOCATION */
 .convo-card{background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius);padding:28px;max-width:580px}
 .convo-from{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--dark-border)}
-.convo-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#69F0AE);display:flex;align-items:center;justify-content:center;font-size:18px}
+.convo-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--mint-light));display:flex;align-items:center;justify-content:center;font-size:18px}
 .convo-body{font-size:13px;line-height:1.8;color:var(--text-dim)}
 .convo-body strong{color:var(--text)}.convo-body .urg{color:var(--red-soft);font-weight:600}
 
@@ -1229,7 +1238,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 }
 
 /* Wrapped */
-.wrapped-card{background:linear-gradient(135deg,#1a0a2e,#2d1b4e,#1a2040);border:1px solid rgba(155,89,182,.3);border-radius:var(--radius);padding:20px;text-align:center;position:relative;overflow:hidden}
+.wrapped-card{background:linear-gradient(135deg,var(--wrapped-grad-1),var(--wrapped-grad-2),var(--wrapped-grad-3));border:1px solid rgba(155,89,182,.3);border-radius:var(--radius);padding:20px;text-align:center;position:relative;overflow:hidden}
 .wrapped-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 80%,rgba(200,169,96,.1),transparent 50%),radial-gradient(circle at 80% 20%,rgba(230,57,70,.1),transparent 50%)}
 .wrapped-stat{display:flex;flex-direction:column;align-items:center;padding:12px}
 .wrapped-stat .ws-num{font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1}
@@ -1242,7 +1251,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 
 
 /* BeeBot floating */
-.beebot-fab{position:fixed;bottom:70px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#e8a825);color:var(--dark);border:none;font-size:26px;cursor:pointer;z-index:1500;box-shadow:0 4px 20px rgba(200,169,96,.4);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center}
+.beebot-fab{position:fixed;bottom:70px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:var(--dark);border:none;font-size:26px;cursor:pointer;z-index:1500;box-shadow:0 4px 20px rgba(200,169,96,.4);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center}
 .beebot-fab:hover{transform:scale(1.1);box-shadow:0 6px 30px rgba(200,169,96,.6)}
 .beebot-panel{position:fixed;bottom:136px;right:16px;width:340px;max-height:480px;background:var(--dark-card);border:1px solid var(--gold);border-radius:var(--radius);z-index:1500;display:none;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.5);overflow:hidden}
 .beebot-panel.open{display:flex}
@@ -1336,7 +1345,7 @@ body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb
         onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,#C8A960,#E8D5A3);color:#0d0d14;cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -1856,7 +1865,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="stock-pfc-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🧊 Plasma frais congelé — Stocks <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="stock-pfc-acc">
   <div class="card">
-    <div style="font-size:14px;font-weight:700;color:#F4D03F;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid rgba(244,208,63,.2)">🧊 Plasma frais congelé (PFC) — Conservation 3 ans</div>
+    <div style="font-size:14px;font-weight:700;color:var(--stock-yellow);margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid rgba(244,208,63,.2)">🧊 Plasma frais congelé (PFC) — Conservation 3 ans</div>
     <div class="stock-row"><span class="stock-grp" style="color:var(--green)">Groupe AB</span><div class="stock-bar-bg"><div class="stock-bar bar-good" style="width:78%"></div></div><span class="stock-lbl" style="color:var(--teal)">Bon</span></div>
     <div class="stock-row"><span class="stock-grp" style="color:var(--green)">Autres groupes</span><div class="stock-bar-bg"><div class="stock-bar bar-ok" style="width:65%"></div></div><span class="stock-lbl" style="color:var(--green)">OK</span></div>
     <div style="font-size:11px;color:var(--text-muted);margin-top:6px">AB = donneur universel de plasma (compatible avec tous les receveurs)</div>
@@ -2029,17 +2038,17 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="card" style="text-align:center">
       <div style="font-size:24px;margin-bottom:6px">🩸</div>
       <div style="font-size:14px;font-weight:600;margin-bottom:8px">Globules rouges (CE)</div>
-      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:55%;background:linear-gradient(90deg,#E63946,#E67E22)"></div><div class="stock-gauge-text">199 poches · 42j max</div></div>
+      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:55%;background:linear-gradient(90deg,var(--red),var(--stock-orange))"></div><div class="stock-gauge-text">199 poches · 42j max</div></div>
     </div>
     <div class="card" style="text-align:center">
       <div style="font-size:24px;margin-bottom:6px">💜</div>
       <div style="font-size:14px;font-weight:600;margin-bottom:8px">Plaquettes</div>
-      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:36%;background:linear-gradient(90deg,#9B59B6,#c39bd3)"></div><div class="stock-gauge-text">18 unités · ⚠️ 5j max</div></div>
+      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:36%;background:linear-gradient(90deg,var(--stock-purple),var(--stock-purple-light))"></div><div class="stock-gauge-text">18 unités · ⚠️ 5j max</div></div>
     </div>
     <div class="card" style="text-align:center">
       <div style="font-size:24px;margin-bottom:6px">💛</div>
       <div style="font-size:14px;font-weight:600;margin-bottom:8px">Plasma frais congelé</div>
-      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:72%;background:linear-gradient(90deg,#F4D03F,#f7dc6f)"></div><div class="stock-gauge-text">142 unités · 3 ans max</div></div>
+      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:72%;background:linear-gradient(90deg,var(--stock-yellow),var(--stock-yellow-light))"></div><div class="stock-gauge-text">142 unités · 3 ans max</div></div>
     </div>
   </div>
   </div><!-- /dash-gauges-acc -->
@@ -2092,7 +2101,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="card-header"><div class="card-title">📡 Pulse Alert™</div><span class="badge badge-red" style="animation:pulseG 2s infinite">● Actif</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Convocation IA croisée : <strong>phénotype × calendrier × stock prédictif × localisation</strong>.</div>
     <div style="padding:14px;background:linear-gradient(135deg,rgba(230,57,70,.1),rgba(200,169,96,.06));border:2px solid rgba(230,57,70,.3);border-radius:var(--radius);margin-bottom:10px;position:relative;overflow:hidden">
-      <div style="position:absolute;top:0;right:0;background:var(--red-soft);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:0 0 0 8px">URGENT</div>
+      <div style="position:absolute;top:0;right:0;background:var(--red-soft);color:var(--white);font-size:11px;font-weight:700;padding:3px 10px;border-radius:0 0 0 8px">URGENT</div>
       <div style="font-size:16px;font-weight:700;color:var(--red-soft);margin-bottom:6px">🚨 Ton B+ Fy(a−b−) est demandé</div>
       <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Échange transfusionnel prévu dans <strong style="color:var(--gold)">72h</strong>. Tu es <strong style="color:var(--red-soft)">1 des 3 donneurs compatibles</strong> du canton.</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0">
@@ -3000,12 +3009,12 @@ document.addEventListener('DOMContentLoaded',function(){
     </svg>
     <!-- Legend for fullscreen mobile -->
     <div class="flux-legend-fs">
-      <span><i style="background:#E63946"></i>CE · Globules rouges</span>
-      <span><i style="background:#9B59B6"></i>CP · Plaquettes</span>
-      <span><i style="background:#F4D03F"></i>PFC · Plasma</span>
-      <span><i style="background:#C8A960"></i>CE phénotypés</span>
-      <span><i style="background:#4FC3F7"></i>CTS → Labo</span>
-      <span><i style="background:#2ECC71"></i>Labo → CTS</span>
+      <span><i style="background:var(--red)"></i>CE · Globules rouges</span>
+      <span><i style="background:var(--stock-purple)"></i>CP · Plaquettes</span>
+      <span><i style="background:var(--stock-yellow)"></i>PFC · Plasma</span>
+      <span><i style="background:var(--gold)"></i>CE phénotypés</span>
+      <span><i style="background:var(--blue)"></i>CTS → Labo</span>
+      <span><i style="background:var(--green)"></i>Labo → CTS</span>
     </div>
     <div class="flux-hud">
       <div class="flux-hud-left" style="display:flex;flex-direction:column;gap:6px">
@@ -3020,27 +3029,27 @@ document.addEventListener('DOMContentLoaded',function(){
     </div><!-- /map-area -->
   </div><!-- /flux-canvas-wrap -->
   <div class="flux-legend-mob">
-    <span><i style="background:#E63946"></i>CE · Globules rouges</span>
-    <span><i style="background:#9B59B6"></i>CP · Plaquettes</span>
-    <span><i style="background:#F4D03F"></i>PFC · Plasma</span>
-    <span><i style="background:#C8A960"></i>CE phénotypés</span>
-    <span><i style="background:#4FC3F7"></i>CTS → Labo</span>
-    <span><i style="background:#2ECC71"></i>Labo → CTS</span>
-    <span><i style="background:#C8A960"></i>Commande ext. → CTS</span>
+    <span><i style="background:var(--red)"></i>CE · Globules rouges</span>
+    <span><i style="background:var(--stock-purple)"></i>CP · Plaquettes</span>
+    <span><i style="background:var(--stock-yellow)"></i>PFC · Plasma</span>
+    <span><i style="background:var(--gold)"></i>CE phénotypés</span>
+    <span><i style="background:var(--blue)"></i>CTS → Labo</span>
+    <span><i style="background:var(--green)"></i>Labo → CTS</span>
+    <span><i style="background:var(--gold)"></i>Commande ext. → CTS</span>
   </div>
   <div class="grid-1-2" style="margin-top:16px">
     <div class="card" style="position:relative">
       <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
       <div class="card-header"><div class="card-title">📊 Stock par groupe</div></div>
       <div class="flux-group-bar" id="fx-bars">
-        <div class="flux-bar" style="background:linear-gradient(to top,#E63946,#ff6b7a);height:18%"><div class="flux-bar-val" style="color:var(--red-soft)">14</div><div class="flux-bar-lbl">O-</div></div>
-        <div class="flux-bar" style="background:linear-gradient(to top,#E67E22,#f0a04b);height:55%"><div class="flux-bar-val" style="color:var(--orange)">43</div><div class="flux-bar-lbl">O+</div></div>
-        <div class="flux-bar" style="background:linear-gradient(to top,#E63946,#ff6b7a);height:35%"><div class="flux-bar-val" style="color:var(--red-soft)">27</div><div class="flux-bar-lbl">A-</div></div>
-        <div class="flux-bar" style="background:linear-gradient(to top,#2ECC71,#5dde9e);height:68%"><div class="flux-bar-val" style="color:var(--green)">53</div><div class="flux-bar-lbl">A+</div></div>
-        <div class="flux-bar" style="background:linear-gradient(to top,#E63946,#ff6b7a);height:12%"><div class="flux-bar-val" style="color:var(--red-soft)">9</div><div class="flux-bar-lbl">B-</div></div>
-        <div class="flux-bar" style="background:linear-gradient(to top,#E67E22,#f0a04b);height:42%"><div class="flux-bar-val" style="color:var(--orange)">33</div><div class="flux-bar-lbl">B+</div></div>
-        <div class="flux-bar" style="background:linear-gradient(to top,#2ECC71,#5dde9e);height:25%"><div class="flux-bar-val" style="color:var(--green)">8</div><div class="flux-bar-lbl">AB-</div></div>
-        <div class="flux-bar" style="background:linear-gradient(to top,#2ECC71,#5dde9e);height:30%"><div class="flux-bar-val" style="color:var(--green)">12</div><div class="flux-bar-lbl">AB+</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--red),var(--red-light));height:18%"><div class="flux-bar-val" style="color:var(--red-soft)">14</div><div class="flux-bar-lbl">O-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--stock-orange),var(--stock-orange-light));height:55%"><div class="flux-bar-val" style="color:var(--orange)">43</div><div class="flux-bar-lbl">O+</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--red),var(--red-light));height:35%"><div class="flux-bar-val" style="color:var(--red-soft)">27</div><div class="flux-bar-lbl">A-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--green),var(--green-light));height:68%"><div class="flux-bar-val" style="color:var(--green)">53</div><div class="flux-bar-lbl">A+</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--red),var(--red-light));height:12%"><div class="flux-bar-val" style="color:var(--red-soft)">9</div><div class="flux-bar-lbl">B-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--stock-orange),var(--stock-orange-light));height:42%"><div class="flux-bar-val" style="color:var(--orange)">33</div><div class="flux-bar-lbl">B+</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--green),var(--green-light));height:25%"><div class="flux-bar-val" style="color:var(--green)">8</div><div class="flux-bar-lbl">AB-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--green),var(--green-light));height:30%"><div class="flux-bar-val" style="color:var(--green)">12</div><div class="flux-bar-lbl">AB+</div></div>
       </div>
       <div style="margin-top:28px;display:flex;justify-content:space-between;font-size:14px;color:var(--text-muted)">
         <span>🔴 <20 poches</span><span>🟠 20-40</span><span>🟢 >40</span>
@@ -3191,7 +3200,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-products-acc" style="font-size:13px;padding:6px 10px;margin-top:10px">🩸 Produits sanguins détaillés <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="flux-products-acc">
   <div class="grid-3" style="margin-top:8px">
-    <div class="card" style="text-align:center;border-top:3px solid #E63946;position:relative">
+    <div class="card" style="text-align:center;border-top:3px solid var(--red);position:relative">
       <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
       <div style="font-size:32px;margin-bottom:6px">🩸</div>
       <div style="font-weight:700;font-size:15px;color:var(--red-soft)">Globules rouges (CE)</div>
@@ -3199,7 +3208,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="margin-top:6px;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--red-soft)">199</div>
       <div style="font-size:15px;color:var(--text-muted)">poches en stock</div>
     </div>
-    <div class="card" style="text-align:center;border-top:3px solid #9B59B6;position:relative">
+    <div class="card" style="text-align:center;border-top:3px solid var(--stock-purple);position:relative">
       <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
       <div style="font-size:32px;margin-bottom:6px">💜</div>
       <div style="font-weight:700;font-size:15px;color:var(--purple)">Concentrés plaquettaires</div>
@@ -3207,12 +3216,12 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="margin-top:6px;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--purple)">18</div>
       <div style="font-size:15px;color:var(--text-muted)">unités en stock</div>
     </div>
-    <div class="card" style="text-align:center;border-top:3px solid #F4D03F;position:relative">
+    <div class="card" style="text-align:center;border-top:3px solid var(--stock-yellow);position:relative">
       <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
       <div style="font-size:32px;margin-bottom:6px">💛</div>
-      <div style="font-weight:700;font-size:15px;color:#F4D03F">Plasma frais congelé</div>
+      <div style="font-weight:700;font-size:15px;color:var(--stock-yellow)">Plasma frais congelé</div>
       <div style="font-size:14px;color:var(--text-dim);margin-top:4px;line-height:1.5">Plasma · <strong>3 ans max</strong> · Brûlures, hémorragies massives</div>
-      <div style="margin-top:6px;font-family:var(--font-display);font-size:28px;font-weight:700;color:#F4D03F">142</div>
+      <div style="margin-top:6px;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--stock-yellow)">142</div>
       <div style="font-size:15px;color:var(--text-muted)">unités en stock</div>
     </div>
   </div>
@@ -3230,7 +3239,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="vid-grid">
       <!-- Real Video 1: VR pendant le don -->
       <div class="card" style="padding:0;overflow:hidden;border-color:rgba(200,169,96,.25);position:relative" id="mp4-card-vr">
-        <div style="position:relative;width:100%;aspect-ratio:16/9;background:#0d0d14;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-vr">
+        <div style="position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-vr">
           <div id="mp4-fallback-vr" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-dim)">
             <div style="font-size:56px">🥽</div>
             <div style="font-size:15px;font-weight:700;color:var(--gold)">Démo VR — Réalité virtuelle pendant le don</div>
@@ -3250,7 +3259,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
       <!-- Real Video 2: Guide 5 étapes -->
       <div class="card" style="padding:0;overflow:hidden;border-color:rgba(200,169,96,.25);position:relative" id="mp4-card-guide">
-        <div style="position:relative;width:100%;aspect-ratio:16/9;background:#0d0d14;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-guide">
+        <div style="position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-guide">
           <div id="mp4-fallback-guide" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-dim)">
             <div style="font-size:56px">📺</div>
             <div style="font-size:15px;font-weight:700;color:var(--gold)">Guide du don — Les 5 étapes</div>
@@ -4340,7 +4349,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="wrapped-card">
     <div style="position:relative;z-index:1">
       <div style="font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:4px">BeeMyBlood Wrapped</div>
-      <div style="font-size:28px;font-weight:700;color:#fff;font-family:var(--font-display);margin-bottom:16px">2025 ✨</div>
+      <div style="font-size:28px;font-weight:700;color:var(--white);font-family:var(--font-display);margin-bottom:16px">2025 ✨</div>
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
         <div class="wrapped-stat"><div class="ws-num" style="color:var(--red-soft)">3</div><div class="ws-lbl">Dons</div></div>
@@ -4351,7 +4360,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="background:rgba(255,255,255,.05);border-radius:var(--radius-sm);padding:12px;margin-bottom:12px;text-align:left">
         <div style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:6px">🏆 Tes highlights</div>
         <div style="font-size:13px;color:var(--text-dim);line-height:1.8">
-          🩸 Ton sang a été transfusé dans <strong style="color:#fff">3 services</strong> : chirurgie cardiaque, néonatologie, urgences<br>
+          🩸 Ton sang a été transfusé dans <strong style="color:var(--white)">3 services</strong> : chirurgie cardiaque, néonatologie, urgences<br>
           🧬 Tu es parmi les <strong style="color:var(--gold)"><1%</strong> de donneurs Duffy négatif en Suisse romande<br>
           🌳 Ton arbre de parrainage : <strong style="color:var(--green)">1 filleul</strong> qui a donné 2 fois<br>
           🎮 HémoRush™ : <strong style="color:var(--blue)">4'820 pts</strong> · Top 12% des joueurs<br>
@@ -4360,7 +4369,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
 
       <div style="background:rgba(255,255,255,.05);border-radius:var(--radius-sm);padding:12px;margin-bottom:14px">
-        <div style="font-size:14px;color:#fff;font-style:italic;line-height:1.5">« En 2025, tu as donné l'équivalent de 3 bouteilles de vin en sang. Sauf que ton vin sauve des vies. Tu es top. »</div>
+        <div style="font-size:14px;color:var(--white);font-style:italic;line-height:1.5">« En 2025, tu as donné l'équivalent de 3 bouteilles de vin en sang. Sauf que ton vin sauve des vies. Tu es top. »</div>
         <div style="font-size:11px;color:var(--text-muted);margin-top:6px">— BeeMyBlood™ · Ton récap personnalisé</div>
       </div>
 
@@ -4369,11 +4378,11 @@ document.addEventListener('DOMContentLoaded',function(){
         <div style="font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:10px">Un message pour toi</div>
 
         <!-- Video player simulation -->
-        <div id="wrapped-vid" style="position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;max-width:340px;margin:0 auto;cursor:pointer" onclick="cycleWrappedVid()">
+        <div id="wrapped-vid" style="position:relative;border-radius:12px;overflow:hidden;background:var(--black);aspect-ratio:16/9;max-width:340px;margin:0 auto;cursor:pointer" onclick="cycleWrappedVid()">
           <!-- Poster/thumbnail -->
           <div id="wv-poster" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(200,169,96,.15),rgba(230,57,70,.1));transition:opacity .4s;padding:12px">
             <div id="wv-emoji" style="font-size:40px;margin-bottom:6px">💛</div>
-            <div id="wv-name" style="font-size:14px;font-weight:700;color:#fff">Amina, 24 ans</div>
+            <div id="wv-name" style="font-size:14px;font-weight:700;color:var(--white)">Amina, 24 ans</div>
             <div id="wv-role" style="font-size:11px;color:var(--gold);margin-top:2px;text-align:center;line-height:1.3">Vit avec une drépanocytose · Receveuse</div>
             <div style="margin-top:10px;width:44px;height:44px;border-radius:50%;background:rgba(200,169,96,.3);display:flex;align-items:center;justify-content:center;border:2px solid var(--gold);flex-shrink:0">
               <span style="font-size:20px;margin-left:3px">▶</span>
@@ -4383,7 +4392,7 @@ document.addEventListener('DOMContentLoaded',function(){
           <!-- Playing state -->
           <div id="wv-playing" style="position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.85));padding:12px 16px">
             <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow-y:auto;width:100%">
-              <div id="wv-quote" style="font-size:13px;color:#fff;text-align:center;line-height:1.6;font-style:italic;max-width:300px;padding:4px 0">« Chaque poche que je reçois vient d'un inconnu. Toi, Faucon-283, tu es cet inconnu. Et tu changes ma vie tous les mois. Merci. »</div>
+              <div id="wv-quote" style="font-size:13px;color:var(--white);text-align:center;line-height:1.6;font-style:italic;max-width:300px;padding:4px 0">« Chaque poche que je reçois vient d'un inconnu. Toi, Faucon-283, tu es cet inconnu. Et tu changes ma vie tous les mois. Merci. »</div>
             </div>
             <div style="flex-shrink:0;width:100%;text-align:center">
               <div id="wv-attr" style="font-size:11px;color:var(--gold);margin-bottom:6px">— Amina · Vit avec une drépanocytose</div>
@@ -4855,7 +4864,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <!-- Progress bar -->
     <div style="margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px"><span>Progression</span><span>2/5 modules</span></div>
-      <div style="height:8px;background:var(--dark-surface);border-radius:4px;overflow:hidden"><div style="width:40%;height:100%;background:linear-gradient(90deg,var(--gold),#e8a825);border-radius:4px"></div></div>
+      <div style="height:8px;background:var(--dark-surface);border-radius:4px;overflow:hidden"><div style="width:40%;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-deep));border-radius:4px"></div></div>
     </div>
 
     <!-- Modules -->
@@ -4969,19 +4978,19 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="card-header"><div class="card-title">🔗 Intégrations systèmes</div></div>
     <div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:10px">Connexions entre BeeMyBlood et les systèmes de santé :</div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📋</span><div><div style="font-weight:600;font-size:14px">Concerto (HUG)</div><div style="font-size:12px;color:var(--text-muted)">Dossier patient, résultats labos, rendez-vous</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda / Outlook</div><div style="font-size:12px;color:var(--text-muted)">Sync automatique de tes rendez-vous don et rappels</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📱</span><div><div style="font-weight:600;font-size:14px">Compte Transfusion CRS Suisse</div><div style="font-size:12px;color:var(--text-muted)">Historique officiel des dons, convocations, carte donneur</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">🧠</span><div><div style="font-weight:600;font-size:14px">DPI Semantics Graph DB & AI (SIMED)</div><div style="font-size:12px;color:var(--text-muted)">Gestion receveurs & commandes — lien CTS↔hôpitaux · Digital twin</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#888;position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Google</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#888;position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📧</span><div><div style="font-weight:600;font-size:14px">Outlook</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Outlook</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#888;position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📋</span><div><div style="font-weight:600;font-size:14px">Concerto (HUG)</div><div style="font-size:12px;color:var(--text-muted)">Dossier patient, résultats labos, rendez-vous</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda / Outlook</div><div style="font-size:12px;color:var(--text-muted)">Sync automatique de tes rendez-vous don et rappels</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📱</span><div><div style="font-weight:600;font-size:14px">Compte Transfusion CRS Suisse</div><div style="font-size:12px;color:var(--text-muted)">Historique officiel des dons, convocations, carte donneur</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">🧠</span><div><div style="font-weight:600;font-size:14px">DPI Semantics Graph DB & AI (SIMED)</div><div style="font-size:12px;color:var(--text-muted)">Gestion receveurs & commandes — lien CTS↔hôpitaux · Digital twin</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--toggle-knob-off);position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Google</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--toggle-knob-off);position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📧</span><div><div style="font-weight:600;font-size:14px">Outlook</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Outlook</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--toggle-knob-off);position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
     </div>
   </div>
 
   <div class="card" style="margin-bottom:12px">
     <div class="card-header"><div class="card-title">🎨 Apparence</div></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div onclick="setTheme('dark')" id="theme-dark-btn" style="flex:1;min-width:120px;padding:14px;background:#1a1a2e;border:2px solid var(--gold);border-radius:var(--radius-sm);text-align:center;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">🌙</div><div style="font-size:13px;font-weight:600">Mode sombre</div><div style="font-size:11px;color:var(--text-muted)">Actuel</div></div>
+      <div onclick="setTheme('dark')" id="theme-dark-btn" style="flex:1;min-width:120px;padding:14px;background:var(--navy-panel);border:2px solid var(--gold);border-radius:var(--radius-sm);text-align:center;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">🌙</div><div style="font-size:13px;font-weight:600">Mode sombre</div><div style="font-size:11px;color:var(--text-muted)">Actuel</div></div>
       <div onclick="setTheme('light')" id="theme-light-btn" style="flex:1;min-width:120px;padding:14px;background:rgba(255,255,255,.06);border:1px solid var(--dark-border);border-radius:var(--radius-sm);text-align:center;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">☀️</div><div style="font-size:13px;font-weight:600">Mode clair</div><div style="font-size:11px;color:var(--text-muted)">Cliquer pour activer</div></div>
     </div>
   </div>
@@ -4989,10 +4998,10 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="card" style="margin-bottom:12px">
     <div class="card-header"><div class="card-title">🔔 Notifications</div></div>
     <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Toasts en direct (Flux CTS · HUG)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Alertes stock critique (Transfusion CRS)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Rappels de rendez-vous (Google Agenda)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Convocations dons (Transfusion CRS Suisse)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Toasts en direct (Flux CTS · HUG)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Alertes stock critique (Transfusion CRS)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Rappels de rendez-vous (Google Agenda)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Convocations dons (Transfusion CRS Suisse)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
     </div>
   </div>
 
@@ -5029,7 +5038,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
 
       <div style="padding:14px;background:rgba(244,208,63,.06);border:1px solid rgba(244,208,63,.12);border-radius:var(--radius-sm)">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💛</span><div><span style="font-weight:700;color:#F4D03F;font-size:15px">Plasma</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(PFC — plasma frais congelé)</span></div></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💛</span><div><span style="font-weight:700;color:var(--stock-yellow);font-size:15px">Plasma</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(PFC — plasma frais congelé)</span></div></div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Le plasma est la partie liquide du sang (jaune pâle). Il contient des protéines vitales pour la <strong>coagulation</strong> et l'<strong>immunité</strong>. Utilisé pour les grands brûlés, les hémorragies massives, et aussi envoyé en <strong>fractionnement industriel</strong> pour fabriquer des médicaments (immunoglobulines, facteurs de coagulation). Conservation : <strong>jusqu'à 3 ans</strong> congelé.</div>
       </div>
     </div>
@@ -5705,12 +5714,12 @@ function switchToggle(el){
   var knob=el.children[0];
   if(on){
     el.style.background='rgba(255,255,255,.15)';
-    knob.style.background='#888';
+    knob.style.background='var(--toggle-knob-off)';
     knob.style.right='auto';
     knob.style.left='2px';
   }else{
     el.style.background='var(--green)';
-    knob.style.background='#fff';
+    knob.style.background='var(--white)';
     knob.style.left='auto';
     knob.style.right='2px';
   }
