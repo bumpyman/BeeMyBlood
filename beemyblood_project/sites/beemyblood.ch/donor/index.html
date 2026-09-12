@@ -216,6 +216,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.9
 .lien-evitement{position:absolute;left:-9999px;top:0;z-index:10000;padding:10px 16px;background:var(--gold);color:var(--dark);font-weight:600;border-radius:0 0 8px 0;text-decoration:none}
 .lien-evitement:focus{left:0}
 .qh-yn[aria-pressed="true"]::before{content:'✓ ';font-weight:700}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .nav-brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold);cursor:pointer;flex-shrink:0}
 .nav-brand .bee{font-size:22px;filter:drop-shadow(0 0 8px rgba(245,197,24,.4))}
 .nav-home-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid rgba(200,169,96,.15);color:var(--text-muted);font-size:15px;text-decoration:none;transition:all .2s;flex-shrink:0}
@@ -749,7 +751,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .chat-sg{padding:7px 12px;border-radius:18px;background:transparent;border:1px solid var(--dark-border);color:var(--text-dim);font-size:11px;font-weight:500;cursor:pointer;transition:var(--transition);font-family:var(--font-body)}
 .chat-sg:hover{border-color:var(--gold);color:var(--gold)}
 .chat-in-wrap{padding:12px 18px;border-top:1px solid var(--dark-border);display:flex;gap:10px}
-.chat-in{flex:1;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:10px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;transition:var(--transition)}
+.chat-in{flex:1;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:10px;font-family:var(--font-body);font-size:13px;color:var(--text);transition:var(--transition)}
 .chat-in:focus{border-color:var(--gold)}.chat-in::placeholder{color:var(--text-muted)}
 .chat-send{width:40px;height:40px;border-radius:10px;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--dark);font-size:16px;transition:var(--transition)}
 .chat-send:hover{background:var(--gold-glow);transform:scale(1.05)}
@@ -850,8 +852,8 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .app-footer{padding:16px;text-align:center;border-top:1px solid var(--dark-border);margin-top:auto}
 .app-footer-brand{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold);margin-bottom:6px}
 .app-footer-links{display:flex;justify-content:center;gap:16px;margin:10px 0;flex-wrap:wrap}
-.app-footer-links a{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .2s}
-.app-footer-links a:hover{color:var(--gold)}
+.app-footer-links a,.app-footer-links button{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .2s;background:none;border:none;padding:0;font-family:inherit;cursor:pointer}
+.app-footer-links a:hover,.app-footer-links button:hover{color:var(--gold)}
 .app-footer-copy{font-size:12px;color:var(--text-muted);margin-top:8px}
 
 /* STOCK GAUGE */
@@ -958,7 +960,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .sp-action:hover{color:var(--gold)}
 .sp-like.liked{color:var(--red-soft)}
 .sp-comment-form{display:flex;gap:8px;margin-top:10px;animation:slideUp .2s ease}
-.sp-comment-form input{flex:1;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;outline:none}
+.sp-comment-form input{flex:1;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;}
 .sp-comment-form input:focus{border-color:var(--gold)}
 .sp-comment-form button{background:var(--gold);color:var(--dark-bg);border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer}
 .sp-comment-bubble{background:var(--dark-surface);border-radius:10px;padding:8px 12px;margin-top:8px;font-size:12px;color:var(--text-dim);animation:slideUp .2s ease}
@@ -1267,7 +1269,7 @@ body.light-mode .hero-tagline{color:#1A1A2E}
 .beebot-msg.bot{background:var(--dark-surface);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px}
 .beebot-msg.user{background:var(--gold);color:var(--dark);align-self:flex-end;border-bottom-right-radius:4px}
 .beebot-input{display:flex;gap:6px;padding:10px;border-top:1px solid var(--dark-border)}
-.beebot-input input{flex:1;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:20px;padding:8px 14px;color:var(--text);font-size:14px;outline:none}
+.beebot-input input{flex:1;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:20px;padding:8px 14px;color:var(--text);font-size:14px;}
 .beebot-input button{background:var(--gold);color:var(--dark);border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;flex-shrink:0}
 @media(max-width:640px){.beebot-fab{bottom:90px;right:12px;width:48px;height:48px;font-size:22px}.beebot-panel{right:8px;left:8px;width:auto;bottom:150px;max-height:60vh}}
 
@@ -1338,6 +1340,7 @@ body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb
 </head>
 <body>
 <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
 
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
@@ -1348,7 +1351,7 @@ body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);outline:none;transition:border-color .2s"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
         onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
@@ -1639,8 +1642,8 @@ document.addEventListener('DOMContentLoaded',function(){
       <h2>Salut Amine 👋</h2>
       <p>Ton groupe <strong style="color:var(--red-soft)">B+</strong> est demandé cette semaine aux HUG. C'est le moment idéal pour donner.</p>
       <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center">
-        <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" class="btn btn-gold btn-sm">📅 Prendre RDV sur OneDoc</a>
-        <a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" class="btn btn-outline btn-sm">🏥 Site du CTS HUG</a>
+        <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold btn-sm">📅 Prendre RDV sur OneDoc</a>
+        <a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm">🏥 Site du CTS HUG</a>
         <button class="btn btn-outline btn-sm" onclick="go('eligibilite')">✅ Test d'éligibilité</button>
       </div>
     </div>
@@ -1655,7 +1658,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="card" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(200,169,96,.04),rgba(46,204,113,.04));border-color:rgba(200,169,96,.2)">
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center">
         <div class="cd-ring" id="cd-ring-wrap">
-          <svg viewBox="0 0 90 90">
+          <svg viewBox="0 0 90 90" aria-hidden="true">
             <defs><linearGradient id="cd-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--gold)"/><stop offset="100%" stop-color="var(--green)"/></linearGradient></defs>
             <circle class="cd-bg" cx="45" cy="45" r="38"/>
             <circle class="cd-prog" id="cd-prog" cx="45" cy="45" r="38" stroke-dasharray="238.76" stroke-dashoffset="124"/>
@@ -1939,7 +1942,7 @@ document.addEventListener('DOMContentLoaded',function(){
           <div style="color:var(--text-dim)"><span style="color:var(--green)">✅</span> <strong>Stock B+ bas</strong><br>42%</div>
         </div>
         <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-          <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" class="btn btn-gold btn-sm" style="flex:1;justify-content:center;text-decoration:none">📅 Confirmer sur OneDoc</a>
+          <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold btn-sm" style="flex:1;justify-content:center;text-decoration:none">📅 Confirmer sur OneDoc</a>
           <button class="btn btn-outline btn-sm" style="flex-shrink:0" onclick="alert('📅 Créneau ajouté à Google Calendar !\nMar 18 mars 14h–15h\n📍 CTS HUG, Rue Gabrielle-Perret-Gentil 6')">📲 Ajouter au calendrier</button>
         </div>
       </div>
@@ -2014,7 +2017,7 @@ document.addEventListener('DOMContentLoaded',function(){
           Merci pour tout ce que vous faites. 🙏
         </div>
         <div style="text-align:center;margin-top:16px">
-          <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" class="btn btn-gold" style="width:100%;justify-content:center;text-decoration:none">📅 Prendre RDV en 1 clic</a>
+          <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold" style="width:100%;justify-content:center;text-decoration:none">📅 Prendre RDV en 1 clic</a>
         </div>
       </div>
     </div>
@@ -2265,7 +2268,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:4px;line-height:1.4">« Toi aussi, joue le jeu : donne ton sang et offre une vie »</div>
       <div style="font-size:14px;color:var(--text-dim);line-height:1.5">Campagne gaming des HUG ciblant les 18-30 ans. 53% des Suisses jouent aux jeux vid&eacute;o, 86% des 15-19 ans.<br><strong style="color:var(--text)">Chaque don = un bonus de vie.</strong></div>
     </div>
-    <a href="https://www.hug.ch/don-du-sang" target="_blank" class="btn btn-outline btn-sm" style="flex-shrink:0;text-decoration:none">🏥 En savoir plus</a>
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm" style="flex-shrink:0;text-decoration:none">🏥 En savoir plus</a>
   </div>
 
   </div><!-- /acc-body hr-extras -->
@@ -2378,7 +2381,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="form-preview" id="form-preview"></div>
     <div style="text-align:center;margin-top:16px">
       <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimer le formulaire</button>
-      <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" class="btn btn-outline" style="margin-left:8px">📅 Prendre RDV sur OneDoc</a>
+      <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline" style="margin-left:8px">📅 Prendre RDV sur OneDoc</a>
     </div>
   </div>
 
@@ -2416,7 +2419,7 @@ document.addEventListener('DOMContentLoaded',function(){
         </details>
         <details style="margin-bottom:8px">
           <summary style="cursor:pointer;font-weight:600;color:var(--orange);font-size:13px">⏳ Contre-indications temporaires</summary>
-          <div style="padding:8px 0;font-size:13px;line-height:1.7">3. Rapport sexuel contre rémunération<br>4. MST au cours des 12 derniers mois<br>5. Changement de partenaire sexuel (4 derniers mois)<br>6. Plus de 2 partenaires (4 derniers mois)<br>7. Séjours à l'étranger (6 derniers mois — voir <a href="https://www.blutspende.ch" target="_blank" style="color:var(--blue)">Travelcheck</a>)<br>8. Interventions/traitements médicaux ou esthétiques<br>9. Thérapie antirétrovirale PEP/PrEP (4 derniers mois)<br>10. Rapport sexuel avec partenaire exposé aux situations 1-7</div>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">3. Rapport sexuel contre rémunération<br>4. MST au cours des 12 derniers mois<br>5. Changement de partenaire sexuel (4 derniers mois)<br>6. Plus de 2 partenaires (4 derniers mois)<br>7. Séjours à l'étranger (6 derniers mois — voir <a href="https://www.blutspende.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--blue)">Travelcheck</a>)<br>8. Interventions/traitements médicaux ou esthétiques<br>9. Thérapie antirétrovirale PEP/PrEP (4 derniers mois)<br>10. Rapport sexuel avec partenaire exposé aux situations 1-7</div>
         </details>
         <details style="margin-bottom:8px">
           <summary style="cursor:pointer;font-weight:600;color:var(--blue);font-size:13px">🔬 Tests biologiques</summary>
@@ -2427,7 +2430,7 @@ document.addEventListener('DOMContentLoaded',function(){
           <div style="padding:8px 0;font-size:13px;line-height:1.7">Après le don, informez rapidement votre CTS si : vous ou votre entourage tombez malade, vous réalisez ne pas avoir répondu correctement au questionnaire, ou si des complications surviennent. Vos données sont soumises au secret médical.</div>
         </details>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <a href="https://www.blutspende-nordwestschweiz.ch/media/filer_public/ab/ad/abad81ea-ebd4-4cbc-9f1c-0a4b2a88ec8d/annexe_art_77_formulaire_dinformation.pdf" target="_blank" class="btn btn-outline btn-sm" style="text-decoration:none">📄 Lire le document officiel (PDF)</a>
+          <a href="https://www.blutspende-nordwestschweiz.ch/media/filer_public/ab/ad/abad81ea-ebd4-4cbc-9f1c-0a4b2a88ec8d/annexe_art_77_formulaire_dinformation.pdf" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm" style="text-decoration:none">📄 Lire le document officiel (PDF)</a>
         </div>
       </div>
       <label id="qhug-read-check" style="display:flex;align-items:center;gap:8px;padding:10px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.2);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">
@@ -2458,7 +2461,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <!-- ====== ÉTAPE 3 : Questionnaire médical ====== -->
     <div id="qhug-step3" style="display:none;flex-direction:column;gap:10px">
       <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">🩺 Étape 3/3 — Questionnaire médical</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;line-height:1.6">Répondez avec sincérité pour votre sécurité et celle des patients. <a href="https://www.hug.ch/sites/interhug/files/structures/don_du_sang/cts-questionnairedondusangv01fev26.pdf" target="_blank" style="color:var(--blue)">📄 Voir le questionnaire officiel HUG (PDF)</a></div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;line-height:1.6">Répondez avec sincérité pour votre sécurité et celle des patients. <a href="https://www.hug.ch/sites/interhug/files/structures/don_du_sang/cts-questionnairedondusangv01fev26.pdf" target="_blank" aria-describedby="ext-link-notice" style="color:var(--blue)">📄 Voir le questionnaire officiel HUG (PDF)</a></div>
 
       <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">👤 Informations personnelles</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -2587,7 +2590,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="crs-cat" onclick="this.classList.toggle('open')">
         <div class="crs-cat-head">✈️ Voyages & paludisme</div>
         <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Voyage hors Suisse</span><span class="crs-v">Selon pays — voir <a href="https://www.blutspende.ch/fr" target="_blank">Travelcheck blutspende.ch/fr</a></span></div>
+          <div class="crs-row"><span class="crs-k">Voyage hors Suisse</span><span class="crs-v">Selon pays — voir <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice">Travelcheck blutspende.ch/fr</a></span></div>
           <div class="crs-row"><span class="crs-k">Retour de zone endémique (paludisme)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois si test négatif · 6 mois sans test</span></div>
           <div class="crs-row"><span class="crs-k">Séjour >6 mois en zone endémique</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois si test négatif (obligatoire)</span></div>
           <div class="crs-row"><span class="crs-k">Paludisme — test positif</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 3 ans puis nouveau test · <strong style="color:var(--red-soft)">CID</strong> si 2e test positif</span></div>
@@ -2628,7 +2631,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
 
     <div style="margin-top:14px;font-size:15px;color:var(--text-muted);line-height:1.6">
-      📌 Cette liste est un résumé des critères les plus courants. Le document complet est disponible sur le site de <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank">Transfusion CRS Suisse</a>.<br>
+      📌 Cette liste est un résumé des critères les plus courants. Le document complet est disponible sur le site de <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>.<br>
       En cas de doute, le médecin du SRTS procède à une évaluation individuelle. Le personnel ne doit pas accepter un don en cas de doute.
     </div>
   </div>
@@ -2807,6 +2810,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div style="flex:1;position:relative;min-height:0">
     <!-- SVG SCHEMATIC MAP -->
     <svg id="flux-map" viewBox="20 0 860 480" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0">
+      <title>Carte des flux de sang entre le CTS et les services de l'hôpital</title>
       <defs>
         <!-- Glow filter for CTS -->
         <filter id="cts-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -3349,7 +3353,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="card-header"><div class="card-title" style="color:var(--red-soft)">🔴 Dernière minute</div><span class="badge badge-red">Fév. 2026</span></div>
     <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">Critères de don assouplis dès le 1ᵉʳ février 2026</div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.7">Transfusion CRS Suisse élargit les critères d'éligibilité avec l'autorisation de Swissmedic. Les personnes ayant reçu une transfusion, séjourné au Royaume-Uni dans les années 80-90, ou subi certaines interventions médicales pourront de nouveau donner. Le délai post-transfusion passe à 4 mois quel que soit le pays. Les implants dentaires réalisés en Suisse après 1993 ne sont plus éliminatoires (délai de 2 semaines selon complexité).</div>
-    <div style="margin-top:10px;font-size:12px;color:var(--text-muted)">Source : <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" style="color:var(--gold)">RTS, 13 janv. 2026</a> · Transfusion CRS Suisse</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text-muted)">Source : <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">RTS, 13 janv. 2026</a> · Transfusion CRS Suisse</div>
   </div>
 
   <!-- TIMELINE LÉGISLATIVE -->
@@ -3384,7 +3388,7 @@ document.addEventListener('DOMContentLoaded',function(){
         <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);font-weight:700;padding-top:2px">2022</div>
         <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6">
           <strong style="color:var(--text)">Consultation publique — initiative 18.489</strong> — La CSSS-N met en consultation un avant-projet visant à garantir l'approvisionnement, inscrire la gratuité et interdire les discriminations. Adopté par 17 voix contre 7.
-          <br><span style="font-size:11px;color:var(--text-muted)">Réf. : <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" style="color:var(--gold)">FF 2022 2348</a></span>
+          <br><span style="font-size:11px;color:var(--text-muted)">Réf. : <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FF 2022 2348</a></span>
         </div>
       </div>
     </div>
@@ -3466,12 +3470,12 @@ document.addEventListener('DOMContentLoaded',function(){
   <!-- SOURCES -->
   <div style="padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.8">
     <strong style="color:var(--text-dim)">📚 Sources & références</strong><br>
-    · <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" style="color:var(--gold)">FF 2022 2348</a> — Rapport CSSS-N sur l'approvisionnement en sang<br>
-    · <a href="https://rapportannuel2023.transfusion.ch" target="_blank" style="color:var(--gold)">Rapport annuel 2023 Transfusion CRS</a><br>
-    · <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" style="color:var(--gold)">RTS — Assouplissement critères fév. 2026</a><br>
-    · <a href="https://www.lematin.ch/story/conseil-federal-tout-le-monde-pourra-legalement-donner-son-sang-des-le-1-janvier-103192535" target="_blank" style="color:var(--gold)">Le Matin — Gratuité et non-discrimination 2025</a><br>
-    · <a href="https://www.parlament.ch/press-releases/Pages/mm-sgk-n-2022-02-24.aspx" target="_blank" style="color:var(--gold)">Parlement.ch — CSSS-N consultation 2022</a><br>
-    · <a href="https://dondesang.efs.sante.fr/ffdsb" target="_blank" style="color:var(--gold)">FFDSB — Fédération Française pour le Don de Sang Bénévole</a>
+    · <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FF 2022 2348</a> — Rapport CSSS-N sur l'approvisionnement en sang<br>
+    · <a href="https://rapportannuel2023.transfusion.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Rapport annuel 2023 Transfusion CRS</a><br>
+    · <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">RTS — Assouplissement critères fév. 2026</a><br>
+    · <a href="https://www.lematin.ch/story/conseil-federal-tout-le-monde-pourra-legalement-donner-son-sang-des-le-1-janvier-103192535" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Le Matin — Gratuité et non-discrimination 2025</a><br>
+    · <a href="https://www.parlament.ch/press-releases/Pages/mm-sgk-n-2022-02-24.aspx" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Parlement.ch — CSSS-N consultation 2022</a><br>
+    · <a href="https://dondesang.efs.sante.fr/ffdsb" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FFDSB — Fédération Française pour le Don de Sang Bénévole</a>
   </div>
 </div><!-- /v-actualites -->
 
@@ -3485,15 +3489,15 @@ document.addEventListener('DOMContentLoaded',function(){
     <div style="display:flex;flex-direction:column;gap:12px">
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Votre nom</label>
-        <input type="text" id="contact-name" placeholder="Prénom Nom" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;box-sizing:border-box">
+        <input type="text" id="contact-name" placeholder="Prénom Nom" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box">
       </div>
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Email</label>
-        <input type="email" id="contact-email" placeholder="votre@email.ch" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;box-sizing:border-box">
+        <input type="email" id="contact-email" placeholder="votre@email.ch" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box">
       </div>
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Sujet</label>
-        <select id="contact-subject" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;box-sizing:border-box;appearance:auto">
+        <select id="contact-subject" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box;appearance:auto">
           <option value="">— Choisir un sujet —</option>
           <option value="question">Question sur le don de sang</option>
           <option value="bug">Signaler un bug</option>
@@ -3507,7 +3511,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
       <div>
         <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Message</label>
-        <textarea id="contact-msg" rows="5" placeholder="Votre message..." style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;outline:none;resize:vertical;font-family:var(--font-body);box-sizing:border-box"></textarea>
+        <textarea id="contact-msg" rows="5" placeholder="Votre message..." style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;resize:vertical;font-family:var(--font-body);box-sizing:border-box"></textarea>
       </div>
       <button class="btn btn-gold" id="contact-send-btn" onclick="sendContact()" style="align-self:flex-start">📤 Envoyer</button>
       <div id="contact-status" style="font-size:13px;margin-top:4px;display:none"></div>
@@ -3522,7 +3526,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
         📞 <a href="tel:0223723901" style="color:var(--gold);text-decoration:none">022 372 39 01</a><br>
         ✉️ <a href="mailto:accueil.donneurs@hug.ch" style="color:var(--gold);text-decoration:none">accueil.donneurs@hug.ch</a><br>
-        🌐 <a href="https://www.hug.ch/don-du-sang" target="_blank" style="color:var(--gold);text-decoration:none">hug.ch/don-du-sang</a>
+        🌐 <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">hug.ch/don-du-sang</a>
       </div>
     </div>
     <div class="card" style="border:1px solid rgba(155,89,182,.15)">
@@ -3531,7 +3535,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
         📞 <a href="tel:0800148148" style="color:var(--gold);text-decoration:none">0800 148 148</a> (gratuit)<br>
         ✉️ <a href="mailto:info@transfusion.ch" style="color:var(--gold);text-decoration:none">info@transfusion.ch</a><br>
-        🌐 <a href="https://www.ichspendeblut.ch" target="_blank" style="color:var(--gold);text-decoration:none">jedonnemonsang.ch</a>
+        🌐 <a href="https://www.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">jedonnemonsang.ch</a>
       </div>
     </div>
     <div class="card" style="border:1px solid rgba(200,169,96,.15)">
@@ -3540,7 +3544,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
         📞 <a href="tel:0225587365" style="color:var(--gold);text-decoration:none">022 558 73 65</a><br>
         ✉️ <a href="mailto:contact@beemyblood.ch" style="color:var(--gold);text-decoration:none">contact@beemyblood.ch</a><br>
-        🌐 <a href="https://beemyblood.ch" target="_blank" style="color:var(--gold);text-decoration:none">beemyblood.ch</a>
+        🌐 <a href="https://beemyblood.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">beemyblood.ch</a>
       </div>
     </div>
   </div>
@@ -3550,24 +3554,24 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="card-header"><div class="card-title">🤝 Porteurs du projet</div></div>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
       <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.hesge.ch/geneve/" target="_blank" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Haute École Spécialisée de Suisse Occidentale (HES-SO) Genève</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hesge.ch/heg/recherche/recherche-appliquee#institut-et-laboratoires" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Haute École de Gestion (HEG) Genève</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.convivens.ch" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Convivens Lab — Laboratoire des technologies conviviales pour des systèmes de santé équitables</a></div>
+        <div style="font-weight:600"><a href="https://www.hesge.ch/geneve/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Haute École Spécialisée de Suisse Occidentale (HES-SO) Genève</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hesge.ch/heg/recherche/recherche-appliquee#institut-et-laboratoires" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Haute École de Gestion (HEG) Genève</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Convivens Lab — Laboratoire des technologies conviviales pour des systèmes de santé équitables</a></div>
       </div>
       <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.unige.ch/medecine/" target="_blank" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Université de Genève (UNIGE)</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/sciences-de-linformation-medicale" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Service des Sciences de l’information Médicale</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.unige.ch/medecine/simed/" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Groupe Interfaces humain-machine en milieu clinique</a></div>
+        <div style="font-weight:600"><a href="https://www.unige.ch/medecine/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Université de Genève (UNIGE)</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/sciences-de-linformation-medicale" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Service des Sciences de l’information Médicale</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Groupe Interfaces humain-machine en milieu clinique</a></div>
       </div>
       <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.hug.ch/" target="_blank" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Hôpitaux Universitaires de Genève (HUG)</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/service-medecine-laboratoire/nos-equipes-batlab-etage-1" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Laboratoire d’Immuno-hématologie transfusionnelle</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/don-du-sang/centre-transfusion-sanguine" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Centre de Transfusion Sanguine</a></div>
+        <div style="font-weight:600"><a href="https://www.hug.ch/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Hôpitaux Universitaires de Genève (HUG)</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/service-medecine-laboratoire/nos-equipes-batlab-etage-1" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Laboratoire d’Immuno-hématologie transfusionnelle</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/don-du-sang/centre-transfusion-sanguine" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Centre de Transfusion Sanguine</a></div>
       </div>
       <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.blutspende.ch/fr" target="_blank" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Transfusion Croix-Rouge Suisse (CRS)</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Transfusion Interrégionale CRS</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr/diagnostic-de-laboratoire/diagnostic-des-patientes/umt" target="_blank" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Unité de Médecine Transfusionnelle (UMT)</a></div>
+        <div style="font-weight:600"><a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Transfusion Croix-Rouge Suisse (CRS)</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Transfusion Interrégionale CRS</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr/diagnostic-de-laboratoire/diagnostic-des-patientes/umt" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Unité de Médecine Transfusionnelle (UMT)</a></div>
       </div>
         </div>
   </div>
@@ -5030,7 +5034,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="sec-header"><div class="sec-label">❓ Questions fréquentes</div><div class="sec-title">Tout comprendre sur le don de sang</div><div class="sec-sub">Les réponses simples aux questions que tout le monde se pose</div></div>
 
 
-  <div style="margin-bottom:12px"><input type="text" id="faq-search" placeholder="🔍 Rechercher dans la FAQ..." oninput="filterFAQ(this.value)" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--dark-border)'"></div>
+  <div style="margin-bottom:12px"><input type="text" id="faq-search" placeholder="🔍 Rechercher dans la FAQ..." oninput="filterFAQ(this.value)" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:var(--font-body);box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--dark-border)'"></div>
   <!-- GLOSSAIRE PRODUITS SANGUINS -->
   <div class="card" style="margin-bottom:16px">
     <div class="card-header"><div class="card-title">🩸 Les produits sanguins — c'est quoi exactement ?</div></div>
@@ -5398,13 +5402,13 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="app-footer-brand">🐝 BeeMyBlood™</div>
   <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
   <div class="app-footer-links">
-    <a href="https://www.hug.ch/don-du-sang" target="_blank">Centre de Transfusion HUG</a>
-    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank">Transfusion CRS Suisse</a>
-    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank">Prendre RDV au CTS</a>
-    <a href="#" onclick="startTour();return false">Tour guidé</a>
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
   </div>
   <div class="app-footer-copy">
-    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
   </div>
 </footer>
 
@@ -7041,9 +7045,9 @@ const KB=[
   {keys:['mal','douleur','douloureux','piqu','fait mal','souffr'],r:`La piqûre dure <strong>2 secondes</strong>. La plupart des donneurs la décrivent comme un léger pincement — moins qu'une prise de sang classique. Avec le casque VR : -24% de douleur perçue. Le prélèvement dure ~10 min. Après : espace lounge avec café et collations. ☕`},
   {keys:['combien de temps','durée','duree','long','minute','temps total'],r:`Le parcours complet :<br>📋 Accueil + questionnaire : ~10 min (5 min avec formulaire pré-rempli BeeMyBlood™ !)<br>👩‍⚕️ Entretien médecin + mesures : ~5 min<br>🩸 Don lui-même : ~8-10 min<br>☕ Repos + collation : ~10-15 min<br><br>Total : <span class="hl">~35-45 min</span>. Avec pré-inscription : ~25 min. Le CTS dit de prévoir environ 45 min. ⏱️`},
   {keys:['rare','donneur rare','phénotype','phenotype','étendu'],r:`Un donneur rare a un <span class="hl">phénotype étendu</span> peu courant. En Suisse romande, on identifie ~30 donneurs rares. Ils sont essentiels pour les patients chroniquement transfusés (drépanocytose, thalassémie) qui développent des anticorps. Ces donneurs ont un traitement royal : convocation personnalisée, appel téléphonique, accès prioritaire. 👑`},
-  {keys:['rdv','rendez-vous','réserver','reserver','prendre','onedoc','appointment'],r:`Tu peux prendre RDV de plusieurs façons :<br>📅 <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" style="color:var(--gold)"><strong>OneDoc</strong></a> — en ligne, 2 clics<br>🏥 <a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" style="color:var(--gold)"><strong>Site du CTS</strong></a> — www.dondusang.ch<br>📞 Tél : +41 22 372 39 01<br>📧 Accueil.Donneurs@hug.ch<br><br>Créneau recommandé pour toi : <span class="hl">mardi 18 mars à 14h</span> (calme). 📅`},
+  {keys:['rdv','rendez-vous','réserver','reserver','prendre','onedoc','appointment'],r:`Tu peux prendre RDV de plusieurs façons :<br>📅 <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)"><strong>OneDoc</strong></a> — en ligne, 2 clics<br>🏥 <a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)"><strong>Site du CTS</strong></a> — www.dondusang.ch<br>📞 Tél : +41 22 372 39 01<br>📧 Accueil.Donneurs@hug.ch<br><br>Créneau recommandé pour toi : <span class="hl">mardi 18 mars à 14h</span> (calme). 📅`},
   {keys:['tatouage','tattoo','piercing','microblading','maquillage permanent'],r:`Après un tatouage, piercing, microblading ou maquillage permanent, il faut attendre <span class="hl">4 mois</span> avant de pouvoir donner. C'est une précaution pour éviter tout risque d'infection. Idem pour une gastro-coloscopie ou un contact avec du sang étranger. Le médecin du CTS confirmera à ton arrivée. 🕐`},
-  {keys:['voyage','étranger','etranger','vacances','pays','travelcheck'],r:`Si tu as voyagé hors de Suisse dans les <span class="hl">6 derniers mois</span>, ça dépend du pays ! Certains pays tropicaux (risque paludisme) imposent un délai plus long. Vérifie sur <a href="https://www.blutspende.ch/fr" target="_blank" style="color:var(--gold)">blutspende.ch/fr → Travelcheck</a>. Le médecin du CTS t'aidera aussi à y voir clair. ✈️`},
+  {keys:['voyage','étranger','etranger','vacances','pays','travelcheck'],r:`Si tu as voyagé hors de Suisse dans les <span class="hl">6 derniers mois</span>, ça dépend du pays ! Certains pays tropicaux (risque paludisme) imposent un délai plus long. Vérifie sur <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">blutspende.ch/fr → Travelcheck</a>. Le médecin du CTS t'aidera aussi à y voir clair. ✈️`},
   {keys:['médicament','medicament','traitement','pilule','roaccutan','antibiotique','PrEP','PEP','wellbutrin','ibuprofen','ibuprofène','paracetamol','paracétamol','dafalgan','aspirin','aspirine','xanax','lexomil','temesta','valium','sertraline','prozac','effexor','citalopram','lithium','topamax','avodart','neotigason','cortisone','prednisone','voltaren','doliprane','codéine','codeine','tramadol','morphine','methadone','ritaline','concerta','lyrica','gabapentine','omeprazole','pantoprazole','antidépresseur','antidepresseur','anxiolytique','somnifère','somnifere','anticoagulant','sintrom','xarelto','eliquis','insuline','metformine','lévothyrox','levothyrox','ventoline','symbicort','finasteride','minoxidil','isotrétinoïne','accutane','diane'],r:`Ça dépend du médicament ! En résumé :<br>• Contraception orale : <span class="hl">OK, pas de problème</span><br>• Antibiotiques/anti-inflammatoires : attendre 4 semaines<br>• Roaccutan (acné) : attendre 4 semaines après arrêt<br>• PrEP/PEP (VIH) : attendre 4 mois<br>• Lithium, Topamax, antiépileptiques : 4 semaines<br>• Avodart (prostate) : 6 mois<br>• Neotigason (psoriasis) : 3 ans<br>• Anticoagulants (Sintrom, Xarelto) : discussion avec médecin<br>• Antidépresseurs (Wellbutrin, Prozac, etc.) : <span class="hl">généralement OK</span>, à confirmer<br><br>Pour tout médicament spécifique, le médecin du CTS vérifiera avec toi. 💊`},
   {keys:['dentiste','dentaire','dent','hygiène dentaire','hygiene dentaire'],r:`Après un traitement dentaire ou d'hygiène dentaire, il faut attendre <span class="hl">14 jours</span>. Si c'est une chirurgie dentaire plus lourde, le délai peut être plus long. Le médecin du CTS validera ça avec toi à ton arrivée. 🦷`},
   {keys:['vaccin','vaccination','vacciné','rage','tétanos','tetanos'],r:`Ça dépend du vaccin :<br>• Rage ou tétanos : attendre <span class="hl">12 mois</span><br>• Autres vaccins (grippe, COVID, etc.) : attendre <span class="hl">4 semaines</span><br>Le médecin du CTS vérifiera avec toi. 💉`},
@@ -7075,7 +7079,7 @@ const KB=[
   {keys:['vidéo','video','film','témoignage','clip','regarder'],r:`On a 6 vidéos à te montrer 🎬 :<br><br>🎥 <strong>VIDÉOS MP4 :</strong><br>🥽 <strong>Démo VR pendant le don</strong> — comment le casque transforme l'expérience<br>📺 <strong>Guide 5 étapes</strong> — le parcours complet du donneur<br><br>🎨 <strong>ANIMATIONS INTERACTIVES :</strong><br>💬 <strong>Témoignage d'Amine</strong> — de la peur à donneur rare<br>📺 <strong>Le don en 30 sec</strong> — animation des 5 étapes<br>🥽 <strong>Simulation VR plage</strong> — coucher de soleil apaisant<br>📱 <strong>Guidage AR</strong> — flèches en réalité augmentée<br><br>Regarde-les dans l'onglet <a href="#" onclick="go('videos');return false" style="color:var(--gold)">Vidéos</a> ! 🎬`},
   {keys:['plaquette','plasma','érythrocyte','globule','produit sanguin','psl','durée de vie','péremption','expir'],r:`Le sang est séparé en <span class="hl">3 produits sanguins labiles (PSL)</span> :<br><br>🩸 <strong>Globules rouges (CE)</strong> — concentrés érythrocytaires — durée max 42 jours — chirurgie, anesthésie, grossesses à risque, hémoglobinopathies (drépanocytose, thalassémie)<br>💜 <strong>Concentrés plaquettaires (CP)</strong> — plaquettes — durée max <strong>5 jours seulement !</strong> — onco-hématologie adulte et pédiatrique, greffes<br>💛 <strong>Plasma frais congelé (PFC)</strong> — durée max 3 ans — brûlures, hémorragies massives, troubles de coagulation<br><br>Les plaquettes sont les plus critiques car elles expirent très vite. C'est pourquoi les dons réguliers sont si importants 🩸`},
   {keys:['quoi','sang','c\'est quoi','compose','composant','plaquette','plasma','globule'],r:`Ton sang est composé de plusieurs éléments :<br>🔴 <strong>Globules rouges</strong> : transportent l'oxygène (c'est ce qu'on prélève surtout)<br>⚪ <strong>Globules blancs</strong> : défenses immunitaires<br>🟡 <strong>Plaquettes</strong> : coagulation<br>💛 <strong>Plasma</strong> : liquide transporteur (protéines, anticorps)<br><br>À chaque don (~500ml), les composants sont séparés et utilisés pour différents patients. Un seul don peut sauver jusqu'à <span class="hl">3 vies</span> ! 🩸`},
-  {keys:['merci','super','top','cool','génial','genial','parfait','nickel'],r:`Avec plaisir ! N'hésite jamais à me poser d'autres questions. Et si tu veux te lancer, le plus simple c'est de <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" style="color:var(--gold)">prendre RDV sur OneDoc</a>. Chaque don compte, et toi tu comptes ! 💛🐝`},
+  {keys:['merci','super','top','cool','génial','genial','parfait','nickel'],r:`Avec plaisir ! N'hésite jamais à me poser d'autres questions. Et si tu veux te lancer, le plus simple c'est de <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">prendre RDV sur OneDoc</a>. Chaque don compte, et toi tu comptes ! 💛🐝`},
   {keys:['actualité','actualite','news','loi','législation','parlement','conseil national','critère','discrimination','HSH','gay','gratuité','gratuit','FFDSB','association donneur','carence','fer','martiale','ferritine'],r:`La section <span class="hl">Actualités</span> couvre toute la veille transfusionnelle ! 📰<br><br>🔴 <strong>Fév. 2026</strong> : Assouplissement des critères d'éligibilité (Swissmedic)<br>📜 <strong>Janv. 2025</strong> : Gratuité du don + interdiction de discrimination inscrites dans la LPTh<br>📊 <strong>2024</strong> : 260'349 dons en Suisse (−1.3%) — tendance baissière préoccupante<br>⚕️ <strong>Santé</strong> : aucune étude n'a montré d'effet néfaste du don régulier, mais attention à la carence en fer (martiale), surtout chez les femmes<br><br>🐝 BeeMyBlood veut devenir la <strong>première association de donneurs</strong> en Suisse — un rôle qui n'existe pas, contrairement à la France (FFDSB, 2'650 associations).<br><br><a href="#" onclick="go('actualites');return false" style="color:var(--gold)">Voir les actualités →</a>`},
   {keys:['bonjour','salut','hello','hey','coucou','yo'],r:`Salut ! 👋 Comment je peux t'aider ? Tu veux savoir sur ton éligibilité, les collectes à Genève, le casque VR, ou autre chose ? Je suis là pour toi ! 🐝`},
 ];
@@ -7161,7 +7165,7 @@ async function chatReply(t){
 
 function getLocalFallback(t){
   // Simple fallback — findBestKBMatch already tried by caller
-  return `Bonne question ! 🤔 Pour une réponse précise, je te recommande :<br><br>📞 <strong>CTS HUG</strong> : +41 22 372 39 01<br>📧 Accueil.Donneurs@hug.ch<br>🌐 <a href="https://www.dondusang.ch" target="_blank" style="color:var(--gold)">www.dondusang.ch</a><br>🆓 Numéro gratuit : 0800 148 148<br><br>Je peux aussi t'aider sur : ton groupe sanguin, l'éligibilité, les collectes, le casque VR, les médicaments, les voyages, la douleur, la durée, les donneurs rares... Essaie de reformuler ! 🐝`;
+  return `Bonne question ! 🤔 Pour une réponse précise, je te recommande :<br><br>📞 <strong>CTS HUG</strong> : +41 22 372 39 01<br>📧 Accueil.Donneurs@hug.ch<br>🌐 <a href="https://www.dondusang.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">www.dondusang.ch</a><br>🆓 Numéro gratuit : 0800 148 148<br><br>Je peux aussi t'aider sur : ton groupe sanguin, l'éligibilité, les collectes, le casque VR, les médicaments, les voyages, la douleur, la durée, les donneurs rares... Essaie de reformuler ! 🐝`;
 }
 
 function delay(ms){return new Promise(r=>setTimeout(r,ms));}
@@ -7211,29 +7215,29 @@ function initMap(){
     const ico=(color,emoji)=>L.divIcon({className:'',html:`<div style="width:36px;height:36px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid rgba(255,255,255,.3);box-shadow:0 2px 10px rgba(0,0,0,.4)">${emoji}</div>`,iconSize:[36,36],iconAnchor:[18,18]});
     const pts=[
       // === GENÈVE (CTS HUG) ===
-      {lat:46.1931,lng:6.1496,name:'Centre de transfusion sanguine HUG',detail:'Rue Gabrielle-Perret-Gentil 6<br>Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h<br>Sam 1er et 3e : 8h30–12h<br>Affluence : <span style="color:#2ECC71">calme</span><br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank">📅 RDV OneDoc</a>',color:'rgba(230,57,70,.25)',emoji:'🏥'},
-      {lat:46.1993,lng:6.1428,name:'Collecte mobile — Uni Dufour',detail:'Rue Charles-Galland 2<br>Auj. 10h–17h · ☕ Café offert<br>Affluence : <span style="color:#2ECC71">calme</span> · 200m de Uni Mail<br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank">📅 RDV</a>',color:'rgba(200,169,96,.25)',emoji:'🎪'},
+      {lat:46.1931,lng:6.1496,name:'Centre de transfusion sanguine HUG',detail:'Rue Gabrielle-Perret-Gentil 6<br>Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h<br>Sam 1er et 3e : 8h30–12h<br>Affluence : <span style="color:#2ECC71">calme</span><br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice">📅 RDV OneDoc</a>',color:'rgba(230,57,70,.25)',emoji:'🏥'},
+      {lat:46.1993,lng:6.1428,name:'Collecte mobile — Uni Dufour',detail:'Rue Charles-Galland 2<br>Auj. 10h–17h · ☕ Café offert<br>Affluence : <span style="color:#2ECC71">calme</span> · 200m de Uni Mail<br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice">📅 RDV</a>',color:'rgba(200,169,96,.25)',emoji:'🎪'},
       {lat:46.2017,lng:6.1500,name:'Collecte — Place du Molard',detail:'Place du Molard, centre-ville<br>Demain 11h–18h · 🎵 Musique',color:'rgba(200,169,96,.25)',emoji:'🎪'},
       {lat:46.1780,lng:6.1395,name:'Collecte — Campus HES-SO Battelle',detail:'Route de Drize 7, Carouge<br>Jeudi 10h–16h · 🎓 Étudiants',color:'rgba(200,169,96,.25)',emoji:'🎪'},
       {lat:46.1920,lng:6.1830,name:'Clinique des Grangettes',detail:'Chemin des Grangettes 7, Chêne-Bougeries<br>Lun–Ven 8h–16h<br>Affluence : <span style="color:#FF9F43">modéré</span>',color:'rgba(230,57,70,.25)',emoji:'🏥'},
       {lat:46.2100,lng:6.1427,name:'Collecte Gare Cornavin',detail:'Place de Cornavin · Hall principal<br>Vendredi 9h–16h · 🚂',color:'rgba(200,169,96,.25)',emoji:'🎪'},
       // === Transfusion Interrégionale CRS (Berne / Vaud / Valais) ===
-      {lat:46.9480,lng:7.4260,name:'Transfusion Interrégionale CRS Berne (siège)',detail:'Murtenstrasse 133, 3008 Bern<br>Centre permanent · 0800 148 148<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:47.1370,lng:7.2455,name:'Transfusion Interrégionale CRS Bienne',detail:'Bahnhofstr. 50, 4e étage, 2502 Biel/Bienne<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:47.0585,lng:7.6275,name:'Transfusion Interrégionale CRS Berthoud',detail:'Mergele-Zentrum, Lyssachstrasse 23, 3400 Burgdorf<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:46.5370,lng:6.6630,name:'Transfusion Interrégionale CRS Épalinges (Lausanne)',detail:'BIOPÔLE - Bâtiment Metio, Route de la Corniche 2, 1066 Épalinges<br>M2 Croisettes · Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:47.2135,lng:7.7900,name:'Transfusion Interrégionale CRS Langenthal',detail:'Centre permanent, 4900 Langenthal<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:46.2340,lng:7.3780,name:'Transfusion Interrégionale CRS Sion',detail:'Av. du Grand-Champsec 86, 1950 Sion<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:46.7520,lng:7.6300,name:'Transfusion Interrégionale CRS Thoune',detail:'Krankenhausstrasse 3 (Haus F), 3600 Thun<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
+      {lat:46.9480,lng:7.4260,name:'Transfusion Interrégionale CRS Berne (siège)',detail:'Murtenstrasse 133, 3008 Bern<br>Centre permanent · 0800 148 148<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
+      {lat:47.1370,lng:7.2455,name:'Transfusion Interrégionale CRS Bienne',detail:'Bahnhofstr. 50, 4e étage, 2502 Biel/Bienne<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
+      {lat:47.0585,lng:7.6275,name:'Transfusion Interrégionale CRS Berthoud',detail:'Mergele-Zentrum, Lyssachstrasse 23, 3400 Burgdorf<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
+      {lat:46.5370,lng:6.6630,name:'Transfusion Interrégionale CRS Épalinges (Lausanne)',detail:'BIOPÔLE - Bâtiment Metio, Route de la Corniche 2, 1066 Épalinges<br>M2 Croisettes · Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
+      {lat:47.2135,lng:7.7900,name:'Transfusion Interrégionale CRS Langenthal',detail:'Centre permanent, 4900 Langenthal<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
+      {lat:46.2340,lng:7.3780,name:'Transfusion Interrégionale CRS Sion',detail:'Av. du Grand-Champsec 86, 1950 Sion<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
+      {lat:46.7520,lng:7.6300,name:'Transfusion Interrégionale CRS Thoune',detail:'Krankenhausstrasse 3 (Haus F), 3600 Thun<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
       // === AUTRES SERVICES RÉGIONAUX CRS ===
-      {lat:47.5596,lng:7.5830,name:'Transfusion CRS Suisse Nord-Ouest — Bâle',detail:'Hebelstrasse 10, 4031 Basel<br>Centre permanent · Tél. 058 404 01 00<br><a class="popup-btn" href="https://www.blutspende-nordwestschweiz.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:46.7944,lng:7.1476,name:'Transfusion CRS Fribourg',detail:'Hôpital cantonal, Chemin des Pensionnats 2–6, 1708 Fribourg<br>Centre permanent · Tél. 026 306 28 50<br><a class="popup-btn" href="https://www.transfusion-fr.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:46.8510,lng:9.5332,name:'Transfusion CRS Grisons — Coire',detail:'Kantonsspital, Loëstrasse 170, 7000 Chur<br>Centre permanent · Tél. 081 353 15 54<br><a class="popup-btn" href="https://blutspende-gr.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.1040,lng:6.8277,name:'Transfusion CRS Neuchâtel-Jura',detail:'Rue Sophie-Mairet 29, 2303 La Chaux-de-Fonds<br>Centre permanent · Tél. 032 967 20 31<br><a class="popup-btn" href="https://www.srnjts.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.4270,lng:9.3986,name:'Transfusion CRS Suisse de l\'Est — St-Gall',detail:'Rorschacher Strasse 111, 9000 St. Gallen<br>Centre permanent · Tél. 071 494 28 11<br><a class="popup-btn" href="https://www.blutspende-sg.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:46.0121,lng:8.9620,name:'Transfusion CRS Suisse italienne — Lugano',detail:'Via Tesserete 50, 6900 Lugano<br>Centre permanent · Tél. 091 960 26 00<br><a class="popup-btn" href="https://www.donatori.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.0551,lng:8.3193,name:'Transfusion CRS Suisse centrale — Lucerne',detail:'Maihofstrasse 1, 6004 Luzern<br>Centre permanent · Tél. 041 418 70 20<br><a class="popup-btn" href="https://www.bsd-luzern.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.3960,lng:8.4478,name:'Transfusion CRS Zürich — Schlieren',detail:'Rütistrasse 19, 8952 Schlieren<br>Centre permanent · Tél. 058 272 52 52<br><a class="popup-btn" href="https://www.blutspendezurich.ch" target="_blank">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:47.5596,lng:7.5830,name:'Transfusion CRS Suisse Nord-Ouest — Bâle',detail:'Hebelstrasse 10, 4031 Basel<br>Centre permanent · Tél. 058 404 01 00<br><a class="popup-btn" href="https://www.blutspende-nordwestschweiz.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:46.7944,lng:7.1476,name:'Transfusion CRS Fribourg',detail:'Hôpital cantonal, Chemin des Pensionnats 2–6, 1708 Fribourg<br>Centre permanent · Tél. 026 306 28 50<br><a class="popup-btn" href="https://www.transfusion-fr.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:46.8510,lng:9.5332,name:'Transfusion CRS Grisons — Coire',detail:'Kantonsspital, Loëstrasse 170, 7000 Chur<br>Centre permanent · Tél. 081 353 15 54<br><a class="popup-btn" href="https://blutspende-gr.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:47.1040,lng:6.8277,name:'Transfusion CRS Neuchâtel-Jura',detail:'Rue Sophie-Mairet 29, 2303 La Chaux-de-Fonds<br>Centre permanent · Tél. 032 967 20 31<br><a class="popup-btn" href="https://www.srnjts.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:47.4270,lng:9.3986,name:'Transfusion CRS Suisse de l\'Est — St-Gall',detail:'Rorschacher Strasse 111, 9000 St. Gallen<br>Centre permanent · Tél. 071 494 28 11<br><a class="popup-btn" href="https://www.blutspende-sg.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:46.0121,lng:8.9620,name:'Transfusion CRS Suisse italienne — Lugano',detail:'Via Tesserete 50, 6900 Lugano<br>Centre permanent · Tél. 091 960 26 00<br><a class="popup-btn" href="https://www.donatori.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:47.0551,lng:8.3193,name:'Transfusion CRS Suisse centrale — Lucerne',detail:'Maihofstrasse 1, 6004 Luzern<br>Centre permanent · Tél. 041 418 70 20<br><a class="popup-btn" href="https://www.bsd-luzern.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
+      {lat:47.3960,lng:8.4478,name:'Transfusion CRS Zürich — Schlieren',detail:'Rütistrasse 19, 8952 Schlieren<br>Centre permanent · Tél. 058 272 52 52<br><a class="popup-btn" href="https://www.blutspendezurich.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
     ];
     // visiteur : pas de collectes mobiles fictives (🎪) sur la carte, seuls les centres réels
     pts.filter(function(p){ return !(document.body.classList.contains('bmb-public') && p.emoji==='🎪'); }).forEach(p=>{
@@ -7541,7 +7545,7 @@ function renderEligStop(reason){
     '<p style="font-size:14px;color:var(--text-dim);margin:8px 0">Cela ne veut pas forcément dire que vous ne pouvez pas donner — le médecin du CTS pourra vous confirmer.</p>'+
     '<div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+
     '<button class="btn btn-gold" onclick="goChat()">🤖 Vérifier avec le chatbot IA</button>'+
-    '<a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" class="btn btn-outline" style="text-decoration:none">🏥 Contacter le CTS HUG</a>'+
+    '<a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline" style="text-decoration:none">🏥 Contacter le CTS HUG</a>'+
     '<button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
   window._eligWarnings=[reason];
 }
@@ -7553,9 +7557,9 @@ function renderEligResult(){
   });
   const card=document.getElementById('elig-card');
   if(pass){
-    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">🎉</div><h3 style="color:var(--green)">Vous êtes probablement éligible !</h3><p>Tous les voyants sont au vert. La validation finale se fera avec le médecin du centre de transfusion.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" class="btn btn-gold" style="text-decoration:none">📅 Prendre RDV sur OneDoc</a><button class="btn btn-outline" onclick="generateForm()">📝 Remplir mon questionnaire HUG</button><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
+    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">🎉</div><h3 style="color:var(--green)">Vous êtes probablement éligible !</h3><p>Tous les voyants sont au vert. La validation finale se fera avec le médecin du centre de transfusion.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold" style="text-decoration:none">📅 Prendre RDV sur OneDoc</a><button class="btn btn-outline" onclick="generateForm()">📝 Remplir mon questionnaire HUG</button><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
   }else{
-    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">⚠️</div><h3 style="color:var(--orange)">Éligibilité à vérifier</h3><p>Quelques points nécessitent une vérification avec le médecin :</p><ul style="text-align:left;margin:12px 0;padding-left:20px;font-size:15px;color:var(--text-dim);line-height:1.8">'+warnings.map(w=>'<li>'+w+'</li>').join('')+'</ul><p>Cela ne veut pas forcément dire que vous ne pouvez pas donner — le médecin du CTS pourra vous confirmer.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-gold" onclick="goChat()">🤖 Vérifier avec le chatbot IA</button><a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" class="btn btn-outline" style="text-decoration:none">🏥 Contacter le CTS HUG</a><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
+    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">⚠️</div><h3 style="color:var(--orange)">Éligibilité à vérifier</h3><p>Quelques points nécessitent une vérification avec le médecin :</p><ul style="text-align:left;margin:12px 0;padding-left:20px;font-size:15px;color:var(--text-dim);line-height:1.8">'+warnings.map(w=>'<li>'+w+'</li>').join('')+'</ul><p>Cela ne veut pas forcément dire que vous ne pouvez pas donner — le médecin du CTS pourra vous confirmer.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-gold" onclick="goChat()">🤖 Vérifier avec le chatbot IA</button><a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline" style="text-decoration:none">🏥 Contacter le CTS HUG</a><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
     // Store warnings for chatbot context
     window._eligWarnings=warnings;
   }
@@ -8239,7 +8243,7 @@ function bmbAfficherStock(code){
     return '<div class="stock-row"><span class="stock-grp" style="color:'+col+'">'+g.groupe+'</span><div class="stock-bar-bg"><div class="stock-bar bar-'+s+'" style="width:'+g.taux+'%"></div></div><span class="stock-lbl" style="color:'+col+'">'+g.libelle+'</span></div>'; }).join('');
   var el=document.getElementById('stock-canton-rows'); if(el) el.innerHTML=rows;
   var ex=document.getElementById('stock-canton-extra'); if(ex) ex.innerHTML='';
-  var src=document.getElementById('stock-source'); if(src) src.innerHTML='Source : baromètre officiel de Transfusion CRS Suisse (blutspende.ch), mis à jour quotidiennement · Élevé, Normal, Bas, Critique. <a href="https://www.blutspende.ch/fr" target="_blank" rel="noopener" style="color:var(--gold)">Voir le baromètre</a>';
+  var src=document.getElementById('stock-source'); if(src) src.innerHTML='Source : baromètre officiel de Transfusion CRS Suisse (blutspende.ch), mis à jour quotidiennement · Élevé, Normal, Bas, Critique. <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">Voir le baromètre</a>';
 }
 function bmbRenderDonnees(d){
   BMB_DONNEES=d;
@@ -8252,7 +8256,7 @@ function bmbRenderDonnees(d){
       var crit=(d.stocks[0].groupes||[]).filter(function(g){return g.niveau==='critique';}).map(function(g){return g.groupe;});
       var lt=document.getElementById('live-toast'); if(lt&&crit.length){ lt.classList.remove('alpha-only'); document.getElementById('lt-icon').textContent='🩸'; document.getElementById('lt-text').textContent='Stock '+crit.join(', ')+' critique — '+d.stocks[0].label+' (baromètre officiel)'; setTimeout(function(){ lt.classList.add('show'); setTimeout(function(){ lt.classList.remove('show'); },7000); },3000); }
     } else {
-      btns.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Baromètre officiel indisponible pour le moment · <a href="https://www.blutspende.ch/fr" target="_blank" rel="noopener" style="color:var(--gold)">le consulter sur blutspende.ch</a></span>';
+      btns.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Baromètre officiel indisponible pour le moment · <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">le consulter sur blutspende.ch</a></span>';
       var rows=document.getElementById('stock-canton-rows'); if(rows) rows.innerHTML='';
     }
   }
@@ -8261,17 +8265,17 @@ function bmbRenderDonnees(d){
   var actus=(d.actualites||[]).slice(0,8);
   if(feed){
     if(actus.length){
-      feed.innerHTML=actus.slice(0,5).map(function(a){ return '<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius)"><div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">📰 '+bmbEsc(a.source)+' · '+bmbEsc(a.date)+'</div><div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:8px">'+bmbEsc(a.titre)+'</div><a href="'+bmbEsc(a.url)+'" target="_blank" rel="noopener" style="color:var(--gold);font-size:12px;font-weight:600">Lire l’article →</a></div>'; }).join('');
+      feed.innerHTML=actus.slice(0,5).map(function(a){ return '<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius)"><div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">📰 '+bmbEsc(a.source)+' · '+bmbEsc(a.date)+'</div><div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:8px">'+bmbEsc(a.titre)+'</div><a href="'+bmbEsc(a.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold);font-size:12px;font-weight:600">Lire l’article →</a></div>'; }).join('');
       newsTotal=Math.min(5,actus.length); newsIdx=0; feed.style.transform='translateX(0)';
       if(dotsWrap) dotsWrap.innerHTML=actus.slice(0,5).map(function(_,i){ return '<span class="news-dot'+(i===0?' active':'')+'" onclick="goNewsSlide('+i+')"></span>'; }).join('');
     } else {
-      feed.innerHTML='<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);text-align:center;font-size:13px;color:var(--text-muted)">Actualités indisponibles pour le moment. <a href="https://www.blutspende.ch/fr" target="_blank" rel="noopener" style="color:var(--gold)">Transfusion CRS Suisse</a></div>';
+      feed.innerHTML='<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);text-align:center;font-size:13px;color:var(--text-muted)">Actualités indisponibles pour le moment. <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">Transfusion CRS Suisse</a></div>';
       newsTotal=1; if(dotsWrap) dotsWrap.innerHTML='';
     }
   }
   var liste=document.getElementById('actus-jour-liste');
   if(liste){
-    liste.innerHTML=actus.length ? actus.map(function(a){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:74px;font-family:var(--font-mono);font-size:11px;color:var(--gold);padding-top:2px">'+bmbEsc(a.date)+'</div><div style="flex:1"><a href="'+bmbEsc(a.url)+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px;line-height:1.4">'+bmbEsc(a.titre)+'</a><div style="font-size:11px;color:var(--text-muted)">'+bmbEsc(a.source)+'</div></div></div>'; }).join('')+'<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Sélection automatique (Google Actualités, Suisse, français), actualisée chaque jour. Les titres sont ceux des médias.</div>'
+    liste.innerHTML=actus.length ? actus.map(function(a){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:74px;font-family:var(--font-mono);font-size:11px;color:var(--gold);padding-top:2px">'+bmbEsc(a.date)+'</div><div style="flex:1"><a href="'+bmbEsc(a.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px;line-height:1.4">'+bmbEsc(a.titre)+'</a><div style="font-size:11px;color:var(--text-muted)">'+bmbEsc(a.source)+'</div></div></div>'; }).join('')+'<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Sélection automatique (Google Actualités, Suisse, français), actualisée chaque jour. Les titres sont ceux des médias.</div>'
       : 'Actualités indisponibles pour le moment.';
     var dd=document.getElementById('actus-jour-date'); if(dd&&d.maj) dd.textContent=new Date(d.maj).toLocaleDateString('fr-CH');
   }
@@ -8287,7 +8291,7 @@ function bmbRenderDonnees(d){
     try { var sb = window.BeeAcces && window.BeeAcces.client && window.BeeAcces.client(); if(sb) sb.rpc('cd_evenement', { p:{ region:region||'geneve', type:'clic_reservation', ref:String(ref||url||'').slice(0,200) } }).then(function(){}, function(){}); } catch(e){}
     return true;
   };
-  function bmbReserverBtn(url, ref, region){ if(!url) return ''; return '<a href="'+bmbEsc(url)+'" target="_blank" rel="noopener" onclick="bmbReserver(this.href,'+JSON.stringify(String(ref||'')).replace(/"/g,'&quot;')+','+JSON.stringify(String(region||'geneve')).replace(/"/g,'&quot;')+')" style="flex:none;align-self:center;background:linear-gradient(135deg,var(--gold),#B89730);color:#0a0a12;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">Réserver</a>'; }
+  function bmbReserverBtn(url, ref, region){ if(!url) return ''; return '<a href="'+bmbEsc(url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" onclick="bmbReserver(this.href,'+JSON.stringify(String(ref||'')).replace(/"/g,'&quot;')+','+JSON.stringify(String(region||'geneve')).replace(/"/g,'&quot;')+')" style="flex:none;align-self:center;background:linear-gradient(135deg,var(--gold),#B89730);color:#0a0a12;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">Réserver</a>'; }
   // Fichier d'agenda (.ics) pour une collecte : date ISO, horaire « 13h30 – 19h30 », lieu, lien officiel
   window.bmbIcs=function(titre, dateIso, horaire, lieu, url){
     var m=(horaire||'').match(/(\d{1,2})h(\d{2})?\D+(\d{1,2})h(\d{2})?/), d=(dateIso||'').replace(/-/g,'');
@@ -8299,10 +8303,10 @@ function bmbRenderDonnees(d){
   };
   function bmbIcsBtn(titre, dateIso, horaire, lieu, url){ if(!dateIso) return ''; var arg=[titre,dateIso,horaire,lieu,url].map(function(v){ return "'"+String(v||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/</g,'')+"'"; }).join(','); return '<button type="button" onclick="bmbIcs('+arg.replace(/"/g,'&quot;')+')" title="Ajouter à mon agenda" style="flex:none;align-self:center;margin-left:6px;background:none;border:1px solid var(--dark-border);color:var(--gold);border-radius:8px;padding:4px 8px;font-size:12px;cursor:pointer">📅</button>'; }
   function bmbCantonHtml(code){
-    var c=CANTONS_DATA[code]; if(!c||!c.items||!c.items.length) return '<div style="padding:6px 0">Aucune date publiée pour ce canton en ce moment. <a href="https://www.blutspende.ch/fr/dates-de-collecte-de-sang" target="_blank" rel="noopener" style="color:var(--gold)">Recherche officielle</a></div>';
+    var c=CANTONS_DATA[code]; if(!c||!c.items||!c.items.length) return '<div style="padding:6px 0">Aucune date publiée pour ce canton en ce moment. <a href="https://www.blutspende.ch/fr/dates-de-collecte-de-sang" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">Recherche officielle</a></div>';
     return '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">'+bmbEsc(c.nom)+' — dates publiées par Transfusion CRS Suisse (collectes mobiles d’abord, puis rendez-vous en centre)</div>'
-      + c.items.map(function(x){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:104px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc((x.jour?x.jour+' ':'')+(x.date||''))+'</div><div style="flex:1"><a href="'+bmbEsc(x.url||'https://www.blutspende.ch/fr/dates-de-collecte-de-sang')+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+(x.mobile?'🚌 ':'🏥 ')+bmbEsc(x.localite||'')+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([x.lieu,x.horaire].filter(Boolean).join(' · '))+(x.type&&x.type!=='Don de sang'?' · '+bmbEsc(x.type):'')+'</div></div>'+bmbReserverBtn(x.url||'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', (x.date_iso||'')+' '+(x.localite||''), (x.canton||code||'').toLowerCase()==='ge'?'geneve':(x.canton||code||'').toLowerCase())+bmbIcsBtn((x.lieu||x.localite||'Collecte'), x.date_iso, x.horaire, [x.lieu,x.localite].filter(Boolean).join(', '), x.url)+'</div>'; }).join('')
-      + '<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Source : Transfusion CRS Suisse (blutspende.ch), actualisé chaque jour · <a href="'+bmbEsc(c.url)+'" target="_blank" rel="noopener" style="color:var(--gold)">toutes les dates et réservation</a></div>';
+      + c.items.map(function(x){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:104px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc((x.jour?x.jour+' ':'')+(x.date||''))+'</div><div style="flex:1"><a href="'+bmbEsc(x.url||'https://www.blutspende.ch/fr/dates-de-collecte-de-sang')+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+(x.mobile?'🚌 ':'🏥 ')+bmbEsc(x.localite||'')+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([x.lieu,x.horaire].filter(Boolean).join(' · '))+(x.type&&x.type!=='Don de sang'?' · '+bmbEsc(x.type):'')+'</div></div>'+bmbReserverBtn(x.url||'https://www.blutspende.ch/fr/dates-de-collecte-de-sang', (x.date_iso||'')+' '+(x.localite||''), (x.canton||code||'').toLowerCase()==='ge'?'geneve':(x.canton||code||'').toLowerCase())+bmbIcsBtn((x.lieu||x.localite||'Collecte'), x.date_iso, x.horaire, [x.lieu,x.localite].filter(Boolean).join(', '), x.url)+'</div>'; }).join('')
+      + '<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Source : Transfusion CRS Suisse (blutspende.ch), actualisé chaque jour · <a href="'+bmbEsc(c.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">toutes les dates et réservation</a></div>';
   }
   window.bmbCollectesRegion=function(id){
     var r=REGIONS_COLL.filter(function(x){return x.id===id;})[0]||REGIONS_COLL[0];
@@ -8310,14 +8314,14 @@ function bmbRenderDonnees(d){
     var cl2=document.getElementById('collectes-hug-liste'); if(!cl2) return;
     if(r.liste){ cl2.innerHTML=window.bmbCollectesGeneveHtml||''; return; }
     if(CANTONS_DATA[r.id]!==undefined || /^[A-Z]{2}$/.test(r.id)){ cl2.innerHTML=bmbCantonHtml(r.id); return; }
-    cl2.innerHTML='<div style="padding:6px 0">Pour '+bmbEsc(r.label)+', les dates de collecte sont publiées par '+bmbEsc(r.org)+'. Nous ne les reprenons pas encore automatiquement.</div><a href="'+bmbEsc(r.url)+'" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="margin-top:6px">📅 Voir le calendrier officiel →</a>';
+    cl2.innerHTML='<div style="padding:6px 0">Pour '+bmbEsc(r.label)+', les dates de collecte sont publiées par '+bmbEsc(r.org)+'. Nous ne les reprenons pas encore automatiquement.</div><a href="'+bmbEsc(r.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" class="btn btn-outline btn-sm" style="margin-top:6px">📅 Voir le calendrier officiel →</a>';
   };
   var rg=document.getElementById('collectes-regions');
   if(rg) rg.innerHTML=REGIONS_COLL.map(function(r,i){ return '<button class="canton-btn'+(i===0?' active':'')+'" data-region="'+r.id+'" onclick="bmbCollectesRegion(\''+r.id+'\')">'+bmbEsc(r.label)+'</button>'; }).join('');
   var cl=document.getElementById('collectes-hug-liste');
   if(cl){
     var cs=(d.collectes&&d.collectes.geneve)||[];
-    window.bmbCollectesGeneveHtml=(cs.length ? '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Genève — calendrier du CTS des HUG</div>'+cs.map(function(c){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:86px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc(c.date||'')+'</div><div style="flex:1"><a href="'+bmbEsc(c.url||'#')+'" target="_blank" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+bmbEsc(c.titre)+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([c.adresse,(c.npa||'')+' '+(c.localite||'')].filter(Boolean).join(', '))+(c.debut?' · '+bmbEsc(c.debut)+(c.fin?'–'+bmbEsc(c.fin):''):'')+'</div></div>'+bmbReserverBtn(c.url, (c.date_iso||'')+' '+(c.localite||''), 'geneve')+bmbIcsBtn(c.titre, c.date_iso, (c.debut||'')+' – '+(c.fin||''), [c.adresse,(c.npa||'')+' '+(c.localite||'')].filter(Boolean).join(', '), c.url)+'</div>'; }).join('') : '<div>Aucune collecte annoncée par les HUG pour le moment.</div>')
+    window.bmbCollectesGeneveHtml=(cs.length ? '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Genève — calendrier du CTS des HUG</div>'+cs.map(function(c){ return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--dark-border)"><div style="min-width:86px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700">'+bmbEsc(c.date||'')+'</div><div style="flex:1"><a href="'+bmbEsc(c.url||'#')+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--text);font-weight:600;font-size:13px">'+bmbEsc(c.titre)+'</a><div style="font-size:12px;color:var(--text-muted)">'+bmbEsc([c.adresse,(c.npa||'')+' '+(c.localite||'')].filter(Boolean).join(', '))+(c.debut?' · '+bmbEsc(c.debut)+(c.fin?'–'+bmbEsc(c.fin):''):'')+'</div></div>'+bmbReserverBtn(c.url, (c.date_iso||'')+' '+(c.localite||''), 'geneve')+bmbIcsBtn(c.titre, c.date_iso, (c.debut||'')+' – '+(c.fin||''), [c.adresse,(c.npa||'')+' '+(c.localite||'')].filter(Boolean).join(', '), c.url)+'</div>'; }).join('') : '<div>Aucune collecte annoncée par les HUG pour le moment.</div>')
       +'<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Source : calendrier officiel du CTS des HUG, actualisé chaque jour.</div>';
     cl.innerHTML=window.bmbCollectesGeneveHtml;
     var cm=document.getElementById('collectes-hug-maj'); if(cm&&d.maj) cm.textContent='màj '+new Date(d.maj).toLocaleDateString('fr-CH');
