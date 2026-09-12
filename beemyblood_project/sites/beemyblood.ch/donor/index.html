@@ -213,6 +213,8 @@ a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--dark-border);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;overflow:visible}
+.lien-evitement{position:absolute;left:-9999px;top:0;z-index:10000;padding:10px 16px;background:var(--gold);color:var(--dark);font-weight:600;border-radius:0 0 8px 0;text-decoration:none}
+.lien-evitement:focus{left:0}
 .nav-brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold);cursor:pointer;flex-shrink:0}
 .nav-brand .bee{font-size:22px;filter:drop-shadow(0 0 8px rgba(245,197,24,.4))}
 .nav-home-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid rgba(200,169,96,.15);color:var(--text-muted);font-size:15px;text-decoration:none;transition:all .2s;flex-shrink:0}
@@ -1331,6 +1333,7 @@ body.bmb-public .mob-bottom-btn.bmb-reserve::after,body.bmb-public .mob-item.bmb
 </style>
 </head>
 <body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
 
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
@@ -1425,6 +1428,7 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 
+<header>
 <nav>
   <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
@@ -1475,6 +1479,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
   </div>
 </nav>
+</header>
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
 
 <!-- MOBILE MENU -->
@@ -1506,6 +1511,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
   <span onclick="go('hero')" style="cursor:pointer;color:var(--gold)">🏠 Accueil</span> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current" style="color:var(--text)"></span>
 </div>
+<main id="contenu" tabindex="-1">
 <!-- ==================== HERO ==================== -->
 <div class="view active" id="v-hero">
 <div class="hero" style="position:relative">
@@ -5188,6 +5194,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="btn btn-gold btn-sm" style="margin-top:10px" onclick="go('chatbot')">🤖 Poser une question à BeeBot™</button>
   </div>
 </div><!-- /v-faq -->
+</main>
 
 <!-- ONBOARDING MODAL -->
 <div class="modal-overlay" id="onboard-modal" style="display:none">
