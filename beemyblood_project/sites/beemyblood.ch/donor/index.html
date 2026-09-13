@@ -1448,11 +1448,14 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" data-v="hero">Accueil</button>
-    <div class="nav-group" data-menu="nav-group-menu-navigation">
-      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="dashboard,communaute,actualites,flux,hemorush" onclick="toggleNavGroup(event,'navigation')">Navigation ▾</button>
+    <button class="nav-tab" data-v="eligibilite">Éligibilité</button>
+    <button class="nav-tab" data-v="hemorush">HémoRush™</button>
+    <button class="nav-tab" data-v="collectes">Collectes</button>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="dashboard,communaute,actualites,flux,impact" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
     </div>
     <div class="nav-group" data-menu="nav-group-menu-decouvrir">
-      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="guide,eligibilite,collectes,impact,chatbot,vr,videos,faq,contact" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="guide,chatbot,vr,videos,faq,contact" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
     </div>
     <button class="nav-tab" data-v="settings">⚙️</button>
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
@@ -1487,18 +1490,15 @@ document.addEventListener('DOMContentLoaded',function(){
 </nav>
 </header>
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
-<div class="nav-group-menu" id="nav-group-menu-navigation">
+<div class="nav-group-menu" id="nav-group-menu-espace">
   <button class="nav-tab" data-v="dashboard">📊 Dashboard</button>
   <button class="nav-tab" data-v="communaute">⚔️ Défis</button>
   <button class="nav-tab" data-v="actualites">📰 Actualités</button>
   <button class="nav-tab" data-v="flux">📺 Flux CTS</button>
-  <button class="nav-tab" data-v="hemorush">🎮 HémoRush™</button>
+  <button class="nav-tab" data-v="impact">💛 Impact</button>
 </div>
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
   <button class="nav-tab" data-v="guide">📖 Guide</button>
-  <button class="nav-tab" data-v="eligibilite">✅ Éligibilité</button>
-  <button class="nav-tab" data-v="collectes">📍 Collectes</button>
-  <button class="nav-tab" data-v="impact">💛 Impact</button>
   <button class="nav-tab" data-v="chatbot">🐝 BeeBot™</button>
   <button class="nav-tab" data-v="vr">🥽 VR</button>
   <button class="nav-tab" data-v="videos">🎬 Vidéos</button>
