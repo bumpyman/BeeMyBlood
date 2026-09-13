@@ -229,6 +229,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.9
 .nav-overflow-menu{position:fixed;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-sm);padding:6px;display:none;flex-direction:column;gap:2px;min-width:180px;z-index:2500;box-shadow:0 8px 32px rgba(0,0,0,.5)}
 .nav-overflow-menu.open{display:flex}
 .nav-overflow-menu .nav-tab{text-align:left;width:100%;padding:10px 14px;font-size:15px}
+.nav-group{flex-shrink:0}
+.nav-group-btn{padding:7px 13px;border-radius:7px;font-size:14px;font-weight:500;color:var(--text-dim);cursor:pointer;transition:var(--transition);border:none;background:none;white-space:nowrap;flex-shrink:0}
+.nav-group-btn:hover{color:var(--text);background:rgba(200,169,96,.1)}
+.nav-group-btn.active{color:var(--dark);background:var(--gold);font-weight:600}
+.nav-group-menu{position:fixed;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-sm);padding:6px;display:none;flex-direction:column;gap:2px;min-width:190px;z-index:2500;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.nav-group-menu.open{display:flex}
+.nav-group-menu .nav-tab{text-align:left;width:100%;padding:10px 14px;font-size:15px}
 .nav-tab{padding:7px 13px;border-radius:7px;font-size:14px;font-weight:500;color:var(--text-dim);cursor:pointer;transition:var(--transition);border:none;background:none;white-space:nowrap;flex-shrink:0}
 .nav-tab:hover{color:var(--text);background:rgba(200,169,96,.1)}
 .nav-tab.active{color:var(--dark);background:var(--gold);font-weight:600}
@@ -1441,20 +1448,12 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" data-v="hero">Accueil</button>
-    <button class="nav-tab" data-v="dashboard">Dashboard</button>
-    <button class="nav-tab" data-v="communaute">Défis</button>
-    <button class="nav-tab" data-v="actualites">Actualités</button>
-    <button class="nav-tab" data-v="flux">Flux CTS</button>
-    <button class="nav-tab" data-v="guide">Guide</button>
-    <button class="nav-tab" data-v="eligibilite">Éligibilité</button>
-    <button class="nav-tab" data-v="hemorush">HémoRush™</button>
-    <button class="nav-tab" data-v="collectes">Collectes</button>
-    <button class="nav-tab" data-v="impact">Impact</button>
-    <button class="nav-tab" data-v="chatbot">BeeBot™</button>
-    <button class="nav-tab" data-v="vr">VR</button>
-    <button class="nav-tab" data-v="videos">Vidéos</button>
-    <button class="nav-tab" data-v="faq">FAQ</button>
-    <button class="nav-tab" data-v="contact">Contact</button>
+    <div class="nav-group" data-menu="nav-group-menu-navigation">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="dashboard,communaute,actualites,flux,hemorush" onclick="toggleNavGroup(event,'navigation')">Navigation ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="guide,eligibilite,collectes,impact,chatbot,vr,videos,faq,contact" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
     <button class="nav-tab" data-v="settings">⚙️</button>
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
   </div>
@@ -1488,6 +1487,24 @@ document.addEventListener('DOMContentLoaded',function(){
 </nav>
 </header>
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-navigation">
+  <button class="nav-tab" data-v="dashboard">📊 Dashboard</button>
+  <button class="nav-tab" data-v="communaute">⚔️ Défis</button>
+  <button class="nav-tab" data-v="actualites">📰 Actualités</button>
+  <button class="nav-tab" data-v="flux">📺 Flux CTS</button>
+  <button class="nav-tab" data-v="hemorush">🎮 HémoRush™</button>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <button class="nav-tab" data-v="guide">📖 Guide</button>
+  <button class="nav-tab" data-v="eligibilite">✅ Éligibilité</button>
+  <button class="nav-tab" data-v="collectes">📍 Collectes</button>
+  <button class="nav-tab" data-v="impact">💛 Impact</button>
+  <button class="nav-tab" data-v="chatbot">🐝 BeeBot™</button>
+  <button class="nav-tab" data-v="vr">🥽 VR</button>
+  <button class="nav-tab" data-v="videos">🎬 Vidéos</button>
+  <button class="nav-tab" data-v="faq">❓ FAQ</button>
+  <button class="nav-tab" data-v="contact">📬 Contact</button>
+</div>
 
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mob-menu">
@@ -5500,6 +5517,9 @@ function go(id){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   const v=document.getElementById('v-'+id);if(v)v.classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(t=>{if(t.dataset.v===id)t.classList.add('active')});
+  document.querySelectorAll('.nav-group-btn').forEach(b=>b.classList.toggle('active',(b.dataset.views||'').split(',').includes(id)));
+  document.querySelectorAll('.nav-group-menu').forEach(m=>m.classList.remove('open'));
+  document.querySelectorAll('.nav-group-btn').forEach(b=>b.setAttribute('aria-expanded','false'));
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='collectes'){setTimeout(initMap,200);if(typeof updateARPosition==='function')setTimeout(updateARPosition,1000);}
   if(id==='communaute'){document.querySelectorAll('#v-communaute [data-counter]').forEach(el=>{animateCounter(el,parseInt(el.dataset.counter),'',1500);});}
@@ -5539,8 +5559,8 @@ function updateNavOverflow(){
   if(!container||!overflowBtn||!overflowMenu)return;
   // If nav-tabs is hidden (very small screen), skip
   if(getComputedStyle(container).display==='none')return;
-  // Show all tabs first to measure
-  const tabs=container.querySelectorAll('.nav-tab');
+  // Show all top-level items first to measure (leaf tabs and group dropdowns alike)
+  const tabs=container.querySelectorAll(':scope > .nav-tab, :scope > .nav-group');
   tabs.forEach(t=>t.style.display='');
   overflowBtn.style.display='none';
   // Get available width (container width minus padding and overflow btn width)
@@ -5554,7 +5574,15 @@ function updateNavOverflow(){
     if(r.right>maxRight&&!anyHidden){anyHidden=true;}
     if(anyHidden){
       t.style.display='none';
-      hiddenTabs.push({label:t.textContent,view:t.dataset.v,isActive:t.classList.contains('active')});
+      if(t.classList.contains('nav-group')){
+        // Flatten the group's items (rendered elsewhere as a fixed dropdown) into the overflow list
+        const menu=document.getElementById(t.dataset.menu);
+        if(menu)menu.querySelectorAll('.nav-tab').forEach(inner=>{
+          hiddenTabs.push({label:inner.textContent,view:inner.dataset.v,isActive:inner.classList.contains('active')});
+        });
+      }else{
+        hiddenTabs.push({label:t.textContent,view:t.dataset.v,isActive:t.classList.contains('active')});
+      }
     }
   });
   // Build overflow menu
@@ -5584,7 +5612,31 @@ function toggleOverflowMenu(e){
 function closeOverflowMenu(){
   document.getElementById('nav-overflow-menu').classList.remove('open');
 }
-document.addEventListener('click',()=>closeOverflowMenu());
+function closeNavGroups(returnFocus){
+  const openBtn=returnFocus&&document.querySelector('.nav-group-btn[aria-expanded="true"]');
+  document.querySelectorAll('.nav-group-menu').forEach(m=>m.classList.remove('open'));
+  document.querySelectorAll('.nav-group-btn').forEach(b=>b.setAttribute('aria-expanded','false'));
+  if(openBtn)openBtn.focus();
+}
+function toggleNavGroup(e,name){
+  e.stopPropagation();
+  const menu=document.getElementById('nav-group-menu-'+name);
+  const btn=e.currentTarget;
+  const wasOpen=menu.classList.contains('open');
+  closeNavGroups();
+  closeOverflowMenu();
+  if(!wasOpen){
+    const r=btn.getBoundingClientRect();
+    menu.style.top=(r.bottom+6)+'px';
+    menu.style.left=r.left+'px';
+    menu.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+    const first=menu.querySelector('.nav-tab');
+    if(first)first.focus();
+  }
+}
+document.addEventListener('click',()=>{closeOverflowMenu();closeNavGroups();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNavGroups(true);});
 window.addEventListener('resize',updateNavOverflow);
 setTimeout(updateNavOverflow,100);
 
