@@ -42,7 +42,7 @@ The three spaces are behind a shared access module, `acces.js`, backed by Supaba
 - **Professional portal** (`/pro`, demo login) — dashboard, interactive cartography with heatmaps, labile blood product (PSL) search across Switzerland and the EBA network, mobile-unit routing, collection planning, equity indicators, stocks, campaigns, CRS protocols, BeeBot Pro, and the **digital twin** tab (phenotype search and scenario planning).
 - **Recipient space** (`/receiver`) — patient portal for people receiving red cells, platelets or plasma: transfusion journey, iron overload and chelation, blood compatibility, rights, patient associations, BeeBot Receveur.
 
-The standalone digital-twin prototype lives in `/digitaltwin` and has been integrated into the professional portal.
+The standalone digital-twin prototype has been integrated into the professional portal; its earlier standalone version is kept in `obsolete/` for reference.
 
 ## Repository layout
 
@@ -53,8 +53,6 @@ beemyblood_project/sites/beemyblood.ch/   # deployable web root (upload as-is to
 ├── donor/                     # donor space + BeeBot proxy (api.php)
 ├── pro/                       # professional portal + BeeBot Pro proxy (api.php)
 ├── receiver/                  # recipient space + BeeBot proxy (api_receiver.php)
-├── digitaltwin/index.html     # standalone digital twin prototype (Vue + Leaflet)
-├── hackathon/                 # Hackathon HUG #9 edition
 ├── api.php                    # BeeBot proxy for the landing/alpha pages
 ├── lexique.js                 # shared glossary: acronyms explained on hover/tap + full list
 ├── acces.js                   # shared alpha access: email code, invitation, NDA (Supabase)
@@ -63,7 +61,7 @@ beemyblood_project/sites/beemyblood.ch/   # deployable web root (upload as-is to
 ├── admin/index.html           # admin: approve requests, spaces, signatures, journal
 ├── api/donnees.php            # daily data: official stock barometer, collection dates per canton, HUG list, Swiss news (cached 1 h)
 ├── config.example.php         # copy to config.php and add your Anthropic API key
-└── alpha_index.html, old_index.html, index_landing_classic.html   # earlier versions
+└── obsolete/                  # superseded pages kept for reference, unlinked from the site (earlier landing pages, standalone digital twin)
 ```
 
 ## Tech stack
