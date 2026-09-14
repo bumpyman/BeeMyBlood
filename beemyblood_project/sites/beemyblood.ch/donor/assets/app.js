@@ -1,3 +1,29 @@
+// ===== NAVIGATION MULTIPAGE VERS UNE PAGE RESERVEE =====
+// Remplace le controle par vue de la SPA (BMB_RESERVE + go()) : intercepte le clic sur
+// un lien reserve tant que le visiteur n'est pas connecte, sinon laisse le lien naviguer.
+function bmbGuard(e,url){
+  if(window.BeeAcces && !window.BeeAcces.deverrouille()){
+    e.preventDefault();
+    window.BeeAcces.exiger(function(){ location.href=url; });
+  }
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('gate-input')?.focus();
+  // Disable transitions briefly so initial state renders instantly
+  var style=document.createElement('style');
+  style.id='no-transition';
+  style.textContent='.acc-body{transition:none!important}';
+  document.head.appendChild(style);
+  // Re-enable transitions after paint
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      var s=document.getElementById('no-transition');
+      if(s)s.remove();
+    });
+  });
+});
+
 function checkGate(){
   const codes=[]; // accès géré par acces.js (invitation + courriel + NDA)
   const v=document.getElementById('gate-input').value.trim().toLowerCase();

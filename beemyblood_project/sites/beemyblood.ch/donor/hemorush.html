@@ -1,0 +1,797 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>HémoRush™ — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab active" href="hemorush.html" aria-current="page">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item active" href="hemorush.html" aria-current="page"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">HémoRush™</span>
+</div>
+<main id="contenu" tabindex="-1">
+<!-- ==================== HEMORUSH ==================== -->
+<div class="view active" id="v-hemorush">
+  <div class="sec-header"><div class="sec-label">🎮 Jeu éducatif</div><h1 class="sec-title" id="hr-title">HémoRush™</h1><div class="sec-sub" id="hr-sub">Apprends les compatibilités sanguines en jouant — 5 modes</div></div>
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="hr-extras-acc" style="font-size:13px;padding:6px 10px;margin-bottom:8px">ℹ️ Campagne & infos <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="hr-extras-acc">
+  <!-- HUG CAMPAIGN BANNER -->
+  <div style="background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(230,57,70,.06));border:1px solid rgba(200,169,96,.2);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <div style="font-size:36px;flex-shrink:0">🎮</div>
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:4px;line-height:1.4">« Toi aussi, joue le jeu : donne ton sang et offre une vie »</div>
+      <div style="font-size:14px;color:var(--text-dim);line-height:1.5">Campagne gaming des HUG ciblant les 18-30 ans. 53% des Suisses jouent aux jeux vid&eacute;o, 86% des 15-19 ans.<br><strong style="color:var(--text)">Chaque don = un bonus de vie.</strong></div>
+    </div>
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm" style="flex-shrink:0;text-decoration:none">🏥 En savoir plus</a>
+  </div>
+
+  </div><!-- /acc-body hr-extras -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="hr-game-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🎮 Jouer à HémoRush™ <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="hr-game-acc">
+  <!-- GAME AREA -->
+  <div class="game-wrap" id="game-wrap">
+    <div class="fs-btn" style="z-index:15" onclick="toggleFS(document.getElementById('game-wrap'))">⛶</div>
+    <div class="particles" id="particles"></div>
+
+    <!-- START OVERLAY -->
+    <div class="game-start-overlay" id="game-start">
+      <div style="font-size:42px;margin-bottom:0">🩸</div>
+      <div style="font-family:var(--font-display);font-size:28px;font-weight:700;margin-bottom:0">HémoRush™</div>
+      <div style="font-size:16px;color:var(--text-dim);margin-bottom:0;text-align:center">Sélectionne un patient, puis donne-lui la bonne poche</div>
+      <div style="font-size:15px;color:var(--gold);margin-bottom:4px;font-style:italic;text-align:center">🎮 « Toi aussi, joue le jeu : offre une vie »</div>
+
+      <!-- MODE SELECTOR — Apprentissage first -->
+      <div style="font-size:15px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;margin-top:6px;animation:glowText 2.5s ease-in-out infinite">▼ Choisis ton mode de jeu ▼</div>
+      <div class="mode-grid">
+        <div class="mode-card sel" onclick="selMode(1,this)"><div class="mode-card-icon">📚</div><div class="mode-card-name">Apprentissage</div><div class="mode-card-sub">Guidé, 0 chrono</div></div>
+        <div class="mode-card" onclick="selMode(0,this)"><div class="mode-card-icon">⚡</div><div class="mode-card-name">Rush</div><div class="mode-card-sub">2 min chrono</div></div>
+        <div class="mode-card" onclick="selMode(2,this)"><div class="mode-card-icon">❤️</div><div class="mode-card-name">Survie</div><div class="mode-card-sub">3 vies</div></div>
+        <div class="mode-card" onclick="selMode(3,this)"><div class="mode-card-icon">🧠</div><div class="mode-card-name">Quiz</div><div class="mode-card-sub">QCM</div></div>
+        <div class="mode-card" onclick="selMode(4,this)"><div class="mode-card-icon">🌊</div><div class="mode-card-name">Vagues</div><div class="mode-card-sub">Difficulté ↑</div></div>
+      </div>
+
+      <!-- COMPACT RULES -->
+      <div style="background:linear-gradient(90deg,rgba(200,169,96,.06),rgba(200,169,96,.18),rgba(200,169,96,.06));background-size:200% 100%;animation:shimmerRule 3s linear infinite;border:2px solid rgba(200,169,96,.35);border-radius:12px;padding:10px 14px;margin:8px 0;text-align:center;line-height:1.8">
+        <span style="font-size:15px;font-weight:700" class="hr-rule-text">🏥 Touche un <strong style="color:var(--gold)">patient</strong></span><br>
+        <span style="color:var(--gold);font-size:16px;animation:bounceBtn 1.5s ease-in-out infinite;display:inline-block">↓</span><br>
+        <span style="font-size:15px;font-weight:700" class="hr-rule-text">🩸 Donne la <strong style="color:var(--green)">poche</strong> compatible</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);text-align:center">⚠️ <strong style="color:var(--red-soft)">Mauvaise poche = patient bloqué</strong></div>
+
+      <!-- SCORING — inline -->
+      <div style="display:flex;gap:16px;justify-content:center;font-size:14px;color:var(--text-dim);margin-bottom:4px">
+        <span><strong style="color:var(--green)">✅</strong> 100 pts</span>
+        <span><strong style="color:var(--gold)">🔥</strong> Combo ×2-×5</span>
+        <span><strong style="color:var(--red-soft)">🚨</strong> Urgent ×2</span>
+      </div>
+
+      <button class="btn btn-gold" style="font-size:20px;padding:14px 44px;animation:bounceBtn 1.5s ease-in-out infinite;box-shadow:0 0 20px rgba(200,169,96,.3)" onclick="startGame()">▶ JOUER</button>
+    </div>
+
+    <!-- GAME OVER -->
+    <div class="game-over-overlay" id="game-over">
+      <div style="font-size:42px;margin-bottom:6px" id="go-icon">🏆</div>
+      <div style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:4px" id="go-title">Temps écoulé !</div>
+      <div style="font-size:15px;color:var(--gold);margin-bottom:3px">Score : <span id="final-score">0</span> pts</div>
+      <div style="font-size:13px;color:var(--text-dim);margin-bottom:3px"><span id="final-patients">0</span> patients sauvés · Combo max : x<span id="final-combo">1</span></div>
+      <div id="final-msg" style="font-size:14px;color:var(--green-soft);margin-bottom:6px"></div>
+      <div id="final-facts" style="font-size:13px;color:var(--text-dim);max-width:300px;text-align:center;margin-bottom:10px;line-height:1.4"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;flex-direction:column;align-items:center">
+        <button class="btn btn-gold" style="font-size:18px;padding:14px 36px;animation:pulseG 2s infinite" onclick="startGame()">▶ Rejouer</button>
+        <button class="btn btn-outline" style="font-size:14px;padding:10px 24px" onclick="document.getElementById('game-start').style.display='';document.getElementById('game-over').classList.remove('show');document.getElementById('game-hud').style.display='none';document.getElementById('game-zone').style.display='none';document.getElementById('game-wrap').classList.remove('gameover');">🔄 Choisir un autre mode</button>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div class="game-hud" id="game-hud" style="display:none">
+      <div class="hud-box"><div class="hud-label">Score</div><div class="hud-val hud-score" id="g-score">0</div></div>
+      <div class="hud-box"><div class="hud-label">Sauvés</div><div class="hud-val" id="g-saved" style="color:var(--green)">0</div></div>
+      <div class="hud-box"><div class="hud-label">Combo</div><div class="hud-val hud-combo" id="g-combo">x1</div></div>
+      <div class="hud-box" id="hud-timer-box"><div class="hud-label">Temps</div><div class="hud-val hud-timer" id="g-timer">2:00</div></div>
+      <div class="hud-box" id="hud-lives-box" style="display:none"><div class="hud-label">Vies</div><div class="hud-val" id="g-lives" style="color:var(--red-soft)">❤️❤️❤️</div></div>
+      <div class="hud-box" id="hud-wave-box" style="display:none"><div class="hud-label">Vague</div><div class="hud-val" id="g-wave" style="color:var(--blue)">1</div></div>
+      <div class="hud-box"><button onclick="quitGame()" style="background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.4);color:var(--red-soft);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s" onmouseover="this.style.background='rgba(230,57,70,.25)';this.style.borderColor='var(--red-soft)'" onmouseout="this.style.background='rgba(230,57,70,.12)';this.style.borderColor='rgba(230,57,70,.4)'">✕ Quitter</button></div>
+    </div>
+
+    <!-- INSTRUCTION BANNER -->
+    <div id="g-instruction" style="text-align:center;padding:4px 8px;margin-bottom:3px;background:rgba(200,169,96,.06);border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--gold);display:none;flex-shrink:0"></div>
+
+    <!-- GAME ZONE -->
+    <div class="game-zone" id="game-zone" style="display:none">
+      <div class="game-row-label">🛏️ Patients</div>
+      <div class="patients-row" id="g-patients"></div>
+      <div style="text-align:center;font-size:18px;margin:1px 0;opacity:.3">⬇️</div>
+      <div class="game-row-label">🩸 Poches</div>
+      <div class="pouches-row" id="g-pouches"></div>
+    </div>
+    <div class="game-fb" id="g-fb"></div>
+  </div>
+
+  <!-- COMPAT TABLE -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="hr-compat-acc" style="font-size:13px;padding:6px 10px;margin:10px 0">📚 Tableau de compatibilité <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="hr-compat-acc">
+  <div class="card" style="margin-top:6px">
+    <div class="card-header"><div class="card-title">📚 Tableau de compatibilité</div><div style="font-size:15px;color:var(--text-dim)">Poche → peut donner au patient ↓</div></div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;font-size:14px;border-collapse:collapse">
+        <thead><tr style="color:var(--text-dim)"><th style="text-align:left;padding:8px;border-bottom:1px solid var(--dark-border)">Poche →</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">O-</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">O+</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">A-</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">A+</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">B-</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">B+</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">AB-</th><th style="padding:8px;border-bottom:1px solid var(--dark-border)">AB+</th></tr></thead>
+        <tbody id="compat-table"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:15px;color:var(--text-muted)">💡 O- = donneur universel · AB+ = receveur universel · Astuce : les négatifs donnent aux positifs du même groupe</div>
+  </div>
+  </div><!-- /acc-body hr-compat -->
+  </div><!-- /hr-game-acc -->
+</div>
+</main>
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn active" href="hemorush.html" aria-current="page">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('hemorush');
+
+// ===== HEMORUSH ENGINE — 5 MODES =====
+const COMPAT={'O-':['O-','O+','A-','A+','B-','B+','AB-','AB+'],'O+':['O+','A+','B+','AB+'],'A-':['A-','A+','AB-','AB+'],'A+':['A+','AB+'],'B-':['B-','B+','AB-','AB+'],'B+':['B+','AB+'],'AB-':['AB-','AB+'],'AB+':['AB+']};
+const GROUPS=['O-','O+','A-','A+','B-','B+','AB-','AB+'];
+const PATIENTS_DATA=[
+  {emoji:'👶',lbl:'Néonatologie'},{emoji:'🤕',lbl:'Accident route'},{emoji:'🤰',lbl:'Hémorragie post-partum'},
+  {emoji:'👴',lbl:'Chirurgie cardiaque'},{emoji:'🧒',lbl:'Leucémie'},{emoji:'🤒',lbl:'Anémie sévère'},
+  {emoji:'👩',lbl:'Transplantation'},{emoji:'🧑',lbl:'Drépanocytose'},{emoji:'👨',lbl:'Polytrauma'},
+  {emoji:'👧',lbl:'Thalassémie'},{emoji:'🧓',lbl:'Chirurgie hanche'},{emoji:'👱',lbl:'Brûlure grave'}
+];
+const QUIZ_QUESTIONS=[
+  {q:'Quel groupe est donneur universel de globules rouges ?',opts:['O-','AB+','A+','B-'],answer:0},
+  {q:'Quel groupe est receveur universel ?',opts:['O-','A+','AB+','B+'],answer:2},
+  {q:'Un patient A+ peut recevoir du...',opts:['B+','O+','AB-','B-'],answer:1},
+  {q:'Un patient O- peut UNIQUEMENT recevoir du...',opts:['O+','O-','A-','AB-'],answer:1},
+  {q:'Le sang B- peut donner à...',opts:['B- et B+ seulement','B-, B+, AB-, AB+','Tous les groupes','B- seulement'],answer:1},
+  {q:'Combien de groupes sanguins ABO existe-t-il ?',opts:['4','6','8','10'],answer:2},
+  {q:'Un patient AB- peut recevoir du...',opts:['AB+ aussi','O-, A-, B-, AB-','O- seulement','Tous'],answer:1},
+  {q:'La règle Rh dit que...',opts:['Rh+ donne à Rh-','Rh- donne à Rh- et Rh+','Rh n\'a pas d\'importance','Rh- ne donne qu\'à Rh-'],answer:1},
+  {q:'Un patient B+ peut recevoir de...',opts:['B+, B-, O+, O-','B+ seulement','Tous les groupes','B+ et O+'],answer:0},
+  {q:'Quel est le groupe le plus rare en Suisse ?',opts:['AB-','O-','B-','A-'],answer:0}
+];
+
+let gScore=0,gCombo=1,gMaxCombo=1,gSaved=0,gTime=120,gInterval=null,gRunning=false;
+let gSelPat=null,gMode=1,gLives=3,gWave=1,gQuizIdx=0,gQuizCorrect=0,gRoundCount=0;
+
+function selMode(m,el){
+  gMode=m;
+  document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function startGame(){
+  document.getElementById('game-start').style.display='none';
+  document.getElementById('game-wrap').classList.remove('gameover');
+  document.getElementById('game-over').classList.remove('show');
+  document.getElementById('game-hud').style.display='';
+  document.getElementById('game-zone').style.display='';
+  const gw=document.getElementById('game-wrap');
+  gw.classList.add('running');
+  // On mobile/fold non-fullscreen: scroll to game
+  if(window.innerWidth<=1024 && !gw.classList.contains('fullscreen')){
+    gw.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  gScore=0;gCombo=1;gMaxCombo=1;gSaved=0;gSelPat=null;gRunning=true;gLives=3;gWave=1;gQuizIdx=0;gQuizCorrect=0;gRoundCount=0;
+
+  // Mode setup
+  const titles=['⚡ Rush — 2 min chrono','📚 Apprentissage — sans pression','❤️ Survie — 3 vies','🧠 Quiz — compatibilités','🌊 Vagues — difficulté croissante'];
+  document.getElementById('hr-title').textContent='HémoRush™ — '+['Rush','Apprentissage','Survie','Quiz','Vagues'][gMode];
+  document.getElementById('hr-sub').textContent=titles[gMode];
+
+  // Timer setup
+  const timerBox=document.getElementById('hud-timer-box');
+  const livesBox=document.getElementById('hud-lives-box');
+  const waveBox=document.getElementById('hud-wave-box');
+  if(gMode===0){gTime=120;timerBox.style.display='';livesBox.style.display='none';if(waveBox)waveBox.style.display='none';}
+  else if(gMode===1){gTime=9999;timerBox.style.display='none';livesBox.style.display='none';if(waveBox)waveBox.style.display='none';}
+  else if(gMode===2){gTime=9999;timerBox.style.display='none';livesBox.style.display='';if(waveBox)waveBox.style.display='none';updLives();}
+  else if(gMode===3){gTime=9999;timerBox.style.display='none';livesBox.style.display='none';if(waveBox)waveBox.style.display='none';}
+  else if(gMode===4){gTime=30;timerBox.style.display='';livesBox.style.display='none';if(waveBox)waveBox.style.display='';}
+
+  updHUD();
+
+  if(gMode===3) spawnQuiz();
+  else spawnRound();
+
+  if(gInterval)clearInterval(gInterval);
+  if(gMode!==1 && gMode!==2 && gMode!==3){
+    gInterval=setInterval(()=>{
+      gTime--;updTimer();
+      if(gTime<=0){
+        if(gMode===4){gWave++;gTime=Math.max(15,30-gWave*2);updTimer();spawnRound();if(document.getElementById('hud-wave-box'))document.getElementById('g-wave').textContent=gWave;}
+        else{clearInterval(gInterval);gRunning=false;endGame();}
+      }
+    },1000);
+  }
+}
+
+function updHUD(){
+  document.getElementById('g-score').textContent=gScore.toLocaleString();
+  document.getElementById('g-saved').textContent=gSaved;
+  const c=document.getElementById('g-combo');c.textContent='x'+gCombo;
+  c.className='hud-val hud-combo'+(gCombo>=3?' hot':'');
+  updTimer();
+}
+function updTimer(){
+  if(gMode===1||gMode===2||gMode===3)return;
+  const m=Math.floor(gTime/60),s=gTime%60;
+  const t=document.getElementById('g-timer');
+  t.textContent=m+':'+String(s).padStart(2,'0');
+  t.className='hud-val hud-timer'+(gTime<=15?' warning':'');
+}
+function updLives(){
+  document.getElementById('g-lives').textContent='❤️'.repeat(gLives)+'🖤'.repeat(Math.max(0,3-gLives));
+}
+
+function quitGame(){
+  gRunning=false;
+  if(gInterval)clearInterval(gInterval);
+  document.getElementById('game-wrap').classList.remove('gameover');
+  const gw=document.getElementById('game-wrap');
+  gw.classList.remove('running');
+  // Exit fullscreen if active
+  if(gw.classList.contains('fullscreen')){toggleFS(gw);}
+  if(window.innerWidth<=640){gw.style.cssText='';}
+  document.getElementById('game-start').style.display='';
+  document.getElementById('game-over').classList.remove('show');
+  document.getElementById('game-hud').style.display='none';
+  document.getElementById('g-instruction').style.display='none';
+  document.getElementById('game-zone').style.display='none';
+  document.getElementById('g-patients').innerHTML='';
+  document.getElementById('g-pouches').innerHTML='';
+  document.getElementById('hr-title').textContent='HémoRush™';
+  document.getElementById('hr-sub').textContent='Apprends les compatibilités sanguines en jouant — 5 modes disponibles';
+}
+
+function endGame(){
+  document.getElementById('game-wrap').classList.remove('running');
+  document.getElementById('game-wrap').classList.add('gameover');
+  document.getElementById('game-hud').style.display='none';
+  document.getElementById('game-zone').style.display='none';
+  document.getElementById('final-score').textContent=gScore.toLocaleString();
+  document.getElementById('final-patients').textContent=gMode===3?gQuizCorrect+'/'+Math.min(gQuizIdx+1,QUIZ_QUESTIONS.length):gSaved;
+  document.getElementById('final-combo').textContent=gMaxCombo;
+  let msg='',icon='🏆';
+  if(gMode===3){
+    msg=gQuizCorrect>=8?'🌟 Expert en transfusion !':gQuizCorrect>=5?'💪 Bonnes connaissances !':'🎓 Continue à apprendre !';
+  } else if(gMode===2){
+    msg=gLives>0?'🌟 Incroyable ! Tu as survécu !':'💀 Game Over ! '+gSaved+' patients sauvés.';icon=gLives>0?'🏆':'💀';
+  } else if(gMode===4){
+    msg='🌊 Vague '+gWave+' atteinte ! Impressionnant !';
+  } else {
+    msg=gSaved>=8?'🌟 Héros de la transfusion !':gSaved>=4?'💪 Bien joué !':'🎓 Entraîne-toi encore !';
+  }
+  document.getElementById('go-title').textContent=gMode===2&&gLives<=0?'Game Over !':'Temps écoulé !';
+  document.getElementById('go-icon').textContent=icon;
+  document.getElementById('final-msg').textContent=msg;
+  const facts=['O- est le donneur universel de globules rouges — essentiel en urgence quand le groupe du patient est inconnu.',
+    'Les plaquettes ne se conservent que 5 jours — les dons r\u00e9guliers sont indispensables.',
+    'En Suisse, seuls 2% des donneurs sont AB-. Chaque don AB- est pr\u00e9cieux.',
+    'Ton corps reconstitue le volume de sang donn\u00e9 (450ml) en 24-48h. Les globules rouges, en 4-6 semaines.',
+    'Un seul don peut sauver jusqu\'\u00e0 3 vies — globules, plaquettes et plasma s\u00e9par\u00e9s.',
+    'Un patient dr\u00e9panocytaire peut avoir besoin de 40 transfusions par an.',
+    '53% des Suisses jouent aux jeux vid\u00e9o. Les HUG utilisent cet univers pour recruter les 18-30 ans.',
+    'L\'objectif du CTS Genève est de 50 à 70 dons par jour. Chaque don compte !',
+    'Comme disent les HUG : chaque don, c\'est un bonus de vie offert. \ud83c\udfae'];
+  document.getElementById('final-facts').textContent='💡 '+facts[Math.floor(Math.random()*facts.length)];
+  document.getElementById('game-over').classList.add('show');
+}
+
+function spawnRound(){
+  if(gMode===3){spawnQuiz();return;}
+  const pEl=document.getElementById('g-patients'),bEl=document.getElementById('g-pouches');
+  pEl.innerHTML='';bEl.innerHTML='';gSelPat=null;
+  gRoundCount++;
+
+  // Round transition banner
+  const wrap=document.getElementById('game-wrap');
+  const banner=document.createElement('div');banner.className='round-banner';
+  const msgs=['🩸 Nouveaux patients !','💪 C\'est parti !','🔥 Série suivante !','⚡ Go go go !','🎯 À toi de jouer !','✨ Nouvelle vague !'];
+  const tightMsgs=['🎯 Série tendue !','⚠️ Zéro marge !','🔥 Sans filet !'];
+  banner.textContent=gRoundCount<=1?'🩸 C\'est parti !':msgs[Math.floor(Math.random()*msgs.length)];
+  wrap.appendChild(banner);
+  wrap.classList.remove('round-glow');void wrap.offsetWidth;wrap.classList.add('round-glow');
+  setTimeout(()=>banner.remove(),1000);
+
+  const instrEl=document.getElementById('g-instruction');
+  instrEl.style.display='block';
+  if(gMode===1){
+    instrEl.innerHTML='👆 Touche un <strong>patient</strong>, puis donne-lui la <strong>poche</strong> compatible';
+  } else {
+    instrEl.innerHTML='👆 <strong>Patient</strong> d\'abord → puis <strong>poche</strong> compatible &nbsp;⚠️ Mauvais choix = blocage !';
+  }
+
+  // Number of patients scales with wave in mode 4
+  const nP=gMode===4?Math.min(2+gWave,5):gMode===1?2:3+Math.floor(Math.random()*2);
+  const usedGroups=[];
+  for(let i=0;i<nP;i++){
+    const g=GROUPS[Math.floor(Math.random()*GROUPS.length)];usedGroups.push(g);
+    const p=PATIENTS_DATA[Math.floor(Math.random()*PATIENTS_DATA.length)];
+    const urg=gMode===4?Math.random()<(0.2+gWave*0.1):Math.random()<.25;
+    const el=document.createElement('div');el.className='pat'+(urg?' urgent':'');el.dataset.need=g;
+    el.onclick=()=>selectPat(el);
+
+    // Find which groups can donate to this patient
+    const donors=GROUPS.filter(d=>COMPAT[d]&&COMPAT[d].includes(g));
+    const donorStr=donors.join(', ');
+
+    el.innerHTML=(urg?'<div class="pat-urg">🚨 URGENT</div>':'')+
+      '<div class="pat-emoji">'+p.emoji+'</div><div class="pat-need" style="color:var(--'+(urg?'orange':'blue')+')">'+g+'</div><div class="pat-lbl">'+p.lbl+'</div>'+
+      (gMode===1?'<div class="pat-hint">Accepte : '+donorStr+'</div>':'');
+    el.classList.add('card-pop');el.style.animationDelay=(i*0.08)+'s';
+    pEl.appendChild(el);
+  }
+
+  // Pouches: guarantee at least 1 correct per patient + distractors
+  // Decide round type: tight (exact match, no extras) vs normal (with distractors)
+  // Tight rounds become more frequent as game progresses
+  const tightChance=gMode===1?0:gMode===4?Math.min(0.3+gWave*0.1,0.7):Math.min(0.15+gRoundCount*0.05,0.55);
+  const isTight=Math.random()<tightChance;
+
+  const pouchGroups=[];
+  if(isTight){
+    // TIGHT ROUND: exactly 1 correct pouch per patient, no extras
+    // Pick specific donors (not universal) to create real tension
+    usedGroups.forEach(need=>{
+      const donors=GROUPS.filter(d=>COMPAT[d]&&COMPAT[d].includes(need));
+      // Prefer exact-match or narrow donors over O- (universal)
+      const narrow=donors.filter(d=>d===need||COMPAT[d].length<=3);
+      pouchGroups.push((narrow.length?narrow:donors)[Math.floor(Math.random()*(narrow.length||donors.length))]);
+    });
+    // Maybe add 1 trap pouch that doesn't help anyone remaining
+    if(usedGroups.length>=3&&Math.random()<0.5){
+      const traps=GROUPS.filter(g=>{
+        const canHelp=usedGroups.some(need=>COMPAT[g]&&COMPAT[g].includes(need));
+        return !canHelp;
+      });
+      if(traps.length)pouchGroups.push(traps[Math.floor(Math.random()*traps.length)]);
+    }
+  } else {
+    // NORMAL ROUND: guaranteed solution + distractors
+    usedGroups.forEach(need=>{
+      const donors=GROUPS.filter(d=>COMPAT[d]&&COMPAT[d].includes(need));
+      pouchGroups.push(donors[Math.floor(Math.random()*donors.length)]);
+    });
+    const target=gMode===1?4:6;
+    while(pouchGroups.length<target){
+      pouchGroups.push(GROUPS[Math.floor(Math.random()*GROUPS.length)]);
+    }
+  }
+  pouchGroups.sort(()=>Math.random()-.5);
+
+  // Show tight round warning
+  if(isTight&&gMode!==1){
+    const instrEl=document.getElementById('g-instruction');
+    instrEl.innerHTML='🎯 <strong style="color:var(--red-soft)">Série tendue</strong> — pas de poche en trop, zéro erreur !';
+    banner.textContent=tightMsgs[Math.floor(Math.random()*tightMsgs.length)];
+    banner.style.color='var(--red-soft)';
+    banner.style.textShadow='0 0 24px rgba(230,57,70,.5)';
+  }
+
+  pouchGroups.forEach((g,pi)=>{
+    const el=document.createElement('div');el.className='pouch';el.dataset.type=g;
+    el.onclick=()=>matchPouch(el);
+    // Random expiry date (35-42 days from now)
+    const expDays=35+Math.floor(Math.random()*8);
+    const expDate=new Date(Date.now()+expDays*864e5);
+    const expStr=String(expDate.getDate()).padStart(2,'0')+'/'+String(expDate.getMonth()+1).padStart(2,'0');
+    el.innerHTML='<div class="pouch-type">'+g+'</div><div class="pouch-sub">Exp. '+expStr+'</div>';
+    el.classList.add('card-pop');el.style.animationDelay=(0.15+pi*0.06)+'s';
+    bEl.appendChild(el);
+  });
+}
+
+function selectPat(el){
+  if(!gRunning||el.classList.contains('matched'))return;
+  // Deselect previous
+  document.querySelectorAll('.pat').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  gSelPat=el;
+
+  // Highlight compatible pouches — Apprentissage mode only
+  const need=el.dataset.need;
+  document.querySelectorAll('.pouch:not(.used)').forEach(p=>{
+    p.classList.remove('compatible','incompatible');
+    if(gMode===1){
+      const canDonate=COMPAT[p.dataset.type]&&COMPAT[p.dataset.type].includes(need);
+      p.classList.toggle('compatible',canDonate);
+      p.classList.toggle('incompatible',!canDonate);
+    }
+  });
+
+  // Update instruction — all modes
+  document.getElementById('g-instruction').innerHTML='✅ Patient <strong>'+need+'</strong> — touche une poche <span style="color:var(--green)">compatible</span> !';
+
+  // Vibrate on mobile
+  if(navigator.vibrate)navigator.vibrate(30);
+}
+
+function checkStuck(){
+  const pats=[...document.querySelectorAll('.pat:not(.matched)')];
+  const pouches=[...document.querySelectorAll('.pouch:not(.used)')];
+  if(pats.length===0||pouches.length===0)return false;
+  // For each unmatched patient, check if ANY unused pouch can serve them
+  for(const pat of pats){
+    const need=pat.dataset.need;
+    const canMatch=pouches.some(p=>COMPAT[p.dataset.type]&&COMPAT[p.dataset.type].includes(need));
+    if(!canMatch)return true; // This patient is stuck
+  }
+  return false;
+}
+
+function handleStuck(){
+  gSelPat=null;
+  document.querySelectorAll('.pouch').forEach(p=>p.classList.remove('compatible','incompatible'));
+  const remaining=document.querySelectorAll('.pat:not(.matched)').length;
+
+  if(gMode===2){
+    // Survie: lose a life
+    gLives--;updLives();
+    showGFB('ko','💀 Impasse ! '+remaining+' patient'+(remaining>1?'s':'')+' sans poche compatible — 1 vie perdue');
+    if(gLives<=0){clearInterval(gInterval);gRunning=false;endGame();return;}
+    setTimeout(spawnRound,1200);
+  } else if(gMode===1){
+    // Apprentissage: gentle skip
+    showGFB('ko','🔄 Impasse ! Plus de poche compatible pour '+(remaining>1?remaining+' patients':'le patient restant')+' — nouvelle série…');
+    setTimeout(spawnRound,1500);
+  } else {
+    // Rush / Vagues: combo reset + skip
+    gCombo=1;
+    showGFB('ko','💀 Impasse ! Plus de poche compatible — série suivante');
+    document.getElementById('g-instruction').innerHTML='⚠️ <strong>Impasse</strong> — nouvelle série…';
+    if(gMode===4){
+      gWave++;gTime=Math.max(15,30-gWave*2);updTimer();
+      if(document.getElementById('g-wave'))document.getElementById('g-wave').textContent=gWave;
+    }
+    setTimeout(spawnRound,1200);
+  }
+  if(navigator.vibrate)navigator.vibrate([100,50,100]);
+}
+
+function matchPouch(el){
+  if(!gRunning||!gSelPat||el.classList.contains('used'))return;
+  const pouchType=el.dataset.type,need=gSelPat.dataset.need;
+
+  if(COMPAT[pouchType]&&COMPAT[pouchType].includes(need)){
+    // SUCCESS!
+    const basePoints=100;
+    const urgBonus=gSelPat.classList.contains('urgent')?2:1;
+    const pts=basePoints*gCombo*urgBonus;
+    gScore+=pts;gSaved++;gCombo=Math.min(gCombo+1,10);gMaxCombo=Math.max(gMaxCombo,gCombo);
+
+    gSelPat.classList.add('matched');el.classList.add('used');
+    spawnScorePopup(el,'+'+pts);
+    spawnParticles(el,true);
+
+    const tip=pouchType==='O-'?' O- = donneur universel !':pouchType===need?' Match parfait !':' Compatible via la règle ABO/Rh';
+    showGFB('ok','✅ +'+pts+' pts !  '+pouchType+' → '+need+'.'+tip);
+
+    if(navigator.vibrate)navigator.vibrate([50,30,50]);
+
+    gSelPat=null;
+    // Clear highlights
+    document.querySelectorAll('.pouch').forEach(p=>{p.classList.remove('compatible','incompatible');});
+    // Reset instruction
+    if(gMode===1){
+      document.getElementById('g-instruction').innerHTML='👆 Touche un <strong>patient</strong>, puis donne-lui la <strong>poche</strong> compatible';
+    } else {
+      document.getElementById('g-instruction').innerHTML='👆 <strong>Patient</strong> d\'abord → puis <strong>poche</strong> compatible';
+    }
+
+    // Check if all patients matched
+    if(document.querySelectorAll('.pat:not(.matched)').length===0){
+      // Wave mode: increment wave and reset timer on early completion
+      if(gMode===4){
+        gWave++;gTime=Math.max(15,30-gWave*2);updTimer();
+        if(document.getElementById('g-wave'))document.getElementById('g-wave').textContent=gWave;
+      }
+      setTimeout(spawnRound,gMode===1?1200:700);
+    } else if(checkStuck()){
+      setTimeout(handleStuck,800);
+    }
+  } else {
+    // FAIL
+    gCombo=1;
+    spawnParticles(el,false);
+    spawnScorePopup(el,'✗');
+
+    if(gMode===2){
+      gLives--;updLives();
+      if(gLives<=0){clearInterval(gInterval);gRunning=false;endGame();return;}
+    }
+
+    const tip=need.includes('-')&&pouchType.includes('+')?' Rappel : Rh- ne reçoit que du Rh- !':' '+pouchType+' peut donner à : '+COMPAT[pouchType].join(', ');
+    showGFB('ko','❌ '+pouchType+' ≠ '+need+'.'+tip);
+    document.getElementById('g-instruction').innerHTML='⚠️ Mauvaise poche ! <strong>'+need+'</strong> attend toujours — essaie une autre poche';
+
+    if(navigator.vibrate)navigator.vibrate(200);
+  }
+  updHUD();
+}
+
+function spawnScorePopup(el,text){
+  const wrap=document.getElementById('game-wrap');
+  const r=el.getBoundingClientRect(),wr=wrap.getBoundingClientRect();
+  const popup=document.createElement('div');
+  popup.className='score-popup';
+  popup.style.left=(r.left-wr.left+r.width/2)+'px';
+  popup.style.top=(r.top-wr.top)+'px';
+  popup.style.color=text.includes('+')?'var(--green)':'var(--red-soft)';
+  popup.textContent=text;
+  wrap.appendChild(popup);
+  setTimeout(()=>popup.remove(),800);
+}
+
+// ===== QUIZ MODE =====
+function spawnQuiz(){
+  if(gQuizIdx>=QUIZ_QUESTIONS.length){gRunning=false;endGame();return;}
+  const q=QUIZ_QUESTIONS[gQuizIdx];
+  const pEl=document.getElementById('g-patients'),bEl=document.getElementById('g-pouches');
+  pEl.innerHTML='';bEl.innerHTML='';
+  document.getElementById('g-instruction').innerHTML='🧠 Question '+(gQuizIdx+1)+'/'+QUIZ_QUESTIONS.length;
+
+  pEl.innerHTML='<div class="quiz-q">'+q.q+'</div>';
+  const optWrap=document.createElement('div');optWrap.className='quiz-opts';
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('div');btn.className='quiz-opt';btn.textContent=opt;
+    btn.onclick=()=>answerQuiz(i,btn);
+    optWrap.appendChild(btn);
+  });
+  bEl.appendChild(optWrap);
+}
+function answerQuiz(idx,btn){
+  if(!gRunning)return;
+  const q=QUIZ_QUESTIONS[gQuizIdx];
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.style.pointerEvents='none');
+  if(idx===q.answer){
+    btn.classList.add('correct');gScore+=150*gCombo;gCombo=Math.min(gCombo+1,10);gMaxCombo=Math.max(gMaxCombo,gCombo);gQuizCorrect++;
+    showGFB('ok','✅ Correct ! +'+150*(gCombo-1)+' pts');
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.quiz-opt')[q.answer].classList.add('correct');
+    gCombo=1;
+    showGFB('ko','❌ La bonne réponse était : '+q.opts[q.answer]);
+  }
+  gQuizIdx++;updHUD();
+  setTimeout(()=>{if(gRunning)spawnQuiz();},1500);
+}
+
+function showGFB(type,msg){
+  const fb=document.getElementById('g-fb');fb.className='game-fb '+type;fb.innerHTML=msg;
+  clearTimeout(fb._t);fb._t=setTimeout(()=>fb.className='game-fb',3500);
+}
+function spawnParticles(el,ok){
+  const cont=document.getElementById('particles');if(!cont)return;
+  const r=el.getBoundingClientRect(),wr=document.getElementById('game-wrap').getBoundingClientRect();
+  const cx=r.left-wr.left+r.width/2,cy=r.top-wr.top+r.height/2;
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');p.className='particle';
+    p.style.left=cx+'px';p.style.top=cy+'px';
+    p.style.background=ok?(['var(--gold)','var(--green)','var(--gold-glow)'][i%3]):(['var(--red)','var(--red-soft)','var(--orange)'][i%3]);
+    const angle=Math.random()*Math.PI*2,dist=40+Math.random()*60;
+    p.style.setProperty('--tx',Math.cos(angle)*dist+'px');
+    p.style.setProperty('--ty',Math.sin(angle)*dist+'px');
+    cont.appendChild(p);setTimeout(()=>p.remove(),1000);
+  }
+}
+// Compat table
+const groups=['O-','O+','A-','A+','B-','B+','AB-','AB+'];
+const tbody=document.getElementById('compat-table');
+groups.forEach(recv=>{
+  let row='<tr><td style="padding:6px 8px;font-weight:600;font-family:var(--font-mono);border-bottom:1px solid var(--dark-border)">→ '+recv+'</td>';
+  groups.forEach(donor=>{
+    const ok=COMPAT[donor]&&COMPAT[donor].includes(recv);
+    row+='<td style="text-align:center;padding:6px;border-bottom:1px solid var(--dark-border);color:'+(ok?'var(--green)':'var(--text-muted)')+'">'+(ok?'✓':'·')+'</td>';
+  });
+  tbody.innerHTML+=row+'</tr>';
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>

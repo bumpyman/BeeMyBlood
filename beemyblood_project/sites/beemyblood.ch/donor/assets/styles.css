@@ -212,6 +212,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,20,.9
 .nav-group-menu.open{display:flex}
 .nav-group-menu .nav-tab{text-align:left;width:100%;padding:10px 14px;font-size:15px}
 .nav-tab{padding:7px 13px;border-radius:7px;font-size:14px;font-weight:500;color:var(--text-dim);cursor:pointer;transition:var(--transition);border:none;background:none;white-space:nowrap;flex-shrink:0}
+/* refonte-multipage : nav-tab/nav-brand/mob-bottom-btn sont des <a> sur les pages decoupees (etaient des <button>/<div> dans la SPA) */
+.nav-tab,.nav-brand,.mob-bottom-btn{text-decoration:none}
 .nav-tab:hover{color:var(--text);background:rgba(200,169,96,.1)}
 .nav-tab.active{color:var(--dark);background:var(--gold);font-weight:600}
 .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
