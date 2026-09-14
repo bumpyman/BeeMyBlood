@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="nav-tab" data-v="vr">🥽 VR</button>
   <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
   <button class="nav-tab" data-v="faq">❓ FAQ</button>
-  <button class="nav-tab" data-v="contact">📬 Contact</button>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
 </div>
 
 <!-- MOBILE MENU -->
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="mob-item" onclick="goMob('vr')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
     <div class="mob-item" onclick="location.href='videos.html'"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></div>
     <div class="mob-item" onclick="goMob('faq')"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></div>
-    <div class="mob-item" onclick="goMob('contact')"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></div>
+    <div class="mob-item" onclick="location.href='contact.html'"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></div>
   </div>
 </div>
 
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hero-feat" onclick="go('impact')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
       <div class="hero-feat" onclick="go('flux')"><div class="hero-feat-icon">🔬</div><div class="hero-feat-title">Flux CTS</div><div class="hero-feat-sub">Stocks en temps réel</div></div>
       <div class="hero-feat" onclick="location.href='videos.html'"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
-      <div class="hero-feat" onclick="go('contact')"><div class="hero-feat-icon">📬</div><div class="hero-feat-title">Contact</div><div class="hero-feat-sub">Nous écrire</div></div>
+      <div class="hero-feat" onclick="location.href='contact.html'"><div class="hero-feat-icon">📬</div><div class="hero-feat-title">Contact</div><div class="hero-feat-sub">Nous écrire</div></div>
     </div>
     <button class="btn btn-outline btn-sm" onclick="startTour()" style="margin-top:8px">🗺️ Tour guidé interactif</button>
     </div><!-- hero-feats-acc -->
@@ -1762,112 +1762,6 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 </div><!-- /v-actualites -->
 
-<!-- ==================== CONTACT ==================== -->
-<div class="view" id="v-contact">
-  <div class="sec-header"><div class="sec-label">📬 Nous écrire</div><div class="sec-title">Contactez-nous</div><div class="sec-sub">Une question, suggestion ou partenariat ? On vous répond sous 48h.</div></div>
-
-  <!-- Contact form -->
-  <div class="card" style="border:1px solid rgba(200,169,96,.2)">
-    <div class="card-header"><div class="card-title">✉️ Formulaire de contact</div></div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div>
-        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Votre nom</label>
-        <input type="text" id="contact-name" placeholder="Prénom Nom" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box">
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Email</label>
-        <input type="email" id="contact-email" placeholder="votre@email.ch" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box">
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Sujet</label>
-        <select id="contact-subject" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box;appearance:auto">
-          <option value="">— Choisir un sujet —</option>
-          <option value="question">Question sur le don de sang</option>
-          <option value="bug">Signaler un bug</option>
-          <option value="suggestion">Suggestion / Idée</option>
-          <option value="partenariat">Partenariat / Collaboration</option>
-          <option value="benevole">Devenir bénévole</option>
-          <option value="corporate">Corporate Blood League — Inscrire mon entreprise</option>
-          <option value="media">Presse / Médias</option>
-          <option value="autre">Autre</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Message</label>
-        <textarea id="contact-msg" rows="5" placeholder="Votre message..." style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;resize:vertical;font-family:var(--font-body);box-sizing:border-box"></textarea>
-      </div>
-      <button class="btn btn-gold" id="contact-send-btn" onclick="sendContact()" style="align-self:flex-start">📤 Envoyer</button>
-      <div id="contact-status" style="font-size:13px;margin-top:4px;display:none"></div>
-    </div>
-  </div>
-
-  <!-- Direct contacts -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px">
-    <div class="card" style="border:1px solid rgba(230,57,70,.15)">
-      <div style="font-size:24px;margin-bottom:8px">🏥</div>
-      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Centre de transfusion des HUG</div>
-      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
-        📞 <a href="tel:0223723901" style="color:var(--gold);text-decoration:none">022 372 39 01</a><br>
-        ✉️ <a href="mailto:accueil.donneurs@hug.ch" style="color:var(--gold);text-decoration:none">accueil.donneurs@hug.ch</a><br>
-        🌐 <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">hug.ch/don-du-sang</a>
-      </div>
-    </div>
-    <div class="card" style="border:1px solid rgba(155,89,182,.15)">
-      <div style="font-size:24px;margin-bottom:8px">🏛️</div>
-      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Transfusion Interrégionale CRS</div>
-      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
-        📞 <a href="tel:0800148148" style="color:var(--gold);text-decoration:none">0800 148 148</a> (gratuit)<br>
-        ✉️ <a href="mailto:info@transfusion.ch" style="color:var(--gold);text-decoration:none">info@transfusion.ch</a><br>
-        🌐 <a href="https://www.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">jedonnemonsang.ch</a>
-      </div>
-    </div>
-    <div class="card" style="border:1px solid rgba(200,169,96,.15)">
-      <div style="font-size:24px;margin-bottom:8px">🐝</div>
-      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Équipe BeeMyBlood</div>
-      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
-        📞 <a href="tel:0225587365" style="color:var(--gold);text-decoration:none">022 558 73 65</a><br>
-        ✉️ <a href="mailto:contact@beemyblood.ch" style="color:var(--gold);text-decoration:none">contact@beemyblood.ch</a><br>
-        🌐 <a href="https://beemyblood.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">beemyblood.ch</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Partners -->
-  <div class="card" style="margin-top:12px;border:1px solid rgba(79,195,247,.15)">
-    <div class="card-header"><div class="card-title">🤝 Porteurs du projet</div></div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
-      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.hesge.ch/geneve/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Haute École Spécialisée de Suisse Occidentale (HES-SO) Genève</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hesge.ch/heg/recherche/recherche-appliquee#institut-et-laboratoires" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Haute École de Gestion (HEG) Genève</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Convivens Lab — Laboratoire des technologies conviviales pour des systèmes de santé équitables</a></div>
-      </div>
-      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.unige.ch/medecine/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Université de Genève (UNIGE)</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/sciences-de-linformation-medicale" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Service des Sciences de l’information Médicale</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Groupe Interfaces humain-machine en milieu clinique</a></div>
-      </div>
-      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.hug.ch/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Hôpitaux Universitaires de Genève (HUG)</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/service-medecine-laboratoire/nos-equipes-batlab-etage-1" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Laboratoire d’Immuno-hématologie transfusionnelle</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/don-du-sang/centre-transfusion-sanguine" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Centre de Transfusion Sanguine</a></div>
-      </div>
-      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
-        <div style="font-weight:600"><a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Transfusion Croix-Rouge Suisse (CRS)</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Transfusion Interrégionale CRS</a></div>
-        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr/diagnostic-de-laboratoire/diagnostic-des-patientes/umt" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Unité de Médecine Transfusionnelle (UMT)</a></div>
-      </div>
-        </div>
-  </div>
-
-  <!-- FAQ shortcut -->
-  <div style="text-align:center;margin-top:16px;padding:14px;background:var(--dark-surface);border-radius:var(--radius)">
-    <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">Une question rapide ? BeeBot peut sûrement t'aider !</div>
-    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-      <a class="btn btn-outline btn-sm" href="beebot.html">🐝 Demander à BeeBot</a>
-      <button class="btn btn-outline btn-sm" onclick="go('faq')">❓ Consulter la FAQ</button>
-    </div>
-  </div>
-</div><!-- /v-contact -->
 
 
 <!-- ==================== IMPACT : APRÈS-DON ==================== -->
@@ -4139,71 +4033,6 @@ function cycleWrappedVid(){
 }
 
 
-// ===== CONTACT FORM (FormSubmit.co) =====
-function sendContact(){
-  var name=document.getElementById('contact-name').value.trim();
-  var email=document.getElementById('contact-email').value.trim();
-  var subject=document.getElementById('contact-subject').value;
-  var msg=document.getElementById('contact-msg').value.trim();
-  var btn=document.getElementById('contact-send-btn');
-  var status=document.getElementById('contact-status');
-
-  if(!name||!email||!msg){
-    status.style.display='block';
-    status.style.color='var(--orange)';
-    status.textContent='⚠️ Merci de remplir au moins ton nom, email et message.';
-    return;
-  }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    status.style.display='block';
-    status.style.color='var(--orange)';
-    status.textContent='⚠️ Adresse email invalide.';
-    return;
-  }
-
-  btn.disabled=true;
-  btn.textContent='⏳ Envoi en cours...';
-  status.style.display='none';
-
-  var subjectLabels={'question':'Question don de sang','bug':'Bug report','suggestion':'Suggestion','partenariat':'Partenariat','benevole':'Devenir bénévole','corporate':'Corporate Blood League','media':'Presse / Médias','autre':'Autre'};
-  var subjectText=subjectLabels[subject]||'Contact BeeMyBlood';
-
-  var formData=new FormData();
-  formData.append('name',name);
-  formData.append('email',email);
-  formData.append('_subject','[BeeMyBlood] '+subjectText+' — '+name);
-  formData.append('message','Sujet: '+subjectText+'\n\nNom: '+name+'\nEmail: '+email+'\n\n'+msg);
-  formData.append('_captcha','false');
-  formData.append('_template','box');
-  formData.append('_replyto',email);
-
-  fetch('https://formsubmit.co/ajax/contact@beemyblood.ch',{
-    method:'POST',
-    body:formData
-  }).then(function(r){return r.json();}).then(function(data){
-    if(data.success){
-      status.style.display='block';
-      status.style.color='var(--green)';
-      status.textContent='✅ Message envoyé ! Nous te répondrons sous 48h.';
-      document.getElementById('contact-name').value='';
-      document.getElementById('contact-email').value='';
-      document.getElementById('contact-subject').value='';
-      document.getElementById('contact-msg').value='';
-    }else{
-      status.style.display='block';
-      status.style.color='var(--orange)';
-      status.textContent='⚠️ Erreur d\u2019envoi. Réessaye ou écris directement à contact@beemyblood.ch';
-    }
-    btn.disabled=false;
-    btn.textContent='📤 Envoyer';
-  }).catch(function(){
-    status.style.display='block';
-    status.style.color='var(--orange)';
-    status.textContent='⚠️ Erreur réseau. Réessaye ou écris à contact@beemyblood.ch';
-    btn.disabled=false;
-    btn.textContent='📤 Envoyer';
-  });
-}
 
 // ===== ELIGIBILITY TEST =====
 const ELIG_QS=[

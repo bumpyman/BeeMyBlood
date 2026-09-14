@@ -1,0 +1,395 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Contact — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab active" href="contact.html" aria-current="page">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item active" href="contact.html" aria-current="page"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Contact</span>
+</div>
+<main id="contenu" tabindex="-1">
+<!-- ==================== CONTACT ==================== -->
+<div class="view active" id="v-contact">
+  <div class="sec-header"><div class="sec-label">📬 Nous écrire</div><h1 class="sec-title">Contactez-nous</h1><div class="sec-sub">Une question, suggestion ou partenariat ? On vous répond sous 48h.</div></div>
+
+  <!-- Contact form -->
+  <div class="card" style="border:1px solid rgba(200,169,96,.2)">
+    <div class="card-header"><div class="card-title">✉️ Formulaire de contact</div></div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Votre nom</label>
+        <input type="text" id="contact-name" placeholder="Prénom Nom" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Email</label>
+        <input type="email" id="contact-email" placeholder="votre@email.ch" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Sujet</label>
+        <select id="contact-subject" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;box-sizing:border-box;appearance:auto">
+          <option value="">— Choisir un sujet —</option>
+          <option value="question">Question sur le don de sang</option>
+          <option value="bug">Signaler un bug</option>
+          <option value="suggestion">Suggestion / Idée</option>
+          <option value="partenariat">Partenariat / Collaboration</option>
+          <option value="benevole">Devenir bénévole</option>
+          <option value="corporate">Corporate Blood League — Inscrire mon entreprise</option>
+          <option value="media">Presse / Médias</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px">Message</label>
+        <textarea id="contact-msg" rows="5" placeholder="Votre message..." style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;resize:vertical;font-family:var(--font-body);box-sizing:border-box"></textarea>
+      </div>
+      <button class="btn btn-gold" id="contact-send-btn" onclick="sendContact()" style="align-self:flex-start">📤 Envoyer</button>
+      <div id="contact-status" style="font-size:13px;margin-top:4px;display:none"></div>
+    </div>
+  </div>
+
+  <!-- Direct contacts -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px">
+    <div class="card" style="border:1px solid rgba(230,57,70,.15)">
+      <div style="font-size:24px;margin-bottom:8px">🏥</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Centre de transfusion des HUG</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
+        📞 <a href="tel:0223723901" style="color:var(--gold);text-decoration:none">022 372 39 01</a><br>
+        ✉️ <a href="mailto:accueil.donneurs@hug.ch" style="color:var(--gold);text-decoration:none">accueil.donneurs@hug.ch</a><br>
+        🌐 <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">hug.ch/don-du-sang</a>
+      </div>
+    </div>
+    <div class="card" style="border:1px solid rgba(155,89,182,.15)">
+      <div style="font-size:24px;margin-bottom:8px">🏛️</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Transfusion Interrégionale CRS</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
+        📞 <a href="tel:0800148148" style="color:var(--gold);text-decoration:none">0800 148 148</a> (gratuit)<br>
+        ✉️ <a href="mailto:info@transfusion.ch" style="color:var(--gold);text-decoration:none">info@transfusion.ch</a><br>
+        🌐 <a href="https://www.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">jedonnemonsang.ch</a>
+      </div>
+    </div>
+    <div class="card" style="border:1px solid rgba(200,169,96,.15)">
+      <div style="font-size:24px;margin-bottom:8px">🐝</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Équipe BeeMyBlood</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
+        📞 <a href="tel:0225587365" style="color:var(--gold);text-decoration:none">022 558 73 65</a><br>
+        ✉️ <a href="mailto:contact@beemyblood.ch" style="color:var(--gold);text-decoration:none">contact@beemyblood.ch</a><br>
+        🌐 <a href="https://beemyblood.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold);text-decoration:none">beemyblood.ch</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partners -->
+  <div class="card" style="margin-top:12px;border:1px solid rgba(79,195,247,.15)">
+    <div class="card-header"><div class="card-title">🤝 Porteurs du projet</div></div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
+        <div style="font-weight:600"><a href="https://www.hesge.ch/geneve/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Haute École Spécialisée de Suisse Occidentale (HES-SO) Genève</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hesge.ch/heg/recherche/recherche-appliquee#institut-et-laboratoires" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Haute École de Gestion (HEG) Genève</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Convivens Lab — Laboratoire des technologies conviviales pour des systèmes de santé équitables</a></div>
+      </div>
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
+        <div style="font-weight:600"><a href="https://www.unige.ch/medecine/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Université de Genève (UNIGE)</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/sciences-de-linformation-medicale" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Service des Sciences de l’information Médicale</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Groupe Interfaces humain-machine en milieu clinique</a></div>
+      </div>
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
+        <div style="font-weight:600"><a href="https://www.hug.ch/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Hôpitaux Universitaires de Genève (HUG)</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/service-medecine-laboratoire/nos-equipes-batlab-etage-1" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Laboratoire d’Immuno-hématologie transfusionnelle</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.hug.ch/don-du-sang/centre-transfusion-sanguine" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Centre de Transfusion Sanguine</a></div>
+      </div>
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.7">
+        <div style="font-weight:600"><a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">Transfusion Croix-Rouge Suisse (CRS)</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Transfusion Interrégionale CRS</a></div>
+        <div style="color:var(--text-muted);font-size:12px"><a href="https://www.itransfusion.ch/fr/diagnostic-de-laboratoire/diagnostic-des-patientes/umt" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Unité de Médecine Transfusionnelle (UMT)</a></div>
+      </div>
+        </div>
+  </div>
+
+  <!-- FAQ shortcut -->
+  <div style="text-align:center;margin-top:16px;padding:14px;background:var(--dark-surface);border-radius:var(--radius)">
+    <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">Une question rapide ? BeeBot peut sûrement t'aider !</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-outline btn-sm" href="beebot.html">🐝 Demander à BeeBot</a>
+      <a class="btn btn-outline btn-sm" href="faq.html">❓ Consulter la FAQ</a>
+    </div>
+  </div>
+</div><!-- /v-contact -->
+</main>
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('contact');
+// ===== CONTACT FORM (FormSubmit.co) =====
+function sendContact(){
+  var name=document.getElementById('contact-name').value.trim();
+  var email=document.getElementById('contact-email').value.trim();
+  var subject=document.getElementById('contact-subject').value;
+  var msg=document.getElementById('contact-msg').value.trim();
+  var btn=document.getElementById('contact-send-btn');
+  var status=document.getElementById('contact-status');
+
+  if(!name||!email||!msg){
+    status.style.display='block';
+    status.style.color='var(--orange)';
+    status.textContent='⚠️ Merci de remplir au moins ton nom, email et message.';
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    status.style.display='block';
+    status.style.color='var(--orange)';
+    status.textContent='⚠️ Adresse email invalide.';
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent='⏳ Envoi en cours...';
+  status.style.display='none';
+
+  var subjectLabels={'question':'Question don de sang','bug':'Bug report','suggestion':'Suggestion','partenariat':'Partenariat','benevole':'Devenir bénévole','corporate':'Corporate Blood League','media':'Presse / Médias','autre':'Autre'};
+  var subjectText=subjectLabels[subject]||'Contact BeeMyBlood';
+
+  var formData=new FormData();
+  formData.append('name',name);
+  formData.append('email',email);
+  formData.append('_subject','[BeeMyBlood] '+subjectText+' — '+name);
+  formData.append('message','Sujet: '+subjectText+'\n\nNom: '+name+'\nEmail: '+email+'\n\n'+msg);
+  formData.append('_captcha','false');
+  formData.append('_template','box');
+  formData.append('_replyto',email);
+
+  fetch('https://formsubmit.co/ajax/contact@beemyblood.ch',{
+    method:'POST',
+    body:formData
+  }).then(function(r){return r.json();}).then(function(data){
+    if(data.success){
+      status.style.display='block';
+      status.style.color='var(--green)';
+      status.textContent='✅ Message envoyé ! Nous te répondrons sous 48h.';
+      document.getElementById('contact-name').value='';
+      document.getElementById('contact-email').value='';
+      document.getElementById('contact-subject').value='';
+      document.getElementById('contact-msg').value='';
+    }else{
+      status.style.display='block';
+      status.style.color='var(--orange)';
+      status.textContent='⚠️ Erreur d\u2019envoi. Réessaye ou écris directement à contact@beemyblood.ch';
+    }
+    btn.disabled=false;
+    btn.textContent='📤 Envoyer';
+  }).catch(function(){
+    status.style.display='block';
+    status.style.color='var(--orange)';
+    status.textContent='⚠️ Erreur réseau. Réessaye ou écris à contact@beemyblood.ch';
+    btn.disabled=false;
+    btn.textContent='📤 Envoyer';
+  });
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>
