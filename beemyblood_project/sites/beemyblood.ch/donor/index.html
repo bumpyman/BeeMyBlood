@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="nav-group" data-menu="nav-group-menu-decouvrir">
       <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="guide,chatbot,vr,videos,faq,contact" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
     </div>
-    <button class="nav-tab" data-v="settings">⚙️</button>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
   </div>
   <div class="nav-right">
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
     </div>
-    <div class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="go('settings')">
+    <div class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="bmbGoReserved('parametres.html')">
       <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </div>
@@ -1369,62 +1369,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
 <!-- ===== FAQ ===== -->
 
-<!-- ===== PARAMÈTRES ===== -->
-<div class="view" id="v-settings">
-  <div class="sec-header"><div class="sec-label">⚙️ Paramètres</div><div class="sec-title">Configuration & Intégrations</div><div class="sec-sub">Connexions, apparence, confidentialité</div></div>
-
-  <div class="card" style="margin-bottom:12px;border-color:rgba(200,169,96,.2)">
-    <div class="card-header"><div class="card-title">🔐 Connexion & Compte</div><span class="badge badge-green">Connecté</span></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:10px">Méthodes de connexion et synchronisation :</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);border:1px solid rgba(79,195,247,.2)"><span style="font-size:20px">📱</span><div style="flex:1"><div style="font-weight:600;font-size:14px">Compte Transfusion CRS Suisse</div><div style="font-size:12px;color:var(--text-muted)">Ton compte donneur officiel — historique, convocations, carte</div></div><span class="badge badge-blue" style="font-size:11px">Recommandé</span></div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);border:1px solid rgba(46,204,113,.2)"><span style="font-size:20px">🔗</span><div style="flex:1"><div style="font-weight:600;font-size:14px">Concerto (HUG)</div><div style="font-size:12px;color:var(--text-muted)">Hub numérique HUG — dossier patient, résultats, RDV</div></div><span class="badge badge-green" style="font-size:11px">Connecté</span></div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);border:1px solid rgba(200,169,96,.2)"><span style="font-size:20px">🐝</span><div style="flex:1"><div style="font-weight:600;font-size:14px">Compte BeeMyBlood</div><div style="font-size:12px;color:var(--text-muted)">Compte natif — pseudo, badges, historique, fratrie</div></div><span class="badge badge-gold" style="font-size:11px">Actif</span></div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);opacity:.6"><span style="font-size:20px">🔑</span><div style="flex:1"><div style="font-weight:600;font-size:14px">SwissID / Google</div><div style="font-size:12px;color:var(--text-muted)">Identité numérique suisse ou compte Google</div></div><span class="badge" style="font-size:11px;background:rgba(255,255,255,.08);color:var(--text-muted)">Bientôt</span></div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-bottom:12px">
-    <div class="card-header"><div class="card-title">🔗 Intégrations systèmes</div></div>
-    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:10px">Connexions entre BeeMyBlood et les systèmes de santé :</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📋</span><div><div style="font-weight:600;font-size:14px">Concerto (HUG)</div><div style="font-size:12px;color:var(--text-muted)">Dossier patient, résultats labos, rendez-vous</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda / Outlook</div><div style="font-size:12px;color:var(--text-muted)">Sync automatique de tes rendez-vous don et rappels</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📱</span><div><div style="font-weight:600;font-size:14px">Compte Transfusion CRS Suisse</div><div style="font-size:12px;color:var(--text-muted)">Historique officiel des dons, convocations, carte donneur</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">🧠</span><div><div style="font-weight:600;font-size:14px">DPI Semantics Graph DB & AI (SIMED)</div><div style="font-size:12px;color:var(--text-muted)">Gestion receveurs & commandes — lien CTS↔hôpitaux · Digital twin</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--toggle-knob-off);position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📅</span><div><div style="font-weight:600;font-size:14px">Google Agenda</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Google</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--toggle-knob-off);position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">📧</span><div><div style="font-weight:600;font-size:14px">Outlook</div><div style="font-size:12px;color:var(--text-muted)">Synchroniser RDV & collectes dans ton calendrier Outlook</div></div></div><div style="width:36px;height:20px;border-radius:10px;background:rgba(255,255,255,.15);position:relative;cursor:pointer" data-on="0" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--toggle-knob-off);position:absolute;top:2px;left:2px;pointer-events:none"></div></div></div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-bottom:12px">
-    <div class="card-header"><div class="card-title">🎨 Apparence</div></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <div onclick="setTheme('dark')" id="theme-dark-btn" style="flex:1;min-width:120px;padding:14px;background:var(--navy-panel);border:2px solid var(--gold);border-radius:var(--radius-sm);text-align:center;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">🌙</div><div style="font-size:13px;font-weight:600">Mode sombre</div><div style="font-size:11px;color:var(--text-muted)">Actuel</div></div>
-      <div onclick="setTheme('light')" id="theme-light-btn" style="flex:1;min-width:120px;padding:14px;background:rgba(255,255,255,.06);border:1px solid var(--dark-border);border-radius:var(--radius-sm);text-align:center;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">☀️</div><div style="font-size:13px;font-weight:600">Mode clair</div><div style="font-size:11px;color:var(--text-muted)">Cliquer pour activer</div></div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-bottom:12px">
-    <div class="card-header"><div class="card-title">🔔 Notifications</div></div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Toasts en direct (Flux CTS · HUG)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Alertes stock critique (Transfusion CRS)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Rappels de rendez-vous (Google Agenda)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Convocations dons (Transfusion CRS Suisse)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><div class="card-title">🔒 Confidentialité & Hébergement</div></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.8">
-      <span style="font-size:15px">🇨🇭</span> <strong>Infomaniak Genève</strong> — données hébergées en Suisse<br>
-      <span style="font-size:15px">🔐</span> <strong>nLPD & RGPD</strong> — conformité protection des données<br>
-      <span style="font-size:15px">✍️</span> <strong>SwissSign</strong> — horodatage certifié<br>
-      <span style="font-size:15px">📜</span> <strong>AGPL-3.0</strong> (code) · <strong>CC BY-NC-SA 4.0</strong> (données)
-    </div>
-  </div>
-</div>
 
 </main>
 
@@ -1656,29 +1600,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
 // ===== PROFILE SETTINGS =====
 
-// Settings toggle switches
-function switchToggle(el){
-  var on=(el.dataset.on==='1');
-  el.dataset.on=on?'0':'1';
-  var knob=el.children[0];
-  if(on){
-    el.style.background='rgba(255,255,255,.15)';
-    knob.style.background='var(--toggle-knob-off)';
-    knob.style.right='auto';
-    knob.style.left='2px';
-  }else{
-    el.style.background='var(--green)';
-    knob.style.background='var(--white)';
-    knob.style.left='auto';
-    knob.style.right='2px';
-  }
-  try{
-    var row=el.parentElement;
-    var nameEl=row.querySelector('div[style*="font-weight"]');
-    var name=nameEl?nameEl.textContent:'';
-    showToast(name+' '+(on?'désactivé':'activé'));
-  }catch(e){}
-}
 function toggleSetting(el){
   el.classList.toggle('on');
   const label=el.closest('div[style]').querySelector('strong').textContent;
