@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
   <a class="nav-tab" href="guide.html">📖 Guide</a>
-  <button class="nav-tab" data-v="chatbot">🐝 BeeBot™</button>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
   <button class="nav-tab" data-v="vr">🥽 VR</button>
   <button class="nav-tab" data-v="videos">🎬 Vidéos</button>
   <button class="nav-tab" data-v="faq">❓ FAQ</button>
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="mob-item" onclick="goMob('eligibilite')"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></div>
     <div class="mob-item" onclick="location.href='centres.html'"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></div>
     <div class="mob-item" onclick="goMob('impact')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></div>
-    <div class="mob-item" onclick="goMob('chatbot')"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
+    <div class="mob-item" onclick="location.href='beebot.html'"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
     <div class="mob-item" onclick="goMob('vr')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
     <div class="mob-item" onclick="goMob('videos')"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></div>
     <div class="mob-item" onclick="goMob('faq')"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></div>
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hero-feat" onclick="location.href='hemorush.html'"><div class="hero-feat-icon">🎮</div><div class="hero-feat-title">HémoRush™</div><div class="hero-feat-sub">Jeu de matching sanguin</div></div>
       <div class="hero-feat" onclick="go('eligibilite')"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
       <div class="hero-feat" onclick="go('vr')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
-      <div class="hero-feat" onclick="go('chatbot')"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
+      <div class="hero-feat" onclick="location.href='beebot.html'"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
       <div class="hero-feat" onclick="go('faq')"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
       <div class="hero-feat" onclick="location.href='centres.html'"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
       <div class="hero-feat" onclick="go('communaute')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
@@ -1163,30 +1163,6 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 
 
-<!-- ==================== CHATBOT ==================== -->
-<div class="view" id="v-chatbot" style="max-width:680px">
-  <div class="chat-container">
-    <div class="chat-head">
-      <div class="chat-av">🐝</div>
-      <div style="flex:1"><div style="font-size:14px;font-weight:600">BeeMyBlood™ Assistant</div><div style="font-size:13px;color:var(--green)">● En ligne</div></div>
-    </div>
-    <div class="chat-msgs" id="chat-msgs">
-      <div class="msg bot">Salut<span class="bmb-prenom"></span> ! 👋 Pose-moi n'importe quelle question sur le don de sang. Je suis là pour toi ! 🐝</div>
-    </div>
-    <div class="chat-sugg" id="chat-sugg">
-      <button class="chat-sg" onclick="chatSg(this)">Suis-je éligible ?</button>
-      <button class="chat-sg" onclick="chatSg(this)">Ça fait mal ?</button>
-      <button class="chat-sg" onclick="chatSg(this)">Où donner à Genève ?</button>
-      <button class="chat-sg" onclick="chatSg(this)">J'ai peur des aiguilles</button>
-      <button class="chat-sg" onclick="chatSg(this)">Combien de temps ?</button>
-      <button class="chat-sg" onclick="chatSg(this)">Prendre RDV</button>
-    </div>
-    <div class="chat-in-wrap">
-      <input class="chat-in" id="chat-in" placeholder="Pose ta question à BeeBot…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')chatSend()">
-      <button class="chat-send" onclick="chatSend()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer</span>➤</button>
-    </div>
-  </div>
-</div>
 
 <!-- ==================== FLUX CTS — TV DASHBOARD ==================== -->
 <div class="view" id="v-flux">
@@ -1986,7 +1962,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div style="text-align:center;margin-top:16px;padding:14px;background:var(--dark-surface);border-radius:var(--radius)">
     <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">Une question rapide ? BeeBot peut sûrement t'aider !</div>
     <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-outline btn-sm" onclick="go('chatbot')">🐝 Demander à BeeBot</button>
+      <a class="btn btn-outline btn-sm" href="beebot.html">🐝 Demander à BeeBot</a>
       <button class="btn btn-outline btn-sm" onclick="go('faq')">❓ Consulter la FAQ</button>
     </div>
   </div>
@@ -3428,7 +3404,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
   <div style="margin-top:20px;padding:14px;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-sm);text-align:center">
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Tu as d'autres questions ? BeeBot™ est disponible <strong>24h/24</strong> pour y répondre.</div>
-    <button class="btn btn-gold btn-sm" style="margin-top:10px" onclick="go('chatbot')">🤖 Poser une question à BeeBot™</button>
+    <a class="btn btn-gold btn-sm" style="margin-top:10px" href="beebot.html">🤖 Poser une question à BeeBot™</a>
   </div>
 </div><!-- /v-faq -->
 </main>
@@ -4447,92 +4423,6 @@ function initVideoThumbs(){
 }
 
 
-// ===== CHATBOT — AI-powered with CTS HUG knowledge base =====
-
-// Local knowledge base for fast responses (no API needed)
-let chatHistory=[]; // Multi-turn conversation history
-
-// ===== BEST-MATCH KB ALGORITHM =====
-// Scores ALL KB entries, returns the one with the LONGEST matching key.
-// "Puis-je prendre de l'acide folique" → "acide folique" (13 chars) > "puis-je" (7 chars)
-
-function chatSg(btn){const t=btn.textContent;addMsg(t,'user');btn.remove();setTimeout(()=>chatReply(t),400);}
-function chatSend(){const inp=document.getElementById('chat-in'),t=inp.value.trim();if(!t)return;inp.value='';addMsg(t,'user');setTimeout(()=>chatReply(t),400);}
-
-async function chatReply(t){
-  // Show typing indicator
-  const typing=document.createElement('div');typing.className='msg bot typing';
-  typing.innerHTML='<div class="dots"><span></span><span></span><span></span></div>';
-  document.getElementById('chat-msgs').appendChild(typing);
-  document.getElementById('chat-msgs').scrollTop=9999;
-
-  // 1. Try local KB — best match (longest key wins)
-  const match=findBestKBMatch(t);
-
-  if(match && chatApiAvailable!==true){
-    // Use local KB if API not confirmed working
-    await delay(500+Math.random()*300);
-    typing.remove();
-    addMsg(match.r,'bot');
-    chatHistory.push({role:'user',content:t},{role:'assistant',content:match.r.replace(/<[^>]*>/g,'')});
-    return;
-  }
-
-  // 2. Try Claude API via api.php proxy (with conversation history)
-  chatHistory.push({role:'user',content:t});
-  try{
-    const resp=await fetch('api.php',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        message:t,
-        history:chatHistory.slice(-20)
-      })
-    });
-    const data=JSON.parse((await resp.text()).replace(/^[\s\S]*?(?=\{)/,''));
-    typing.remove();
-    if(data.reply){
-      chatApiAvailable=true;
-      let reply=data.reply
-        .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-        .replace(/\n\n/g,'<br><br>')
-        .replace(/\n/g,'<br>');
-      addMsg(reply,'bot');
-      chatHistory.push({role:'assistant',content:data.reply});
-    } else {
-      throw new Error(data.error||'no reply');
-    }
-  }catch(e){
-    typing.remove();
-    if(chatApiAvailable===null) chatApiAvailable=false;
-    // Fallback to local KB or generic response
-    if(match){
-      addMsg(match.r,'bot');
-      chatHistory.push({role:'assistant',content:match.r.replace(/<[^>]*>/g,'')});
-    } else {
-      const fb=getLocalFallback(t);
-      addMsg(fb,'bot');
-      chatHistory.push({role:'assistant',content:fb.replace(/<[^>]*>/g,'')});
-    }
-  }
-}
-
-
-
-function goChat(){
-  go('chatbot');
-  const w=window._eligWarnings||[];
-  const question='Mon test d\'éligibilité indique des points à vérifier : '+w.join(' / ')+'. Est-ce que je peux quand même donner ?';
-  setTimeout(()=>{
-    addMsg(question,'user');
-    setTimeout(()=>chatReply(question),500);
-  },400);
-}
-
-function addMsg(html,type){
-  const c=document.getElementById('chat-msgs'),m=document.createElement('div');
-  m.className='msg '+type;m.innerHTML=html;c.appendChild(m);c.scrollTop=c.scrollHeight;
-}
 
 // ===== MAP =====
 

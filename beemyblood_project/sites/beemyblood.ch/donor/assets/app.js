@@ -8,6 +8,15 @@ function bmbGuard(e,url){
   }
 }
 
+// Pont eligibilite -> beebot.html (etait un simple go('chatbot') + addMsg dans la SPA).
+// La question en attente passe par sessionStorage ; beebot.html l'envoie a l'arrivee.
+function goChat(){
+  var w=window._eligWarnings||[];
+  var question='Mon test d\'éligibilité indique des points à vérifier : '+w.join(' / ')+'. Est-ce que je peux quand même donner ?';
+  try{ sessionStorage.setItem('bmb-chat-pending', question); }catch(e){}
+  location.href='beebot.html';
+}
+
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('gate-input')?.focus();
   // Disable transitions briefly so initial state renders instantly
