@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // Verifie les ratios de contraste WCAG des couples texte/fond et bordure/fond
-// reellement utilises dans index.html, a partir des variables declarees dans :root.
+// reellement utilises dans le donor space, a partir des variables declarees dans :root
+// (assets/styles.css depuis le decoupage multipage).
 // Usage : node check-contrast.js   (aucune dependance externe)
 
 const fs = require('fs');
 const path = require('path');
 
-const HTML_PATH = path.join(__dirname, 'index.html');
-const html = fs.readFileSync(HTML_PATH, 'utf8');
+const CSS_PATH = path.join(__dirname, 'assets', 'styles.css');
+const html = fs.readFileSync(CSS_PATH, 'utf8');
 
 function extractVars(blockRegex) {
   const m = html.match(blockRegex);
