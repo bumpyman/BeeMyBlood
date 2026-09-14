@@ -698,10 +698,17 @@ function updateOb(){
   if(next)next.textContent=obStep>=maxStep?'C\'est parti ! 🐝':'Suivant →';
   if(prev)prev.style.display=obStep<=0?'none':'';
 }
-// Auto-show onboarding after gate is removed (or 2s if no gate)
+// Auto-show onboarding after gate is removed (or 2s if no gate) — une seule fois par compte,
+// pas à chaque page depuis que l'espace donneur est découpé en pages distinctes.
 (function(){
+  var seen=false;
+  try{seen=localStorage.getItem('bmb-onboard-seen')==='1';}catch(e){}
+  if(seen)return;
   function tryShow(){
-    if(!document.getElementById('gate-overlay')){showOnboard();}
+    if(!document.getElementById('gate-overlay')){
+      showOnboard();
+      try{localStorage.setItem('bmb-onboard-seen','1');}catch(e){}
+    }
     else{setTimeout(tryShow,500);}
   }
   setTimeout(tryShow,800);
