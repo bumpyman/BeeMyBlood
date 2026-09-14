@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <a class="nav-tab" href="guide.html">📖 Guide</a>
   <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
   <button class="nav-tab" data-v="vr">🥽 VR</button>
-  <button class="nav-tab" data-v="videos">🎬 Vidéos</button>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
   <button class="nav-tab" data-v="faq">❓ FAQ</button>
   <button class="nav-tab" data-v="contact">📬 Contact</button>
 </div>
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="mob-item" onclick="goMob('impact')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></div>
     <div class="mob-item" onclick="location.href='beebot.html'"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
     <div class="mob-item" onclick="goMob('vr')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
-    <div class="mob-item" onclick="goMob('videos')"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></div>
+    <div class="mob-item" onclick="location.href='videos.html'"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></div>
     <div class="mob-item" onclick="goMob('faq')"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></div>
     <div class="mob-item" onclick="goMob('contact')"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></div>
   </div>
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hero-feat" onclick="go('communaute')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
       <div class="hero-feat" onclick="go('impact')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
       <div class="hero-feat" onclick="go('flux')"><div class="hero-feat-icon">🔬</div><div class="hero-feat-title">Flux CTS</div><div class="hero-feat-sub">Stocks en temps réel</div></div>
-      <div class="hero-feat" onclick="go('videos')"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
+      <div class="hero-feat" onclick="location.href='videos.html'"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
       <div class="hero-feat" onclick="go('contact')"><div class="hero-feat-icon">📬</div><div class="hero-feat-title">Contact</div><div class="hero-feat-sub">Nous écrire</div></div>
     </div>
     <button class="btn btn-outline btn-sm" onclick="startTour()" style="margin-top:8px">🗺️ Tour guidé interactif</button>
@@ -888,7 +888,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="card" style="display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;flex-wrap:wrap;margin-top:12px">
     <button class="btn btn-gold btn-sm" onclick="go('flux')">📺 Flux CTS en direct</button>
     <button class="btn btn-outline btn-sm" onclick="go('impact')">⭐ Mon impact</button>
-    <button class="btn btn-outline btn-sm" onclick="go('videos')">🎬 Vidéos</button>
+    <a class="btn btn-outline btn-sm" href="videos.html">🎬 Vidéos</a>
     <a class="btn btn-outline btn-sm" href="guide.html">📖 Guide du don</a>
   </div>
 
@@ -1624,105 +1624,6 @@ document.addEventListener('DOMContentLoaded',function(){
   </div><!-- /acc-body products -->
 </div>
 
-<!-- ==================== VIDÉOS ==================== -->
-<div class="view" id="v-videos">
-  <div class="sec-header"><div class="sec-label">🎬 Vidéos</div><div class="sec-title">Découvrir le don en vidéo</div><div class="sec-sub">Vidéos et animations — le don comme vous ne l'avez jamais vu</div></div>
-
-  <!-- REAL MP4 VIDEOS -->
-  <button class="acc-toggle open" onclick="toggleAcc(this)" data-target="vid-demo-acc" style="font-size:13px;padding:6px 10px;margin-bottom:6px">🎥 Démonstrations vidéo <span class="acc-arrow">▼</span></button>
-  <div class="acc-body open" id="vid-demo-acc" style="max-height:none">
-  <div style="margin-bottom:24px">
-    <div class="vid-grid">
-      <!-- Real Video 1: VR pendant le don -->
-      <div class="card" style="padding:0;overflow:hidden;border-color:rgba(200,169,96,.25);position:relative" id="mp4-card-vr">
-        <div style="position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-vr">
-          <div id="mp4-fallback-vr" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-dim)">
-            <div style="font-size:56px">🥽</div>
-            <div style="font-size:15px;font-weight:700;color:var(--gold)">Démo VR — Réalité virtuelle pendant le don</div>
-            <div style="font-size:15px;text-align:center;max-width:280px;line-height:1.5">Fichier MP4 requis pour la lecture.<br>Placez <code style="color:var(--gold)">Demo_VR_pour_le_don_de_sang.mp4</code> dans le même dossier que le prototype.</div>
-            <button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="openVideoFullscreen('vid-mp4-vr')">⛶ Réessayer en plein écran</button>
-          </div>
-          <video id="vid-mp4-vr" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block">
-            <source src="Demo_VR_pour_le_don_de_sang.mp4" type="video/mp4">
-          </video>
-          <div style="position:absolute;top:8px;left:8px;z-index:3"><span class="badge badge-gold" style="font-size:15px">🥽 Démo VR</span></div>
-          <div class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-vr')">⛶</div>
-        </div>
-        <div style="padding:14px">
-          <div style="font-weight:700;font-size:15px;color:var(--gold)">🥽 Démo VR — Réalité virtuelle pendant le don</div>
-          <div style="font-size:15px;color:var(--text-dim);margin-top:6px;line-height:1.6">Comment le casque VR transforme l'expérience du don de sang : immersion dans un environnement apaisant pendant la piqûre, respiration guidée, et communication avec l'infirmière.</div>
-        </div>
-      </div>
-      <!-- Real Video 2: Guide 5 étapes -->
-      <div class="card" style="padding:0;overflow:hidden;border-color:rgba(200,169,96,.25);position:relative" id="mp4-card-guide">
-        <div style="position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-guide">
-          <div id="mp4-fallback-guide" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-dim)">
-            <div style="font-size:56px">📺</div>
-            <div style="font-size:15px;font-weight:700;color:var(--gold)">Guide du don — Les 5 étapes</div>
-            <div style="font-size:15px;text-align:center;max-width:280px;line-height:1.5">Fichier MP4 requis pour la lecture.<br>Placez <code style="color:var(--gold)">Guide_5_Steps.mp4</code> dans le même dossier que le prototype.</div>
-            <button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="openVideoFullscreen('vid-mp4-guide')">⛶ Réessayer en plein écran</button>
-          </div>
-          <video id="vid-mp4-guide" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block">
-            <source src="Guide_5_Steps.mp4" type="video/mp4">
-          </video>
-          <div style="position:absolute;top:8px;left:8px;z-index:3"><span class="badge badge-gold" style="font-size:15px">📺 Guide</span></div>
-          <div class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-guide')">⛶</div>
-        </div>
-        <div style="padding:14px">
-          <div style="font-weight:700;font-size:15px;color:var(--gold)">📺 Guide du don — Les 5 étapes</div>
-          <div style="font-size:15px;color:var(--text-dim);margin-top:6px;line-height:1.6">Le parcours complet du donneur en 5 étapes : accueil, entretien médical, don, repos lounge, et feedback d'impact.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  </div><!-- /acc-body vid-demo -->
-
-  <!-- CANVAS-ANIMATED VIDEOS -->
-
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="vid-anim-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🎨 Animations interactives (Canvas) <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="vid-anim-acc">
-      <div style="font-size:14px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px">🎨 Animations interactives <span class="badge badge-purple" style="font-size:15px">Canvas</span></div>
-  <div class="vid-grid">
-    <!-- Video 1: Témoignage -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(0)" id="vid-0" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
-        <canvas id="vc-0"></canvas>
-        <div class="vid-overlay" id="vo-0"><div class="vid-play-btn">▶</div><div class="vid-title">💬 Témoignage — Amine, 21 ans</div></div>
-        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-0" style="width:0%"></div></div><div class="vid-time" id="vt-0">0:00 / 0:30</div></div>
-      </div>
-      <div style="padding:14px"><div style="font-weight:700;font-size:15px">💬 Témoignage d'Amine</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">« J'avais peur de l'aiguille. Maintenant je suis donneur rare. »</div></div>
-    </div>
-    <!-- Video 2: Guide du don -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(1)" id="vid-1" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
-        <canvas id="vc-1"></canvas>
-        <div class="vid-overlay" id="vo-1"><div class="vid-play-btn">▶</div><div class="vid-title">📺 Le don en 30 secondes</div></div>
-        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-1" style="width:0%"></div></div><div class="vid-time" id="vt-1">0:00 / 0:30</div></div>
-      </div>
-      <div style="padding:14px"><div style="font-weight:700;font-size:15px">📺 Guide du don — 5 étapes</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">Accueil → Entretien → Don → Repos → Impact. C'est tout.</div></div>
-    </div>
-    <!-- Video 3: VR Simulation -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(2)" id="vid-2" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
-        <canvas id="vc-2"></canvas>
-        <div class="vid-overlay" id="vo-2"><div class="vid-play-btn">▶</div><div class="vid-title">🥽 Simulation VR — Plage tropicale</div></div>
-        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-2" style="width:0%"></div></div><div class="vid-time" id="vt-2">0:00 / 0:30</div></div>
-      </div>
-      <div style="padding:14px"><div style="font-weight:700;font-size:15px">🥽 Expérience VR pendant le don</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">Plage au coucher du soleil. Tu ne vois pas l'aiguille. -40% anxiété.</div></div>
-    </div>
-    <!-- Video 4: AR Simulation -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="vid-player" onclick="playVid(3)" id="vid-3" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
-        <canvas id="vc-3"></canvas>
-        <div class="vid-overlay" id="vo-3"><div class="vid-play-btn">▶</div><div class="vid-title">📱 Guidage AR vers la collecte</div></div>
-        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-3" style="width:0%"></div></div><div class="vid-time" id="vt-3">0:00 / 0:30</div></div>
-      </div>
-      <div style="padding:14px"><div style="font-weight:700;font-size:15px">📱 Réalité augmentée — Guidage</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">Flèches AR, POI en surimpression, direction en temps réel.</div></div>
-    </div>
-  </div>
-  </div><!-- /acc-body vid-anim -->
-</div><!-- /v-videos -->
 
 <!-- ==================== ACTUALITÉS ==================== -->
 <div class="view" id="v-actualites">
@@ -2376,7 +2277,7 @@ document.addEventListener('DOMContentLoaded',function(){
   </div><!-- /acc-body vr-extras -->
   <!-- VR Video link -->
   <div style="text-align:center;margin-top:16px">
-    <button class="btn btn-outline btn-sm" onclick="go('videos')">🎬 Voir la simulation VR en vidéo</button>
+    <a class="btn btn-outline btn-sm" href="videos.html">🎬 Voir la simulation VR en vidéo</a>
   </div>
 </div>
 
@@ -4153,274 +4054,6 @@ function replayDayActivity(){
   });
 }
 
-// ===== VIDEO PLAYER ENGINE =====
-const vidStates=[null,null,null,null];
-const VID_DUR=30;// 30 seconds each
-
-function playVid(idx){
-  if(vidStates[idx]&&vidStates[idx].playing){return;}
-  const canvas=document.getElementById('vc-'+idx);
-  const ctx=canvas.getContext('2d');
-  const wrap=canvas.parentElement;
-  const dpr=window.devicePixelRatio||1;
-  const cssW=wrap.offsetWidth;
-  const cssH=Math.floor(cssW*9/16);
-  canvas.style.width=cssW+'px';canvas.style.height=cssH+'px';
-  canvas.width=Math.floor(cssW*dpr);canvas.height=Math.floor(cssH*dpr);
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-  document.getElementById('vo-'+idx).classList.add('hidden');
-  vidStates[idx]={playing:true,start:performance.now(),ctx,canvas,w:cssW,h:cssH};
-  function tick(now){
-    const s=vidStates[idx];if(!s||!s.playing)return;
-    const elapsed=(now-s.start)/1000;
-    const progress=Math.min(elapsed/VID_DUR,1);
-    document.getElementById('vp-'+idx).style.width=(progress*100)+'%';
-    const sec=Math.floor(elapsed);
-    document.getElementById('vt-'+idx).textContent=`0:${String(sec).padStart(2,'0')} / 0:30`;
-    if(idx===0)drawVid0(s.ctx,s.w,s.h,elapsed);
-    else if(idx===1)drawVid1(s.ctx,s.w,s.h,elapsed);
-    else if(idx===2)drawVid2(s.ctx,s.w,s.h,elapsed);
-    else drawVid3(s.ctx,s.w,s.h,elapsed);
-    if(progress<1)requestAnimationFrame(tick);
-    else{s.playing=false;document.getElementById('vo-'+idx).classList.remove('hidden');}
-  }
-  requestAnimationFrame(tick);
-}
-
-// VIDEO 0: Témoignage Amine
-function drawVid0(ctx,w,h,t){
-  const bg=ctx.createLinearGradient(0,0,w,h);
-  bg.addColorStop(0,'#1a1410');bg.addColorStop(1,'#0d1117');
-  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
-  for(let i=0;i<20;i++){
-    const px=(Math.sin(t*0.3+i*1.7)*0.5+0.5)*w;
-    const py=(Math.cos(t*0.2+i*2.3)*0.5+0.5)*h;
-    ctx.beginPath();ctx.arc(px,py,2+Math.sin(t+i)*1,0,Math.PI*2);
-    ctx.fillStyle='rgba(200,169,96,'+(0.1+Math.sin(t*0.5+i)*0.05)+')';ctx.fill();
-  }
-  const cx=w*0.25,cy=h*0.45;
-  ctx.beginPath();ctx.arc(cx,cy-h*0.12,h*0.1,0,Math.PI*2);ctx.fillStyle='rgba(200,169,96,0.15)';ctx.fill();
-  ctx.beginPath();ctx.ellipse(cx,cy+h*0.08,h*0.08,h*0.13,0,0,Math.PI*2);ctx.fillStyle='rgba(200,169,96,0.1)';ctx.fill();
-  ctx.fillStyle='rgba(200,169,96,0.6)';ctx.font=`bold ${Math.max(14,w*0.05)}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('AK',cx,cy-h*0.1);
-  const texts=[
-    {s:0,e:6,txt:["« J'avais vraiment peur","de l'aiguille... »"]},
-    {s:6,e:12,txt:["« Le casque VR m'a tout changé.","Plage tropicale au lieu","de l'hôpital. »"]},
-    {s:12,e:18,txt:["« Mon sang est rare.","Duffy négatif.","Seuls 30 donneurs","en Suisse romande. »"]},
-    {s:18,e:24,txt:["« Je peux sauver des vies","que personne d'autre","ne peut sauver. »"]},
-    {s:24,e:30,txt:["« Maintenant, je reviens.","Pas par obligation.","Parce que je compte. » 🐝"]}
-  ];
-  const cur=texts.find(x=>t>=x.s&&t<x.e);
-  if(cur){
-    const fadeIn=Math.min((t-cur.s)/0.5,1);
-    ctx.globalAlpha=fadeIn;
-    const fs=Math.max(13,Math.min(w*0.04,22));
-    ctx.fillStyle='#fff';ctx.font=`${fs}px sans-serif`;ctx.textAlign='left';ctx.textBaseline='top';
-    cur.txt.forEach((l,i)=>ctx.fillText(l,w*0.42,h*0.3+i*(fs*1.6),w*0.55));
-    ctx.globalAlpha=1;
-  }
-  const nfs=Math.max(10,Math.min(w*0.022,14));
-  ctx.fillStyle='rgba(200,169,96,0.9)';ctx.font=`bold ${nfs}px sans-serif`;ctx.textAlign='left';ctx.textBaseline='bottom';
-  ctx.fillText('AMINE KONATÉ · 21 ans · Étudiant · Donneur rare',w*0.04,h*0.95,w*0.92);
-  ctx.fillStyle='rgba(200,169,96,0.3)';ctx.fillRect(0,h-4,(t/30)*w,4);
-}
-
-// VIDEO 1: Guide du don
-function drawVid1(ctx,w,h,t){
-  ctx.fillStyle='#0d1117';ctx.fillRect(0,0,w,h);
-  const steps=[
-    {s:0,e:6,emoji:'👋',title:'ÉTAPE 1 — ACCUEIL',sub:'Pièce d\'identité · Formulaire pré-rempli',color:'#C8A960'},
-    {s:6,e:12,emoji:'👩‍⚕️',title:'ÉTAPE 2 — ENTRETIEN MÉDICAL',sub:'Hémoglobine · Tension · Confidentiel',color:'#2ECC71'},
-    {s:12,e:18,emoji:'🩸',title:'ÉTAPE 3 — LE DON',sub:'8-10 min · Casque VR optionnel · ~450 ml',color:'#4FC3F7'},
-    {s:18,e:24,emoji:'☕',title:'ÉTAPE 4 — REPOS LOUNGE',sub:'Café · Viennoiseries · HémoRush™ · Wi-Fi',color:'#9B59B6'},
-    {s:24,e:30,emoji:'⭐',title:'ÉTAPE 5 — APRÈS-DON',sub:'Feedback d\'impact · Ton don sauve une vie',color:'#C8A960'}
-  ];
-  const cur=steps.find(x=>t>=x.s&&t<x.e);
-  if(cur){
-    const p=(t-cur.s)/(cur.e-cur.s);
-    // Background pulse
-    const grd=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,w*0.5);
-    grd.addColorStop(0,cur.color+'15');grd.addColorStop(1,'transparent');
-    ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
-    // Step number circle
-    const fadeIn=Math.min(p*5,1);
-    ctx.globalAlpha=fadeIn;
-    ctx.beginPath();ctx.arc(w/2,h*0.32,w*0.08,0,Math.PI*2);ctx.fillStyle=cur.color+'30';ctx.fill();
-    ctx.strokeStyle=cur.color;ctx.lineWidth=3;ctx.stroke();
-    ctx.fillStyle='#fff';ctx.font=`${w*0.08}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(cur.emoji,w/2,h*0.32);
-    // Title
-    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(14,w*0.04)}px sans-serif`;
-    ctx.fillText(cur.title,w/2,h*0.55,w*0.9);
-    // Subtitle
-    ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font=`${Math.max(11,w*0.025)}px sans-serif`;
-    ctx.fillText(cur.sub,w/2,h*0.65,w*0.9);
-    // Progress dots
-    steps.forEach((s,i)=>{
-      ctx.beginPath();ctx.arc(w*0.3+i*(w*0.1),h*0.82,6,0,Math.PI*2);
-      ctx.fillStyle=t>=s.s?s.color:'rgba(255,255,255,0.15)';ctx.fill();
-    });
-    ctx.globalAlpha=1;
-  }
-  ctx.fillStyle='rgba(200,169,96,0.8)';ctx.font=`bold ${Math.max(10,w*0.02)}px sans-serif`;ctx.textAlign='left';
-  ctx.fillText('BeeMyBlood™ — Le don en 30 secondes',w*0.03,h*0.95,w*0.94);
-}
-
-// VIDEO 2: VR Simulation - Beach
-function drawVid2(ctx,w,h,t){
-  // Sky gradient (sunset)
-  const sky=ctx.createLinearGradient(0,0,0,h*0.65);
-  sky.addColorStop(0,'#1a0a2e');sky.addColorStop(0.3,'#4a1942');sky.addColorStop(0.6,'#c2185b');sky.addColorStop(0.85,'#ff6f00');sky.addColorStop(1,'#ffd54f');
-  ctx.fillStyle=sky;ctx.fillRect(0,0,w,h*0.65);
-  // Sun
-  const sunY=h*0.35+Math.sin(t*0.1)*10;
-  const sunGrd=ctx.createRadialGradient(w*0.6,sunY,w*0.02,w*0.6,sunY,w*0.15);
-  sunGrd.addColorStop(0,'#fff8');sunGrd.addColorStop(0.3,'#ff990055');sunGrd.addColorStop(1,'transparent');
-  ctx.fillStyle=sunGrd;ctx.fillRect(0,0,w,h);
-  ctx.beginPath();ctx.arc(w*0.6,sunY,w*0.04,0,Math.PI*2);ctx.fillStyle='#FFD54F';ctx.fill();
-  // Sea
-  const sea=ctx.createLinearGradient(0,h*0.55,0,h*0.75);
-  sea.addColorStop(0,'#0d47a1');sea.addColorStop(1,'#1565c0');
-  ctx.fillStyle=sea;ctx.fillRect(0,h*0.55,w,h*0.2);
-  // Waves
-  ctx.beginPath();ctx.moveTo(0,h*0.6);
-  for(let x=0;x<=w;x+=10){
-    ctx.lineTo(x,h*0.6+Math.sin(x*0.01+t*2)*8+Math.sin(x*0.005+t)*4);
-  }
-  ctx.lineTo(w,h*0.75);ctx.lineTo(0,h*0.75);ctx.closePath();
-  ctx.fillStyle='rgba(13,71,161,0.5)';ctx.fill();
-  // Sand
-  const sand=ctx.createLinearGradient(0,h*0.72,0,h);
-  sand.addColorStop(0,'#d4a76a');sand.addColorStop(1,'#c49660');
-  ctx.fillStyle=sand;ctx.fillRect(0,h*0.72,w,h*0.28);
-  // Palm tree
-  const palmX=w*0.15,palmBase=h*0.72;
-  ctx.strokeStyle='#5d4037';ctx.lineWidth=6;ctx.beginPath();
-  ctx.moveTo(palmX,palmBase);ctx.quadraticCurveTo(palmX-10,palmBase-h*0.2,palmX+15,palmBase-h*0.35);ctx.stroke();
-  // Leaves
-  for(let i=0;i<5;i++){
-    const a=-Math.PI*0.6+i*Math.PI*0.3+Math.sin(t+i)*0.05;
-    const lx=palmX+15,ly=palmBase-h*0.35;
-    ctx.beginPath();ctx.moveTo(lx,ly);
-    ctx.quadraticCurveTo(lx+Math.cos(a)*60,ly+Math.sin(a)*60-20,lx+Math.cos(a)*100,ly+Math.sin(a)*100);
-    ctx.strokeStyle='#2e7d32';ctx.lineWidth=3;ctx.stroke();
-  }
-  // VR overlay frame
-  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=2;ctx.setLineDash([10,5]);
-  ctx.strokeRect(w*0.05,h*0.05,w*0.9,h*0.9);ctx.setLineDash([]);
-  // VR HUD
-  ctx.fillStyle='rgba(0,0,0,0.4)';ctx.fillRect(w*0.05,h*0.05,w*0.35,h*0.08);
-  ctx.fillStyle='#fff';ctx.font=`${Math.max(10,w*0.02)}px sans-serif`;ctx.textAlign='left';
-  ctx.fillText('🥽 BeeMyBlood™ VR · Plage tropicale',w*0.08,h*0.1,w*0.32);
-  // Breathing guide
-  const breathPhase=Math.sin(t*0.5)*0.5+0.5;
-  ctx.globalAlpha=0.6;
-  ctx.beginPath();ctx.arc(w*0.9,h*0.12,10+breathPhase*8,0,Math.PI*2);
-  ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fill();
-  ctx.fillStyle='#fff';ctx.font=`${w*0.015}px sans-serif`;ctx.textAlign='center';
-  ctx.fillText(breathPhase>0.5?'Inspirez':'Expirez',w*0.9,h*0.18);
-  ctx.globalAlpha=1;
-  // Status
-  const msgs=[{s:0,e:5,t:'Le casque s\'allume... Immersion.'},{s:5,e:10,t:'🏖️ Plage au coucher du soleil.'},{s:10,e:16,t:'La piqûre ? Tu ne la vois pas.'},{s:16,e:22,t:'Respiration guidée · Son spatial 360°'},{s:22,e:28,t:'-24% douleur · -40% anxiété'},{s:28,e:30,t:'« C\'est déjà fini ? » 😊'}];
-  const m=msgs.find(x=>t>=x.s&&t<x.e);
-  if(m){ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(w*0.1,h*0.84,w*0.8,h*0.1);
-    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(11,w*0.025)}px sans-serif`;ctx.textAlign='center';
-    ctx.fillText(m.t,w/2,h*0.9,w*0.75);
-  }
-}
-
-// VIDEO 3: AR Guidage
-function drawVid3(ctx,w,h,t){
-  // Simulated "camera" view (grey city street)
-  ctx.fillStyle='#2a2a2a';ctx.fillRect(0,0,w,h);
-  // Ground perspective
-  ctx.fillStyle='#3a3a3a';ctx.beginPath();
-  ctx.moveTo(0,h*0.5);ctx.lineTo(w,h*0.5);ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill();
-  // Perspective lines
-  for(let i=0;i<8;i++){
-    ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(w/2,h*0.3);ctx.lineTo(i*(w/7),h);ctx.stroke();
-  }
-  // Buildings (silhouettes)
-  const buildings=[{x:0.05,w:0.12,h:0.35},{x:0.2,w:0.08,h:0.25},{x:0.72,w:0.1,h:0.3},{x:0.85,w:0.12,h:0.38}];
-  buildings.forEach(b=>{
-    ctx.fillStyle='rgba(50,50,60,0.8)';
-    ctx.fillRect(b.x*w,h*0.5-b.h*h,b.w*w,b.h*h);
-    // Windows
-    for(let wy=0;wy<b.h*h-10;wy+=15){
-      for(let wx=5;wx<b.w*w-5;wx+=12){
-        ctx.fillStyle='rgba(255,200,50,'+(0.1+Math.random()*0.2)+')';
-        ctx.fillRect(b.x*w+wx,h*0.5-b.h*h+wy+5,6,8);
-      }
-    }
-  });
-  // AR Arrow on ground (animated)
-  const arrowY=h*0.7-Math.sin(t*3)*5;
-  const arrowX=w/2+Math.sin(t*0.5)*20;
-  ctx.save();ctx.translate(arrowX,arrowY);ctx.rotate(-0.1);
-  ctx.fillStyle='rgba(200,169,96,0.8)';
-  ctx.beginPath();ctx.moveTo(0,-25);ctx.lineTo(20,10);ctx.lineTo(8,10);ctx.lineTo(8,25);ctx.lineTo(-8,25);ctx.lineTo(-8,10);ctx.lineTo(-20,10);ctx.closePath();ctx.fill();
-  ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
-  ctx.restore();
-  // Distance badge
-  ctx.fillStyle='rgba(200,169,96,0.9)';
-  const dist=Math.max(10,200-Math.floor(t*7));
-  ctx.beginPath();ctx.roundRect(w/2-50,h*0.55,100,30,8);ctx.fill();
-  ctx.fillStyle='#000';ctx.font=`bold ${Math.max(11,w*0.025)}px sans-serif`;ctx.textAlign='center';
-  ctx.fillText(dist+'m →',w/2,h*0.55+20);
-  // POI bubble
-  if(t>8){
-    const poiA=Math.min((t-8)/0.5,1);
-    ctx.globalAlpha=poiA;
-    ctx.fillStyle='rgba(0,0,0,0.7)';ctx.beginPath();ctx.roundRect(w*0.55,h*0.2,w*0.38,h*0.22,10);ctx.fill();
-    ctx.strokeStyle='rgba(200,169,96,0.5)';ctx.lineWidth=1;ctx.stroke();
-    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(10,w*0.022)}px sans-serif`;ctx.textAlign='left';
-    ctx.fillText('🎪 Collecte Uni Dufour',w*0.58,h*0.27,w*0.33);
-    ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font=`${Math.max(9,w*0.018)}px sans-serif`;
-    ctx.fillText('Auj. 10h–17h · ☕ Café offert',w*0.58,h*0.32,w*0.33);
-    ctx.fillText('Affluence : calme · 200m',w*0.58,h*0.37,w*0.33);
-    ctx.globalAlpha=1;
-  }
-  // AR HUD top
-  ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,w,h*0.08);
-  ctx.fillStyle='rgba(200,169,96,0.9)';ctx.font=`bold ${Math.max(10,w*0.02)}px sans-serif`;ctx.textAlign='left';
-  ctx.fillText('📱 BeeMyBlood™ AR · Guidage vers Uni Dufour',w*0.03,h*0.05,w*0.94);
-  // Steps
-  const arSteps=[{s:0,e:8,t:'📍 Direction : Uni Dufour — 200m'},{s:8,e:15,t:'🎪 Collecte repérée ! Bulle AR affichée.'},{s:15,e:22,t:'↗️ Tourner à droite — Rue Charles-Galland'},{s:22,e:28,t:'✅ Arrivée ! Stand visible à 20m.'},{s:28,e:30,t:'🩸 Bienvenue à la collecte !'}];
-  const step=arSteps.find(x=>t>=x.s&&t<x.e);
-  if(step){
-    ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(0,h*0.88,w,h*0.12);
-    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(11,w*0.025)}px sans-serif`;ctx.textAlign='center';
-    ctx.fillText(step.t,w/2,h*0.95,w*0.9);
-  }
-}
-
-// roundRect polyfill
-if(!CanvasRenderingContext2D.prototype.roundRect){
-  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
-    if(typeof r==='number')r=[r,r,r,r];
-    this.beginPath();this.moveTo(x+r[0],y);this.lineTo(x+w-r[1],y);
-    this.arcTo(x+w,y,x+w,y+r[1],r[1]);this.lineTo(x+w,y+h-r[2]);
-    this.arcTo(x+w,y+h,x+w-r[2],y+h,r[2]);this.lineTo(x+r[3],y+h);
-    this.arcTo(x,y+h,x,y+h-r[3],r[3]);this.lineTo(x,y+r[0]);
-    this.arcTo(x,y,x+r[0],y,r[0]);this.closePath();return this;
-  };
-}
-
-// VIDEO THUMBNAIL GENERATION
-function initVideoThumbs(){
-  for(let i=0;i<4;i++){
-    const c=document.getElementById('vc-'+i);if(!c)continue;
-    const wrap=c.parentElement;
-    c.width=wrap.offsetWidth*2;c.height=Math.floor(wrap.offsetWidth*2*9/16);
-    const ctx=c.getContext('2d');
-    // Draw first frame as thumbnail
-    if(i===0)drawVid0(ctx,c.width,c.height,0);
-    else if(i===1)drawVid1(ctx,c.width,c.height,0);
-    else if(i===2)drawVid2(ctx,c.width,c.height,3);
-    else drawVid3(ctx,c.width,c.height,0);
-  }
-}
 
 
 
@@ -4705,9 +4338,6 @@ initElig();
   // Everything collapsed by default — user clicks to explore
 })();
 
-// ===== MP4 VIDEO HANDLING =====
-setupVideoFallback('vid-mp4-vr','mp4-fallback-vr');
-setupVideoFallback('vid-mp4-guide','mp4-fallback-guide');
 
 // ===== ONBOARDING MODAL =====
 

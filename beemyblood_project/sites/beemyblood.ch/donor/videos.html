@@ -1,0 +1,596 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Vidéos — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab active" href="videos.html" aria-current="page">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item active" href="videos.html" aria-current="page"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Vidéos</span>
+</div>
+<main id="contenu" tabindex="-1">
+<!-- ==================== VIDÉOS ==================== -->
+<div class="view active" id="v-videos">
+  <div class="sec-header"><div class="sec-label">🎬 Vidéos</div><h1 class="sec-title">Découvrir le don en vidéo</h1><div class="sec-sub">Vidéos et animations — le don comme vous ne l'avez jamais vu</div></div>
+
+  <!-- REAL MP4 VIDEOS -->
+  <button class="acc-toggle open" onclick="toggleAcc(this)" data-target="vid-demo-acc" style="font-size:13px;padding:6px 10px;margin-bottom:6px">🎥 Démonstrations vidéo <span class="acc-arrow">▼</span></button>
+  <div class="acc-body open" id="vid-demo-acc" style="max-height:none">
+  <div style="margin-bottom:24px">
+    <div class="vid-grid">
+      <!-- Real Video 1: VR pendant le don -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:rgba(200,169,96,.25);position:relative" id="mp4-card-vr">
+        <div style="position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-vr">
+          <div id="mp4-fallback-vr" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-dim)">
+            <div style="font-size:56px">🥽</div>
+            <div style="font-size:15px;font-weight:700;color:var(--gold)">Démo VR — Réalité virtuelle pendant le don</div>
+            <div style="font-size:15px;text-align:center;max-width:280px;line-height:1.5">Fichier MP4 requis pour la lecture.<br>Placez <code style="color:var(--gold)">Demo_VR_pour_le_don_de_sang.mp4</code> dans le même dossier que le prototype.</div>
+            <button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="openVideoFullscreen('vid-mp4-vr')">⛶ Réessayer en plein écran</button>
+          </div>
+          <video id="vid-mp4-vr" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block">
+            <source src="Demo_VR_pour_le_don_de_sang.mp4" type="video/mp4">
+          </video>
+          <div style="position:absolute;top:8px;left:8px;z-index:3"><span class="badge badge-gold" style="font-size:15px">🥽 Démo VR</span></div>
+          <div class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-vr')">⛶</div>
+        </div>
+        <div style="padding:14px">
+          <div style="font-weight:700;font-size:15px;color:var(--gold)">🥽 Démo VR — Réalité virtuelle pendant le don</div>
+          <div style="font-size:15px;color:var(--text-dim);margin-top:6px;line-height:1.6">Comment le casque VR transforme l'expérience du don de sang : immersion dans un environnement apaisant pendant la piqûre, respiration guidée, et communication avec l'infirmière.</div>
+        </div>
+      </div>
+      <!-- Real Video 2: Guide 5 étapes -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:rgba(200,169,96,.25);position:relative" id="mp4-card-guide">
+        <div style="position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden" id="mp4-wrap-guide">
+          <div id="mp4-fallback-guide" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-dim)">
+            <div style="font-size:56px">📺</div>
+            <div style="font-size:15px;font-weight:700;color:var(--gold)">Guide du don — Les 5 étapes</div>
+            <div style="font-size:15px;text-align:center;max-width:280px;line-height:1.5">Fichier MP4 requis pour la lecture.<br>Placez <code style="color:var(--gold)">Guide_5_Steps.mp4</code> dans le même dossier que le prototype.</div>
+            <button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="openVideoFullscreen('vid-mp4-guide')">⛶ Réessayer en plein écran</button>
+          </div>
+          <video id="vid-mp4-guide" controls playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block">
+            <source src="Guide_5_Steps.mp4" type="video/mp4">
+          </video>
+          <div style="position:absolute;top:8px;left:8px;z-index:3"><span class="badge badge-gold" style="font-size:15px">📺 Guide</span></div>
+          <div class="fs-btn" style="z-index:5" onclick="openVideoFullscreen('vid-mp4-guide')">⛶</div>
+        </div>
+        <div style="padding:14px">
+          <div style="font-weight:700;font-size:15px;color:var(--gold)">📺 Guide du don — Les 5 étapes</div>
+          <div style="font-size:15px;color:var(--text-dim);margin-top:6px;line-height:1.6">Le parcours complet du donneur en 5 étapes : accueil, entretien médical, don, repos lounge, et feedback d'impact.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /acc-body vid-demo -->
+
+  <!-- CANVAS-ANIMATED VIDEOS -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="vid-anim-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🎨 Animations interactives (Canvas) <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="vid-anim-acc">
+      <div style="font-size:14px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px">🎨 Animations interactives <span class="badge badge-purple" style="font-size:15px">Canvas</span></div>
+  <div class="vid-grid">
+    <!-- Video 1: Témoignage -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="vid-player" onclick="playVid(0)" id="vid-0" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+        <canvas id="vc-0"></canvas>
+        <div class="vid-overlay" id="vo-0"><div class="vid-play-btn">▶</div><div class="vid-title">💬 Témoignage — Amine, 21 ans</div></div>
+        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-0" style="width:0%"></div></div><div class="vid-time" id="vt-0">0:00 / 0:30</div></div>
+      </div>
+      <div style="padding:14px"><div style="font-weight:700;font-size:15px">💬 Témoignage d'Amine</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">« J'avais peur de l'aiguille. Maintenant je suis donneur rare. »</div></div>
+    </div>
+    <!-- Video 2: Guide du don -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="vid-player" onclick="playVid(1)" id="vid-1" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+        <canvas id="vc-1"></canvas>
+        <div class="vid-overlay" id="vo-1"><div class="vid-play-btn">▶</div><div class="vid-title">📺 Le don en 30 secondes</div></div>
+        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-1" style="width:0%"></div></div><div class="vid-time" id="vt-1">0:00 / 0:30</div></div>
+      </div>
+      <div style="padding:14px"><div style="font-weight:700;font-size:15px">📺 Guide du don — 5 étapes</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">Accueil → Entretien → Don → Repos → Impact. C'est tout.</div></div>
+    </div>
+    <!-- Video 3: VR Simulation -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="vid-player" onclick="playVid(2)" id="vid-2" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+        <canvas id="vc-2"></canvas>
+        <div class="vid-overlay" id="vo-2"><div class="vid-play-btn">▶</div><div class="vid-title">🥽 Simulation VR — Plage tropicale</div></div>
+        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-2" style="width:0%"></div></div><div class="vid-time" id="vt-2">0:00 / 0:30</div></div>
+      </div>
+      <div style="padding:14px"><div style="font-weight:700;font-size:15px">🥽 Expérience VR pendant le don</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">Plage au coucher du soleil. Tu ne vois pas l'aiguille. -40% anxiété.</div></div>
+    </div>
+    <!-- Video 4: AR Simulation -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="vid-player" onclick="playVid(3)" id="vid-3" style="position:relative"><div class="fs-btn" style="z-index:5" onclick="event.stopPropagation();toggleFS(this.parentElement.parentElement)">⛶</div>
+        <canvas id="vc-3"></canvas>
+        <div class="vid-overlay" id="vo-3"><div class="vid-play-btn">▶</div><div class="vid-title">📱 Guidage AR vers la collecte</div></div>
+        <div class="vid-controls"><div class="vid-progress"><div class="vid-progress-fill" id="vp-3" style="width:0%"></div></div><div class="vid-time" id="vt-3">0:00 / 0:30</div></div>
+      </div>
+      <div style="padding:14px"><div style="font-weight:700;font-size:15px">📱 Réalité augmentée — Guidage</div><div style="font-size:15px;color:var(--text-dim);margin-top:4px">Flèches AR, POI en surimpression, direction en temps réel.</div></div>
+    </div>
+  </div>
+  </div><!-- /acc-body vid-anim -->
+</div><!-- /v-videos -->
+</main>
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('videos');
+// ===== VIDEO PLAYER ENGINE =====
+const vidStates=[null,null,null,null];
+const VID_DUR=30;// 30 seconds each
+
+function playVid(idx){
+  if(vidStates[idx]&&vidStates[idx].playing){return;}
+  const canvas=document.getElementById('vc-'+idx);
+  const ctx=canvas.getContext('2d');
+  const wrap=canvas.parentElement;
+  const dpr=window.devicePixelRatio||1;
+  const cssW=wrap.offsetWidth;
+  const cssH=Math.floor(cssW*9/16);
+  canvas.style.width=cssW+'px';canvas.style.height=cssH+'px';
+  canvas.width=Math.floor(cssW*dpr);canvas.height=Math.floor(cssH*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  document.getElementById('vo-'+idx).classList.add('hidden');
+  vidStates[idx]={playing:true,start:performance.now(),ctx,canvas,w:cssW,h:cssH};
+  function tick(now){
+    const s=vidStates[idx];if(!s||!s.playing)return;
+    const elapsed=(now-s.start)/1000;
+    const progress=Math.min(elapsed/VID_DUR,1);
+    document.getElementById('vp-'+idx).style.width=(progress*100)+'%';
+    const sec=Math.floor(elapsed);
+    document.getElementById('vt-'+idx).textContent=`0:${String(sec).padStart(2,'0')} / 0:30`;
+    if(idx===0)drawVid0(s.ctx,s.w,s.h,elapsed);
+    else if(idx===1)drawVid1(s.ctx,s.w,s.h,elapsed);
+    else if(idx===2)drawVid2(s.ctx,s.w,s.h,elapsed);
+    else drawVid3(s.ctx,s.w,s.h,elapsed);
+    if(progress<1)requestAnimationFrame(tick);
+    else{s.playing=false;document.getElementById('vo-'+idx).classList.remove('hidden');}
+  }
+  requestAnimationFrame(tick);
+}
+
+// VIDEO 0: Témoignage Amine
+function drawVid0(ctx,w,h,t){
+  const bg=ctx.createLinearGradient(0,0,w,h);
+  bg.addColorStop(0,'#1a1410');bg.addColorStop(1,'#0d1117');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+  for(let i=0;i<20;i++){
+    const px=(Math.sin(t*0.3+i*1.7)*0.5+0.5)*w;
+    const py=(Math.cos(t*0.2+i*2.3)*0.5+0.5)*h;
+    ctx.beginPath();ctx.arc(px,py,2+Math.sin(t+i)*1,0,Math.PI*2);
+    ctx.fillStyle='rgba(200,169,96,'+(0.1+Math.sin(t*0.5+i)*0.05)+')';ctx.fill();
+  }
+  const cx=w*0.25,cy=h*0.45;
+  ctx.beginPath();ctx.arc(cx,cy-h*0.12,h*0.1,0,Math.PI*2);ctx.fillStyle='rgba(200,169,96,0.15)';ctx.fill();
+  ctx.beginPath();ctx.ellipse(cx,cy+h*0.08,h*0.08,h*0.13,0,0,Math.PI*2);ctx.fillStyle='rgba(200,169,96,0.1)';ctx.fill();
+  ctx.fillStyle='rgba(200,169,96,0.6)';ctx.font=`bold ${Math.max(14,w*0.05)}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('AK',cx,cy-h*0.1);
+  const texts=[
+    {s:0,e:6,txt:["« J'avais vraiment peur","de l'aiguille... »"]},
+    {s:6,e:12,txt:["« Le casque VR m'a tout changé.","Plage tropicale au lieu","de l'hôpital. »"]},
+    {s:12,e:18,txt:["« Mon sang est rare.","Duffy négatif.","Seuls 30 donneurs","en Suisse romande. »"]},
+    {s:18,e:24,txt:["« Je peux sauver des vies","que personne d'autre","ne peut sauver. »"]},
+    {s:24,e:30,txt:["« Maintenant, je reviens.","Pas par obligation.","Parce que je compte. » 🐝"]}
+  ];
+  const cur=texts.find(x=>t>=x.s&&t<x.e);
+  if(cur){
+    const fadeIn=Math.min((t-cur.s)/0.5,1);
+    ctx.globalAlpha=fadeIn;
+    const fs=Math.max(13,Math.min(w*0.04,22));
+    ctx.fillStyle='#fff';ctx.font=`${fs}px sans-serif`;ctx.textAlign='left';ctx.textBaseline='top';
+    cur.txt.forEach((l,i)=>ctx.fillText(l,w*0.42,h*0.3+i*(fs*1.6),w*0.55));
+    ctx.globalAlpha=1;
+  }
+  const nfs=Math.max(10,Math.min(w*0.022,14));
+  ctx.fillStyle='rgba(200,169,96,0.9)';ctx.font=`bold ${nfs}px sans-serif`;ctx.textAlign='left';ctx.textBaseline='bottom';
+  ctx.fillText('AMINE KONATÉ · 21 ans · Étudiant · Donneur rare',w*0.04,h*0.95,w*0.92);
+  ctx.fillStyle='rgba(200,169,96,0.3)';ctx.fillRect(0,h-4,(t/30)*w,4);
+}
+
+// VIDEO 1: Guide du don
+function drawVid1(ctx,w,h,t){
+  ctx.fillStyle='#0d1117';ctx.fillRect(0,0,w,h);
+  const steps=[
+    {s:0,e:6,emoji:'👋',title:'ÉTAPE 1 — ACCUEIL',sub:'Pièce d\'identité · Formulaire pré-rempli',color:'#C8A960'},
+    {s:6,e:12,emoji:'👩‍⚕️',title:'ÉTAPE 2 — ENTRETIEN MÉDICAL',sub:'Hémoglobine · Tension · Confidentiel',color:'#2ECC71'},
+    {s:12,e:18,emoji:'🩸',title:'ÉTAPE 3 — LE DON',sub:'8-10 min · Casque VR optionnel · ~450 ml',color:'#4FC3F7'},
+    {s:18,e:24,emoji:'☕',title:'ÉTAPE 4 — REPOS LOUNGE',sub:'Café · Viennoiseries · HémoRush™ · Wi-Fi',color:'#9B59B6'},
+    {s:24,e:30,emoji:'⭐',title:'ÉTAPE 5 — APRÈS-DON',sub:'Feedback d\'impact · Ton don sauve une vie',color:'#C8A960'}
+  ];
+  const cur=steps.find(x=>t>=x.s&&t<x.e);
+  if(cur){
+    const p=(t-cur.s)/(cur.e-cur.s);
+    // Background pulse
+    const grd=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,w*0.5);
+    grd.addColorStop(0,cur.color+'15');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
+    // Step number circle
+    const fadeIn=Math.min(p*5,1);
+    ctx.globalAlpha=fadeIn;
+    ctx.beginPath();ctx.arc(w/2,h*0.32,w*0.08,0,Math.PI*2);ctx.fillStyle=cur.color+'30';ctx.fill();
+    ctx.strokeStyle=cur.color;ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`${w*0.08}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(cur.emoji,w/2,h*0.32);
+    // Title
+    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(14,w*0.04)}px sans-serif`;
+    ctx.fillText(cur.title,w/2,h*0.55,w*0.9);
+    // Subtitle
+    ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font=`${Math.max(11,w*0.025)}px sans-serif`;
+    ctx.fillText(cur.sub,w/2,h*0.65,w*0.9);
+    // Progress dots
+    steps.forEach((s,i)=>{
+      ctx.beginPath();ctx.arc(w*0.3+i*(w*0.1),h*0.82,6,0,Math.PI*2);
+      ctx.fillStyle=t>=s.s?s.color:'rgba(255,255,255,0.15)';ctx.fill();
+    });
+    ctx.globalAlpha=1;
+  }
+  ctx.fillStyle='rgba(200,169,96,0.8)';ctx.font=`bold ${Math.max(10,w*0.02)}px sans-serif`;ctx.textAlign='left';
+  ctx.fillText('BeeMyBlood™ — Le don en 30 secondes',w*0.03,h*0.95,w*0.94);
+}
+
+// VIDEO 2: VR Simulation - Beach
+function drawVid2(ctx,w,h,t){
+  // Sky gradient (sunset)
+  const sky=ctx.createLinearGradient(0,0,0,h*0.65);
+  sky.addColorStop(0,'#1a0a2e');sky.addColorStop(0.3,'#4a1942');sky.addColorStop(0.6,'#c2185b');sky.addColorStop(0.85,'#ff6f00');sky.addColorStop(1,'#ffd54f');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,w,h*0.65);
+  // Sun
+  const sunY=h*0.35+Math.sin(t*0.1)*10;
+  const sunGrd=ctx.createRadialGradient(w*0.6,sunY,w*0.02,w*0.6,sunY,w*0.15);
+  sunGrd.addColorStop(0,'#fff8');sunGrd.addColorStop(0.3,'#ff990055');sunGrd.addColorStop(1,'transparent');
+  ctx.fillStyle=sunGrd;ctx.fillRect(0,0,w,h);
+  ctx.beginPath();ctx.arc(w*0.6,sunY,w*0.04,0,Math.PI*2);ctx.fillStyle='#FFD54F';ctx.fill();
+  // Sea
+  const sea=ctx.createLinearGradient(0,h*0.55,0,h*0.75);
+  sea.addColorStop(0,'#0d47a1');sea.addColorStop(1,'#1565c0');
+  ctx.fillStyle=sea;ctx.fillRect(0,h*0.55,w,h*0.2);
+  // Waves
+  ctx.beginPath();ctx.moveTo(0,h*0.6);
+  for(let x=0;x<=w;x+=10){
+    ctx.lineTo(x,h*0.6+Math.sin(x*0.01+t*2)*8+Math.sin(x*0.005+t)*4);
+  }
+  ctx.lineTo(w,h*0.75);ctx.lineTo(0,h*0.75);ctx.closePath();
+  ctx.fillStyle='rgba(13,71,161,0.5)';ctx.fill();
+  // Sand
+  const sand=ctx.createLinearGradient(0,h*0.72,0,h);
+  sand.addColorStop(0,'#d4a76a');sand.addColorStop(1,'#c49660');
+  ctx.fillStyle=sand;ctx.fillRect(0,h*0.72,w,h*0.28);
+  // Palm tree
+  const palmX=w*0.15,palmBase=h*0.72;
+  ctx.strokeStyle='#5d4037';ctx.lineWidth=6;ctx.beginPath();
+  ctx.moveTo(palmX,palmBase);ctx.quadraticCurveTo(palmX-10,palmBase-h*0.2,palmX+15,palmBase-h*0.35);ctx.stroke();
+  // Leaves
+  for(let i=0;i<5;i++){
+    const a=-Math.PI*0.6+i*Math.PI*0.3+Math.sin(t+i)*0.05;
+    const lx=palmX+15,ly=palmBase-h*0.35;
+    ctx.beginPath();ctx.moveTo(lx,ly);
+    ctx.quadraticCurveTo(lx+Math.cos(a)*60,ly+Math.sin(a)*60-20,lx+Math.cos(a)*100,ly+Math.sin(a)*100);
+    ctx.strokeStyle='#2e7d32';ctx.lineWidth=3;ctx.stroke();
+  }
+  // VR overlay frame
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=2;ctx.setLineDash([10,5]);
+  ctx.strokeRect(w*0.05,h*0.05,w*0.9,h*0.9);ctx.setLineDash([]);
+  // VR HUD
+  ctx.fillStyle='rgba(0,0,0,0.4)';ctx.fillRect(w*0.05,h*0.05,w*0.35,h*0.08);
+  ctx.fillStyle='#fff';ctx.font=`${Math.max(10,w*0.02)}px sans-serif`;ctx.textAlign='left';
+  ctx.fillText('🥽 BeeMyBlood™ VR · Plage tropicale',w*0.08,h*0.1,w*0.32);
+  // Breathing guide
+  const breathPhase=Math.sin(t*0.5)*0.5+0.5;
+  ctx.globalAlpha=0.6;
+  ctx.beginPath();ctx.arc(w*0.9,h*0.12,10+breathPhase*8,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fill();
+  ctx.fillStyle='#fff';ctx.font=`${w*0.015}px sans-serif`;ctx.textAlign='center';
+  ctx.fillText(breathPhase>0.5?'Inspirez':'Expirez',w*0.9,h*0.18);
+  ctx.globalAlpha=1;
+  // Status
+  const msgs=[{s:0,e:5,t:'Le casque s\'allume... Immersion.'},{s:5,e:10,t:'🏖️ Plage au coucher du soleil.'},{s:10,e:16,t:'La piqûre ? Tu ne la vois pas.'},{s:16,e:22,t:'Respiration guidée · Son spatial 360°'},{s:22,e:28,t:'-24% douleur · -40% anxiété'},{s:28,e:30,t:'« C\'est déjà fini ? » 😊'}];
+  const m=msgs.find(x=>t>=x.s&&t<x.e);
+  if(m){ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(w*0.1,h*0.84,w*0.8,h*0.1);
+    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(11,w*0.025)}px sans-serif`;ctx.textAlign='center';
+    ctx.fillText(m.t,w/2,h*0.9,w*0.75);
+  }
+}
+
+// VIDEO 3: AR Guidage
+function drawVid3(ctx,w,h,t){
+  // Simulated "camera" view (grey city street)
+  ctx.fillStyle='#2a2a2a';ctx.fillRect(0,0,w,h);
+  // Ground perspective
+  ctx.fillStyle='#3a3a3a';ctx.beginPath();
+  ctx.moveTo(0,h*0.5);ctx.lineTo(w,h*0.5);ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill();
+  // Perspective lines
+  for(let i=0;i<8;i++){
+    ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(w/2,h*0.3);ctx.lineTo(i*(w/7),h);ctx.stroke();
+  }
+  // Buildings (silhouettes)
+  const buildings=[{x:0.05,w:0.12,h:0.35},{x:0.2,w:0.08,h:0.25},{x:0.72,w:0.1,h:0.3},{x:0.85,w:0.12,h:0.38}];
+  buildings.forEach(b=>{
+    ctx.fillStyle='rgba(50,50,60,0.8)';
+    ctx.fillRect(b.x*w,h*0.5-b.h*h,b.w*w,b.h*h);
+    // Windows
+    for(let wy=0;wy<b.h*h-10;wy+=15){
+      for(let wx=5;wx<b.w*w-5;wx+=12){
+        ctx.fillStyle='rgba(255,200,50,'+(0.1+Math.random()*0.2)+')';
+        ctx.fillRect(b.x*w+wx,h*0.5-b.h*h+wy+5,6,8);
+      }
+    }
+  });
+  // AR Arrow on ground (animated)
+  const arrowY=h*0.7-Math.sin(t*3)*5;
+  const arrowX=w/2+Math.sin(t*0.5)*20;
+  ctx.save();ctx.translate(arrowX,arrowY);ctx.rotate(-0.1);
+  ctx.fillStyle='rgba(200,169,96,0.8)';
+  ctx.beginPath();ctx.moveTo(0,-25);ctx.lineTo(20,10);ctx.lineTo(8,10);ctx.lineTo(8,25);ctx.lineTo(-8,25);ctx.lineTo(-8,10);ctx.lineTo(-20,10);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+  ctx.restore();
+  // Distance badge
+  ctx.fillStyle='rgba(200,169,96,0.9)';
+  const dist=Math.max(10,200-Math.floor(t*7));
+  ctx.beginPath();ctx.roundRect(w/2-50,h*0.55,100,30,8);ctx.fill();
+  ctx.fillStyle='#000';ctx.font=`bold ${Math.max(11,w*0.025)}px sans-serif`;ctx.textAlign='center';
+  ctx.fillText(dist+'m →',w/2,h*0.55+20);
+  // POI bubble
+  if(t>8){
+    const poiA=Math.min((t-8)/0.5,1);
+    ctx.globalAlpha=poiA;
+    ctx.fillStyle='rgba(0,0,0,0.7)';ctx.beginPath();ctx.roundRect(w*0.55,h*0.2,w*0.38,h*0.22,10);ctx.fill();
+    ctx.strokeStyle='rgba(200,169,96,0.5)';ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(10,w*0.022)}px sans-serif`;ctx.textAlign='left';
+    ctx.fillText('🎪 Collecte Uni Dufour',w*0.58,h*0.27,w*0.33);
+    ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font=`${Math.max(9,w*0.018)}px sans-serif`;
+    ctx.fillText('Auj. 10h–17h · ☕ Café offert',w*0.58,h*0.32,w*0.33);
+    ctx.fillText('Affluence : calme · 200m',w*0.58,h*0.37,w*0.33);
+    ctx.globalAlpha=1;
+  }
+  // AR HUD top
+  ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,w,h*0.08);
+  ctx.fillStyle='rgba(200,169,96,0.9)';ctx.font=`bold ${Math.max(10,w*0.02)}px sans-serif`;ctx.textAlign='left';
+  ctx.fillText('📱 BeeMyBlood™ AR · Guidage vers Uni Dufour',w*0.03,h*0.05,w*0.94);
+  // Steps
+  const arSteps=[{s:0,e:8,t:'📍 Direction : Uni Dufour — 200m'},{s:8,e:15,t:'🎪 Collecte repérée ! Bulle AR affichée.'},{s:15,e:22,t:'↗️ Tourner à droite — Rue Charles-Galland'},{s:22,e:28,t:'✅ Arrivée ! Stand visible à 20m.'},{s:28,e:30,t:'🩸 Bienvenue à la collecte !'}];
+  const step=arSteps.find(x=>t>=x.s&&t<x.e);
+  if(step){
+    ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(0,h*0.88,w,h*0.12);
+    ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(11,w*0.025)}px sans-serif`;ctx.textAlign='center';
+    ctx.fillText(step.t,w/2,h*0.95,w*0.9);
+  }
+}
+
+// roundRect polyfill
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    if(typeof r==='number')r=[r,r,r,r];
+    this.beginPath();this.moveTo(x+r[0],y);this.lineTo(x+w-r[1],y);
+    this.arcTo(x+w,y,x+w,y+r[1],r[1]);this.lineTo(x+w,y+h-r[2]);
+    this.arcTo(x+w,y+h,x+w-r[2],y+h,r[2]);this.lineTo(x+r[3],y+h);
+    this.arcTo(x,y+h,x,y+h-r[3],r[3]);this.lineTo(x,y+r[0]);
+    this.arcTo(x,y,x+r[0],y,r[0]);this.closePath();return this;
+  };
+}
+
+// VIDEO THUMBNAIL GENERATION
+function initVideoThumbs(){
+  for(let i=0;i<4;i++){
+    const c=document.getElementById('vc-'+i);if(!c)continue;
+    const wrap=c.parentElement;
+    c.width=wrap.offsetWidth*2;c.height=Math.floor(wrap.offsetWidth*2*9/16);
+    const ctx=c.getContext('2d');
+    // Draw first frame as thumbnail
+    if(i===0)drawVid0(ctx,c.width,c.height,0);
+    else if(i===1)drawVid1(ctx,c.width,c.height,0);
+    else if(i===2)drawVid2(ctx,c.width,c.height,3);
+    else drawVid3(ctx,c.width,c.height,0);
+  }
+}
+
+setupVideoFallback('vid-mp4-vr','mp4-fallback-vr');
+setupVideoFallback('vid-mp4-guide','mp4-fallback-guide');
+
+setTimeout(initVideoThumbs,200);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>
