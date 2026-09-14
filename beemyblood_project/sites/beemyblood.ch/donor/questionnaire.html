@@ -1,0 +1,716 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Questionnaire médical — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Questionnaire médical</span>
+</div>
+<main id="contenu" tabindex="-1">
+<div class="view active" id="v-questionnaire">
+  <div class="sec-header"><div class="sec-label">📋 Questionnaire médical</div><h1 class="sec-title">Questionnaire médical HUG</h1><div class="sec-sub">Pré-remplissage + génération PDF — gain de temps au CTS : ~15 minutes</div></div>
+  <!-- QUESTIONNAIRE MÉDICAL HUG COMPLET -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="quest-hug-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Questionnaire médical HUG — pré-remplissage + PDF <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="quest-hug-acc">
+  <div class="card" style="margin-top:8px;border:1px solid rgba(200,169,96,.2)">
+    <div class="card-header"><div class="card-title">📋 Questionnaire médical — Centre de Transfusion HUG</div><span class="badge badge-gold">ANH-Art7.6v3 · Fév. 2026</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Remplis ce formulaire à l'avance et génère un PDF à imprimer. Gain de temps au CTS : ~15 min.</div>
+
+    <!-- ====== ÉTAPE 1 : Formulaire d'information ANH Art.7.7 ====== -->
+    <div id="qhug-step1" style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">📄 Étape 1/3 — Formulaire d'information</div>
+      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.7;color:var(--text-dim)">
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">Annexe Art. 7.7 — Formulaire d'information pour les donneuses et donneurs de sang</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Type : ANH · Version 3 · En vigueur depuis le 01.02.2026 · Transfusion CRS Suisse · N° 3391</div>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--gold);font-size:13px">🩸 Sang et transfusions sanguines</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Le sang et ses composants remplissent de nombreuses fonctions vitales. Un malade ou un blessé peut avoir besoin d'une transfusion pour guérir, voire pour rester en vie. C'est l'acte médical le plus courant en milieu hospitalier. En Suisse, les transfusions sont possibles à condition que suffisamment de volontaires en bonne santé acceptent de donner de leur sang.</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--gold);font-size:13px">💉 Don de sang — effets et précautions</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Le don consiste en une ponction veineuse au pli du coude (~500 ml en 10 min). Effets possibles : chute de pression artérielle (malaise), hématome ou lésion nerveuse au point de ponction. La majorité est sans gravité et de très courte durée. Après le don, respecter un délai d'au moins <strong>12 heures</strong> avant toute activité à risque.</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--red-soft);font-size:13px">🚫 Contre-indications définitives</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">1. Test positif HIV, hépatites B/C, syphilis<br>2. Injection de drogue (ancienne ou actuelle)</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--orange);font-size:13px">⏳ Contre-indications temporaires</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">3. Rapport sexuel contre rémunération<br>4. MST au cours des 12 derniers mois<br>5. Changement de partenaire sexuel (4 derniers mois)<br>6. Plus de 2 partenaires (4 derniers mois)<br>7. Séjours à l'étranger (6 derniers mois — voir <a href="https://www.blutspende.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--blue)">Travelcheck</a>)<br>8. Interventions/traitements médicaux ou esthétiques<br>9. Thérapie antirétrovirale PEP/PrEP (4 derniers mois)<br>10. Rapport sexuel avec partenaire exposé aux situations 1-7</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--blue);font-size:13px">🔬 Tests biologiques</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Dépistage systématique à chaque don : HIV, hépatites B/C/E, syphilis, et si nécessaire Parvovirus B19 et hépatite A. Si un test est réactif, vous êtes immédiatement informé(e). Des analyses de groupe sanguin ABO, Rhésus et autres sont également réalisées.</div>
+        </details>
+        <details style="margin-bottom:8px">
+          <summary style="cursor:pointer;font-weight:600;color:var(--green);font-size:13px">📞 Informations post-don</summary>
+          <div style="padding:8px 0;font-size:13px;line-height:1.7">Après le don, informez rapidement votre CTS si : vous ou votre entourage tombez malade, vous réalisez ne pas avoir répondu correctement au questionnaire, ou si des complications surviennent. Vos données sont soumises au secret médical.</div>
+        </details>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <a href="https://www.blutspende-nordwestschweiz.ch/media/filer_public/ab/ad/abad81ea-ebd4-4cbc-9f1c-0a4b2a88ec8d/annexe_art_77_formulaire_dinformation.pdf" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm" style="text-decoration:none">📄 Lire le document officiel (PDF)</a>
+        </div>
+      </div>
+      <label id="qhug-read-check" style="display:flex;align-items:center;gap:8px;padding:10px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.2);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">
+        <input type="checkbox" id="qhug-read-cb" style="width:18px;height:18px;accent-color:var(--green)">
+        <span>J'ai lu le Formulaire d'information ANH Art.7.7 et je suis informé(e)</span>
+      </label>
+      <button class="btn btn-gold" id="qhug-step1-next" onclick="qhugGoStep(2)" style="opacity:.5;pointer-events:none">Continuer → Consentement</button>
+    </div>
+
+    <!-- ====== ÉTAPE 2 : Consentement ====== -->
+    <div id="qhug-step2" style="display:none;flex-direction:column;gap:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">✅ Étape 2/3 — Consentement</div>
+      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.8;color:var(--text-dim)">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px">En cochant ci-dessous, je confirme :</div>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je consens à donner de mon sang.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je confirme avoir lu et compris le Formulaire d'information ANH Art.7.7 et avoir reçu toutes les explications nécessaires.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je confirme l'exactitude de mes données personnelles et la véracité de mes réponses au questionnaire médical.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je sais que mon sang est soumis à des tests biologiques (pouvant comporter des méthodes génétiques) et qu'un échantillon sera conservé. J'accepte d'être informé(e) des résultats en cas d'anomalie.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>J'accepte que certains composants de mon don puissent être utilisés pour la fabrication de médicaments et qu'une partie soit utilisée pour la recherche médicale après anonymisation définitive.</span></label>
+        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je comprends que mes données sont soumises au secret médical, utilisées par Transfusion CRS Suisse et les SRTS, et que seules les informations codées sont transmises pour les soins aux patients.</span></label>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="qhugGoStep(1)">← Retour</button>
+        <button class="btn btn-gold" id="qhug-step2-next" onclick="qhugGoStep(3)" style="opacity:.5;pointer-events:none">Continuer → Questionnaire</button>
+      </div>
+    </div>
+
+    <!-- ====== ÉTAPE 3 : Questionnaire médical ====== -->
+    <div id="qhug-step3" style="display:none;flex-direction:column;gap:10px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">🩺 Étape 3/3 — Questionnaire médical</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;line-height:1.6">Répondez avec sincérité pour votre sécurité et celle des patients. <a href="https://www.hug.ch/sites/interhug/files/structures/don_du_sang/cts-questionnairedondusangv01fev26.pdf" target="_blank" aria-describedby="ext-link-notice" style="color:var(--blue)">📄 Voir le questionnaire officiel HUG (PDF)</a></div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">👤 Informations personnelles</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><label for="qh-nom" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Nom *</label><input id="qh-nom" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-prenom" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Prénom(s) *</label><input id="qh-prenom" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-ddn" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Date de naissance *</label><input id="qh-ddn" required type="date" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-sexe" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Sexe *</label><select id="qh-sexe" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"><option value="">—</option><option value="M">M</option><option value="F">F</option></select></div>
+        <div style="grid-column:1/-1"><label for="qh-adresse" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Adresse *</label><input id="qh-adresse" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-npa" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">NPA *</label><input id="qh-npa" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-localite" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Localité *</label><input id="qh-localite" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-tel" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Tél. mobile *</label><input id="qh-tel" required type="tel" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-email" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">E-mail</label><input id="qh-email" type="email" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-poids" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Poids (kg) *</label><input id="qh-poids" required type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-taille" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Taille (cm) *</label><input id="qh-taille" required type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-prof" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Profession</label><input id="qh-prof" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-medecin" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Médecin traitant</label><input id="qh-medecin" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+      </div>
+
+      <!-- Section 2: Questions médicales OUI/NON -->
+      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:10px 0 2px;border-top:1px solid var(--dark-border);margin-top:4px">🩺 Questionnaire médical</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Répondez avec sincérité pour votre sécurité et celle des patients.</div>
+      <div id="qhug-questions" style="display:flex;flex-direction:column;gap:4px"></div>
+
+      <!-- Buttons -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn btn-outline" onclick="qhugGoStep(2)">← Retour au consentement</button>
+        <button class="btn btn-gold" onclick="generateHUGPDF()">📥 Générer le PDF</button>
+        <button class="btn btn-outline" onclick="resetHUGForm()">🔄 Réinitialiser</button>
+      </div>
+    </div><!-- /step3 -->
+  </div>
+  </div><!-- /quest-hug-acc -->
+</div><!-- /v-questionnaire -->
+</main>
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="onboard-modal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header" style="padding-bottom:8px">
+      <div style="font-size:36px;margin-bottom:4px">🐝</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">Bienvenue sur BeeMyBlood™</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="ob-counter">1 / 10</div>
+    </div>
+
+    <!-- STEP 0 : INTRO -->
+    <div class="modal-step active" id="ob-step-0">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🦸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros, pas un numéro</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">BeeMyBlood™ transforme le don de sang en expérience premium, ludique et personnalisée.<br><br>Ce tour te montre <strong style="color:var(--gold)">toutes les fonctionnalités</strong> en 1 minute. Tu peux le relancer à tout moment via le lien <strong style="color:var(--gold)">« Tour guidé »</strong> en bas de page.</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : NAVIGATION -->
+    <div class="modal-step" id="ob-step-1">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧭</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
+          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
+          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : DASHBOARD -->
+    <div class="modal-step" id="ob-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          C'est ton <strong>tableau de bord</strong> :
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🗓️ Prochain don programmé + compte à rebours<br>
+            🩸 Stocks de sang en temps réel par groupe<br>
+            📈 Ton historique de dons et séries (streak)<br>
+            🏆 Badges débloqués et objectifs<br>
+            🩺 Passeport santé (résultats labo de tes dons)<br>
+            🤝 Programme BeeMyBro (parrainage)
+          </div>
+          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : ÉLIGIBILITÉ -->
+    <div class="modal-step" id="ob-step-3">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Test d'éligibilité + Questionnaire médical</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--green)">Pré-éligibilité rapide</strong> — 8 questions simples (âge, poids, santé, voyages…) pour savoir si tu peux donner aujourd'hui.<br><br>
+          <strong style="color:var(--gold)">Questionnaire médical HUG</strong> — Le vrai formulaire du Centre de Transfusion Sanguine (CTS), que tu peux pré-remplir chez toi et <strong>générer en PDF</strong> à imprimer. Gain de temps : ~15 min au CTS.<br><br>
+          <span style="color:var(--text-muted)">💡 Si le test dit « éligible », un bouton te dirige directement vers le questionnaire.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 : CARTE & COLLECTES -->
+    <div class="modal-step" id="ob-step-4">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📍</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📡 Géolocalisation automatique<br>
+            🔍 Rayon de recherche ajustable (1-20 km)<br>
+            📅 Prise de rendez-vous directe via OneDoc<br>
+            🎪 Collectes mobiles signalées sur la carte
+          </div>
+          <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 : FLUX CTS -->
+    <div class="modal-step" id="ob-step-5">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🔬</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Flux CTS — Visualisation en temps réel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Une vue schématique animée du <strong>campus hospitalier des HUG</strong> (Hôpitaux Universitaires de Genève) montrant :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🩸 Poches de sang circulant entre les bâtiments<br>
+            📊 Entrées/sorties, stock CE, plaquettes en direct<br>
+            🎯 Objectif du jour avec jauge de progression<br>
+            📰 Fil d'événements et bandeau défilant
+          </div>
+          <span style="color:var(--text-muted)">⛶ Passe en plein écran pour une immersion complète.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 : HÉMORUSH -->
+    <div class="modal-step" id="ob-step-6">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎮</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">HémoRush™ — Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Un mini-jeu éducatif pour maîtriser la <strong>compatibilité sanguine</strong> :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📚 Apprentissage — mode guidé, pas de chrono<br>
+            ⚡ Rush — 2 minutes chrono, score maximal<br>
+            ❤️ Survie — 3 vies, zéro droit à l'erreur<br>
+            🧠 Quiz — QCM sur la transfusion<br>
+            🌊 Vagues — difficulté croissante
+          </div>
+          <strong style="color:var(--gold)">Comment jouer :</strong> touche un patient 🏥, puis donne-lui la bonne poche 🩸 compatible.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 : GUIDE & VR -->
+    <div class="modal-step" id="ob-step-7">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📺</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Guide du don & Réalité virtuelle</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Guide primo-donneur</strong> — Les critères, les 6 étapes du don, les 3 composants sanguins et les contre-indications expliquées simplement.<br><br>
+          <strong style="color:var(--gold)">Expérience VR</strong> — BeeMyBlood propose un casque VR immersif pendant le prélèvement : plage, forêt ou fond marin. Résultat : <strong style="color:var(--green)">−24% de douleur</strong> et <strong style="color:var(--green)">−40% d'anxiété</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 : COMMUNAUTÉ & FAQ -->
+    <div class="modal-step" id="ob-step-8">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🤝</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Communauté, FAQ & BeeBot™</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Communauté</strong> — Témoignages, fil social, notifications push et partage d'expériences entre donneurs.<br><br>
+          <strong style="color:var(--gold)">FAQ</strong> — Préparation au don, après le don, nouveautés 2026, questions techniques. Barre de recherche intégrée.<br><br>
+          <strong style="color:var(--gold)">BeeBot™ 🐝</strong> — Assistant IA disponible 24h/24 pour répondre à toutes tes questions sur le don de sang.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 : PARAMÈTRES & C'EST PARTI -->
+    <div class="modal-step" id="ob-step-9">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🚀</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--gold)">Tu es prêt(e) !</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">⚙️ Paramètres</strong> — Configure tes intégrations (Concerto HUG, Google Agenda, compte Transfusion Croix-Rouge Suisse), choisis le mode sombre ou clair, gère tes notifications et ta confidentialité.<br><br>
+          <strong>Par où commencer ?</strong>
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
+            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
+            4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="ob-dots"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:14px">Passer</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()" style="font-size:14px">Suivant →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('questionnaire');
+// ===== QUESTIONNAIRE HUG =====
+
+// ===== QUESTIONNAIRE HUG — 3-STEP FLOW =====
+document.getElementById('qhug-read-cb')?.addEventListener('change',function(){
+  var btn=document.getElementById('qhug-step1-next');
+  if(btn){btn.style.opacity=this.checked?'1':'.5';btn.style.pointerEvents=this.checked?'auto':'none';}
+});
+document.querySelectorAll('.qhug-consent-cb').forEach(function(cb){
+  cb.addEventListener('change',function(){
+    var all=document.querySelectorAll('.qhug-consent-cb');
+    var ok=Array.from(all).every(function(c){return c.checked;});
+    var btn=document.getElementById('qhug-step2-next');
+    if(btn){btn.style.opacity=ok?'1':'.5';btn.style.pointerEvents=ok?'auto':'none';}
+  });
+});
+function qhugGoStep(n){
+  ['qhug-step1','qhug-step2','qhug-step3'].forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(el){el.style.display=(i+1===n)?'flex':'none';}
+  });
+  // Scroll to top of card
+  var card=document.querySelector('#quest-hug-acc .card');
+  if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+var qhugItems=[
+  {n:'1',q:'Avez-vous déjà fait un don de sang ?',sub:'Si oui, quand ? Où ?'},
+  {n:'2',q:'Pesez-vous plus de 50 kg ?'},
+  {n:'3',q:'Vous sentez-vous actuellement en bonne santé ?'},
+  {n:'4',q:'Au cours des 14 jours, traitement dentaire ou d\'hygiène dentaire ?'},
+  {n:'5',q:'Au cours des 4 dernières semaines, soins médicaux, fièvre >38°C, diarrhée, rhume ?'},
+  {n:'6a',q:'Au cours des 4 dernières semaines, avez-vous pris des médicaments (même sans prescription) ?',sub:'Si oui, lesquels ?'},
+  {n:'6b',q:'Médicaments contre hyperplasie prostatique/chute des cheveux (Proscar®, Propecia®) ou acné (Roaccutan®, Curakne®) ou dépression (Lithiofor®) ou migraine (Topamax®) ou troubles bipolaires (Convulex®, Tegretol®) ?'},
+  {n:'6c',q:'Au cours des 2 derniers mois, médicaments contre l\'endométriose (Lucrin Depot®) ?'},
+  {n:'6d',q:'Au cours des 4 derniers mois, thérapie antirétrovirale PEP/PrEP (Truvada®, Isentress®, Prezista®/Norvir®) ou médicaments fabriqués à partir de sang ?'},
+  {n:'6e',q:'Au cours des 6 derniers mois, médicaments contre l\'hyperplasie prostatique (Avodart®, Duodart®) ?'},
+  {n:'6f',q:'Au cours des 6 mois, cytostatiques (Méthotrexate®) contre psoriasis ou arthrite ?'},
+  {n:'6g',q:'Au cours des 3 dernières années, Neotigason®, Acicutan® (psoriasis) ou Erivedge® (carcinome basocellulaire) ?'},
+  {n:'7a',q:'Avez-vous reçu une immunothérapie (cellules ou sérum d\'origine humaine ou animale) ?'},
+  {n:'7b',q:'Au cours des 12 derniers mois, vacciné(e) contre la rage ou le tétanos ?'},
+  {n:'7c',q:'Au cours des 4 dernières semaines, autres vaccins ?',sub:'Si oui, lesquels ? Quand ?'},
+  {n:'8a',q:'Affection cardio-vasculaire ou pulmonaire (pression artérielle, infarctus, AVC, AIT, perte de conscience) ?'},
+  {n:'8b',q:'Maladie de la peau (blessure, éruption, eczéma, bouton de fièvre) ou allergies (rhume des foins, asthme) ?'},
+  {n:'8c',q:'Autres maladies (diabète, sang, coagulation, affection rénale, épilepsie, cancer, ostéoporose) ?'},
+  {n:'9',q:'Au cours des 3 dernières années, séjour à l\'hôpital, accident ou opération ?'},
+  {n:'10a',q:'Greffe de tissu humain/animal ou transplantation d\'organe ?'},
+  {n:'10b',q:'Opération du cerveau ou de la moelle épinière à l\'étranger ?'},
+  {n:'10c',q:'Hormone de croissance ou injections d\'hormones pour infertilité avant le 01.01.1986 ?'},
+  {n:'10d',q:'Vous ou un membre de votre famille, susceptible d\'être atteint(e) par la maladie de Creutzfeldt-Jakob ?'},
+  {n:'10e',q:'Au cours des 4 derniers mois, avez-vous bénéficié d\'une transfusion sanguine ?'},
+  {n:'11a',q:'Au cours des 6 derniers mois, voyage hors de la Suisse ?',sub:'Où, combien de temps ? Depuis quand de retour ?'},
+  {n:'11b',q:'Symptômes sur place ou depuis votre retour (fièvre, etc.) ?',sub:'Si oui, précisez'},
+  {n:'12a',q:'Né(e) hors de la Suisse, y avez-vous grandi ou vécu plus de 6 mois ?',sub:'Quel pays ? Depuis quand en Suisse ?'},
+  {n:'12b',q:'Votre mère est-elle née dans un pays extra-européen, y a-t-elle vécu plus de 6 mois ?',sub:'Quel pays ?'},
+  {n:'13a',q:'Toxoplasmose, mononucléose, amibiase, shigellose, FSME, bilharziose, gonorrhée, ostéomyélite, fièvre rhumatismale, tuberculose, fièvre récurrente, fièvre Q, Guillain-Barré ?'},
+  {n:'13b',q:'Paludisme/Malaria, Chagas, brucellose, échinococcose, leishmaniose, filariose, babésiose, Ebola ou autres infections graves ?'},
+  {n:'13c',q:'Au cours des 4 dernières semaines, piqûre de tique ?'},
+  {n:'13d',q:'Au cours des 4 dernières semaines, contact avec une personne ayant une maladie infectieuse ?',sub:'Si oui, laquelle ?'},
+  {n:'14',q:'Au cours des 4 derniers mois : tatouage, gastro-coloscopie, sangsues, piercing, acupuncture, épilation électrique, maquillage permanent/Microblading, contact avec du sang étranger ?',sub:'Si oui, quand et où ?'},
+  {n:'15a',q:'Nouveau ou changement de partenaire sexuel(le) au cours des 4 derniers mois ?'},
+  {n:'15b',q:'Rapport(s) sexuel(s) avec plus de 2 personnes au cours des 4 derniers mois ?'},
+  {n:'15c',q:'Rapport(s) sexuel(s) sous l\'influence de drogues de synthèse au cours des 12 derniers mois ?'},
+  {n:'15d',q:'Rapport(s) sexuel(s) contre rémunération (argent, drogues, médicaments) au cours des 12 derniers mois ?'},
+  {n:'15e',q:'Injection de drogue ?'},
+  {n:'15f',q:'Test positif VIH (sida), hépatite B ou C ?'},
+  {n:'15g',q:'Avez-vous déjà eu la syphilis ?'},
+  {n:'16a',q:'Votre partenaire a-t-il/elle eu une jaunisse (hépatite B/C) au cours des 6 derniers mois ?'},
+  {n:'16b',q:'Votre partenaire sexuel(le) a-t-il/elle contracté le virus Zika au cours des 3 derniers mois ?'},
+  {n:'17a',q:'Au cours des 12 derniers mois, rapports sexuels avec un(e) partenaire exposé(e) aux situations à risque (Q.15 / Q.16) ?'},
+  {n:'17b',q:'Au cours des 4 derniers mois, rapports sexuels avec un(e) partenaire ayant séjourné 6+ mois dans un pays à taux élevé HIV/HBV/HCV ?',sub:'Date de retour du partenaire ?'},
+  {n:'18a',q:'Si applicable : Avez-vous déjà été enceinte ?',sub:'Si oui, quand pour la dernière fois ?'}
+];
+function initQHUG(){
+  var ct=document.getElementById('qhug-questions');
+  if(!ct)return;
+  ct.innerHTML=qhugItems.map(function(q){
+    var subH=q.sub?'<input id="qh-sub-'+q.n+'" placeholder="'+q.sub+'" style="margin-top:4px;width:100%;padding:6px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:4px;color:var(--text);font-size:12px;display:none;box-sizing:border-box">':'';
+    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--dark-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--gold);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--text-dim)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button class="qh-yn" data-q="'+q.n+'" data-v="OUI" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Oui</button><button class="qh-yn" data-q="'+q.n+'" data-v="NON" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Non</button></div></div>';
+  }).join('');
+}
+function selectQH(el){
+  var q=el.getAttribute('data-q'),v=el.getAttribute('data-v');
+  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.setAttribute('aria-pressed','false');});
+  el.style.background=v==='OUI'?'var(--red-soft)':'var(--green)';
+  el.style.color='var(--dark)';
+  el.style.borderColor=v==='OUI'?'var(--red-soft)':'var(--green)';
+  el.setAttribute('aria-pressed','true');
+  el.setAttribute('data-selected','1');
+  var sub=document.getElementById('qh-sub-'+q);
+  if(sub)sub.style.display=v==='OUI'?'block':'none';
+}
+function resetHUGForm(){
+  document.querySelectorAll('#qhug-form input,#qhug-form select').forEach(function(i){i.value='';});
+  document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.removeAttribute('data-selected');b.setAttribute('aria-pressed','false');});
+  document.querySelectorAll('[id^="qh-sub-"]').forEach(function(s){s.style.display='none';s.value='';});
+}
+function generateHUGPDF(){
+  var d={};
+  ['nom','prenom','ddn','sexe','adresse','npa','localite','tel','email','poids','taille','prof','medecin'].forEach(function(k){
+    var el=document.getElementById('qh-'+k);d[k]=el?el.value:'';
+  });
+  if(!d.nom||!d.prenom||!d.ddn){alert('Merci de remplir au minimum : Nom, Prénom et Date de naissance.');return;}
+  var cbs=document.querySelectorAll('.qhug-consent-cb'); var cbOk=cbs.length? [].every.call(cbs,function(c){return c.checked;}) : true;
+  if(!cbOk){ alert('Merci de cocher les six déclarations de l’étape 2 (consentement) avant de générer le PDF.'); return; }
+  var manquantes=qhugItems.filter(function(q){ return !document.querySelector('.qh-yn[data-q="'+q.n+'"][data-selected="1"]'); });
+  if(manquantes.length){ alert('Il reste '+manquantes.length+' question'+(manquantes.length>1?'s':'')+' sans réponse ('+manquantes.slice(0,6).map(function(q){return q.n;}).join(', ')+(manquantes.length>6?'…':'')+'). Le questionnaire doit être complet.'); var first=document.querySelector('.qh-yn[data-q="'+manquantes[0].n+'"]'); if(first) first.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  var answers={};
+  qhugItems.forEach(function(q){
+    var btns=document.querySelectorAll('.qh-yn[data-q="'+q.n+'"][data-selected="1"]');
+    answers[q.n]=btns.length?btns[0].getAttribute('data-v'):'';
+    var sub=document.getElementById('qh-sub-'+q.n);
+    if(sub)answers[q.n+'_sub']=sub.value;
+  });
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Questionnaire Don du Sang - HUG</title>';
+  html+='<style>@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
+  html+='h1{font-size:14px;text-align:center;margin:5px 0}h2{font-size:11px;margin:8px 0 4px;color:#26A69A;border-bottom:1px solid #26A69A;padding-bottom:2px}';
+  html+='.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #26A69A;padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
+  html+='.info{font-size:8px;color:#666;margin:2px 0}.row{display:flex;gap:8px;margin:2px 0;flex-wrap:wrap}.field{border-bottom:1px dotted #999;min-width:100px;padding:1px 3px;flex:1}';
+  html+='.label{font-weight:bold;font-size:9px;white-space:nowrap}.q{margin:2px 0;display:flex;align-items:flex-start;padding:2px 0;border-bottom:1px dotted #eee}';
+  html+='.qn{font-weight:bold;min-width:22px;color:#26A69A}.qt{flex:1;padding-right:5px}.ans{min-width:50px;text-align:right;white-space:nowrap}';
+  html+='.box{display:inline-block;width:11px;height:11px;border:1px solid #333;margin:0 2px;text-align:center;font-size:8px;line-height:11px}.checked{background:#DC2626;color:#fff}';
+  html+='.consent{font-size:8px;margin:8px 0;padding:8px;background:#f8f9fa;border-left:3px solid #26A69A}';
+  html+='.sig{margin-top:15px;display:flex;gap:15px}.sig-field{flex:1;border-bottom:1px solid #333;padding-top:25px;text-align:center;font-size:9px}';
+  html+='.reserved{margin-top:15px;border:2px solid #26A69A;padding:10px;background:#f8fffe}.reserved h3{margin:0 0 8px;font-size:11px;color:#26A69A}';
+  html+='.reserved-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.reserved-field{border:1px solid #ccc;padding:5px;min-height:25px}.reserved-field label{font-size:8px;color:#666;display:block}';
+  html+='.footer{margin-top:10px;text-align:center;font-size:8px;color:#999;border-top:1px solid #eee;padding-top:5px}';
+  html+='.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5px}@media print{body{margin:5mm}}</style></head><body>';
+  // Header
+  html+='<div class="header"><div style="font-size:24px;font-weight:900"><span style="color:#7BBC6F">H</span><span style="color:#4DB6AC">U</span><span style="color:#26A69A">G</span></div>';
+  html+='<div class="header-center"><h1>Centre de Transfusion Sanguine</h1>';
+  html+='<div class="info">Rue Gabrielle-Perret-Gentil 6, 1205 Genève | T.+41(0)22 372 39 01</div>';
+  html+='<div class="info">Accueil.Donneurs@hug.ch | www.dondusang.ch</div>';
+  html+='<div class="info"><strong>Horaires:</strong> Lu-Ma-Me-Ve: 7h30-15h | Je: 11h-19h | Sam 1er et 3ème: 8h30-12h</div>';
+  html+='</div><div style="color:#DC2626;font-weight:bold;font-size:10px">BeeMyBlood™</div></div>';
+  // Personal info
+  html+='<h2>INSCRIPTION AU DON DU SANG</h2>';
+  html+='<div class="row"><span class="label">Nom:</span><span class="field">'+d.nom+'</span><span class="label">Prénom(s):</span><span class="field">'+d.prenom+'</span></div>';
+  html+='<div class="row"><span class="label">Date naissance:</span><span class="field">'+d.ddn+'</span><span class="label">Sexe:</span><span class="box '+(d.sexe==='M'?'checked':'')+'">M</span><span class="box '+(d.sexe==='F'?'checked':'')+'">F</span></div>';
+  html+='<div class="row"><span class="label">Adresse:</span><span class="field" style="flex:2">'+d.adresse+'</span></div>';
+  html+='<div class="row"><span class="label">NPA:</span><span class="field">'+d.npa+'</span><span class="label">Localité:</span><span class="field">'+d.localite+'</span><span class="label">Tél:</span><span class="field">'+d.tel+'</span></div>';
+  html+='<div class="row"><span class="label">E-mail:</span><span class="field">'+d.email+'</span><span class="label">Poids:</span><span class="field">'+d.poids+' kg</span><span class="label">Taille:</span><span class="field">'+d.taille+' cm</span></div>';
+  html+='<div class="row"><span class="label">Profession:</span><span class="field">'+d.prof+'</span><span class="label">Médecin traitant:</span><span class="field">'+d.medecin+'</span></div>';
+  // Consent
+  html+='<div class="consent"><p style="margin:0 0 5px;font-weight:bold">En signant ce document, je confirme :</p>';
+  html+='<p>☑ Je consens à donner de mon sang.</p>';
+  html+='<p>☑ J\'ai lu et compris le Formulaire d\'information ANH Art.7.7 (version 3, 01.02.2026).</p>';
+  html+='<p>☑ Je confirme l\'exactitude de mes données personnelles et la véracité de mes réponses.</p>';
+  html+='<p>☑ J\'accepte les tests biologiques (pouvant comporter des méthodes génétiques) et la conservation d\'échantillons.</p>';
+  html+='<p>☑ J\'accepte que certains composants soient utilisés pour la fabrication de médicaments et la recherche médicale après anonymisation.</p>';
+  html+='<p>☑ Mes données sont soumises au secret médical (T-CH / SRTS).</p></div>';
+  // Questions
+  html+='<h2>QUESTIONNAIRE MÉDICAL</h2><div class="two-col">';
+  qhugItems.forEach(function(q){
+    var a=answers[q.n]||'';
+    var sub=answers[q.n+'_sub']?(' ('+answers[q.n+'_sub']+')') :'';
+    html+='<div class="q"><span class="qn">'+q.n+'.</span><span class="qt">'+q.q+sub+'</span><span class="ans"><span class="box '+(a==='OUI'?'checked':'')+'">O</span><span class="box '+(a==='NON'?'checked':'')+'">N</span></span></div>';
+  });
+  html+='</div>';
+  // Signatures
+  var today=new Date().toLocaleDateString('fr-CH');
+  html+='<div class="sig"><div class="sig-field">Date: '+today+'</div><div class="sig-field">Nom: '+d.nom+' '+d.prenom+'</div><div class="sig-field">Naissance: '+d.ddn+'</div><div class="sig-field">Signature du donneur</div></div>';
+  // Reserved
+  html+='<div class="reserved"><h3>RÉSERVÉ AU CENTRE DE TRANSFUSION SANGUINE</h3><div class="reserved-grid">';
+  ['Q n°','Visa accueil','Visa infirmier','Visa médecin','Pouls','TA','Hb capillaire','Groupe sanguin','Type de don','N° prélèvement','Durée','Heure fin'].forEach(function(l){html+='<div class="reserved-field"><label>'+l+'</label></div>';});
+  html+='</div></div>';
+  html+='<div class="footer">ANH-Art7.6v3 - Document pré-rempli via BeeMyBlood™ | '+today+'</div>';
+  html+='<script>window.onload=function(){window.print();}<\/script></body></html>';
+  var blob=new Blob([html],{type:'text/html'});
+  var url=URL.createObjectURL(blob);
+  var win=window.open(url,'_blank');
+  if(!win){
+    showToast('⚠️ Autorise les fenêtres pop-up pour générer le PDF, puis réessaie.');
+    URL.revokeObjectURL(url);
+    return;
+  }
+  setTimeout(function(){URL.revokeObjectURL(url);},60000);
+  showToast('🖨️ Questionnaire ouvert dans un nouvel onglet — utilise "Imprimer → Enregistrer en PDF".');
+}
+
+// refonte-multipage : la liste de questions n'etait initialisee que via go('eligibilite')
+// dans la SPA ; on l'appelle explicitement ici au chargement de la page.
+initQHUG();
+// L'accordeon s'ouvrait automatiquement quand on arrivait depuis le pre-test ou le bouton
+// "Passe directement au questionnaire" ; ici la page entiere y est dediee, on l'ouvre d'office.
+openAcc('quest-hug-acc');
+
+// Pont depuis le pre-test d'eligibilite (voir generateForm() dans app.js/eligibilite.html) :
+// le sexe repere par le pre-test est transmis via sessionStorage plutot que par une variable
+// JS partagee (les deux pages ne partagent plus le meme contexte d'execution).
+try{
+  var _bmbQhSexe=sessionStorage.getItem('bmb-qh-sexe');
+  if(_bmbQhSexe) sessionStorage.removeItem('bmb-qh-sexe');
+  var _sx=document.getElementById('qh-sexe');
+  if(_sx && _bmbQhSexe && !_sx.value) _sx.value=_bmbQhSexe;
+}catch(e){}
+
+// Nom/prenom de la personne connectee, si elle l'est ; le reste se remplit a la main.
+// Remplace l'appel synchrone a BeeAcces.etat() de l'ancien generateForm() (fiable une fois le
+// questionnaire deja ouvert dans la SPA) par onDeverrouille(), qui attend la resolution de la
+// session cote acces.js avant de lire l'etat - necessaire ici car ce code tourne des le
+// chargement de la page, potentiellement avant que cette resolution soit terminee.
+try{
+  if(window.BeeAcces && window.BeeAcces.onDeverrouille){
+    window.BeeAcces.onDeverrouille(function(et){
+      if(et && et.nom){
+        var parts=String(et.nom).trim().split(/\s+/);
+        var pre=document.getElementById('qh-prenom'), nom=document.getElementById('qh-nom');
+        if(pre && !pre.value) pre.value=parts.slice(0,-1).join(' ')||parts[0];
+        if(nom && !nom.value && parts.length>1) nom.value=parts[parts.length-1];
+      }
+    });
+  }
+}catch(e){}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>

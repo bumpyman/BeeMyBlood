@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" data-v="hero">Accueil</button>
-    <button class="nav-tab" data-v="eligibilite">Éligibilité</button>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
     <a class="nav-tab" href="hemorush.html">HémoRush™</a>
     <a class="nav-tab" href="centres.html">Collectes</a>
     <div class="nav-group" data-menu="nav-group-menu-espace">
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="mob-section-label">Découvrir</div>
   <div class="mob-menu-grid">
     <div class="mob-item" onclick="location.href='guide.html'"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></div>
-    <div class="mob-item" onclick="goMob('eligibilite')"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></div>
+    <div class="mob-item" onclick="location.href='eligibilite.html'"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></div>
     <div class="mob-item" onclick="location.href='centres.html'"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></div>
     <div class="mob-item" onclick="goMob('impact')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></div>
     <div class="mob-item" onclick="location.href='beebot.html'"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div style="font-size:20px;font-weight:600;margin:0 auto 12px;text-align:center;animation:slideUp .5s ease .3s both;opacity:0;line-height:1.6" class="hero-tagline">Chaque donneur est un héros,<br class="mob-br"> <span style="color:var(--gold)">pas un numéro.</span></div>
 
   <div class="hero-actions">
-    <button class="btn btn-gold" onclick="go('eligibilite')">✅ Puis-je donner ?</button>
+    <a class="btn btn-gold" href="eligibilite.html">✅ Puis-je donner ?</a>
     <a class="btn btn-outline" href="centres.html">📍 Trouver un centre</a>
     <a class="btn btn-outline" href="hemorush.html">🎮 Jouer à HémoRush™</a>
   </div>
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hero-feat" onclick="go('dashboard')"><div class="hero-feat-icon">📊</div><div class="hero-feat-title">Dashboard</div><div class="hero-feat-sub">Suivi personnalisé</div></div>
       <div class="hero-feat" onclick="location.href='guide.html'"><div class="hero-feat-icon">📺</div><div class="hero-feat-title">Guide du don</div><div class="hero-feat-sub">5 étapes · Vidéo 2 min</div></div>
       <div class="hero-feat" onclick="location.href='hemorush.html'"><div class="hero-feat-icon">🎮</div><div class="hero-feat-title">HémoRush™</div><div class="hero-feat-sub">Jeu de matching sanguin</div></div>
-      <div class="hero-feat" onclick="go('eligibilite')"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
+      <div class="hero-feat" onclick="location.href='eligibilite.html'"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
       <div class="hero-feat" onclick="go('vr')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
       <div class="hero-feat" onclick="location.href='beebot.html'"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
       <div class="hero-feat" onclick="location.href='faq.html'"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center">
         <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold btn-sm">📅 Prendre RDV sur OneDoc</a>
         <a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm">🏥 Site du CTS HUG</a>
-        <button class="btn btn-outline btn-sm" onclick="go('eligibilite')">✅ Test d'éligibilité</button>
+        <a class="btn btn-outline btn-sm" href="eligibilite.html">✅ Test d'éligibilité</a>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
@@ -895,272 +895,6 @@ document.addEventListener('DOMContentLoaded',function(){
 </div><!-- /v-dashboard -->
 
 
-<!-- ==================== ELIGIBILITY ==================== -->
-<div class="view" id="v-eligibilite">
-  <div class="sec-header"><div class="sec-label">✅ Pré-éligibilité</div><div class="sec-title">Puis-je donner mon sang ?</div><div class="sec-sub">Test rapide en 8 questions · 30 secondes · Résultat immédiat</div></div>
-  <div class="elig-card" id="elig-card"></div>
-  <!-- Form generated here -->
-  <div id="form-area" style="display:none;margin-top:24px">
-    <div class="sec-header"><div class="sec-label">📄 Formulaire pré-rempli</div><div class="sec-title">Questionnaire médical de pré-don</div><div class="sec-sub">Imprimez-le et apportez-le au centre. Gain de temps : ~15 minutes.</div></div>
-    <div class="form-preview" id="form-preview"></div>
-    <div style="text-align:center;margin-top:16px">
-      <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimer le formulaire</button>
-      <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline" style="margin-left:8px">📅 Prendre RDV sur OneDoc</a>
-    </div>
-  </div>
-
-
-
-    <div style="margin-top:12px;padding:12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);text-align:center">
-      <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">✅ Éligible ? Passe directement au questionnaire médical</div>
-      <button class="btn btn-gold btn-sm" onclick="var t=document.querySelector('[data-target=quest-hug-acc]');if(t&&!t.classList.contains('open'))t.click();setTimeout(function(){document.getElementById('quest-hug-acc').scrollIntoView({behavior:'smooth',block:'start'});},400)">📋 Remplir le questionnaire HUG</button>
-    </div>
-
-  <!-- QUESTIONNAIRE MÉDICAL HUG COMPLET -->
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="quest-hug-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Questionnaire médical HUG — pré-remplissage + PDF <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="quest-hug-acc">
-  <div class="card" style="margin-top:8px;border:1px solid rgba(200,169,96,.2)">
-    <div class="card-header"><div class="card-title">📋 Questionnaire médical — Centre de Transfusion HUG</div><span class="badge badge-gold">ANH-Art7.6v3 · Fév. 2026</span></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Remplis ce formulaire à l'avance et génère un PDF à imprimer. Gain de temps au CTS : ~15 min.</div>
-
-    <!-- ====== ÉTAPE 1 : Formulaire d'information ANH Art.7.7 ====== -->
-    <div id="qhug-step1" style="display:flex;flex-direction:column;gap:10px">
-      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">📄 Étape 1/3 — Formulaire d'information</div>
-      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.7;color:var(--text-dim)">
-        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">Annexe Art. 7.7 — Formulaire d'information pour les donneuses et donneurs de sang</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Type : ANH · Version 3 · En vigueur depuis le 01.02.2026 · Transfusion CRS Suisse · N° 3391</div>
-        <details style="margin-bottom:8px">
-          <summary style="cursor:pointer;font-weight:600;color:var(--gold);font-size:13px">🩸 Sang et transfusions sanguines</summary>
-          <div style="padding:8px 0;font-size:13px;line-height:1.7">Le sang et ses composants remplissent de nombreuses fonctions vitales. Un malade ou un blessé peut avoir besoin d'une transfusion pour guérir, voire pour rester en vie. C'est l'acte médical le plus courant en milieu hospitalier. En Suisse, les transfusions sont possibles à condition que suffisamment de volontaires en bonne santé acceptent de donner de leur sang.</div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary style="cursor:pointer;font-weight:600;color:var(--gold);font-size:13px">💉 Don de sang — effets et précautions</summary>
-          <div style="padding:8px 0;font-size:13px;line-height:1.7">Le don consiste en une ponction veineuse au pli du coude (~500 ml en 10 min). Effets possibles : chute de pression artérielle (malaise), hématome ou lésion nerveuse au point de ponction. La majorité est sans gravité et de très courte durée. Après le don, respecter un délai d'au moins <strong>12 heures</strong> avant toute activité à risque.</div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary style="cursor:pointer;font-weight:600;color:var(--red-soft);font-size:13px">🚫 Contre-indications définitives</summary>
-          <div style="padding:8px 0;font-size:13px;line-height:1.7">1. Test positif HIV, hépatites B/C, syphilis<br>2. Injection de drogue (ancienne ou actuelle)</div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary style="cursor:pointer;font-weight:600;color:var(--orange);font-size:13px">⏳ Contre-indications temporaires</summary>
-          <div style="padding:8px 0;font-size:13px;line-height:1.7">3. Rapport sexuel contre rémunération<br>4. MST au cours des 12 derniers mois<br>5. Changement de partenaire sexuel (4 derniers mois)<br>6. Plus de 2 partenaires (4 derniers mois)<br>7. Séjours à l'étranger (6 derniers mois — voir <a href="https://www.blutspende.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--blue)">Travelcheck</a>)<br>8. Interventions/traitements médicaux ou esthétiques<br>9. Thérapie antirétrovirale PEP/PrEP (4 derniers mois)<br>10. Rapport sexuel avec partenaire exposé aux situations 1-7</div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary style="cursor:pointer;font-weight:600;color:var(--blue);font-size:13px">🔬 Tests biologiques</summary>
-          <div style="padding:8px 0;font-size:13px;line-height:1.7">Dépistage systématique à chaque don : HIV, hépatites B/C/E, syphilis, et si nécessaire Parvovirus B19 et hépatite A. Si un test est réactif, vous êtes immédiatement informé(e). Des analyses de groupe sanguin ABO, Rhésus et autres sont également réalisées.</div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary style="cursor:pointer;font-weight:600;color:var(--green);font-size:13px">📞 Informations post-don</summary>
-          <div style="padding:8px 0;font-size:13px;line-height:1.7">Après le don, informez rapidement votre CTS si : vous ou votre entourage tombez malade, vous réalisez ne pas avoir répondu correctement au questionnaire, ou si des complications surviennent. Vos données sont soumises au secret médical.</div>
-        </details>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <a href="https://www.blutspende-nordwestschweiz.ch/media/filer_public/ab/ad/abad81ea-ebd4-4cbc-9f1c-0a4b2a88ec8d/annexe_art_77_formulaire_dinformation.pdf" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm" style="text-decoration:none">📄 Lire le document officiel (PDF)</a>
-        </div>
-      </div>
-      <label id="qhug-read-check" style="display:flex;align-items:center;gap:8px;padding:10px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.2);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">
-        <input type="checkbox" id="qhug-read-cb" style="width:18px;height:18px;accent-color:var(--green)">
-        <span>J'ai lu le Formulaire d'information ANH Art.7.7 et je suis informé(e)</span>
-      </label>
-      <button class="btn btn-gold" id="qhug-step1-next" onclick="qhugGoStep(2)" style="opacity:.5;pointer-events:none">Continuer → Consentement</button>
-    </div>
-
-    <!-- ====== ÉTAPE 2 : Consentement ====== -->
-    <div id="qhug-step2" style="display:none;flex-direction:column;gap:10px">
-      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">✅ Étape 2/3 — Consentement</div>
-      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.8;color:var(--text-dim)">
-        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px">En cochant ci-dessous, je confirme :</div>
-        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je consens à donner de mon sang.</span></label>
-        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je confirme avoir lu et compris le Formulaire d'information ANH Art.7.7 et avoir reçu toutes les explications nécessaires.</span></label>
-        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je confirme l'exactitude de mes données personnelles et la véracité de mes réponses au questionnaire médical.</span></label>
-        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je sais que mon sang est soumis à des tests biologiques (pouvant comporter des méthodes génétiques) et qu'un échantillon sera conservé. J'accepte d'être informé(e) des résultats en cas d'anomalie.</span></label>
-        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>J'accepte que certains composants de mon don puissent être utilisés pour la fabrication de médicaments et qu'une partie soit utilisée pour la recherche médicale après anonymisation définitive.</span></label>
-        <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je comprends que mes données sont soumises au secret médical, utilisées par Transfusion CRS Suisse et les SRTS, et que seules les informations codées sont transmises pour les soins aux patients.</span></label>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-outline" onclick="qhugGoStep(1)">← Retour</button>
-        <button class="btn btn-gold" id="qhug-step2-next" onclick="qhugGoStep(3)" style="opacity:.5;pointer-events:none">Continuer → Questionnaire</button>
-      </div>
-    </div>
-
-    <!-- ====== ÉTAPE 3 : Questionnaire médical ====== -->
-    <div id="qhug-step3" style="display:none;flex-direction:column;gap:10px">
-      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">🩺 Étape 3/3 — Questionnaire médical</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;line-height:1.6">Répondez avec sincérité pour votre sécurité et celle des patients. <a href="https://www.hug.ch/sites/interhug/files/structures/don_du_sang/cts-questionnairedondusangv01fev26.pdf" target="_blank" aria-describedby="ext-link-notice" style="color:var(--blue)">📄 Voir le questionnaire officiel HUG (PDF)</a></div>
-
-      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">👤 Informations personnelles</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div><label for="qh-nom" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Nom *</label><input id="qh-nom" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-prenom" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Prénom(s) *</label><input id="qh-prenom" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-ddn" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Date de naissance *</label><input id="qh-ddn" required type="date" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-sexe" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Sexe *</label><select id="qh-sexe" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"><option value="">—</option><option value="M">M</option><option value="F">F</option></select></div>
-        <div style="grid-column:1/-1"><label for="qh-adresse" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Adresse *</label><input id="qh-adresse" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-npa" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">NPA *</label><input id="qh-npa" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-localite" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Localité *</label><input id="qh-localite" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-tel" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Tél. mobile *</label><input id="qh-tel" required type="tel" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-email" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">E-mail</label><input id="qh-email" type="email" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-poids" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Poids (kg) *</label><input id="qh-poids" required type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-taille" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Taille (cm) *</label><input id="qh-taille" required type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-prof" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Profession</label><input id="qh-prof" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-medecin" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Médecin traitant</label><input id="qh-medecin" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-      </div>
-
-      <!-- Section 2: Questions médicales OUI/NON -->
-      <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:10px 0 2px;border-top:1px solid var(--dark-border);margin-top:4px">🩺 Questionnaire médical</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Répondez avec sincérité pour votre sécurité et celle des patients.</div>
-      <div id="qhug-questions" style="display:flex;flex-direction:column;gap:4px"></div>
-
-      <!-- Buttons -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-        <button class="btn btn-outline" onclick="qhugGoStep(2)">← Retour au consentement</button>
-        <button class="btn btn-gold" onclick="generateHUGPDF()">📥 Générer le PDF</button>
-        <button class="btn btn-outline" onclick="resetHUGForm()">🔄 Réinitialiser</button>
-      </div>
-    </div><!-- /step3 -->
-  </div>
-  </div><!-- /quest-hug-acc -->
-
-  <!-- CRS CRITERIA REFERENCE -->
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="crs-criteria-acc" style="font-size:13px;padding:6px 10px;margin-top:16px">📕 Critères d'aptitude CRS Suisse <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="crs-criteria-acc">
-  <div class="card" style="margin-top:8px">
-    <div class="card-header">
-      <div class="card-title">📕 Critères d'aptitude — Transfusion CRS Suisse (Annexe Art. 7.5)</div>
-      <span class="badge badge-gold">Référence officielle</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;font-size:15px">
-      <span style="color:var(--text-dim)">Source : <strong style="color:var(--text)">Chapitre 17 B</strong>, Critères d'aptitude au don de sang</span>
-      <span style="padding:3px 8px;border-radius:6px;background:rgba(230,57,70,.1);color:var(--red-soft);font-weight:600;font-size:14px">CID = contre-indication définitive</span>
-      <span style="padding:3px 8px;border-radius:6px;background:rgba(255,165,0,.1);color:var(--orange);font-weight:600;font-size:14px">CIT = contre-indication temporaire</span>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:2px" id="crs-list">
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">🧍 Conditions générales</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Âge</span><span class="crs-v">18–65 ans sang complet/aphérèse · Premier don : décision médicale si ≥60 ans · 65–75 ans : donneurs réguliers avec autorisation médicale annuelle</span></div>
-          <div class="crs-row"><span class="crs-k">Poids</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong> si <50 kg</span></div>
-          <div class="crs-row"><span class="crs-k">Hémoglobine</span><span class="crs-v">Femmes ≥125 g/l · Hommes ≥135 g/l (sang total)</span></div>
-          <div class="crs-row"><span class="crs-k">Fièvre (>38°C)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 2 semaines après disparition des symptômes</span></div>
-          <div class="crs-row"><span class="crs-k">Alcool</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> si ivresse aiguë</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">💉 Tatouages, piercings & actes invasifs</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Tatouage / Tattoo</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Piercing</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Maquillage permanent / Microblading</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Acupuncture</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois si stérilité non garantie</span></div>
-          <div class="crs-row"><span class="crs-k">Gastro-/coloscopie</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Contact sang étranger</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">❤️ Rapports sexuels & partenaires</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Nouveau partenaire</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois après le dernier contact</span></div>
-          <div class="crs-row"><span class="crs-k">>2 partenaires en 4 mois</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 12 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Chem-Sex (drogues de synthèse)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 12 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Sexwork (rémunération)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 12 mois (4 mois si cessation ≥12 mois)</span></div>
-          <div class="crs-row"><span class="crs-k">Partenaire avec hépatite B/C</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 6 mois après dernier contact</span></div>
-          <div class="crs-row"><span class="crs-k">Partenaire VIH+ ou syphilis+</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 12 mois après dernier contact</span></div>
-          <div class="crs-row"><span class="crs-k">Partenaire de retour de pays à risque (>6 mois)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois après retour du partenaire</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">🚫 Contre-indications définitives (CID)</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">VIH / SIDA positif</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong></span></div>
-          <div class="crs-row"><span class="crs-k">Hépatite B ou C positif</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong></span></div>
-          <div class="crs-row"><span class="crs-k">Injection de drogue (IV)</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong> ancienne ou actuelle</span></div>
-          <div class="crs-row"><span class="crs-k">Poids <50 kg</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong></span></div>
-          <div class="crs-row"><span class="crs-k">Drépanocytose (anémie falciforme)</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong></span></div>
-          <div class="crs-row"><span class="crs-k">Thalassémie majeure/intermédiaire</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong> (mineure : accepté si Hb OK)</span></div>
-          <div class="crs-row"><span class="crs-k">Greffe d'organe / transplantation</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong></span></div>
-          <div class="crs-row"><span class="crs-k">Maladie de Creutzfeldt-Jakob</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong></span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">💊 Médicaments & traitements</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Antibiotiques</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 2 semaines après arrêt + rétablissement complet</span></div>
-          <div class="crs-row"><span class="crs-k">Isotrétinoïne (Roaccutan®, Curakne®)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 semaines après dernière prise</span></div>
-          <div class="crs-row"><span class="crs-k">Acitrétine (Acicutan®, Neotigason®)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 3 ans après dernière prise</span></div>
-          <div class="crs-row"><span class="crs-k">PrEP / PEP (antirétroviraux VIH)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois après dernière prise</span></div>
-          <div class="crs-row"><span class="crs-k">Dutastéride (Avodart®, Duodart®)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 6 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Finastéride (Proscar®, Propecia®)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 semaines</span></div>
-          <div class="crs-row"><span class="crs-k">Anticoagulants</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 1 à 3 mois selon molécule</span></div>
-          <div class="crs-row"><span class="crs-k">Méthotrexate (psoriasis, arthrite)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 6 mois après arrêt</span></div>
-          <div class="crs-row"><span class="crs-k">Lithium, Topamax®, Tegretol®</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 semaines après dernière prise</span></div>
-          <div class="crs-row"><span class="crs-k">Méthylphénidate (Ritaline®)</span><span class="crs-v">Accepté</span></div>
-          <div class="crs-row"><span class="crs-k">Cannabis</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> si sous l'emprise</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">💉 Vaccins</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Rage, Tétanos</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 12 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Autres vaccins (grippe, COVID, etc.)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 semaines en général</span></div>
-          <div class="crs-row"><span class="crs-k">Prophylaxie paludisme</span><span class="crs-v">Accepté si prise avant le voyage</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">✈️ Voyages & paludisme</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Voyage hors Suisse</span><span class="crs-v">Selon pays — voir <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice">Travelcheck blutspende.ch/fr</a></span></div>
-          <div class="crs-row"><span class="crs-k">Retour de zone endémique (paludisme)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois si test négatif · 6 mois sans test</span></div>
-          <div class="crs-row"><span class="crs-k">Séjour >6 mois en zone endémique</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois si test négatif (obligatoire)</span></div>
-          <div class="crs-row"><span class="crs-k">Paludisme — test positif</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 3 ans puis nouveau test · <strong style="color:var(--red-soft)">CID</strong> si 2e test positif</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">🤰 Grossesse & allaitement</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Grossesse</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> durant toute la grossesse + 12 mois après accouchement</span></div>
-          <div class="crs-row"><span class="crs-k">Désir de grossesse</span><span class="crs-v">Accepté (CIT 6 mois si Clomid®/clomifène)</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">🏥 Chirurgie & soins dentaires</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Hygiène dentaire</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 14 jours</span></div>
-          <div class="crs-row"><span class="crs-k">Chirurgie dentaire / Abcès</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> rétablissement complet + 2 sem. après antibiotiques</span></div>
-          <div class="crs-row"><span class="crs-k">Chirurgie générale</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> selon intervention, rétablissement complet requis</span></div>
-          <div class="crs-row"><span class="crs-k">Ostéosynthèse</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 3 mois</span></div>
-          <div class="crs-row"><span class="crs-k">Transfusion sanguine reçue</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 mois</span></div>
-        </div>
-      </div>
-
-      <div class="crs-cat" onclick="this.classList.toggle('open')">
-        <div class="crs-cat-head">🦠 Maladies & infections</div>
-        <div class="crs-cat-body">
-          <div class="crs-row"><span class="crs-k">Cancer</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> ≥12 mois après fin de traitement + rémission · Évaluation médicale</span></div>
-          <div class="crs-row"><span class="crs-k">Piqûre de tique</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 4 semaines</span></div>
-          <div class="crs-row"><span class="crs-k">Fièvre hémorragique (Lassa, Marburg, Ebola)</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 12 mois après guérison</span></div>
-          <div class="crs-row"><span class="crs-k">Guillain-Barré</span><span class="crs-v"><strong style="color:var(--orange)">CIT</strong> 2 ans après rétablissement complet sans séquelles</span></div>
-          <div class="crs-row"><span class="crs-k">Syphilis (antécédent)</span><span class="crs-v">Évaluation médicale requise</span></div>
-          <div class="crs-row"><span class="crs-k">Maladie de Chagas</span><span class="crs-v"><strong style="color:var(--red-soft)">CID</strong> si infection avérée</span></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="margin-top:14px;font-size:15px;color:var(--text-muted);line-height:1.6">
-      📌 Cette liste est un résumé des critères les plus courants. Le document complet est disponible sur le site de <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>.<br>
-      En cas de doute, le médecin du SRTS procède à une évaluation individuelle. Le personnel ne doit pas accepter un don en cas de doute.
-    </div>
-  </div>
-  </div><!-- /acc-body crs-criteria -->
-</div>
 
 
 
@@ -3712,85 +3446,6 @@ function cycleWrappedVid(){
 
 
 // ===== ELIGIBILITY TEST =====
-const ELIG_QS=[
-  {q:'Quel âge avez-vous ?',opts:['Moins de 18 ans','18 à 35 ans','36 à 65 ans','Plus de 65 ans'],ok:[1,2],ko:'Il faut avoir entre 18 et 65 ans pour donner son sang en Suisse.'},
-  {q:'Combien pesez-vous ?',opts:['Moins de 50 kg','50 kg ou plus'],ok:[1],ko:'Le poids minimum requis est de 50 kg.'},
-  {q:'Vous sentez-vous en bonne santé aujourd\'hui ?',opts:['Oui, je me sens bien','Non, je suis malade ou fatigué(e)'],ok:[0],ko:'Il est préférable de donner quand vous vous sentez en pleine forme.'},
-  {q:'Avez-vous voyagé hors d\'Europe dans les 4 derniers mois ?',opts:['Non','Oui, dans un pays à risque (paludisme, etc.)','Oui, mais dans un pays sans risque particulier'],ok:[0,2],ko:'Certains voyages imposent un délai d\'attente. Vérifiez avec le médecin du CTS.'},
-  {q:'Avez-vous pris des médicaments cette semaine (hors contraception) ?',opts:['Non','Oui, des antibiotiques','Oui, autre chose'],ok:[0],ko:'Certains médicaments imposent un délai. Le médecin du CTS vous confirmera.'},
-  {q:'Avez-vous eu une intervention chirurgicale ou un tatouage dans les 4 derniers mois ?',opts:['Non','Oui'],ok:[0],ko:'Un délai de 4 mois est requis après une chirurgie ou un tatouage.'},
-  {q:'Avez-vous déjà donné votre sang ?',opts:['Non, c\'est ma première fois ! 🎉','Oui, il y a plus de 3 mois','Oui, il y a moins de 3 mois'],ok:[0,1],ko:'Il faut attendre au minimum 3 mois (hommes) ou 4 mois (femmes) entre deux dons.'},
-  {q:'Quel est votre genre biologique ? (pour le calcul de fréquence de don)',opts:['Femme','Homme','Préfère ne pas répondre'],ok:[0,1,2],ko:''},
-];
-let eligStep=0,eligAnswers=[];
-function initElig(){eligStep=0;eligAnswers=[];renderElig();}
-function renderElig(){
-  const card=document.getElementById('elig-card');
-  if(eligStep>=ELIG_QS.length){renderEligResult();return;}
-  const q=ELIG_QS[eligStep];
-  let h='<div class="elig-progress">'+ELIG_QS.map((_,i)=>'<div class="elig-step'+(i<eligStep?' done':i===eligStep?' current':'')+'"></div>').join('')+'</div>';
-  h+='<div class="elig-q"><span class="num">'+(eligStep+1)+'/'+ELIG_QS.length+'</span> — '+q.q+'</div>';
-  h+='<div class="elig-opts">'+q.opts.map((o,i)=>'<div class="elig-opt" onclick="eligAnswer('+i+')"><div class="check"></div><span>'+o+'</span></div>').join('')+'</div>';
-  if(eligStep>0)h+='<div class="elig-nav"><button class="btn btn-outline btn-sm" onclick="eligStep--;renderElig()">← Retour</button><div></div></div>';
-  card.innerHTML=h;
-}
-function eligAnswer(i){
-  eligAnswers[eligStep]=i;
-  const q=ELIG_QS[eligStep];
-  const opts=document.querySelectorAll('.elig-opt');
-  opts[i].classList.add('selected');opts[i].querySelector('.check').textContent='✓';
-  
-  // If answer is NOT ok and there's a ko message → stop immediately
-  if(!q.ok.includes(i)&&q.ko){
-    opts[i].style.borderColor='var(--orange)';opts[i].style.background='rgba(255,159,67,.08)';
-    setTimeout(()=>{renderEligStop(q.ko);},500);
-    return;
-  }
-  setTimeout(()=>{eligStep++;renderElig();},400);
-}
-function renderEligStop(reason){
-  const card=document.getElementById('elig-card');
-  const answered=eligStep+1;
-  card.innerHTML='<div class="elig-progress">'+ELIG_QS.map((_,i)=>'<div class="elig-step'+(i<eligStep?' done':i===eligStep?' current':'')+'"></div>').join('')+'</div>'+
-    '<div class="elig-result"><div class="elig-result-icon">⚠️</div>'+
-    '<h3 style="color:var(--orange)">Éligibilité à vérifier</h3>'+
-    '<p style="font-size:15px;color:var(--text-dim);line-height:1.6;margin:12px 0">'+reason+'</p>'+
-    '<p style="font-size:14px;color:var(--text-dim);margin:8px 0">Cela ne veut pas forcément dire que vous ne pouvez pas donner — le médecin du CTS pourra vous confirmer.</p>'+
-    '<div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+
-    '<button class="btn btn-gold" onclick="goChat()">🤖 Vérifier avec le chatbot IA</button>'+
-    '<a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline" style="text-decoration:none">🏥 Contacter le CTS HUG</a>'+
-    '<button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
-  window._eligWarnings=[reason];
-}
-function renderEligResult(){
-  let pass=true,warnings=[];
-  eligAnswers.forEach((a,i)=>{
-    const q=ELIG_QS[i];
-    if(!q.ok.includes(a)&&q.ko){warnings.push(q.ko);pass=false;}
-  });
-  const card=document.getElementById('elig-card');
-  if(pass){
-    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">🎉</div><h3 style="color:var(--green)">Vous êtes probablement éligible !</h3><p>Tous les voyants sont au vert. La validation finale se fera avec le médecin du centre de transfusion.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold" style="text-decoration:none">📅 Prendre RDV sur OneDoc</a><button class="btn btn-outline" onclick="generateForm()">📝 Remplir mon questionnaire HUG</button><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
-  }else{
-    card.innerHTML='<div class="elig-result"><div class="elig-result-icon">⚠️</div><h3 style="color:var(--orange)">Éligibilité à vérifier</h3><p>Quelques points nécessitent une vérification avec le médecin :</p><ul style="text-align:left;margin:12px 0;padding-left:20px;font-size:15px;color:var(--text-dim);line-height:1.8">'+warnings.map(w=>'<li>'+w+'</li>').join('')+'</ul><p>Cela ne veut pas forcément dire que vous ne pouvez pas donner — le médecin du CTS pourra vous confirmer.</p><div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn btn-gold" onclick="goChat()">🤖 Vérifier avec le chatbot IA</button><a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline" style="text-decoration:none">🏥 Contacter le CTS HUG</a><button class="btn btn-outline btn-sm" onclick="initElig()">🔄 Refaire le test</button></div></div>';
-    // Store warnings for chatbot context
-    window._eligWarnings=warnings;
-  }
-  document.getElementById('form-area').style.display=pass?'block':'none';
-}
-function generateForm(){
-  var area=document.getElementById('form-area'); if(area) area.style.display='none';
-  var t=document.querySelector('[data-target=quest-hug-acc]'); if(t && !t.classList.contains('open')) t.click();
-  try{ if(typeof qhugGoStep==='function') qhugGoStep(1); }catch(e){}
-  // nom et prénom de la personne connectée, si elle l'est ; le reste se remplit à la main
-  try{
-    var et = window.BeeAcces && window.BeeAcces.etat && window.BeeAcces.etat();
-    if(et && et.nom){ var parts=String(et.nom).trim().split(/\s+/); var pre=document.getElementById('qh-prenom'), nom=document.getElementById('qh-nom'); if(pre && !pre.value) pre.value=parts.slice(0,-1).join(' ')||parts[0]; if(nom && !nom.value && parts.length>1) nom.value=parts[parts.length-1]; }
-    var g=(typeof eligAnswers!=='undefined')?(eligAnswers[7]===0?'F':eligAnswers[7]===1?'M':''):''; var sx=document.getElementById('qh-sexe'); if(sx && g && !sx.value) sx.value=g;
-  }catch(e){}
-  setTimeout(function(){ var cible=document.getElementById('qhug-step1'); if(cible) cible.scrollIntoView({behavior:'smooth',block:'start'}); }, 350);
-  if(typeof showToast==='function' && !(document.body.classList.contains('bmb-public'))) showToast('info','Trois étapes : information, consentement, questionnaire. Le PDF se génère à la fin, avec vos réponses.');
-}
 
 // ===== VR =====
 function selVR(el){document.querySelectorAll('.vr-env').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
@@ -3819,8 +3474,6 @@ function startBreathing(){
   breathCycle();
 }
 
-// Init eligibility on first load
-initElig();
 
 // Open accordions by default based on screen size
 (function(){
@@ -3867,184 +3520,6 @@ document.querySelectorAll('.badge-item').forEach(function(b){
 // ===== TOUR GUIDÉ INTERACTIF =====
 
 
-// ===== QUESTIONNAIRE HUG =====
-
-// ===== QUESTIONNAIRE HUG — 3-STEP FLOW =====
-document.getElementById('qhug-read-cb')?.addEventListener('change',function(){
-  var btn=document.getElementById('qhug-step1-next');
-  if(btn){btn.style.opacity=this.checked?'1':'.5';btn.style.pointerEvents=this.checked?'auto':'none';}
-});
-document.querySelectorAll('.qhug-consent-cb').forEach(function(cb){
-  cb.addEventListener('change',function(){
-    var all=document.querySelectorAll('.qhug-consent-cb');
-    var ok=Array.from(all).every(function(c){return c.checked;});
-    var btn=document.getElementById('qhug-step2-next');
-    if(btn){btn.style.opacity=ok?'1':'.5';btn.style.pointerEvents=ok?'auto':'none';}
-  });
-});
-function qhugGoStep(n){
-  ['qhug-step1','qhug-step2','qhug-step3'].forEach(function(id,i){
-    var el=document.getElementById(id);
-    if(el){el.style.display=(i+1===n)?'flex':'none';}
-  });
-  // Scroll to top of card
-  var card=document.querySelector('#quest-hug-acc .card');
-  if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-var qhugItems=[
-  {n:'1',q:'Avez-vous déjà fait un don de sang ?',sub:'Si oui, quand ? Où ?'},
-  {n:'2',q:'Pesez-vous plus de 50 kg ?'},
-  {n:'3',q:'Vous sentez-vous actuellement en bonne santé ?'},
-  {n:'4',q:'Au cours des 14 jours, traitement dentaire ou d\'hygiène dentaire ?'},
-  {n:'5',q:'Au cours des 4 dernières semaines, soins médicaux, fièvre >38°C, diarrhée, rhume ?'},
-  {n:'6a',q:'Au cours des 4 dernières semaines, avez-vous pris des médicaments (même sans prescription) ?',sub:'Si oui, lesquels ?'},
-  {n:'6b',q:'Médicaments contre hyperplasie prostatique/chute des cheveux (Proscar®, Propecia®) ou acné (Roaccutan®, Curakne®) ou dépression (Lithiofor®) ou migraine (Topamax®) ou troubles bipolaires (Convulex®, Tegretol®) ?'},
-  {n:'6c',q:'Au cours des 2 derniers mois, médicaments contre l\'endométriose (Lucrin Depot®) ?'},
-  {n:'6d',q:'Au cours des 4 derniers mois, thérapie antirétrovirale PEP/PrEP (Truvada®, Isentress®, Prezista®/Norvir®) ou médicaments fabriqués à partir de sang ?'},
-  {n:'6e',q:'Au cours des 6 derniers mois, médicaments contre l\'hyperplasie prostatique (Avodart®, Duodart®) ?'},
-  {n:'6f',q:'Au cours des 6 mois, cytostatiques (Méthotrexate®) contre psoriasis ou arthrite ?'},
-  {n:'6g',q:'Au cours des 3 dernières années, Neotigason®, Acicutan® (psoriasis) ou Erivedge® (carcinome basocellulaire) ?'},
-  {n:'7a',q:'Avez-vous reçu une immunothérapie (cellules ou sérum d\'origine humaine ou animale) ?'},
-  {n:'7b',q:'Au cours des 12 derniers mois, vacciné(e) contre la rage ou le tétanos ?'},
-  {n:'7c',q:'Au cours des 4 dernières semaines, autres vaccins ?',sub:'Si oui, lesquels ? Quand ?'},
-  {n:'8a',q:'Affection cardio-vasculaire ou pulmonaire (pression artérielle, infarctus, AVC, AIT, perte de conscience) ?'},
-  {n:'8b',q:'Maladie de la peau (blessure, éruption, eczéma, bouton de fièvre) ou allergies (rhume des foins, asthme) ?'},
-  {n:'8c',q:'Autres maladies (diabète, sang, coagulation, affection rénale, épilepsie, cancer, ostéoporose) ?'},
-  {n:'9',q:'Au cours des 3 dernières années, séjour à l\'hôpital, accident ou opération ?'},
-  {n:'10a',q:'Greffe de tissu humain/animal ou transplantation d\'organe ?'},
-  {n:'10b',q:'Opération du cerveau ou de la moelle épinière à l\'étranger ?'},
-  {n:'10c',q:'Hormone de croissance ou injections d\'hormones pour infertilité avant le 01.01.1986 ?'},
-  {n:'10d',q:'Vous ou un membre de votre famille, susceptible d\'être atteint(e) par la maladie de Creutzfeldt-Jakob ?'},
-  {n:'10e',q:'Au cours des 4 derniers mois, avez-vous bénéficié d\'une transfusion sanguine ?'},
-  {n:'11a',q:'Au cours des 6 derniers mois, voyage hors de la Suisse ?',sub:'Où, combien de temps ? Depuis quand de retour ?'},
-  {n:'11b',q:'Symptômes sur place ou depuis votre retour (fièvre, etc.) ?',sub:'Si oui, précisez'},
-  {n:'12a',q:'Né(e) hors de la Suisse, y avez-vous grandi ou vécu plus de 6 mois ?',sub:'Quel pays ? Depuis quand en Suisse ?'},
-  {n:'12b',q:'Votre mère est-elle née dans un pays extra-européen, y a-t-elle vécu plus de 6 mois ?',sub:'Quel pays ?'},
-  {n:'13a',q:'Toxoplasmose, mononucléose, amibiase, shigellose, FSME, bilharziose, gonorrhée, ostéomyélite, fièvre rhumatismale, tuberculose, fièvre récurrente, fièvre Q, Guillain-Barré ?'},
-  {n:'13b',q:'Paludisme/Malaria, Chagas, brucellose, échinococcose, leishmaniose, filariose, babésiose, Ebola ou autres infections graves ?'},
-  {n:'13c',q:'Au cours des 4 dernières semaines, piqûre de tique ?'},
-  {n:'13d',q:'Au cours des 4 dernières semaines, contact avec une personne ayant une maladie infectieuse ?',sub:'Si oui, laquelle ?'},
-  {n:'14',q:'Au cours des 4 derniers mois : tatouage, gastro-coloscopie, sangsues, piercing, acupuncture, épilation électrique, maquillage permanent/Microblading, contact avec du sang étranger ?',sub:'Si oui, quand et où ?'},
-  {n:'15a',q:'Nouveau ou changement de partenaire sexuel(le) au cours des 4 derniers mois ?'},
-  {n:'15b',q:'Rapport(s) sexuel(s) avec plus de 2 personnes au cours des 4 derniers mois ?'},
-  {n:'15c',q:'Rapport(s) sexuel(s) sous l\'influence de drogues de synthèse au cours des 12 derniers mois ?'},
-  {n:'15d',q:'Rapport(s) sexuel(s) contre rémunération (argent, drogues, médicaments) au cours des 12 derniers mois ?'},
-  {n:'15e',q:'Injection de drogue ?'},
-  {n:'15f',q:'Test positif VIH (sida), hépatite B ou C ?'},
-  {n:'15g',q:'Avez-vous déjà eu la syphilis ?'},
-  {n:'16a',q:'Votre partenaire a-t-il/elle eu une jaunisse (hépatite B/C) au cours des 6 derniers mois ?'},
-  {n:'16b',q:'Votre partenaire sexuel(le) a-t-il/elle contracté le virus Zika au cours des 3 derniers mois ?'},
-  {n:'17a',q:'Au cours des 12 derniers mois, rapports sexuels avec un(e) partenaire exposé(e) aux situations à risque (Q.15 / Q.16) ?'},
-  {n:'17b',q:'Au cours des 4 derniers mois, rapports sexuels avec un(e) partenaire ayant séjourné 6+ mois dans un pays à taux élevé HIV/HBV/HCV ?',sub:'Date de retour du partenaire ?'},
-  {n:'18a',q:'Si applicable : Avez-vous déjà été enceinte ?',sub:'Si oui, quand pour la dernière fois ?'}
-];
-function initQHUG(){
-  var ct=document.getElementById('qhug-questions');
-  if(!ct)return;
-  ct.innerHTML=qhugItems.map(function(q){
-    var subH=q.sub?'<input id="qh-sub-'+q.n+'" placeholder="'+q.sub+'" style="margin-top:4px;width:100%;padding:6px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:4px;color:var(--text);font-size:12px;display:none;box-sizing:border-box">':'';
-    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--dark-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--gold);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--text-dim)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button class="qh-yn" data-q="'+q.n+'" data-v="OUI" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Oui</button><button class="qh-yn" data-q="'+q.n+'" data-v="NON" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Non</button></div></div>';
-  }).join('');
-}
-function selectQH(el){
-  var q=el.getAttribute('data-q'),v=el.getAttribute('data-v');
-  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.setAttribute('aria-pressed','false');});
-  el.style.background=v==='OUI'?'var(--red-soft)':'var(--green)';
-  el.style.color='var(--dark)';
-  el.style.borderColor=v==='OUI'?'var(--red-soft)':'var(--green)';
-  el.setAttribute('aria-pressed','true');
-  el.setAttribute('data-selected','1');
-  var sub=document.getElementById('qh-sub-'+q);
-  if(sub)sub.style.display=v==='OUI'?'block':'none';
-}
-function resetHUGForm(){
-  document.querySelectorAll('#qhug-form input,#qhug-form select').forEach(function(i){i.value='';});
-  document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.removeAttribute('data-selected');b.setAttribute('aria-pressed','false');});
-  document.querySelectorAll('[id^="qh-sub-"]').forEach(function(s){s.style.display='none';s.value='';});
-}
-function generateHUGPDF(){
-  var d={};
-  ['nom','prenom','ddn','sexe','adresse','npa','localite','tel','email','poids','taille','prof','medecin'].forEach(function(k){
-    var el=document.getElementById('qh-'+k);d[k]=el?el.value:'';
-  });
-  if(!d.nom||!d.prenom||!d.ddn){alert('Merci de remplir au minimum : Nom, Prénom et Date de naissance.');return;}
-  var cbs=document.querySelectorAll('.qhug-consent-cb'); var cbOk=cbs.length? [].every.call(cbs,function(c){return c.checked;}) : true;
-  if(!cbOk){ alert('Merci de cocher les six déclarations de l’étape 2 (consentement) avant de générer le PDF.'); return; }
-  var manquantes=qhugItems.filter(function(q){ return !document.querySelector('.qh-yn[data-q="'+q.n+'"][data-selected="1"]'); });
-  if(manquantes.length){ alert('Il reste '+manquantes.length+' question'+(manquantes.length>1?'s':'')+' sans réponse ('+manquantes.slice(0,6).map(function(q){return q.n;}).join(', ')+(manquantes.length>6?'…':'')+'). Le questionnaire doit être complet.'); var first=document.querySelector('.qh-yn[data-q="'+manquantes[0].n+'"]'); if(first) first.scrollIntoView({behavior:'smooth',block:'center'}); return; }
-  var answers={};
-  qhugItems.forEach(function(q){
-    var btns=document.querySelectorAll('.qh-yn[data-q="'+q.n+'"][data-selected="1"]');
-    answers[q.n]=btns.length?btns[0].getAttribute('data-v'):'';
-    var sub=document.getElementById('qh-sub-'+q.n);
-    if(sub)answers[q.n+'_sub']=sub.value;
-  });
-  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Questionnaire Don du Sang - HUG</title>';
-  html+='<style>@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
-  html+='h1{font-size:14px;text-align:center;margin:5px 0}h2{font-size:11px;margin:8px 0 4px;color:#26A69A;border-bottom:1px solid #26A69A;padding-bottom:2px}';
-  html+='.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #26A69A;padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
-  html+='.info{font-size:8px;color:#666;margin:2px 0}.row{display:flex;gap:8px;margin:2px 0;flex-wrap:wrap}.field{border-bottom:1px dotted #999;min-width:100px;padding:1px 3px;flex:1}';
-  html+='.label{font-weight:bold;font-size:9px;white-space:nowrap}.q{margin:2px 0;display:flex;align-items:flex-start;padding:2px 0;border-bottom:1px dotted #eee}';
-  html+='.qn{font-weight:bold;min-width:22px;color:#26A69A}.qt{flex:1;padding-right:5px}.ans{min-width:50px;text-align:right;white-space:nowrap}';
-  html+='.box{display:inline-block;width:11px;height:11px;border:1px solid #333;margin:0 2px;text-align:center;font-size:8px;line-height:11px}.checked{background:#DC2626;color:#fff}';
-  html+='.consent{font-size:8px;margin:8px 0;padding:8px;background:#f8f9fa;border-left:3px solid #26A69A}';
-  html+='.sig{margin-top:15px;display:flex;gap:15px}.sig-field{flex:1;border-bottom:1px solid #333;padding-top:25px;text-align:center;font-size:9px}';
-  html+='.reserved{margin-top:15px;border:2px solid #26A69A;padding:10px;background:#f8fffe}.reserved h3{margin:0 0 8px;font-size:11px;color:#26A69A}';
-  html+='.reserved-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.reserved-field{border:1px solid #ccc;padding:5px;min-height:25px}.reserved-field label{font-size:8px;color:#666;display:block}';
-  html+='.footer{margin-top:10px;text-align:center;font-size:8px;color:#999;border-top:1px solid #eee;padding-top:5px}';
-  html+='.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5px}@media print{body{margin:5mm}}</style></head><body>';
-  // Header
-  html+='<div class="header"><div style="font-size:24px;font-weight:900"><span style="color:#7BBC6F">H</span><span style="color:#4DB6AC">U</span><span style="color:#26A69A">G</span></div>';
-  html+='<div class="header-center"><h1>Centre de Transfusion Sanguine</h1>';
-  html+='<div class="info">Rue Gabrielle-Perret-Gentil 6, 1205 Genève | T.+41(0)22 372 39 01</div>';
-  html+='<div class="info">Accueil.Donneurs@hug.ch | www.dondusang.ch</div>';
-  html+='<div class="info"><strong>Horaires:</strong> Lu-Ma-Me-Ve: 7h30-15h | Je: 11h-19h | Sam 1er et 3ème: 8h30-12h</div>';
-  html+='</div><div style="color:#DC2626;font-weight:bold;font-size:10px">BeeMyBlood™</div></div>';
-  // Personal info
-  html+='<h2>INSCRIPTION AU DON DU SANG</h2>';
-  html+='<div class="row"><span class="label">Nom:</span><span class="field">'+d.nom+'</span><span class="label">Prénom(s):</span><span class="field">'+d.prenom+'</span></div>';
-  html+='<div class="row"><span class="label">Date naissance:</span><span class="field">'+d.ddn+'</span><span class="label">Sexe:</span><span class="box '+(d.sexe==='M'?'checked':'')+'">M</span><span class="box '+(d.sexe==='F'?'checked':'')+'">F</span></div>';
-  html+='<div class="row"><span class="label">Adresse:</span><span class="field" style="flex:2">'+d.adresse+'</span></div>';
-  html+='<div class="row"><span class="label">NPA:</span><span class="field">'+d.npa+'</span><span class="label">Localité:</span><span class="field">'+d.localite+'</span><span class="label">Tél:</span><span class="field">'+d.tel+'</span></div>';
-  html+='<div class="row"><span class="label">E-mail:</span><span class="field">'+d.email+'</span><span class="label">Poids:</span><span class="field">'+d.poids+' kg</span><span class="label">Taille:</span><span class="field">'+d.taille+' cm</span></div>';
-  html+='<div class="row"><span class="label">Profession:</span><span class="field">'+d.prof+'</span><span class="label">Médecin traitant:</span><span class="field">'+d.medecin+'</span></div>';
-  // Consent
-  html+='<div class="consent"><p style="margin:0 0 5px;font-weight:bold">En signant ce document, je confirme :</p>';
-  html+='<p>☑ Je consens à donner de mon sang.</p>';
-  html+='<p>☑ J\'ai lu et compris le Formulaire d\'information ANH Art.7.7 (version 3, 01.02.2026).</p>';
-  html+='<p>☑ Je confirme l\'exactitude de mes données personnelles et la véracité de mes réponses.</p>';
-  html+='<p>☑ J\'accepte les tests biologiques (pouvant comporter des méthodes génétiques) et la conservation d\'échantillons.</p>';
-  html+='<p>☑ J\'accepte que certains composants soient utilisés pour la fabrication de médicaments et la recherche médicale après anonymisation.</p>';
-  html+='<p>☑ Mes données sont soumises au secret médical (T-CH / SRTS).</p></div>';
-  // Questions
-  html+='<h2>QUESTIONNAIRE MÉDICAL</h2><div class="two-col">';
-  qhugItems.forEach(function(q){
-    var a=answers[q.n]||'';
-    var sub=answers[q.n+'_sub']?(' ('+answers[q.n+'_sub']+')') :'';
-    html+='<div class="q"><span class="qn">'+q.n+'.</span><span class="qt">'+q.q+sub+'</span><span class="ans"><span class="box '+(a==='OUI'?'checked':'')+'">O</span><span class="box '+(a==='NON'?'checked':'')+'">N</span></span></div>';
-  });
-  html+='</div>';
-  // Signatures
-  var today=new Date().toLocaleDateString('fr-CH');
-  html+='<div class="sig"><div class="sig-field">Date: '+today+'</div><div class="sig-field">Nom: '+d.nom+' '+d.prenom+'</div><div class="sig-field">Naissance: '+d.ddn+'</div><div class="sig-field">Signature du donneur</div></div>';
-  // Reserved
-  html+='<div class="reserved"><h3>RÉSERVÉ AU CENTRE DE TRANSFUSION SANGUINE</h3><div class="reserved-grid">';
-  ['Q n°','Visa accueil','Visa infirmier','Visa médecin','Pouls','TA','Hb capillaire','Groupe sanguin','Type de don','N° prélèvement','Durée','Heure fin'].forEach(function(l){html+='<div class="reserved-field"><label>'+l+'</label></div>';});
-  html+='</div></div>';
-  html+='<div class="footer">ANH-Art7.6v3 - Document pré-rempli via BeeMyBlood™ | '+today+'</div>';
-  html+='<script>window.onload=function(){window.print();}<\/script></body></html>';
-  var blob=new Blob([html],{type:'text/html'});
-  var url=URL.createObjectURL(blob);
-  var win=window.open(url,'_blank');
-  if(!win){
-    showToast('⚠️ Autorise les fenêtres pop-up pour générer le PDF, puis réessaie.');
-    URL.revokeObjectURL(url);
-    return;
-  }
-  setTimeout(function(){URL.revokeObjectURL(url);},60000);
-  showToast('🖨️ Questionnaire ouvert dans un nouvel onglet — utilise "Imprimer → Enregistrer en PDF".');
-}
 
 
 
