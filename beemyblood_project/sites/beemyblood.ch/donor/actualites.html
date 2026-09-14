@@ -1,0 +1,534 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Actualités — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab active" href="actualites.html" aria-current="page">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item active" href="actualites.html" aria-current="page"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Actualités</span>
+</div>
+<main id="contenu" tabindex="-1">
+<div class="view active" id="v-actualites">
+  <div class="sec-header"><div class="sec-label">📰 Veille transfusionnelle</div><h1 class="sec-title">Actualités du don du sang</h1><div class="sec-sub">Suisse, Europe et monde — politique, science et engagement citoyen</div></div>
+
+  <div class="card" id="actus-jour" style="margin-bottom:16px"><div class="card-header"><div class="card-title">📰 Dans la presse aujourd’hui</div><span class="badge" id="actus-jour-date"></span></div><div id="actus-jour-liste" style="font-size:13px;color:var(--text-muted)">Chargement des actualités…</div></div>
+
+  <!-- BREAKING -->
+  <div class="card" style="border:2px solid var(--red);margin-bottom:16px">
+    <div class="card-header"><div class="card-title" style="color:var(--red-soft)">🔴 Dernière minute</div><span class="badge badge-red">Fév. 2026</span></div>
+    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">Critères de don assouplis dès le 1ᵉʳ février 2026</div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.7">Transfusion CRS Suisse élargit les critères d'éligibilité avec l'autorisation de Swissmedic. Les personnes ayant reçu une transfusion, séjourné au Royaume-Uni dans les années 80-90, ou subi certaines interventions médicales pourront de nouveau donner. Le délai post-transfusion passe à 4 mois quel que soit le pays. Les implants dentaires réalisés en Suisse après 1993 ne sont plus éliminatoires (délai de 2 semaines selon complexité).</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text-muted)">Source : <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">RTS, 13 janv. 2026</a> · Transfusion CRS Suisse</div>
+  </div>
+
+  <!-- TIMELINE LÉGISLATIVE -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">🏛️ Chronologie législative suisse</div></div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700;padding-top:2px">Fév. 2026</div>
+        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
+          <strong style="color:var(--text)">Assouplissement des critères d'éligibilité</strong> — Swissmedic autorise la levée de restrictions vieilles de 20 ans (vache folle, transfusions antérieures). Évaluation complète des risques.
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700;padding-top:2px">Janv. 2025</div>
+        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
+          <strong style="color:var(--text)">Gratuité du don inscrite dans la LPTh</strong> — Interdiction légale d'octroyer ou percevoir des avantages en lien avec le don. Interdiction de discrimination (orientation sexuelle). Initiative parlementaire 16.504 mise en œuvre.
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);font-weight:700;padding-top:2px">Nov. 2023</div>
+        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
+          <strong style="color:var(--text)">Fin de l'exclusion des HSH</strong> — Les hommes ayant des rapports avec des hommes peuvent donner aux mêmes conditions que la population générale. Fin du délai de 12 mois d'abstinence.
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);font-weight:700;padding-top:2px">Sept. 2023</div>
+        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
+          <strong style="color:var(--text)">Vote unanime du Parlement</strong> — Conseil national et Conseil des États adoptent à l'unanimité la révision de la LPTh. « Le don de sang est un acte citoyen, solidaire, libre, généreux et sans discrimination. » — Michel Matter (PVL/GE)
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);font-weight:700;padding-top:2px">2022</div>
+        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6">
+          <strong style="color:var(--text)">Consultation publique — initiative 18.489</strong> — La CSSS-N met en consultation un avant-projet visant à garantir l'approvisionnement, inscrire la gratuité et interdire les discriminations. Adopté par 17 voix contre 7.
+          <br><span style="font-size:11px;color:var(--text-muted)">Réf. : <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FF 2022 2348</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHIFFRES CLÉS -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">📊 Chiffres clés — Suisse 2024</div><span class="badge badge-gold">Transfusion CRS</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:14px">
+      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--red-soft)">260'349</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Dons collectés</div>
+      </div>
+      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--orange)">−1.3%</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">vs 2023</div>
+      </div>
+      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--blue)">2'101</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Collectes mobiles</div>
+      </div>
+      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--gold)">48.2%</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Part collectes mobiles</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;padding:10px 14px;background:rgba(230,57,70,.04);border-radius:var(--radius-sm);border-left:3px solid var(--red)">
+      ⚠️ <strong>Tendance préoccupante</strong> — les dons baissent pour la 3ᵉ année consécutive. Le télétravail réduit les dons en entreprise. Les collectes en hautes écoles reculent à cause des cours en visioconférence. Le nombre moyen de dons par collecte mobile est passé de 66.7 (2021) à 60.5 (2023).
+    </div>
+  </div>
+
+  <!-- SANTÉ DU DONNEUR -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">⚕️ Santé du donneur — ce que dit la science</div></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
+      <strong style="color:var(--green)">Bonne nouvelle :</strong> aucune étude fiable n'a pu montrer à ce jour que donner régulièrement son sang a une influence néfaste sur la santé du donneur.
+    </div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-top:10px;padding:10px 14px;background:rgba(200,169,96,.04);border-radius:var(--radius-sm);border-left:3px solid var(--gold)">
+      ⚠️ <strong style="color:var(--gold)">Point de vigilance — carence martiale</strong><br>
+      Des dons trop fréquents d'érythrocytes peuvent entraîner une <strong style="color:var(--text)">carence en fer (carence martiale)</strong>, surtout chez les femmes. C'est pourquoi le CTS surveille la ferritine et respecte les intervalles réglementaires : <strong>4 dons/an max</strong> pour les hommes, <strong>3 pour les femmes</strong>, avec 76 jours minimum entre deux dons.
+    </div>
+  </div>
+
+  <!-- ÉDITORIAL BEEMYBLOOD -->
+  <div class="card" style="margin-bottom:16px;border:1px solid rgba(200,169,96,.2)">
+    <div class="card-header"><div class="card-title">🐝 Éditorial — La vocation de BeeMyBlood</div><span class="badge badge-gold">Tribune</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.8">
+      <strong style="color:var(--gold);font-size:16px">La Suisse n'a pas d'association de donneurs de sang.</strong>
+      <br><br>
+      En France, la <strong style="color:var(--text)">Fédération Française pour le Don de Sang Bénévole (FFDSB)</strong> fédère 2'650 associations locales à travers tout le territoire. Leurs missions : communiquer sur les réseaux sociaux, organiser des événements (marathons, concerts, kermesses), assurer la logistique des collectes avec les mairies et l'EFS, représenter les donneurs auprès des pouvoirs publics, accueillir et remercier les donneurs.
+      <br><br>
+      En Suisse ? <strong style="color:var(--text)">Rien de comparable.</strong> Les Samaritains apportent un soutien ponctuel, mais il n'existe aucune structure organisée, numérique, citoyenne, qui porte la voix des donneurs.
+      <br><br>
+      <strong style="color:var(--gold)">BeeMyBlood veut combler ce vide.</strong> Pas en remplaçant Transfusion CRS — qui assure l'approvisionnement — mais en créant le <strong style="color:var(--text)">tissu associatif citoyen</strong> qui manque : mobiliser les donneurs, valoriser leur engagement, structurer le parrainage, porter leur parole dans le débat public et rendre visible l'impact de chaque don.
+      <br><br>
+      Une abeille seule ne fait pas de miel. Mais une ruche, si. 🐝
+    </div>
+  </div>
+
+  <!-- INTERNATIONAL -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">🌍 Contexte international</div></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <span style="font-size:22px">🇫🇷</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:13px;color:var(--text)">France — fin du délai pour les HSH (mars 2022)</div><div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:4px">L'EFS a supprimé le délai d'abstinence. En juin 2022, l'EFS a déclaré une « urgence vitale » — il manquait 110'000 poches. La FFDSB et ses 2'650 associations ont joué un rôle clé dans la mobilisation.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <span style="font-size:22px">🇨🇭</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:13px;color:var(--text)">Suisse — 118.5M de dons/an dans le monde, 260k en Suisse</div><div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:4px">Avec 3% de la population qui donne, la Suisse est dans la moyenne européenne. Mais la tendance baissière et le vieillissement des donneurs posent un défi structurel.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <span style="font-size:22px">🌐</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:13px;color:var(--text)">OMS — Journée mondiale du donneur de sang (14 juin)</div><div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:4px">L'OMS rappelle que seuls 62 pays couvrent leurs besoins en sang à partir de dons volontaires non rémunérés. Le sang ne se fabrique pas — il se donne.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOURCES -->
+  <div style="padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.8">
+    <strong style="color:var(--text-dim)">📚 Sources & références</strong><br>
+    · <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FF 2022 2348</a> — Rapport CSSS-N sur l'approvisionnement en sang<br>
+    · <a href="https://rapportannuel2023.transfusion.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Rapport annuel 2023 Transfusion CRS</a><br>
+    · <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">RTS — Assouplissement critères fév. 2026</a><br>
+    · <a href="https://www.lematin.ch/story/conseil-federal-tout-le-monde-pourra-legalement-donner-son-sang-des-le-1-janvier-103192535" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Le Matin — Gratuité et non-discrimination 2025</a><br>
+    · <a href="https://www.parlament.ch/press-releases/Pages/mm-sgk-n-2022-02-24.aspx" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Parlement.ch — CSSS-N consultation 2022</a><br>
+    · <a href="https://dondesang.efs.sante.fr/ffdsb" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FFDSB — Fédération Française pour le Don de Sang Bénévole</a>
+  </div>
+</div><!-- /v-actualites -->
+</main>
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="onboard-modal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header" style="padding-bottom:8px">
+      <div style="font-size:36px;margin-bottom:4px">🐝</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">Bienvenue sur BeeMyBlood™</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="ob-counter">1 / 10</div>
+    </div>
+
+    <!-- STEP 0 : INTRO -->
+    <div class="modal-step active" id="ob-step-0">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🦸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros, pas un numéro</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">BeeMyBlood™ transforme le don de sang en expérience premium, ludique et personnalisée.<br><br>Ce tour te montre <strong style="color:var(--gold)">toutes les fonctionnalités</strong> en 1 minute. Tu peux le relancer à tout moment via le lien <strong style="color:var(--gold)">« Tour guidé »</strong> en bas de page.</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : NAVIGATION -->
+    <div class="modal-step" id="ob-step-1">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧭</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
+          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
+          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : DASHBOARD -->
+    <div class="modal-step" id="ob-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          C'est ton <strong>tableau de bord</strong> :
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🗓️ Prochain don programmé + compte à rebours<br>
+            🩸 Stocks de sang en temps réel par groupe<br>
+            📈 Ton historique de dons et séries (streak)<br>
+            🏆 Badges débloqués et objectifs<br>
+            🩺 Passeport santé (résultats labo de tes dons)<br>
+            🤝 Programme BeeMyBro (parrainage)
+          </div>
+          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : ÉLIGIBILITÉ -->
+    <div class="modal-step" id="ob-step-3">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Test d'éligibilité + Questionnaire médical</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--green)">Pré-éligibilité rapide</strong> — 8 questions simples (âge, poids, santé, voyages…) pour savoir si tu peux donner aujourd'hui.<br><br>
+          <strong style="color:var(--gold)">Questionnaire médical HUG</strong> — Le vrai formulaire du Centre de Transfusion Sanguine (CTS), que tu peux pré-remplir chez toi et <strong>générer en PDF</strong> à imprimer. Gain de temps : ~15 min au CTS.<br><br>
+          <span style="color:var(--text-muted)">💡 Si le test dit « éligible », un bouton te dirige directement vers le questionnaire.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 : CARTE & COLLECTES -->
+    <div class="modal-step" id="ob-step-4">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📍</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📡 Géolocalisation automatique<br>
+            🔍 Rayon de recherche ajustable (1-20 km)<br>
+            📅 Prise de rendez-vous directe via OneDoc<br>
+            🎪 Collectes mobiles signalées sur la carte
+          </div>
+          <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 : FLUX CTS -->
+    <div class="modal-step" id="ob-step-5">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🔬</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Flux CTS — Visualisation en temps réel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Une vue schématique animée du <strong>campus hospitalier des HUG</strong> (Hôpitaux Universitaires de Genève) montrant :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🩸 Poches de sang circulant entre les bâtiments<br>
+            📊 Entrées/sorties, stock CE, plaquettes en direct<br>
+            🎯 Objectif du jour avec jauge de progression<br>
+            📰 Fil d'événements et bandeau défilant
+          </div>
+          <span style="color:var(--text-muted)">⛶ Passe en plein écran pour une immersion complète.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 : HÉMORUSH -->
+    <div class="modal-step" id="ob-step-6">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎮</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">HémoRush™ — Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Un mini-jeu éducatif pour maîtriser la <strong>compatibilité sanguine</strong> :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📚 Apprentissage — mode guidé, pas de chrono<br>
+            ⚡ Rush — 2 minutes chrono, score maximal<br>
+            ❤️ Survie — 3 vies, zéro droit à l'erreur<br>
+            🧠 Quiz — QCM sur la transfusion<br>
+            🌊 Vagues — difficulté croissante
+          </div>
+          <strong style="color:var(--gold)">Comment jouer :</strong> touche un patient 🏥, puis donne-lui la bonne poche 🩸 compatible.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 : GUIDE & VR -->
+    <div class="modal-step" id="ob-step-7">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📺</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Guide du don & Réalité virtuelle</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Guide primo-donneur</strong> — Les critères, les 6 étapes du don, les 3 composants sanguins et les contre-indications expliquées simplement.<br><br>
+          <strong style="color:var(--gold)">Expérience VR</strong> — BeeMyBlood propose un casque VR immersif pendant le prélèvement : plage, forêt ou fond marin. Résultat : <strong style="color:var(--green)">−24% de douleur</strong> et <strong style="color:var(--green)">−40% d'anxiété</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 : COMMUNAUTÉ & FAQ -->
+    <div class="modal-step" id="ob-step-8">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🤝</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Communauté, FAQ & BeeBot™</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Communauté</strong> — Témoignages, fil social, notifications push et partage d'expériences entre donneurs.<br><br>
+          <strong style="color:var(--gold)">FAQ</strong> — Préparation au don, après le don, nouveautés 2026, questions techniques. Barre de recherche intégrée.<br><br>
+          <strong style="color:var(--gold)">BeeBot™ 🐝</strong> — Assistant IA disponible 24h/24 pour répondre à toutes tes questions sur le don de sang.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 : PARAMÈTRES & C'EST PARTI -->
+    <div class="modal-step" id="ob-step-9">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🚀</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--gold)">Tu es prêt(e) !</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">⚙️ Paramètres</strong> — Configure tes intégrations (Concerto HUG, Google Agenda, compte Transfusion Croix-Rouge Suisse), choisis le mode sombre ou clair, gère tes notifications et ta confidentialité.<br><br>
+          <strong>Par où commencer ?</strong>
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
+            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
+            4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="ob-dots"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:14px">Passer</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()" style="font-size:14px">Suivant →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('actualites');
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>

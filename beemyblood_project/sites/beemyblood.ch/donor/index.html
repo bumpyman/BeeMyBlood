@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <div class="nav-group-menu" id="nav-group-menu-espace">
   <button class="nav-tab" data-v="dashboard">📊 Dashboard</button>
   <button class="nav-tab" data-v="communaute">⚔️ Défis</button>
-  <button class="nav-tab" data-v="actualites">📰 Actualités</button>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
   <button class="nav-tab" data-v="flux">📺 Flux CTS</button>
   <button class="nav-tab" data-v="impact">💛 Impact</button>
 </div>
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="mob-item active" onclick="goMob('hero')"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></div>
     <div class="mob-item" onclick="goMob('dashboard')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></div>
     <div class="mob-item" onclick="goMob('communaute')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></div>
-    <div class="mob-item" onclick="goMob('actualites')"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></div>
+    <div class="mob-item" onclick="location.href='actualites.html'"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></div>
     <div class="mob-item" onclick="goMob('flux')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></div>
     <div class="mob-item" onclick="location.href='hemorush.html'"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></div>
   </div>
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded',function(){
             <span style="font-size:14px;font-weight:700;color:var(--text)">Critères de dons assouplis</span>
           </div>
           <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Transfusion CRS Suisse élargit les critères d'éligibilité avec l'autorisation de Swissmedic. Les personnes ayant reçu une transfusion ou séjourné au Royaume-Uni dans les années 80-90 pourront de nouveau donner.</div>
-          <div style="margin-top:8px"><a href="#" onclick="go('actualites');return false" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
+          <div style="margin-top:8px"><a href="actualites.html" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
         </div>
 
         <!-- SLIDE 3: Baisse des dons -->
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded',function(){
             <span style="font-size:14px;font-weight:700;color:var(--text)">260'349 dons en Suisse (−1.3%)</span>
           </div>
           <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Tendance baissière pour la 3ᵉ année consécutive. Depuis le 1ᵉʳ janvier 2025, la gratuité du don et l'interdiction de discrimination sont inscrites dans la loi (LPTh).</div>
-          <div style="margin-top:8px"><a href="#" onclick="go('actualites');return false" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
+          <div style="margin-top:8px"><a href="actualites.html" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
         </div>
 
       </div>
@@ -1625,142 +1625,6 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 
 
-<!-- ==================== ACTUALITÉS ==================== -->
-<div class="view" id="v-actualites">
-  <div class="sec-header"><div class="sec-label">📰 Veille transfusionnelle</div><div class="sec-title">Actualités du don du sang</div><div class="sec-sub">Suisse, Europe et monde — politique, science et engagement citoyen</div></div>
-
-  <div class="card" id="actus-jour" style="margin-bottom:16px"><div class="card-header"><div class="card-title">📰 Dans la presse aujourd’hui</div><span class="badge" id="actus-jour-date"></span></div><div id="actus-jour-liste" style="font-size:13px;color:var(--text-muted)">Chargement des actualités…</div></div>
-
-  <!-- BREAKING -->
-  <div class="card" style="border:2px solid var(--red);margin-bottom:16px">
-    <div class="card-header"><div class="card-title" style="color:var(--red-soft)">🔴 Dernière minute</div><span class="badge badge-red">Fév. 2026</span></div>
-    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">Critères de don assouplis dès le 1ᵉʳ février 2026</div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.7">Transfusion CRS Suisse élargit les critères d'éligibilité avec l'autorisation de Swissmedic. Les personnes ayant reçu une transfusion, séjourné au Royaume-Uni dans les années 80-90, ou subi certaines interventions médicales pourront de nouveau donner. Le délai post-transfusion passe à 4 mois quel que soit le pays. Les implants dentaires réalisés en Suisse après 1993 ne sont plus éliminatoires (délai de 2 semaines selon complexité).</div>
-    <div style="margin-top:10px;font-size:12px;color:var(--text-muted)">Source : <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">RTS, 13 janv. 2026</a> · Transfusion CRS Suisse</div>
-  </div>
-
-  <!-- TIMELINE LÉGISLATIVE -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header"><div class="card-title">🏛️ Chronologie législative suisse</div></div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700;padding-top:2px">Fév. 2026</div>
-        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
-          <strong style="color:var(--text)">Assouplissement des critères d'éligibilité</strong> — Swissmedic autorise la levée de restrictions vieilles de 20 ans (vache folle, transfusions antérieures). Évaluation complète des risques.
-        </div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700;padding-top:2px">Janv. 2025</div>
-        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
-          <strong style="color:var(--text)">Gratuité du don inscrite dans la LPTh</strong> — Interdiction légale d'octroyer ou percevoir des avantages en lien avec le don. Interdiction de discrimination (orientation sexuelle). Initiative parlementaire 16.504 mise en œuvre.
-        </div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);font-weight:700;padding-top:2px">Nov. 2023</div>
-        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
-          <strong style="color:var(--text)">Fin de l'exclusion des HSH</strong> — Les hommes ayant des rapports avec des hommes peuvent donner aux mêmes conditions que la population générale. Fin du délai de 12 mois d'abstinence.
-        </div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);font-weight:700;padding-top:2px">Sept. 2023</div>
-        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--dark-border)">
-          <strong style="color:var(--text)">Vote unanime du Parlement</strong> — Conseil national et Conseil des États adoptent à l'unanimité la révision de la LPTh. « Le don de sang est un acte citoyen, solidaire, libre, généreux et sans discrimination. » — Michel Matter (PVL/GE)
-        </div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <div style="min-width:72px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);font-weight:700;padding-top:2px">2022</div>
-        <div style="flex:1;font-size:13px;color:var(--text-dim);line-height:1.6">
-          <strong style="color:var(--text)">Consultation publique — initiative 18.489</strong> — La CSSS-N met en consultation un avant-projet visant à garantir l'approvisionnement, inscrire la gratuité et interdire les discriminations. Adopté par 17 voix contre 7.
-          <br><span style="font-size:11px;color:var(--text-muted)">Réf. : <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FF 2022 2348</a></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CHIFFRES CLÉS -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header"><div class="card-title">📊 Chiffres clés — Suisse 2024</div><span class="badge badge-gold">Transfusion CRS</span></div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:14px">
-      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--red-soft)">260'349</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Dons collectés</div>
-      </div>
-      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--orange)">−1.3%</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">vs 2023</div>
-      </div>
-      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--blue)">2'101</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Collectes mobiles</div>
-      </div>
-      <div style="text-align:center;padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--gold)">48.2%</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Part collectes mobiles</div>
-      </div>
-    </div>
-    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;padding:10px 14px;background:rgba(230,57,70,.04);border-radius:var(--radius-sm);border-left:3px solid var(--red)">
-      ⚠️ <strong>Tendance préoccupante</strong> — les dons baissent pour la 3ᵉ année consécutive. Le télétravail réduit les dons en entreprise. Les collectes en hautes écoles reculent à cause des cours en visioconférence. Le nombre moyen de dons par collecte mobile est passé de 66.7 (2021) à 60.5 (2023).
-    </div>
-  </div>
-
-  <!-- SANTÉ DU DONNEUR -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header"><div class="card-title">⚕️ Santé du donneur — ce que dit la science</div></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
-      <strong style="color:var(--green)">Bonne nouvelle :</strong> aucune étude fiable n'a pu montrer à ce jour que donner régulièrement son sang a une influence néfaste sur la santé du donneur.
-    </div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-top:10px;padding:10px 14px;background:rgba(200,169,96,.04);border-radius:var(--radius-sm);border-left:3px solid var(--gold)">
-      ⚠️ <strong style="color:var(--gold)">Point de vigilance — carence martiale</strong><br>
-      Des dons trop fréquents d'érythrocytes peuvent entraîner une <strong style="color:var(--text)">carence en fer (carence martiale)</strong>, surtout chez les femmes. C'est pourquoi le CTS surveille la ferritine et respecte les intervalles réglementaires : <strong>4 dons/an max</strong> pour les hommes, <strong>3 pour les femmes</strong>, avec 76 jours minimum entre deux dons.
-    </div>
-  </div>
-
-  <!-- ÉDITORIAL BEEMYBLOOD -->
-  <div class="card" style="margin-bottom:16px;border:1px solid rgba(200,169,96,.2)">
-    <div class="card-header"><div class="card-title">🐝 Éditorial — La vocation de BeeMyBlood</div><span class="badge badge-gold">Tribune</span></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.8">
-      <strong style="color:var(--gold);font-size:16px">La Suisse n'a pas d'association de donneurs de sang.</strong>
-      <br><br>
-      En France, la <strong style="color:var(--text)">Fédération Française pour le Don de Sang Bénévole (FFDSB)</strong> fédère 2'650 associations locales à travers tout le territoire. Leurs missions : communiquer sur les réseaux sociaux, organiser des événements (marathons, concerts, kermesses), assurer la logistique des collectes avec les mairies et l'EFS, représenter les donneurs auprès des pouvoirs publics, accueillir et remercier les donneurs.
-      <br><br>
-      En Suisse ? <strong style="color:var(--text)">Rien de comparable.</strong> Les Samaritains apportent un soutien ponctuel, mais il n'existe aucune structure organisée, numérique, citoyenne, qui porte la voix des donneurs.
-      <br><br>
-      <strong style="color:var(--gold)">BeeMyBlood veut combler ce vide.</strong> Pas en remplaçant Transfusion CRS — qui assure l'approvisionnement — mais en créant le <strong style="color:var(--text)">tissu associatif citoyen</strong> qui manque : mobiliser les donneurs, valoriser leur engagement, structurer le parrainage, porter leur parole dans le débat public et rendre visible l'impact de chaque don.
-      <br><br>
-      Une abeille seule ne fait pas de miel. Mais une ruche, si. 🐝
-    </div>
-  </div>
-
-  <!-- INTERNATIONAL -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header"><div class="card-title">🌍 Contexte international</div></div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <span style="font-size:22px">🇫🇷</span>
-        <div style="flex:1"><div style="font-weight:600;font-size:13px;color:var(--text)">France — fin du délai pour les HSH (mars 2022)</div><div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:4px">L'EFS a supprimé le délai d'abstinence. En juin 2022, l'EFS a déclaré une « urgence vitale » — il manquait 110'000 poches. La FFDSB et ses 2'650 associations ont joué un rôle clé dans la mobilisation.</div></div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <span style="font-size:22px">🇨🇭</span>
-        <div style="flex:1"><div style="font-weight:600;font-size:13px;color:var(--text)">Suisse — 118.5M de dons/an dans le monde, 260k en Suisse</div><div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:4px">Avec 3% de la population qui donne, la Suisse est dans la moyenne européenne. Mais la tendance baissière et le vieillissement des donneurs posent un défi structurel.</div></div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <span style="font-size:22px">🌐</span>
-        <div style="flex:1"><div style="font-weight:600;font-size:13px;color:var(--text)">OMS — Journée mondiale du donneur de sang (14 juin)</div><div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-top:4px">L'OMS rappelle que seuls 62 pays couvrent leurs besoins en sang à partir de dons volontaires non rémunérés. Le sang ne se fabrique pas — il se donne.</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SOURCES -->
-  <div style="padding:14px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.8">
-    <strong style="color:var(--text-dim)">📚 Sources & références</strong><br>
-    · <a href="https://www.fedlex.admin.ch/eli/fga/2022/2348/fr" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FF 2022 2348</a> — Rapport CSSS-N sur l'approvisionnement en sang<br>
-    · <a href="https://rapportannuel2023.transfusion.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Rapport annuel 2023 Transfusion CRS</a><br>
-    · <a href="https://www.rts.ch/info/suisse/2026/article/les-criteres-pour-le-don-de-sang-seront-assouplis-a-partir-du-1er-fevrier-29116617.html" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">RTS — Assouplissement critères fév. 2026</a><br>
-    · <a href="https://www.lematin.ch/story/conseil-federal-tout-le-monde-pourra-legalement-donner-son-sang-des-le-1-janvier-103192535" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Le Matin — Gratuité et non-discrimination 2025</a><br>
-    · <a href="https://www.parlament.ch/press-releases/Pages/mm-sgk-n-2022-02-24.aspx" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">Parlement.ch — CSSS-N consultation 2022</a><br>
-    · <a href="https://dondesang.efs.sante.fr/ffdsb" target="_blank" aria-describedby="ext-link-notice" style="color:var(--gold)">FFDSB — Fédération Française pour le Don de Sang Bénévole</a>
-  </div>
-</div><!-- /v-actualites -->
 
 
 
