@@ -17,11 +17,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
-<title>BeeMyBlood™ — Portail Donneur</title>
+<title>Accueil — BeeMyBlood™ Portail Donneur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -32,7 +30,7 @@
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
     <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
-    <h1 style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</h1>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
@@ -51,33 +49,21 @@
     </div>
   </div>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  if(window.innerWidth<=1024){
-    // Mobile / ZFold : close both
-    ['actu-home-toggle','stock-home-toggle'].forEach(function(btnId){
-      var btn=document.getElementById(btnId);
-      var body=btn&&document.getElementById(btn.dataset.target);
-      if(btn&&body){btn.classList.remove('open');body.classList.remove('open');}
-    });
-  }
-});
-</script>
 
 <header>
 <nav>
   <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
-  <div class="nav-brand" onclick="go('hero')"><span class="bee">🩸</span> BeeMyBlood™</div>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
   <div class="nav-tabs" id="nav-tabs">
-    <button class="nav-tab active" data-v="hero">Accueil</button>
+    <a class="nav-tab active" href="index.html" aria-current="page">Accueil</a>
     <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
     <a class="nav-tab" href="hemorush.html">HémoRush™</a>
     <a class="nav-tab" href="centres.html">Collectes</a>
     <div class="nav-group" data-menu="nav-group-menu-espace">
-      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="dashboard,communaute,actualites,flux,impact" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
     </div>
     <div class="nav-group" data-menu="nav-group-menu-decouvrir">
-      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="guide,chatbot,vr,videos,faq,contact" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
     </div>
     <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
@@ -88,26 +74,26 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hamburger-label">Plus</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGoReserved('tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
       <div class="notif-dropdown" id="notif-dd">
         <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
-        <div class="notif-item unread" style="display:flex" onclick="bmbGoReserved('tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></div>
-        <div class="notif-item unread" style="display:flex" onclick="bmbGoReserved('impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></div>
-        <div class="notif-item" style="display:flex" onclick="location.href='centres.html'"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></div>
-        <div class="notif-item" style="display:flex" onclick="location.href='hemorush.html'"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></div>
-        <div class="notif-item" style="display:flex" onclick="bmbGoReserved('profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
       </div>
       </div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
     </div>
-    <div class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="bmbGoReserved('parametres.html')">
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
       <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer" onclick="bmbGoReserved('profil.html')">
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
       <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
-    </div>
+    </a>
   </div>
 </nav>
 </header>
@@ -132,33 +118,32 @@ document.addEventListener('DOMContentLoaded',function(){
 <div class="mob-menu" id="mob-menu">
   <div class="mob-section-label">Navigation</div>
   <div class="mob-menu-grid">
-    <div class="mob-item active" onclick="goMob('hero')"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></div>
-    <div class="mob-item" onclick="bmbGoReserved('tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></div>
-    <div class="mob-item" onclick="bmbGoReserved('defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></div>
-    <div class="mob-item" onclick="location.href='actualites.html'"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></div>
-    <div class="mob-item" onclick="bmbGoReserved('flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></div>
-    <div class="mob-item" onclick="location.href='hemorush.html'"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></div>
+    <a class="mob-item active" href="index.html" aria-current="page"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
   </div>
   <div class="mob-section-label">Découvrir</div>
   <div class="mob-menu-grid">
-    <div class="mob-item" onclick="location.href='guide.html'"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></div>
-    <div class="mob-item" onclick="location.href='eligibilite.html'"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></div>
-    <div class="mob-item" onclick="location.href='centres.html'"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></div>
-    <div class="mob-item" onclick="bmbGoReserved('impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></div>
-    <div class="mob-item" onclick="location.href='beebot.html'"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
-    <div class="mob-item" onclick="bmbGoReserved('vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
-    <div class="mob-item" onclick="location.href='videos.html'"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></div>
-    <div class="mob-item" onclick="location.href='faq.html'"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></div>
-    <div class="mob-item" onclick="location.href='contact.html'"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></div>
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
   </div>
 </div>
 
 
 <div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
-  <span onclick="go('hero')" style="cursor:pointer;color:var(--gold)">🏠 Accueil</span> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current" style="color:var(--text)"></span>
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Accueil</span>
 </div>
 <main id="contenu" tabindex="-1">
-<!-- ==================== HERO ==================== -->
 <div class="view active" id="v-hero">
 <div class="hero" style="position:relative">
   <div class="hero-cells" id="hero-cells"></div>
@@ -272,26 +257,6 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 </div><!-- /z-index wrapper -->
 </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ===== FAQ ===== -->
-
-
 </main>
 
 <!-- ONBOARDING MODAL -->
@@ -471,11 +436,11 @@ document.addEventListener('DOMContentLoaded',function(){
 <!-- MOBILE BOTTOM BAR -->
 <div class="mob-bottom" id="mob-bottom">
   <div class="mob-bottom-inner">
-    <div class="mob-bottom-btn active" onclick="goMob('hero')">🏠<span>Accueil</span></div>
-    <div class="mob-bottom-btn" onclick="bmbGoReserved('tableau-de-bord.html')">📊<span>Tableau</span></div>
-    <div class="mob-bottom-btn" onclick="location.href='hemorush.html'">🎮<span>Jouer</span></div>
-    <div class="mob-bottom-btn" onclick="location.href='centres.html'">📍<span>Collectes</span></div>
-    <div class="mob-bottom-btn" onclick="toggleMobMenu()">☰<span>Plus</span></div>
+    <a class="mob-bottom-btn active" href="index.html" aria-current="page">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
   </div>
 </div>
 
@@ -487,7 +452,6 @@ document.addEventListener('DOMContentLoaded',function(){
   <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
 </div>
 
-<!-- FOOTER -->
 <footer class="app-footer">
   <div class="app-footer-brand">🐝 BeeMyBlood™</div>
   <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
@@ -501,160 +465,6 @@ document.addEventListener('DOMContentLoaded',function(){
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
   </div>
 </footer>
-
-<script src="assets/app.js"></script>
-<script>
-
-// ===== ACCORDION SYSTEM =====
-// Auto-open sections that should be visible by default
-// ===== NAVIGATION =====
-// ==================== SOCIAL INTERACTIONS ====================
-
-
-
-// ===== NAV OVERFLOW (Priority+ pattern) =====
-
-// ===== NOTIFICATION CENTER =====
-
-// ===== FULLSCREEN =====
-
-// ===== MOBILE MENU =====
-
-// ===== PROFILE SETTINGS =====
-
-
-// ===== ANIMATED COUNTERS =====
-// Run counters when hero is visible
-const cntObs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){
-    animateCounter(document.getElementById('cnt-donors'),4287,'');
-    animateCounter(document.getElementById('cnt-lives'),12841,'');
-    animateCounter(document.getElementById('cnt-liters'),5723,'');
-    cntObs.disconnect();
-  }});
-},{threshold:0.3});
-const heroEl=document.getElementById('v-hero');if(heroEl)cntObs.observe(heroEl);
-
-
-
-
-
-
-// ===== MAP =====
-
-
-
-
-
-
-// ===== ELIGIBILITY TEST =====
-
-
-
-// Open accordions by default based on screen size
-(function(){
-  const w=window.innerWidth;
-  const isDesktop=w>1024;
-  const isMobile=w<=640;
-  
-  function openAcc(targetId){
-    const body=document.getElementById(targetId);
-    if(!body)return;
-    const btn=document.querySelector('[data-target="'+targetId+'"]');
-    if(btn)btn.classList.add('open');
-    body.classList.add('open');body.style.maxHeight='none';body.style.overflow='';body.style.opacity='1';
-  }
-  
-  // Profil: Classement — collapsed by default
-  // Guide: all collapsed by default
-  // Éligibilité: critères collapsed by default
-  // Collectes: Prochaines collectes — collapsed by default
-  // VR: Choisis ton univers — collapsed by default
-  // Everything collapsed by default — user clicks to explore
-})();
-
-
-// ===== ONBOARDING MODAL =====
-
-
-document.querySelectorAll('.badge-item').forEach(function(b){
-  b.addEventListener('click',function(){
-    var n=b.querySelector('.badge-name')?.textContent||'';
-    var e=b.querySelector('.badge-emoji')?.textContent||'';
-    var earned=b.classList.contains('earned');
-    var d={'Première Goutte':'Ton 1er don ! Une poche peut sauver 3 vies.','Régulier':'3 dons — donneur fiable. Continue !','Gamer':'50 parties HémoRush™ ! Compatibilité sanguine maîtrisée.','Plein air':'Don en collecte mobile extérieure.','Parrain':'Tu as recruté un ami donneur. Effet papillon !','VR Explorer':'Don avec casque VR immersif — expérience zen.','Héros Or':'5 dons = ~15 vies. Palier Or atteint.','Légende':'50 dons — moins de 1% des donneurs y arrivent.','Donneur Rare':'Phénotype Duffy négatif — parmi les 30 donneurs les plus précieux de Suisse romande.','Champion':'Top 3 tournoi HémoRush™. Bravo !'};
-    var detail=d[n]||'';
-    var s=earned?'✅ Obtenu':'🔒 Pas encore obtenu';
-    alert(e+' '+n+'\n\n'+detail+'\n\n'+s);
-  });
-});
-
-
-
-// Breadcrumb update (see below)
-
-// ===== TOUR GUIDÉ INTERACTIF =====
-
-
-
-
-
-
-// Breadcrumb updater
-
-// ===== BLOOD CELLS HERO ANIMATION =====
-(function(){
-  const cont=document.getElementById('hero-cells');if(!cont)return;
-  const colors=['#E63946','#F4D03F','#9B59B6','#C8A960'];
-  for(let i=0;i<15;i++){
-    const cell=document.createElement('div');cell.className='cell';
-    const size=10+Math.random()*30;
-    cell.style.width=size+'px';cell.style.height=size+'px';
-    cell.style.left=Math.random()*100+'%';
-    cell.style.background=colors[Math.floor(Math.random()*colors.length)];
-    cell.style.animationDuration=(15+Math.random()*25)+'s';
-    cell.style.animationDelay=(-Math.random()*30)+'s';
-    cont.appendChild(cell);
-  }
-})();
-
-// ===== SCROLL TO TOP BUTTON =====
-
-// ===== KEYBOARD SHORTCUTS =====
-
-
-// ===== LIVE TOAST NOTIFICATIONS =====
-
-// ===== SCROLL REVEAL =====
-
-// Re-trigger reveals when navigating to a new view
-
-// ===== AUTO-EXPAND ACTU ON DESKTOP/FOLD =====
-// actus accordion collapsed by default (user feedback)
-
-// ===== AR POSITION DETECTION =====
-// Real CTS (Centre de Transfusion Sanguine) locations across Switzerland
-// AR geolocation triggered when user opens collectes view (see go() function)
-
-
-
-
-// ===== DONNÉES DU JOUR (stocks officiels, collectes HUG, actualités) — api/donnees.php, cache 6 h =====
-
-// News feed carousel
-var newsIdx=0,newsTotal=3,newsTimer;
-function goNewsSlide(i){
-  newsIdx=i;
-  var feed=document.getElementById('newsFeed');
-  if(feed)feed.style.transform='translateX(-'+newsIdx*100+'%)';
-  var dots=document.querySelectorAll('.news-dot');
-  dots.forEach(function(d,j){d.classList.toggle('active',j===newsIdx);});
-  resetNewsTimer();
-}
-function nextNewsSlide(){goNewsSlide((newsIdx+1)%newsTotal);}
-function resetNewsTimer(){clearInterval(newsTimer);newsTimer=setInterval(nextNewsSlide,6000);}
-resetNewsTimer();
-</script>
 
 <!-- BEEBOT FAB -->
 <!-- LIVE TOAST -->
@@ -688,6 +498,65 @@ resetNewsTimer();
   </div>
 </div>
 
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('hero');
+// ===== ACCORDION AUTO-CLOSE ON MOBILE/ZFOLD (actus & stocks) =====
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.innerWidth<=1024){
+    // Mobile / ZFold : close both
+    ['actu-home-toggle','stock-home-toggle'].forEach(function(btnId){
+      var btn=document.getElementById(btnId);
+      var body=btn&&document.getElementById(btn.dataset.target);
+      if(btn&&body){btn.classList.remove('open');body.classList.remove('open');}
+    });
+  }
+});
+
+// ===== ANIMATED COUNTERS =====
+// Run counters when hero is visible
+const cntObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){
+    animateCounter(document.getElementById('cnt-donors'),4287,'');
+    animateCounter(document.getElementById('cnt-lives'),12841,'');
+    animateCounter(document.getElementById('cnt-liters'),5723,'');
+    cntObs.disconnect();
+  }});
+},{threshold:0.3});
+const heroEl=document.getElementById('v-hero');if(heroEl)cntObs.observe(heroEl);
+
+// ===== BLOOD CELLS HERO ANIMATION =====
+(function(){
+  const cont=document.getElementById('hero-cells');if(!cont)return;
+  const colors=['#E63946','#F4D03F','#9B59B6','#C8A960'];
+  for(let i=0;i<15;i++){
+    const cell=document.createElement('div');cell.className='cell';
+    const size=10+Math.random()*30;
+    cell.style.width=size+'px';cell.style.height=size+'px';
+    cell.style.left=Math.random()*100+'%';
+    cell.style.background=colors[Math.floor(Math.random()*colors.length)];
+    cell.style.animationDuration=(15+Math.random()*25)+'s';
+    cell.style.animationDelay=(-Math.random()*30)+'s';
+    cont.appendChild(cell);
+  }
+})();
+
+// ===== DONNÉES DU JOUR (stocks officiels, collectes HUG, actualités) — api/donnees.php, cache 6 h =====
+
+// News feed carousel
+var newsIdx=0,newsTotal=3,newsTimer;
+function goNewsSlide(i){
+  newsIdx=i;
+  var feed=document.getElementById('newsFeed');
+  if(feed)feed.style.transform='translateX(-'+newsIdx*100+'%)';
+  var dots=document.querySelectorAll('.news-dot');
+  dots.forEach(function(d,j){d.classList.toggle('active',j===newsIdx);});
+  resetNewsTimer();
+}
+function nextNewsSlide(){goNewsSlide((newsIdx+1)%newsTotal);}
+function resetNewsTimer(){clearInterval(newsTimer);newsTimer=setInterval(nextNewsSlide,6000);}
+resetNewsTimer();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
 <script src="../lexique.js" defer></script>
