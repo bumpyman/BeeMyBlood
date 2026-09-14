@@ -8,6 +8,17 @@ function bmbGuard(e,url){
   }
 }
 
+// Variante de bmbGuard() pour les elements sans navigation native (div/button onclick,
+// notif-item, hero-feat, mob-item...) : bmbGuard() se contente d'empecher le href par defaut
+// et compte sur le navigateur pour naviguer quand deja deverrouille, ce qui n'existe pas ici.
+function bmbGoReserved(url){
+  if(window.BeeAcces && !window.BeeAcces.deverrouille()){
+    window.BeeAcces.exiger(function(){ location.href=url; });
+  } else {
+    location.href=url;
+  }
+}
+
 // Pont eligibilite -> beebot.html (etait un simple go('chatbot') + addMsg dans la SPA).
 // La question en attente passe par sessionStorage ; beebot.html l'envoie a l'arrivee.
 function goChat(){

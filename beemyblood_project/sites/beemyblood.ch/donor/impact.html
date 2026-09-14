@@ -1,0 +1,731 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Mon impact — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve active" href="impact.html" aria-current="page" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve active" href="impact.html" aria-current="page" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Impact</span>
+</div>
+<main id="contenu" tabindex="-1">
+<!-- ==================== IMPACT : APRÈS-DON ==================== -->
+<div class="view active" id="v-impact">
+  <div class="sec-header"><div class="sec-label">⭐ Après-don</div><h1 class="sec-title">Ton impact — chaque goutte compte</h1><div class="sec-sub">Le moment le plus important : savoir à quoi sert ton geste</div></div>
+
+  <!-- Celebration card -->
+  <div class="celebration-card" style="margin-bottom:24px">
+    <div style="font-size:48px;margin-bottom:12px">🏆</div>
+    <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--gold)">Merci, Amine</div>
+    <div style="font-size:15px;color:var(--text-dim);margin-top:6px">3 dons · jusqu'à <strong style="color:var(--gold)">9 vies touchées</strong> · Donneur rare Duffy négatif</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-top:3px">1 don → 3 produits sanguins (érythrocytes + plaquettes + plasma) → jusqu'à 3 receveurs</div>
+    <div style="display:flex;gap:24px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+      <div><div class="impact-counter" id="cnt-my-lives">9</div><div class="impact-counter-label">vies touchées</div></div>
+      <div><div class="impact-counter" style="-webkit-text-fill-color:var(--red-soft)">1.35 L</div><div class="impact-counter-label">de sang donné</div></div>
+      <div><div class="impact-counter" style="-webkit-text-fill-color:var(--purple)">9</div><div class="impact-counter-label">produits générés<br>(3 CE + 3 CP + 3 PFC)</div></div>
+      <div><div class="impact-counter" style="-webkit-text-fill-color:var(--blue)">~30</div><div class="impact-counter-label">donneurs comme toi<br>en Suisse romande</div></div>
+    </div>
+    <button class="btn btn-outline btn-sm" style="margin-top:18px" onclick="launchConfetti()">🎉 Célébrer !</button>
+  </div>
+
+  <!-- FLIP CARDS: Ce que ton don devient -->
+  <div style="margin-bottom:16px">
+    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:10px">🔄 Ce que ton don devient — touche pour retourner</div>
+    <div class="grid-3" style="gap:10px">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div style="font-size:28px">🩸</div>
+            <div style="font-size:14px;font-weight:700;color:var(--red-soft);margin-top:6px">Érythrocytes</div>
+            <div class="flip-hint">touche pour retourner</div>
+          </div>
+          <div class="flip-card-back">
+            <div style="font-size:13px;color:var(--text);line-height:1.5"><strong style="color:var(--red-soft)">CE</strong> · Globules rouges concentrés · Conservation <strong>42 jours</strong> à 4°C · Chirurgie, anesthésie, grossesses, hémoglobinopathies</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div style="font-size:28px">💜</div>
+            <div style="font-size:14px;font-weight:700;color:var(--purple);margin-top:6px">Plaquettes</div>
+            <div class="flip-hint">touche pour retourner</div>
+          </div>
+          <div class="flip-card-back">
+            <div style="font-size:13px;color:var(--text);line-height:1.5"><strong style="color:var(--purple)">CP</strong> · Concentrés plaquettaires · Conservation <strong>5 jours</strong> seulement ! · Onco-hématologie, greffes, hémorragies</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div style="font-size:28px">💛</div>
+            <div style="font-size:14px;font-weight:700;color:var(--gold);margin-top:6px">Plasma</div>
+            <div class="flip-hint">touche pour retourner</div>
+          </div>
+          <div class="flip-card-back">
+            <div style="font-size:13px;color:var(--text);line-height:1.5"><strong style="color:var(--gold)">PFC</strong> · Plasma frais congelé · Conservation <strong>3 ans</strong> à -25°C · Brûlures graves, troubles de coagulation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="impact-feedback-acc" style="font-size:13px;padding:6px 10px;margin-bottom:8px">🩸 Parcours de ta poche & historique <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="impact-feedback-acc">
+  <!-- FEEDBACK D'IMPACT ANIMÉ -->
+  <div class="card feedback-card">
+    <div class="feedback-header" style="background:linear-gradient(135deg,rgba(230,57,70,.08),rgba(46,204,113,.05))">
+      <div style="font-size:15px;color:var(--text-muted);margin-bottom:4px">Feedback d'impact · Don #3</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700">Le voyage de ta poche de sang</div>
+      <div style="font-size:14px;color:var(--text-dim);margin-top:4px">14 janvier 2026 → 16 janvier 2026 · <strong style="color:var(--green)">Transfusée</strong></div>
+    </div>
+    <div class="feedback-body">
+      <div class="fb-journey">
+        <div class="fb-node"><div class="fb-node-icon done">🩸</div><div class="fb-node-label">Don<br><span style="color:var(--gold)">14 janv.</span></div></div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-node"><div class="fb-node-icon done">🔬</div><div class="fb-node-label">Laboratoire<br><span style="color:var(--gold)">14 janv.</span></div></div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-node"><div class="fb-node-icon done">✅</div><div class="fb-node-label">Validée<br><span style="color:var(--gold)">15 janv.</span></div></div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-node"><div class="fb-node-icon done">📦</div><div class="fb-node-label">Stock CTS<br><span style="color:var(--gold)">15 janv.</span></div></div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-node"><div class="fb-node-icon done">🏥</div><div class="fb-node-label">Prescrite<br><span style="color:var(--gold)">16 janv.</span></div></div>
+        <div class="fb-arrow">→</div>
+        <div class="fb-node"><div class="fb-node-icon done" style="animation:fbPulse 2s infinite">💛</div><div class="fb-node-label">Transfusée<br><strong style="color:var(--green)">16 janv.</strong></div></div>
+      </div>
+      <div style="text-align:center;padding:16px;background:rgba(46,204,113,.06);border-radius:var(--radius-sm);margin-top:12px">
+        <div style="font-size:15px;color:var(--text-dim);line-height:1.7">
+          Ta poche <strong>B+ Rh D+C−c+E−e+</strong> a été transfusée à<br>
+          <strong style="color:var(--green);font-size:15px">un patient en chirurgie cardiaque aux HUG</strong><br>
+          <span style="font-size:15px;color:var(--text-muted)">le 16 janvier 2026 — 2 jours après ton don</span>
+        </div>
+      </div>
+      <div class="micro-learn" style="margin-top:14px"><span class="micro-learn-icon">🧬</span><div class="micro-learn-body"><div class="micro-learn-title">Ton phénotype fait la différence</div><div class="micro-learn-text">Ton profil Duffy négatif Fy(a−b−) est particulièrement recherché pour les personnes vivant avec une drépanocytose. En Suisse romande, seuls ~30 donneurs partagent ton profil. Chacun de tes dons est irremplaçable.</div></div></div>
+    </div>
+  </div>
+
+  <!-- Historique d'impact -->
+  <div class="card" style="margin-top:20px">
+    <div class="card-header"><div class="card-title">📊 Historique d'impact</div></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-size:24px">💛</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Don #3 — 14 janv. 2026</div><div style="font-size:15px;color:var(--text-dim)">CTS HUG · B+ · Transfusée → chirurgie cardiaque</div></div>
+        <span class="badge badge-green" style="font-size:15px">Transfusé</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-size:24px">💛</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Don #2 — 3 nov. 2025</div><div style="font-size:15px;color:var(--text-dim)">Collecte Uni Dufour · B+ · Transfusée → oncologie</div></div>
+        <span class="badge badge-green" style="font-size:15px">Transfusé</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-size:24px">💛</div>
+        <div style="flex:1"><div style="font-weight:600;font-size:14px">Don #1 — 9 juin 2025</div><div style="font-size:15px;color:var(--text-dim)">Collecte Uni Mail · B+ · 🏅 Première Goutte</div></div>
+        <span class="badge badge-green" style="font-size:15px">Transfusé</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRAMME FRATRIE -->
+  <div class="fratrie-card" style="margin-top:24px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:22px">👨‍👩‍👦</span><div><div style="font-weight:700;font-size:15px;color:var(--gold)">Programme Fratrie — donneurs rares</div><div style="font-size:15px;color:var(--text-dim)">Tes frères et sœurs ont peut-être le même phénotype rare que toi</div></div></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:16px">Le phénotype Duffy négatif est héréditaire. Si tu as des frères ou sœurs, il y a une forte probabilité qu'ils partagent ton profil. Chaque nouveau donneur Duffy négatif peut sauver des vies de personnes vivant avec une drépanocytose.</div>
+    <div class="fratrie-tree">
+      <div class="fratrie-member">
+        <div class="fratrie-avatar" style="background:rgba(200,169,96,.15);border:2px solid var(--gold)">🧑<div class="f-badge">✅</div></div>
+        <div class="fratrie-name" style="color:var(--gold)">Amine (toi)</div>
+        <div class="fratrie-status">B+ · Duffy(a−b−)</div>
+      </div>
+      <div class="fratrie-link">→</div>
+      <div class="fratrie-member">
+        <div class="fratrie-avatar" style="background:rgba(155,89,182,.1);border:2px dashed var(--purple)">👩</div>
+        <div class="fratrie-name">Fatou K.</div>
+        <div class="fratrie-status" style="color:var(--purple)">Invitée · en attente</div>
+      </div>
+      <div class="fratrie-link">→</div>
+      <div class="fratrie-member">
+        <div class="fratrie-avatar" style="background:rgba(79,195,247,.1);border:2px dashed var(--blue)">🧑</div>
+        <div class="fratrie-name">Moussa K.</div>
+        <div class="fratrie-status" style="color:var(--blue)">Pas encore invité</div>
+      </div>
+    </div>
+    <!-- REWARDS FRATRIE -->
+    <div style="margin-top:14px;padding:14px;background:rgba(200,169,96,.04);border:1px solid rgba(200,169,96,.12);border-radius:var(--radius-sm)">
+      <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px">🎁 Ce que tu gagnes en invitant ta fratrie</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.8">
+        🧬 <strong style="color:var(--text)">Chaque membre testé</strong> → badge « Recruteur Rare » + 2'000 XP<br>
+        🩸 <strong style="color:var(--text)">Chaque premier don</strong> d'un·e invité·e → badge « Héros Fratrie » + 5'000 XP<br>
+        👑 <strong style="color:var(--text)">3 membres actifs</strong> → escouade familiale exclusive + accès prioritaire aux créneaux<br>
+        💛 <strong style="color:var(--text)">Bonus rare</strong> : si un·e invité·e est aussi Duffy négatif, vous doublez ensemble le nombre de donneurs compatibles pour les patients drépanocytaires en Suisse romande
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:12px">
+      <button class="btn btn-gold btn-sm" onclick="alert('📨 Invitation envoyée à Fatou et Moussa !\n\nMessage : « Salut ! Je donne mon sang régulièrement et mon profil est rare. On a peut-être le même — tu pourrais sauver des vies que personne d\'autre ne peut sauver. Ça prend 35 min. Tu viens ? 🐝 »')">📨 Inviter ma fratrie</button>
+      <button class="btn btn-outline btn-sm" style="margin-left:8px" onclick="alert('📋 Lien copié ! Partage-le avec tes proches.\nhttps://beemyblood.ch/fratrie/BMB-7K9X2')">🔗 Copier le lien d'invitation</button>
+    </div>
+  </div>
+
+  </div><!-- /acc-body impact feedback -->
+
+  <!-- SOCIAL WALL -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="impact-social-acc" style="font-size:13px;padding:6px 10px;margin:12px 0 0">🌍 Communauté BeeMyBlood™ — Genève <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="impact-social-acc">
+  <div class="card" style="margin-top:8px">
+    <div class="card-header"><div class="card-title">🌍 Communauté BeeMyBlood™ — Genève</div><span class="badge badge-gold">En direct</span></div>
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="community-acc" style="font-size:13px;padding:6px 10px;margin:4px 0">💬 Voir les posts de la communauté <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="community-acc">
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(230,57,70,.15);color:var(--red-soft)">🐚</div><div><div class="sp-name">Corail-517</div><div class="sp-time">Il y a 3h · Uni Mail</div></div></div>
+      <div class="sp-body">5e don aujourd'hui ! Badge « Héros Or » débloqué 🏅✨ Le casque VR fond marin est incroyable — je n'ai rien senti. Qui me rejoint pour le 6e ?</div>
+      <div class="sp-badge-img"><span>⭐</span> Héros Or · 5 dons</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="24" data-liked="0" onclick="toggleLike(this)">🤍 24</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 8</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(46,204,113,.15);color:var(--green)">🍁</div><div><div class="sp-name">Érable-142</div><div class="sp-time">Il y a 5h · Collecte Gare Cornavin</div></div></div>
+      <div class="sp-body">Premier don !! J'avais tellement peur de l'aiguille mais franchement c'est rien du tout. Le lounge après est top 👌 Merci @BeeMyBlood pour le parcours guidé</div>
+      <div class="sp-badge-img"><span>🩸</span> Première Goutte</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="41" data-liked="0" onclick="toggleLike(this)">🤍 41</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 12</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    
+
+<div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(200,169,96,.15);color:var(--gold)">🦅</div><div><div class="sp-name">Faucon-283 (toi)</div><div class="sp-time">Il y a 4 jours</div></div></div>
+      <div class="sp-body">Mon don #3 a été utilisé en chirurgie cardiaque aux HUG. 2 jours entre mon bras et un patient qui en avait besoin. C'est concret. C'est pour ça que je reviens. 💛🩸</div>
+      <div class="sp-badge-img"><span>🧬</span> Donneur Rare · Duffy négatif</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="67" data-liked="0" onclick="toggleLike(this)">🤍 67</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 19</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(52,152,219,.15);color:var(--blue)">🌅</div><div><div class="sp-name">Aurore-694</div><div class="sp-time">Hier · CTS HUG</div></div></div>
+      <div class="sp-body">Don #8 ✅ Mon médecin m'a dit que mon AB- est super recherché. Prochain objectif : le badge Sauveur Or ! 🎯</div>
+      <div class="sp-badge-img"><span>🔄</span> Régulier · 8 dons</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="35" data-liked="0" onclick="toggleLike(this)">🤍 35</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 6</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(155,89,182,.15);color:var(--purple)">🐦</div><div><div class="sp-name">Colibri-831</div><div class="sp-time">Il y a 2 jours · Uni Dufour</div></div></div>
+      <div class="sp-body">J'ai emmené 3 potes à la collecte mobile ! On a tous eu des badges et un café offert. La prochaine fois on vise le top 5 du classement 🏆</div>
+      <div class="sp-badge-img"><span>👥</span> Ambassadeur · 3 parrainages</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="52" data-liked="0" onclick="toggleLike(this)">🤍 52</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 14</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(46,204,113,.15);color:var(--green)">💎</div><div><div class="sp-name">Opale-956</div><div class="sp-time">Il y a 3 jours · Place du Molard</div></div></div>
+      <div class="sp-body">Exercice de respiration pendant le don = game changer 🧘 Plus détendu que chez moi. Groupe O+ donné, j'espère que ça aide vite quelqu'un !</div>
+      <div class="sp-badge-img"><span>🩸</span> Première Goutte</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="28" data-liked="0" onclick="toggleLike(this)">🤍 28</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 7</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(230,126,34,.15);color:var(--orange)">🪨</div><div><div class="sp-name">Granite-723</div><div class="sp-time">Il y a 4 jours · CTS HUG</div></div></div>
+      <div class="sp-body">Don #15 🎉 J'ai reçu mon bon Starbucks + un tote bag BeeMyBlood ! Et surtout, 15 vies potentiellement sauvées. C'est le plus beau cadeau.</div>
+      <div class="sp-badge-img"><span>🥈</span> Héros Argent · 15 dons</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="89" data-liked="0" onclick="toggleLike(this)">🤍 89</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 23</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(200,169,96,.15);color:var(--gold)">🌿</div><div><div class="sp-name">Mousse-614</div><div class="sp-time">Il y a 5 jours · Collecte CERN</div></div></div>
+      <div class="sp-body">Don #28 au CERN ! Avec le programme Fidélité, j'ai cumulé assez de points pour les places de cinéma offertes. Mais le vrai bonus c'est le sourire du personnel 😊</div>
+      <div class="sp-badge-img"><span>🥇</span> Sauveur Or · 25+ dons</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="112" data-liked="0" onclick="toggleLike(this)">🤍 112</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 31</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(46,204,113,.15);color:var(--green)">🔥</div><div><div class="sp-name">Silex-338</div><div class="sp-time">Il y a 6 jours · Uni Mail</div></div></div>
+      <div class="sp-body">Score HémoRush™ : 6'240 pts 🎮🔥 Je comprends enfin la compatibilité des groupes sanguins. Qui me défie ?</div>
+      <div class="sp-badge-img"><span>🎮</span> Gamer · Top 10 HémoRush</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="18" data-liked="0" onclick="toggleLike(this)">🤍 18</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 9</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div class="social-post">
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(230,57,70,.15);color:var(--red-soft)">🌫</div><div><div class="sp-name">Brume-507</div><div class="sp-time">Il y a 1 sem. · CTS HUG</div></div></div>
+      <div class="sp-body">Don #2 — cette fois j'ai regardé l'aiguille et j'ai survécu 😂 Le feedback d'impact de mon premier don m'a tellement motivée. Je reviens dans 4 mois !</div>
+      <div class="sp-badge-img"><span>🩸</span> Régulier · 2 dons</div>
+      <div class="sp-actions"><span class="sp-action sp-like" data-count="33" data-liked="0" onclick="toggleLike(this)">🤍 33</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 11</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
+    </div>
+    <div style="text-align:center;padding:12px">
+      <button class="btn btn-outline btn-sm" onclick="alert('📸 Rédige ton post et partage-le avec la communauté !')">✍️ Partager mon expérience</button>
+    </div>
+  </div>
+  </div><!-- /impact-social-acc -->
+
+  <!-- Attestation -->
+  <div class="card" style="margin-top:24px">
+    <div class="card-header"><div class="card-title">📄 Documents & attestations</div><span class="badge badge-gold">4 documents</span></div>
+    <div style="font-size:14px;font-weight:600;color:var(--text-dim);margin-bottom:6px">Don #3 — 14 janvier 2026 · CTS HUG</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+      <a href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA3IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNyAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKHVudGl0bGVkKSAvVHJhcHBlZCAvRmFsc2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvdW50IDEgL0tpZHMgWyA0IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAyNDUyCj4+CnN0cmVhbQpHYiIvKjpOdFBPJyMzYTJiXjRcTWc9ZHFUIVtSISEqSUkyPy0+PUFLaDI8cUY2cU0yPztQYlhPb0JnYGVKZmw/aUchLDg2bTYkTUMxciZpTlFtImByKi5MRUszRVpBZk44XzZxJDRtaWkxRCNFbShyKGQqblZAOjIsKXMsNig/JERrOnNWV1gmZ19QQU4oRktCPCY5cysoX1I6IyVeVE0zI19UbmVdYHFHZkxgPV4qOEkoLilMI1hpR1BmNDhETi8xWk1uSHJUbk8yaz4yajdEZjFocXU/NSdqUzImZ1trMGs1SyE3TCkjclNsKU5mO3RJS1drSWM2QGxiLVlfIj1ocVVaKj1yNXEwcEwhXHAoQUUqZl8qPGY8aG5WKChsYidsZzFyJT9ZMS5pS0xTPShVKixTQUtwKz1BdGxpY1NSRmQzPUItWS1XLilnTU1oSktcTlN1bXRybFU0IjFoZkxZVGcpVEBhUCtyYGBzSj5SajFmMl5nTXNNTGBaQy5hYXQ0WT1GMVlwa20/bmtSRilrSHJsdUtwUDZBaEtcUE85bS8uTVNSVjxPJWU0YVJJUGohOGRmNUBvSEIjUSU1OlJNLUdJR1gmSGA5RDwhZzdiZWs8OkdfOjpmdG4wcHM8SklvKWpjZzxqODd0LiUxdDFJQzIrZSYlKzkhPWZpMjBhPFEoV0s9JFtoJSxaaj1HPyY2WiRbTW07LnMvZGguTS9MbGNmbTQ+MkRKJ0BgPEskb0gsL10qM3BcIXRhZ2JjQkY3bGllJXFHSjdTVyNSJkQxcT9CK05dRDsoW2l0Ty0oIksjcVdhOnFSPkAyMCs8ST9ZRl49Q2NEMy8zQiMmLGNFXiVgPSsvbXFzbi9dI0E9ZHBZMilJMDNcS2A0U1suXTJzLFVrQkIvKlhFI2RPTjMvWkQ6UVQwVTlWTENKWExwNFcpVUxxQ2I2Zm0tLUBCJVldLSspLkAjcnByJz1kaltBMTdpNDZrInQ2cHROQWcqVThBJmsrSzYkVWZzbWVxJWEnKUJiJTJRMC0hbUQkay5EZmY+WUZfaT5kPCE5Nyp0aWw+Oz5cSGdpNF8rTkdnOUtPM1M/SWVSVGdYJzokYys7UmxELkU+PlgpUW5VZThyK2I0QGo4PFFTIzBfbCdeM1crQ2MwWEVbLU9DIltfdXFuO15PRiQyODw+Wy10NzEqaW8oV101Im5IRVs8UjVgWToxZy5KMCRpKCpJJnF1bSVMTUJoLVw+OzAhMHNiIXRua140MXNdVEdXT1toWnUjYl8hZGZsJFZrRytYVVchTENaRDdAY2dIUFBtQ3U2dSVqJVwiP0dUVlQhQXU0KDJRMilXWWpLTkglSnUmcUNvNlNTJk90KSs5XkhdcUpqMDYpX1IiJFoyL1IoKUdDOUNUUWo9KUk3SSJnWW44aDstbEN0RWNINDU0Vy9CKkdgM109UTglVjYpQENnQmc2XWZ1IUE2X1FKJ2MjT1YtWW5dJz43JjNgcUoycTk6QWFWLCY+SGxRN1ZANSE+P2hIJnIyT2kpW1Nqbi05VWtLRD9HY1pRW3JeMkNZITpcWD9DPlNDKk1wTUJgKCpASUgnXGdmWWxrOVZWUD0+VHVKLTBMdSYmLD0vV2tQSm5zYVk3dEBlbzB1XzE0cCpfTlMpMlZdTydbKj1nUjZhUTo0c1NdZlhaWC1DMGVZUU5RVlM0dWJgKj5uJzNzQk46Um5KYU0qbWhMMlY2PkM9VDRXRElIbEw3bzsvRTtMQXNnWTYxRF9ZRWc1cVg5QXM0cW1pZmIkVlw9aipaP2wzQXRNYkNSQV8kXzZEO1tobmIrX15FVCdZN2NCbFNLVF9fVTg8X3Q3ZzdQYD9oclVPSzxmQDtTPXNmNHUqRmJsVToqJ1g6OkNGLWdLaUZhNEcqV2o/Qmk+QXFMbWFFIy48bT9pPVw/cC9la1dNMiwqRzFkMGBXM2g+Q2pscj1EKEg6b20/YVA3KE5eOEoxY0VFNjVtKjJdJnMtLkFkKyJTIStaZ1JRPSl1YjBWU1pCZ1JuV2tnVj5NPE9vUHFwSD9wXHFIRSU+dUI7bkkkXGNObTsuVTooPiImT0YwIU44M1MhK1s8RDlMTFdZJDlBMHUmTl11dSZOXXV1Jk5ddS0saWA6aS90UzUiQzFKSCpVU25kTyE+JGdOOEVta1chKCY4NU84bCRBLi1TRDpoJD4lOkZYKHUuX2VAX20qY3U3MCEoNSI7Iz0pKDglWTJpbz85LUhMMlBMOXJLcUc3UEZNPlBWT3NHSCRnKHFVOyU6ZkhScGlRU3RsSzgyPiskSDNbXG9gKXFqUlZPOVc6QjBTVzplYUU6X1RLKCtQMEYjK0lXP3VbdCwqLSRwPltUQ0FNJVkmaWIyUCJhMEhsO2hNbTVQPmZRTVA5bS1JXlNAXU1OWkM4Q0lBM3FQYU8tMzxJbnJqRiEnNUZIclJeSC82ME5ZWS42Mi9gITRkJTshOUNaQUpgRUwxK05MKVZUUUNdLS9bYihrITI3ZS1ZTT8iR2dGMiVEOEVpUmwiTz43NCE1M1dGXnAxP04rQFY/aFYzW1xfSi9nXW5KQEtFcmNvXGRRRTVTLD45P2Iqa0pAS2NJITQpUEtJPCthaVdSQXUqXzpKY2NNYmFqS1tAYiY3OW9tJ1cqXUEwPjs1KEpYUG1YJEg0VE8uQ0VTcSwhNj5zY0JkK2UlMkpEKkc4ITsnSVMhTj1dOCFOOiJiIURsak0qZTldPUpJYipmNFpzOUxmSTViQzhdQTFhVjF0JDtSaidzWGQ8Lk1CM0tPYCFOMiZgXmoqMVE9JUhtZD9ycE9RWGckOFtbKlhtSCJVZEg0KUZUQ0pKa1EtSnNaajM3TStvOSQwMytUWFxoKTpOSCZPV1lTKkMiX1o6JGpqbz0hZGU3bmBgMW0oPE89VVRvPjFNcy5wLClgZXAqKGdbWyMuP3EpOEJgN3JPUEgyZDZkYE5sTUBHOzlmdT9FayNgW0I2bFxTKk5kLHEzI1MyLiwzIkVDXFVFclNQP3MrZiU+PE9LWDNYLDkqa1FITCktRVFISldPQ0hXLzRpPEU5bWdRaT5nIkcqQzxKPEVJWGNTJ0NRQElcWiVUMCEhKnMraG1FaEJENiZUM2lodWFrW11WKzRdazpqLmtKK24kL2J1USpjbU41MmJAX2I8bUIzI2EpOWJIUS1mJC0rLT5sdS4vVlM1YShpUkIxMEZOVFBnLCpqbz1CKS9sYC1LOW9zUGRbImYpKHVnZS8+dH4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgOQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDEwMiAwMDAwMCBuIAowMDAwMDAwMjA5IDAwMDAwIG4gCjAwMDAwMDAzMjEgMDAwMDAgbiAKMDAwMDAwMDUyNCAwMDAwMCBuIAowMDAwMDAwNTkyIDAwMDAwIG4gCjAwMDAwMDA4NTMgMDAwMDAgbiAKMDAwMDAwMDkxMiAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzw4NDIyYjA3N2FlOGJmYWY3Y2Q0ODIzZTAyZjIzOWIxND48ODQyMmIwNzdhZThiZmFmN2NkNDgyM2UwMmYyMzliMTQ+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDYgMCBSCi9Sb290IDUgMCBSCi9TaXplIDkKPj4Kc3RhcnR4cmVmCjM0NTUKJSVFT0YK" download="Attestation_Employeur_Don3_14jan2026.pdf" style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;color:inherit;border:1px solid transparent;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='transparent'">
+        <span style="font-size:20px">📄</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:15px">Attestation employeur</div><div style="font-size:13px;color:var(--text-dim)">Justificatif d'absence · Art. 324a CO</div></div>
+        <span style="font-size:13px;color:var(--gold);font-weight:600">⬇ PDF</span>
+      </a>
+      <a href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA3IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNyAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKHVudGl0bGVkKSAvVHJhcHBlZCAvRmFsc2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvdW50IDEgL0tpZHMgWyA0IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAyMzUxCj4+CnN0cmVhbQpHYiIvajpLUT0wJkFbYzMuSFw7YlJcWlRLWj1NLzY4NFo8WSc6T1lNSGY4RUxaWjUhNFdVMiJWXCpxdDhBNCUsJzdOO2VdR2g6WEVDJlZnJ2c9NlBncGFfKjZXc3VsOS0yZFYvISRQY3Ijc3A/TWI7XHAyXF90OSE4N1FPZjc8aEI0MiFbU2E2OmkuUUBvPENpZVAlO05MLiJDbV9yXDMuQGRrMUAyYUFbRkdedVliPXQmNURHJ2puIi89KSlIK3JZYU0lNlFYVS9tazImJiFzTCIzLltpa0UmOmxyJW84NFhfWFw/a1QzOT0wMSo+XkFmTVpgKiksclVmUERUOCcvO2h0WGQ6TSdeaUJwVU1rPXBrMU1DKjkjLCk+M2szZj5pMGNHKEFKKlFJJ15tJyVbalFvNSI5MSxDRmVqQWdzVjYwYmJ0V3FMSmYoM0tlWT1nZColPD1XWT4tTF9kQCcsVUpFXlg1Y1pXcSpIY1grNFZUa140KkdNa2E3RzgpR0NBIk9saURLOnN0OzNaWjhzSkNabipwMEonJ11Bciw3JytMN0EoNFUrZmRaPmszZmxaIltoNnVOblhqT0ByZUc2K15cZV9IV2tATG81QEBeS3FGXjtAOTRHWEA9LDcwdUsvL2l1cXAycz5QWShXPCxbXVpkXFwlT18tSTVpOGdcVThUMCNFcTNRKllqQWFMSlJUT0pWdSpiaTlOKjcvSSRfZ1djSVZsXko9KD0qa1o5NyVvcjticCxJKjUzLilrKVVeRyJYQFhrU15DaUs3bSosW0g3Km5MQkokaDs/LE4tWGxuLmMzLU1xVGwuZWhgZnFhPmpEOkpRaHQlMDZwLlVRWig/XDJiLj9CSjQlVDwxO15oRio8UydbciEqVHQhWTQ9JzUjJ3M1L2dFPFddWWtvcnQ/OWBjWGYrTCliZmpAbGI+YD5MJ2E8NWJQKHVYYVBMNHVxZER0NEFjcTpYNjtbPioiNHE3YT41YypPWTRiX2FNaGdMMTc7TWZqYD9eNClWOV8+OGw5aipdVkxfK0Q/Klo0MCIxQDIyRlxDOkY+Mi5Oc3JsWURMYVkqRU05VTtQN01daztFXk1gT0hLU0hSN08sUW5rcTdtZVBzMmB0PTRDJ0A2LExjYFwsNTRoJjRsbzZXMio+ZWdKJE0xW2wpZ211dWdVakgscEUsQTEqUj5LajJrJzRlXWFOTypGVGxQTm0oJXImS2UoYko3YFEmL1UsV2NnaEVXLGdtRDBOTVdKWmR1Il41SSVaS0xCalRWSzxvSGAiamo5Oj5UIi1APyZTJTpZVEh1NkNyJSY8RmBIJV08YCtkKmQ0PVVSQVNJMy9LYDhBKlIzYDZEcy1pajdjOGhBSVwwPXQ9Tm5RTj1CODVgWCxmW1pJcVJsXkZoUSlEclBOXUheQGRpZEY3RjVEcHRccUBvNjswc0MpPS8sYF5aa0BaaCJmaF08QDQsVVdhWl1bSjZvNSo2MiYuVEBOTSxjKjRuSFhhWVxoPD5pSG0pZTliM25EW3IsR3JbRTFYMFNbXUokcUYiUEdCO0E5RWVPJlBBYWFBMGpRKF0nbnVkO0dsVzc7Sl00cDUtSzlHK3A0WEZeJCNCXygiQVpdR0QwcS1kJ3BiYSYwWU0nSW9SWXAqO1o9UFAhVHVDR2xXbFJsaClmNF5VRzQ/QnM2blAkVkxPRzU4ZjM3JjEpITo+UFg6Y0ArL1JHPTs8WjpbJ1oxZSlpRltzPVVYPWdgV0VUbyQjSDNFQzwxdXBhOmFNWVsiYjUwaUplKVVuQTYwKyVXXyhkaVV0Lz1eXDBCJFpwY1xcJG1BJU8vITdpJTs9OGIrbzNnIjwzImpmLTI7K01wVDlDPjpOUmU3IlVGOSghSVFtR2oyIWg8cClGPDxJQmZhITZMUGx0MkNiMHEkV2IjOllNM0QzKThkTEMvRzw3bUAmIyNKZ24hUnFzNCE4MzJAJzlOXkUhWEdBW2QvaDxgRjkmVFsqSXNVIzE5bGI4LGA8UVkzNDtdNiR1YzJ1a0gtLXFwJ3FaIUgkXUg7WStxWjFjP0NMVEpGLGhpITVpS1YybmRiTE9UQzF0SFMnYjMhPz9WUjJTRi4sSlNnJkJPT0RJdSJwU0ZCOTFkUHEmbjs9LzJbczl0Mj5uTUY+bD9lQ2EwV2dFO086LGArST5rN1RdV0VfOyFZOmk6YV5icU9EQ2QiTG5UQEdJMz9JcTZVKSc6TC1DbmUkKjY3c0ptKkg7V0NeTFphXSQ6J1A7VDkkXlFrXj9OX1owLklBM3FkT0hoMUhzJ0Q7LCEnIzdFclJeKXRLQCdAPTs9XmZuIS02dVQhVF5vRkpfTlsqK1FvQCM6cURFUlE8Sk1SKz5lSC9RLnE4cDJHM2dLOzBwVkhKYnMkYVRHSzZwXEYiRD07WUc/PEM/XV48RXFYX1hFUzRCZG4pVU0lKXFLKzZpcDwtN2AzbUpiYVNxQ3FTYiIrImVRckd0SHAqIWBIbVNqREorYkktSE4oSkxZYzZyTCRATmsiV1BCT1EjRVlcbCNCJDU3a2hHU1ZvUEpnYFRRWkctNWQpSVQ1YjNsVTVnOUI5VFdTSjRKMyJWTzU3Rmdmb0s0cz0+N2lBXS5gUDVKUlFgJzcoWkZKNFUhb14tIjZuMG5FSExFYjMkKD5lIT1oQU9zITE3LV1jS0chQC1DKkczcU9YPiM5WmZvI3NiU2MnN18hVGtXOWFDT1EvNmZWXnRbaEwwMEthSWVyKF85bFg9O2BxKj5fXjQ1cSU5TWI0ZCM+aUVURm49byEhX2ZlKF0nSFQyakZTOCNbInNjVUxAYj8xZkI2Xk4/XyM1L045QGsyMjBEdUU/YSJLcFEqITVfaCspZXRyMjkxSUs9U0ooRVQ9WTlTQWNxJzZNUEknQlE5ViZsWzRtdCpQQU8tbFYxQ3BnI3FVKCFUUD51PSo3R0tBNmxYaEJCUDgvcyNJKVxnSGtWZ1xaXDVpIl1uaUpkdChRL0dXXlZEOVcsYmVyWy5gWl85dVV0T3IsTXA5bEYkXSRJJyRoKmZjXiNAaCkkI1pZYksvR1B1Tl87NFNuYG8mbF9jOj8yJTxqODRxUFcyaXFURlMvPFw9U3JEJT1pRUJ+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDkKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMDIgMDAwMDAgbiAKMDAwMDAwMDIwOSAwMDAwMCBuIAowMDAwMDAwMzIxIDAwMDAwIG4gCjAwMDAwMDA1MjQgMDAwMDAgbiAKMDAwMDAwMDU5MiAwMDAwMCBuIAowMDAwMDAwODUzIDAwMDAwIG4gCjAwMDAwMDA5MTIgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8OTYxZTI4MmY5OGZiOGIxMDNhODYwOTU5NDE0Y2ExODk+PDk2MWUyODJmOThmYjhiMTAzYTg2MDk1OTQxNGNhMTg5Pl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA2IDAgUgovUm9vdCA1IDAgUgovU2l6ZSA5Cj4+CnN0YXJ0eHJlZgozMzU0CiUlRU9GCg==" download="Attestation_TPG_Don3_14jan2026.pdf" style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;color:inherit;border:1px solid transparent;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='transparent'">
+        <span style="font-size:20px">🚌</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:15px">Attestation TPG</div><div style="font-size:13px;color:var(--text-dim)">Transport gratuit jour du don</div></div>
+        <span style="font-size:13px;color:var(--gold);font-weight:600">⬇ PDF</span>
+      </a>
+    </div>
+    <div style="font-size:14px;font-weight:600;color:var(--text-dim);margin-bottom:6px">Don #2 — 3 novembre 2025 · Collecte Uni Dufour</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <a href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA3IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNyAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKHVudGl0bGVkKSAvVHJhcHBlZCAvRmFsc2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvdW50IDEgL0tpZHMgWyA0IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAyNDY2Cj4+CnN0cmVhbQpHYiIvKjk2XS4lJmAyaFRiVy90YVFdMkInISIhdTc9NypAZERBayVtYFomKlUsVzZAOTtQTVk8cVtXQiQuOVk4XyNAPyEsJlNYYCtjJE0tM0pjW3EyTVdTdWcjLlUmO21zYyZwLFlUIXMnTjZdNiYoZjg6Izo7a1pFV1tsLjZZKWluOidyOChfTjVXSylwa2olMT1APTYpUUZKZV5KNT1FSis3anBXISFcalRKO1dOLXNkXTFJaEJbT1BSKGJlZCxJZE9uRlFIdEhAN184VD4oM18sQCJObDxJOzU7cyo0LEM5YEdSTj9UWEtBQURXdCRfM1U3al5uQWJHKiJDUTBwSGJgOWZlMDkoJFhcZVgwcy5uWjdvbEhqUiY9bmUoQUVDQk82S1M0RVBtUGZGJHRwN0Ara25JQTRCYS1WU3Mjc0p1SS1KLkNQLlxTIT0wNC0sbTE4TUE1S1ROOE9lWSdEJDxYMEM0RjMna3M4Izc2aWRbMXFqPElLZ0A5O1U3Wj9OSm5iIjdjOzxeNipPZ0ZKVFhGQV1HOmVUXmoqcEBuJy9aLmwoLV44QkJvJXVqRlNdNFRoLjtMXFFKYS43SW5DY2pCZWVwcVxPLFtbZmUiW3VgLU5pNWpXW3JDWihVb0RfZGI0TD05JyZbJDFQMylUPjdBSVJdUyFpTE9BLnA1LmoyODdocGRJX3VAPiNQKztiPkpiKGBbaiVVNm9qKjlMKFEwYXMsLiRBRClWT0JZVm9ibmtFT0cuNiMwWmdrTz5OczBfclVGM0sqOUsuR2xjTWxrMSRaYDVNYzdgbzUvIktqaltyIyVEJiE9SGwkbFdzb3FpMHJiWCpybGBpcDhvXzwyUEw4dXM+KyhpOz1gTW9CbkVqWzpZaEZMaEZeOHVoT19RYV1zaSJjJz9fPlE4cV4yVD8vdS1tLXEyIicuMkNVOjFrRE5fSzQzOTU/MlthJ2I1Wyg9M3EmQHBNOS9IIm5rQ0ZcI1k6LWRVQGclcGQsUDlNVz9AUk8lV01gIypQcD89P207MmdOIVBPQV9PYnFZXz88UHI5amNTbFxxY0JWUlBAaHIyX0xDbSZQclVYZ0whOmIwWkJOIkxATkJbZ2EmPSJWMEMmMWFJS1BbY0cvJTlMPlMsdCZJLDBwNV9aOWo5QU0kP1hYX0NkJDBMWm4laV5RSyxCJy4yLzAvUlRoRmYmP21pRGlWNiRTNkhnZG9bO15mXFhza14tSixxZF40YThWSGtiLCM9ckVvQCcoWT9gcSZJR1cmNF5OMVoqJCQrKGIxalpsSks3NGBlKD4vOmFfSEUlZyFMOyhEJzhncltRY00kbzUydCpHVFZXIkF1NChSW0o7JCJWTkE5JjYjSGYlXVw1KEdVZTlTOU8vS08oM2MrNTFqcl9jUGI+c1ZWUmQ5Vk5ILTRlaT8iNVtKUStWVzk7RSk5bkQ+VlN1LGY7Wkc9KUlydVtedFAuKFBbJURLREJxR0lJMT5XM29vbyhYZ2JEVUkmK0osXEwzXWIkVlFBKSphImhNMmhgKW1qXnNkU24/NCswNUYwSkw1PFhMcFAnLVM7cV9gYDJNdVZiKVcxbjY9NDErQjdvNSQ/c1l0WjlbPDo3Oz9yV0ksUioxOjAqXSkkcXFhOVRIWmJkSWZeTzRGKl9Abz1UQS5CTy5DNCtZUlRcbF5lKWM3STshbHAoMCplTGUoY2JjaSlOOj9ALGc7cTlEaEtbM108YD5SPSJtSj1fdVtWbGk9UFF1J2tMN287TkU7J2dSZ1VoOSlfIkAlJ0xAN2ZpNHElIk4wWV9VSWBxZlVpRik5OlNlaEc/Lks0MUpAXk9tXVlJUlEiPE41QS8/I3BoPTRPWEByT0dXOURvcmZpMUk9Pjlqc0M3LW1zRlU0QnIzLWNRMV1lI3VNJ2lPaTdmaXFBRFFWQW9SLEEnVi1WO1NKQ0ExOTdWPjxCc2hMZS1zcGByTClCRFpxSGlAJUJUL2VhITVzLExUVFUhOWImOz9BSl0sNWtlRl5jKV5tRypJdDRYYTxFL2AqXyxKcmtWaFcqYT5QYHJXNXE+WVFDXS89KkJocFZQLWBmWjBqVD5PKztTOCkrcDFZaWtRJVBGRjkjaHIjIyMwSiw3OF9zXGUwOGhaNFZFYFo0VkVgQypfaFFoXyhMYDlQVUBORGtqNkNjaVhoMWhpWj84aFpOWFdTZltvL2hiaGFLa0lNNmQ1aEQiQiE9WWA3RGddcD5PVD5rSkhUTTRSIXFaSjdoWG5yJkhhWE1MISVJZ2NYZihhb1taaSclIjQ9UCJESjEtcDpyQklBK0JMYzRuRzs/Z1VzdTZJIzldQC8jPSs4VSM9LEUrJVkwdUo0VE4kSTNXUlBBJkByPShCT2c5ISEoIylTZFpePyFWY00wKWhKZDNARlMrVy5sS0g/UWUpUzM8VmZuKGA0WlJvbF5CcGo2LVNQTFtUIiJkbW9dNWtQZ1phQDtwR3UybWVvVW9RXjswaTNqJ0kobU50LVtbSWlTTmNIUGdGcUtzcTxWTj8zRS0yWFQ5aCQsO0xiPzhSWilndFciWU1qTnJSSFs+YGpvSmcjaGwwLzVpZEdrNF9iSTZ1VFBILi8zWFFkKzFsbCxxXENQTiE3Z0o/NkZrQ0pwS14lPDpsKjw8TUIkaWo5KEZnbiUubl5sWzlWUU4vK3BHVFpeU2VKJSkrRj46KCoyL1ZjRDBZL2gpcjpUbF0+dSVEPzp1NzwyJmRQOTIlRnA0bD1yIVE6cFxSQEA3V21hTyRocWRNS0pLZEBiZC9GX29NT0gmV1dJSDNwbGVhOEdiVGpkQ3RaXSohIUFOb0RmVSomJSc6QUZUPnFfcUU9dS9eNW1laiEtL1xcITVvZDohKVU/P3IqVm5ZWmVgVz1SdTNGOStrNW4+KzFwQCtsRixLNyJvUkVQYkJtaFBQJ1xjSlI4MGRcZi5tSUcucGRVPmUlYXNxKTFjSCVEYD1rcmwlZV5ESCEvR11BS11eP0BcOVpAPTc1RTVmQHNqMDI7LCouW2JFR29uPF9lcXAnRypdSSdpVlgjXFJTKVE0V0huJTRyWExDPiFLLkhXTWNARl0pYmxmNCFpW10/MDlGWE5HZ285OiJnVV5KWFNlPTY2TiRMYF8hOGcmNSdYOFpJMUBHLVpoaCppcyYtJ2MsTXEjay5uUk8xQGlWUyJxbEFYKEgtYmEpOVNDUWRHNi8rLT11NlBeUjJSQSR0PCwkMDQ8XjdKIU9xWj4qWms9VmU/Tmc2RW5uQC5IUDBrUzVyfj5lbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA5CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTAyIDAwMDAwIG4gCjAwMDAwMDAyMDkgMDAwMDAgbiAKMDAwMDAwMDMyMSAwMDAwMCBuIAowMDAwMDAwNTI0IDAwMDAwIG4gCjAwMDAwMDA1OTIgMDAwMDAgbiAKMDAwMDAwMDg1MyAwMDAwMCBuIAowMDAwMDAwOTEyIDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPDQ5OGFkYTVhZGExYjBhZWIxYmQ3NDA3OGEzODMwMjc0Pjw0OThhZGE1YWRhMWIwYWViMWJkNzQwNzhhMzgzMDI3ND5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gNiAwIFIKL1Jvb3QgNSAwIFIKL1NpemUgOQo+PgpzdGFydHhyZWYKMzQ2OQolJUVPRgo=" download="Attestation_Employeur_Don2_03nov2025.pdf" style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;color:inherit;border:1px solid transparent;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='transparent'">
+        <span style="font-size:20px">📄</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:15px">Attestation employeur</div><div style="font-size:13px;color:var(--text-dim)">Justificatif d'absence · Art. 324a CO</div></div>
+        <span style="font-size:13px;color:var(--gold);font-weight:600">⬇ PDF</span>
+      </a>
+      <a href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA3IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNyAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYwMjEyMTI1MTQwKzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKHVudGl0bGVkKSAvVHJhcHBlZCAvRmFsc2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvdW50IDEgL0tpZHMgWyA0IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAyMzcxCj4+CnN0cmVhbQpHYiIvKjpOcjxlJkFSXDNSLmtvP2RiOl1ILFM3W01FVSlVQkVSVDBdP0A5UylHIWowISRgcWcpcVtPX1RsdGwkIWpDQFI+X1wyKzBxKi0qayd1OT9AJSJEPl9KN2hPTWpdO0lMX0skKVAwYTViUG43JnJkXm5hTTJETGIwIzguNz5FNz40LSQqJkQpJiIkNHQrLTk/bEw2XixGYVZaanJxMEFcWDw4ZUNMbVJQSlNDbltic2pNYD46UTZsNy9DJlQ+NDYtY2FFbE10PycjbyUhMkFFOk8nKmBsJVdCZyQpRjtyWEkmQy9CWWFgKzQwYWk5P0M9SU9RQGBeLUxAJzg7NjZwWTAmLT00biNQRnBEZConODFqS0kxM0xvNl43QVRgUnJvSEsyWVJZO1hOdGIxKFprOWcyUjdacDJZPCgvPVUrVnE6Qz1nKStXJTBqUldtLl1GRWslMmRKTigqLVxCN25PS2w0SyZiMCtoTiFoKUVLbmw1ZkROYChdUEk8Vzc2OVomNTdMLWZcPkZCaiJ0PidrVktDRixNPlwiZzkqMWU9S0hyMiFwcjZfX0xFZHFQImddOyJXJTdgIWZAa05mX0Q+LkVFcFFHb2tYOWpacD9Gal1YKSs+VmBVLGVTSy9CX1suamEtIW5tJzY6OC5dIjEyYHA9YW9pcmNELSNvJ0lrRzokZlotQS8qMCtyaVVHUz5qXkdWbW1nbHBCRTdiKWJmK1onM2lmXnBuQCVSPTw3VGE4bGM7NlRuLF9jM1dcRj8vbHUuJDMlO0orWGoiNVQjaXNLMSstOWYmJzElMUItamd1anFzI0tBTjJwVnNbUWhwNERgP0E7PCZXXEctWEpfbWlaN2BXWyVVc3BKKSpxOVtqUCo9ZGs/YSVkQVI7NF42RWM7cChXPnRkbSE0UylBOy9haWVzP1AwIXAyUihmclp0TSVkcVNgIU9CZTdkZi5KNWliRC4mNXBGRlMpWmhYYEExMXIvZl00JzFGbiwqRFY7WDRBXj9hbG9vLjgqSkYyVlknbFMrKltgTVVMPlQ+PC5PP2o9T0hFT2ZpcWkyZzctZmJSQSU4XT1UISlRblVlOHIrYjRAajg8UUxVdCxwJD9VKlpEUys4IU4yPTxzLytIZl1QX21ZLGJuZ2QvN2tARC80TVA+X15LTz1fPl9zdW9mNCQpOkotayFWJWMiPklZLGhnU2g1PjpFZUtscV43WTlhR2k9Ml1JVnJKRlhqblFxUWxuUCMoRiQ2VD8qdTxMb2xuK29AIm9WZUY/VyNQW0lEYVl1MEAjc3MmczNoYlxiZkpDPkhIVioiMDkpUF1UaEJJW2BhRCdUJ11vY0EmbSpuQi1paWJHLHRZMl9XaCZzJiMzL3FaUGA6Sm1cIkolKl8+PmNhal5FTik9UnJBU0NjQDdNQilXPGIsXyJYUEYlJ0ZRUGRJMFZ0T1dqRTwjXlg9XC8uLz4nPVd0Wi5tOSFWZVdRXSZyIXMkT1pfal5VYjxUQDJKX2kyTkIrL0I7RWk6YzdAUl88ZVAjbCstRUFuSFJsPy4vKjVNLlZxMEczMlxaPCQ3TUxUZXIuU0EsQkE+VEwyWGlQXkg/XGtrSiklL2U1PzY7Smo4bW5xRWdCZiM1R3IwW1lmRWZKJ1M6PCRCcClJIVwvQzBBYlxuPEphOzVCOCtxM2QtY2M+UFlucXQ8Ilw9M1QjXlVLY3NdaGpzLi9JdUBpMChraysuJzF1XykrXGRRJGwjXFpuSTw/IjwwXUY7MzosLUg+YXEtQE9rTiUnbG9lO1JaUFh1VjRVc2wtdCYkJlV0Sl4nRlw5IzQiVWFddDphbDpESVU3Lk1fXyMoVi4hYT1uSjNvKmsyal4pdC0/T1kyNGhUUT1NQ09ASlJIaD1ndGFlaFtsYiFRWkonL0FadVBUTDkvUWY3PSNIbGJHM0xPb1BlWEhGYj4qSEUlOHNCO25JJFxjPDNfJ2ZLV2MhTjdwSyEpc25gITQhNF4tNmE+YyJWLSdjNmpHdFhVJnVNZ2QvZCcsPVhMUyU4aSFCLkpTUTJub2AsNF5kKENbJGdZTXNhQzdha25NPGNTUltlJjtcKlBjaENGOSczbGRAOSJXZztqOEspU0hvOipXUVwjXixBLHFVaypCOSIhRy5IVltZSnNebTovJUkzY2ZKYCw/UjghKiZdNiE5RU0wIVBbSDw0PVJbWzNXTzNzb0Roa2pvYDNNPmxOKnBiaHVMaFllLHRMTUpeQU5eYDk5U0claEsxdS8zTzdpNFouanFIR2NeV0AtUGNWQUVoNCtlLEExUDtgZEs+OkNhIUZDXjRNOGFsVkYvJys5PmMtZyx0Qm1RTG8pWTl0VmROPExJISUzQyZkcEghOWprUS9kKEIpc0Y6X2FJLWxdRkgoNkhnJG1QTjtHTWpxY1FnQ2RQUU9QQWQ6UnM/NydYR2xNc0s0aihZS2xgclY6OGByY21yW0wuR0dYKERtRGwqU0NtUmZKOFBfWlEibi1nPF9VTTNjO3QlLENXKCEsRChtITMjYiNPLmJiOmtGUSpcbF0yQyQlJ05YZyViKFRCWFVrX1RUaUM1Y0dTVSZsaD8tVGQ4LV9FKyxwJVJUTj8zVzgjN2M4ZiU0MidpMV46WiZaMU4tJjFnc1QjOTJBMSJOZy9mbS0+WExXbCV1OmRVJG1QU2tcRC5ZcUFSQlY6aWgtaFRcK2FnLHQ+J0MrQnBQbCdwJm9SImxvWyk1cWk8TkY2RWBsWzZqTUYlPDlKIU5UTVpfUF9eTDZqMj1fWERVVDxjQFB1R0RyVUs9N1JALCw8SWolJnBiTFB1NSI6LVxFSGcvN2FGMytTQSFtcjJVOig/Q15TJ1RGJ10iWWI7T1ZmSVpoX29VWUdGdSdbR2FZWnRCJipcUiM2JSFEOl0mJ0AlTmpPJ3AmU2ZHTU9HK1VdKWMpP2swNTcxayNEWWlXY2MjIldacT0iOiE4UGE3UEYpKV48NCQnUEwmQk5MQXM5NT0xYSVZYGk2LzZjW3RKYVxaSi0/PjxMMj0tLj5ncWgjQVhNKEtlOHA5RzVTcVY8T2lBVnBPND5ScGs2Jj1FPj4pY1pVPyJoWSNvMiw8Sjx1amM7aGY5XVBpYW5cJU1kZkA7P2hccERANC9ILGFqOzh0ZH4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgOQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDEwMiAwMDAwMCBuIAowMDAwMDAwMjA5IDAwMDAwIG4gCjAwMDAwMDAzMjEgMDAwMDAgbiAKMDAwMDAwMDUyNCAwMDAwMCBuIAowMDAwMDAwNTkyIDAwMDAwIG4gCjAwMDAwMDA4NTMgMDAwMDAgbiAKMDAwMDAwMDkxMiAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzxiMjVmNjIxOTUwZTcxNDRhNjc5NTA1ZDM4NGM2ZmUxOT48YjI1ZjYyMTk1MGU3MTQ0YTY3OTUwNWQzODRjNmZlMTk+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDYgMCBSCi9Sb290IDUgMCBSCi9TaXplIDkKPj4Kc3RhcnR4cmVmCjMzNzQKJSVFT0YK" download="Attestation_TPG_Don2_03nov2025.pdf" style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);cursor:pointer;text-decoration:none;color:inherit;border:1px solid transparent;transition:border-color .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='transparent'">
+        <span style="font-size:20px">🚌</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:15px">Attestation TPG</div><div style="font-size:13px;color:var(--text-dim)">Transport gratuit jour du don</div></div>
+        <span style="font-size:13px;color:var(--gold);font-weight:600">⬇ PDF</span>
+      </a>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:10px;text-align:center;line-height:1.5">Générées automatiquement via Concerto · QR code vérifiable · Horodatage SwissSign</div>
+  </div>
+</div>
+</div><!-- /v-impact -->
+
+
+</main>
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="onboard-modal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header" style="padding-bottom:8px">
+      <div style="font-size:36px;margin-bottom:4px">🐝</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">Bienvenue sur BeeMyBlood™</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="ob-counter">1 / 10</div>
+    </div>
+
+    <!-- STEP 0 : INTRO -->
+    <div class="modal-step active" id="ob-step-0">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🦸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros, pas un numéro</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">BeeMyBlood™ transforme le don de sang en expérience premium, ludique et personnalisée.<br><br>Ce tour te montre <strong style="color:var(--gold)">toutes les fonctionnalités</strong> en 1 minute. Tu peux le relancer à tout moment via le lien <strong style="color:var(--gold)">« Tour guidé »</strong> en bas de page.</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : NAVIGATION -->
+    <div class="modal-step" id="ob-step-1">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧭</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
+          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
+          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : DASHBOARD -->
+    <div class="modal-step" id="ob-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          C'est ton <strong>tableau de bord</strong> :
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🗓️ Prochain don programmé + compte à rebours<br>
+            🩸 Stocks de sang en temps réel par groupe<br>
+            📈 Ton historique de dons et séries (streak)<br>
+            🏆 Badges débloqués et objectifs<br>
+            🩺 Passeport santé (résultats labo de tes dons)<br>
+            🤝 Programme BeeMyBro (parrainage)
+          </div>
+          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : ÉLIGIBILITÉ -->
+    <div class="modal-step" id="ob-step-3">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Test d'éligibilité + Questionnaire médical</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--green)">Pré-éligibilité rapide</strong> — 8 questions simples (âge, poids, santé, voyages…) pour savoir si tu peux donner aujourd'hui.<br><br>
+          <strong style="color:var(--gold)">Questionnaire médical HUG</strong> — Le vrai formulaire du Centre de Transfusion Sanguine (CTS), que tu peux pré-remplir chez toi et <strong>générer en PDF</strong> à imprimer. Gain de temps : ~15 min au CTS.<br><br>
+          <span style="color:var(--text-muted)">💡 Si le test dit « éligible », un bouton te dirige directement vers le questionnaire.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 : CARTE & COLLECTES -->
+    <div class="modal-step" id="ob-step-4">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📍</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📡 Géolocalisation automatique<br>
+            🔍 Rayon de recherche ajustable (1-20 km)<br>
+            📅 Prise de rendez-vous directe via OneDoc<br>
+            🎪 Collectes mobiles signalées sur la carte
+          </div>
+          <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 : FLUX CTS -->
+    <div class="modal-step" id="ob-step-5">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🔬</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Flux CTS — Visualisation en temps réel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Une vue schématique animée du <strong>campus hospitalier des HUG</strong> (Hôpitaux Universitaires de Genève) montrant :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🩸 Poches de sang circulant entre les bâtiments<br>
+            📊 Entrées/sorties, stock CE, plaquettes en direct<br>
+            🎯 Objectif du jour avec jauge de progression<br>
+            📰 Fil d'événements et bandeau défilant
+          </div>
+          <span style="color:var(--text-muted)">⛶ Passe en plein écran pour une immersion complète.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 : HÉMORUSH -->
+    <div class="modal-step" id="ob-step-6">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎮</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">HémoRush™ — Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Un mini-jeu éducatif pour maîtriser la <strong>compatibilité sanguine</strong> :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📚 Apprentissage — mode guidé, pas de chrono<br>
+            ⚡ Rush — 2 minutes chrono, score maximal<br>
+            ❤️ Survie — 3 vies, zéro droit à l'erreur<br>
+            🧠 Quiz — QCM sur la transfusion<br>
+            🌊 Vagues — difficulté croissante
+          </div>
+          <strong style="color:var(--gold)">Comment jouer :</strong> touche un patient 🏥, puis donne-lui la bonne poche 🩸 compatible.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 : GUIDE & VR -->
+    <div class="modal-step" id="ob-step-7">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📺</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Guide du don & Réalité virtuelle</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Guide primo-donneur</strong> — Les critères, les 6 étapes du don, les 3 composants sanguins et les contre-indications expliquées simplement.<br><br>
+          <strong style="color:var(--gold)">Expérience VR</strong> — BeeMyBlood propose un casque VR immersif pendant le prélèvement : plage, forêt ou fond marin. Résultat : <strong style="color:var(--green)">−24% de douleur</strong> et <strong style="color:var(--green)">−40% d'anxiété</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 : COMMUNAUTÉ & FAQ -->
+    <div class="modal-step" id="ob-step-8">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🤝</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Communauté, FAQ & BeeBot™</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Communauté</strong> — Témoignages, fil social, notifications push et partage d'expériences entre donneurs.<br><br>
+          <strong style="color:var(--gold)">FAQ</strong> — Préparation au don, après le don, nouveautés 2026, questions techniques. Barre de recherche intégrée.<br><br>
+          <strong style="color:var(--gold)">BeeBot™ 🐝</strong> — Assistant IA disponible 24h/24 pour répondre à toutes tes questions sur le don de sang.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 : PARAMÈTRES & C'EST PARTI -->
+    <div class="modal-step" id="ob-step-9">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🚀</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--gold)">Tu es prêt(e) !</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">⚙️ Paramètres</strong> — Configure tes intégrations (Concerto HUG, Google Agenda, compte Transfusion Croix-Rouge Suisse), choisis le mode sombre ou clair, gère tes notifications et ta confidentialité.<br><br>
+          <strong>Par où commencer ?</strong>
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
+            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
+            4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="ob-dots"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:14px">Passer</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()" style="font-size:14px">Suivant →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('impact');
+// refonte-multipage : page reservee. Dans la SPA, BMB_RESERVE interceptait go('impact')
+// avant meme d'afficher la vue si le visiteur n'etait pas connecte (exiger()). Une page
+// individuelle peut desormais etre atteinte directement par URL (favori, lien partage) sans
+// passer par un clic de nav ou bmbGuard() intercepte deja - il faut donc le meme controle ici,
+// au chargement.
+try{
+  if(window.BeeAcces && !window.BeeAcces.deverrouille()){
+    window.BeeAcces.exiger(function(){});
+  }
+}catch(e){}
+
+function toggleLike(el){
+  const liked=el.dataset.liked==='1';
+  let count=parseInt(el.dataset.count);
+  if(liked){count--;el.dataset.liked='0';el.classList.remove('liked');el.innerHTML='🤍 '+count;}
+  else{count++;el.dataset.liked='1';el.classList.add('liked');el.innerHTML='❤️ '+count;
+    // Quick pulse animation
+    el.style.transform='scale(1.3)';setTimeout(()=>el.style.transform='',200);
+  }
+  el.dataset.count=count;
+}
+function openComment(el){
+  const post=el.closest('.social-post');
+  if(post.querySelector('.sp-comment-form'))return; // already open
+  const form=document.createElement('div');form.className='sp-comment-form';
+  form.innerHTML='<input type="text" placeholder="Écrire un commentaire..." maxlength="200"><button onclick="sendComment(this)">Envoyer</button>';
+  post.appendChild(form);
+  form.querySelector('input').focus();
+  form.querySelector('input').addEventListener('keydown',function(e){if(e.key==='Enter')sendComment(form.querySelector('button'));});
+}
+function sendComment(btn){
+  const form=btn.closest('.sp-comment-form');
+  const input=form.querySelector('input');
+  const text=input.value.trim();
+  if(!text)return;
+  const post=form.closest('.social-post');
+  // Update comment count
+  const commentBtn=post.querySelector('.sp-comment');
+  if(commentBtn){const n=parseInt(commentBtn.textContent.match(/\d+/)[0])+1;commentBtn.textContent='💬 '+n;}
+  // Add comment bubble
+  const bubble=document.createElement('div');bubble.className='sp-comment-bubble';
+  bubble.innerHTML='<strong>Faucon-283 (toi)</strong> · '+text;
+  post.insertBefore(bubble,form);
+  // Replace form with "sent" feedback
+  form.innerHTML='<div style="font-size:12px;color:var(--green);padding:4px 0">✓ Commentaire publié</div>';
+  setTimeout(()=>form.remove(),2000);
+}
+
+function launchConfetti(){
+  const container=document.createElement('div');container.className='confetti-container';document.body.appendChild(container);
+  const colors=['#C8A960','#E63946','#2ECC71','#4FC3F7','#9B59B6','#F39C12'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');c.className='confetti';
+    c.style.left=Math.random()*100+'%';
+    c.style.top=-10+'px';
+    c.style.width=(6+Math.random()*8)+'px';
+    c.style.height=(6+Math.random()*8)+'px';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.borderRadius=Math.random()>0.5?'50%':'2px';
+    c.style.animation=`confettiFall ${2+Math.random()*2}s ease-out ${Math.random()*0.8}s forwards`;
+    container.appendChild(c);
+  }
+  setTimeout(()=>container.remove(),4000);
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>
