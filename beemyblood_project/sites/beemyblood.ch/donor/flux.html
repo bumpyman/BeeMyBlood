@@ -1,0 +1,1268 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Flux CTS — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve active" href="flux.html" aria-current="page" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve active" href="flux.html" aria-current="page" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Flux CTS</span>
+</div>
+<main id="contenu" tabindex="-1">
+<!-- ==================== FLUX CTS — TV DASHBOARD ==================== -->
+<div class="view active" id="v-flux">
+  <div class="sec-header"><div class="sec-label">📺 Flux en temps réel</div><h1 class="sec-title">Centre de Transfusion Sanguine — HUG</h1><div class="sec-sub" style="max-width:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="badge badge-green" id="fx-live-badge" style="animation:pulseG 2s infinite">● LIVE</span> <span id="fx-closed-badge" class="badge" style="display:none;animation:none;background:rgba(230,57,70,.15);color:var(--red-soft);font-weight:600"></span> <span id="fx-clock" style="font-family:var(--font-mono)"></span> · <span id="fx-date"></span></div></div>
+  <!-- Objectif du jour -->
+  <div style="display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-sm);margin-bottom:12px;flex-wrap:wrap">
+    <div id="fx-obj-title" style="font-size:13px;font-weight:700;color:var(--text-dim);white-space:nowrap">🎯 Objectif du jour</div>
+    <div style="flex:1;min-width:120px;max-width:280px">
+      <div style="height:10px;background:var(--dark-surface);border-radius:5px;overflow:hidden;position:relative">
+        <div id="fx-obj-fill" style="height:100%;border-radius:5px;width:0%;transition:width 1s ease;background:linear-gradient(90deg,var(--red),var(--orange),var(--green))"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;font-size:13px">
+      <span id="fx-obj-txt" style="font-family:var(--font-mono);font-weight:700;color:var(--text-muted)">0 / 50</span>
+      <span id="fx-obj-label" style="font-size:12px;color:var(--text-dim);font-weight:600">(cible 50-70)</span>
+    </div>
+  </div>
+
+  <!-- MAIN CANVAS ANIMATION -->
+  <div class="flux-canvas-wrap" id="flux-wrap" style="position:relative">
+    <!-- TICKER — in flow, above map -->
+    <div style="flex-shrink:0;overflow:hidden;background:rgba(13,13,20,.85);backdrop-filter:blur(8px);padding:7px 16px;border-bottom:1px solid rgba(200,169,96,.15);z-index:5" id="fx-ticker-wrap">
+      <div id="fx-ticker" style="display:flex;gap:32px;animation:tickerScroll 30s linear infinite;white-space:nowrap;font-size:13px;color:var(--text-dim)"></div>
+    </div>
+    <div class="fs-btn" onclick="toggleFS(this.parentElement)" title="Plein écran">⛶</div>
+    <!-- MAP AREA — fills remaining space -->
+    <div style="flex:1;position:relative;min-height:0">
+    <!-- SVG SCHEMATIC MAP -->
+    <svg id="flux-map" viewBox="20 0 860 480" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0">
+      <title>Carte des flux de sang entre le CTS et les services de l'hôpital</title>
+      <defs>
+        <!-- Glow filter for CTS -->
+        <filter id="cts-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <!-- Particle glow -->
+        <filter id="p-glow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="3"/></filter>
+        <!-- Flow path marker -->
+        <marker id="arrow-out" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6" fill="rgba(255,255,255,.5)"/></marker>
+      </defs>
+
+      <!-- ROADS -->
+      <g stroke="rgba(255,255,255,.1)" fill="none" stroke-linecap="round">
+        <path d="M 0,355 L 900,355" stroke-width="18"/><!-- Bd de la Cluse -->
+        <path d="M 0,280 L 240,280" stroke-width="12"/><!-- Rue G-P-Gentil -->
+        <path d="M 45,0 L 45,550" stroke-width="10"/><!-- Rue Sautter/Lombard -->
+        <path d="M 330,0 Q 500,80 810,185" stroke-width="14"/><!-- Av de la Roseraie -->
+        <path d="M 770,120 L 770,380" stroke-width="10"/><!-- Rue Alcide-Jentzer -->
+      </g>
+      <!-- Road labels -->
+      <g font-size="9" fill="rgba(255,255,255,.18)" font-family="var(--font-body)">
+        <text x="450" y="370" text-anchor="middle">Bd de la Cluse</text>
+        <text x="600" y="90" text-anchor="middle" transform="rotate(-14,600,90)">Av. de la Roseraie</text>
+        <text x="32" y="400" text-anchor="middle" transform="rotate(-90,32,400)">Rue Sautter</text>
+      </g>
+
+      <!-- BUILDINGS — non-medical (dimmed) -->
+      <g fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1.5" rx="4">
+        <rect x="230" y="50" width="45" height="75" rx="4"/><!-- Gasparin -->
+        <rect x="220" y="148" width="48" height="58" rx="4"/><!-- Klein -->
+        <rect x="278" y="140" width="32" height="108" rx="4"/><!-- Prévost -->
+        <rect x="322" y="168" width="38" height="110" rx="4"/><!-- Stern -->
+        <rect x="552" y="185" width="56" height="130" rx="4"/><!-- Julliard -->
+        <rect x="670" y="185" width="60" height="42" rx="4"/><!-- Ophtalmologie -->
+      </g>
+      <g font-size="9" fill="rgba(255,255,255,.35)" font-family="var(--font-body)" text-anchor="middle" font-weight="500">
+        <text x="252" y="92">Gasparin</text>
+        <text x="244" y="182">Klein</text>
+        <text x="294" y="200">Prévost</text>
+        <text x="341" y="228">Stern</text>
+        <text x="580" y="255">Julliard</text>
+        <text x="700" y="210">Ophtalmo.</text>
+      </g>
+
+      <!-- BUILDINGS — medical destinations (brighter) -->
+      <!-- Bât. Opéra / Chirurgie -->
+      <rect x="385" y="175" width="165" height="105" rx="6" fill="rgba(230,57,70,.06)" stroke="rgba(230,57,70,.2)" stroke-width="1.5"/>
+      <text x="467" y="218" text-anchor="middle" font-size="11" fill="rgba(230,57,70,.8)" font-weight="700" font-family="var(--font-body)">Bât. Opéra</text>
+      <text x="467" y="231" text-anchor="middle" font-size="8.5" fill="rgba(230,57,70,.6)" font-family="var(--font-body)">Chirurgie · Transplant. · SI</text>
+
+      <!-- Urgences Adultes -->
+      <rect x="118" y="255" width="105" height="42" rx="5" fill="rgba(240,160,75,.06)" stroke="rgba(240,160,75,.25)" stroke-width="1.5"/>
+      <text x="170" y="278" text-anchor="middle" font-size="10" fill="rgba(240,160,75,.85)" font-weight="700" font-family="var(--font-body)">Urgences Adultes</text>
+
+      <!-- Radio-Oncologie -->
+      <rect x="548" y="135" width="88" height="40" rx="5" fill="rgba(155,89,182,.06)" stroke="rgba(155,89,182,.25)" stroke-width="1.5"/>
+      <text x="592" y="154" text-anchor="middle" font-size="10" fill="rgba(155,89,182,.85)" font-weight="700" font-family="var(--font-body)">Radio-Oncologie</text>
+      <text x="592" y="166" text-anchor="middle" font-size="8" fill="rgba(155,89,182,.65)" font-family="var(--font-body)">Hématologie</text>
+
+      <!-- Urgences Enfants -->
+      <rect x="795" y="205" width="75" height="26" rx="4" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.25)" stroke-width="1.5"/>
+      <text x="832" y="222" text-anchor="middle" font-size="9.5" fill="rgba(79,195,247,.85)" font-weight="700" font-family="var(--font-body)">Urg. Enfants</text>
+
+      <!-- Hôpital des Enfants / Néonat -->
+      <rect x="795" y="235" width="75" height="50" rx="4" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.2)" stroke-width="1.5"/>
+      <text x="832" y="258" text-anchor="middle" font-size="9.5" fill="rgba(79,195,247,.8)" font-weight="700" font-family="var(--font-body)">Hôp. Enfants</text>
+      <text x="832" y="270" text-anchor="middle" font-size="8" fill="rgba(79,195,247,.6)" font-family="var(--font-body)">Néonatologie</text>
+
+      <!-- Maternité -->
+      <rect x="630" y="280" width="118" height="65" rx="5" fill="rgba(46,204,113,.06)" stroke="rgba(46,204,113,.2)" stroke-width="1.5"/>
+      <text x="689" y="310" text-anchor="middle" font-size="10.5" fill="rgba(46,204,113,.8)" font-weight="700" font-family="var(--font-body)">Maternité</text>
+      <text x="689" y="323" text-anchor="middle" font-size="8" fill="rgba(46,204,113,.6)" font-family="var(--font-body)">Obstétrique</text>
+
+      <!-- MEA — coin Bd de la Cluse / Rue Willy-Donzé -->
+      <rect x="795" y="290" width="55" height="50" rx="4" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <text x="822" y="320" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.4)" font-weight="700" font-family="var(--font-body)">MEA</text>
+
+      <!-- ===== CTS — BÂT. MORIER (SOURCE) ===== -->
+      <rect x="90" y="105" width="92" height="52" rx="7" fill="rgba(200,169,96,.1)" stroke="rgba(200,169,96,.6)" stroke-width="2.5" filter="url(#cts-glow)"/>
+      <text x="136" y="126" text-anchor="middle" font-size="12" fill="#C8A960" font-weight="700" font-family="var(--font-display)">🩸 CTS</text>
+      <text x="136" y="138" text-anchor="middle" font-size="9" fill="rgba(200,169,96,.8)" font-weight="600" font-family="var(--font-body)">Bât. Morier</text>
+
+      <!-- ===== BÂT. LABORATOIRES (adjacent CTS, heavy traffic) ===== -->
+      <rect x="55" y="30" width="112" height="52" rx="6" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.3)" stroke-width="1.5"/>
+      <text x="111" y="52" text-anchor="middle" font-size="10.5" fill="rgba(79,195,247,.85)" font-weight="700" font-family="var(--font-body)">Bât. Laboratoires</text>
+      <text x="111" y="65" text-anchor="middle" font-size="8" fill="rgba(79,195,247,.6)" font-family="var(--font-body)">Analyses · Sérologie · RAI</text>
+      <!-- CTS pulse ring -->
+      <rect x="90" y="105" width="92" height="52" rx="7" fill="none" stroke="rgba(200,169,96,.3)" stroke-width="1">
+        <animate attributeName="stroke-opacity" values=".3;0;.3" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="x" values="90;85;90" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="y" values="105;100;105" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="width" values="92;102;92" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="height" values="52;62;52" dur="2s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- ===== FLOW PATHS (dashed lines) ===== -->
+      <g fill="none" stroke-dasharray="4,6" stroke-linecap="round" opacity=".55">
+        <!-- CTS → Laboratoires (tubes, échantillons — high traffic) -->
+        <path id="fp-lab-up" d="M130,105 C125,95 118,88 111,82" stroke="#4FC3F7" stroke-width="2.5"/>
+        <!-- Laboratoires → CTS (résultats, validations — high traffic) -->
+        <path id="fp-lab-dn" d="M115,82 C120,90 128,98 136,105" stroke="#2ECC71" stroke-width="2"/>
+        <!-- CTS → Urgences Adultes -->
+        <path id="fp1" d="M136,162 C136,200 155,240 170,255" stroke="#F0A04B" stroke-width="2"/>
+        <!-- CTS → Opéra / Chirurgie -->
+        <path id="fp2" d="M190,131 C260,131 320,180 375,210" stroke="#E63946" stroke-width="2"/>
+        <!-- CTS → Radio-Onco -->
+        <path id="fp3" d="M190,120 C300,100 430,110 550,145" stroke="#9B59B6" stroke-width="2"/>
+        <!-- CTS → Soins Intensifs (via Opéra) -->
+        <path id="fp4" d="M190,140 C280,150 380,200 440,255" stroke="#F4D03F" stroke-width="2"/>
+        <!-- CTS → Maternité -->
+        <path id="fp5" d="M160,162 C200,250 400,300 630,305" stroke="#2ECC71" stroke-width="1.5"/>
+        <!-- CTS → Hôp Enfants -->
+        <path id="fp6" d="M190,125 C350,110 600,170 780,245" stroke="#4FC3F7" stroke-width="1.5"/>
+        <!-- CTS → Érythrocytaphérèse -->
+        <path id="fp7" d="M160,105 C200,90 240,60 260,42" stroke="#C8A960" stroke-width="1.5"/>
+        <!-- CTS → Julliard (CE) -->
+        <path id="fp8" d="M182,131 C300,140 420,180 560,250" stroke="#E63946" stroke-width="1.5"/>
+      </g>
+
+      <!-- ===== EXTERNAL FLOW ARROWS ===== -->
+      <g fill="none" stroke-dasharray="6,8" stroke-linecap="round" opacity=".25" marker-end="url(#arrow-out)">
+        <!-- Plasma → Octapharma (off-screen right) -->
+        <path d="M190,145 C250,160 400,340 600,360 Q 750,370 900,365" stroke="#F4D03F" stroke-width="2"/>
+        <!-- CE → Hôpitaux cantonaux (off-screen top-right) -->
+        <path d="M190,115 C300,80 500,40 700,20 L 900,0" stroke="#E63946" stroke-width="1.5"/>
+      </g>
+      <!-- External labels -->
+      <g font-size="8" font-family="var(--font-body)" font-style="italic">
+        <text x="550" y="385" fill="rgba(244,208,63,.45)" font-style="italic" font-size="8.5">→ Fractionnement plasma (Octapharma)</text>
+        <text x="430" y="14" fill="rgba(230,57,70,.35)">→ Cliniques & hôpitaux externes (La Tour, HNe…)</text>
+      </g>
+
+      <!-- ===== ANIMATED PARTICLES (sparse, realistic pace) ===== -->
+      <!-- CTS ↔ Lab (tubes/résultats — most frequent traffic) -->
+      <circle r="4" fill="#4FC3F7" opacity=".85" filter="url(#p-glow)">
+        <animateMotion dur="2.5s" repeatCount="indefinite" path="M130,105 C125,95 118,88 111,82"/></circle>
+      <circle r="3.5" fill="#4FC3F7" opacity=".6" filter="url(#p-glow)">
+        <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M130,105 C125,95 118,88 111,82"/></circle>
+      <circle r="4" fill="#2ECC71" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.8s" path="M115,82 C120,90 128,98 136,105"/></circle>
+
+      <!-- CE → Urgences (red) -->
+      <circle r="4.5" fill="#E63946" opacity=".85" filter="url(#p-glow)">
+        <animateMotion dur="5s" repeatCount="indefinite" path="M136,162 C136,200 155,240 170,255"/></circle>
+
+      <!-- CE → Opéra / Chirurgie (red) -->
+      <circle r="4.5" fill="#E63946" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="5.5s" repeatCount="indefinite" begin="2s" path="M190,131 C260,131 320,180 375,210"/></circle>
+
+      <!-- CP → Radio-Onco (purple) -->
+      <circle r="4" fill="#9B59B6" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="6s" repeatCount="indefinite" begin="1s" path="M190,120 C300,100 430,110 550,145"/></circle>
+
+      <!-- PFC → Soins Intensifs (yellow) -->
+      <circle r="3" fill="#F4D03F" opacity=".8" filter="url(#p-glow)">
+        <animateMotion dur="6s" repeatCount="indefinite" begin="3s" path="M190,140 C280,150 380,200 440,255"/></circle>
+
+      <!-- CE → Maternité -->
+      <circle r="4" fill="#E63946" opacity=".75" filter="url(#p-glow)">
+        <animateMotion dur="7s" repeatCount="indefinite" begin="4s" path="M160,162 C200,250 400,300 630,305"/></circle>
+
+      <!-- CE → Hôp Enfants -->
+      <circle r="2.5" fill="#E63946" opacity=".45" filter="url(#p-glow)">
+        <animateMotion dur="8s" repeatCount="indefinite" begin="5s" path="M190,125 C350,110 600,170 780,245"/></circle>
+
+      <!-- CE phénotypés → Érythrocytaphérèse (gold) -->
+      <circle r="2.5" fill="#C8A960" opacity=".85" filter="url(#p-glow)">
+        <animateMotion dur="4s" repeatCount="indefinite" begin="2s" path="M160,105 C200,90 240,60 260,42"/></circle>
+
+      <!-- Plasma → Octapharma (yellow, très lent) -->
+      <circle r="2.5" fill="#F4D03F" opacity=".35" filter="url(#p-glow)">
+        <animateMotion dur="12s" repeatCount="indefinite" path="M190,145 C250,160 400,340 600,360 Q750,370 900,365"/></circle>
+
+      <!-- CE → Hôp cantonaux (red, très lent) -->
+      <circle r="2.5" fill="#E63946" opacity=".3" filter="url(#p-glow)">
+        <animateMotion dur="10s" repeatCount="indefinite" begin="3s" path="M190,115 C300,80 500,40 700,20 L900,0"/></circle>
+
+      <!-- ===== ENTRÉES — Commande externe → CTS ===== -->
+      <!-- Commande externe (bas) → CTS : CE rouge, lent -->
+      <circle r="4" fill="#E63946" opacity=".5" filter="url(#p-glow)">
+        <animateMotion dur="8s" repeatCount="indefinite" path="M400,390 C300,340 200,260 136,148"/></circle>
+      <!-- Commande externe (gauche) → CTS : CP violet, lent -->
+      <circle r="3.5" fill="#9B59B6" opacity=".45" filter="url(#p-glow)">
+        <animateMotion dur="9s" repeatCount="indefinite" begin="4s" path="M0,60 C40,75 80,95 130,122"/></circle>
+      <!-- Commande externe (droite) → CTS : PFC jaune, lent -->
+      <circle r="3.5" fill="#F4D03F" opacity=".45" filter="url(#p-glow)">
+        <animateMotion dur="10s" repeatCount="indefinite" begin="6s" path="M860,120 C650,105 400,105 148,128"/></circle>
+
+      <!-- Labels entrées — aux points d'origine des particules, flèches vers CTS -->
+      <text x="855" y="112" text-anchor="end" font-size="9" fill="rgba(200,169,96,.7)" font-weight="700" font-family="var(--font-body)">← Commande externe</text>
+
+      <!-- Érythrocytaphérèse label (near Lab, top) -->
+      <rect x="228" y="30" width="110" height="18" rx="3" fill="rgba(200,169,96,.08)" stroke="rgba(200,169,96,.2)" stroke-width="1"/>
+      <text x="283" y="42" text-anchor="middle" font-size="9" fill="rgba(200,169,96,.75)" font-weight="700" font-family="var(--font-body)">Érythrocytaphérèse</text>
+
+      <!-- LEGEND in SVG (bottom-right, hidden on mobile) -->
+      <g class="flux-svg-legend" transform="translate(200,420)" font-size="10" font-family="var(--font-body)">
+        <rect x="-8" y="-14" width="480" height="52" rx="5" fill="rgba(10,14,20,.75)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <circle cx="10" cy="0" r="5" fill="#E63946"/><text x="22" y="4" fill="rgba(255,255,255,.75)">CE · Globules rouges</text>
+        <circle cx="150" cy="0" r="5" fill="#9B59B6"/><text x="162" y="4" fill="rgba(255,255,255,.75)">CP · Plaquettes</text>
+        <circle cx="280" cy="0" r="5" fill="#F4D03F"/><text x="292" y="4" fill="rgba(255,255,255,.75)">PFC · Plasma</text>
+        <circle cx="390" cy="0" r="5" fill="#C8A960"/><text x="402" y="4" fill="rgba(255,255,255,.75)">CE phénotypés</text>
+        <circle cx="10" cy="24" r="5" fill="#4FC3F7"/><text x="22" y="28" fill="rgba(255,255,255,.75)">CTS → Labo</text>
+        <circle cx="150" cy="24" r="5" fill="#2ECC71"/><text x="162" y="28" fill="rgba(255,255,255,.75)">Labo → CTS</text>
+        <text x="280" y="28" fill="rgba(200,169,96,.7)" font-weight="600">● Commande externe → CTS</text>
+      </g>
+    </svg>
+    <!-- Legend for fullscreen mobile -->
+    <div class="flux-legend-fs">
+      <span><i style="background:var(--red)"></i>CE · Globules rouges</span>
+      <span><i style="background:var(--stock-purple)"></i>CP · Plaquettes</span>
+      <span><i style="background:var(--stock-yellow)"></i>PFC · Plasma</span>
+      <span><i style="background:var(--gold)"></i>CE phénotypés</span>
+      <span><i style="background:var(--blue)"></i>CTS → Labo</span>
+      <span><i style="background:var(--green)"></i>Labo → CTS</span>
+    </div>
+    <div class="flux-hud">
+      <div class="flux-hud-left" style="display:flex;flex-direction:column;gap:6px">
+        <div class="flux-stat"><div class="flux-stat-val" style="color:var(--green)" id="fx-in">0</div><div class="flux-stat-lbl">↓ Entrées</div></div>
+        <div class="flux-stat"><div class="flux-stat-val" style="color:var(--red-soft)" id="fx-out">0</div><div class="flux-stat-lbl">↑ Sorties</div></div>
+      </div>
+      <div class="flux-hud-right" style="display:flex;flex-direction:column;gap:6px">
+        <div class="flux-stat"><div class="flux-stat-val" style="color:var(--gold)" id="fx-stock">0</div><div class="flux-stat-lbl">Stock CE</div></div>
+        <div class="flux-stat"><div class="flux-stat-val" style="color:var(--blue)" id="fx-plaq">0</div><div class="flux-stat-lbl">Plaquettes</div></div>
+      </div>
+    </div>
+    </div><!-- /map-area -->
+  </div><!-- /flux-canvas-wrap -->
+  <div class="flux-legend-mob">
+    <span><i style="background:var(--red)"></i>CE · Globules rouges</span>
+    <span><i style="background:var(--stock-purple)"></i>CP · Plaquettes</span>
+    <span><i style="background:var(--stock-yellow)"></i>PFC · Plasma</span>
+    <span><i style="background:var(--gold)"></i>CE phénotypés</span>
+    <span><i style="background:var(--blue)"></i>CTS → Labo</span>
+    <span><i style="background:var(--green)"></i>Labo → CTS</span>
+    <span><i style="background:var(--gold)"></i>Commande ext. → CTS</span>
+  </div>
+  <div class="grid-1-2" style="margin-top:16px">
+    <div class="card" style="position:relative">
+      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <div class="card-header"><div class="card-title">📊 Stock par groupe</div></div>
+      <div class="flux-group-bar" id="fx-bars">
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--red),var(--red-light));height:18%"><div class="flux-bar-val" style="color:var(--red-soft)">14</div><div class="flux-bar-lbl">O-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--stock-orange),var(--stock-orange-light));height:55%"><div class="flux-bar-val" style="color:var(--orange)">43</div><div class="flux-bar-lbl">O+</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--red),var(--red-light));height:35%"><div class="flux-bar-val" style="color:var(--red-soft)">27</div><div class="flux-bar-lbl">A-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--green),var(--green-light));height:68%"><div class="flux-bar-val" style="color:var(--green)">53</div><div class="flux-bar-lbl">A+</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--red),var(--red-light));height:12%"><div class="flux-bar-val" style="color:var(--red-soft)">9</div><div class="flux-bar-lbl">B-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--stock-orange),var(--stock-orange-light));height:42%"><div class="flux-bar-val" style="color:var(--orange)">33</div><div class="flux-bar-lbl">B+</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--green),var(--green-light));height:25%"><div class="flux-bar-val" style="color:var(--green)">8</div><div class="flux-bar-lbl">AB-</div></div>
+        <div class="flux-bar" style="background:linear-gradient(to top,var(--green),var(--green-light));height:30%"><div class="flux-bar-val" style="color:var(--green)">12</div><div class="flux-bar-lbl">AB+</div></div>
+      </div>
+      <div style="margin-top:28px;display:flex;justify-content:space-between;font-size:14px;color:var(--text-muted)">
+        <span>🔴 <20 poches</span><span>🟠 20-40</span><span>🟢 >40</span>
+      </div>
+      <div style="margin-top:12px;padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px;color:var(--text-dim);line-height:1.6">
+        <strong style="color:var(--red-soft)">⚠️ Alerte :</strong> O− et B− en dessous du seuil de sécurité (20 poches).<br>
+        <strong style="color:var(--gold)">→</strong> Convocations ciblées envoyées aux donneurs O− et B−.<br>
+        <strong style="color:var(--green)">✓</strong> Stock total CE : 199 poches · Objectif : 250
+      </div>
+    </div>
+  </div><!-- /grid-1-2 -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-dest-acc" style="font-size:13px;padding:6px 10px;margin:10px 0">🏥 Destinations (24h) <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="flux-dest-acc">
+    <div class="card" style="position:relative">
+      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <div class="card-header"><div class="card-title">🏥 Destinations (24h)</div></div>
+      <div style="font-size:14px;color:var(--text-muted);margin-bottom:10px;line-height:1.5">CE&nbsp;=&nbsp;Globules rouges · CP&nbsp;=&nbsp;Plaquettes · PFC&nbsp;=&nbsp;Plasma</div>
+      <div style="display:flex;flex-direction:column;gap:6px" id="fx-dests">
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Bât. Laboratoires ↔ CTS</span><span style="font-weight:700;color:var(--blue);white-space:nowrap">~50-70&nbsp;tubes/j</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--red-soft);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Chirurgie cardiaque</span><span style="font-weight:700;color:var(--red-soft);white-space:nowrap">8&nbsp;CE</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--purple);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Oncologie / hématologie</span><span style="font-weight:700;color:var(--purple);white-space:nowrap">6&nbsp;CP + 2&nbsp;CE</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--orange);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Urgences</span><span style="font-weight:700;color:var(--orange);white-space:nowrap">3&nbsp;CE + 1&nbsp;PFC</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Obstétrique</span><span style="font-weight:700;color:var(--green);white-space:nowrap">2&nbsp;CE</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Néonatologie</span><span style="font-weight:700;color:var(--blue);white-space:nowrap">1&nbsp;CE</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Soins intensifs</span><span style="font-weight:700;color:var(--gold);white-space:nowrap">2&nbsp;PFC + 1&nbsp;CE</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Transplantation</span><span style="font-weight:700;color:var(--teal);white-space:nowrap">3&nbsp;CE + 2&nbsp;PFC</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--text-muted);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Érythrocytaphérèse</span><span style="font-weight:700;color:var(--text-muted);white-space:nowrap">4&nbsp;CE phénotypés</span></div>
+      </div>
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.1);border-radius:var(--radius-sm)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:13px;font-weight:700;color:var(--gold)">📈 Prescriptions 24h</div>
+          <div style="display:flex;gap:6px;font-size:12px">
+            <span style="padding:2px 8px;background:var(--dark-surface);border-radius:10px;color:var(--text)"><strong>38</strong> PSL</span>
+            <span style="padding:2px 8px;background:var(--dark-surface);border-radius:10px;color:var(--green)">✓ 22</span>
+            <span style="padding:2px 8px;background:var(--dark-surface);border-radius:10px;color:var(--orange)">⏳ 16</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /flux-dest-acc -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-alertes-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🔴 Alertes <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="flux-alertes-acc">
+    <div class="card" style="position:relative">
+      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <div class="card-header"><div class="card-title">🔴 Alertes</div><span class="badge badge-red">4</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="padding:6px 8px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm);font-size:15px">
+          <div style="font-weight:700;color:var(--red-soft)">⚠️ O- critique : 14 poches (CE)</div>
+          <div style="color:var(--text-dim);margin-top:2px">3 expirent dans 48h · Convocations envoyées</div>
+        </div>
+        <div style="padding:6px 8px;background:rgba(200,169,96,.08);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);font-size:15px">
+          <div style="font-weight:700;color:var(--gold)">🧬 CE phénotypé Fy(a−b−) : 2 poches</div>
+          <div style="color:var(--text-dim);margin-top:2px">Vit avec une drépanocytose — échange transfusionnel J+3 · Donneurs rares contactés</div>
+        </div>
+        <div style="padding:6px 8px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm);font-size:15px">
+          <div style="font-weight:700;color:var(--red-soft)">⚠️ B- très bas : 9 poches (CE)</div>
+          <div style="color:var(--text-dim);margin-top:2px">1 expire demain · Collecte ciblée vendredi</div>
+        </div>
+        <div style="padding:8px;background:rgba(155,89,182,.08);border:1px solid rgba(155,89,182,.12);border-radius:var(--radius-sm);font-size:15px">
+          <div style="font-weight:700;color:var(--purple)">⏰ 5 CP (plaquettes) expirent ce soir</div>
+          <div style="color:var(--text-dim);margin-top:2px">Attribution prioritaire → oncologie</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /flux-alertes-acc -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-hourly-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📈 Flux horaire <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="flux-hourly-acc">
+  <!-- FLUX HORAIRE -->
+  <div class="card" style="position:relative;display:flex;flex-direction:column">
+    <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+    <div class="card-header"><div class="card-title">📈 Flux horaire</div><div id="fx-hourly-sub" style="font-size:14px;color:var(--text-muted)">Dons / tranche de 2h</div></div>
+    <div style="display:flex;align-items:end;gap:10px;height:280px;padding:8px 16px 0;max-width:700px;margin:0 auto;width:100%" id="fx-hourly"></div>
+    <div style="display:flex;justify-content:space-around;margin-top:6px;font-size:14px;color:var(--text-muted);padding:0 16px;max-width:700px;margin:6px auto 0;width:100%"><span>7h</span><span>9h</span><span>11h</span><span>13h</span><span>15h</span><span>17h</span><span>19h</span></div>
+  </div>
+  </div><!-- /flux-hourly-acc -->
+
+  <!-- ACTIVITÉ LIVE (accordion, collapsed) -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-predict-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🔮 Predictive AI — Anticiper les pénuries <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="flux-predict-acc">
+  <div class="card" style="border:1px solid rgba(155,89,182,.2);background:linear-gradient(135deg,rgba(155,89,182,.04),rgba(79,195,247,.04))">
+    <div class="card-header"><div class="card-title">🔮 Predictive Stock AI</div><span class="badge" style="background:rgba(155,89,182,.15);color:var(--purple)">ML</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Machine learning sur 5 ans de données : patterns saisonniers, chirurgies planifiées, météo, épidémies, vacances scolaires.</div>
+
+    <!-- Prediction cards -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="padding:12px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(230,57,70,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--red-soft);flex-shrink:0">87%</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--red-soft)">⚠️ Pénurie O− prédite le 28 février</div>
+          <div style="font-size:13px;color:var(--text-dim)">Vacances ski + chirurgies planifiées · <strong>Si 12 donneurs O− donnent d'ici le 24, pénurie évitée</strong></div>
+        </div>
+      </div>
+      <div style="padding:12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);flex-shrink:0">64%</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--gold)">🔶 Tension plaquettes mi-mars</div>
+          <div style="font-size:13px;color:var(--text-dim)">Période grippale → augmentation leucémies · Aphérèse recommandée</div>
+        </div>
+      </div>
+      <div style="padding:12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--green);flex-shrink:0">92%</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:700;color:var(--green)">✅ Stock A+ stable jusqu'en avril</div>
+          <div style="font-size:13px;color:var(--text-dim)">Donneurs réguliers suffisants · Pas d'action requise</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text-muted);text-align:center">Modèle entraîné sur 5 ans de données CTS HUG · Précision : 84% à J+14 · MAJ quotidienne</div>
+  </div>
+  </div><!-- /flux-predict-acc -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-live-acc" style="font-size:13px;padding:6px 10px;margin:10px 0">⚡ Activité live <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="flux-live-acc">
+  <div class="card" style="position:relative;margin-top:6px">
+    <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+    <div class="card-header"><div class="card-title">⚡ Activité live</div><span class="badge badge-green" id="fx-activity-badge" style="animation:pulseG 2s infinite">● LIVE</span></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;font-size:15px;color:var(--text-muted)"><span>🩸 CE = Globules rouges</span><span>💜 CP = Plaquettes</span><span>💛 PFC = Plasma</span></div>
+    <div class="flux-feed" id="fx-feed" style="max-height:360px"></div>
+  </div>
+  </div><!-- /acc-body flux-live -->
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-donors-acc" style="font-size:13px;padding:6px 10px;margin-top:10px">👥 Derniers donneurs <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="flux-donors-acc">
+    <div class="card" style="position:relative;margin-top:6px">
+      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <div class="card-header"><div class="card-title">👥 Derniers donneurs</div></div>
+      <div style="display:flex;flex-direction:column;gap:5px;max-height:420px;overflow-y:auto" id="fx-donors">
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🦅</div><div style="flex:1;min-width:0"><div style="font-weight:600">Faucon-283</div><div style="font-size:13px;color:var(--text-muted)">B+ · CE validé · 14:23</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">Rare 🧬</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">YT</div><div style="flex:1;min-width:0"><div style="font-weight:600">Corail-517</div><div style="font-size:13px;color:var(--text-muted)">A+ · CE validé · 13:42</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">5e don 🏅</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(79,195,247,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">LM</div><div style="flex:1;min-width:0"><div style="font-weight:600">Érable-142</div><div style="font-size:13px;color:var(--text-muted)">O+ · CE + PFC · 12:15</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">1er don ⭐</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(155,89,182,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">SC</div><div style="flex:1;min-width:0"><div style="font-weight:600">SACO</div><div style="font-size:13px;color:var(--text-muted)">O- · CE validé · 11:30</div></div><span class="badge badge-red" style="font-size:12px;white-space:nowrap">Universel 🦸</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(230,126,34,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">MP</div><div style="flex:1;min-width:0"><div style="font-weight:600">Aurore-694</div><div style="font-size:13px;color:var(--text-muted)">AB- · CE validé · 10:58</div></div><span class="badge badge-blue" style="font-size:12px;white-space:nowrap">8e don 🔄</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(230,57,70,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">CB</div><div style="flex:1;min-width:0"><div style="font-weight:600">Colibri-831</div><div style="font-size:13px;color:var(--text-muted)">A- · CP validé · 10:35</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">2e don</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">NR</div><div style="flex:1;min-width:0"><div style="font-weight:600">Opale-956</div><div style="font-size:13px;color:var(--text-muted)">O+ · CE validé · 10:12</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">1er don ⭐</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🪨</div><div style="flex:1;min-width:0"><div style="font-weight:600">Granite-723</div><div style="font-size:13px;color:var(--text-muted)">B- · CE validé · 09:47</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">15e don 🥈</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(79,195,247,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🌿</div><div style="flex:1;min-width:0"><div style="font-weight:600">Mousse-614</div><div style="font-size:13px;color:var(--text-muted)">AB+ · PFC validé · 09:20</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">28e don 🥇</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(155,89,182,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">TD</div><div style="flex:1;min-width:0"><div style="font-weight:600">Silex-338</div><div style="font-size:13px;color:var(--text-muted)">A+ · CE validé · 08:55</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">3e don</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(230,57,70,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">EV</div><div style="flex:1;min-width:0"><div style="font-weight:600">Brume-507</div><div style="font-size:13px;color:var(--text-muted)">O- · CE validé · 08:30</div></div><span class="badge badge-red" style="font-size:12px;white-space:nowrap">Universel 🦸</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">HA</div><div style="flex:1;min-width:0"><div style="font-weight:600">HAAL</div><div style="font-size:13px;color:var(--text-muted)">A+ · CP validé · 08:10</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">4e don</span></div>
+      </div>
+    </div>
+  </div><!-- /acc-body donors -->
+  <!-- PRODUCTS -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-products-acc" style="font-size:13px;padding:6px 10px;margin-top:10px">🩸 Produits sanguins détaillés <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="flux-products-acc">
+  <div class="grid-3" style="margin-top:8px">
+    <div class="card" style="text-align:center;border-top:3px solid var(--red);position:relative">
+      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <div style="font-size:32px;margin-bottom:6px">🩸</div>
+      <div style="font-weight:700;font-size:15px;color:var(--red-soft)">Globules rouges (CE)</div>
+      <div style="font-size:14px;color:var(--text-dim);margin-top:4px;line-height:1.5">Concentrés érythrocytaires · <strong>42j max</strong> · Chirurgie, urgences, anémies, drépanocytose, thalassémie, grossesses à risque, cancers du sang, accidents</div>
+      <div style="margin-top:6px;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--red-soft)">199</div>
+      <div style="font-size:15px;color:var(--text-muted)">poches en stock</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--stock-purple);position:relative">
+      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <div style="font-size:32px;margin-bottom:6px">💜</div>
+      <div style="font-weight:700;font-size:15px;color:var(--purple)">Concentrés plaquettaires</div>
+      <div style="font-size:14px;color:var(--text-dim);margin-top:4px;line-height:1.5">Plaquettes · <strong>5j max</strong> · Oncologie, leucémies, greffes</div>
+      <div style="margin-top:6px;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--purple)">18</div>
+      <div style="font-size:15px;color:var(--text-muted)">unités en stock</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--stock-yellow);position:relative">
+      <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
+      <div style="font-size:32px;margin-bottom:6px">💛</div>
+      <div style="font-weight:700;font-size:15px;color:var(--stock-yellow)">Plasma frais congelé</div>
+      <div style="font-size:14px;color:var(--text-dim);margin-top:4px;line-height:1.5">Plasma · <strong>3 ans max</strong> · Brûlures, hémorragies massives</div>
+      <div style="margin-top:6px;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--stock-yellow)">142</div>
+      <div style="font-size:15px;color:var(--text-muted)">unités en stock</div>
+    </div>
+  </div>
+  </div><!-- /acc-body products -->
+</div>
+</main>
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="onboard-modal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header" style="padding-bottom:8px">
+      <div style="font-size:36px;margin-bottom:4px">🐝</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">Bienvenue sur BeeMyBlood™</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="ob-counter">1 / 10</div>
+    </div>
+
+    <!-- STEP 0 : INTRO -->
+    <div class="modal-step active" id="ob-step-0">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🦸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros, pas un numéro</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">BeeMyBlood™ transforme le don de sang en expérience premium, ludique et personnalisée.<br><br>Ce tour te montre <strong style="color:var(--gold)">toutes les fonctionnalités</strong> en 1 minute. Tu peux le relancer à tout moment via le lien <strong style="color:var(--gold)">« Tour guidé »</strong> en bas de page.</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : NAVIGATION -->
+    <div class="modal-step" id="ob-step-1">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧭</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
+          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
+          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : DASHBOARD -->
+    <div class="modal-step" id="ob-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          C'est ton <strong>tableau de bord</strong> :
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🗓️ Prochain don programmé + compte à rebours<br>
+            🩸 Stocks de sang en temps réel par groupe<br>
+            📈 Ton historique de dons et séries (streak)<br>
+            🏆 Badges débloqués et objectifs<br>
+            🩺 Passeport santé (résultats labo de tes dons)<br>
+            🤝 Programme BeeMyBro (parrainage)
+          </div>
+          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : ÉLIGIBILITÉ -->
+    <div class="modal-step" id="ob-step-3">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Test d'éligibilité + Questionnaire médical</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--green)">Pré-éligibilité rapide</strong> — 8 questions simples (âge, poids, santé, voyages…) pour savoir si tu peux donner aujourd'hui.<br><br>
+          <strong style="color:var(--gold)">Questionnaire médical HUG</strong> — Le vrai formulaire du Centre de Transfusion Sanguine (CTS), que tu peux pré-remplir chez toi et <strong>générer en PDF</strong> à imprimer. Gain de temps : ~15 min au CTS.<br><br>
+          <span style="color:var(--text-muted)">💡 Si le test dit « éligible », un bouton te dirige directement vers le questionnaire.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 : CARTE & COLLECTES -->
+    <div class="modal-step" id="ob-step-4">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📍</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📡 Géolocalisation automatique<br>
+            🔍 Rayon de recherche ajustable (1-20 km)<br>
+            📅 Prise de rendez-vous directe via OneDoc<br>
+            🎪 Collectes mobiles signalées sur la carte
+          </div>
+          <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 : FLUX CTS -->
+    <div class="modal-step" id="ob-step-5">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🔬</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Flux CTS — Visualisation en temps réel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Une vue schématique animée du <strong>campus hospitalier des HUG</strong> (Hôpitaux Universitaires de Genève) montrant :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🩸 Poches de sang circulant entre les bâtiments<br>
+            📊 Entrées/sorties, stock CE, plaquettes en direct<br>
+            🎯 Objectif du jour avec jauge de progression<br>
+            📰 Fil d'événements et bandeau défilant
+          </div>
+          <span style="color:var(--text-muted)">⛶ Passe en plein écran pour une immersion complète.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 : HÉMORUSH -->
+    <div class="modal-step" id="ob-step-6">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎮</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">HémoRush™ — Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Un mini-jeu éducatif pour maîtriser la <strong>compatibilité sanguine</strong> :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📚 Apprentissage — mode guidé, pas de chrono<br>
+            ⚡ Rush — 2 minutes chrono, score maximal<br>
+            ❤️ Survie — 3 vies, zéro droit à l'erreur<br>
+            🧠 Quiz — QCM sur la transfusion<br>
+            🌊 Vagues — difficulté croissante
+          </div>
+          <strong style="color:var(--gold)">Comment jouer :</strong> touche un patient 🏥, puis donne-lui la bonne poche 🩸 compatible.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 : GUIDE & VR -->
+    <div class="modal-step" id="ob-step-7">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📺</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Guide du don & Réalité virtuelle</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Guide primo-donneur</strong> — Les critères, les 6 étapes du don, les 3 composants sanguins et les contre-indications expliquées simplement.<br><br>
+          <strong style="color:var(--gold)">Expérience VR</strong> — BeeMyBlood propose un casque VR immersif pendant le prélèvement : plage, forêt ou fond marin. Résultat : <strong style="color:var(--green)">−24% de douleur</strong> et <strong style="color:var(--green)">−40% d'anxiété</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 : COMMUNAUTÉ & FAQ -->
+    <div class="modal-step" id="ob-step-8">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🤝</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Communauté, FAQ & BeeBot™</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Communauté</strong> — Témoignages, fil social, notifications push et partage d'expériences entre donneurs.<br><br>
+          <strong style="color:var(--gold)">FAQ</strong> — Préparation au don, après le don, nouveautés 2026, questions techniques. Barre de recherche intégrée.<br><br>
+          <strong style="color:var(--gold)">BeeBot™ 🐝</strong> — Assistant IA disponible 24h/24 pour répondre à toutes tes questions sur le don de sang.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 : PARAMÈTRES & C'EST PARTI -->
+    <div class="modal-step" id="ob-step-9">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🚀</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--gold)">Tu es prêt(e) !</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">⚙️ Paramètres</strong> — Configure tes intégrations (Concerto HUG, Google Agenda, compte Transfusion Croix-Rouge Suisse), choisis le mode sombre ou clair, gère tes notifications et ta confidentialité.<br><br>
+          <strong>Par où commencer ?</strong>
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
+            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
+            4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="ob-dots"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:14px">Passer</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()" style="font-size:14px">Suivant →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('flux');
+// refonte-multipage : page reservee, meme garde qu'impact.html au chargement.
+try{
+  if(window.BeeAcces && !window.BeeAcces.deverrouille()){
+    window.BeeAcces.exiger(function(){});
+  }
+}catch(e){}
+
+// ===== FLUX CTS CANVAS ENGINE =====
+let fluxAnim=null;
+const FX_GROUPS=['O-','O+','A-','A+','B-','B+','AB-','AB+'];
+const FX_COLORS={rbc:'#E63946',plasma:'#F4D03F',plaq:'#9B59B6',whole:'#4FC3F7'};
+const FX_TYPES=['rbc','plasma','plaq','whole'];
+const FX_LABELS={rbc:'CE',plasma:'PFC',plaq:'CP',whole:'ST'};
+const FX_DESTS=['Chirurgie cardiaque','Oncologie HUG','Urgences','Obstétrique','Pédiatrie','Néonatologie','Soins intensifs','Hématologie','Brûlés','Médecine interne'];
+const FX_SOURCES=['Don CTS HUG','Commande externe','Don CTS HUG','Commande externe','Don CTS HUG','Don CTS HUG'];
+let fxPouches=[],fxIn=0,fxOut=0,fxStock=199,fxPlaq=18,fxFeedItems=[];
+
+function flashVal(el){if(!el)return;el.classList.remove('val-flash');void el.offsetWidth;el.classList.add('val-flash');}
+let fxTarget=50;
+function updateObjGauge(){
+  const fill=document.getElementById('fx-obj-fill');
+  const txt=document.getElementById('fx-obj-txt');
+  if(!fill||!txt)return;
+  const pct=Math.min(100,Math.round(fxIn/fxTarget*100));
+  fill.style.width=pct+'%';
+  txt.textContent=fxIn+' / '+fxTarget;
+  if(fxIn>=fxTarget&&fxIn<fxTarget*1.3){fill.style.background='var(--green)';txt.style.color='var(--green)';}
+  else if(fxIn>=fxTarget*1.3){fill.style.background='var(--gold)';txt.style.color='var(--gold)';}
+  else{fill.style.background='linear-gradient(90deg,var(--red),var(--orange),var(--green))';txt.style.color='var(--text-muted)';}
+  // Update label
+  var lbl=document.getElementById('fx-obj-label');if(lbl){
+    var prefix=document.getElementById('fx-obj-title');
+    var isBilan=prefix&&prefix.textContent.indexOf('Bilan')>-1;
+    lbl.textContent=isBilan?(fxIn>=fxTarget?'(objectif '+fxTarget+' atteint \u2705)':'(objectif '+fxTarget+')'):'(cible '+fxTarget+')';
+  }
+}
+function initFlux(){
+  const wrap=document.getElementById('flux-wrap');if(!wrap)return;
+  // ===== TIME-AWARE INITIALIZATION =====
+  // CTS HUG hours: Lu/Ma/Me/Ve 7h30-15h · Jeudi 11h-19h
+  // Objectif CTS Genève : minimum 50, idéal 50-70 dons/jour
+  const now=new Date();
+  const h=now.getHours()+(now.getMinutes()/60);
+  const day=now.getDay(); // 0=dim, 6=sam
+  const isSunday=(day===0);
+  const isSaturday=(day===6);
+  // CTS ouvert les 1er et 3e samedis du mois, 8h30–12h00
+  const satWeek=Math.ceil(now.getDate()/7); // 1=1er sam, 2=2e, 3=3e...
+  const isCTSSaturday=isSaturday&&(satWeek===1||satWeek===3);
+  const ctsOff=isSunday||(isSaturday&&!isCTSSaturday);
+  // Simulate last open day if CTS closed
+  const simDay=ctsOff?(isSunday&&isCTSSaturday?6:5):day; // dim après sam ouvert → sam, sinon ven
+  const isThursday=(simDay===4);
+  const isSaturdayHours=(simDay===6); // samedi ouvert : 8h30-12h
+  const openH=isSaturdayHours?8.5:isThursday?11:7.5;
+  const closeH=isSaturdayHours?12:isThursday?19:15;
+  const isClosed=ctsOff||(h<openH||h>=closeH);
+  const effH=ctsOff?closeH:Math.min(h,closeH);
+  // Hourly distribution curve (fraction of daily total per hour)
+  // CTS opens 7h30 (Thu 11h), so hours before opening = 0
+  // Normal days: ramp 7h30, peak 9-11h, taper to 15h
+  const hourlyNormal=[0,0,0,0,0,0,0,0.01,0.05,0.11,0.14,0.15,0.14,0.13,0.12,0.10,0.05,0,0,0,0,0,0,0];
+  // Thursday: 11h-19h, peak 13-16h
+  const hourlyThursday=[0,0,0,0,0,0,0,0,0,0,0,0.05,0.10,0.14,0.15,0.14,0.14,0.13,0.10,0.05,0,0,0,0];
+  const hourlyRate=isThursday?hourlyThursday:hourlyNormal;
+  let cumulative=0;
+  for(let i=0;i<Math.min(Math.floor(effH),24);i++) cumulative+=hourlyRate[i];
+  if(Math.floor(effH)<24) cumulative+=hourlyRate[Math.floor(effH)]*(effH-Math.floor(effH));
+  const satMax=20+Math.floor(Math.random()*11); // samedi matin : 20-30 dons
+  const dailyMax=isSaturdayHours?satMax:(50+Math.floor(Math.random()*11)); // sem : 50-60
+  const dayEntries=ctsOff?dailyMax:Math.min(Math.round(cumulative*dailyMax),dailyMax);
+  const dayExits=Math.round(dayEntries*0.75); // ~75% dispatched
+  fxPouches=[];
+  fxIn=dayEntries;
+  fxOut=dayExits;
+  fxStock=180+dayEntries-dayExits+Math.floor(Math.random()*20);
+  fxPlaq=12+Math.floor(Math.random()*10);
+  // Update HUD stats
+  const inEl=document.getElementById('fx-in');if(inEl)inEl.textContent=fxIn;
+  const outEl=document.getElementById('fx-out');if(outEl)outEl.textContent=fxOut;
+  const stEl=document.getElementById('fx-stock');if(stEl)stEl.textContent=fxStock;
+  const plEl=document.getElementById('fx-plaq');if(plEl)plEl.textContent=fxPlaq;
+  fxTarget=isSaturdayHours?25:50;
+  updateObjGauge();
+  // Dynamic objectif title
+  var objTitle=document.getElementById('fx-obj-title');
+  if(objTitle){
+    if(ctsOff){
+      var lastDay=simDay===6?'samedi':'vendredi';
+      objTitle.textContent='\u2705 Bilan '+lastDay;
+    } else if(isSaturdayHours){
+      objTitle.textContent='\ud83c\udfaf Objectif samedi matin';
+    }
+  }
+  if(ctsOff){
+    var lb=document.getElementById('fx-live-badge');if(lb)lb.style.display='none';
+    var cb=document.getElementById('fx-closed-badge');if(cb){cb.style.display='';
+      var lastDay=simDay===6?'samedi':'vendredi';
+      cb.textContent='\u23f8 CTS ferm\u00e9 \u00b7 Donn\u00e9es '+lastDay;}
+    var hs=document.getElementById('fx-hourly-sub');if(hs){
+      var lastDayH=simDay===6?'Bilan samedi matin':'Bilan vendredi';
+      hs.textContent=lastDayH+' \u2014 dons / tranche de 2h';}
+    var ab=document.getElementById('fx-activity-badge');if(ab){ab.textContent='\u23f8 Garde';ab.style.animation='none';ab.style.background='rgba(200,169,96,.15)';ab.style.color='var(--gold)';}
+  } else if(isClosed){var lb2=document.getElementById('fx-live-badge');if(lb2){lb2.style.animation='none';lb2.textContent='\u25cf HORS HEURES';lb2.style.background='rgba(200,169,96,.15)';lb2.style.color='var(--gold)';}}
+  // Populate ticker — dynamic, updates every 30s
+  const tickerEl=document.getElementById('fx-ticker');
+  function updateTicker(){
+    if(!tickerEl)return;
+    const msgs=ctsOff?[
+      '🩸 Stock O- : '+Math.max(8,14+Math.floor(Math.random()*5-2))+' poches — surveillance week-end',
+      '🏥 Garde CTS : '+(1+Math.floor(Math.random()*2))+' sortie(s) urgences depuis minuit',
+      '🤰 Maternité : '+(Math.floor(Math.random()*2))+' CE distribué(s) cette nuit',
+      '⏸ CTS fermé — Bilan '+(simDay===6?'sam.':'ven.')+' : '+fxIn+' dons / '+fxOut+' sorties',
+      '⏰ Réouverture CTS : lundi 7h30 — pensez à prendre rendez-vous !',
+      '🧊 Équipe de garde : surveillance stocks + urgences vitales',
+    ]:[
+      '🩸 Stock O- : '+Math.max(8,14+Math.floor(Math.random()*5-2))+' poches — NIVEAU CRITIQUE',
+      '💜 '+(2+Math.floor(Math.random()*4))+' CP expirent ce soir → attribution prioritaire oncologie',
+      '📊 Dons du jour : '+fxIn+'/'+fxTarget+' (objectif) · '+fxOut+' sorties'+(fxIn>=fxTarget?' ✅':''),
+      '🚨 Convocations O- envoyées ('+Math.floor(6+Math.random()*8)+' donneurs contactés)',
+      '🏥 Prescription urgente : '+(1+Math.floor(Math.random()*3))+' CE O+ → Obstétrique',
+      '🎪 Collecte mobile Uni Dufour : '+(3+Math.floor(Math.random()*6))+' dons validés ce matin',
+      '⏰ Prochaine collecte Cornavin : vendredi 9h–16h',
+      '🧬 Don rare Duffy-négatif validé → réserve phénotypée',
+    ];
+    const doubled=msgs.concat(msgs);
+    tickerEl.innerHTML=doubled.map(m=>'<span>'+m+'</span>').join('');
+  }
+  if(tickerEl){
+    updateTicker();
+    setInterval(updateTicker,30000);
+  }
+  // Seed feed — generate the day's full history based on fxIn/fxOut
+  fxFeedItems=[];
+  const totalEvents=fxIn+fxOut;
+  const fxGrps=FX_GROUPS;
+  const fxSrcs=FX_SOURCES;
+  const fxDsts=FX_DESTS;
+  // Generate events spread across the day up to now
+  const startH=isThursday?11:7.5;
+  const endH=ctsOff?closeH:Math.min(h,closeH);
+  let inCount=0,outCount=0;
+  for(let e=0;e<Math.min(totalEvents,20);e++){
+    const progress=totalEvents>1?e/(totalEvents-1):0;
+    const evtH=startH+progress*(endH-startH);
+    const hh=Math.floor(evtH);
+    const mm=Math.floor((evtH-hh)*60);
+    const timeStr=String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
+    const grp=fxGrps[Math.floor(Math.random()*fxGrps.length)];
+    const isIncoming=(inCount<fxIn&&(outCount>=fxOut||Math.random()<0.55));
+    if(isIncoming){
+      inCount++;
+      const src=fxSrcs[Math.floor(Math.random()*fxSrcs.length)];
+      const icons=['🩸','🩸','🩸','💜','💛'];
+      const icon=icons[Math.floor(Math.random()*icons.length)];
+      const label=icon==='💜'?'CP':icon==='💛'?'PFC':'CE';
+      addFeedItem(icon,'↓ '+label+' '+grp+' validé — '+src+' → Stock CTS',timeStr,'in');
+    }else{
+      outCount++;
+      const dest=fxDsts[Math.floor(Math.random()*fxDsts.length)];
+      const types=[['🏥','CE'],['💜','CP'],['💛','PFC']];
+      const tp=types[Math.floor(Math.random()*types.length)];
+      addFeedItem(tp[0],'↑ '+tp[1]+' '+grp+' #'+Math.floor(3000+Math.random()*2000)+' → '+dest,timeStr,'out');
+    }
+  }
+  // Add a few info events
+  if(fxIn>5)addFeedItem('🔬','Tubes CTS → Bât. Laboratoires (sérologie + RAI)',String(Math.floor(startH+2)).padStart(2,'0')+':15','info');
+  if(fxIn>10)addFeedItem('✅','RAI négatif — Bât. Lab → CTS : lot validé',String(Math.floor(startH+3)).padStart(2,'0')+':30','info');
+  if(fxStock<190)addFeedItem('⚠️','Alerte : stock O- sous seuil de sécurité',String(Math.floor(endH-1)).padStart(2,'0')+':00','info');
+  // Reverse so newest is on top
+  fxFeedItems.sort((a,b)=>b.time.localeCompare(a.time));
+  replayDayActivity(); // Rapid cascade replay of the day's events
+  // Hourly chart — derived from same hourlyRate curve, scaled to actual fxIn
+  const hourlyEl=document.getElementById('fx-hourly');
+  if(hourlyEl){
+    // 2h buckets: 7-9, 9-11, 11-13, 13-15, 15-17, 17-19, 19-21
+    const bucketLabels=isSaturdayHours?['8-10','10-12']:isThursday?['11-13','13-15','15-17','17-19']:['7-9','9-11','11-13','13-15'];
+    const bucketStart=isSaturdayHours?8:isThursday?11:7;
+    const buckets=[];
+    for(let b=0;b<bucketLabels.length;b++){var s=bucketStart+b*2;buckets.push((hourlyRate[s]||0)+(hourlyRate[s+1]||0));}
+    const totalRate=buckets.reduce((a,b)=>a+b,0)||1;
+    const hourlyData=buckets.map(r=>Math.round(r/totalRate*dayEntries));
+    const currentBucket=Math.max(0,Math.min(buckets.length-1,Math.floor((effH-bucketStart)/2)));
+    const maxH=Math.max(...hourlyData,1);
+    hourlyEl.innerHTML=hourlyData.map((v,idx)=>{
+      const isFuture=!ctsOff&&idx>currentBucket;
+      const pct=Math.max(8,Math.round(v/maxH*100));
+      const color=isFuture?'rgba(255,255,255,.15)':v>=10?'#2ECC71':v>=6?'#F0A04B':'#E63946';
+      const colorSoft=isFuture?'rgba(255,255,255,.05)':v>=10?'rgba(46,204,113,.3)':v>=6?'rgba(240,160,75,.3)':'rgba(230,57,70,.3)';
+      const valColor=isFuture?'rgba(255,255,255,.2)':color;
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:end">'+
+        '<div style="font-family:var(--font-mono);font-size:15px;font-weight:700;color:'+valColor+'">'+(isFuture?'–':v)+'</div>'+
+        '<div style="width:100%;max-width:80px;height:'+pct+'%;background:linear-gradient(to top,'+color+','+colorSoft+');border-radius:6px 6px 0 0;min-height:8px;transition:height 1s ease;'+(isFuture?'':'box-shadow:0 0 8px '+colorSoft)+'"></div>'+
+        '<div style="font-size:11px;color:var(--text-muted);margin-top:4px">'+bucketLabels[idx]+'h</div></div>';
+    }).join('');
+  }
+  // Clock
+  function updateClock(){
+    const now=new Date();
+    const el=document.getElementById('fx-clock');if(el)el.textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+    const dEl=document.getElementById('fx-date');if(dEl)dEl.textContent=now.toLocaleDateString('fr-CH',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  }
+  updateClock();setInterval(updateClock,1000);
+  // Periodic HUD updates (simulate live flux)
+  if(!window._fxInterval){
+    function isCTSOpen(){
+      var now=new Date(),h=now.getHours()+(now.getMinutes()/60),d=now.getDay();
+      if(d===0)return false; // dimanche toujours fermé
+      if(d===6){var sw=Math.ceil(now.getDate()/7);return(sw===1||sw===3)&&h>=8.5&&h<12;} // 1er/3e sam 8h30-12h
+      return d===4?(h>=11&&h<19):(h>=7.5&&h<15);
+    }
+    function scheduleFluxEvent(){
+      // Slower at night (sorties only), faster during day
+      const open=isCTSOpen();
+      const isWE=(function(){var d=new Date(),day=d.getDay(),sun=day===0,sat=day===6,sw=Math.ceil(d.getDate()/7),ctsSat=sat&&(sw===1||sw===3);return sun||(sat&&!ctsSat);})();
+      const delay=isWE?(15000+Math.random()*25000):open?(4000+Math.random()*6000):(8000+Math.random()*15000);
+      window._fxInterval=setTimeout(()=>{
+        if(document.getElementById('v-flux')?.classList.contains('active')){
+          // Randomly update stats — entries only during CTS open hours
+          const r=Math.random();
+          const ctsOpen=isCTSOpen();
+          if(isWE){
+            // Weekend: sorties urgences/maternité only, no entries
+            if(r<0.4){fxOut++;fxStock=Math.max(fxStock-1,100);const eo=document.getElementById('fx-out');eo.textContent=fxOut;flashVal(eo);const es=document.getElementById('fx-stock');es.textContent=fxStock;flashVal(es);}
+          } else if(r<0.3&&ctsOpen&&fxIn<70){fxIn++;fxStock++;const e=document.getElementById('fx-in');e.textContent=fxIn;flashVal(e);updateObjGauge();}
+          else if(r<0.6){fxOut++;fxStock=Math.max(fxStock-1,100);const eo=document.getElementById('fx-out');eo.textContent=fxOut;flashVal(eo);const es=document.getElementById('fx-stock');es.textContent=fxStock;flashVal(es);}
+          // Add feed item — entrées only during CTS open hours
+          const evtsOut=[
+            ['🏥','↑ CE A+ #'+Math.floor(3000+Math.random()*2000)+' → Chirurgie (Bât. Opéra)','out'],
+            ['💜','↑ CP B+ → Radio-Oncologie','out'],
+            ['💛','↑ PFC AB+ → Soins Intensifs (Bât. Opéra)','out'],
+            ['🏥','↑ CE O- → Urgences Adultes','out'],
+            ['🧬','↑ CE phénotypé Fy(a−) → Érythrocytaphérèse','out'],
+            ['🟢','↑ CE B+ → Maternité / Obstétrique','out'],
+            ['💙','↑ CE CMV- → Néonatologie (Hôp. Enfants)','out'],
+            ['🔬','Tubes CTS → Bât. Laboratoires (sérologie + RAI)','info'],
+            ['🔬','Groupage ABO confirmé — Bât. Lab → CTS','info'],
+          ];
+          const evtsIn=[
+            ['🩸','↓ Don O+ validé → Stock CTS Morier','in'],
+            ['🩸','↓ Don A- validé → Stock CTS Morier','in'],
+            ['🩸','↓ Don B+ validé — Commande externe → Stock CTS','in'],
+            ['🩸','↓ Don O- validé — Don CTS HUG → Stock CTS','in'],
+            ['✅','↓ RAI négatif — Bât. Lab → CTS : CE validé #'+Math.floor(4000+Math.random()*1000),'in'],
+          ];
+          const evtsWE=[
+            ['🏥','\u2191 CE O+ → Urgences Adultes (garde week-end)','out'],
+            ['🤰','\u2191 CE A+ → Maternit\u00e9 — accouchement en cours','out'],
+            ['🏥','\u2191 CE O- → Soins Intensifs (urgence vitale)','out'],
+            ['💜','\u2191 CP → Oncologie (expiration imminente)','out'],
+            ['🧊','Stock v\u00e9rifi\u00e9 par l\u2019\u00e9quipe de garde','info'],
+          ];
+          const pool=isWE?evtsWE:ctsOpen?evtsOut.concat(evtsIn):evtsOut;
+          const ev=pool[Math.floor(Math.random()*pool.length)];
+          const now=new Date();
+          addFeedItem(ev[0],ev[1],String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'),ev[2]);
+          renderFeed();
+          if(typeof updateTicker==='function')updateTicker();
+        }
+        scheduleFluxEvent();
+      },delay);
+    }
+    scheduleFluxEvent();
+  }
+}
+
+function spawnPouch(w,h){
+  const type=FX_TYPES[Math.floor(Math.random()*FX_TYPES.length)];
+  const grp=FX_GROUPS[Math.floor(Math.random()*FX_GROUPS.length)];
+  const goingOut=Math.random()>0.5;
+  const centerX=w/2,centerY=h/2;
+  const angle=Math.random()*Math.PI*2;
+  const startR=goingOut?80:Math.max(w,h)*0.6;
+  const endR=goingOut?Math.max(w,h)*0.6:80;
+  fxPouches.push({
+    type,grp,goingOut,
+    x:centerX+Math.cos(angle)*startR,
+    y:centerY+Math.sin(angle)*startR,
+    tx:centerX+Math.cos(angle)*endR,
+    ty:centerY+Math.sin(angle)*endR,
+    progress:0,speed:0.003+Math.random()*0.004,
+    size:16+Math.random()*12,alpha:1,
+    trail:[]
+  });
+}
+
+function drawFlux(ctx,w,h){
+  ctx.clearRect(0,0,w,h);
+  // Background gradient
+  const bg=ctx.createRadialGradient(w/2,h/2,50,w/2,h/2,w*0.5);
+  bg.addColorStop(0,'rgba(200,169,96,0.03)');bg.addColorStop(1,'transparent');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+  // Center hub
+  ctx.beginPath();ctx.arc(w/2,h/2,60,0,Math.PI*2);
+  ctx.fillStyle='rgba(200,169,96,0.06)';ctx.fill();
+  ctx.strokeStyle='rgba(200,169,96,0.15)';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='rgba(200,169,96,0.8)';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('CTS',w/2,h/2-10);ctx.font='12px sans-serif';ctx.fillText('HUG',w/2,h/2+14);
+  // Orbit rings
+  for(let r=120;r<w*0.5;r+=100){
+    ctx.beginPath();ctx.arc(w/2,h/2,r,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,255,255,0.02)';ctx.lineWidth=1;ctx.stroke();
+  }
+  // Draw pouches
+  for(let i=fxPouches.length-1;i>=0;i--){
+    const p=fxPouches[i];
+    p.progress+=p.speed;
+    if(p.progress>=1){fxPouches.splice(i,1);continue;}
+    const ease=p.progress<0.5?2*p.progress*p.progress:1-Math.pow(-2*p.progress+2,2)/2;
+    p.x=lerp(p.x,p.tx,p.speed*2);
+    p.y=lerp(p.y,p.ty,p.speed*2);
+    p.alpha=p.progress>0.8?1-(p.progress-0.8)/0.2:Math.min(p.progress/0.1,1);
+    // Trail
+    p.trail.push({x:p.x,y:p.y,a:p.alpha});
+    if(p.trail.length>15)p.trail.shift();
+    for(let t=0;t<p.trail.length;t++){
+      const tr=p.trail[t];
+      ctx.beginPath();ctx.arc(tr.x,tr.y,p.size*0.3*(t/p.trail.length),0,Math.PI*2);
+      ctx.fillStyle=FX_COLORS[p.type].replace(')',`,${tr.a*0.15*(t/p.trail.length)})`).replace('rgb','rgba');
+      ctx.fill();
+    }
+    // Pouch body
+    ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    const grd=ctx.createRadialGradient(p.x-p.size*0.3,p.y-p.size*0.3,0,p.x,p.y,p.size);
+    grd.addColorStop(0,FX_COLORS[p.type]);grd.addColorStop(1,FX_COLORS[p.type]+'88');
+    ctx.fillStyle=grd;ctx.globalAlpha=p.alpha;ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1;ctx.stroke();
+    // Label
+    ctx.fillStyle='#fff';ctx.font=`bold ${p.size*0.65}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(p.grp,p.x,p.y);
+    // Type label
+    ctx.font=`${p.size*0.4}px sans-serif`;ctx.fillStyle='rgba(255,255,255,0.6)';
+    ctx.fillText(FX_LABELS[p.type],p.x,p.y+p.size+10);
+    // Direction arrow
+    if(p.goingOut){ctx.fillStyle='rgba(230,57,70,0.5)';ctx.fillText('↑',p.x,p.y-p.size-8);}
+    else{ctx.fillStyle='rgba(46,204,113,0.5)';ctx.fillText('↓',p.x,p.y-p.size-8);}
+    ctx.globalAlpha=1;
+  }
+  // Update HUD
+  document.getElementById('fx-in').textContent=fxIn;
+  document.getElementById('fx-out').textContent=fxOut;
+  document.getElementById('fx-stock').textContent=fxStock;
+  document.getElementById('fx-plaq').textContent=fxPlaq;
+}
+function lerp(a,b,t){return a+(b-a)*t;}
+
+function fluxEvent(w,h){
+  spawnPouch(w,h);
+  const isIn=Math.random()>0.4;
+  const type=FX_TYPES[Math.floor(Math.random()*FX_TYPES.length)];
+  const grp=FX_GROUPS[Math.floor(Math.random()*FX_GROUPS.length)];
+  const now=new Date();const t=now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  if(isIn){
+    if(fxIn>=70)return; // Objectif max ~70 dons/jour CTS Genève
+    fxIn++;fxStock++;
+    const src=FX_SOURCES[Math.floor(Math.random()*FX_SOURCES.length)];
+    addFeedItem(type==='plaq'?'💜':type==='plasma'?'💛':'🩸',
+      `↓ ${FX_LABELS[type]} ${grp} validé — ${src} → Stock CTS`,t,'in');
+  }else{
+    fxOut++;fxStock=Math.max(fxStock-1,100);
+    const dest=FX_DESTS[Math.floor(Math.random()*FX_DESTS.length)];
+    addFeedItem('🏥',`↑ ${FX_LABELS[type]} ${grp} prescrit → ${dest} HUG`,t,'out');
+  }
+  renderFeed();
+}
+function addFeedItem(icon,text,time,dir){
+  fxFeedItems.unshift({icon,text,time,dir:dir||'info'});
+  if(fxFeedItems.length>20)fxFeedItems.pop();
+}
+function renderFeed(){
+  const el=document.getElementById('fx-feed');if(!el)return;
+  el.innerHTML=fxFeedItems.map(f=>{
+    const cls=f.dir==='in'?'feed-in':f.dir==='out'?'feed-out':'';
+    return `<div class="flux-feed-item ${cls}"><span class="flux-feed-icon">${f.icon}</span><span class="flux-feed-text">${f.text}</span><span class="flux-feed-time">${f.time}</span></div>`;
+  }).join('');
+}
+// Rapid replay: cascade feed items + count up HUD on first open
+function replayDayActivity(){
+  const el=document.getElementById('fx-feed');if(!el)return;
+  const items=fxFeedItems.slice().reverse(); // oldest first for replay
+  el.innerHTML=''; // start empty
+  // Count-up HUD from 0 to final values
+  const targetIn=fxIn,targetOut=fxOut,targetStock=fxStock,targetPlaq=fxPlaq;
+  const steps=Math.min(items.length,20);
+  const countDur=steps*80; // total replay time
+  let startTime=null;
+  function countUp(ts){
+    if(!startTime)startTime=ts;
+    const p=Math.min((ts-startTime)/countDur,1);
+    const eased=1-Math.pow(1-p,2); // ease-out
+    document.getElementById('fx-in').textContent=Math.round(eased*targetIn);
+    document.getElementById('fx-out').textContent=Math.round(eased*targetOut);
+    document.getElementById('fx-stock').textContent=Math.round(180+(eased*(targetStock-180)));
+    document.getElementById('fx-plaq').textContent=Math.round(12+(eased*(targetPlaq-12)));
+    if(p<1)requestAnimationFrame(countUp);
+  }
+  requestAnimationFrame(countUp);
+  // Cascade feed items in 80ms intervals (newest last = on top)
+  items.forEach((f,i)=>{
+    setTimeout(()=>{
+      const cls=f.dir==='in'?'feed-in':f.dir==='out'?'feed-out':'';
+      const div=document.createElement('div');
+      div.className='flux-feed-item '+cls;
+      div.innerHTML=`<span class="flux-feed-icon">${f.icon}</span><span class="flux-feed-text">${f.text}</span><span class="flux-feed-time">${f.time}</span>`;
+      el.insertBefore(div,el.firstChild);
+      el.scrollTop=0;
+    },i*80);
+  });
+}
+
+setTimeout(initFlux,200);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>
