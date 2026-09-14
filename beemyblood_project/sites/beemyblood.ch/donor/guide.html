@@ -1,0 +1,409 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Guide du don — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab active" href="guide.html" aria-current="page">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item active" href="guide.html" aria-current="page"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Guide du don</span>
+</div>
+<main id="contenu" tabindex="-1">
+<!-- ==================== GUIDE : À QUOI S'ATTENDRE ==================== -->
+<div class="view active" id="v-guide">
+  <div class="sec-header"><div class="sec-label">📺 Guide du don</div><h1 class="sec-title">À quoi s'attendre — en 5 étapes</h1><div class="sec-sub">Jamais donné ? Voici comment ça se passe. Zéro surprise.</div></div>
+
+
+  <!-- GUIDE PRIMO-DONNEUR -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-primo-acc" style="font-size:13px;padding:6px 10px;margin:12px 0 0">🩸 Guide primo-donneur — l'essentiel avant ton 1er don <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="guide-primo-acc">
+  <div class="card" style="margin-top:8px;border:1px solid rgba(200,169,96,.2)">
+    <div class="card-header"><div class="card-title">🩸 Guide primo-donneur</div><span class="badge badge-gold">Nouveau ?</span></div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <!-- Critères de base -->
+      <div style="padding:12px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.12);border-radius:var(--radius-sm)">
+        <div style="font-weight:700;color:var(--blue);margin-bottom:6px">Critères de base</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">✓ 18-60 ans (premier don) — jusqu'à 75 ans pour les donneurs réguliers<br>✓ Minimum 50 kg<br>✓ Bonne santé générale<br>✓ Pièce d'identité valable</div>
+      </div>
+
+      <!-- CID vs CIT -->
+      <div style="padding:12px;background:rgba(255,165,0,.06);border:1px solid rgba(255,165,0,.12);border-radius:var(--radius-sm)">
+        <div style="font-weight:700;color:var(--orange);margin-bottom:6px">📋 Comprendre les contre-indications</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
+          <strong style="color:var(--red-soft)">CID</strong> = <strong>Contre-indication définitive</strong> : tu ne pourras pas donner (ex : VIH, hépatite B/C, maladies cardiaques graves).<br><br>
+          <strong style="color:var(--orange)">CIT</strong> = <strong>Contre-indication temporaire</strong> : il faut attendre un délai (ex : tatouage → 4 mois, antibiotiques → 2 semaines, grossesse → 12 mois).
+        </div>
+      </div>
+
+      <!-- Déroulement -->
+      <div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:8px">📍 Déroulement d'un don</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</span><span style="font-size:14px;color:var(--text-dim)">Accueil + pièce d'identité (5 min)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</span><span style="font-size:14px;color:var(--text-dim)">Questionnaire médical (10 min — 2 min avec BeeMyBlood™)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</span><span style="font-size:14px;color:var(--text-dim)">Entretien confidentiel avec le médecin (10 min)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</span><span style="font-size:14px;color:var(--text-dim)">Test hémoglobine — goutte au doigt (2 min)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">5</span><span style="font-size:14px;color:var(--text-dim)">Prélèvement ~450 ml (10-15 min — casque VR dispo)</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">6</span><span style="font-size:14px;color:var(--text-dim)">Collation + repos (15-20 min) 🍪☕</span></div>
+        </div>
+      </div>
+
+      <!-- Pourquoi 3 vies -->
+      <div style="padding:12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.12);border-radius:var(--radius-sm)">
+        <div style="font-weight:700;color:var(--green);margin-bottom:6px">💡 Pourquoi ~3 vies sauvées par don ?</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">Ton don de 450-500 ml est séparé en 3 composants :<br>
+          🩸 <strong>Globules rouges</strong> → transfusions (accidents, chirurgies, anémies, drépanocytose)<br>
+          💜 <strong>Plaquettes</strong> → patients atteints de cancer, leucémie, chimiothérapie<br>
+          💛 <strong>Plasma</strong> → grands brûlés, troubles de coagulation, médicaments dérivés
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /guide-primo-acc -->
+
+  <!-- Animated storyboard -->
+  <div class="story-timeline" id="story-tl">
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step1-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">👋 Étape 1 — Accueil & inscription <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="guide-step1-acc">
+    <div class="story-step visible">
+      <div class="story-step-num" style="background:rgba(200,169,96,.15);color:var(--gold)">1</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">👋</span><div><div style="font-weight:700;font-size:15px">Accueil & inscription</div><div style="font-size:15px;color:var(--gold)">~5 min (2 min avec BeeMyBlood™)</div></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Tu arrives au centre ou à la collecte mobile. Un sourire t'accueille. Tu présentes ta pièce d'identité. Si tu as pré-rempli le formulaire via BeeMyBlood™, c'est quasi instantané.</div>
+        <div class="story-visual">
+          <div class="story-anim" style="background:rgba(200,169,96,.1)">🪪</div>
+          <div style="flex:1;font-size:15px;color:var(--text-dim)">Le formulaire médical est déjà pré-rempli grâce à ton test d'éligibilité. Tu n'as qu'à vérifier et signer. <a href="eligibilite.html" style="color:var(--gold)">Faire le test maintenant →</a></div>
+        </div>
+        <div class="story-tips"><span class="story-tip">🪪 Pièce d'identité</span><span class="story-tip">💧 Bien hydraté</span><span class="story-tip">🥗 Repas léger pris</span></div>
+      </div>
+    </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step2-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">👩‍⚕️ Étape 2 — Entretien médical <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="guide-step2-acc">
+    <div class="story-step visible">
+      <div class="story-step-num" style="background:rgba(46,204,113,.15);color:var(--green)">2</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">👩‍⚕️</span><div><div style="font-weight:700;font-size:15px">Entretien médical confidentiel</div><div style="font-size:15px;color:var(--green)">~5 min</div></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Un médecin ou une infirmière te pose quelques questions de santé en privé. Vérification de la tension, du pouls et du taux d'hémoglobine (petite piqûre au doigt). Tout est confidentiel.</div>
+        <div class="story-visual">
+          <div class="story-anim" style="background:rgba(46,204,113,.1)">💉</div>
+          <div style="flex:1;font-size:15px;color:var(--text-dim)">La piqûre au doigt est minuscule — comme un test de glycémie. C'est la seule « piqûre » avant le don. Tension artérielle et pouls sont vérifiés en même temps.</div>
+        </div>
+        <div class="micro-learn" style="margin-top:10px"><span class="micro-learn-icon">🧬</span><div class="micro-learn-body"><div class="micro-learn-title">Le savais-tu ?</div><div class="micro-learn-text">Ton taux d'hémoglobine doit être ≥135 g/l (hommes) ou ≥125 g/l (femmes). C'est vérifié à chaque don pour ta sécurité.</div></div></div>
+      </div>
+    </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step3-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">🩸 Étape 3 — Le don <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="guide-step3-acc">
+    <div class="story-step visible">
+      <div class="story-step-num" style="background:rgba(79,195,247,.15);color:var(--blue)">3</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">🩸</span><div><div style="font-weight:700;font-size:15px">Le don — 8 à 10 minutes</div><div style="font-size:15px;color:var(--blue)">Le moment héroïque</div></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Tu t'installes dans un fauteuil confortable. L'infirmière pose le garrot et la piqûre. Tu ne donnes que ~450 ml — ton corps en refabrique rapidement. Pendant ce temps : casque VR, musique, HémoRush™ sur tablette, ou simplement te détendre.</div>
+        <div class="story-visual">
+          <div class="story-anim" style="background:rgba(79,195,247,.1)">🥽</div>
+          <div style="flex:1;font-size:15px;color:var(--text-dim)">Avec le casque VR, tu choisis ton univers (plage, forêt, espace, fond marin). Tu ne vois pas l'aiguille. Résultat : <strong>-24% douleur, -40% anxiété</strong>. <a href="vr.html" onclick="bmbGuard(event,'vr.html')" style="color:var(--gold)">Découvrir la VR →</a></div>
+        </div>
+        <div class="micro-learn" style="margin-top:10px"><span class="micro-learn-icon">❤️</span><div class="micro-learn-body"><div class="micro-learn-title">La douleur ?</div><div class="micro-learn-text">La plupart des donneurs décrivent une légère pression, comparable à un pincement. Avec le casque VR, beaucoup ne sentent rien du tout. Le don dure 8-10 min, puis c'est fini.</div></div></div>
+      </div>
+    </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step4-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">☕ Étape 4 — Repos & collation <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="guide-step4-acc">
+    <div class="story-step visible">
+      <div class="story-step-num" style="background:rgba(155,89,182,.15);color:var(--purple)">4</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">☕</span><div><div style="font-weight:700;font-size:15px">Repos & collation premium</div><div style="font-size:15px;color:var(--purple)">~10-15 min — tu l'as mérité</div></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Direction le lounge. Boisson chaude, encas de qualité, fauteuil confortable. C'est TON moment. Pas de rush. Prends le temps de récupérer et de te faire chouchouter.</div>
+        <div class="lounge-grid" style="margin-top:12px">
+          <div class="lounge-item"><div class="lounge-icon">☕</div><div class="lounge-title">Boissons</div><div class="lounge-sub">Café, thé, jus, eau</div></div>
+          <div class="lounge-item"><div class="lounge-icon">🥐</div><div class="lounge-title">Encas</div><div class="lounge-sub">Viennoiseries, fruits</div></div>
+          <div class="lounge-item"><div class="lounge-icon">🎮</div><div class="lounge-title">HémoRush™</div><div class="lounge-sub">Tablettes à dispo</div></div>
+          <div class="lounge-item"><div class="lounge-icon">📱</div><div class="lounge-title">Wi-Fi & USB</div><div class="lounge-sub">Recharge & détente</div></div>
+        </div>
+        <div class="micro-learn" style="margin-top:10px"><span class="micro-learn-icon">🛋️</span><div class="micro-learn-body"><div class="micro-learn-title">L'expérience Lounge</div><div class="micro-learn-text">Notre modèle de référence : le lounge première classe, pas la salle d'attente. Éclairage chaud, musique d'ambiance, attention portée à chaque détail. Parce que chaque donneur est un héros.</div></div></div>
+      </div>
+    </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step5-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">⭐ Étape 5 — Après-don <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="guide-step5-acc">
+    <div class="story-step visible">
+      <div class="story-step-num" style="background:rgba(200,169,96,.15);color:var(--gold)">5</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">⭐</span><div><div style="font-weight:700;font-size:15px">Après-don — le moment décisif</div><div style="font-size:15px;color:var(--gold)">Les jours suivants</div></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Dans les jours qui suivent, BeeMyBlood™ te montre le parcours de ta poche : labo, validation, stockage, prescription, transfusion. Tu sais à qui ton don a servi. C'est ça qui donne envie de revenir.</div>
+        <div class="story-visual">
+          <div class="story-anim" style="background:rgba(200,169,96,.1)">💛</div>
+          <div style="flex:1;font-size:15px;color:var(--text-dim)">Feedback d'impact réel : « Votre don du 14 janvier a été transfusé le 16 janvier à un patient en chirurgie cardiaque aux HUG ». Pas un merci générique — un impact concret. <a href="impact.html" onclick="bmbGuard(event,'impact.html')" style="color:var(--gold)">Voir mon impact →</a></div>
+        </div>
+        <div class="story-tips"><span class="story-tip">💧 Bois bien pendant 24h</span><span class="story-tip">⏳ 30 min avant de conduire</span><span class="story-tip">🏃 12h avant sport intense</span></div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-ar-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📱 Guidage AR & Concept Lounge <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="guide-ar-acc">
+  <!-- AR INDOOR WAYFINDING -->
+  <div class="card" style="margin-top:28px">
+    <div class="card-header"><div class="card-title">📱 Guidage AR intérieur — Simulation</div><span class="badge badge-purple">Concept app mobile</span></div>
+    <div style="font-size:14px;color:var(--text-dim);margin-bottom:16px;line-height:1.6">Une fois au centre, ton téléphone te guide pas à pas en réalité augmentée. Fini les panneaux qu'on ne voit pas. Chaque étape affiche un micro-contenu éducatif pendant que tu marches.</div>
+    <div class="ar-steps">
+      <div class="ar-step"><div class="ar-step-icon">🚪</div><div><div class="ar-step-num">ÉTAPE 1/6</div><div class="ar-step-title">Entrée — Accueil</div><div class="ar-step-sub">Présentez-vous à l'accueil avec votre pièce d'identité</div><div class="ar-step-time">📍 Rez-de-chaussée · Flèche AR → droite</div></div></div>
+      <div class="ar-step"><div class="ar-step-icon">📋</div><div><div class="ar-step-num">ÉTAPE 2/6</div><div class="ar-step-title">Questionnaire médical</div><div class="ar-step-sub">Vérification et signature du formulaire pré-rempli</div><div class="ar-step-time">📍 Salle d'attente · Flèche AR → porte à droite</div><div class="ar-step-learn">💡 Votre sang parcourt 96'000 km par jour dans votre corps — soit 2.4 fois le tour de la Terre.</div></div></div>
+      <div class="ar-step"><div class="ar-step-icon">👩‍⚕️</div><div><div class="ar-step-num">ÉTAPE 3/6</div><div class="ar-step-title">Entretien médical</div><div class="ar-step-sub">Hémoglobine, tension, pouls — confidentiel</div><div class="ar-step-time">📍 Box médical · Flèche AR → 2e porte gauche</div><div class="ar-step-learn">💡 Votre corps contient 5 litres de sang. Vous n'en donnez que 450 ml — votre corps le reconstitue en 24-48h.</div></div></div>
+      <div class="ar-step"><div class="ar-step-icon">🩸</div><div><div class="ar-step-num">ÉTAPE 4/6</div><div class="ar-step-title">Salle de don</div><div class="ar-step-sub">Installation, casque VR optionnel, don de 8-10 min</div><div class="ar-step-time">📍 Salle principale · Flèche AR → tout droit</div><div class="ar-step-learn">💡 Les plaquettes ont une durée de vie de seulement 5 jours. Votre don est attendu. Littéralement.</div></div></div>
+      <div class="ar-step"><div class="ar-step-icon">☕</div><div><div class="ar-step-num">ÉTAPE 5/6</div><div class="ar-step-title">Lounge repos</div><div class="ar-step-sub">Collation, boisson chaude, repos 10-15 min</div><div class="ar-step-time">📍 Espace lounge · Flèche AR → à gauche après le don</div></div></div>
+      <div class="ar-step"><div class="ar-step-icon">🎉</div><div><div class="ar-step-num">ÉTAPE 6/6</div><div class="ar-step-title">Départ — Tu es un héros</div><div class="ar-step-sub">Badge « Don complété » débloqué · Notification d'impact dans ~48h</div><div class="ar-step-time">📍 Sortie · Merci et à bientôt !</div></div></div>
+    </div>
+  </div>
+
+  <!-- LOUNGE CONCEPT -->
+  <div class="card" style="margin-top:24px">
+    <div class="card-header"><div class="card-title">🛋️ Le concept Lounge — pas un hôpital, un salon</div></div>
+    <div style="font-size:14px;color:var(--text-dim);margin-bottom:16px;line-height:1.6">Notre référence : le lounge première classe d'un aéroport. Le luxe ici n'est pas financier — c'est <strong style="color:var(--gold)">l'attention portée à chaque détail</strong>. Chaque donneur perçoit : « vous comptez, on a pris soin de tout pour vous ».</div>
+    <div class="lounge-grid">
+      <div class="lounge-item"><div class="lounge-icon">🕯️</div><div class="lounge-title">Éclairage chaud</div><div class="lounge-sub">Ambiance tamisée, pas de néons</div></div>
+      <div class="lounge-item"><div class="lounge-icon">🎵</div><div class="lounge-title">Musique d'ambiance</div><div class="lounge-sub">Playlist apaisante curatée</div></div>
+      <div class="lounge-item"><div class="lounge-icon">🪑</div><div class="lounge-title">Fauteuils design</div><div class="lounge-sub">Confort premium, pas hospitalier</div></div>
+      <div class="lounge-item"><div class="lounge-icon">🎨</div><div class="lounge-title">Art & déco</div><div class="lounge-sub">Œuvres locales, signalétique design</div></div>
+      <div class="lounge-item"><div class="lounge-icon">☕</div><div class="lounge-title">Collation premium</div><div class="lounge-sub">Café, viennoiseries, fruits frais</div></div>
+      <div class="lounge-item"><div class="lounge-icon">📱</div><div class="lounge-title">Tech & détente</div><div class="lounge-sub">Wi-Fi, USB, tablettes HémoRush™</div></div>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:rgba(200,169,96,.04);border-radius:var(--radius-sm);font-size:14px;color:var(--text-dim);line-height:1.6;text-align:center;font-style:italic">
+      « Le donneur doit se sentir comme dans un lounge privé, pas dans une salle d'attente d'hôpital. L'expérience physique est indissociable de l'expérience numérique. »
+    </div>
+  </div>
+
+  </div><!-- /acc-body guide-ar -->
+  <div style="text-align:center;margin-top:16px">
+    <a class="btn btn-gold" href="eligibilite.html">✅ Suis-je éligible ?</a>
+    <a class="btn btn-outline" style="margin-left:8px" href="beebot.html">🤖 Poser une question</a>
+  </div>
+</div>
+</main>
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('guide');
+
+// ===== STORY TIMELINE ANIMATION =====
+function animateStory(){
+  document.querySelectorAll('.story-step').forEach((s,i)=>{
+    setTimeout(()=>s.classList.add('visible'),i*250);
+  });
+}
+setTimeout(animateStory,300);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>

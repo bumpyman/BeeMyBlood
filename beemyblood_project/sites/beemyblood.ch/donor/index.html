@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <button class="nav-tab" data-v="impact">💛 Impact</button>
 </div>
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
-  <button class="nav-tab" data-v="guide">📖 Guide</button>
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
   <button class="nav-tab" data-v="chatbot">🐝 BeeBot™</button>
   <button class="nav-tab" data-v="vr">🥽 VR</button>
   <button class="nav-tab" data-v="videos">🎬 Vidéos</button>
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
   <div class="mob-section-label">Découvrir</div>
   <div class="mob-menu-grid">
-    <div class="mob-item" onclick="goMob('guide')"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></div>
+    <div class="mob-item" onclick="location.href='guide.html'"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></div>
     <div class="mob-item" onclick="goMob('eligibilite')"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></div>
     <div class="mob-item" onclick="location.href='centres.html'"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></div>
     <div class="mob-item" onclick="goMob('impact')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></div>
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="acc-body" id="hero-feats-acc" style="width:100%">
     <div class="hero-features">
       <div class="hero-feat" onclick="go('dashboard')"><div class="hero-feat-icon">📊</div><div class="hero-feat-title">Dashboard</div><div class="hero-feat-sub">Suivi personnalisé</div></div>
-      <div class="hero-feat" onclick="go('guide')"><div class="hero-feat-icon">📺</div><div class="hero-feat-title">Guide du don</div><div class="hero-feat-sub">5 étapes · Vidéo 2 min</div></div>
+      <div class="hero-feat" onclick="location.href='guide.html'"><div class="hero-feat-icon">📺</div><div class="hero-feat-title">Guide du don</div><div class="hero-feat-sub">5 étapes · Vidéo 2 min</div></div>
       <div class="hero-feat" onclick="location.href='hemorush.html'"><div class="hero-feat-icon">🎮</div><div class="hero-feat-title">HémoRush™</div><div class="hero-feat-sub">Jeu de matching sanguin</div></div>
       <div class="hero-feat" onclick="go('eligibilite')"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
       <div class="hero-feat" onclick="go('vr')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
@@ -889,7 +889,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="btn btn-gold btn-sm" onclick="go('flux')">📺 Flux CTS en direct</button>
     <button class="btn btn-outline btn-sm" onclick="go('impact')">⭐ Mon impact</button>
     <button class="btn btn-outline btn-sm" onclick="go('videos')">🎬 Vidéos</button>
-    <button class="btn btn-outline btn-sm" onclick="go('guide')">📖 Guide du don</button>
+    <a class="btn btn-outline btn-sm" href="guide.html">📖 Guide du don</a>
   </div>
 
 </div><!-- /v-dashboard -->
@@ -1992,183 +1992,6 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 </div><!-- /v-contact -->
 
-<!-- ==================== GUIDE : À QUOI S'ATTENDRE ==================== -->
-<div class="view" id="v-guide">
-  <div class="sec-header"><div class="sec-label">📺 Guide du don</div><div class="sec-title">À quoi s'attendre — en 5 étapes</div><div class="sec-sub">Jamais donné ? Voici comment ça se passe. Zéro surprise.</div></div>
-
-
-  <!-- GUIDE PRIMO-DONNEUR -->
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-primo-acc" style="font-size:13px;padding:6px 10px;margin:12px 0 0">🩸 Guide primo-donneur — l'essentiel avant ton 1er don <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="guide-primo-acc">
-  <div class="card" style="margin-top:8px;border:1px solid rgba(200,169,96,.2)">
-    <div class="card-header"><div class="card-title">🩸 Guide primo-donneur</div><span class="badge badge-gold">Nouveau ?</span></div>
-
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <!-- Critères de base -->
-      <div style="padding:12px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.12);border-radius:var(--radius-sm)">
-        <div style="font-weight:700;color:var(--blue);margin-bottom:6px">Critères de base</div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">✓ 18-60 ans (premier don) — jusqu'à 75 ans pour les donneurs réguliers<br>✓ Minimum 50 kg<br>✓ Bonne santé générale<br>✓ Pièce d'identité valable</div>
-      </div>
-
-      <!-- CID vs CIT -->
-      <div style="padding:12px;background:rgba(255,165,0,.06);border:1px solid rgba(255,165,0,.12);border-radius:var(--radius-sm)">
-        <div style="font-weight:700;color:var(--orange);margin-bottom:6px">📋 Comprendre les contre-indications</div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
-          <strong style="color:var(--red-soft)">CID</strong> = <strong>Contre-indication définitive</strong> : tu ne pourras pas donner (ex : VIH, hépatite B/C, maladies cardiaques graves).<br><br>
-          <strong style="color:var(--orange)">CIT</strong> = <strong>Contre-indication temporaire</strong> : il faut attendre un délai (ex : tatouage → 4 mois, antibiotiques → 2 semaines, grossesse → 12 mois).
-        </div>
-      </div>
-
-      <!-- Déroulement -->
-      <div>
-        <div style="font-weight:700;color:var(--text);margin-bottom:8px">📍 Déroulement d'un don</div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</span><span style="font-size:14px;color:var(--text-dim)">Accueil + pièce d'identité (5 min)</span></div>
-          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</span><span style="font-size:14px;color:var(--text-dim)">Questionnaire médical (10 min — 2 min avec BeeMyBlood™)</span></div>
-          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</span><span style="font-size:14px;color:var(--text-dim)">Entretien confidentiel avec le médecin (10 min)</span></div>
-          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">4</span><span style="font-size:14px;color:var(--text-dim)">Test hémoglobine — goutte au doigt (2 min)</span></div>
-          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">5</span><span style="font-size:14px;color:var(--text-dim)">Prélèvement ~450 ml (10-15 min — casque VR dispo)</span></div>
-          <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px"><span style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">6</span><span style="font-size:14px;color:var(--text-dim)">Collation + repos (15-20 min) 🍪☕</span></div>
-        </div>
-      </div>
-
-      <!-- Pourquoi 3 vies -->
-      <div style="padding:12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.12);border-radius:var(--radius-sm)">
-        <div style="font-weight:700;color:var(--green);margin-bottom:6px">💡 Pourquoi ~3 vies sauvées par don ?</div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">Ton don de 450-500 ml est séparé en 3 composants :<br>
-          🩸 <strong>Globules rouges</strong> → transfusions (accidents, chirurgies, anémies, drépanocytose)<br>
-          💜 <strong>Plaquettes</strong> → patients atteints de cancer, leucémie, chimiothérapie<br>
-          💛 <strong>Plasma</strong> → grands brûlés, troubles de coagulation, médicaments dérivés
-        </div>
-      </div>
-    </div>
-  </div>
-  </div><!-- /guide-primo-acc -->
-
-  <!-- Animated storyboard -->
-  <div class="story-timeline" id="story-tl">
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step1-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">👋 Étape 1 — Accueil & inscription <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="guide-step1-acc">
-    <div class="story-step visible">
-      <div class="story-step-num" style="background:rgba(200,169,96,.15);color:var(--gold)">1</div>
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">👋</span><div><div style="font-weight:700;font-size:15px">Accueil & inscription</div><div style="font-size:15px;color:var(--gold)">~5 min (2 min avec BeeMyBlood™)</div></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Tu arrives au centre ou à la collecte mobile. Un sourire t'accueille. Tu présentes ta pièce d'identité. Si tu as pré-rempli le formulaire via BeeMyBlood™, c'est quasi instantané.</div>
-        <div class="story-visual">
-          <div class="story-anim" style="background:rgba(200,169,96,.1)">🪪</div>
-          <div style="flex:1;font-size:15px;color:var(--text-dim)">Le formulaire médical est déjà pré-rempli grâce à ton test d'éligibilité. Tu n'as qu'à vérifier et signer. <a href="#" onclick="go('eligibilite');return false" style="color:var(--gold)">Faire le test maintenant →</a></div>
-        </div>
-        <div class="story-tips"><span class="story-tip">🪪 Pièce d'identité</span><span class="story-tip">💧 Bien hydraté</span><span class="story-tip">🥗 Repas léger pris</span></div>
-      </div>
-    </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step2-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">👩‍⚕️ Étape 2 — Entretien médical <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="guide-step2-acc">
-    <div class="story-step visible">
-      <div class="story-step-num" style="background:rgba(46,204,113,.15);color:var(--green)">2</div>
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">👩‍⚕️</span><div><div style="font-weight:700;font-size:15px">Entretien médical confidentiel</div><div style="font-size:15px;color:var(--green)">~5 min</div></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Un médecin ou une infirmière te pose quelques questions de santé en privé. Vérification de la tension, du pouls et du taux d'hémoglobine (petite piqûre au doigt). Tout est confidentiel.</div>
-        <div class="story-visual">
-          <div class="story-anim" style="background:rgba(46,204,113,.1)">💉</div>
-          <div style="flex:1;font-size:15px;color:var(--text-dim)">La piqûre au doigt est minuscule — comme un test de glycémie. C'est la seule « piqûre » avant le don. Tension artérielle et pouls sont vérifiés en même temps.</div>
-        </div>
-        <div class="micro-learn" style="margin-top:10px"><span class="micro-learn-icon">🧬</span><div class="micro-learn-body"><div class="micro-learn-title">Le savais-tu ?</div><div class="micro-learn-text">Ton taux d'hémoglobine doit être ≥135 g/l (hommes) ou ≥125 g/l (femmes). C'est vérifié à chaque don pour ta sécurité.</div></div></div>
-      </div>
-    </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step3-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">🩸 Étape 3 — Le don <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="guide-step3-acc">
-    <div class="story-step visible">
-      <div class="story-step-num" style="background:rgba(79,195,247,.15);color:var(--blue)">3</div>
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">🩸</span><div><div style="font-weight:700;font-size:15px">Le don — 8 à 10 minutes</div><div style="font-size:15px;color:var(--blue)">Le moment héroïque</div></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Tu t'installes dans un fauteuil confortable. L'infirmière pose le garrot et la piqûre. Tu ne donnes que ~450 ml — ton corps en refabrique rapidement. Pendant ce temps : casque VR, musique, HémoRush™ sur tablette, ou simplement te détendre.</div>
-        <div class="story-visual">
-          <div class="story-anim" style="background:rgba(79,195,247,.1)">🥽</div>
-          <div style="flex:1;font-size:15px;color:var(--text-dim)">Avec le casque VR, tu choisis ton univers (plage, forêt, espace, fond marin). Tu ne vois pas l'aiguille. Résultat : <strong>-24% douleur, -40% anxiété</strong>. <a href="#" onclick="go('vr');return false" style="color:var(--gold)">Découvrir la VR →</a></div>
-        </div>
-        <div class="micro-learn" style="margin-top:10px"><span class="micro-learn-icon">❤️</span><div class="micro-learn-body"><div class="micro-learn-title">La douleur ?</div><div class="micro-learn-text">La plupart des donneurs décrivent une légère pression, comparable à un pincement. Avec le casque VR, beaucoup ne sentent rien du tout. Le don dure 8-10 min, puis c'est fini.</div></div></div>
-      </div>
-    </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step4-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">☕ Étape 4 — Repos & collation <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="guide-step4-acc">
-    <div class="story-step visible">
-      <div class="story-step-num" style="background:rgba(155,89,182,.15);color:var(--purple)">4</div>
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">☕</span><div><div style="font-weight:700;font-size:15px">Repos & collation premium</div><div style="font-size:15px;color:var(--purple)">~10-15 min — tu l'as mérité</div></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Direction le lounge. Boisson chaude, encas de qualité, fauteuil confortable. C'est TON moment. Pas de rush. Prends le temps de récupérer et de te faire chouchouter.</div>
-        <div class="lounge-grid" style="margin-top:12px">
-          <div class="lounge-item"><div class="lounge-icon">☕</div><div class="lounge-title">Boissons</div><div class="lounge-sub">Café, thé, jus, eau</div></div>
-          <div class="lounge-item"><div class="lounge-icon">🥐</div><div class="lounge-title">Encas</div><div class="lounge-sub">Viennoiseries, fruits</div></div>
-          <div class="lounge-item"><div class="lounge-icon">🎮</div><div class="lounge-title">HémoRush™</div><div class="lounge-sub">Tablettes à dispo</div></div>
-          <div class="lounge-item"><div class="lounge-icon">📱</div><div class="lounge-title">Wi-Fi & USB</div><div class="lounge-sub">Recharge & détente</div></div>
-        </div>
-        <div class="micro-learn" style="margin-top:10px"><span class="micro-learn-icon">🛋️</span><div class="micro-learn-body"><div class="micro-learn-title">L'expérience Lounge</div><div class="micro-learn-text">Notre modèle de référence : le lounge première classe, pas la salle d'attente. Éclairage chaud, musique d'ambiance, attention portée à chaque détail. Parce que chaque donneur est un héros.</div></div></div>
-      </div>
-    </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-step5-acc" style="font-size:13px;padding:6px 10px;margin:6px 0">⭐ Étape 5 — Après-don <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="guide-step5-acc">
-    <div class="story-step visible">
-      <div class="story-step-num" style="background:rgba(200,169,96,.15);color:var(--gold)">5</div>
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">⭐</span><div><div style="font-weight:700;font-size:15px">Après-don — le moment décisif</div><div style="font-size:15px;color:var(--gold)">Les jours suivants</div></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Dans les jours qui suivent, BeeMyBlood™ te montre le parcours de ta poche : labo, validation, stockage, prescription, transfusion. Tu sais à qui ton don a servi. C'est ça qui donne envie de revenir.</div>
-        <div class="story-visual">
-          <div class="story-anim" style="background:rgba(200,169,96,.1)">💛</div>
-          <div style="flex:1;font-size:15px;color:var(--text-dim)">Feedback d'impact réel : « Votre don du 14 janvier a été transfusé le 16 janvier à un patient en chirurgie cardiaque aux HUG ». Pas un merci générique — un impact concret. <a href="#" onclick="go('impact');return false" style="color:var(--gold)">Voir mon impact →</a></div>
-        </div>
-        <div class="story-tips"><span class="story-tip">💧 Bois bien pendant 24h</span><span class="story-tip">⏳ 30 min avant de conduire</span><span class="story-tip">🏃 12h avant sport intense</span></div>
-      </div>
-    </div>
-    </div>
-  </div>
-
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="guide-ar-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📱 Guidage AR & Concept Lounge <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="guide-ar-acc">
-  <!-- AR INDOOR WAYFINDING -->
-  <div class="card" style="margin-top:28px">
-    <div class="card-header"><div class="card-title">📱 Guidage AR intérieur — Simulation</div><span class="badge badge-purple">Concept app mobile</span></div>
-    <div style="font-size:14px;color:var(--text-dim);margin-bottom:16px;line-height:1.6">Une fois au centre, ton téléphone te guide pas à pas en réalité augmentée. Fini les panneaux qu'on ne voit pas. Chaque étape affiche un micro-contenu éducatif pendant que tu marches.</div>
-    <div class="ar-steps">
-      <div class="ar-step"><div class="ar-step-icon">🚪</div><div><div class="ar-step-num">ÉTAPE 1/6</div><div class="ar-step-title">Entrée — Accueil</div><div class="ar-step-sub">Présentez-vous à l'accueil avec votre pièce d'identité</div><div class="ar-step-time">📍 Rez-de-chaussée · Flèche AR → droite</div></div></div>
-      <div class="ar-step"><div class="ar-step-icon">📋</div><div><div class="ar-step-num">ÉTAPE 2/6</div><div class="ar-step-title">Questionnaire médical</div><div class="ar-step-sub">Vérification et signature du formulaire pré-rempli</div><div class="ar-step-time">📍 Salle d'attente · Flèche AR → porte à droite</div><div class="ar-step-learn">💡 Votre sang parcourt 96'000 km par jour dans votre corps — soit 2.4 fois le tour de la Terre.</div></div></div>
-      <div class="ar-step"><div class="ar-step-icon">👩‍⚕️</div><div><div class="ar-step-num">ÉTAPE 3/6</div><div class="ar-step-title">Entretien médical</div><div class="ar-step-sub">Hémoglobine, tension, pouls — confidentiel</div><div class="ar-step-time">📍 Box médical · Flèche AR → 2e porte gauche</div><div class="ar-step-learn">💡 Votre corps contient 5 litres de sang. Vous n'en donnez que 450 ml — votre corps le reconstitue en 24-48h.</div></div></div>
-      <div class="ar-step"><div class="ar-step-icon">🩸</div><div><div class="ar-step-num">ÉTAPE 4/6</div><div class="ar-step-title">Salle de don</div><div class="ar-step-sub">Installation, casque VR optionnel, don de 8-10 min</div><div class="ar-step-time">📍 Salle principale · Flèche AR → tout droit</div><div class="ar-step-learn">💡 Les plaquettes ont une durée de vie de seulement 5 jours. Votre don est attendu. Littéralement.</div></div></div>
-      <div class="ar-step"><div class="ar-step-icon">☕</div><div><div class="ar-step-num">ÉTAPE 5/6</div><div class="ar-step-title">Lounge repos</div><div class="ar-step-sub">Collation, boisson chaude, repos 10-15 min</div><div class="ar-step-time">📍 Espace lounge · Flèche AR → à gauche après le don</div></div></div>
-      <div class="ar-step"><div class="ar-step-icon">🎉</div><div><div class="ar-step-num">ÉTAPE 6/6</div><div class="ar-step-title">Départ — Tu es un héros</div><div class="ar-step-sub">Badge « Don complété » débloqué · Notification d'impact dans ~48h</div><div class="ar-step-time">📍 Sortie · Merci et à bientôt !</div></div></div>
-    </div>
-  </div>
-
-  <!-- LOUNGE CONCEPT -->
-  <div class="card" style="margin-top:24px">
-    <div class="card-header"><div class="card-title">🛋️ Le concept Lounge — pas un hôpital, un salon</div></div>
-    <div style="font-size:14px;color:var(--text-dim);margin-bottom:16px;line-height:1.6">Notre référence : le lounge première classe d'un aéroport. Le luxe ici n'est pas financier — c'est <strong style="color:var(--gold)">l'attention portée à chaque détail</strong>. Chaque donneur perçoit : « vous comptez, on a pris soin de tout pour vous ».</div>
-    <div class="lounge-grid">
-      <div class="lounge-item"><div class="lounge-icon">🕯️</div><div class="lounge-title">Éclairage chaud</div><div class="lounge-sub">Ambiance tamisée, pas de néons</div></div>
-      <div class="lounge-item"><div class="lounge-icon">🎵</div><div class="lounge-title">Musique d'ambiance</div><div class="lounge-sub">Playlist apaisante curatée</div></div>
-      <div class="lounge-item"><div class="lounge-icon">🪑</div><div class="lounge-title">Fauteuils design</div><div class="lounge-sub">Confort premium, pas hospitalier</div></div>
-      <div class="lounge-item"><div class="lounge-icon">🎨</div><div class="lounge-title">Art & déco</div><div class="lounge-sub">Œuvres locales, signalétique design</div></div>
-      <div class="lounge-item"><div class="lounge-icon">☕</div><div class="lounge-title">Collation premium</div><div class="lounge-sub">Café, viennoiseries, fruits frais</div></div>
-      <div class="lounge-item"><div class="lounge-icon">📱</div><div class="lounge-title">Tech & détente</div><div class="lounge-sub">Wi-Fi, USB, tablettes HémoRush™</div></div>
-    </div>
-    <div style="margin-top:14px;padding:12px 16px;background:rgba(200,169,96,.04);border-radius:var(--radius-sm);font-size:14px;color:var(--text-dim);line-height:1.6;text-align:center;font-style:italic">
-      « Le donneur doit se sentir comme dans un lounge privé, pas dans une salle d'attente d'hôpital. L'expérience physique est indissociable de l'expérience numérique. »
-    </div>
-  </div>
-
-  </div><!-- /acc-body guide-ar -->
-  <div style="text-align:center;margin-top:16px">
-    <button class="btn btn-gold" onclick="go('eligibilite')">✅ Suis-je éligible ?</button>
-    <button class="btn btn-outline" style="margin-left:8px" onclick="go('chatbot')">🤖 Poser une question</button>
-  </div>
-</div>
 
 <!-- ==================== IMPACT : APRÈS-DON ==================== -->
 <div class="view" id="v-impact">
@@ -3932,13 +3755,6 @@ const cntObs=new IntersectionObserver((entries)=>{
   }});
 },{threshold:0.3});
 const heroEl=document.getElementById('v-hero');if(heroEl)cntObs.observe(heroEl);
-
-// ===== STORY TIMELINE ANIMATION =====
-function animateStory(){
-  document.querySelectorAll('.story-step').forEach((s,i)=>{
-    setTimeout(()=>s.classList.add('visible'),i*250);
-  });
-}
 
 // ===== CONFETTI CELEBRATION =====
 function launchConfetti(){
