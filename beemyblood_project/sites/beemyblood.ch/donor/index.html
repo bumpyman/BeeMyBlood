@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
   <a class="nav-tab" href="guide.html">📖 Guide</a>
   <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
-  <button class="nav-tab" data-v="vr">🥽 VR</button>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
   <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
   <a class="nav-tab" href="faq.html">❓ FAQ</a>
   <a class="nav-tab" href="contact.html">📬 Contact</a>
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="mob-item" onclick="location.href='centres.html'"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></div>
     <div class="mob-item" onclick="bmbGoReserved('impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></div>
     <div class="mob-item" onclick="location.href='beebot.html'"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
-    <div class="mob-item" onclick="goMob('vr')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
+    <div class="mob-item" onclick="bmbGoReserved('vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
     <div class="mob-item" onclick="location.href='videos.html'"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></div>
     <div class="mob-item" onclick="location.href='faq.html'"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></div>
     <div class="mob-item" onclick="location.href='contact.html'"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></div>
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hero-feat" onclick="location.href='guide.html'"><div class="hero-feat-icon">📺</div><div class="hero-feat-title">Guide du don</div><div class="hero-feat-sub">5 étapes · Vidéo 2 min</div></div>
       <div class="hero-feat" onclick="location.href='hemorush.html'"><div class="hero-feat-icon">🎮</div><div class="hero-feat-title">HémoRush™</div><div class="hero-feat-sub">Jeu de matching sanguin</div></div>
       <div class="hero-feat" onclick="location.href='eligibilite.html'"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
-      <div class="hero-feat" onclick="go('vr')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
+      <div class="hero-feat" onclick="bmbGoReserved('vr.html')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
       <div class="hero-feat" onclick="location.href='beebot.html'"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
       <div class="hero-feat" onclick="location.href='faq.html'"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
       <div class="hero-feat" onclick="location.href='centres.html'"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
@@ -1363,148 +1363,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
-<!-- ==================== VR ==================== -->
-<div class="view" id="v-vr">
-  <div class="sec-header"><div class="sec-label">🥽 Réalité virtuelle</div><div class="sec-title">Casque VR : vaincre la peur de l'aiguille</div><div class="sec-sub">Immersion apaisante pendant la piqûre — tu ne sens presque rien</div></div>
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header"><div class="card-title">🎬 L'expérience minute par minute</div></div>
-    <div class="tl-item"><div class="tl-dot gold">0'</div><div><div class="tl-title">Choix de l'univers</div><div class="tl-sub">Tu choisis sur l'écran du casque. Tu l'enfiles. Immersion instantanée.</div></div></div>
-    <div class="tl-item"><div class="tl-dot" style="border-color:var(--blue)">1'</div><div><div class="tl-title">Piqûre — tu ne la vois pas</div><div class="tl-sub">Tu regardes un coucher de soleil. L'infirmière pose le garrot. Douleur perçue réduite de 24%.</div></div></div>
-    <div class="tl-item"><div class="tl-dot">5'</div><div><div class="tl-title">Exploration libre</div><div class="tl-sub">Micro-contenus optionnels. L'infirmière communique via le micro intégré si besoin.</div></div></div>
-    <div class="tl-item"><div class="tl-dot">9'</div><div><div class="tl-title">« C'est presque fini »</div><div class="tl-sub">Message doux. Le paysage se fond en transition douce.</div></div></div>
-    <div class="tl-item"><div class="tl-dot gold">10'</div><div><div class="tl-title">Retrait — tu souris</div><div class="tl-sub">Écran : « Merci. Tu viens de sauver une vie. » Souvenir = plage, pas aiguille.</div></div></div>
-  </div>
-
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="vr-zerofear-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">💉 Zero Fear Journey™ — Parcours anti-phobie <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="vr-zerofear-acc">
-  <div class="card" style="border:1px solid rgba(79,195,247,.2);background:linear-gradient(135deg,rgba(79,195,247,.04),rgba(46,204,113,.04))">
-    <div class="card-header"><div class="card-title">💉 Zero Fear Journey™</div><span class="badge badge-blue">5 étapes</span></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Programme complet anti-phobie en 5 étapes. Ta peur devient une progression mesurable.</div>
-
-    <!-- Progress -->
-    <div style="display:flex;align-items:center;gap:4px;margin-bottom:14px">
-      <div style="flex:1;height:6px;background:var(--green);border-radius:3px"></div>
-      <div style="flex:1;height:6px;background:var(--green);border-radius:3px"></div>
-      <div style="flex:1;height:6px;background:var(--gold);border-radius:3px"></div>
-      <div style="flex:1;height:6px;background:var(--dark-border);border-radius:3px"></div>
-      <div style="flex:1;height:6px;background:var(--dark-border);border-radius:3px"></div>
-    </div>
-
-    <!-- Steps -->
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="padding:10px 12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">✅</span>
-        <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 1 · Visite virtuelle 360°</div><div style="font-size:12px;color:var(--text-muted)">Vidéo immersive du CTS depuis chez toi</div></div>
-        <span style="font-size:12px;color:var(--green);font-weight:600">Fait</span>
-      </div>
-      <div style="padding:10px 12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
-        <span style="font-size:20px">✅</span>
-        <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 2 · Respiration gamifiée</div><div style="font-size:12px;color:var(--text-muted)">Score de calme : 78/100 (+44 depuis le début)</div></div>
-        <span style="font-size:12px;color:var(--green);font-weight:600">78/100</span>
-      </div>
-      <div style="padding:10px 12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm)">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <span style="font-size:20px">🔄</span>
-          <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 3 · Visite virtuelle du labo</div><div style="font-size:12px;color:var(--text-muted)">Découvre ce qui se passe après ton don</div></div>
-          <span style="font-size:11px;padding:3px 8px;border-radius:6px;background:rgba(200,169,96,.12);border:1px solid rgba(200,169,96,.25);color:var(--gold);font-weight:600">En cours</span>
-        </div>
-        <div style="background:var(--dark-surface);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--text-dim);line-height:1.7">
-          <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🗺️ Marche à suivre</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">1️⃣</span><span>Ouvre cette étape sur le casque VR mis à disposition au CTS, ou sur ton smartphone via l'appli BeeMyBlood™.</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">2️⃣</span><span>Sélectionne <strong style="color:var(--text)">« Visite du labo »</strong> dans le menu Zero Fear Journey™.</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">3️⃣</span><span>Suis la poche virtuelle de ton don : centrifugation, contrôle qualité, stockage, expédition — 4 min d'immersion.</span></div>
-            <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">4️⃣</span><span>À la fin, ton score de sérénité est mis à jour et l'Étape 4 se déverrouille pour ton prochain don.</span></div>
-          </div>
-          <div style="margin-top:10px;padding:8px 10px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.15);border-radius:8px;font-size:12px;color:var(--text-muted)">
-            💡 La vidéo interactive sera disponible sur le casque au CTS dès le prochain hackathon. Le prototype montre le parcours prévu.
-          </div>
-        </div>
-      </div>
-      <div style="padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px;opacity:.6">
-        <span style="font-size:20px">🔒</span>
-        <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 4 · Casque VR pendant le don</div><div style="font-size:12px;color:var(--text-muted)">Immersion fond marin ou forêt alpine</div></div>
-        <span style="font-size:12px;color:var(--text-muted)">Prochain don</span>
-      </div>
-      <div style="padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px;opacity:.6">
-        <span style="font-size:20px">🔒</span>
-        <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 5 · Débriefing post-don</div><div style="font-size:12px;color:var(--text-muted)">Score d'anxiété : suivi longitudinal</div></div>
-        <span style="font-size:12px;color:var(--text-muted)">Après don #4</span>
-      </div>
-    </div>
-
-    <!-- Serenity score -->
-    <div style="text-align:center;margin-top:12px;padding:12px;background:linear-gradient(135deg,rgba(79,195,247,.08),rgba(46,204,113,.06));border:1px solid rgba(79,195,247,.15);border-radius:var(--radius)">
-      <div style="font-size:12px;color:var(--text-muted)">Score de sérénité</div>
-      <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--blue)">78<span style="font-size:16px;color:var(--text-muted)">/100</span></div>
-      <div style="font-size:12px;color:var(--green)">↑ +44 pts depuis le 1er don</div>
-    </div>
-  </div>
-  </div><!-- /vr-zerofear-acc -->
-
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="vr-universe-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🥽 Choisis ton univers <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="vr-universe-acc">
-  <div class="vr-box" style="margin-bottom:8px">
-    <div style="position:absolute;top:12px;right:12px"><span class="badge badge-purple">Concept — casque physique au CTS</span></div>
-    <div style="font-size:40px;margin-bottom:8px">🥽</div>
-    <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:4px">Choisis ton univers</h3>
-    <p style="color:var(--text-dim);font-size:14px">Son 360° spatial · Respiration guidée · Communication infirmière via micro</p>
-    <div class="vr-envs">
-      <div class="vr-env sel" onclick="selVR(this)"><div class="vr-env-emoji">🏖️</div><div class="vr-env-name">Plage tropicale</div></div>
-      <div class="vr-env" onclick="selVR(this)"><div class="vr-env-emoji">🌲</div><div class="vr-env-name">Forêt enchantée</div></div>
-      <div class="vr-env" onclick="selVR(this)"><div class="vr-env-emoji">🚀</div><div class="vr-env-name">Voyage spatial</div></div>
-      <div class="vr-env" onclick="selVR(this)"><div class="vr-env-emoji">🐋</div><div class="vr-env-name">Fond marin</div></div>
-    </div>
-  </div>
-  </div><!-- /acc-body vr-universe -->
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="vr-extras-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📊 Données & exercice de respiration <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="vr-extras-acc">
-  <div class="grid-3" id="vr-stats-grid" style="margin-top:8px">
-    <div class="card" style="text-align:center"><div style="font-size:32px;margin-bottom:8px">🔄</div><div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--green)">+65%</div><div style="font-size:14px;color:var(--text-dim)">rétention primo-donneurs</div></div>
-    <div class="card" style="text-align:center"><div style="font-size:32px;margin-bottom:8px">📉</div><div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--blue)">-24%</div><div style="font-size:14px;color:var(--text-dim)">douleur perçue</div></div>
-    <div class="card" style="text-align:center"><div style="font-size:32px;margin-bottom:8px">😌</div><div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--purple)">-40%</div><div style="font-size:14px;color:var(--text-dim)">anxiété</div></div>
-  </div>
-
-  <!-- Interactive breathing exercise -->
-  <div class="card" style="margin-top:20px;text-align:center">
-    <div class="card-header"><div class="card-title">🫁 Exercice de respiration — essaye maintenant</div></div>
-    <div style="font-size:14px;color:var(--text-dim);margin-bottom:16px">La même respiration guidée que dans le casque VR. Clique pour commencer.</div>
-    <div id="breath-circle" style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(79,195,247,.15),rgba(79,195,247,.05));border:2px solid rgba(79,195,247,.3);margin:0 auto;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 4s ease-in-out;font-size:14px;color:var(--blue);font-weight:600" onclick="startBreathing()">
-      Clique ici
-    </div>
-    <div id="breath-label" style="margin-top:10px;font-size:14px;color:var(--text-muted)">4s inspirer · 4s retenir · 6s expirer</div>
-  </div>
-
-  <!-- Avant / Après -->
-  <div class="card" style="margin-top:20px">
-    <div class="card-header"><div class="card-title">🔄 Avant / Après — le souvenir qui change tout</div></div>
-    <div class="grid-2">
-      <div style="padding:16px;background:rgba(230,57,70,.04);border:1px solid rgba(230,57,70,.1);border-radius:var(--radius-sm)">
-        <div style="font-size:14px;font-weight:700;color:var(--red-soft);margin-bottom:8px">❌ Sans VR</div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
-          « J'ai vu l'aiguille. J'ai fixé le plafond. J'avais les mains moites. Le temps ne passait pas. Je ne suis pas revenu. »
-        </div>
-        <div style="margin-top:8px;font-size:15px;color:var(--text-muted)">Souvenir : stress, hôpital, aiguille</div>
-      </div>
-      <div style="padding:16px;background:rgba(46,204,113,.04);border:1px solid rgba(46,204,113,.1);border-radius:var(--radius-sm)">
-        <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Avec VR BeeMyBlood™</div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
-          « J'étais sur une plage. J'ai entendu les vagues. Je ne me souviens même pas de la piqûre. C'était fini avant que je le réalise. »
-        </div>
-        <div style="margin-top:8px;font-size:15px;color:var(--green)">Souvenir : plage, détente, fierté</div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:14px;font-size:15px;color:var(--text-dim);font-style:italic">
-      Peak-end rule (Kahneman) : le cerveau évalue une expérience selon son pic émotionnel et sa fin. Le casque VR transforme les deux.
-    </div>
-  </div>
-
-  </div><!-- /acc-body vr-extras -->
-  <!-- VR Video link -->
-  <div style="text-align:center;margin-top:16px">
-    <a class="btn btn-outline btn-sm" href="videos.html">🎬 Voir la simulation VR en vidéo</a>
-  </div>
-</div>
 
 <!-- ==================== PROFIL ==================== -->
 <div class="view" id="v-profil">
@@ -3127,32 +2985,6 @@ function cycleWrappedVid(){
 
 // ===== ELIGIBILITY TEST =====
 
-// ===== VR =====
-function selVR(el){document.querySelectorAll('.vr-env').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
-
-// ===== BREATHING EXERCISE =====
-let breathRunning=false;
-function startBreathing(){
-  if(breathRunning)return;breathRunning=true;
-  const circle=document.getElementById('breath-circle');
-  const label=document.getElementById('breath-label');
-  let phase=0;
-  function breathCycle(){
-    if(phase>=3){breathRunning=false;circle.textContent='Clique ici';circle.style.transform='scale(1)';circle.style.borderColor='rgba(79,195,247,.3)';label.textContent='4s inspirer · 4s retenir · 6s expirer';return;}
-    // Inhale 4s
-    circle.textContent='Inspire...';circle.style.transform='scale(1.4)';circle.style.borderColor='rgba(79,195,247,.6)';label.textContent='Inspire lentement par le nez...';
-    setTimeout(()=>{
-      // Hold 4s
-      circle.textContent='Retiens...';circle.style.borderColor='rgba(200,169,96,.6)';label.textContent='Retiens doucement...';
-      setTimeout(()=>{
-        // Exhale 6s
-        circle.textContent='Expire...';circle.style.transform='scale(1)';circle.style.transition='all 6s ease-in-out';circle.style.borderColor='rgba(46,204,113,.6)';label.textContent='Expire lentement par la bouche...';
-        setTimeout(()=>{circle.style.transition='all 4s ease-in-out';phase++;breathCycle();},6000);
-      },4000);
-    },4000);
-  }
-  breathCycle();
-}
 
 
 // Open accordions by default based on screen size
