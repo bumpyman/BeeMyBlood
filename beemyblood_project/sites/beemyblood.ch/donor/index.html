@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <button class="nav-tab active" data-v="hero">Accueil</button>
     <button class="nav-tab" data-v="eligibilite">Éligibilité</button>
     <a class="nav-tab" href="hemorush.html">HémoRush™</a>
-    <button class="nav-tab" data-v="collectes">Collectes</button>
+    <a class="nav-tab" href="centres.html">Collectes</a>
     <div class="nav-group" data-menu="nav-group-menu-espace">
       <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" data-views="dashboard,communaute,actualites,flux,impact" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
     </div>
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded',function(){
         <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
         <div class="notif-item unread" style="display:flex" onclick="go('dashboard')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></div>
         <div class="notif-item unread" style="display:flex" onclick="go('impact')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></div>
-        <div class="notif-item" style="display:flex" onclick="go('collectes')"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></div>
+        <div class="notif-item" style="display:flex" onclick="location.href='centres.html'"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></div>
         <div class="notif-item" style="display:flex" onclick="location.href='hemorush.html'"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></div>
         <div class="notif-item" style="display:flex" onclick="go('profil')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></div>
       </div>
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="mob-menu-grid">
     <div class="mob-item" onclick="goMob('guide')"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></div>
     <div class="mob-item" onclick="goMob('eligibilite')"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></div>
-    <div class="mob-item" onclick="goMob('collectes')"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></div>
+    <div class="mob-item" onclick="location.href='centres.html'"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></div>
     <div class="mob-item" onclick="goMob('impact')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></div>
     <div class="mob-item" onclick="goMob('chatbot')"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
     <div class="mob-item" onclick="goMob('vr')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
   <div class="hero-actions">
     <button class="btn btn-gold" onclick="go('eligibilite')">✅ Puis-je donner ?</button>
-    <button class="btn btn-outline" onclick="go('collectes')">📍 Trouver un centre</button>
+    <a class="btn btn-outline" href="centres.html">📍 Trouver un centre</a>
     <a class="btn btn-outline" href="hemorush.html">🎮 Jouer à HémoRush™</a>
   </div>
 
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hero-feat" onclick="go('vr')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
       <div class="hero-feat" onclick="go('chatbot')"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
       <div class="hero-feat" onclick="go('faq')"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
-      <div class="hero-feat" onclick="go('collectes')"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
+      <div class="hero-feat" onclick="location.href='centres.html'"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
       <div class="hero-feat" onclick="go('communaute')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
       <div class="hero-feat" onclick="go('impact')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
       <div class="hero-feat" onclick="go('flux')"><div class="hero-feat-icon">🔬</div><div class="hero-feat-title">Flux CTS</div><div class="hero-feat-sub">Stocks en temps réel</div></div>
@@ -1162,124 +1162,6 @@ document.addEventListener('DOMContentLoaded',function(){
   </div><!-- /acc-body crs-criteria -->
 </div>
 
-<!-- ==================== COLLECTES ==================== -->
-<div class="view" id="v-collectes">
-  <div class="sec-header"><div class="sec-label">📍 Carte interactive</div><div class="sec-title">Où donner en Suisse</div><div class="sec-sub">Centres permanents CRS · Collectes mobiles · Prochains événements</div></div>
-  <div class="card" id="collectes-hug" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🚌 Prochaines collectes mobiles</div><span class="badge" id="collectes-hug-maj"></span></div><div id="collectes-regions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="collectes-hug-liste" style="font-size:13px;color:var(--text-muted)">Chargement du calendrier officiel…</div></div>
-<div class="card" id="map-card" style="position:relative;padding:0;overflow:hidden">
-    <div class="fs-btn" style="z-index:1001" onclick="toggleFS(document.getElementById('map-card'))">⛶</div>
-    <div id="map-recenter" onclick="recenterMap()" style="position:absolute;bottom:12px;right:12px;z-index:1000;width:38px;height:38px;border-radius:50%;background:var(--dark-card);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:all .2s" title="Ma position">◎</div>
-    <div id="map-nav-btns" style="position:absolute;bottom:12px;left:12px;z-index:1000;display:flex;gap:4px;flex-wrap:wrap">
-      <button onclick="map.flyTo([46.8,8.2],8,{duration:.8})" style="background:var(--dark-card);color:var(--gold);border:1px solid var(--gold);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.4)">🇨🇭 Suisse</button>
-      <button onclick="map.flyTo([46.1926,6.1492],14,{duration:.8})" style="background:var(--dark-card);color:var(--text-dim);border:1px solid var(--dark-border);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.4)">📍 Genève</button>
-      <button onclick="map.flyTo([46.537,6.663],15,{duration:.8})" style="background:var(--dark-card);color:var(--text-dim);border:1px solid var(--dark-border);border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.4)">📍 Épalinges</button>
-    </div>
-    <div id="map-radius-ctrl" style="position:absolute;top:12px;right:48px;z-index:1000;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:8px;padding:6px 10px;box-shadow:0 2px 8px rgba(0,0,0,.4);font-size:12px;color:var(--text-dim)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span>📏</span><span id="radius-label" style="font-weight:600;color:var(--gold)">1 km</span></div><input type="range" id="radius-slider" min="1" max="20" value="1" oninput="updateRadius(this.value)" style="width:100px;accent-color:var(--gold)"></div>
-    <div id="mapid"></div>
-  </div>
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="coll-list-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Prochaines collectes près de toi <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="coll-list-acc">
-  <div style="margin-top:8px;display:flex;flex-direction:column;gap:10px" id="collecte-list">
-    <div class="collecte-card" onclick="flyTo(46.1926,6.1492,16)"><div class="ico" style="background:rgba(230,57,70,.1)">🏥</div><div class="info"><div class="name">Centre de transfusion sanguine HUG</div><div class="detail">Rue Gabrielle-Perret-Gentil 6 · Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h</div></div><div class="status"><span class="dot" style="background:var(--green)"></span><span style="color:var(--green)">Calme</span><div style="font-size:14px;color:var(--text-muted);margin-top:2px">~35 min · 1.2 km</div></div></div>
-    <div class="collecte-card" style="border-color:var(--gold)" onclick="flyTo(46.1993,6.1428,16)"><div class="ico" style="background:rgba(200,169,96,.1)">🎪</div><div class="info"><div class="name" style="color:var(--gold)">Collecte mobile — Uni Dufour</div><div class="detail">Rue Charles-Galland 2 · Auj. 10h–17h · ☕ Café offert</div></div><div class="status"><span class="dot" style="background:var(--green)"></span><span style="color:var(--green)">Calme</span><div style="font-size:14px;color:var(--text-muted);margin-top:2px">~30 min · 200m</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.2017,6.1500,16)"><div class="ico" style="background:rgba(200,169,96,.1)">🎪</div><div class="info"><div class="name">Collecte mobile — Place du Molard</div><div class="detail">Place du Molard · Demain 11h–18h · 🎵 Musique & collations</div></div><div class="status" style="color:var(--text-muted)">Demain<div style="font-size:14px;margin-top:2px">850m</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.1780,6.1395,16)"><div class="ico" style="background:rgba(200,169,96,.1)">🎪</div><div class="info"><div class="name">Collecte mobile — Campus HES-SO Battelle</div><div class="detail">Route de Drize 7, Carouge · Jeudi 10h–16h · 🎓 Étudiants</div></div><div class="status" style="color:var(--text-muted)">Jeudi<div style="font-size:14px;margin-top:2px">1.5 km</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.1920,6.1830,16)"><div class="ico" style="background:rgba(230,57,70,.1)">🏥</div><div class="info"><div class="name">Clinique des Grangettes</div><div class="detail">Ch. des Grangettes 7, Chêne-Bougeries · Lun–Ven 8h–16h</div></div><div class="status"><span class="dot" style="background:var(--orange)"></span><span style="color:var(--orange)">Modéré</span><div style="font-size:14px;color:var(--text-muted);margin-top:2px">~45 min · 4.1 km</div></div></div>
-    <div class="collecte-card" onclick="flyTo(46.2100,6.1427,16)"><div class="ico" style="background:rgba(200,169,96,.1)">🎪</div><div class="info"><div class="name">Collecte Gare Cornavin</div><div class="detail">Place de Cornavin · Vendredi 9h–16h · 🚂 Hall principal</div></div><div class="status" style="color:var(--text-muted)">Vendredi<div style="font-size:14px;margin-top:2px">1.8 km</div></div></div>
-  </div>
-
-  </div><!-- /acc-body coll-list -->
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="coll-smart-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📍 Détection intelligente & AR <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="coll-smart-acc">
-    <!-- Détection intelligente -->
-  <div class="card" style="margin-top:8px;border:1px solid rgba(46,204,113,.15)">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-      <span style="font-size:22px">📍</span>
-      <div>
-        <div style="font-weight:700;font-size:16px">Détection intelligente</div>
-        <div style="font-size:14px;color:var(--text-muted)">GPS + Google Calendar = notifications contextuelles</div>
-      </div>
-      <span class="badge badge-green" style="margin-left:auto">Actif</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);text-align:center">
-        <div style="font-size:20px;margin-bottom:4px">📍</div>
-        <div style="font-size:14px;font-weight:600">Position actuelle</div>
-        <div id="ar-pos-text" style="font-size:13px;color:var(--gold);margin-top:3px">Localisation en cours…</div>
-      </div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);text-align:center">
-        <div style="font-size:20px;margin-bottom:4px">📅</div>
-        <div style="font-size:14px;font-weight:600">Prochain créneau</div>
-        <div style="font-size:13px;color:var(--green);margin-top:3px">Éligible dès le 11 mars</div>
-      </div>
-      <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);text-align:center">
-        <div style="font-size:20px;margin-bottom:4px">🔔</div>
-        <div style="font-size:14px;font-weight:600">Notification proactive</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:3px">Alerte si collecte <500m du trajet</div>
-      </div>
-    </div>
-    <div style="margin-top:10px;padding:10px 14px;background:rgba(200,169,96,.04);border-radius:var(--radius-sm);font-size:14px;color:var(--text-dim);line-height:1.6">
-      💡 <strong style="color:var(--gold)">Détection intelligente</strong> — l'IA analyse ta position, ton calendrier et les stocks pour te suggérer le meilleur moment et lieu de don. Exemple : <em>« Tu passes près du CTS et ton stock B+ est bas. Créneau libre dans 20 min ? »</em>
-    </div>
-  </div>
-
-  <!-- Spatio-temporal planning -->
-  <div class="card" style="margin-top:20px">
-    <div class="card-header"><div class="card-title">📅 Planning spatio-temporel — semaine en cours</div><span class="badge badge-green">Optimisé IA</span></div>
-    <div style="font-size:15px;color:var(--text-dim);margin-bottom:12px;line-height:1.6">Couverture territoriale des collectes pour éviter les zones blanches. L'IA optimise l'emplacement et le timing en fonction des flux de donneurs, des stocks et de la densité de population.</div>
-    <div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:15px">
-        <thead><tr style="border-bottom:2px solid var(--dark-border)">
-          <th style="text-align:left;padding:8px;color:var(--text-muted);font-weight:600">Lieu</th>
-          <th style="text-align:center;padding:8px;color:var(--text-muted)">Lun</th>
-          <th style="text-align:center;padding:8px;color:var(--gold);font-weight:700">Mar</th>
-          <th style="text-align:center;padding:8px;color:var(--text-muted)">Mer</th>
-          <th style="text-align:center;padding:8px;color:var(--text-muted)">Jeu</th>
-          <th style="text-align:center;padding:8px;color:var(--text-muted)">Ven</th>
-          <th style="text-align:center;padding:8px;color:var(--text-muted)">Sam</th>
-        </tr></thead>
-        <tbody>
-          <tr style="border-bottom:1px solid var(--dark-border)"><td style="padding:8px;font-weight:600">🏥 CTS HUG</td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(46,204,113,.15);color:var(--green);font-weight:700">✓</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(46,204,113,.15);color:var(--green);font-weight:700">✓</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(46,204,113,.15);color:var(--green);font-weight:700">✓</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(200,169,96,.15);color:var(--gold);font-weight:700">PM</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(46,204,113,.15);color:var(--green);font-weight:700">✓</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td></tr>
-          <tr style="border-bottom:1px solid var(--dark-border)"><td style="padding:8px;font-weight:600;color:var(--gold)">🎪 Uni Dufour</td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(200,169,96,.2);color:var(--gold);font-weight:700">★</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td></tr>
-          <tr style="border-bottom:1px solid var(--dark-border)"><td style="padding:8px;font-weight:600">🎪 Place du Molard</td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(79,195,247,.15);color:var(--blue);font-weight:700">✓</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td></tr>
-          <tr style="border-bottom:1px solid var(--dark-border)"><td style="padding:8px;font-weight:600">🎪 HES-SO Battelle</td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(79,195,247,.15);color:var(--blue);font-weight:700">✓</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td></tr>
-          <tr><td style="padding:8px;font-weight:600">🎪 Gare Cornavin</td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td><td style="text-align:center;padding:4px"><span style="display:inline-block;width:28px;height:28px;line-height:28px;border-radius:6px;background:rgba(230,57,70,.15);color:var(--red-soft);font-weight:700">!</span></td><td style="text-align:center;padding:4px"><span style="color:var(--text-muted)">—</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="display:flex;gap:12px;margin-top:10px;font-size:14px;color:var(--text-muted);flex-wrap:wrap">
-      <span><span style="color:var(--green)">✓</span> Ouvert</span>
-      <span><span style="color:var(--gold)">★</span> Recommandé pour toi</span>
-      <span><span style="color:var(--gold)">PM</span> Après-midi</span>
-      <span><span style="color:var(--red-soft)">!</span> Collecte ciblée B−/O−</span>
-    </div>
-  </div>
-
-  <!-- Upcoming events -->
-  <div class="card" style="margin-top:16px">
-    <div class="card-header"><div class="card-title">🎉 Événements & collectes spéciales</div></div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(200,169,96,.04);border:1px solid rgba(200,169,96,.1);border-radius:var(--radius-sm)">
-        <span style="font-size:24px">🎵</span>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px;color:var(--gold)">Collecte Fête de la Musique — 21 juin 2026</div><div style="font-size:15px;color:var(--text-dim);margin-top:2px">Place du Molard · DJ set · Collation premium · Photo booth</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <span style="font-size:24px">⛵</span>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Collecte Bol d'Or — 14 juin 2026</div><div style="font-size:15px;color:var(--text-dim);margin-top:2px">Société Nautique de Genève · Régate + don = combo héroïque</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <span style="font-size:24px">🏋️</span>
-        <div style="flex:1"><div style="font-weight:600;font-size:14px">Collecte Let's Go Fitness — mars 2026</div><div style="font-size:15px;color:var(--text-dim);margin-top:2px">Salles de sport partenaires · Don après l'effort = récupération</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin-top:20px">
-    <button class="btn btn-gold" id="ar-go-btn" style="font-size:15px;padding:14px 28px" onclick="alert('🚧 Le guidage AR nécessite l\'app mobile BeeMyBlood™ (ARKit/ARCore). Ce bouton simule la fonctionnalité prévue en production.')">📱 Activer le guidage AR → CTS HUG</button>
-    <div style="margin-top:8px;font-size:15px;color:var(--text-muted)">🚧 Prototype — le guidage AR nécessitera l'app mobile native (ARKit / ARCore)</div>
-  </div>
-  </div><!-- /acc-body coll-smart -->
-</div>
 
 <!-- ==================== CHATBOT ==================== -->
 <div class="view" id="v-chatbot" style="max-width:680px">
@@ -3908,7 +3790,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="mob-bottom-btn active" onclick="goMob('hero')">🏠<span>Accueil</span></div>
     <div class="mob-bottom-btn" onclick="goMob('dashboard')">📊<span>Tableau</span></div>
     <div class="mob-bottom-btn" onclick="location.href='hemorush.html'">🎮<span>Jouer</span></div>
-    <div class="mob-bottom-btn" onclick="goMob('collectes')">📍<span>Collectes</span></div>
+    <div class="mob-bottom-btn" onclick="location.href='centres.html'">📍<span>Collectes</span></div>
     <div class="mob-bottom-btn" onclick="toggleMobMenu()">☰<span>Plus</span></div>
   </div>
 </div>
@@ -4837,92 +4719,6 @@ function addMsg(html,type){
 }
 
 // ===== MAP =====
-let map=null;
-var radiusCircle=null;
-function updateRadius(km){
-  document.getElementById('radius-label').textContent=km+' km';
-  if(!map)return;
-  var c=window._userPos||[46.1926,6.1492];
-  if(radiusCircle)map.removeLayer(radiusCircle);
-  radiusCircle=L.circle(c,{radius:km*1000,color:'rgba(79,195,247,.5)',fillColor:'rgba(79,195,247,.08)',fillOpacity:0.15,weight:1.5,dashArray:'6 4'}).addTo(map);
-}
-function initMap(){
-  if(map)return;
-  try{
-    const mapEl=document.getElementById('mapid');
-    mapEl.style.background=document.body.classList.contains('light-mode')?'#e8e8e8':'#1a1a2e';
-    map=L.map('mapid',{zoomControl:true,preferCanvas:true,zoomAnimation:true,markerZoomAnimation:true,inertia:true,inertiaDeceleration:3000,inertiaMaxSpeed:1500,tapTolerance:15,touchZoom:'center',bounceAtZoomLimits:false}).setView([46.1926,6.1492],14);
-    // Force background on all Leaflet panes
-    map.getContainer().style.background=document.body.classList.contains('light-mode')?'#e8e8e8':'#1a1a2e';
-    var darkTiles='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', lightTiles='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'; // OSM sans clé ; le mode sombre est un filtre CSS (.map-dark)
-    map.getContainer().classList.toggle('map-dark',!document.body.classList.contains('light-mode'));
-    window._mapTileLayer=L.tileLayer(document.body.classList.contains('light-mode')?lightTiles:darkTiles,{
-      attribution:'©OpenStreetMap contributors',maxZoom:19,updateWhenIdle:false,updateWhenZooming:false,keepBuffer:4
-    }).addTo(map);
-    // ResizeObserver for bulletproof fullscreen resize
-    if(window.ResizeObserver){
-      new ResizeObserver(()=>{if(map)map.invalidateSize({animate:false});}).observe(mapEl);
-    }
-    const ico=(color,emoji)=>L.divIcon({className:'',html:`<div style="width:36px;height:36px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid rgba(255,255,255,.3);box-shadow:0 2px 10px rgba(0,0,0,.4)">${emoji}</div>`,iconSize:[36,36],iconAnchor:[18,18]});
-    const pts=[
-      // === GENÈVE (CTS HUG) ===
-      {lat:46.1931,lng:6.1496,name:'Centre de transfusion sanguine HUG',detail:'Rue Gabrielle-Perret-Gentil 6<br>Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h<br>Sam 1er et 3e : 8h30–12h<br>Affluence : <span style="color:#2ECC71">calme</span><br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice">📅 RDV OneDoc</a>',color:'rgba(230,57,70,.25)',emoji:'🏥'},
-      {lat:46.1993,lng:6.1428,name:'Collecte mobile — Uni Dufour',detail:'Rue Charles-Galland 2<br>Auj. 10h–17h · ☕ Café offert<br>Affluence : <span style="color:#2ECC71">calme</span> · 200m de Uni Mail<br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice">📅 RDV</a>',color:'rgba(200,169,96,.25)',emoji:'🎪'},
-      {lat:46.2017,lng:6.1500,name:'Collecte — Place du Molard',detail:'Place du Molard, centre-ville<br>Demain 11h–18h · 🎵 Musique',color:'rgba(200,169,96,.25)',emoji:'🎪'},
-      {lat:46.1780,lng:6.1395,name:'Collecte — Campus HES-SO Battelle',detail:'Route de Drize 7, Carouge<br>Jeudi 10h–16h · 🎓 Étudiants',color:'rgba(200,169,96,.25)',emoji:'🎪'},
-      {lat:46.1920,lng:6.1830,name:'Clinique des Grangettes',detail:'Chemin des Grangettes 7, Chêne-Bougeries<br>Lun–Ven 8h–16h<br>Affluence : <span style="color:#FF9F43">modéré</span>',color:'rgba(230,57,70,.25)',emoji:'🏥'},
-      {lat:46.2100,lng:6.1427,name:'Collecte Gare Cornavin',detail:'Place de Cornavin · Hall principal<br>Vendredi 9h–16h · 🚂',color:'rgba(200,169,96,.25)',emoji:'🎪'},
-      // === Transfusion Interrégionale CRS (Berne / Vaud / Valais) ===
-      {lat:46.9480,lng:7.4260,name:'Transfusion Interrégionale CRS Berne (siège)',detail:'Murtenstrasse 133, 3008 Bern<br>Centre permanent · 0800 148 148<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:47.1370,lng:7.2455,name:'Transfusion Interrégionale CRS Bienne',detail:'Bahnhofstr. 50, 4e étage, 2502 Biel/Bienne<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:47.0585,lng:7.6275,name:'Transfusion Interrégionale CRS Berthoud',detail:'Mergele-Zentrum, Lyssachstrasse 23, 3400 Burgdorf<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:46.5370,lng:6.6630,name:'Transfusion Interrégionale CRS Épalinges (Lausanne)',detail:'BIOPÔLE - Bâtiment Metio, Route de la Corniche 2, 1066 Épalinges<br>M2 Croisettes · Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:47.2135,lng:7.7900,name:'Transfusion Interrégionale CRS Langenthal',detail:'Centre permanent, 4900 Langenthal<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:46.2340,lng:7.3780,name:'Transfusion Interrégionale CRS Sion',detail:'Av. du Grand-Champsec 86, 1950 Sion<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      {lat:46.7520,lng:7.6300,name:'Transfusion Interrégionale CRS Thoune',detail:'Krankenhausstrasse 3 (Haus F), 3600 Thun<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(155,89,182,.25)',emoji:'🏛️'},
-      // === AUTRES SERVICES RÉGIONAUX CRS ===
-      {lat:47.5596,lng:7.5830,name:'Transfusion CRS Suisse Nord-Ouest — Bâle',detail:'Hebelstrasse 10, 4031 Basel<br>Centre permanent · Tél. 058 404 01 00<br><a class="popup-btn" href="https://www.blutspende-nordwestschweiz.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:46.7944,lng:7.1476,name:'Transfusion CRS Fribourg',detail:'Hôpital cantonal, Chemin des Pensionnats 2–6, 1708 Fribourg<br>Centre permanent · Tél. 026 306 28 50<br><a class="popup-btn" href="https://www.transfusion-fr.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:46.8510,lng:9.5332,name:'Transfusion CRS Grisons — Coire',detail:'Kantonsspital, Loëstrasse 170, 7000 Chur<br>Centre permanent · Tél. 081 353 15 54<br><a class="popup-btn" href="https://blutspende-gr.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.1040,lng:6.8277,name:'Transfusion CRS Neuchâtel-Jura',detail:'Rue Sophie-Mairet 29, 2303 La Chaux-de-Fonds<br>Centre permanent · Tél. 032 967 20 31<br><a class="popup-btn" href="https://www.srnjts.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.4270,lng:9.3986,name:'Transfusion CRS Suisse de l\'Est — St-Gall',detail:'Rorschacher Strasse 111, 9000 St. Gallen<br>Centre permanent · Tél. 071 494 28 11<br><a class="popup-btn" href="https://www.blutspende-sg.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:46.0121,lng:8.9620,name:'Transfusion CRS Suisse italienne — Lugano',detail:'Via Tesserete 50, 6900 Lugano<br>Centre permanent · Tél. 091 960 26 00<br><a class="popup-btn" href="https://www.donatori.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.0551,lng:8.3193,name:'Transfusion CRS Suisse centrale — Lucerne',detail:'Maihofstrasse 1, 6004 Luzern<br>Centre permanent · Tél. 041 418 70 20<br><a class="popup-btn" href="https://www.bsd-luzern.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-      {lat:47.3960,lng:8.4478,name:'Transfusion CRS Zürich — Schlieren',detail:'Rütistrasse 19, 8952 Schlieren<br>Centre permanent · Tél. 058 272 52 52<br><a class="popup-btn" href="https://www.blutspendezurich.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(79,195,247,.25)',emoji:'🏛️'},
-    ];
-    // visiteur : pas de collectes mobiles fictives (🎪) sur la carte, seuls les centres réels
-    pts.filter(function(p){ return !(document.body.classList.contains('bmb-public') && p.emoji==='🎪'); }).forEach(p=>{
-      L.marker([p.lat,p.lng],{icon:ico(p.color,p.emoji)}).addTo(map)
-        .bindPopup('<strong>'+p.name+'</strong><br>'+p.detail,{maxWidth:250});
-    });
-    // User position — only fly if high-accuracy GPS (not IP-based)
-    const defaultPos=[46.1955,6.1405];
-    const userMarkerIcon=L.divIcon({className:'',html:'<div style="width:14px;height:14px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 12px rgba(79,195,247,.5)"></div>',iconSize:[14,14],iconAnchor:[7,7]});
-    const pulseIcon=L.divIcon({className:'',html:'<div style="width:18px;height:18px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 16px rgba(79,195,247,.7);animation:pulseG 2s infinite"></div>',iconSize:[18,18],iconAnchor:[9,9]});
-
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(
-        function(pos){
-          try{
-            var lat=pos.coords.latitude,lng=pos.coords.longitude;
-            var accuracy=pos.coords.accuracy;
-            window._userPos=[lat,lng];
-            // Place user marker
-            var um=L.marker([lat,lng],{icon:pulseIcon}).addTo(map).bindPopup('<strong>📍 Vous êtes ici</strong><br>Précision : ~'+Math.round(accuracy)+'m');
-            // Always center on user position
-            map.flyTo([lat,lng],14,{duration:1.2});
-            setTimeout(function(){map.invalidateSize();updateRadius(document.getElementById('radius-slider').value);},1500);
-          }catch(e){}
-        },
-        function(){
-          // Geolocation failed → stay on CTS HUG (default)
-        },
-        {enableHighAccuracy:true,timeout:10000,maximumAge:120000}
-      );
-    }
-    setTimeout(()=>{map.invalidateSize();updateRadius(1);},500);
-  }catch(e){document.getElementById('mapid').innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-dim)">Carte en chargement... (Leaflet CDN requis)</div>';}
-}
 
 
 function filterFAQ(q){
@@ -5003,7 +4799,6 @@ function cycleWrappedVid(){
   },step);
 }
 
-function flyTo(lat,lng,zoom){if(map)map.flyTo([lat,lng],zoom);}
 
 // ===== CONTACT FORM (FormSubmit.co) =====
 function sendContact(){
@@ -5069,37 +4864,6 @@ function sendContact(){
     btn.disabled=false;
     btn.textContent='📤 Envoyer';
   });
-}
-function recenterMap(){
-  if(!map)return;
-  var btn=document.getElementById('map-recenter');
-  btn.style.color='var(--blue)';btn.style.borderColor='var(--blue)';
-  if(window._userPos){
-    map.flyTo(window._userPos,14,{duration:1});
-    setTimeout(function(){btn.style.color='';btn.style.borderColor='';},1500);
-    return;
-  }
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      function(pos){
-        try{
-          var lat=pos.coords.latitude,lng=pos.coords.longitude;
-          window._userPos=[lat,lng];
-          map.flyTo([lat,lng],14,{duration:1});
-          map.eachLayer(function(l){if(l.getPopup&&l.getPopup()&&l.getPopup().getContent().indexOf('Vous êtes ici')>-1){l.setLatLng([lat,lng]);}});
-        }catch(e){}
-        setTimeout(function(){btn.style.color='';btn.style.borderColor='';},1500);
-      },
-      function(){
-        map.flyTo([46.1926,6.1492],14,{duration:1});
-        setTimeout(function(){btn.style.color='';btn.style.borderColor='';},1500);
-      },
-      {enableHighAccuracy:true,timeout:10000,maximumAge:120000}
-    );
-  } else {
-    map.flyTo([46.1926,6.1492],14,{duration:1});
-    setTimeout(function(){btn.style.color='';btn.style.borderColor='';},1500);
-  }
 }
 
 // ===== ELIGIBILITY TEST =====
