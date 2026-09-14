@@ -1,0 +1,1114 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>Dashboard — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve active" href="tableau-de-bord.html" aria-current="page" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve active" href="tableau-de-bord.html" aria-current="page" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Dashboard</span>
+</div>
+<main id="contenu" tabindex="-1">
+<!-- ==================== DASHBOARD ==================== -->
+<div class="view active" id="v-dashboard">
+  <div class="dash-welcome">
+    <div>
+      <h1>Salut Amine 👋</h1>
+      <p>Ton groupe <strong style="color:var(--red-soft)">B+</strong> est demandé cette semaine aux HUG. C'est le moment idéal pour donner.</p>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center">
+        <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold btn-sm">📅 Prendre RDV sur OneDoc</a>
+        <a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm">🏥 Site du CTS HUG</a>
+        <a class="btn btn-outline btn-sm" href="eligibilite.html">✅ Test d'éligibilité</a>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div class="level-orb"><div class="num">1</div><div class="lbl">Débutant</div></div>
+      <div class="xp-wrap"><div class="xp-bg"><div class="xp-fill" style="width:6%"></div></div><div class="xp-txt">1'650 / 25'000 XP</div></div>
+    </div>
+  </div>
+
+
+    <!-- COUNTDOWN TO NEXT ELIGIBILITY -->
+    <div class="card" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(200,169,96,.04),rgba(46,204,113,.04));border-color:rgba(200,169,96,.2)">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center">
+        <div class="cd-ring" id="cd-ring-wrap">
+          <svg viewBox="0 0 90 90" aria-hidden="true">
+            <defs><linearGradient id="cd-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--gold)"/><stop offset="100%" stop-color="var(--green)"/></linearGradient></defs>
+            <circle class="cd-bg" cx="45" cy="45" r="38"/>
+            <circle class="cd-prog" id="cd-prog" cx="45" cy="45" r="38" stroke-dasharray="238.76" stroke-dashoffset="124"/>
+          </svg>
+          <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--gold)" id="cd-days">47</div>
+          <div style="font-size:11px;color:var(--text-muted)">jours</div>
+        </div>
+        <div style="flex:1;min-width:180px">
+          <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px">⏳ Prochain don possible</div>
+          <div style="font-size:14px;color:var(--gold);font-weight:600;margin-bottom:6px">📅 Mardi 31 mars 2026</div>
+          <div style="height:6px;background:var(--dark-surface);border-radius:3px;overflow:hidden;margin-bottom:6px">
+            <div style="width:48%;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:3px"></div>
+          </div>
+          <div style="font-size:12px;color:var(--text-muted)">48% du délai écoulé · Dernier don : 14 janv. 2026</div>
+          <div style="margin-top:8px">
+            <button class="btn btn-gold btn-sm" onclick="alert('🔔 Rappel programmé pour le 29 mars !')">🔔 Me rappeler 2 jours avant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- ANNIVERSARY CELEBRATION -->
+  <div style="background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(155,89,182,.06));border:1px solid rgba(200,169,96,.2);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px">
+    <div style="font-size:36px;flex-shrink:0">🎂</div>
+    <div>
+      <div style="font-size:15px;font-weight:700;color:var(--gold)">5 mois de don ! 🎉</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.5">Ton premier don remonte au 9 sept. 2025. Depuis, tu as sauvé ~9 vies et inspiré 1 filleul. Le prochain palier est à <strong style="color:var(--gold)">1 an</strong> — badge anniversaire exclusif 🏅</div>
+    </div>
+  </div>
+
+  <!-- STREAK TRACKER (Duolingo-style) -->
+  <div class="card" style="margin-bottom:14px;text-align:center">
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px">
+      <div class="streak-fire">🔥</div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--gold)">3 dons</div>
+        <div style="font-size:12px;color:var(--text-muted)">en 5 mois · Régularité parfaite</div>
+      </div>
+    </div>
+    <div class="streak-row">
+      <div class="streak-dot done">🩸<span class="streak-lbl">Sept.</span></div>
+      <div class="streak-dot done">🩸<span class="streak-lbl">Nov.</span></div>
+      <div class="streak-dot done">🩸<span class="streak-lbl">Janv.</span></div>
+      <div class="streak-dot today">⏳<span class="streak-lbl">Mars</span></div>
+      <div class="streak-dot future">·<span class="streak-lbl">Mai</span></div>
+      <div class="streak-dot future">·<span class="streak-lbl">Juil.</span></div>
+    </div>
+    <div style="font-size:12px;color:var(--text-dim);margin-top:18px;line-height:1.5">
+      🏆 Prochain objectif : <strong style="color:var(--gold)">4 dons en 2026</strong> → badge « Régulier Or »<br>
+      <span style="color:var(--green)">✓ Tu es dans le top 15% des donneurs les plus réguliers de Genève</span>
+    </div>
+  </div>
+
+  <!-- DAILY BLOOD FACT -->
+  <div class="daily-fact" id="daily-fact" onclick="nextDailyFact()">
+    <div style="font-size:24px;flex-shrink:0" id="df-icon">💡</div>
+    <div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--blue);font-weight:700;margin-bottom:2px">Le savais-tu ?</div>
+      <div style="font-size:14px;color:var(--text);line-height:1.5" id="df-text">Les plaquettes ont une durée de vie de seulement <strong style="color:var(--gold)">5 jours</strong>. C'est pourquoi les dons réguliers sont si critiques — il n'y a pas de « stock tampon ».</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Touche pour un autre fait → <span id="df-counter">1/12</span></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Mon groupe & phénotype étendu</div><span class="badge badge-gold">Rare</span></div>
+      <div style="text-align:center;padding:8px 0">
+        <div class="blood-big">B+</div>
+        <div style="margin-top:4px;font-size:14px;color:var(--gold);font-weight:500">🧬 11% de la population suisse</div>
+      </div>
+      <!-- Key info summary -->
+      <div style="margin-top:8px;padding:8px 10px;background:rgba(200,169,96,.06);border-radius:var(--radius-sm);font-size:14px;color:var(--text-dim);line-height:1.5">
+        <strong style="color:var(--gold)">Duffy Fy(a−b−)</strong> — rare en Suisse (<1%) · Essentiel pour personnes vivant avec une drépanocytose · Compatible <strong style="color:var(--gold)">B+</strong> et <strong style="color:var(--gold)">AB+</strong>
+      </div>
+      <button class="acc-toggle" onclick="toggleAcc(this)" style="margin-top:6px;font-size:13px;padding:6px 10px">Phénotype étendu & détails <span class="acc-arrow">▼</span></button>
+      <div class="acc-body" id="pheno-acc">
+        <div style="margin-top:8px;border-top:1px solid var(--dark-border);padding-top:8px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-weight:600;font-size:14px;color:var(--text)">Phénotype étendu</span><span style="font-size:11px;padding:2px 6px;border-radius:10px;background:rgba(200,169,96,.12);color:var(--gold)">09.09.2025</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;font-size:14px">
+            <div class="pheno-row"><span class="pheno-sys">ABO</span><span class="pheno-val">B</span></div>
+            <div class="pheno-row"><span class="pheno-sys">Rhésus</span><span class="pheno-val">D+ C− c+ E− e+</span></div>
+            <div class="pheno-row"><span class="pheno-sys">Kell</span><span class="pheno-val">K− k+</span></div>
+            <div class="pheno-row"><span class="pheno-sys">Kidd</span><span class="pheno-val">Jk(a+ b−)</span></div>
+            <div class="pheno-row"><span class="pheno-sys">MNS</span><span class="pheno-val">M+ N− S− s+</span></div>
+            <div class="pheno-row"><span class="pheno-sys">Duffy</span><span class="pheno-val" style="color:var(--gold);font-weight:700">Fy(a−b−) <span style="font-size:11px;padding:1px 5px;border-radius:8px;background:rgba(200,169,96,.15);font-weight:500">★ rare</span></span></div>
+            <div class="pheno-row"><span class="pheno-sys">Lewis</span><span class="pheno-val">Le(a− b−)</span></div>
+            <div class="pheno-row"><span class="pheno-sys">P1PK</span><span class="pheno-val">P1+</span></div>
+          </div>
+          <div style="margin-top:8px;font-size:13px;color:var(--text-muted);line-height:1.5">~30 donneurs compatibles identifiés en Suisse romande. Tu en fais partie.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- STOCKS: 3 separate top-level accordions -->
+  <!-- ===== BLOOD COMPATIBILITY EXPLORER ===== -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="compat-explorer-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🔬 Compatibilité sanguin — Qui peut donner à qui ? <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="compat-explorer-acc">
+  <div class="card" style="border-color:rgba(230,57,70,.2)">
+    <div class="card-header"><div class="card-title">🔬 Explorateur de compatibilité</div></div>
+    <div style="font-size:13px;color:var(--text-dim);margin-bottom:8px">Clique sur un groupe sanguin pour voir à qui il peut donner et de qui il peut recevoir.</div>
+    <div class="compat-grid" id="compat-grid">
+      <div class="compat-cell selected" onclick="selectCompat('O-')"><div class="compat-emoji">🩸</div>O−</div>
+      <div class="compat-cell" onclick="selectCompat('O+')"><div class="compat-emoji">🩸</div>O+</div>
+      <div class="compat-cell" onclick="selectCompat('A-')"><div class="compat-emoji">🩸</div>A−</div>
+      <div class="compat-cell" onclick="selectCompat('A+')"><div class="compat-emoji">🩸</div>A+</div>
+      <div class="compat-cell" onclick="selectCompat('B-')"><div class="compat-emoji">🩸</div>B−</div>
+      <div class="compat-cell" onclick="selectCompat('B+')"><div class="compat-emoji">🩸</div>B+</div>
+      <div class="compat-cell" onclick="selectCompat('AB-')"><div class="compat-emoji">🩸</div>AB−</div>
+      <div class="compat-cell" onclick="selectCompat('AB+')"><div class="compat-emoji">🩸</div>AB+</div>
+    </div>
+    <div class="compat-result" id="compat-result">
+      <strong style="color:var(--gold)">O−</strong> est le <strong>donneur universel</strong> 🏆<br>
+      <span class="compat-give">✅ Peut donner à :</span> <strong>tout le monde</strong> (O−, O+, A−, A+, B−, B+, AB−, AB+)<br>
+      <span class="compat-recv">📥 Peut recevoir de :</span> <strong>O−</strong> uniquement<br>
+      <span style="color:var(--text-muted)">~7% de la population suisse · Stock toujours critique</span>
+    </div>
+  </div>
+  </div>
+
+  <!-- ===== BLOOD ECONOMY ===== -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-economy-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📊 Blood Economy™ — Tu vaux bien plus que tu ne crois <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-economy-acc">
+  <div class="card" style="border:1px solid rgba(200,169,96,.3);background:linear-gradient(135deg,rgba(200,169,96,.06),rgba(230,57,70,.03))">
+    <div class="card-header"><div class="card-title">📊 Blood Economy™</div><span class="badge badge-gold">Héros silencieux</span></div>
+    <div style="font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px;font-weight:500">Ton don ne coûte que 30 minutes. Sa valeur pour le système de santé se compte en <strong style="color:var(--gold)">dizaines de milliers de francs</strong>. Tu mérites de le savoir.</div>
+
+    <!-- Direct cost -->
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">🩸 Coût direct de production</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:11px;color:var(--text-muted)">Don #1</div><div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--gold)">630</div><div style="font-size:11px;color:var(--text-muted)">CHF · 3 PSL</div></div>
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:11px;color:var(--text-muted)">Don #2</div><div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--gold)">630</div><div style="font-size:11px;color:var(--text-muted)">CHF · 3 PSL</div></div>
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:11px;color:var(--text-muted)">Don #3</div><div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--gold)">630</div><div style="font-size:11px;color:var(--text-muted)">CHF · 3 PSL</div></div>
+    </div>
+
+    <!-- Broader impact -->
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">💰 Impact économique élargi estimé</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-size:13px"><span style="margin-right:6px">🏥</span>Hospitalisations évitées</div>
+        <div style="font-weight:700;color:var(--gold)">~45'000 CHF</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-size:13px"><span style="margin-right:6px">🚑</span>Complications graves prévenues</div>
+        <div style="font-weight:700;color:var(--gold)">~28'000 CHF</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-size:13px"><span style="margin-right:6px">💼</span>Absentéisme évité</div>
+        <div style="font-weight:700;color:var(--gold)">~12'000 CHF</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
+        <div style="font-size:13px"><span style="margin-right:6px">🧬</span>Allo-immunisations évitées (sang phénotypé)</div>
+        <div style="font-weight:700;color:var(--gold)">~18'000 CHF</div>
+      </div>
+    </div>
+
+    <!-- Gene therapy enabler -->
+    <div style="padding:14px;background:linear-gradient(135deg,rgba(155,89,182,.08),rgba(200,169,96,.06));border:1px solid rgba(155,89,182,.2);border-radius:var(--radius);margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🧪 Tu rends possible la thérapie génique</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Les nouvelles thérapies géniques contre la drépanocytose et la thalassémie (Casgevy™, Lyfgenia™) nécessitent <strong style="color:var(--purple)">jusqu'à 20 transfusions</strong> avant et après le traitement. Sans donneurs, pas de guérison possible.</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px">
+        <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--purple)">~2.1M CHF</div><div style="font-size:11px;color:var(--text-muted)">Coût d'une thérapie génique</div></div>
+        <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold)">20 poches</div><div style="font-size:11px;color:var(--text-muted)">Nécessaires par patient</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--purple);margin-top:8px;text-align:center;font-style:italic">Aujourd'hui, le manque de sang phénotypé est un goulet d'étranglement. Ton don débloque l'accès à la guérison.</div>
+    </div>
+
+    <!-- Social costs -->
+    <div style="padding:12px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius);margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">🌐 Coûts sociaux évités</div>
+      <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Chaque complication évitée, c'est aussi : un parent qui reste auprès de ses enfants, un·e étudiant·e qui ne rate pas son semestre, un·e employé·e qui garde son poste. Les coûts indirects (AI, perte de productivité, impact familial) dépassent souvent les coûts médicaux directs.</div>
+    </div>
+
+    <!-- Total -->
+    <div style="text-align:center;padding:18px;background:linear-gradient(135deg,rgba(200,169,96,.15),rgba(200,169,96,.06));border:2px solid rgba(200,169,96,.3);border-radius:var(--radius)">
+      <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px">Impact économique total estimé · 3 dons</div>
+      <div style="font-family:var(--font-display);font-size:44px;font-weight:700;color:var(--gold);margin:6px 0">~CHF 105'000</div>
+      <div style="font-size:13px;color:var(--text-dim)">9 PSL · ~9 vies · Production 1'890 CHF + coûts de santé évités ~103'000 CHF</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:6px">Hors thérapie génique et coûts sociaux indirects · Estimations OFSP</div>
+    </div>
+
+    <!-- Hero message -->
+    <div style="margin-top:14px;padding:14px;background:linear-gradient(135deg,rgba(200,169,96,.1),rgba(230,57,70,.05));border:2px solid rgba(200,169,96,.2);border-radius:var(--radius);text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">🏅</div>
+      <div style="font-size:16px;font-weight:700;color:var(--gold);line-height:1.5">30 minutes de ton temps.<br>105'000 CHF de valeur pour la société.<br>Des vies transformées. Des guérisons rendues possibles.</div>
+      <div style="font-size:14px;color:var(--text);margin-top:8px;font-weight:500">Tu n'es pas « juste un donneur ». Tu es un maillon indispensable du système de santé. Merci.</div>
+    </div>
+
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;text-align:center">Ton phénotype rare amplifie encore cet impact · Sources : OFSP, EHA 2024, Vertex/bluebird bio</div>
+  </div>
+  </div><!-- /dash-economy-acc -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="stock-ce-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🩸 Globules rouges — Stocks CE <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="stock-ce-acc">
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;color:var(--red-soft);margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid rgba(230,57,70,.2)">🩸 Concentrés érythrocytaires — CE</div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--red-soft)">O−</span><div class="stock-bar-bg"><div class="stock-bar bar-crit" style="width:18%"></div></div><span class="stock-lbl" style="color:var(--red-soft)">Critique</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--orange)">O+</span><div class="stock-bar-bg"><div class="stock-bar bar-ok" style="width:55%"></div></div><span class="stock-lbl" style="color:var(--green)">OK</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--orange)">A−</span><div class="stock-bar-bg"><div class="stock-bar bar-low" style="width:35%"></div></div><span class="stock-lbl" style="color:var(--orange)">Bas</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--green)">A+</span><div class="stock-bar-bg"><div class="stock-bar bar-ok" style="width:68%"></div></div><span class="stock-lbl" style="color:var(--green)">OK</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--red-soft)">B−</span><div class="stock-bar-bg"><div class="stock-bar bar-crit" style="width:12%"></div></div><span class="stock-lbl" style="color:var(--red-soft)">Critique</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--orange)">B+</span><div class="stock-bar-bg"><div class="stock-bar bar-low" style="width:42%"></div></div><span class="stock-lbl" style="color:var(--orange)">Bas ← toi</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--teal)">AB−</span><div class="stock-bar-bg"><div class="stock-bar bar-ok" style="width:60%"></div></div><span class="stock-lbl" style="color:var(--green)">OK</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--teal)">AB+</span><div class="stock-bar-bg"><div class="stock-bar bar-good" style="width:82%"></div></div><span class="stock-lbl" style="color:var(--teal)">Bon</span></div>
+    <div style="font-size:13px;color:var(--text-muted);padding:6px 0;border-top:1px solid var(--dark-border);display:flex;justify-content:space-between"><span>Stock total CE : <strong style="color:var(--text)">199 poches</strong></span><span>Objectif : 45/jour</span></div>
+  </div>
+  </div><!-- /stock-ce-acc -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="stock-cp-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">💜 Plaquettes — Stocks <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="stock-cp-acc">
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;color:var(--purple);margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid rgba(155,89,182,.2)">💜 Plaquettes (CP) — Conservation 5 jours max</div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--red-soft)">Mélanges</span><div class="stock-bar-bg"><div class="stock-bar bar-low" style="width:38%"></div></div><span class="stock-lbl" style="color:var(--orange)">Bas</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--green)">Donneur unique</span><div class="stock-bar-bg"><div class="stock-bar bar-ok" style="width:62%"></div></div><span class="stock-lbl" style="color:var(--green)">OK</span></div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:6px">Mélanges = issus de plusieurs dons · Donneur unique = collecté par aphérèse</div>
+  </div>
+  </div><!-- /stock-cp-acc -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="stock-pfc-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🧊 Plasma frais congelé — Stocks <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="stock-pfc-acc">
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;color:var(--stock-yellow);margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid rgba(244,208,63,.2)">🧊 Plasma frais congelé (PFC) — Conservation 3 ans</div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--green)">Groupe AB</span><div class="stock-bar-bg"><div class="stock-bar bar-good" style="width:78%"></div></div><span class="stock-lbl" style="color:var(--teal)">Bon</span></div>
+    <div class="stock-row"><span class="stock-grp" style="color:var(--green)">Autres groupes</span><div class="stock-bar-bg"><div class="stock-bar bar-ok" style="width:65%"></div></div><span class="stock-lbl" style="color:var(--green)">OK</span></div>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:6px">AB = donneur universel de plasma (compatible avec tous les receveurs)</div>
+    <div style="font-size:12px;color:var(--text-muted);padding:4px 0;text-align:center;margin-top:6px">Total 359 PSL · Autonomie ~11j · MAJ : 12.02.2026 14:32 · CTS HUG</div>
+  </div>
+  </div><!-- /stock-pfc-acc -->
+
+  <!-- IMPACT RECEIPT: Last donation -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-receipt-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🧾 Reçu d'impact — Dernier don <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-receipt-acc">
+  <div class="card" style="background:linear-gradient(180deg,var(--dark-card),var(--dark-surface));border:1px dashed rgba(200,169,96,.3);font-family:var(--font-mono)">
+    <div style="text-align:center;border-bottom:1px dashed var(--dark-border);padding-bottom:12px;margin-bottom:12px">
+      <div style="font-size:24px;margin-bottom:4px">🐝</div>
+      <div style="font-size:16px;font-weight:700;color:var(--gold);letter-spacing:1px">BEEMYBLOOD™</div>
+      <div style="font-size:12px;color:var(--text-muted)">Reçu d'impact · Don #3</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Date</span><span style="color:var(--text)">14 janv. 2026 · 14:23</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Lieu</span><span style="color:var(--text)">CTS HUG · Morier</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Volume</span><span style="color:var(--text)">450 ml</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Type</span><span style="color:var(--text)">Don de sang total</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Groupe</span><span style="color:var(--gold);font-weight:700">B+ · Fy(a−b−)</span></div>
+      <div style="border-top:1px dashed var(--dark-border);margin:6px 0;padding-top:6px"></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Poche CE</span><span style="color:var(--text)">#5201</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Statut</span><span style="color:var(--green);font-weight:600">✅ Transfusée</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Destination</span><span style="color:var(--text)">Néonatologie HUG</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Délai bras→patient</span><span style="color:var(--gold);font-weight:600">48h</span></div>
+      <div style="border-top:1px dashed var(--dark-border);margin:6px 0;padding-top:6px"></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">XP gagnés</span><span style="color:var(--gold);font-weight:700">+500 XP</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Bonus rare</span><span style="color:var(--gold)">+200 XP (Duffy)</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Streak</span><span style="color:var(--red-soft)">🔥 3 consécutifs</span></div>
+    </div>
+    <div style="text-align:center;margin-top:14px;border-top:1px dashed var(--dark-border);padding-top:12px">
+      <div style="font-size:14px;color:var(--text);font-weight:600;font-family:var(--font-body)">🩸 1 don = ~3 vies sauvées</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:4px;font-family:var(--font-body)">Merci, Amine. Tu fais la différence.</div>
+      <button class="btn btn-outline btn-sm" style="margin-top:10px;font-family:var(--font-body)" onclick="alert('📸 Reçu copié ! Partage-le sur Instagram.')">📤 Partager mon reçu</button>
+    </div>
+  </div>
+  </div><!-- /dash-receipt-acc -->
+
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-dons-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📅 Prochains dons suggérés <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-dons-acc">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="font-size:20px">📅</span>
+        <div style="font-size:16px;font-weight:700">Prochains dons suggérés</div>
+        <span class="badge badge-green" style="margin-left:auto">IA</span>
+      </div>
+      <!-- SUGGESTION 1 -->
+      <div style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px">
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--green)">Mardi 18 mars</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green-soft)">14h00</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:2px">
+          <span style="font-size:14px;color:var(--text-dim)">Centre de transfusion HUG</span>
+          <span style="font-size:13px;color:var(--gold);background:rgba(200,169,96,.1);padding:2px 8px;border-radius:12px">★ Recommandé</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;margin-top:8px;font-size:14px">
+          <div style="color:var(--text-dim)"><span style="color:var(--green)">✅</span> <strong>Éligible</strong><br>Délai 56j OK</div>
+          <div style="color:var(--text-dim)"><span style="color:var(--green)">✅</span> <strong>Agenda libre</strong><br>Google Calendar sync</div>
+          <div style="color:var(--text-dim)"><span style="color:var(--green)">✅</span> <strong>Affluence calme</strong><br>~35 min d'attente</div>
+          <div style="color:var(--text-dim)"><span style="color:var(--green)">✅</span> <strong>Stock B+ bas</strong><br>42%</div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold btn-sm" style="flex:1;justify-content:center;text-decoration:none">📅 Confirmer sur OneDoc</a>
+          <button class="btn btn-outline btn-sm" style="flex-shrink:0" onclick="alert('📅 Créneau ajouté à Google Calendar !\nMar 18 mars 14h–15h\n📍 CTS HUG, Rue Gabrielle-Perret-Gentil 6')">📲 Ajouter au calendrier</button>
+        </div>
+      </div>
+      <button class="acc-toggle" onclick="toggleAcc(this)" style="font-size:13px;padding:6px 10px">Autres créneaux disponibles <span class="acc-arrow">▼</span></button>
+      <div class="acc-body" id="sug-acc">
+        <div style="background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);padding:12px;margin-top:8px">
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-dim)">Jeudi 20 mars</div>
+          <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-muted)">11h30</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">Centre de transfusion des HUG</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-top:6px;font-size:13px">
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Éligible</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--orange)">⚠️</span> Cours 10h–11h</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Affluence calme</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Stock B+ bas</div>
+          </div>
+          <button class="btn btn-outline btn-sm" style="margin-top:6px;font-size:12px" onclick="alert('📅 Créneau sélectionné !\nJeu 20 mars 11h30\n📍 CTS HUG')">Choisir</button>
+        </div>
+        <div style="background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);padding:12px;margin-top:6px">
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-dim)">Mercredi 26 mars</div>
+          <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-muted)">14h00</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">Centre de transfusion des HUG</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-top:6px;font-size:13px">
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Éligible</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Agenda libre</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Affluence calme</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Stock B+ bas</div>
+          </div>
+          <button class="btn btn-outline btn-sm" style="margin-top:6px;font-size:12px" onclick="alert('📅 Créneau sélectionné !\nMer 26 mars 14h\n📍 CTS HUG')">Choisir</button>
+        </div>
+        <div style="background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);padding:12px;margin-top:6px">
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-dim)">Samedi 5 avril</div>
+          <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-muted)">9h00</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px">Centre de transfusion des HUG</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-top:6px;font-size:13px">
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Éligible</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--gold)">🌟</span> 1er samedi</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Affluence calme</div>
+            <div style="color:var(--text-muted)"><span style="color:var(--green)">✅</span> Stock B+ bas</div>
+          </div>
+          <button class="btn btn-outline btn-sm" style="margin-top:6px;font-size:12px" onclick="alert('📅 Créneau sélectionné !\nSam 5 avril 9h\n📍 CTS HUG')">Choisir</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /acc-body dash-dons -->
+
+  <!-- Impact + convocation + journey -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-impact-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">💛 Mon impact, convocation & voyage de ta poche <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-impact-acc">
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><div class="card-title">💛 Mon impact</div><span class="badge badge-gold">3 dons</span></div>
+      <div style="text-align:center;padding:12px 0">
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--gold)">Jusqu'à 9 vies sauvées</div>
+        <div style="font-size:14px;color:var(--text-dim);margin-top:4px">1 don = 3 produits (CE + CP + PFC) = jusqu'à 3 vies</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot gold">🩸</div><div><div class="tl-title">Don #3 — 14 janv. 2026</div><div class="tl-sub">Centre de transfusion des HUG</div><span class="tl-tag" style="background:rgba(46,204,113,.1);color:var(--green)">✓ Transfusé — chirurgie cardiaque</span></div></div>
+      <div class="tl-item"><div class="tl-dot">🩸</div><div><div class="tl-title">Don #2 — 3 nov. 2025</div><div class="tl-sub">Collecte mobile Uni Dufour</div><span class="tl-tag" style="background:rgba(200,169,96,.1);color:var(--gold)">✓ Transfusé — oncologie</span></div></div>
+      <div class="tl-item"><div class="tl-dot">🩸</div><div><div class="tl-title">Don #1 — 9 juin 2025</div><div class="tl-sub">Collecte mobile Uni Mail</div><span class="tl-tag" style="background:rgba(200,169,96,.1);color:var(--gold)">🏅 Première Goutte</span></div></div>
+    </div>
+    <div class="card" style="padding:0">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--dark-border)"><div class="card-title">📩 Convocation personnalisée</div></div>
+      <div class="convo-card" style="border:none;border-radius:0">
+        <div class="convo-from">
+          <div class="convo-av">👩‍⚕️</div>
+          <div><div style="font-weight:600;font-size:15px">Dre Ivana Perelli</div><div style="font-size:15px;color:var(--text-dim)">Cheffe de clinique, Médecine transfusionnelle, HUG</div></div>
+        </div>
+        <div class="convo-body">
+          Bonjour <strong>Amine</strong>,<br><br>
+          Je me permets de vous écrire personnellement. Les stocks de votre groupe <strong class="urg">B positif sont en tension</strong> cette semaine aux HUG, suite à plusieurs interventions chirurgicales programmées.<br><br>
+          Votre profil est précieux : seulement 11% de la population suisse partage votre groupe.<br><br>
+          Si vous pouviez donner dès le <strong>18 mars</strong> — date à laquelle vous serez de nouveau éligible — cela ferait une différence réelle pour nos patients. Meilleur créneau : <strong>mardi 18 mars à 14h</strong> (affluence prévue : calme, ~35 min).<br><br>
+          Merci pour tout ce que vous faites. 🙏
+        </div>
+        <div style="text-align:center;margin-top:16px">
+          <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold" style="width:100%;justify-content:center;text-decoration:none">📅 Prendre RDV en 1 clic</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blood journey -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">🩸 Voyage de votre dernière poche (Don #3)</div><span class="badge badge-green">✓ Transfusée</span></div>
+    <div class="journey-track">
+      <div class="journey-line"><div class="journey-fill" style="width:100%"></div></div>
+      <div class="journey-stops">
+        <div class="journey-stop"><div class="journey-dot done">🩸</div><div class="journey-stop-lbl">Don</div><div class="journey-stop-date">14 janv.</div></div>
+        <div class="journey-stop"><div class="journey-dot done">🔬</div><div class="journey-stop-lbl">Labo</div><div class="journey-stop-date">14 janv.</div></div>
+        <div class="journey-stop"><div class="journey-dot done">✅</div><div class="journey-stop-lbl">Validée</div><div class="journey-stop-date">15 janv.</div></div>
+        <div class="journey-stop"><div class="journey-dot done">📦</div><div class="journey-stop-lbl">Stock</div><div class="journey-stop-date">15 janv.</div></div>
+        <div class="journey-stop"><div class="journey-dot done">🏥</div><div class="journey-stop-lbl">Prescrite</div><div class="journey-stop-date">16 janv.</div></div>
+        <div class="journey-stop"><div class="journey-dot done">💛</div><div class="journey-stop-lbl">Transfusée</div><div class="journey-stop-date">16 janv.</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:8px;font-size:15px;color:var(--text-dim)">
+      Votre poche a été transfusée à <strong style="color:var(--green)">un patient en chirurgie cardiaque aux HUG</strong> le 16 janvier — 2 jours après votre don.
+    </div>
+  </div>
+
+  </div><!-- /acc-body dash-impact -->
+
+  <!-- Product stock gauges -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-gauges-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📦 Aperçu stocks — Genève <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-gauges-acc">
+  <div class="grid-1-2" style="margin-top:8px;margin-bottom:8px">
+    <div class="card" style="text-align:center">
+      <div style="font-size:24px;margin-bottom:6px">🩸</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">Globules rouges (CE)</div>
+      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:55%;background:linear-gradient(90deg,var(--red),var(--stock-orange))"></div><div class="stock-gauge-text">199 poches · 42j max</div></div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:24px;margin-bottom:6px">💜</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">Plaquettes</div>
+      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:36%;background:linear-gradient(90deg,var(--stock-purple),var(--stock-purple-light))"></div><div class="stock-gauge-text">18 unités · ⚠️ 5j max</div></div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:24px;margin-bottom:6px">💛</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px">Plasma frais congelé</div>
+      <div class="stock-gauge"><div class="stock-gauge-fill" style="width:72%;background:linear-gradient(90deg,var(--stock-yellow),var(--stock-yellow-light))"></div><div class="stock-gauge-text">142 unités · 3 ans max</div></div>
+    </div>
+  </div>
+  </div><!-- /dash-gauges-acc -->
+
+  <!-- ===== BEEMYTWIN ===== -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-twin-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🧬 BeeMyTwin™ — Ton jumeau sanguin <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-twin-acc">
+  <div class="card" style="border:1px solid rgba(155,89,182,.2);background:linear-gradient(135deg,rgba(155,89,182,.04),rgba(200,169,96,.04))">
+    <div class="card-header"><div class="card-title">🧬 BeeMyTwin™</div><span class="badge" style="background:rgba(155,89,182,.15);color:var(--purple)">Unique</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Ton phénotype <strong style="color:var(--gold)">B+ Fy(a−b−)</strong> est partagé par <strong style="color:var(--purple)">47 donneurs recensés</strong> dans le réseau BeeMyBlood. Un phénotype rare estimé à ~0.05% de la population suisse.</div>
+    <div style="padding:14px;background:linear-gradient(135deg,rgba(155,89,182,.08),rgba(200,169,96,.05));border:1px solid rgba(155,89,182,.15);border-radius:var(--radius);margin-bottom:10px">
+      <div style="font-size:12px;color:var(--purple);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🤝 Ton jumeau donneur</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid var(--gold)">🪨</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:15px">Granite-723</div>
+          <div style="font-size:13px;color:var(--text-muted)">B+ Fy(a−b−) · 15 dons · CTS HUG</div>
+          <div style="font-size:12px;color:var(--purple);margin-top:2px">« On est 47 recensés dans le réseau. Chaque don compte double. »</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="btn btn-outline btn-sm" onclick="alert('💬 Message envoyé à Granite-723 (anonyme)')">💬 Écrire</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('⚔️ Défi envoyé !')">⚔️ Défier</button>
+      </div>
+    </div>
+    <div style="padding:14px;background:linear-gradient(135deg,rgba(230,57,70,.06),rgba(200,169,96,.04));border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);margin-bottom:10px">
+      <div style="font-size:12px;color:var(--red-soft);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💛 Ton jumeau receveur</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(230,57,70,.1);display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid var(--red-soft)">💛</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:15px">Amina, 24 ans</div>
+          <div style="font-size:13px;color:var(--text-muted)">Vit avec une drépanocytose · Échanges transfusionnels mensuels</div>
+          <div style="font-size:12px;color:var(--red-soft);margin-top:2px;font-style:italic">« Ton sang me permet de vivre normalement. Merci. »</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--purple)">47</div><div style="font-size:11px;color:var(--text-muted)">Jumeaux recensés</div></div>
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)">0.05%</div><div style="font-size:11px;color:var(--text-muted)">prévalence estimée</div></div>
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--red-soft)">12</div><div style="font-size:11px;color:var(--text-muted)">Receveurs dépendants</div></div>
+    </div>
+    <div style="text-align:center;margin-top:10px"><button class="btn btn-outline btn-sm" onclick="alert('📤 Partage : Mon phénotype est partagé par seulement 47 donneurs recensés.')">📤 Partager mon profil rare</button></div>
+  </div>
+  </div><!-- /dash-twin-acc -->
+
+  <!-- ===== PULSE ALERT ===== -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-pulse-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">📡 Pulse Alert™ — Convocation intelligente <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-pulse-acc">
+  <div class="card" style="border:1px solid rgba(230,57,70,.2);background:linear-gradient(135deg,rgba(230,57,70,.04),rgba(200,169,96,.04))">
+    <div class="card-header"><div class="card-title">📡 Pulse Alert™</div><span class="badge badge-red" style="animation:pulseG 2s infinite">● Actif</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Convocation IA croisée : <strong>phénotype × calendrier × stock prédictif × localisation</strong>.</div>
+    <div style="padding:14px;background:linear-gradient(135deg,rgba(230,57,70,.1),rgba(200,169,96,.06));border:2px solid rgba(230,57,70,.3);border-radius:var(--radius);margin-bottom:10px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;background:var(--red-soft);color:var(--white);font-size:11px;font-weight:700;padding:3px 10px;border-radius:0 0 0 8px">URGENT</div>
+      <div style="font-size:16px;font-weight:700;color:var(--red-soft);margin-bottom:6px">🚨 Ton B+ Fy(a−b−) est demandé</div>
+      <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Échange transfusionnel prévu dans <strong style="color:var(--gold)">72h</strong>. Tu es <strong style="color:var(--red-soft)">1 des 3 donneurs compatibles</strong> du canton.</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0">
+        <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:var(--radius-sm)"><div style="font-size:11px;color:var(--text-muted)">📍 Lieu</div><div style="font-size:13px;font-weight:600">CTS Morier</div></div>
+        <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:var(--radius-sm)"><div style="font-size:11px;color:var(--text-muted)">📅 Créneau</div><div style="font-size:13px;font-weight:600">Mar. 14h</div></div>
+        <div style="text-align:center;padding:8px;background:rgba(0,0,0,.2);border-radius:var(--radius-sm)"><div style="font-size:11px;color:var(--text-muted)">📊 Impact</div><div style="font-size:13px;font-weight:600;color:var(--gold)">×5</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--green);margin-bottom:8px">✅ Google Calendar : mardi après-midi libre</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-gold btn-sm" onclick="alert('✅ RDV confirmé ! Mardi 18 fév. 14h, CTS Morier.')">✅ Je viens mardi</button>
+        <button class="btn btn-outline btn-sm" onclick="alert('📅 Proposer un autre créneau')">📅 Autre créneau</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px"><span>🧬 Alertes phénotype rare</span><div class="setting-toggle on" onclick="toggleSetting(this)"><div class="setting-knob"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px"><span>📅 Sync calendrier</span><div class="setting-toggle on" onclick="toggleSetting(this)"><div class="setting-knob"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:13px"><span>📍 Rayon max : 15 km</span><span style="color:var(--gold);cursor:pointer" onclick="alert('Modifier le rayon')">Modifier →</span></div>
+    </div>
+  </div>
+  </div><!-- /dash-pulse-acc -->
+
+  <!-- ===== DIGITAL TWIN GRAND PUBLIC ===== -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-digitwin-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🪞 BeeMyMirror™ — Ton avatar sanguin <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-digitwin-acc">
+  <div class="card" style="border:1px solid rgba(79,195,247,.2);background:linear-gradient(135deg,rgba(79,195,247,.04),rgba(155,89,182,.04))">
+    <div class="card-header"><div class="card-title">🪞 BeeMyMirror™</div><span class="badge badge-blue">IA · Temps réel</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Ton jumeau numérique simule ton parcours sanguin. Il prédit, conseille et optimise chaque don pour maximiser ton impact et ta santé.</div>
+    <!-- Avatar card -->
+    <div style="padding:16px;background:linear-gradient(135deg,rgba(79,195,247,.08),rgba(155,89,182,.06));border:1px solid rgba(79,195,247,.15);border-radius:var(--radius);margin-bottom:12px;text-align:center">
+      <div style="font-size:48px;margin-bottom:6px">🧑‍💻</div>
+      <div style="font-size:18px;font-weight:700;color:var(--blue)">Faucon-283 · BeeMyMirror</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">B+ · Fy(a−b−) · 3 dons · Actif depuis sept. 2025</div>
+    </div>
+    <!-- Predictions -->
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+      <div style="padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">🩸</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Hémoglobine prédite au prochain don</div><div style="font-size:12px;color:var(--green)">14.3 g/dL → ✅ Éligible</div></div>
+      </div>
+      <div style="padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">⚡</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Ferritine estimée dans 2 mois</div><div style="font-size:12px;color:var(--gold)">38 µg/L → ⚡ Supplément fer recommandé</div></div>
+      </div>
+      <div style="padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">📅</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Fréquence optimale personnalisée</div><div style="font-size:12px;color:var(--blue)">1 don / 10 semaines (vs 8 sem. standard) — pour préserver ta ferritine</div></div>
+      </div>
+      <div style="padding:10px 12px;background:var(--dark-surface);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">🎯</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Potentiel de vie sur 10 ans</div><div style="font-size:12px;color:var(--gold)">Si tu donnes régulièrement : <strong>~120 vies sauvées</strong></div></div>
+      </div>
+    </div>
+    <!-- Simulation -->
+    <div style="text-align:center;padding:12px;background:linear-gradient(135deg,rgba(79,195,247,.06),rgba(200,169,96,.04));border:1px solid rgba(79,195,247,.1);border-radius:var(--radius)">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Score de santé donneur</div>
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--blue)">87<span style="font-size:16px;color:var(--text-muted)">/100</span></div>
+      <div style="font-size:12px;color:var(--green)">↑ +5 pts depuis le dernier don · Tendance ↗</div>
+    </div>
+    <div style="text-align:center;margin-top:10px"><button class="btn btn-outline btn-sm" onclick="alert('🔮 Simulation : +30 vies si tu passes en don 4x/an')">🔮 Simuler mon impact futur</button></div>
+  </div>
+  </div><!-- /dash-digitwin-acc -->
+
+  <!-- ===== BEEMYBROBLOOD ===== -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-bro-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🤜🤛 BeeMyBro™ — Parrain de don <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-bro-acc">
+  <div class="card" style="border:1px solid rgba(200,169,96,.25);background:linear-gradient(135deg,rgba(200,169,96,.06),rgba(46,204,113,.04))">
+    <div class="card-header"><div class="card-title">🤜🤛 BeeMyBro™</div><span class="badge badge-gold">Buddy System</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">La peur de donner seul ? Ton Bro t'accompagne. Système de binôme : un donneur expérimenté guide un nouveau du premier SMS au dernier pansement.</div>
+    <!-- Your bro match -->
+    <div style="padding:14px;background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(46,204,113,.05));border:1px solid rgba(200,169,96,.2);border-radius:var(--radius);margin-bottom:10px">
+      <div style="font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🤝 Ton Bro actuel</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid var(--green)">🌿</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:15px">Mousse-614 <span style="font-size:12px;color:var(--gold)">· Bro Gold 🥇</span></div>
+          <div style="font-size:13px;color:var(--text-muted)">28 dons · CERN · Parrain de 7 nouveaux donneurs</div>
+          <div style="font-size:12px;color:var(--green);margin-top:2px">« Mon 1er filleul vient de faire son don #5. Fier ! »</div>
+        </div>
+      </div>
+    </div>
+    <!-- Bro journey -->
+    <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px">📍 Parcours BeeMyBro avec Mousse-614</div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✅</span><span>J-7 : Message de bienvenue reçu</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✅</span><span>J-3 : Conseils pre-don personnalisés</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--green)">✅</span><span>J-0 : RDV ensemble au CTS HUG</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="color:var(--gold)">🔜</span><span style="color:var(--gold);font-weight:600">Prochain : Don #4 ensemble · Mar. 18 fév.</span></div>
+    </div>
+    <!-- Bro stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold)">847</div><div style="font-size:11px;color:var(--text-muted)">Binômes actifs GE</div></div>
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--green)">92%</div><div style="font-size:11px;color:var(--text-muted)">Taux de retour</div></div>
+      <div style="text-align:center;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--red-soft)">×3</div><div style="font-size:11px;color:var(--text-muted)">Rétention vs solo</div></div>
+    </div>
+    <!-- CTAs -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-gold btn-sm" onclick="alert('🤜 Tu es maintenant Bro ! On te matche avec un nouveau donneur.')">🤜 Devenir Bro</button>
+      <button class="btn btn-outline btn-sm" onclick="alert('📲 Lien envoyé ! Ton ami recevra une invitation BeeMyBro.')">📲 Inviter un ami</button>
+      <button class="btn btn-outline btn-sm" onclick="alert('💬 Chat BeeMyBro ouvert avec Mousse-614')">💬 Chat Bro</button>
+    </div>
+    <div style="margin-top:10px;padding:8px;background:rgba(200,169,96,.06);border:1px dashed rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:12px;color:var(--text-dim);text-align:center">💡 <strong style="color:var(--gold)">Les donneurs accompagnés reviennent 3× plus.</strong> Un Bro Gold a parrainé en moyenne 7 nouveaux donneurs.</div>
+  </div>
+  </div><!-- /dash-bro-acc -->
+
+  <!-- ===== HEALTH PASSPORT ===== -->
+  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="dash-health-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🩺 Passeport Santé — Ton bilan gratuit <span class="acc-arrow">▼</span></button>
+  <div class="acc-body" id="dash-health-acc">
+  <div class="card" style="border:1px solid rgba(46,204,113,.2)">
+    <div class="card-header"><div class="card-title">🩺 Passeport Santé</div><span class="badge badge-green">3 dons analysés</span></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Chaque don = un bilan labo gratuit. BeeMyBlood agrège tes résultats en <strong style="color:var(--green)">suivi longitudinal</strong>.</div>
+    <div style="padding:12px;background:var(--dark-surface);border-radius:var(--radius);margin-bottom:10px">
+      <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">🩸 Hémoglobine (g/dL)</div>
+      <div style="display:flex;align-items:end;gap:16px;padding:0 10px">
+        <div style="flex:1;text-align:center"><div style="background:var(--green);border-radius:4px;height:50px;margin-bottom:4px"></div><div style="font-size:11px;color:var(--text-muted)">Sept.</div><div style="font-size:12px;font-weight:600">14.2</div></div>
+        <div style="flex:1;text-align:center"><div style="background:var(--green);border-radius:4px;height:44px;margin-bottom:4px"></div><div style="font-size:11px;color:var(--text-muted)">Nov.</div><div style="font-size:12px;font-weight:600">13.8</div></div>
+        <div style="flex:1;text-align:center"><div style="background:var(--green);border-radius:4px;height:54px;margin-bottom:4px"></div><div style="font-size:11px;color:var(--text-muted)">Jan.</div><div style="font-size:12px;font-weight:600">14.5</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--green);margin-top:8px;text-align:center">✅ Stable · Norme : 13.5–17.5 g/dL</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:12px;color:var(--text-muted)">Pression artérielle</div><div style="font-size:16px;font-weight:700;color:var(--green)">122/78</div><div style="font-size:11px;color:var(--green)">✅ Optimale</div></div>
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:12px;color:var(--text-muted)">Pouls</div><div style="font-size:16px;font-weight:700;color:var(--green)">68 bpm</div><div style="font-size:11px;color:var(--green)">✅ Normal</div></div>
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:12px;color:var(--text-muted)">Sérologies</div><div style="font-size:16px;font-weight:700;color:var(--green)">Négatif</div><div style="font-size:11px;color:var(--green)">✅ VIH, Hép. B/C, Syphilis</div></div>
+      <div style="padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:12px;color:var(--text-muted)">Ferritine</div><div style="font-size:16px;font-weight:700;color:var(--gold)">45 µg/L</div><div style="font-size:11px;color:var(--gold)">⚡ Surveiller</div></div>
+    </div>
+    <div style="margin-top:10px;padding:10px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.1);border-radius:var(--radius-sm);font-size:13px;color:var(--text-dim);text-align:center">💡 <strong style="color:var(--gold)">En donnant ton sang, tu surveilles ta santé gratuitement.</strong></div>
+  </div>
+  </div><!-- /dash-health-acc -->
+
+
+  <!-- Quick actions bar -->
+  <div class="card" style="display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;flex-wrap:wrap;margin-top:12px">
+    <a class="btn btn-gold btn-sm" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS en direct</a>
+    <a class="btn btn-outline btn-sm" href="impact.html" onclick="bmbGuard(event,'impact.html')">⭐ Mon impact</a>
+    <a class="btn btn-outline btn-sm" href="videos.html">🎬 Vidéos</a>
+    <a class="btn btn-outline btn-sm" href="guide.html">📖 Guide du don</a>
+  </div>
+
+</div><!-- /v-dashboard -->
+</main>
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="onboard-modal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header" style="padding-bottom:8px">
+      <div style="font-size:36px;margin-bottom:4px">🐝</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">Bienvenue sur BeeMyBlood™</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="ob-counter">1 / 10</div>
+    </div>
+
+    <!-- STEP 0 : INTRO -->
+    <div class="modal-step active" id="ob-step-0">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🦸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros, pas un numéro</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">BeeMyBlood™ transforme le don de sang en expérience premium, ludique et personnalisée.<br><br>Ce tour te montre <strong style="color:var(--gold)">toutes les fonctionnalités</strong> en 1 minute. Tu peux le relancer à tout moment via le lien <strong style="color:var(--gold)">« Tour guidé »</strong> en bas de page.</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : NAVIGATION -->
+    <div class="modal-step" id="ob-step-1">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧭</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
+          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
+          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : DASHBOARD -->
+    <div class="modal-step" id="ob-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          C'est ton <strong>tableau de bord</strong> :
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🗓️ Prochain don programmé + compte à rebours<br>
+            🩸 Stocks de sang en temps réel par groupe<br>
+            📈 Ton historique de dons et séries (streak)<br>
+            🏆 Badges débloqués et objectifs<br>
+            🩺 Passeport santé (résultats labo de tes dons)<br>
+            🤝 Programme BeeMyBro (parrainage)
+          </div>
+          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : ÉLIGIBILITÉ -->
+    <div class="modal-step" id="ob-step-3">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Test d'éligibilité + Questionnaire médical</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--green)">Pré-éligibilité rapide</strong> — 8 questions simples (âge, poids, santé, voyages…) pour savoir si tu peux donner aujourd'hui.<br><br>
+          <strong style="color:var(--gold)">Questionnaire médical HUG</strong> — Le vrai formulaire du Centre de Transfusion Sanguine (CTS), que tu peux pré-remplir chez toi et <strong>générer en PDF</strong> à imprimer. Gain de temps : ~15 min au CTS.<br><br>
+          <span style="color:var(--text-muted)">💡 Si le test dit « éligible », un bouton te dirige directement vers le questionnaire.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 : CARTE & COLLECTES -->
+    <div class="modal-step" id="ob-step-4">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📍</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📡 Géolocalisation automatique<br>
+            🔍 Rayon de recherche ajustable (1-20 km)<br>
+            📅 Prise de rendez-vous directe via OneDoc<br>
+            🎪 Collectes mobiles signalées sur la carte
+          </div>
+          <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 : FLUX CTS -->
+    <div class="modal-step" id="ob-step-5">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🔬</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Flux CTS — Visualisation en temps réel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Une vue schématique animée du <strong>campus hospitalier des HUG</strong> (Hôpitaux Universitaires de Genève) montrant :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🩸 Poches de sang circulant entre les bâtiments<br>
+            📊 Entrées/sorties, stock CE, plaquettes en direct<br>
+            🎯 Objectif du jour avec jauge de progression<br>
+            📰 Fil d'événements et bandeau défilant
+          </div>
+          <span style="color:var(--text-muted)">⛶ Passe en plein écran pour une immersion complète.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 : HÉMORUSH -->
+    <div class="modal-step" id="ob-step-6">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎮</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">HémoRush™ — Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Un mini-jeu éducatif pour maîtriser la <strong>compatibilité sanguine</strong> :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📚 Apprentissage — mode guidé, pas de chrono<br>
+            ⚡ Rush — 2 minutes chrono, score maximal<br>
+            ❤️ Survie — 3 vies, zéro droit à l'erreur<br>
+            🧠 Quiz — QCM sur la transfusion<br>
+            🌊 Vagues — difficulté croissante
+          </div>
+          <strong style="color:var(--gold)">Comment jouer :</strong> touche un patient 🏥, puis donne-lui la bonne poche 🩸 compatible.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 : GUIDE & VR -->
+    <div class="modal-step" id="ob-step-7">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📺</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Guide du don & Réalité virtuelle</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Guide primo-donneur</strong> — Les critères, les 6 étapes du don, les 3 composants sanguins et les contre-indications expliquées simplement.<br><br>
+          <strong style="color:var(--gold)">Expérience VR</strong> — BeeMyBlood propose un casque VR immersif pendant le prélèvement : plage, forêt ou fond marin. Résultat : <strong style="color:var(--green)">−24% de douleur</strong> et <strong style="color:var(--green)">−40% d'anxiété</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 : COMMUNAUTÉ & FAQ -->
+    <div class="modal-step" id="ob-step-8">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🤝</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Communauté, FAQ & BeeBot™</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Communauté</strong> — Témoignages, fil social, notifications push et partage d'expériences entre donneurs.<br><br>
+          <strong style="color:var(--gold)">FAQ</strong> — Préparation au don, après le don, nouveautés 2026, questions techniques. Barre de recherche intégrée.<br><br>
+          <strong style="color:var(--gold)">BeeBot™ 🐝</strong> — Assistant IA disponible 24h/24 pour répondre à toutes tes questions sur le don de sang.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 : PARAMÈTRES & C'EST PARTI -->
+    <div class="modal-step" id="ob-step-9">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🚀</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--gold)">Tu es prêt(e) !</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">⚙️ Paramètres</strong> — Configure tes intégrations (Concerto HUG, Google Agenda, compte Transfusion Croix-Rouge Suisse), choisis le mode sombre ou clair, gère tes notifications et ta confidentialité.<br><br>
+          <strong>Par où commencer ?</strong>
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
+            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
+            4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="ob-dots"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:14px">Passer</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()" style="font-size:14px">Suivant →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve active" href="tableau-de-bord.html" aria-current="page" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('dashboard');
+// refonte-multipage : page reservee, meme garde qu'impact.html au chargement.
+try{
+  if(window.BeeAcces && !window.BeeAcces.deverrouille()){
+    window.BeeAcces.exiger(function(){});
+  }
+}catch(e){}
+
+function toggleSetting(el){
+  el.classList.toggle('on');
+  const label=el.closest('div[style]').querySelector('strong').textContent;
+  const state=el.classList.contains('on')?'activé':'désactivé';
+  showToast(label+' '+state);
+}
+function cycleSetting(el){
+  const opts=['Urgences uniquement','Toutes les alertes','1× par jour','Désactivé'];
+  const lbl=el.closest('div[style]').querySelector('.setting-freq-lbl');
+  if(!lbl)return;
+  let idx=opts.indexOf(lbl.textContent);
+  idx=(idx+1)%opts.length;
+  lbl.textContent=opts[idx];
+  el.textContent=opts[idx]==='Désactivé'?'Activer →':'Modifier →';
+  showToast('Fréquence : '+opts[idx]);
+}
+
+// ===== BLOOD TYPE COMPATIBILITY EXPLORER =====
+const COMPAT_INFO={
+  'O-':{give:['O-','O+','A-','A+','B-','B+','AB-','AB+'],recv:['O-'],pct:'7%',note:'Donneur universel 🏆 — Stock toujours critique'},
+  'O+':{give:['O+','A+','B+','AB+'],recv:['O-','O+'],pct:'38%',note:'Groupe le plus courant en Suisse'},
+  'A-':{give:['A-','A+','AB-','AB+'],recv:['O-','A-'],pct:'6%',note:'Demandé pour les urgences'},
+  'A+':{give:['A+','AB+'],recv:['O-','O+','A-','A+'],pct:'32%',note:'Deuxième groupe le plus courant'},
+  'B-':{give:['B-','B+','AB-','AB+'],recv:['O-','B-'],pct:'2%',note:'Rare en Suisse — très recherché'},
+  'B+':{give:['B+','AB+'],recv:['O-','O+','B-','B+'],pct:'11%',note:'Ton groupe, Amine ! 🐝'},
+  'AB-':{give:['AB-','AB+'],recv:['O-','A-','B-','AB-'],pct:'1%',note:'Le plus rare — chaque don est précieux'},
+  'AB+':{give:['AB+'],recv:['O-','O+','A-','A+','B-','B+','AB-','AB+'],pct:'4%',note:'Receveur universel — peut recevoir de tous'}
+};
+function selectCompat(grp){
+  document.querySelectorAll('.compat-cell').forEach(c=>{
+    c.classList.toggle('selected',c.textContent.trim().replace('🩸','')===grp);
+  });
+  const c=COMPAT_INFO[grp];if(!c)return;
+  document.getElementById('compat-result').innerHTML=
+    `<strong style="color:var(--gold)">${grp}</strong> · <span style="color:var(--text-muted)">${c.pct} de la population</span><br>`+
+    `<span class="compat-give">✅ Peut donner à :</span> <strong>${c.give.join(', ')}</strong> (${c.give.length} groupe${c.give.length>1?'s':''})<br>`+
+    `<span class="compat-recv">📥 Peut recevoir de :</span> <strong>${c.recv.join(', ')}</strong> (${c.recv.length} groupe${c.recv.length>1?'s':''})<br>`+
+    `<span style="color:var(--text-muted)">${c.note}</span>`;
+}
+
+// ===== COUNTDOWN RING ANIMATION =====
+function animateCountdownRing(){
+  const prog=document.getElementById('cd-prog');if(!prog)return;
+  const circumference=2*Math.PI*38;
+  const pct=0.48; // 48% elapsed
+  prog.style.strokeDasharray=circumference;
+  prog.style.strokeDashoffset=circumference;
+  setTimeout(()=>{prog.style.strokeDashoffset=circumference*(1-pct);},200);
+}
+
+// ===== DAILY BLOOD FACTS =====
+const DAILY_FACTS=[
+  {icon:'💡',text:'Les plaquettes ont une durée de vie de seulement <strong style="color:var(--gold)">5 jours</strong>. C\'est pourquoi les dons réguliers sont si critiques — il n\'y a pas de « stock tampon ».'},
+  {icon:'🧬',text:'Ton phénotype Duffy négatif est présent chez <strong style="color:var(--gold)"><1%</strong> de la population suisse, mais chez <strong style="color:var(--gold)">68%</strong> des personnes d\'ascendance africaine.'},
+  {icon:'🏥',text:'Le CTS de Genève vise un objectif de <strong style="color:var(--gold)">50 à 70 dons par jour</strong>. En dessous de 50, les stocks deviennent critiques. Un seul accident grave peut nécessiter 20 poches d\'un coup.'},
+  {icon:'⏱️',text:'Il faut <strong style="color:var(--gold)">48 heures</strong> entre ton don et la mise à disposition de la poche — tests sérologiques, groupage, RAI, et qualification.'},
+  {icon:'🌍',text:'<strong style="color:var(--gold)">118.5 millions</strong> de dons de sang sont collectés chaque année dans le monde. La Suisse en représente ~300\'000.'},
+  {icon:'❄️',text:'Le plasma frais congelé se conserve <strong style="color:var(--gold)">3 ans</strong> à -25°C, les érythrocytes 42 jours à 4°C, mais les plaquettes seulement 5 jours à 22°C sous agitation.'},
+  {icon:'🧪',text:'Chaque don est testé pour <strong style="color:var(--gold)">7 agents infectieux</strong> : VIH, hépatites B et C, syphilis, HTLV, paludisme, et CMV pour les dons CMV-négatifs.'},
+  {icon:'💰',text:'Le coût de production d\'un concentré érythrocytaire est de <strong style="color:var(--gold)">~210 CHF</strong>. Ton don gratuit de 30 min génère ~630 CHF de produits sanguins.'},
+  {icon:'🩸',text:'Un homme peut donner <strong style="color:var(--gold)">4 fois par an</strong>, une femme <strong style="color:var(--gold)">3 fois</strong>. Le délai minimum entre deux dons est de 76 jours.'},
+  {icon:'🔬',text:'La technique d\'<strong style="color:var(--gold)">érythrocytaphérèse</strong> permet de prélever uniquement les globules rouges et de te restituer le plasma — 2x plus de CE en un seul don.'},
+  {icon:'👶',text:'Les nouveau-nés atteints d\'incompatibilité Rhésus peuvent avoir besoin d\'une <strong style="color:var(--gold)">exsanguino-transfusion</strong> — remplacement complet de leur sang.'},
+  {icon:'🐝',text:'Le nom « BeeMyBlood » vient de l\'abeille : <strong style="color:var(--gold)">travailleuse collective</strong>, chaque individu contribue à la survie de la ruche. Comme chaque donneur.'},
+  {icon:'⚕️',text:'Aucune étude fiable n\'a montré que donner son sang nuit à la santé. Mais des dons trop fréquents peuvent causer une <strong style="color:var(--gold)">carence en fer (martiale)</strong>, surtout chez les femmes. Le CTS surveille ta ferritine.'},
+  {icon:'🇨🇭',text:'En Suisse, il n\'existe <strong style="color:var(--gold)">aucune association de donneurs de sang</strong> structurée. En France, la FFDSB en fédère 2\'650. BeeMyBlood veut combler ce vide.'}
+];
+let dfIdx=0;
+function nextDailyFact(){
+  dfIdx=(dfIdx+1)%DAILY_FACTS.length;
+  const f=DAILY_FACTS[dfIdx];
+  const icon=document.getElementById('df-icon');
+  const text=document.getElementById('df-text');
+  const counter=document.getElementById('df-counter');
+  // Fade out/in
+  text.style.opacity='0';text.style.transform='translateX(8px)';
+  setTimeout(()=>{
+    icon.textContent=f.icon;
+    text.innerHTML=f.text;
+    counter.textContent=(dfIdx+1)+'/'+DAILY_FACTS.length;
+    text.style.opacity='1';text.style.transform='translateX(0)';
+  },200);
+}
+// Add transition to fact text
+setTimeout(()=>{
+  const t=document.getElementById('df-text');
+  if(t)t.style.transition='opacity .2s,transform .2s';
+},100);
+
+setTimeout(animateCountdownRing,300);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>

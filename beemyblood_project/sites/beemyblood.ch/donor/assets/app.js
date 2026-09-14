@@ -1,3 +1,23 @@
+// ===== RIPPLE EFFECT ON ALL BUTTONS =====
+// Oublie a l'etape 2 (aucune vue ne l'appelait directement, c'etait un listener global
+// sur document) : ajoute ici retroactivement, corrige toutes les pages deja decoupees
+// d'un coup puisqu'elles chargent toutes ce fichier.
+document.addEventListener('click',function(e){
+  const btn=e.target.closest('.btn, .acc-toggle, .nav-tab, .hero-feat');
+  if(!btn)return;
+  const rect=btn.getBoundingClientRect();
+  const wave=document.createElement('span');
+  wave.className='ripple-wave';
+  const size=Math.max(rect.width,rect.height)*2;
+  wave.style.width=wave.style.height=size+'px';
+  wave.style.left=(e.clientX-rect.left-size/2)+'px';
+  wave.style.top=(e.clientY-rect.top-size/2)+'px';
+  btn.style.position=btn.style.position||'relative';
+  btn.style.overflow='hidden';
+  btn.appendChild(wave);
+  setTimeout(()=>wave.remove(),600);
+});
+
 // ===== NAVIGATION MULTIPAGE VERS UNE PAGE RESERVEE =====
 // Remplace le controle par vue de la SPA (BMB_RESERVE + go()) : intercepte le clic sur
 // un lien reserve tant que le visiteur n'est pas connecte, sinon laisse le lien naviguer.
