@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded',function(){
   <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
   <button class="nav-tab" data-v="vr">🥽 VR</button>
   <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
-  <button class="nav-tab" data-v="faq">❓ FAQ</button>
+  <a class="nav-tab" href="faq.html">❓ FAQ</a>
   <a class="nav-tab" href="contact.html">📬 Contact</a>
 </div>
 
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="mob-item" onclick="location.href='beebot.html'"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></div>
     <div class="mob-item" onclick="goMob('vr')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></div>
     <div class="mob-item" onclick="location.href='videos.html'"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></div>
-    <div class="mob-item" onclick="goMob('faq')"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></div>
+    <div class="mob-item" onclick="location.href='faq.html'"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></div>
     <div class="mob-item" onclick="location.href='contact.html'"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></div>
   </div>
 </div>
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="hero-feat" onclick="go('eligibilite')"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
       <div class="hero-feat" onclick="go('vr')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
       <div class="hero-feat" onclick="location.href='beebot.html'"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
-      <div class="hero-feat" onclick="go('faq')"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
+      <div class="hero-feat" onclick="location.href='faq.html'"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
       <div class="hero-feat" onclick="location.href='centres.html'"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
       <div class="hero-feat" onclick="go('communaute')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
       <div class="hero-feat" onclick="go('impact')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
@@ -3030,178 +3030,6 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 </div>
 
-<div class="view" id="v-faq">
-  <div class="sec-header"><div class="sec-label">❓ Questions fréquentes</div><div class="sec-title">Tout comprendre sur le don de sang</div><div class="sec-sub">Les réponses simples aux questions que tout le monde se pose</div></div>
-
-
-  <div style="margin-bottom:12px"><input type="text" id="faq-search" placeholder="🔍 Rechercher dans la FAQ..." oninput="filterFAQ(this.value)" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:var(--font-body);box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--dark-border)'"></div>
-  <!-- GLOSSAIRE PRODUITS SANGUINS -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-header"><div class="card-title">🩸 Les produits sanguins — c'est quoi exactement ?</div></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:12px">Quand tu donnes ton sang, une poche de ~450 ml est prélevée. Mais ce sang total n'est presque jamais transfusé tel quel ! Il est séparé en <strong style="color:var(--text)">3 composants</strong>, chacun destiné à des patients différents :</div>
-
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div style="padding:14px;background:rgba(230,57,70,.06);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm)">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">🩸</span><div><span style="font-weight:700;color:var(--red-soft);font-size:15px">Concentrés érythrocytaires</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(CE — les « globules rouges », aussi appelés « culots »)</span></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Les globules rouges transportent l'oxygène dans tout le corps. On les transfuse en cas de <strong>chirurgie</strong>, <strong>accident</strong>, <strong>anémie sévère</strong>, <strong>pathologies du globule rouge</strong> (drépanocytose, thalassémie…), <strong>cancers du sang</strong>, ou encore lors de <strong>grossesses à risque</strong> (hémorragies, anémies de la femme enceinte). Durée de conservation : <strong>42 jours</strong>. C'est le produit le plus demandé.</div>
-      </div>
-
-      <div style="padding:14px;background:rgba(155,89,182,.06);border:1px solid rgba(155,89,182,.12);border-radius:var(--radius-sm)">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💜</span><div><span style="font-weight:700;color:var(--purple);font-size:15px">Plaquettes</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(CP — concentrés plaquettaires)</span></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Les plaquettes aident le sang à coaguler (elles « bouchent les trous »). Essentielles pour les patients en <strong>chimiothérapie</strong>, après une <strong>greffe de moelle</strong>, ou en cas d'<strong>hémorragie</strong>. ⚠️ Durée de conservation : <strong>5 jours seulement</strong> — d'où le besoin constant de dons.</div>
-      </div>
-
-      <div style="padding:14px;background:rgba(244,208,63,.06);border:1px solid rgba(244,208,63,.12);border-radius:var(--radius-sm)">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💛</span><div><span style="font-weight:700;color:var(--stock-yellow);font-size:15px">Plasma</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(PFC — plasma frais congelé)</span></div></div>
-        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Le plasma est la partie liquide du sang (jaune pâle). Il contient des protéines vitales pour la <strong>coagulation</strong> et l'<strong>immunité</strong>. Utilisé pour les grands brûlés, les hémorragies massives, et aussi envoyé en <strong>fractionnement industriel</strong> pour fabriquer des médicaments (immunoglobulines, facteurs de coagulation). Conservation : <strong>jusqu'à 3 ans</strong> congelé.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FAQ QUESTIONS -->
-  <div style="display:flex;flex-direction:column;gap:6px">
-
-    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:8px 0 2px">💡 L’essentiel pour les donneurs</div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-1">🏥 Que se passe-t-il avec mon sang après le don ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-1">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        Ton sang part au <strong>Bât. Laboratoires</strong> (juste à côté du CTS) pour être analysé : groupe sanguin, recherche d'anticorps (RAI), dépistage infectieux. En parallèle, il est <strong>centrifugé</strong> pour séparer globules rouges, plaquettes et plasma. Une fois validé, chaque composant est stocké au CTS (Bât. Morier) puis distribué aux services qui en ont besoin : chirurgie, oncologie, urgences, maternité, etc. <strong>Un seul don peut sauver jusqu'à 3 vies.</strong>
-      </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-2">💉 C'est quoi un « culot » ? Et un « PSL » ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-2">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        <strong>Culot</strong> (ou « culot globulaire ») = une poche de globules rouges concentrés, prête à transfuser. C'est le terme familier pour « concentré érythrocytaire » (CE).<br><br>
-        <strong>PSL</strong> = Produit Sanguin Labile. C'est le terme officiel qui regroupe les 3 types de composants sanguins issus d'un don : globules rouges (CE), plaquettes (CP), plasma (PFC). « Labile » signifie qu'ils ont une durée de vie limitée et ne peuvent pas être stockés indéfiniment.
-      </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-3">🧬 Pourquoi certains groupes sanguins sont-ils « rares » ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-3">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        Au-delà du système ABO (A, B, AB, O) et du Rhésus (+/−), il existe des dizaines d'autres systèmes (Kell, Duffy, Kidd…). Certaines combinaisons sont très rares — par exemple, le phénotype <strong>Duffy-négatif Fy(a−b−)</strong>, fréquent chez les personnes d'origine africaine, mais quasi absent chez les Européens. Les patients atteints de <strong>drépanocytose</strong> qui reçoivent des transfusions régulières ont besoin de sang très précisément compatible, ce qui crée une forte demande pour ces groupes rares.
-      </div>
-    </div>
-
-    
-    <div style="font-size:13px;font-weight:700;color:var(--green-soft);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🥇 Préparation & Avant le don</div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep1">🍽️ Comment me préparer avant un don ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-prep1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Dormez bien la veille, mangez normalement (pas de jeûne !), buvez au moins 1.5L d'eau. Apportez une <strong>pièce d'identité</strong>. Évitez l'alcool la veille. Un repas léger 2-3h avant est idéal. Ne venez jamais à jeun.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep2">⏳ Combien de temps ça prend en tout ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-prep2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Le prélèvement lui-même dure <strong>10-15 minutes</strong>. Mais comptez 45-60 min pour une première visite complète (accueil, questionnaire, entretien médecin, test hémoglobine, prélèvement, collation). Les visites suivantes sont plus rapides (~30 min). Avec BeeMyBlood™, le pré-remplissage fait gagner ~15 min.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep3">💉 Est-ce que ça fait mal ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-prep3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Petite piqûre à l'insertion de l'aiguille (comparable à une prise de sang), puis <strong>indolore</strong>. Avec le casque VR BeeMyBlood™, les études montrent -24% de douleur perçue et -40% d'anxiété. La plupart des donneurs disent que c'est moins douloureux qu'une prise de sang classique.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep4">🩸 Quelle quantité est prélevée ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-prep4"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">450-500 ml, soit environ 8% de votre volume sanguin total. Le corps régénère le volume liquidien en quelques heures et les globules rouges en quelques semaines.</div></div>
-
-    <div style="font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🚗 Après le don</div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after1">🛋️ Quelles précautions après le don ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-after1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Repos 15-20 min + collation offerte. Buvez 1.5-2L dans les 24h. Évitez les efforts intenses pendant 24h. Gardez le pansement 4-5h. En cas de malaise, allongez-vous et appelez le CTS.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after2">🚗 Puis-je conduire après ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-after2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Oui, après <strong>30 minutes de repos</strong>. Pour l'avion : attendre 48h. Conduite de train/bus professionnel : 12h. Plongée sous-marine : 48h.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after3">🔄 Quand puis-je redonner ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-after3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Hommes : tous les <strong>3 mois</strong> (max 4×/an). Femmes : tous les <strong>4 mois</strong> (max 3×/an). En cas de don d'aphérèse (plaquettes), l'intervalle est de 2 semaines.</div></div>
-
-    <div style="font-size:13px;font-weight:700;color:var(--red-soft);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🆕 Nouveautés février 2026</div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new1">📢 Quels changements en février 2026 ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-new1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7"><strong>Transfusion après 1980</strong> : plus de contre-indication définitive → CIT de 4 mois seulement.<br><strong>Séjour UK 1980-1996</strong> : plus de contre-indication du tout (risque vMCJ jugé extrêmement faible).<br><strong>Neurochirurgie CH sans ouverture dure-mère</strong> : CIT 12 mois au lieu de CID.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new2">🇬🇧 Séjour au Royaume-Uni années 80-90 ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-new2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Plus de contre-indication depuis février 2026 ! Le risque de maladie de Creutzfeldt-Jakob variant (vMCJ) est désormais jugé extrêmement faible par les autorités. Vous pouvez donner.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new3">💉 J'ai déjà reçu une transfusion, je peux donner ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-new3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Oui ! Depuis février 2026, une transfusion reçue après 1980 n'est plus une contre-indication définitive. Il suffit d'attendre <strong>4 mois</strong> après la transfusion (CIT au lieu de CID).</div></div>
-
-
-    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🍽️ Préparation au don</div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep1">🥗 Comment me préparer au don ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-prep1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Dormez bien la nuit précédente, mangez normalement et buvez au minimum 1.5L d'eau avant le don. Apportez une <strong style="color:var(--text)">pièce d'identité</strong>. Évitez l'alcool la veille et les efforts intenses le matin du don.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep2">🍳 Puis-je donner à jeun ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-prep2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--red-soft)">Non</strong>, prenez un repas léger 2-3 heures avant le don. Ne venez jamais à jeun — le risque de malaise augmente considérablement.</div></div>
-
-    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🩹 Après le don</div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after1">🛋️ Quelles précautions après le don ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-after1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Repos 15-20 min + collation offerte. Buvez 1.5-2L dans les 24h. Évitez les efforts intenses pendant 24h. Gardez le pansement compressif 4-5h. En cas de bleu au bras, appliquez du froid.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after2">🚗 Puis-je conduire après le don ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-after2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Oui, après <strong style="color:var(--text)">30 minutes de repos</strong>. Avion : attendre 48h. Conduite de train/bus professionnel : 12h de délai.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after3">🔄 Quand puis-je redonner ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-after3"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--blue)">Hommes</strong> : intervalle de 3 mois minimum (max 4 dons/an).<br><strong style="color:var(--purple)">Femmes</strong> : intervalle de 4 mois minimum (max 3 dons/an).</div></div>
-
-    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🆕 Nouveautés février 2026</div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new1">📢 Quels changements depuis février 2026 ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-new1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Assouplissements majeurs :</strong><br>• Transfusion après 1980 : plus de contre-indication définitive (CID), maintenant CIT de 4 mois seulement<br>• Séjour UK 1980-96 : plus aucune contre-indication<br>• Neurochirurgie CH sans ouverture dure-mère : CIT 12 mois<br><br>Ces changements ont été autorisés par Swissmedic en raison d'une réévaluation des risques de vMCJ (maladie de Creutzfeldt-Jakob variant).</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new2">🇬🇧 J'ai vécu au Royaume-Uni dans les années 80-90, puis-je donner ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-new2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Oui !</strong> Depuis février 2026, le séjour au Royaume-Uni entre 1980 et 1996 n'est plus une contre-indication. Le risque de maladie de Creutzfeldt-Jakob variant (vMCJ) est désormais jugé extrêmement faible.</div></div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new3">💉 J'ai reçu une transfusion, puis-je donner ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-new3"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Oui, avec un délai de 4 mois.</strong> Avant février 2026, une transfusion après 1980 était une contre-indication définitive. C'est désormais une CIT de 4 mois seulement.</div></div>
-    <div style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🧪 Pour aller plus loin</div>
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-4">🔄 C'est quoi une érythrocytaphérèse ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-4">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        C'est une procédure thérapeutique où l'on <strong>échange</strong> les globules rouges d'un patient contre des globules rouges sains, à l'aide d'une machine d'aphérèse. Le sang du patient circule dans un circuit externe, les globules malades sont retirés et remplacés par des globules de donneurs compatibles, puis le sang est réinjecté. C'est utilisé principalement pour la <strong>drépanocytose</strong> : les globules « en faucille » sont remplacés par des globules normaux. Cela nécessite beaucoup de poches de sang phénotypé (compatible au niveau des antigènes rares).
-      </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-5">⏱️ Combien de temps dure un don ? Est-ce que ça fait mal ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-5">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        Le prélèvement lui-même dure <strong>8 à 10 minutes</strong>. Avec l'accueil, le questionnaire médical et la collation, compte environ <strong>45 minutes à 1 heure</strong> au total. La douleur ? La plupart des donneurs décrivent une légère pression, comparable à un pincement rapide. Avec le <strong>casque VR</strong> proposé par BeeMyBlood, beaucoup ne sentent presque rien — tu es immergé dans un environnement apaisant au lieu de voir l'aiguille.
-      </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-6">🩸 C'est quoi le CTS ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-6">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        Le <strong>CTS</strong> (Centre de Transfusion Sanguine) est le lieu où le sang est collecté, analysé, transformé et stocké avant d'être distribué aux hôpitaux. Aux HUG, le CTS se trouve dans le <strong>Bâtiment Morier</strong>, sur le site Cluse-Roseraie. C'est la plaque tournante entre les donneurs et les patients : chaque poche y est tracée de l'entrée à la sortie.
-      </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-7">📊 Pourquoi O− est-il toujours en alerte ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-7">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        Le groupe <strong>O−</strong> est le « donneur universel » : ses globules rouges sont compatibles avec <strong>tous</strong> les patients, quel que soit leur groupe. C'est donc le sang utilisé en urgence vitale, quand on n'a pas le temps de déterminer le groupe du patient (accident grave, hémorragie). Problème : seulement <strong>~6%</strong> de la population est O−, mais la demande est disproportionnée. D'où les alertes fréquentes.
-      </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-8">🧪 C'est quoi la RAI ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-8">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        <strong>RAI</strong> = Recherche d'Anticorps Irréguliers. C'est un test effectué au laboratoire sur chaque don de sang (et sur chaque patient avant transfusion). Il détecte la présence d'anticorps « inattendus » dans le sang, qui pourraient provoquer une réaction lors d'une transfusion. Si la RAI est négative, tout va bien. Si elle est positive, il faut trouver du sang spécialement compatible.
-      </div>
-    </div>
-
-    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-9">🏭 Pourquoi du plasma part-il vers l'industrie ? <span class="acc-arrow">▼</span></button>
-    <div class="acc-body" id="faq-9">
-      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
-        Une partie du plasma collecté est envoyée vers des entreprises comme <strong>Octapharma</strong> ou <strong>CSL Behring</strong> pour le <strong>fractionnement</strong> : un processus industriel qui extrait les protéines thérapeutiques du plasma — immunoglobulines (pour les déficits immunitaires), facteurs de coagulation (pour les hémophiles), albumine (pour les grands brûlés). Ces médicaments ne peuvent pas être fabriqués synthétiquement — ils dépendent entièrement des dons.
-      </div>
-    </div>
-
-  </div>
-
-  <div style="margin-top:20px;padding:14px;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-sm);text-align:center">
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Tu as d'autres questions ? BeeBot™ est disponible <strong>24h/24</strong> pour y répondre.</div>
-    <a class="btn btn-gold btn-sm" style="margin-top:10px" href="beebot.html">🤖 Poser une question à BeeBot™</a>
-  </div>
-</div><!-- /v-faq -->
 </main>
 
 <!-- ONBOARDING MODAL -->
@@ -3954,21 +3782,6 @@ function replayDayActivity(){
 // ===== MAP =====
 
 
-function filterFAQ(q){
-  q=q.toLowerCase().trim();
-  var fv=document.getElementById('v-faq');
-  fv.querySelectorAll('.acc-toggle[data-target^="faq-"]').forEach(function(btn){
-    var txt=btn.textContent.toLowerCase();
-    var body=document.getElementById(btn.getAttribute('data-target'));
-    var bt=body?body.textContent.toLowerCase():'';
-    var m=!q||txt.indexOf(q)>=0||bt.indexOf(q)>=0;
-    btn.style.display=m?'':'none';
-    if(body)body.style.display=m?'':'none';
-  });
-  var g=fv.querySelector('.card[style*="margin-bottom:16px"]');
-  if(g)g.style.display=q?'none':'';
-  fv.querySelectorAll('div[style*="uppercase"]').forEach(function(h){h.style.display=q?'none':'';});
-}
 // ===== BEEBOT =====
 function filterSquad(el,cat){
   document.querySelectorAll('.squad-filter').forEach(function(f){f.style.background='var(--dark-surface)';f.style.color='var(--text-dim)';f.style.border='1px solid var(--dark-border)';});

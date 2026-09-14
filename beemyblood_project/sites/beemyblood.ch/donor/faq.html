@@ -1,0 +1,585 @@
+<!--
+    BeeMyBlood – Blood donation platform
+    Copyright (C) 2026 David-Zacharie Issom / Convivens Lab, HEG Geneva
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/> or contact davidzac.issom@hes-so.ch.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+<title>FAQ — BeeMyBlood™ Portail Donneur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+<span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
+
+<!-- GATE PAGE -->
+<div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
+  <div style="text-align:center;max-width:400px;width:100%">
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
+    <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
+    <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
+    <div style="position:relative;margin-bottom:.75rem">
+      <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        onkeydown="if(event.key==='Enter')checkGate()">
+    </div>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
+    <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
+      <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
+      Prototype confidentiel — HEG Genève · UNIGE · HUG<br>
+      Hébergé en Suisse · nLPD / RGPD · HL7 FHIR<br>
+      © 2026 BeeMyBlood™
+    </div>
+  </div>
+</div>
+
+<header>
+<nav>
+  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <div class="nav-tabs" id="nav-tabs">
+    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="centres.html">Collectes</a>
+    <div class="nav-group" data-menu="nav-group-menu-espace">
+      <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
+    </div>
+    <div class="nav-group" data-menu="nav-group-menu-decouvrir">
+      <button class="nav-group-btn active" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
+    </div>
+    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
+  </div>
+  <div class="nav-right">
+    <div class="hamburger" id="hamburger" onclick="toggleMobMenu()">
+      <div class="hamburger-bar"></div><div class="hamburger-bar"></div><div class="hamburger-bar"></div>
+      <div class="hamburger-label">Plus</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="notif-dropdown" id="notif-dd">
+        <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+      </div>
+      </div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
+    </div>
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
+    </a>
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
+    </a>
+  </div>
+</nav>
+</header>
+<div class="nav-overflow-menu" id="nav-overflow-menu"></div>
+<div class="nav-group-menu" id="nav-group-menu-espace">
+  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+</div>
+<div class="nav-group-menu" id="nav-group-menu-decouvrir">
+  <a class="nav-tab" href="guide.html">📖 Guide</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab active" href="faq.html" aria-current="page">❓ FAQ</a>
+  <a class="nav-tab" href="contact.html">📬 Contact</a>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <div class="mob-section-label">Navigation</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+  </div>
+  <div class="mob-section-label">Découvrir</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item active" href="faq.html" aria-current="page"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+  </div>
+</div>
+
+
+<div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
+  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">FAQ</span>
+</div>
+<main id="contenu" tabindex="-1">
+<div class="view active" id="v-faq">
+  <div class="sec-header"><div class="sec-label">❓ Questions fréquentes</div><h1 class="sec-title">Tout comprendre sur le don de sang</h1><div class="sec-sub">Les réponses simples aux questions que tout le monde se pose</div></div>
+
+
+  <div style="margin-bottom:12px"><input type="text" id="faq-search" placeholder="🔍 Rechercher dans la FAQ..." oninput="filterFAQ(this.value)" style="width:100%;padding:10px 14px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:var(--font-body);box-sizing:border-box" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--dark-border)'"></div>
+  <!-- GLOSSAIRE PRODUITS SANGUINS -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">🩸 Les produits sanguins — c'est quoi exactement ?</div></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:12px">Quand tu donnes ton sang, une poche de ~450 ml est prélevée. Mais ce sang total n'est presque jamais transfusé tel quel ! Il est séparé en <strong style="color:var(--text)">3 composants</strong>, chacun destiné à des patients différents :</div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="padding:14px;background:rgba(230,57,70,.06);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">🩸</span><div><span style="font-weight:700;color:var(--red-soft);font-size:15px">Concentrés érythrocytaires</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(CE — les « globules rouges », aussi appelés « culots »)</span></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Les globules rouges transportent l'oxygène dans tout le corps. On les transfuse en cas de <strong>chirurgie</strong>, <strong>accident</strong>, <strong>anémie sévère</strong>, <strong>pathologies du globule rouge</strong> (drépanocytose, thalassémie…), <strong>cancers du sang</strong>, ou encore lors de <strong>grossesses à risque</strong> (hémorragies, anémies de la femme enceinte). Durée de conservation : <strong>42 jours</strong>. C'est le produit le plus demandé.</div>
+      </div>
+
+      <div style="padding:14px;background:rgba(155,89,182,.06);border:1px solid rgba(155,89,182,.12);border-radius:var(--radius-sm)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💜</span><div><span style="font-weight:700;color:var(--purple);font-size:15px">Plaquettes</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(CP — concentrés plaquettaires)</span></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Les plaquettes aident le sang à coaguler (elles « bouchent les trous »). Essentielles pour les patients en <strong>chimiothérapie</strong>, après une <strong>greffe de moelle</strong>, ou en cas d'<strong>hémorragie</strong>. ⚠️ Durée de conservation : <strong>5 jours seulement</strong> — d'où le besoin constant de dons.</div>
+      </div>
+
+      <div style="padding:14px;background:rgba(244,208,63,.06);border:1px solid rgba(244,208,63,.12);border-radius:var(--radius-sm)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💛</span><div><span style="font-weight:700;color:var(--stock-yellow);font-size:15px">Plasma</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(PFC — plasma frais congelé)</span></div></div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Le plasma est la partie liquide du sang (jaune pâle). Il contient des protéines vitales pour la <strong>coagulation</strong> et l'<strong>immunité</strong>. Utilisé pour les grands brûlés, les hémorragies massives, et aussi envoyé en <strong>fractionnement industriel</strong> pour fabriquer des médicaments (immunoglobulines, facteurs de coagulation). Conservation : <strong>jusqu'à 3 ans</strong> congelé.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ QUESTIONS -->
+  <div style="display:flex;flex-direction:column;gap:6px">
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:8px 0 2px">💡 L’essentiel pour les donneurs</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-1">🏥 Que se passe-t-il avec mon sang après le don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-1">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        Ton sang part au <strong>Bât. Laboratoires</strong> (juste à côté du CTS) pour être analysé : groupe sanguin, recherche d'anticorps (RAI), dépistage infectieux. En parallèle, il est <strong>centrifugé</strong> pour séparer globules rouges, plaquettes et plasma. Une fois validé, chaque composant est stocké au CTS (Bât. Morier) puis distribué aux services qui en ont besoin : chirurgie, oncologie, urgences, maternité, etc. <strong>Un seul don peut sauver jusqu'à 3 vies.</strong>
+      </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-2">💉 C'est quoi un « culot » ? Et un « PSL » ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-2">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        <strong>Culot</strong> (ou « culot globulaire ») = une poche de globules rouges concentrés, prête à transfuser. C'est le terme familier pour « concentré érythrocytaire » (CE).<br><br>
+        <strong>PSL</strong> = Produit Sanguin Labile. C'est le terme officiel qui regroupe les 3 types de composants sanguins issus d'un don : globules rouges (CE), plaquettes (CP), plasma (PFC). « Labile » signifie qu'ils ont une durée de vie limitée et ne peuvent pas être stockés indéfiniment.
+      </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-3">🧬 Pourquoi certains groupes sanguins sont-ils « rares » ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-3">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        Au-delà du système ABO (A, B, AB, O) et du Rhésus (+/−), il existe des dizaines d'autres systèmes (Kell, Duffy, Kidd…). Certaines combinaisons sont très rares — par exemple, le phénotype <strong>Duffy-négatif Fy(a−b−)</strong>, fréquent chez les personnes d'origine africaine, mais quasi absent chez les Européens. Les patients atteints de <strong>drépanocytose</strong> qui reçoivent des transfusions régulières ont besoin de sang très précisément compatible, ce qui crée une forte demande pour ces groupes rares.
+      </div>
+    </div>
+
+    
+    <div style="font-size:13px;font-weight:700;color:var(--green-soft);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🥇 Préparation & Avant le don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep1">🍽️ Comment me préparer avant un don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Dormez bien la veille, mangez normalement (pas de jeûne !), buvez au moins 1.5L d'eau. Apportez une <strong>pièce d'identité</strong>. Évitez l'alcool la veille. Un repas léger 2-3h avant est idéal. Ne venez jamais à jeun.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep2">⏳ Combien de temps ça prend en tout ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Le prélèvement lui-même dure <strong>10-15 minutes</strong>. Mais comptez 45-60 min pour une première visite complète (accueil, questionnaire, entretien médecin, test hémoglobine, prélèvement, collation). Les visites suivantes sont plus rapides (~30 min). Avec BeeMyBlood™, le pré-remplissage fait gagner ~15 min.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep3">💉 Est-ce que ça fait mal ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Petite piqûre à l'insertion de l'aiguille (comparable à une prise de sang), puis <strong>indolore</strong>. Avec le casque VR BeeMyBlood™, les études montrent -24% de douleur perçue et -40% d'anxiété. La plupart des donneurs disent que c'est moins douloureux qu'une prise de sang classique.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep4">🩸 Quelle quantité est prélevée ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep4"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">450-500 ml, soit environ 8% de votre volume sanguin total. Le corps régénère le volume liquidien en quelques heures et les globules rouges en quelques semaines.</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🚗 Après le don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after1">🛋️ Quelles précautions après le don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Repos 15-20 min + collation offerte. Buvez 1.5-2L dans les 24h. Évitez les efforts intenses pendant 24h. Gardez le pansement 4-5h. En cas de malaise, allongez-vous et appelez le CTS.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after2">🚗 Puis-je conduire après ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Oui, après <strong>30 minutes de repos</strong>. Pour l'avion : attendre 48h. Conduite de train/bus professionnel : 12h. Plongée sous-marine : 48h.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after3">🔄 Quand puis-je redonner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Hommes : tous les <strong>3 mois</strong> (max 4×/an). Femmes : tous les <strong>4 mois</strong> (max 3×/an). En cas de don d'aphérèse (plaquettes), l'intervalle est de 2 semaines.</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--red-soft);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🆕 Nouveautés février 2026</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new1">📢 Quels changements en février 2026 ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new1"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7"><strong>Transfusion après 1980</strong> : plus de contre-indication définitive → CIT de 4 mois seulement.<br><strong>Séjour UK 1980-1996</strong> : plus de contre-indication du tout (risque vMCJ jugé extrêmement faible).<br><strong>Neurochirurgie CH sans ouverture dure-mère</strong> : CIT 12 mois au lieu de CID.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new2">🇬🇧 Séjour au Royaume-Uni années 80-90 ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new2"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Plus de contre-indication depuis février 2026 ! Le risque de maladie de Creutzfeldt-Jakob variant (vMCJ) est désormais jugé extrêmement faible par les autorités. Vous pouvez donner.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new3">💉 J'ai déjà reçu une transfusion, je peux donner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new3"><div class="card" style="margin:4px 0;font-size:14px;color:var(--text-dim);line-height:1.7">Oui ! Depuis février 2026, une transfusion reçue après 1980 n'est plus une contre-indication définitive. Il suffit d'attendre <strong>4 mois</strong> après la transfusion (CIT au lieu de CID).</div></div>
+
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🍽️ Préparation au don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep1">🥗 Comment me préparer au don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Dormez bien la nuit précédente, mangez normalement et buvez au minimum 1.5L d'eau avant le don. Apportez une <strong style="color:var(--text)">pièce d'identité</strong>. Évitez l'alcool la veille et les efforts intenses le matin du don.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-prep2">🍳 Puis-je donner à jeun ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-prep2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--red-soft)">Non</strong>, prenez un repas léger 2-3 heures avant le don. Ne venez jamais à jeun — le risque de malaise augmente considérablement.</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🩹 Après le don</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after1">🛋️ Quelles précautions après le don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Repos 15-20 min + collation offerte. Buvez 1.5-2L dans les 24h. Évitez les efforts intenses pendant 24h. Gardez le pansement compressif 4-5h. En cas de bleu au bras, appliquez du froid.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after2">🚗 Puis-je conduire après le don ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px">Oui, après <strong style="color:var(--text)">30 minutes de repos</strong>. Avion : attendre 48h. Conduite de train/bus professionnel : 12h de délai.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-after3">🔄 Quand puis-je redonner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-after3"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--blue)">Hommes</strong> : intervalle de 3 mois minimum (max 4 dons/an).<br><strong style="color:var(--purple)">Femmes</strong> : intervalle de 4 mois minimum (max 3 dons/an).</div></div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🆕 Nouveautés février 2026</div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new1">📢 Quels changements depuis février 2026 ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new1"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Assouplissements majeurs :</strong><br>• Transfusion après 1980 : plus de contre-indication définitive (CID), maintenant CIT de 4 mois seulement<br>• Séjour UK 1980-96 : plus aucune contre-indication<br>• Neurochirurgie CH sans ouverture dure-mère : CIT 12 mois<br><br>Ces changements ont été autorisés par Swissmedic en raison d'une réévaluation des risques de vMCJ (maladie de Creutzfeldt-Jakob variant).</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new2">🇬🇧 J'ai vécu au Royaume-Uni dans les années 80-90, puis-je donner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new2"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Oui !</strong> Depuis février 2026, le séjour au Royaume-Uni entre 1980 et 1996 n'est plus une contre-indication. Le risque de maladie de Creutzfeldt-Jakob variant (vMCJ) est désormais jugé extrêmement faible.</div></div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-new3">💉 J'ai reçu une transfusion, puis-je donner ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-new3"><div class="card" style="font-size:14px;color:var(--text-dim);line-height:1.7;padding:14px"><strong style="color:var(--green)">Oui, avec un délai de 4 mois.</strong> Avant février 2026, une transfusion après 1980 était une contre-indication définitive. C'est désormais une CIT de 4 mois seulement.</div></div>
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;padding:12px 0 2px;border-top:1px solid var(--dark-border);margin-top:8px">🧪 Pour aller plus loin</div>
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-4">🔄 C'est quoi une érythrocytaphérèse ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-4">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        C'est une procédure thérapeutique où l'on <strong>échange</strong> les globules rouges d'un patient contre des globules rouges sains, à l'aide d'une machine d'aphérèse. Le sang du patient circule dans un circuit externe, les globules malades sont retirés et remplacés par des globules de donneurs compatibles, puis le sang est réinjecté. C'est utilisé principalement pour la <strong>drépanocytose</strong> : les globules « en faucille » sont remplacés par des globules normaux. Cela nécessite beaucoup de poches de sang phénotypé (compatible au niveau des antigènes rares).
+      </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-5">⏱️ Combien de temps dure un don ? Est-ce que ça fait mal ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-5">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        Le prélèvement lui-même dure <strong>8 à 10 minutes</strong>. Avec l'accueil, le questionnaire médical et la collation, compte environ <strong>45 minutes à 1 heure</strong> au total. La douleur ? La plupart des donneurs décrivent une légère pression, comparable à un pincement rapide. Avec le <strong>casque VR</strong> proposé par BeeMyBlood, beaucoup ne sentent presque rien — tu es immergé dans un environnement apaisant au lieu de voir l'aiguille.
+      </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-6">🩸 C'est quoi le CTS ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-6">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        Le <strong>CTS</strong> (Centre de Transfusion Sanguine) est le lieu où le sang est collecté, analysé, transformé et stocké avant d'être distribué aux hôpitaux. Aux HUG, le CTS se trouve dans le <strong>Bâtiment Morier</strong>, sur le site Cluse-Roseraie. C'est la plaque tournante entre les donneurs et les patients : chaque poche y est tracée de l'entrée à la sortie.
+      </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-7">📊 Pourquoi O− est-il toujours en alerte ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-7">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        Le groupe <strong>O−</strong> est le « donneur universel » : ses globules rouges sont compatibles avec <strong>tous</strong> les patients, quel que soit leur groupe. C'est donc le sang utilisé en urgence vitale, quand on n'a pas le temps de déterminer le groupe du patient (accident grave, hémorragie). Problème : seulement <strong>~6%</strong> de la population est O−, mais la demande est disproportionnée. D'où les alertes fréquentes.
+      </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-8">🧪 C'est quoi la RAI ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-8">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        <strong>RAI</strong> = Recherche d'Anticorps Irréguliers. C'est un test effectué au laboratoire sur chaque don de sang (et sur chaque patient avant transfusion). Il détecte la présence d'anticorps « inattendus » dans le sang, qui pourraient provoquer une réaction lors d'une transfusion. Si la RAI est négative, tout va bien. Si elle est positive, il faut trouver du sang spécialement compatible.
+      </div>
+    </div>
+
+    <button class="acc-toggle" onclick="toggleAcc(this)" data-target="faq-9">🏭 Pourquoi du plasma part-il vers l'industrie ? <span class="acc-arrow">▼</span></button>
+    <div class="acc-body" id="faq-9">
+      <div style="padding:14px;font-size:14px;color:var(--text-dim);line-height:1.7">
+        Une partie du plasma collecté est envoyée vers des entreprises comme <strong>Octapharma</strong> ou <strong>CSL Behring</strong> pour le <strong>fractionnement</strong> : un processus industriel qui extrait les protéines thérapeutiques du plasma — immunoglobulines (pour les déficits immunitaires), facteurs de coagulation (pour les hémophiles), albumine (pour les grands brûlés). Ces médicaments ne peuvent pas être fabriqués synthétiquement — ils dépendent entièrement des dons.
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:20px;padding:14px;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-sm);text-align:center">
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Tu as d'autres questions ? BeeBot™ est disponible <strong>24h/24</strong> pour y répondre.</div>
+    <a class="btn btn-gold btn-sm" style="margin-top:10px" href="beebot.html">🤖 Poser une question à BeeBot™</a>
+  </div>
+</div><!-- /v-faq -->
+</main>
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="onboard-modal" style="display:none">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header" style="padding-bottom:8px">
+      <div style="font-size:36px;margin-bottom:4px">🐝</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">Bienvenue sur BeeMyBlood™</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="ob-counter">1 / 10</div>
+    </div>
+
+    <!-- STEP 0 : INTRO -->
+    <div class="modal-step active" id="ob-step-0">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🦸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Chaque donneur est un héros, pas un numéro</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">BeeMyBlood™ transforme le don de sang en expérience premium, ludique et personnalisée.<br><br>Ce tour te montre <strong style="color:var(--gold)">toutes les fonctionnalités</strong> en 1 minute. Tu peux le relancer à tout moment via le lien <strong style="color:var(--gold)">« Tour guidé »</strong> en bas de page.</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : NAVIGATION -->
+    <div class="modal-step" id="ob-step-1">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧭</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
+          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
+          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : DASHBOARD -->
+    <div class="modal-step" id="ob-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📊</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          C'est ton <strong>tableau de bord</strong> :
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🗓️ Prochain don programmé + compte à rebours<br>
+            🩸 Stocks de sang en temps réel par groupe<br>
+            📈 Ton historique de dons et séries (streak)<br>
+            🏆 Badges débloqués et objectifs<br>
+            🩺 Passeport santé (résultats labo de tes dons)<br>
+            🤝 Programme BeeMyBro (parrainage)
+          </div>
+          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : ÉLIGIBILITÉ -->
+    <div class="modal-step" id="ob-step-3">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">✅</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Test d'éligibilité + Questionnaire médical</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--green)">Pré-éligibilité rapide</strong> — 8 questions simples (âge, poids, santé, voyages…) pour savoir si tu peux donner aujourd'hui.<br><br>
+          <strong style="color:var(--gold)">Questionnaire médical HUG</strong> — Le vrai formulaire du Centre de Transfusion Sanguine (CTS), que tu peux pré-remplir chez toi et <strong>générer en PDF</strong> à imprimer. Gain de temps : ~15 min au CTS.<br><br>
+          <span style="color:var(--text-muted)">💡 Si le test dit « éligible », un bouton te dirige directement vers le questionnaire.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 : CARTE & COLLECTES -->
+    <div class="modal-step" id="ob-step-4">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📍</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📡 Géolocalisation automatique<br>
+            🔍 Rayon de recherche ajustable (1-20 km)<br>
+            📅 Prise de rendez-vous directe via OneDoc<br>
+            🎪 Collectes mobiles signalées sur la carte
+          </div>
+          <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 : FLUX CTS -->
+    <div class="modal-step" id="ob-step-5">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🔬</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Flux CTS — Visualisation en temps réel</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Une vue schématique animée du <strong>campus hospitalier des HUG</strong> (Hôpitaux Universitaires de Genève) montrant :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            🩸 Poches de sang circulant entre les bâtiments<br>
+            📊 Entrées/sorties, stock CE, plaquettes en direct<br>
+            🎯 Objectif du jour avec jauge de progression<br>
+            📰 Fil d'événements et bandeau défilant
+          </div>
+          <span style="color:var(--text-muted)">⛶ Passe en plein écran pour une immersion complète.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 : HÉMORUSH -->
+    <div class="modal-step" id="ob-step-6">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎮</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">HémoRush™ — Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Un mini-jeu éducatif pour maîtriser la <strong>compatibilité sanguine</strong> :
+          <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            📚 Apprentissage — mode guidé, pas de chrono<br>
+            ⚡ Rush — 2 minutes chrono, score maximal<br>
+            ❤️ Survie — 3 vies, zéro droit à l'erreur<br>
+            🧠 Quiz — QCM sur la transfusion<br>
+            🌊 Vagues — difficulté croissante
+          </div>
+          <strong style="color:var(--gold)">Comment jouer :</strong> touche un patient 🏥, puis donne-lui la bonne poche 🩸 compatible.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 : GUIDE & VR -->
+    <div class="modal-step" id="ob-step-7">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📺</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Guide du don & Réalité virtuelle</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Guide primo-donneur</strong> — Les critères, les 6 étapes du don, les 3 composants sanguins et les contre-indications expliquées simplement.<br><br>
+          <strong style="color:var(--gold)">Expérience VR</strong> — BeeMyBlood propose un casque VR immersif pendant le prélèvement : plage, forêt ou fond marin. Résultat : <strong style="color:var(--green)">−24% de douleur</strong> et <strong style="color:var(--green)">−40% d'anxiété</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 : COMMUNAUTÉ & FAQ -->
+    <div class="modal-step" id="ob-step-8">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🤝</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Communauté, FAQ & BeeBot™</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">Communauté</strong> — Témoignages, fil social, notifications push et partage d'expériences entre donneurs.<br><br>
+          <strong style="color:var(--gold)">FAQ</strong> — Préparation au don, après le don, nouveautés 2026, questions techniques. Barre de recherche intégrée.<br><br>
+          <strong style="color:var(--gold)">BeeBot™ 🐝</strong> — Assistant IA disponible 24h/24 pour répondre à toutes tes questions sur le don de sang.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 9 : PARAMÈTRES & C'EST PARTI -->
+    <div class="modal-step" id="ob-step-9">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🚀</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--gold)">Tu es prêt(e) !</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">⚙️ Paramètres</strong> — Configure tes intégrations (Concerto HUG, Google Agenda, compte Transfusion Croix-Rouge Suisse), choisis le mode sombre ou clair, gère tes notifications et ta confidentialité.<br><br>
+          <strong>Par où commencer ?</strong>
+          <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
+            1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
+            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
+            4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="ob-dots"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="ob-skip" onclick="closeOnboard()" style="font-size:14px">Passer</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="ob-prev" onclick="prevOnboard()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="ob-next" onclick="nextOnboard()" style="font-size:14px">Suivant →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mob-bottom" id="mob-bottom">
+  <div class="mob-bottom-inner">
+    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+  </div>
+</div>
+
+<!-- KEYBOARD SHORTCUTS HINT -->
+<div class="kbd-hint" id="kbd-hint">
+  <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
+  <kbd class="kbd">D</kbd> Dashboard · <kbd class="kbd">G</kbd> Guide · <kbd class="kbd">H</kbd> HémoRush™ · <kbd class="kbd">E</kbd> Éligibilité<br>
+  <kbd class="kbd">C</kbd> Collectes · <kbd class="kbd">B</kbd> Chatbot · <kbd class="kbd">V</kbd> VR · <kbd class="kbd">P</kbd> Profil<br>
+  <kbd class="kbd">F</kbd> Flux CTS · <kbd class="kbd">M</kbd> Vidéos · <kbd class="kbd">I</kbd> Impact · <kbd class="kbd">?</kbd> Aide
+</div>
+
+<footer class="app-footer">
+  <div class="app-footer-brand">🐝 BeeMyBlood™</div>
+  <div style="font-size:15px;color:var(--text-dim)">Donner son sang, en mieux</div>
+  <div class="app-footer-links">
+    <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice">Centre de Transfusion HUG</a>
+    <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
+    <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
+    <button type="button" onclick="startTour()">Tour guidé</button>
+  </div>
+  <div class="app-footer-copy">
+    Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
+  </div>
+</footer>
+
+<!-- BEEBOT FAB -->
+<!-- LIVE TOAST -->
+<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+
+<button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
+<div class="beebot-panel" id="beebot-panel">
+  <div class="beebot-header">
+    <span style="font-size:22px">🤖</span>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--gold)">BeeBot™</div><div style="font-size:11px;color:var(--text-muted)">Ton conseiller sanguin IA</div></div>
+    <span style="cursor:pointer;font-size:18px;color:var(--text-muted)" onclick="toggleBeeBot()">✕</span>
+  </div>
+  <div class="beebot-msgs" id="beebot-msgs">
+    <div class="beebot-msg bot">Salut<span class="bmb-prenom"></span> ! 🐝 Je suis BeeBot, ton conseiller sanguin. Je peux t'aider avec :
+<br><br>🩸 Éligibilité au don
+<br>📅 Prochain créneau optimal
+<br>💊 Interactions médicaments
+<br>✈️ Délai post-voyage
+<br>🧬 Ton phénotype rare
+<br><br>Que veux-tu savoir ?</div>
+  </div>
+  <div class="beebot-input">
+    <input type="text" id="beebot-in" placeholder="Pose ta question…" enterkeyhint="send" autocomplete="off" onkeydown="if(event.key==='Enter')sendBeeBot()">
+    <button onclick="sendBeeBot()" aria-label="Envoyer"><span class="chat-send-lbl">Envoyer </span>➤</button>
+  </div>
+  <div style="padding:4px 10px;display:flex;gap:4px;flex-wrap:wrap;border-top:1px solid var(--dark-border)">
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Suis-je éligible après un voyage en Afrique ?')">✈️ Voyage</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Prochain créneau ?')">📅 Créneau</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('C\'est quoi mon phénotype rare ?')">🧬 Phénotype</span>
+    <span style="font-size:11px;padding:4px 8px;background:var(--dark-surface);border-radius:10px;cursor:pointer;color:var(--text-dim)" onclick="quickBot('Actualités don du sang')">📰 Actualités</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+updateBreadcrumb('faq');
+function filterFAQ(q){
+  q=q.toLowerCase().trim();
+  var fv=document.getElementById('v-faq');
+  fv.querySelectorAll('.acc-toggle[data-target^="faq-"]').forEach(function(btn){
+    var txt=btn.textContent.toLowerCase();
+    var body=document.getElementById(btn.getAttribute('data-target'));
+    var bt=body?body.textContent.toLowerCase():'';
+    var m=!q||txt.indexOf(q)>=0||bt.indexOf(q)>=0;
+    btn.style.display=m?'':'none';
+    if(body)body.style.display=m?'':'none';
+  });
+  var g=fv.querySelector('.card[style*="margin-bottom:16px"]');
+  if(g)g.style.display=q?'none':'';
+  fv.querySelectorAll('div[style*="uppercase"]').forEach(function(h){h.style.display=q?'none':'';});
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../lexique.js" defer></script>
+<script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
+document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
+</body>
+</html>
