@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -146,7 +146,7 @@
 <main id="contenu" tabindex="-1">
 <!-- ==================== FLUX CTS — TV DASHBOARD ==================== -->
 <div class="view active" id="v-flux">
-  <div class="sec-header"><div class="sec-label">📺 Flux en temps réel</div><h1 class="sec-title">Centre de Transfusion Sanguine — HUG</h1><div class="sec-sub" style="max-width:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="badge badge-green" id="fx-live-badge" style="animation:pulseG 2s infinite">● LIVE</span> <span id="fx-closed-badge" class="badge" style="display:none;animation:none;background:rgba(230,57,70,.15);color:var(--red-soft);font-weight:600"></span> <span id="fx-clock" style="font-family:var(--font-mono)"></span> · <span id="fx-date"></span></div></div>
+  <div class="sec-header"><div class="sec-label">📺 Flux en temps réel</div><h1 class="sec-title">Centre de Transfusion Sanguine — HUG</h1><div class="sec-sub" style="max-width:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="badge badge-green" id="fx-live-badge" style="animation:pulseG 2s infinite">● LIVE</span> <span id="fx-closed-badge" class="badge" style="display:none;animation:none;background:rgba(179,38,30,.15);color:var(--red-soft);font-weight:600"></span> <span id="fx-clock" style="font-family:var(--font-mono)"></span> · <span id="fx-date"></span></div></div>
   <!-- Objectif du jour -->
   <div style="display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:var(--radius-sm);margin-bottom:12px;flex-wrap:wrap">
     <div id="fx-obj-title" style="font-size:13px;font-weight:700;color:var(--text-dim);white-space:nowrap">🎯 Objectif du jour</div>
@@ -164,7 +164,7 @@
   <!-- MAIN CANVAS ANIMATION -->
   <div class="flux-canvas-wrap" id="flux-wrap" style="position:relative">
     <!-- TICKER — in flow, above map -->
-    <div style="flex-shrink:0;overflow:hidden;background:rgba(13,13,20,.85);backdrop-filter:blur(8px);padding:7px 16px;border-bottom:1px solid rgba(200,169,96,.15);z-index:5" id="fx-ticker-wrap">
+    <div style="flex-shrink:0;overflow:hidden;background:rgba(26,26,26,.85);backdrop-filter:blur(8px);padding:7px 16px;border-bottom:1px solid rgba(242,169,59,.15);z-index:5" id="fx-ticker-wrap">
       <div id="fx-ticker" style="display:flex;gap:32px;animation:tickerScroll 30s linear infinite;white-space:nowrap;font-size:13px;color:var(--text-dim)"></div>
     </div>
     <div class="fs-btn" onclick="toggleFS(this.parentElement)" title="Plein écran">⛶</div>
@@ -222,48 +222,48 @@
 
       <!-- BUILDINGS — medical destinations (brighter) -->
       <!-- Bât. Opéra / Chirurgie -->
-      <rect x="385" y="175" width="165" height="105" rx="6" fill="rgba(230,57,70,.06)" stroke="rgba(230,57,70,.2)" stroke-width="1.5"/>
-      <text x="467" y="218" text-anchor="middle" font-size="11" fill="rgba(230,57,70,.8)" font-weight="700" font-family="var(--font-body)">Bât. Opéra</text>
-      <text x="467" y="231" text-anchor="middle" font-size="8.5" fill="rgba(230,57,70,.6)" font-family="var(--font-body)">Chirurgie · Transplant. · SI</text>
+      <rect x="385" y="175" width="165" height="105" rx="6" fill="rgba(179,38,30,.06)" stroke="rgba(179,38,30,.2)" stroke-width="1.5"/>
+      <text x="467" y="218" text-anchor="middle" font-size="11" fill="rgba(179,38,30,.8)" font-weight="700" font-family="var(--font-body)">Bât. Opéra</text>
+      <text x="467" y="231" text-anchor="middle" font-size="8.5" fill="rgba(179,38,30,.6)" font-family="var(--font-body)">Chirurgie · Transplant. · SI</text>
 
       <!-- Urgences Adultes -->
-      <rect x="118" y="255" width="105" height="42" rx="5" fill="rgba(240,160,75,.06)" stroke="rgba(240,160,75,.25)" stroke-width="1.5"/>
-      <text x="170" y="278" text-anchor="middle" font-size="10" fill="rgba(240,160,75,.85)" font-weight="700" font-family="var(--font-body)">Urgences Adultes</text>
+      <rect x="118" y="255" width="105" height="42" rx="5" fill="rgba(247,193,103,.06)" stroke="rgba(247,193,103,.25)" stroke-width="1.5"/>
+      <text x="170" y="278" text-anchor="middle" font-size="10" fill="rgba(247,193,103,.85)" font-weight="700" font-family="var(--font-body)">Urgences Adultes</text>
 
       <!-- Radio-Oncologie -->
-      <rect x="548" y="135" width="88" height="40" rx="5" fill="rgba(155,89,182,.06)" stroke="rgba(155,89,182,.25)" stroke-width="1.5"/>
-      <text x="592" y="154" text-anchor="middle" font-size="10" fill="rgba(155,89,182,.85)" font-weight="700" font-family="var(--font-body)">Radio-Oncologie</text>
-      <text x="592" y="166" text-anchor="middle" font-size="8" fill="rgba(155,89,182,.65)" font-family="var(--font-body)">Hématologie</text>
+      <rect x="548" y="135" width="88" height="40" rx="5" fill="rgba(15,149,241,.06)" stroke="rgba(15,149,241,.25)" stroke-width="1.5"/>
+      <text x="592" y="154" text-anchor="middle" font-size="10" fill="rgba(15,149,241,.85)" font-weight="700" font-family="var(--font-body)">Radio-Oncologie</text>
+      <text x="592" y="166" text-anchor="middle" font-size="8" fill="rgba(15,149,241,.65)" font-family="var(--font-body)">Hématologie</text>
 
       <!-- Urgences Enfants -->
-      <rect x="795" y="205" width="75" height="26" rx="4" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.25)" stroke-width="1.5"/>
-      <text x="832" y="222" text-anchor="middle" font-size="9.5" fill="rgba(79,195,247,.85)" font-weight="700" font-family="var(--font-body)">Urg. Enfants</text>
+      <rect x="795" y="205" width="75" height="26" rx="4" fill="rgba(15,149,241,.06)" stroke="rgba(15,149,241,.25)" stroke-width="1.5"/>
+      <text x="832" y="222" text-anchor="middle" font-size="9.5" fill="rgba(15,149,241,.85)" font-weight="700" font-family="var(--font-body)">Urg. Enfants</text>
 
       <!-- Hôpital des Enfants / Néonat -->
-      <rect x="795" y="235" width="75" height="50" rx="4" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.2)" stroke-width="1.5"/>
-      <text x="832" y="258" text-anchor="middle" font-size="9.5" fill="rgba(79,195,247,.8)" font-weight="700" font-family="var(--font-body)">Hôp. Enfants</text>
-      <text x="832" y="270" text-anchor="middle" font-size="8" fill="rgba(79,195,247,.6)" font-family="var(--font-body)">Néonatologie</text>
+      <rect x="795" y="235" width="75" height="50" rx="4" fill="rgba(15,149,241,.06)" stroke="rgba(15,149,241,.2)" stroke-width="1.5"/>
+      <text x="832" y="258" text-anchor="middle" font-size="9.5" fill="rgba(15,149,241,.8)" font-weight="700" font-family="var(--font-body)">Hôp. Enfants</text>
+      <text x="832" y="270" text-anchor="middle" font-size="8" fill="rgba(15,149,241,.6)" font-family="var(--font-body)">Néonatologie</text>
 
       <!-- Maternité -->
-      <rect x="630" y="280" width="118" height="65" rx="5" fill="rgba(46,204,113,.06)" stroke="rgba(46,204,113,.2)" stroke-width="1.5"/>
-      <text x="689" y="310" text-anchor="middle" font-size="10.5" fill="rgba(46,204,113,.8)" font-weight="700" font-family="var(--font-body)">Maternité</text>
-      <text x="689" y="323" text-anchor="middle" font-size="8" fill="rgba(46,204,113,.6)" font-family="var(--font-body)">Obstétrique</text>
+      <rect x="630" y="280" width="118" height="65" rx="5" fill="rgba(15,149,241,.06)" stroke="rgba(15,149,241,.2)" stroke-width="1.5"/>
+      <text x="689" y="310" text-anchor="middle" font-size="10.5" fill="rgba(15,149,241,.8)" font-weight="700" font-family="var(--font-body)">Maternité</text>
+      <text x="689" y="323" text-anchor="middle" font-size="8" fill="rgba(15,149,241,.6)" font-family="var(--font-body)">Obstétrique</text>
 
       <!-- MEA — coin Bd de la Cluse / Rue Willy-Donzé -->
       <rect x="795" y="290" width="55" height="50" rx="4" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
       <text x="822" y="320" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.4)" font-weight="700" font-family="var(--font-body)">MEA</text>
 
       <!-- ===== CTS — BÂT. MORIER (SOURCE) ===== -->
-      <rect x="90" y="105" width="92" height="52" rx="7" fill="rgba(200,169,96,.1)" stroke="rgba(200,169,96,.6)" stroke-width="2.5" filter="url(#cts-glow)"/>
-      <text x="136" y="126" text-anchor="middle" font-size="12" fill="#C8A960" font-weight="700" font-family="var(--font-display)">🩸 CTS</text>
-      <text x="136" y="138" text-anchor="middle" font-size="9" fill="rgba(200,169,96,.8)" font-weight="600" font-family="var(--font-body)">Bât. Morier</text>
+      <rect x="90" y="105" width="92" height="52" rx="7" fill="rgba(242,169,59,.1)" stroke="rgba(242,169,59,.6)" stroke-width="2.5" filter="url(#cts-glow)"/>
+      <text x="136" y="126" text-anchor="middle" font-size="12" fill="#F2A93B" font-weight="700" font-family="var(--font-display)">🩸 CTS</text>
+      <text x="136" y="138" text-anchor="middle" font-size="9" fill="rgba(242,169,59,.8)" font-weight="600" font-family="var(--font-body)">Bât. Morier</text>
 
       <!-- ===== BÂT. LABORATOIRES (adjacent CTS, heavy traffic) ===== -->
-      <rect x="55" y="30" width="112" height="52" rx="6" fill="rgba(79,195,247,.06)" stroke="rgba(79,195,247,.3)" stroke-width="1.5"/>
-      <text x="111" y="52" text-anchor="middle" font-size="10.5" fill="rgba(79,195,247,.85)" font-weight="700" font-family="var(--font-body)">Bât. Laboratoires</text>
-      <text x="111" y="65" text-anchor="middle" font-size="8" fill="rgba(79,195,247,.6)" font-family="var(--font-body)">Analyses · Sérologie · RAI</text>
+      <rect x="55" y="30" width="112" height="52" rx="6" fill="rgba(15,149,241,.06)" stroke="rgba(15,149,241,.3)" stroke-width="1.5"/>
+      <text x="111" y="52" text-anchor="middle" font-size="10.5" fill="rgba(15,149,241,.85)" font-weight="700" font-family="var(--font-body)">Bât. Laboratoires</text>
+      <text x="111" y="65" text-anchor="middle" font-size="8" fill="rgba(15,149,241,.6)" font-family="var(--font-body)">Analyses · Sérologie · RAI</text>
       <!-- CTS pulse ring -->
-      <rect x="90" y="105" width="92" height="52" rx="7" fill="none" stroke="rgba(200,169,96,.3)" stroke-width="1">
+      <rect x="90" y="105" width="92" height="52" rx="7" fill="none" stroke="rgba(242,169,59,.3)" stroke-width="1">
         <animate attributeName="stroke-opacity" values=".3;0;.3" dur="2s" repeatCount="indefinite"/>
         <animate attributeName="x" values="90;85;90" dur="2s" repeatCount="indefinite"/>
         <animate attributeName="y" values="105;100;105" dur="2s" repeatCount="indefinite"/>
@@ -274,113 +274,113 @@
       <!-- ===== FLOW PATHS (dashed lines) ===== -->
       <g fill="none" stroke-dasharray="4,6" stroke-linecap="round" opacity=".55">
         <!-- CTS → Laboratoires (tubes, échantillons — high traffic) -->
-        <path id="fp-lab-up" d="M130,105 C125,95 118,88 111,82" stroke="#4FC3F7" stroke-width="2.5"/>
+        <path id="fp-lab-up" d="M130,105 C125,95 118,88 111,82" stroke="#0F95F1" stroke-width="2.5"/>
         <!-- Laboratoires → CTS (résultats, validations — high traffic) -->
-        <path id="fp-lab-dn" d="M115,82 C120,90 128,98 136,105" stroke="#2ECC71" stroke-width="2"/>
+        <path id="fp-lab-dn" d="M115,82 C120,90 128,98 136,105" stroke="#0F95F1" stroke-width="2"/>
         <!-- CTS → Urgences Adultes -->
-        <path id="fp1" d="M136,162 C136,200 155,240 170,255" stroke="#F0A04B" stroke-width="2"/>
+        <path id="fp1" d="M136,162 C136,200 155,240 170,255" stroke="#F7C167" stroke-width="2"/>
         <!-- CTS → Opéra / Chirurgie -->
-        <path id="fp2" d="M190,131 C260,131 320,180 375,210" stroke="#E63946" stroke-width="2"/>
+        <path id="fp2" d="M190,131 C260,131 320,180 375,210" stroke="#B3261E" stroke-width="2"/>
         <!-- CTS → Radio-Onco -->
-        <path id="fp3" d="M190,120 C300,100 430,110 550,145" stroke="#9B59B6" stroke-width="2"/>
+        <path id="fp3" d="M190,120 C300,100 430,110 550,145" stroke="#0F95F1" stroke-width="2"/>
         <!-- CTS → Soins Intensifs (via Opéra) -->
-        <path id="fp4" d="M190,140 C280,150 380,200 440,255" stroke="#F4D03F" stroke-width="2"/>
+        <path id="fp4" d="M190,140 C280,150 380,200 440,255" stroke="#F7C167" stroke-width="2"/>
         <!-- CTS → Maternité -->
-        <path id="fp5" d="M160,162 C200,250 400,300 630,305" stroke="#2ECC71" stroke-width="1.5"/>
+        <path id="fp5" d="M160,162 C200,250 400,300 630,305" stroke="#0F95F1" stroke-width="1.5"/>
         <!-- CTS → Hôp Enfants -->
-        <path id="fp6" d="M190,125 C350,110 600,170 780,245" stroke="#4FC3F7" stroke-width="1.5"/>
+        <path id="fp6" d="M190,125 C350,110 600,170 780,245" stroke="#0F95F1" stroke-width="1.5"/>
         <!-- CTS → Érythrocytaphérèse -->
-        <path id="fp7" d="M160,105 C200,90 240,60 260,42" stroke="#C8A960" stroke-width="1.5"/>
+        <path id="fp7" d="M160,105 C200,90 240,60 260,42" stroke="#F2A93B" stroke-width="1.5"/>
         <!-- CTS → Julliard (CE) -->
-        <path id="fp8" d="M182,131 C300,140 420,180 560,250" stroke="#E63946" stroke-width="1.5"/>
+        <path id="fp8" d="M182,131 C300,140 420,180 560,250" stroke="#B3261E" stroke-width="1.5"/>
       </g>
 
       <!-- ===== EXTERNAL FLOW ARROWS ===== -->
       <g fill="none" stroke-dasharray="6,8" stroke-linecap="round" opacity=".25" marker-end="url(#arrow-out)">
         <!-- Plasma → Octapharma (off-screen right) -->
-        <path d="M190,145 C250,160 400,340 600,360 Q 750,370 900,365" stroke="#F4D03F" stroke-width="2"/>
+        <path d="M190,145 C250,160 400,340 600,360 Q 750,370 900,365" stroke="#F7C167" stroke-width="2"/>
         <!-- CE → Hôpitaux cantonaux (off-screen top-right) -->
-        <path d="M190,115 C300,80 500,40 700,20 L 900,0" stroke="#E63946" stroke-width="1.5"/>
+        <path d="M190,115 C300,80 500,40 700,20 L 900,0" stroke="#B3261E" stroke-width="1.5"/>
       </g>
       <!-- External labels -->
       <g font-size="8" font-family="var(--font-body)" font-style="italic">
-        <text x="550" y="385" fill="rgba(244,208,63,.45)" font-style="italic" font-size="8.5">→ Fractionnement plasma (Octapharma)</text>
-        <text x="430" y="14" fill="rgba(230,57,70,.35)">→ Cliniques & hôpitaux externes (La Tour, HNe…)</text>
+        <text x="550" y="385" fill="rgba(247,193,103,.45)" font-style="italic" font-size="8.5">→ Fractionnement plasma (Octapharma)</text>
+        <text x="430" y="14" fill="rgba(179,38,30,.35)">→ Cliniques & hôpitaux externes (La Tour, HNe…)</text>
       </g>
 
       <!-- ===== ANIMATED PARTICLES (sparse, realistic pace) ===== -->
       <!-- CTS ↔ Lab (tubes/résultats — most frequent traffic) -->
-      <circle r="4" fill="#4FC3F7" opacity=".85" filter="url(#p-glow)">
+      <circle r="4" fill="#0F95F1" opacity=".85" filter="url(#p-glow)">
         <animateMotion dur="2.5s" repeatCount="indefinite" path="M130,105 C125,95 118,88 111,82"/></circle>
-      <circle r="3.5" fill="#4FC3F7" opacity=".6" filter="url(#p-glow)">
+      <circle r="3.5" fill="#0F95F1" opacity=".6" filter="url(#p-glow)">
         <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s" path="M130,105 C125,95 118,88 111,82"/></circle>
-      <circle r="4" fill="#2ECC71" opacity=".8" filter="url(#p-glow)">
+      <circle r="4" fill="#0F95F1" opacity=".8" filter="url(#p-glow)">
         <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.8s" path="M115,82 C120,90 128,98 136,105"/></circle>
 
       <!-- CE → Urgences (red) -->
-      <circle r="4.5" fill="#E63946" opacity=".85" filter="url(#p-glow)">
+      <circle r="4.5" fill="#B3261E" opacity=".85" filter="url(#p-glow)">
         <animateMotion dur="5s" repeatCount="indefinite" path="M136,162 C136,200 155,240 170,255"/></circle>
 
       <!-- CE → Opéra / Chirurgie (red) -->
-      <circle r="4.5" fill="#E63946" opacity=".8" filter="url(#p-glow)">
+      <circle r="4.5" fill="#B3261E" opacity=".8" filter="url(#p-glow)">
         <animateMotion dur="5.5s" repeatCount="indefinite" begin="2s" path="M190,131 C260,131 320,180 375,210"/></circle>
 
       <!-- CP → Radio-Onco (purple) -->
-      <circle r="4" fill="#9B59B6" opacity=".8" filter="url(#p-glow)">
+      <circle r="4" fill="#0F95F1" opacity=".8" filter="url(#p-glow)">
         <animateMotion dur="6s" repeatCount="indefinite" begin="1s" path="M190,120 C300,100 430,110 550,145"/></circle>
 
       <!-- PFC → Soins Intensifs (yellow) -->
-      <circle r="3" fill="#F4D03F" opacity=".8" filter="url(#p-glow)">
+      <circle r="3" fill="#F7C167" opacity=".8" filter="url(#p-glow)">
         <animateMotion dur="6s" repeatCount="indefinite" begin="3s" path="M190,140 C280,150 380,200 440,255"/></circle>
 
       <!-- CE → Maternité -->
-      <circle r="4" fill="#E63946" opacity=".75" filter="url(#p-glow)">
+      <circle r="4" fill="#B3261E" opacity=".75" filter="url(#p-glow)">
         <animateMotion dur="7s" repeatCount="indefinite" begin="4s" path="M160,162 C200,250 400,300 630,305"/></circle>
 
       <!-- CE → Hôp Enfants -->
-      <circle r="2.5" fill="#E63946" opacity=".45" filter="url(#p-glow)">
+      <circle r="2.5" fill="#B3261E" opacity=".45" filter="url(#p-glow)">
         <animateMotion dur="8s" repeatCount="indefinite" begin="5s" path="M190,125 C350,110 600,170 780,245"/></circle>
 
       <!-- CE phénotypés → Érythrocytaphérèse (gold) -->
-      <circle r="2.5" fill="#C8A960" opacity=".85" filter="url(#p-glow)">
+      <circle r="2.5" fill="#F2A93B" opacity=".85" filter="url(#p-glow)">
         <animateMotion dur="4s" repeatCount="indefinite" begin="2s" path="M160,105 C200,90 240,60 260,42"/></circle>
 
       <!-- Plasma → Octapharma (yellow, très lent) -->
-      <circle r="2.5" fill="#F4D03F" opacity=".35" filter="url(#p-glow)">
+      <circle r="2.5" fill="#F7C167" opacity=".35" filter="url(#p-glow)">
         <animateMotion dur="12s" repeatCount="indefinite" path="M190,145 C250,160 400,340 600,360 Q750,370 900,365"/></circle>
 
       <!-- CE → Hôp cantonaux (red, très lent) -->
-      <circle r="2.5" fill="#E63946" opacity=".3" filter="url(#p-glow)">
+      <circle r="2.5" fill="#B3261E" opacity=".3" filter="url(#p-glow)">
         <animateMotion dur="10s" repeatCount="indefinite" begin="3s" path="M190,115 C300,80 500,40 700,20 L900,0"/></circle>
 
       <!-- ===== ENTRÉES — Commande externe → CTS ===== -->
       <!-- Commande externe (bas) → CTS : CE rouge, lent -->
-      <circle r="4" fill="#E63946" opacity=".5" filter="url(#p-glow)">
+      <circle r="4" fill="#B3261E" opacity=".5" filter="url(#p-glow)">
         <animateMotion dur="8s" repeatCount="indefinite" path="M400,390 C300,340 200,260 136,148"/></circle>
       <!-- Commande externe (gauche) → CTS : CP violet, lent -->
-      <circle r="3.5" fill="#9B59B6" opacity=".45" filter="url(#p-glow)">
+      <circle r="3.5" fill="#0F95F1" opacity=".45" filter="url(#p-glow)">
         <animateMotion dur="9s" repeatCount="indefinite" begin="4s" path="M0,60 C40,75 80,95 130,122"/></circle>
       <!-- Commande externe (droite) → CTS : PFC jaune, lent -->
-      <circle r="3.5" fill="#F4D03F" opacity=".45" filter="url(#p-glow)">
+      <circle r="3.5" fill="#F7C167" opacity=".45" filter="url(#p-glow)">
         <animateMotion dur="10s" repeatCount="indefinite" begin="6s" path="M860,120 C650,105 400,105 148,128"/></circle>
 
       <!-- Labels entrées — aux points d'origine des particules, flèches vers CTS -->
-      <text x="855" y="112" text-anchor="end" font-size="9" fill="rgba(200,169,96,.7)" font-weight="700" font-family="var(--font-body)">← Commande externe</text>
+      <text x="855" y="112" text-anchor="end" font-size="9" fill="rgba(242,169,59,.7)" font-weight="700" font-family="var(--font-body)">← Commande externe</text>
 
       <!-- Érythrocytaphérèse label (near Lab, top) -->
-      <rect x="228" y="30" width="110" height="18" rx="3" fill="rgba(200,169,96,.08)" stroke="rgba(200,169,96,.2)" stroke-width="1"/>
-      <text x="283" y="42" text-anchor="middle" font-size="9" fill="rgba(200,169,96,.75)" font-weight="700" font-family="var(--font-body)">Érythrocytaphérèse</text>
+      <rect x="228" y="30" width="110" height="18" rx="3" fill="rgba(242,169,59,.08)" stroke="rgba(242,169,59,.2)" stroke-width="1"/>
+      <text x="283" y="42" text-anchor="middle" font-size="9" fill="rgba(242,169,59,.75)" font-weight="700" font-family="var(--font-body)">Érythrocytaphérèse</text>
 
       <!-- LEGEND in SVG (bottom-right, hidden on mobile) -->
       <g class="flux-svg-legend" transform="translate(200,420)" font-size="10" font-family="var(--font-body)">
-        <rect x="-8" y="-14" width="480" height="52" rx="5" fill="rgba(10,14,20,.75)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <circle cx="10" cy="0" r="5" fill="#E63946"/><text x="22" y="4" fill="rgba(255,255,255,.75)">CE · Globules rouges</text>
-        <circle cx="150" cy="0" r="5" fill="#9B59B6"/><text x="162" y="4" fill="rgba(255,255,255,.75)">CP · Plaquettes</text>
-        <circle cx="280" cy="0" r="5" fill="#F4D03F"/><text x="292" y="4" fill="rgba(255,255,255,.75)">PFC · Plasma</text>
-        <circle cx="390" cy="0" r="5" fill="#C8A960"/><text x="402" y="4" fill="rgba(255,255,255,.75)">CE phénotypés</text>
-        <circle cx="10" cy="24" r="5" fill="#4FC3F7"/><text x="22" y="28" fill="rgba(255,255,255,.75)">CTS → Labo</text>
-        <circle cx="150" cy="24" r="5" fill="#2ECC71"/><text x="162" y="28" fill="rgba(255,255,255,.75)">Labo → CTS</text>
-        <text x="280" y="28" fill="rgba(200,169,96,.7)" font-weight="600">● Commande externe → CTS</text>
+        <rect x="-8" y="-14" width="480" height="52" rx="5" fill="rgba(20,20,20,.75)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <circle cx="10" cy="0" r="5" fill="#B3261E"/><text x="22" y="4" fill="rgba(255,255,255,.75)">CE · Globules rouges</text>
+        <circle cx="150" cy="0" r="5" fill="#0F95F1"/><text x="162" y="4" fill="rgba(255,255,255,.75)">CP · Plaquettes</text>
+        <circle cx="280" cy="0" r="5" fill="#F7C167"/><text x="292" y="4" fill="rgba(255,255,255,.75)">PFC · Plasma</text>
+        <circle cx="390" cy="0" r="5" fill="#F2A93B"/><text x="402" y="4" fill="rgba(255,255,255,.75)">CE phénotypés</text>
+        <circle cx="10" cy="24" r="5" fill="#0F95F1"/><text x="22" y="28" fill="rgba(255,255,255,.75)">CTS → Labo</text>
+        <circle cx="150" cy="24" r="5" fill="#0F95F1"/><text x="162" y="28" fill="rgba(255,255,255,.75)">Labo → CTS</text>
+        <text x="280" y="28" fill="rgba(242,169,59,.7)" font-weight="600">● Commande externe → CTS</text>
       </g>
     </svg>
     <!-- Legend for fullscreen mobile -->
@@ -455,7 +455,7 @@
         <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Transplantation</span><span style="font-weight:700;color:var(--teal);white-space:nowrap">3&nbsp;CE + 2&nbsp;PFC</span></div>
         <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:6px;height:6px;border-radius:50%;background:var(--text-muted);flex-shrink:0"></span><span style="flex:1;color:var(--text-dim)">Érythrocytaphérèse</span><span style="font-weight:700;color:var(--text-muted);white-space:nowrap">4&nbsp;CE phénotypés</span></div>
       </div>
-      <div style="margin-top:10px;padding:10px 12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.1);border-radius:var(--radius-sm)">
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.1);border-radius:var(--radius-sm)">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="font-size:13px;font-weight:700;color:var(--gold)">📈 Prescriptions 24h</div>
           <div style="display:flex;gap:6px;font-size:12px">
@@ -474,19 +474,19 @@
       <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
       <div class="card-header"><div class="card-title">🔴 Alertes</div><span class="badge badge-red">4</span></div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div style="padding:6px 8px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm);font-size:15px">
+        <div style="padding:6px 8px;background:rgba(179,38,30,.08);border:1px solid rgba(179,38,30,.12);border-radius:var(--radius-sm);font-size:15px">
           <div style="font-weight:700;color:var(--red-soft)">⚠️ O- critique : 14 poches (CE)</div>
           <div style="color:var(--text-dim);margin-top:2px">3 expirent dans 48h · Convocations envoyées</div>
         </div>
-        <div style="padding:6px 8px;background:rgba(200,169,96,.08);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);font-size:15px">
+        <div style="padding:6px 8px;background:rgba(242,169,59,.08);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm);font-size:15px">
           <div style="font-weight:700;color:var(--gold)">🧬 CE phénotypé Fy(a−b−) : 2 poches</div>
           <div style="color:var(--text-dim);margin-top:2px">Vit avec une drépanocytose — échange transfusionnel J+3 · Donneurs rares contactés</div>
         </div>
-        <div style="padding:6px 8px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm);font-size:15px">
+        <div style="padding:6px 8px;background:rgba(179,38,30,.08);border:1px solid rgba(179,38,30,.12);border-radius:var(--radius-sm);font-size:15px">
           <div style="font-weight:700;color:var(--red-soft)">⚠️ B- très bas : 9 poches (CE)</div>
           <div style="color:var(--text-dim);margin-top:2px">1 expire demain · Collecte ciblée vendredi</div>
         </div>
-        <div style="padding:8px;background:rgba(155,89,182,.08);border:1px solid rgba(155,89,182,.12);border-radius:var(--radius-sm);font-size:15px">
+        <div style="padding:8px;background:rgba(15,149,241,.08);border:1px solid rgba(15,149,241,.12);border-radius:var(--radius-sm);font-size:15px">
           <div style="font-weight:700;color:var(--purple)">⏰ 5 CP (plaquettes) expirent ce soir</div>
           <div style="color:var(--text-dim);margin-top:2px">Attribution prioritaire → oncologie</div>
         </div>
@@ -509,28 +509,28 @@
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="flux-predict-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🔮 Predictive AI — Anticiper les pénuries <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="flux-predict-acc">
-  <div class="card" style="border:1px solid rgba(155,89,182,.2);background:linear-gradient(135deg,rgba(155,89,182,.04),rgba(79,195,247,.04))">
-    <div class="card-header"><div class="card-title">🔮 Predictive Stock AI</div><span class="badge" style="background:rgba(155,89,182,.15);color:var(--purple)">ML</span></div>
+  <div class="card" style="border:1px solid rgba(15,149,241,.2);background:linear-gradient(135deg,rgba(15,149,241,.04),rgba(15,149,241,.04))">
+    <div class="card-header"><div class="card-title">🔮 Predictive Stock AI</div><span class="badge" style="background:rgba(15,149,241,.15);color:var(--purple)">ML</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Machine learning sur 5 ans de données : patterns saisonniers, chirurgies planifiées, météo, épidémies, vacances scolaires.</div>
 
     <!-- Prediction cards -->
     <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="padding:12px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
-        <div style="width:50px;height:50px;border-radius:50%;background:rgba(230,57,70,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--red-soft);flex-shrink:0">87%</div>
+      <div style="padding:12px;background:rgba(179,38,30,.08);border:1px solid rgba(179,38,30,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(179,38,30,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--red-soft);flex-shrink:0">87%</div>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:700;color:var(--red-soft)">⚠️ Pénurie O− prédite le 28 février</div>
           <div style="font-size:13px;color:var(--text-dim)">Vacances ski + chirurgies planifiées · <strong>Si 12 donneurs O− donnent d'ici le 24, pénurie évitée</strong></div>
         </div>
       </div>
-      <div style="padding:12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
-        <div style="width:50px;height:50px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);flex-shrink:0">64%</div>
+      <div style="padding:12px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(242,169,59,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gold);flex-shrink:0">64%</div>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:700;color:var(--gold)">🔶 Tension plaquettes mi-mars</div>
           <div style="font-size:13px;color:var(--text-dim)">Période grippale → augmentation leucémies · Aphérèse recommandée</div>
         </div>
       </div>
-      <div style="padding:12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
-        <div style="width:50px;height:50px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--green);flex-shrink:0">92%</div>
+      <div style="padding:12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius);display:flex;align-items:center;gap:10px">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--green);flex-shrink:0">92%</div>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:700;color:var(--green)">✅ Stock A+ stable jusqu'en avril</div>
           <div style="font-size:13px;color:var(--text-dim)">Donneurs réguliers suffisants · Pas d'action requise</div>
@@ -557,18 +557,18 @@
       <div class="fs-btn" onclick="toggleFS(this.parentElement)">⛶</div>
       <div class="card-header"><div class="card-title">👥 Derniers donneurs</div></div>
       <div style="display:flex;flex-direction:column;gap:5px;max-height:420px;overflow-y:auto" id="fx-donors">
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🦅</div><div style="flex:1;min-width:0"><div style="font-weight:600">Faucon-283</div><div style="font-size:13px;color:var(--text-muted)">B+ · CE validé · 14:23</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">Rare 🧬</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">YT</div><div style="flex:1;min-width:0"><div style="font-weight:600">Corail-517</div><div style="font-size:13px;color:var(--text-muted)">A+ · CE validé · 13:42</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">5e don 🏅</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(79,195,247,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">LM</div><div style="flex:1;min-width:0"><div style="font-weight:600">Érable-142</div><div style="font-size:13px;color:var(--text-muted)">O+ · CE + PFC · 12:15</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">1er don ⭐</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(155,89,182,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">SC</div><div style="flex:1;min-width:0"><div style="font-weight:600">SACO</div><div style="font-size:13px;color:var(--text-muted)">O- · CE validé · 11:30</div></div><span class="badge badge-red" style="font-size:12px;white-space:nowrap">Universel 🦸</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(230,126,34,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">MP</div><div style="flex:1;min-width:0"><div style="font-weight:600">Aurore-694</div><div style="font-size:13px;color:var(--text-muted)">AB- · CE validé · 10:58</div></div><span class="badge badge-blue" style="font-size:12px;white-space:nowrap">8e don 🔄</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(230,57,70,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">CB</div><div style="flex:1;min-width:0"><div style="font-weight:600">Colibri-831</div><div style="font-size:13px;color:var(--text-muted)">A- · CP validé · 10:35</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">2e don</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">NR</div><div style="flex:1;min-width:0"><div style="font-weight:600">Opale-956</div><div style="font-size:13px;color:var(--text-muted)">O+ · CE validé · 10:12</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">1er don ⭐</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🪨</div><div style="flex:1;min-width:0"><div style="font-weight:600">Granite-723</div><div style="font-size:13px;color:var(--text-muted)">B- · CE validé · 09:47</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">15e don 🥈</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(79,195,247,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🌿</div><div style="flex:1;min-width:0"><div style="font-weight:600">Mousse-614</div><div style="font-size:13px;color:var(--text-muted)">AB+ · PFC validé · 09:20</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">28e don 🥇</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(155,89,182,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">TD</div><div style="flex:1;min-width:0"><div style="font-weight:600">Silex-338</div><div style="font-size:13px;color:var(--text-muted)">A+ · CE validé · 08:55</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">3e don</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(230,57,70,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">EV</div><div style="flex:1;min-width:0"><div style="font-weight:600">Brume-507</div><div style="font-size:13px;color:var(--text-muted)">O- · CE validé · 08:30</div></div><span class="badge badge-red" style="font-size:12px;white-space:nowrap">Universel 🦸</span></div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">HA</div><div style="flex:1;min-width:0"><div style="font-weight:600">HAAL</div><div style="font-size:13px;color:var(--text-muted)">A+ · CP validé · 08:10</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">4e don</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(242,169,59,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🦅</div><div style="flex:1;min-width:0"><div style="font-weight:600">Faucon-283</div><div style="font-size:13px;color:var(--text-muted)">B+ · CE validé · 14:23</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">Rare 🧬</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">YT</div><div style="flex:1;min-width:0"><div style="font-weight:600">Corail-517</div><div style="font-size:13px;color:var(--text-muted)">A+ · CE validé · 13:42</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">5e don 🏅</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">LM</div><div style="flex:1;min-width:0"><div style="font-weight:600">Érable-142</div><div style="font-size:13px;color:var(--text-muted)">O+ · CE + PFC · 12:15</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">1er don ⭐</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">SC</div><div style="flex:1;min-width:0"><div style="font-weight:600">SACO</div><div style="font-size:13px;color:var(--text-muted)">O- · CE validé · 11:30</div></div><span class="badge badge-red" style="font-size:12px;white-space:nowrap">Universel 🦸</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(224,137,6,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">MP</div><div style="flex:1;min-width:0"><div style="font-weight:600">Aurore-694</div><div style="font-size:13px;color:var(--text-muted)">AB- · CE validé · 10:58</div></div><span class="badge badge-blue" style="font-size:12px;white-space:nowrap">8e don 🔄</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(179,38,30,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">CB</div><div style="flex:1;min-width:0"><div style="font-weight:600">Colibri-831</div><div style="font-size:13px;color:var(--text-muted)">A- · CP validé · 10:35</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">2e don</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">NR</div><div style="flex:1;min-width:0"><div style="font-weight:600">Opale-956</div><div style="font-size:13px;color:var(--text-muted)">O+ · CE validé · 10:12</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">1er don ⭐</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(242,169,59,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🪨</div><div style="flex:1;min-width:0"><div style="font-weight:600">Granite-723</div><div style="font-size:13px;color:var(--text-muted)">B- · CE validé · 09:47</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">15e don 🥈</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">🌿</div><div style="flex:1;min-width:0"><div style="font-weight:600">Mousse-614</div><div style="font-size:13px;color:var(--text-muted)">AB+ · PFC validé · 09:20</div></div><span class="badge badge-gold" style="font-size:12px;white-space:nowrap">28e don 🥇</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">TD</div><div style="flex:1;min-width:0"><div style="font-weight:600">Silex-338</div><div style="font-size:13px;color:var(--text-muted)">A+ · CE validé · 08:55</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">3e don</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(179,38,30,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">EV</div><div style="flex:1;min-width:0"><div style="font-weight:600">Brume-507</div><div style="font-size:13px;color:var(--text-muted)">O- · CE validé · 08:30</div></div><span class="badge badge-red" style="font-size:12px;white-space:nowrap">Universel 🦸</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">HA</div><div style="flex:1;min-width:0"><div style="font-weight:600">HAAL</div><div style="font-size:13px;color:var(--text-muted)">A+ · CP validé · 08:10</div></div><span class="badge badge-green" style="font-size:12px;white-space:nowrap">4e don</span></div>
       </div>
     </div>
   </div><!-- /acc-body donors -->
@@ -779,17 +779,6 @@
 </div>
 
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
-  </div>
-</div>
-
 <!-- KEYBOARD SHORTCUTS HINT -->
 <div class="kbd-hint" id="kbd-hint">
   <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
@@ -806,6 +795,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
@@ -857,7 +847,7 @@ try{
 // ===== FLUX CTS CANVAS ENGINE =====
 let fluxAnim=null;
 const FX_GROUPS=['O-','O+','A-','A+','B-','B+','AB-','AB+'];
-const FX_COLORS={rbc:'#E63946',plasma:'#F4D03F',plaq:'#9B59B6',whole:'#4FC3F7'};
+const FX_COLORS={rbc:'#B3261E',plasma:'#F7C167',plaq:'#0F95F1',whole:'#0F95F1'};
 const FX_TYPES=['rbc','plasma','plaq','whole'];
 const FX_LABELS={rbc:'CE',plasma:'PFC',plaq:'CP',whole:'ST'};
 const FX_DESTS=['Chirurgie cardiaque','Oncologie HUG','Urgences','Obstétrique','Pédiatrie','Néonatologie','Soins intensifs','Hématologie','Brûlés','Médecine interne'];
@@ -949,8 +939,8 @@ function initFlux(){
     var hs=document.getElementById('fx-hourly-sub');if(hs){
       var lastDayH=simDay===6?'Bilan samedi matin':'Bilan vendredi';
       hs.textContent=lastDayH+' \u2014 dons / tranche de 2h';}
-    var ab=document.getElementById('fx-activity-badge');if(ab){ab.textContent='\u23f8 Garde';ab.style.animation='none';ab.style.background='rgba(200,169,96,.15)';ab.style.color='var(--gold)';}
-  } else if(isClosed){var lb2=document.getElementById('fx-live-badge');if(lb2){lb2.style.animation='none';lb2.textContent='\u25cf HORS HEURES';lb2.style.background='rgba(200,169,96,.15)';lb2.style.color='var(--gold)';}}
+    var ab=document.getElementById('fx-activity-badge');if(ab){ab.textContent='\u23f8 Garde';ab.style.animation='none';ab.style.background='rgba(242,169,59,.15)';ab.style.color='var(--gold)';}
+  } else if(isClosed){var lb2=document.getElementById('fx-live-badge');if(lb2){lb2.style.animation='none';lb2.textContent='\u25cf HORS HEURES';lb2.style.background='rgba(242,169,59,.15)';lb2.style.color='var(--gold)';}}
   // Populate ticker — dynamic, updates every 30s
   const tickerEl=document.getElementById('fx-ticker');
   function updateTicker(){
@@ -1034,8 +1024,8 @@ function initFlux(){
     hourlyEl.innerHTML=hourlyData.map((v,idx)=>{
       const isFuture=!ctsOff&&idx>currentBucket;
       const pct=Math.max(8,Math.round(v/maxH*100));
-      const color=isFuture?'rgba(255,255,255,.15)':v>=10?'#2ECC71':v>=6?'#F0A04B':'#E63946';
-      const colorSoft=isFuture?'rgba(255,255,255,.05)':v>=10?'rgba(46,204,113,.3)':v>=6?'rgba(240,160,75,.3)':'rgba(230,57,70,.3)';
+      const color=isFuture?'rgba(255,255,255,.15)':v>=10?'#0F95F1':v>=6?'#F7C167':'#B3261E';
+      const colorSoft=isFuture?'rgba(255,255,255,.05)':v>=10?'rgba(15,149,241,.3)':v>=6?'rgba(247,193,103,.3)':'rgba(179,38,30,.3)';
       const valColor=isFuture?'rgba(255,255,255,.2)':color;
       return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:end">'+
         '<div style="font-family:var(--font-mono);font-size:15px;font-weight:700;color:'+valColor+'">'+(isFuture?'–':v)+'</div>'+
@@ -1137,13 +1127,13 @@ function drawFlux(ctx,w,h){
   ctx.clearRect(0,0,w,h);
   // Background gradient
   const bg=ctx.createRadialGradient(w/2,h/2,50,w/2,h/2,w*0.5);
-  bg.addColorStop(0,'rgba(200,169,96,0.03)');bg.addColorStop(1,'transparent');
+  bg.addColorStop(0,'rgba(242,169,59,0.03)');bg.addColorStop(1,'transparent');
   ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
   // Center hub
   ctx.beginPath();ctx.arc(w/2,h/2,60,0,Math.PI*2);
-  ctx.fillStyle='rgba(200,169,96,0.06)';ctx.fill();
-  ctx.strokeStyle='rgba(200,169,96,0.15)';ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle='rgba(200,169,96,0.8)';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle='rgba(242,169,59,0.06)';ctx.fill();
+  ctx.strokeStyle='rgba(242,169,59,0.15)';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='rgba(242,169,59,0.8)';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText('CTS',w/2,h/2-10);ctx.font='12px sans-serif';ctx.fillText('HUG',w/2,h/2+14);
   // Orbit rings
   for(let r=120;r<w*0.5;r+=100){
@@ -1181,8 +1171,8 @@ function drawFlux(ctx,w,h){
     ctx.font=`${p.size*0.4}px sans-serif`;ctx.fillStyle='rgba(255,255,255,0.6)';
     ctx.fillText(FX_LABELS[p.type],p.x,p.y+p.size+10);
     // Direction arrow
-    if(p.goingOut){ctx.fillStyle='rgba(230,57,70,0.5)';ctx.fillText('↑',p.x,p.y-p.size-8);}
-    else{ctx.fillStyle='rgba(46,204,113,0.5)';ctx.fillText('↓',p.x,p.y-p.size-8);}
+    if(p.goingOut){ctx.fillStyle='rgba(179,38,30,0.5)';ctx.fillText('↑',p.x,p.y-p.size-8);}
+    else{ctx.fillStyle='rgba(15,149,241,0.5)';ctx.fillText('↓',p.x,p.y-p.size-8);}
     ctx.globalAlpha=1;
   }
   // Update HUD

@@ -74,8 +74,8 @@ function checkGate(){
   } else {
     const err=document.getElementById('gate-error');
     err.style.opacity='1';
-    document.getElementById('gate-input').style.borderColor='rgba(230,57,70,.5)';
-    setTimeout(()=>{err.style.opacity='0';document.getElementById('gate-input').style.borderColor='rgba(200,169,96,.25)';},2000);
+    document.getElementById('gate-input').style.borderColor='rgba(179,38,30,.5)';
+    setTimeout(()=>{err.style.opacity='0';document.getElementById('gate-input').style.borderColor='rgba(242,169,59,.25)';},2000);
   }
 }
 var CANTON_STOCKS={
@@ -276,8 +276,33 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNavGroups(true)
 window.addEventListener('resize',updateNavOverflow);
 setTimeout(updateNavOverflow,100);
 
-function toggleNotif(e){e.stopPropagation();document.getElementById('notif-dd').classList.toggle('open')}
-document.addEventListener('click',()=>{const dd=document.getElementById('notif-dd');if(dd)dd.classList.remove('open')});
+function toggleNotif(e){
+  e.stopPropagation();
+  const dd=document.getElementById('notif-dd');
+  const btn=document.querySelector('.nav-notif');
+  if(!dd)return;
+  const open=!dd.classList.contains('open');
+  dd.classList.toggle('open',open);
+  if(btn)btn.setAttribute('aria-expanded',String(open));
+}
+document.querySelectorAll('.nav-notif').forEach(function(btn){
+  btn.setAttribute('role','button');
+  btn.setAttribute('tabindex','0');
+  btn.setAttribute('aria-label','Notifications');
+  btn.setAttribute('aria-expanded','false');
+  btn.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      btn.click();
+    }
+  });
+});
+document.addEventListener('click',()=>{
+  const dd=document.getElementById('notif-dd');
+  const btn=document.querySelector('.nav-notif');
+  if(dd)dd.classList.remove('open');
+  if(btn)btn.setAttribute('aria-expanded','false');
+});
 
 function markAllRead(){
   document.querySelectorAll('.notif-item.unread').forEach(n=>n.classList.remove('unread'));
@@ -294,11 +319,9 @@ function toggleFS(el){
   const isFS=el.classList.contains('fullscreen');
   // Toggle body class — CSS uses this to hide nav, kill view animation stacking context
   document.body.classList.toggle('has-fullscreen',isFS);
-  // Also hide/show bottom bar + footer via JS for older browsers
-  const mb=document.getElementById('mob-bottom');
+  // Also hide/show footer via JS for older browsers
   const af=document.querySelector('.app-footer');
   if(isFS){
-    if(mb){mb.style.display='none';}
     if(af){af.style.display='none';}
     document.body.style.paddingBottom='0';
     document.body.style.overflow='hidden';
@@ -315,7 +338,6 @@ function toggleFS(el){
       }).catch(function(){});
     }catch(e){}
   } else {
-    if(mb){mb.style.display='';}
     if(af){af.style.display='';}
     document.body.style.paddingBottom='';
     document.body.style.overflow='';
@@ -357,7 +379,7 @@ function toggleFS(el){
     [0,50,150,300,500,800,1200].forEach(d=>setTimeout(resizeVid,d));
   }
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){var hadFS=document.querySelectorAll('.fullscreen').length>0;document.querySelectorAll('.fullscreen').forEach(el=>{el.classList.remove('fullscreen');if(el.id==='map-card')el.style.transition='none';const vc=el.querySelector('.vid-player canvas');if(vc){[0,50,200,400,700,1000].forEach(d=>setTimeout(()=>{const wrap=vc.parentElement;const dpr=window.devicePixelRatio||1;const cssW=wrap.offsetWidth;const cssH=wrap.offsetHeight||Math.floor(cssW*9/16);vc.style.width=cssW+'px';vc.style.height=cssH+'px';vc.width=Math.floor(cssW*dpr);vc.height=Math.floor(cssH*dpr);const ctx=vc.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);const idx=['vc-0','vc-1','vc-2','vc-3'].indexOf(vc.id);if(idx>=0&&vidStates[idx]&&vidStates[idx].playing){vidStates[idx].w=cssW;vidStates[idx].h=cssH;vidStates[idx].ctx=ctx;vidStates[idx].canvas=vc;}},d));}});if(hadFS){document.body.classList.remove('has-fullscreen');document.body.style.overflow='';document.documentElement.style.overflow='';document.body.style.paddingBottom='';var mb=document.getElementById('mob-bottom');if(mb)mb.style.display='';var af=document.querySelector('.app-footer');if(af)af.style.display='';if(document.fullscreenElement){try{document.exitFullscreen().catch(function(){});}catch(e2){}}try{screen.orientation.unlock();}catch(e3){}requestAnimationFrame(function(){window.scrollTo(0,_fsScrollY);});}if(window.map)[0,50,200,500,1000].forEach(d=>setTimeout(()=>{map.invalidateSize({animate:false});document.getElementById('map-card').style.transition='';},d));}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){var hadFS=document.querySelectorAll('.fullscreen').length>0;document.querySelectorAll('.fullscreen').forEach(el=>{el.classList.remove('fullscreen');if(el.id==='map-card')el.style.transition='none';const vc=el.querySelector('.vid-player canvas');if(vc){[0,50,200,400,700,1000].forEach(d=>setTimeout(()=>{const wrap=vc.parentElement;const dpr=window.devicePixelRatio||1;const cssW=wrap.offsetWidth;const cssH=wrap.offsetHeight||Math.floor(cssW*9/16);vc.style.width=cssW+'px';vc.style.height=cssH+'px';vc.width=Math.floor(cssW*dpr);vc.height=Math.floor(cssH*dpr);const ctx=vc.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);const idx=['vc-0','vc-1','vc-2','vc-3'].indexOf(vc.id);if(idx>=0&&vidStates[idx]&&vidStates[idx].playing){vidStates[idx].w=cssW;vidStates[idx].h=cssH;vidStates[idx].ctx=ctx;vidStates[idx].canvas=vc;}},d));}});if(hadFS){document.body.classList.remove('has-fullscreen');document.body.style.overflow='';document.documentElement.style.overflow='';document.body.style.paddingBottom='';var af=document.querySelector('.app-footer');if(af)af.style.display='';if(document.fullscreenElement){try{document.exitFullscreen().catch(function(){});}catch(e2){}}try{screen.orientation.unlock();}catch(e3){}requestAnimationFrame(function(){window.scrollTo(0,_fsScrollY);});}if(window.map)[0,50,200,500,1000].forEach(d=>setTimeout(()=>{map.invalidateSize({animate:false});document.getElementById('map-card').style.transition='';},d));}});
 
 // Catch native fullscreen exit (browser ESC on Flux CTS mobile)
 document.addEventListener('fullscreenchange',function(){
@@ -365,7 +387,6 @@ document.addEventListener('fullscreenchange',function(){
     document.querySelectorAll('.fullscreen').forEach(function(el){el.classList.remove('fullscreen');});
     document.body.classList.remove('has-fullscreen');
     document.body.style.overflow='';document.documentElement.style.overflow='';document.body.style.paddingBottom='';
-    var mb=document.getElementById('mob-bottom');if(mb)mb.style.display='';
     var af=document.querySelector('.app-footer');if(af)af.style.display='';
     try{screen.orientation.unlock();}catch(e){}
     requestAnimationFrame(function(){window.scrollTo(0,_fsScrollY);});
@@ -376,7 +397,6 @@ document.addEventListener('webkitfullscreenchange',function(){
     document.querySelectorAll('.fullscreen').forEach(function(el){el.classList.remove('fullscreen');});
     document.body.classList.remove('has-fullscreen');
     document.body.style.overflow='';document.documentElement.style.overflow='';document.body.style.paddingBottom='';
-    var mb=document.getElementById('mob-bottom');if(mb)mb.style.display='';
     var af=document.querySelector('.app-footer');if(af)af.style.display='';
   }
 });
@@ -385,7 +405,6 @@ window.addEventListener('resize',function(){
   if(document.body.classList.contains('has-fullscreen')&&!document.querySelector('.fullscreen')){
     document.body.classList.remove('has-fullscreen');
     document.body.style.overflow='';document.documentElement.style.overflow='';document.body.style.paddingBottom='';
-    var mb=document.getElementById('mob-bottom');if(mb)mb.style.display='';
     var af=document.querySelector('.app-footer');if(af)af.style.display='';
   }
 });
@@ -401,10 +420,6 @@ function goMob(id){
   go(id);
   document.getElementById('mob-menu').classList.remove('show');
   document.getElementById('hamburger').classList.remove('open');
-  // Update mobile bottom bar
-  document.querySelectorAll('.mob-bottom-btn').forEach(b=>b.classList.remove('active'));
-  const mbb=document.querySelector('.mob-bottom-btn[onclick*="'+id+'"]');
-  if(mbb)mbb.classList.add('active');
 }
 
 function showToast(msg){
@@ -716,7 +731,7 @@ function updateOb(){
 
 var tourSteps=[
   {target:'[data-v="hero"]',title:'🏠 Accueil',desc:'Page d\'accueil avec tes stats, l\'actualité du don et un accès rapide à toutes les fonctionnalités.'},
-  {target:'[data-v="dashboard"]',title:'📊 Dashboard',desc:'Ton tableau de bord personnel : prochain don, stocks, historique, objectifs.'},
+  {target:'[data-v="dashboard"]',title:'🪪 Mon profil',desc:'Ton espace personnel : prochain don, stocks, historique, objectifs et badges.'},
   {target:'[data-v="eligibilite"]',title:'✅ Éligibilité',desc:'Test rapide en 8 questions pour savoir si tu peux donner. Puis questionnaire médical HUG complet avec génération PDF.'},
   {target:'[data-v="collectes"]',title:'📍 Collectes',desc:'Carte interactive avec tous les centres CRS de Suisse. Rayon de recherche et détection GPS.'},
   {target:'[data-v="flux"]',title:'🔬 Flux CTS',desc:'Visualisation en temps réel de l\'activité du Centre de Transfusion Sanguine des HUG.'},
@@ -753,14 +768,28 @@ function setTheme(t){
   if(t==='light'){document.body.classList.add('light-mode');try{document.getElementById('theme-light-btn').style.border='2px solid var(--gold)';document.getElementById('theme-dark-btn').style.border='1px solid var(--dark-border)';}catch(e){}}
   else{document.body.classList.remove('light-mode');try{document.getElementById('theme-dark-btn').style.border='2px solid var(--gold)';document.getElementById('theme-light-btn').style.border='1px solid var(--dark-border)';}catch(e){}}
   // Swap map tiles
-  if(window._mapTileLayer&&map){try{var mc=document.getElementById('mapid');if(mc){mc.classList.toggle('map-dark',t!=='light');mc.style.background=t==='light'?'#e8e8e8':'#1a1a2e';}}catch(e){}}
+  if(window._mapTileLayer&&map){try{var mc=document.getElementById('mapid');if(mc){mc.classList.toggle('map-dark',t!=='light');mc.style.background=t==='light'?'#EFEDE9':'#1A1A1A';}}catch(e){}}
   // Force repaint of Flux area
   var fw=document.getElementById('flux-wrap');if(fw){fw.style.display='none';void fw.offsetHeight;fw.style.display='';}
   try{localStorage.setItem('bmb-theme',t);}catch(e){}
 }
 try{if(localStorage.getItem('bmb-theme')==='light')setTheme('light');}catch(e){}
 
-var bcNames={'hero':'Accueil','dashboard':'Dashboard','communaute':'Défis','actualites':'Actualités','flux':'Flux CTS','guide':'Guide du don','eligibilite':'Pré-éligibilité','hemorush':'HémoRush™','collectes':'Collectes','impact':'Impact','chatbot':'BeeBot™','vr':'Réalité virtuelle','videos':'Vidéos','faq':'FAQ','settings':'Paramètres','contact':'Contact','profil':'Profil'};
+var bcNames={'hero':'Accueil','dashboard':'Mon profil','communaute':'Défis','actualites':'Actualités','flux':'Flux CTS','guide':'Guide du don','eligibilite':'Pré-éligibilité','hemorush':'HémoRush™','collectes':'Collectes','impact':'Impact','chatbot':'BeeBot™','vr':'Réalité virtuelle','videos':'Vidéos','faq':'FAQ','settings':'Paramètres','contact':'Contact','profil':'Mon profil'};
+
+// Keep old profile links working while exposing one canonical destination.
+function normaliserNavigationProfil(){
+  document.querySelectorAll('a[href$="profil.html"]').forEach(function(a){
+    a.setAttribute('href',a.getAttribute('href').replace(/profil\.html$/,'tableau-de-bord.html'));
+  });
+  document.querySelectorAll('a[href$="tableau-de-bord.html"]').forEach(function(a){
+    if(a.classList.contains('nav-tab') || a.classList.contains('mob-item')){
+      a.innerHTML=a.innerHTML.replace(/Dashboard/g,'Mon profil');
+      a.innerHTML=a.innerHTML.replace(/^(\s*)(?:📊|🪪)\s*/, '$1🪪 ');
+    }
+  });
+}
+normaliserNavigationProfil();
 function updateBreadcrumb(id){
   var bar=document.getElementById('breadcrumb-bar');
   var cur=document.getElementById('bc-current');
@@ -939,11 +968,11 @@ function bmbRenderDonnees(d){
   var actus=(d.actualites||[]).slice(0,8);
   if(feed){
     if(actus.length){
-      feed.innerHTML=actus.slice(0,5).map(function(a){ return '<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius)"><div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">📰 '+bmbEsc(a.source)+' · '+bmbEsc(a.date)+'</div><div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:8px">'+bmbEsc(a.titre)+'</div><a href="'+bmbEsc(a.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold);font-size:12px;font-weight:600">Lire l’article →</a></div>'; }).join('');
+      feed.innerHTML=actus.slice(0,5).map(function(a){ return '<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(179,38,30,.15);border-radius:var(--radius)"><div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">📰 '+bmbEsc(a.source)+' · '+bmbEsc(a.date)+'</div><div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:8px">'+bmbEsc(a.titre)+'</div><a href="'+bmbEsc(a.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold);font-size:12px;font-weight:600">Lire l’article →</a></div>'; }).join('');
       newsTotal=Math.min(5,actus.length); newsIdx=0; feed.style.transform='translateX(0)';
       if(dotsWrap) dotsWrap.innerHTML=actus.slice(0,5).map(function(_,i){ return '<span class="news-dot'+(i===0?' active':'')+'" onclick="goNewsSlide('+i+')"></span>'; }).join('');
     } else {
-      feed.innerHTML='<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(230,57,70,.15);border-radius:var(--radius);text-align:center;font-size:13px;color:var(--text-muted)">Actualités indisponibles pour le moment. <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">Transfusion CRS Suisse</a></div>';
+      feed.innerHTML='<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(179,38,30,.15);border-radius:var(--radius);text-align:center;font-size:13px;color:var(--text-muted)">Actualités indisponibles pour le moment. <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">Transfusion CRS Suisse</a></div>';
       newsTotal=1; if(dotsWrap) dotsWrap.innerHTML='';
     }
   }
@@ -965,7 +994,7 @@ function bmbRenderDonnees(d){
     try { var sb = window.BeeAcces && window.BeeAcces.client && window.BeeAcces.client(); if(sb) sb.rpc('cd_evenement', { p:{ region:region||'geneve', type:'clic_reservation', ref:String(ref||url||'').slice(0,200) } }).then(function(){}, function(){}); } catch(e){}
     return true;
   };
-  function bmbReserverBtn(url, ref, region){ if(!url) return ''; return '<a href="'+bmbEsc(url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" onclick="bmbReserver(this.href,'+JSON.stringify(String(ref||'')).replace(/"/g,'&quot;')+','+JSON.stringify(String(region||'geneve')).replace(/"/g,'&quot;')+')" style="flex:none;align-self:center;background:linear-gradient(135deg,var(--gold),#B89730);color:#0a0a12;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">Réserver</a>'; }
+  function bmbReserverBtn(url, ref, region){ if(!url) return ''; return '<a href="'+bmbEsc(url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" onclick="bmbReserver(this.href,'+JSON.stringify(String(ref||'')).replace(/"/g,'&quot;')+','+JSON.stringify(String(region||'geneve')).replace(/"/g,'&quot;')+')" style="flex:none;align-self:center;background:linear-gradient(135deg,var(--gold),#965E0A);color:#1A1A1A;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">Réserver</a>'; }
   // Fichier d'agenda (.ics) pour une collecte : date ISO, horaire « 13h30 – 19h30 », lieu, lien officiel
   window.bmbIcs=function(titre, dateIso, horaire, lieu, url){
     var m=(horaire||'').match(/(\d{1,2})h(\d{2})?\D+(\d{1,2})h(\d{2})?/), d=(dateIso||'').replace(/-/g,'');

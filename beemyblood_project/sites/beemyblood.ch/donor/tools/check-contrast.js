@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 // Verifie les ratios de contraste WCAG des couples texte/fond et bordure/fond
 // reellement utilises dans le donor space, a partir des variables declarees dans :root
-// (assets/styles.css depuis le decoupage multipage).
+// et body.light-mode (assets/styles.css depuis le decoupage multipage).
 // Usage : node check-contrast.js   (aucune dependance externe)
 
 const fs = require('fs');
 const path = require('path');
 
 const CSS_PATH = path.join(__dirname, '..', 'assets', 'styles.css');
-const html = fs.readFileSync(CSS_PATH, 'utf8');
+const css = fs.readFileSync(CSS_PATH, 'utf8');
 
 function extractVars(blockRegex) {
-  const m = html.match(blockRegex);
+  const m = css.match(blockRegex);
   if (!m) throw new Error('Bloc de variables introuvable: ' + blockRegex);
   const vars = {};
   const re = /--([a-z0-9-]+)\s*:\s*(#[0-9a-fA-F]{3,8})/g;
@@ -23,6 +23,8 @@ function extractVars(blockRegex) {
 }
 
 const rootVars = extractVars(/:root\{([\s\S]*?)\}\s*\n\s*\n\/\* ===== LIGHT MODE/);
+const lightOverrides = extractVars(/body\.light-mode\{([\s\S]*?)\}/);
+const lightVars = Object.assign({}, rootVars, lightOverrides);
 
 function hexToRgb(hex) {
   let h = hex.replace('#', '');
@@ -48,67 +50,89 @@ function contrastRatio(hexA, hexB) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-function v(name) {
-  if (!(name in rootVars)) throw new Error('Variable --' + name + ' absente de :root');
-  return rootVars[name];
+function makeV(vars) {
+  return function v(name) {
+    if (!(name in vars)) throw new Error('Variable --' + name + ' absente');
+    return vars[name];
+  };
 }
 
-// Couples texte/fond reellement utilises dans le donor space (thème sombre, defaut).
-// Sources : var(--<text-role>) combine a var(--<surface>) dans index.html pour le
-// corps de texte des 4 vues auditees, plus les couleurs d'accent utilisees comme texte.
+// Couples texte/fond reellement utilises dans le donor space, sur les 3 surfaces
+// (page, card, surface) de chaque theme — la surface la plus claire (du theme
+// sombre) ou la plus foncee (du theme clair) est le cas le plus dur, donc on
+// verifie systematiquement les 3 plutot qu'une seule combinaison "typique".
 const TEXT_PAIRS = [
-  ['text sur dark (page)', 'text', 'dark'],
-  ['text sur dark-card (cartes)', 'text', 'dark-card'],
-  ['text sur dark-surface', 'text', 'dark-surface'],
-  ['text-dim sur dark', 'text-dim', 'dark'],
-  ['text-dim sur dark-card', 'text-dim', 'dark-card'],
-  ['text-dim sur dark-surface', 'text-dim', 'dark-surface'],
-  ['text-muted sur dark', 'text-muted', 'dark'],
-  ['text-muted sur dark-card', 'text-muted', 'dark-card'],
-  ['text-muted sur dark-surface', 'text-muted', 'dark-surface'],
-  ['gold sur dark (accents, liens)', 'gold', 'dark'],
-  ['gold sur dark-card', 'gold', 'dark-card'],
-  ['dark sur gold (texte du bouton .btn-gold)', 'dark', 'gold'],
-  ['red-soft sur dark-card (bouton "Oui" du questionnaire)', 'red-soft', 'dark-card'],
-  ['green-soft sur dark-card (bouton "Non" du questionnaire)', 'green-soft', 'dark-card'],
-  ['white sur red (.pat-urg, 1re couleur du degrade .btn-red)', 'white', 'red'],
-  ['white sur red-bright (2e couleur du degrade .btn-red)', 'white', 'red-bright'],
+  ['text', ['dark', 'dark-card', 'dark-surface']],
+  ['text-dim', ['dark', 'dark-card', 'dark-surface']],
+  ['text-muted', ['dark', 'dark-card', 'dark-surface']],
+  ['gold', ['dark', 'dark-card', 'dark-surface']],
+  ['red-soft', ['dark', 'dark-card', 'dark-surface']],
+  ['green', ['dark', 'dark-card', 'dark-surface']],
+  ['green-soft', ['dark', 'dark-card', 'dark-surface']],
+  ['blue', ['dark', 'dark-card', 'dark-surface']],
+  ['purple', ['dark', 'dark-card', 'dark-surface']],
+  ['teal', ['dark', 'dark-card', 'dark-surface']],
+];
+// Texte "role inverse" : texte fonce sur pastille/bouton clair, ou texte clair
+// sur bouton fonce (boutons .btn-gold / .btn-red, seuil texte 4.5:1).
+const INVERSE_PAIRS = [
+  ['dark on gold (texte du bouton .btn-gold)', 'dark', 'gold'],
+  ['white on red (bouton .btn-red, 1er stop degrade)', 'white', 'red'],
+  ['white on red-bright (bouton .btn-red, 2e stop degrade)', 'white', 'red-bright'],
 ];
 
-// Couples bordure/fond (seuil 3:1, WCAG 1.4.11 - composants non textuels)
-// NB: dark-border est la bordure de carte/champ de formulaire la plus utilisee
-// du fichier (163 occurrences, y compris les champs du questionnaire medical).
+// --green/--blue ne portent jamais de texte blanc dessus dans le code reel : ce
+// sont des pastilles/points/pistes de toggle (composants non textuels, seuil
+// 3:1 vis-a-vis de la surface autour, cf. WCAG 1.4.11).
 const BORDER_PAIRS = [
-  ['dark-border sur dark-card (bordures de champs/cartes, 163 usages)', 'dark-border', 'dark-card'],
+  ['dark-border sur dark-card (bordures de champs/cartes)', 'dark-border', 'dark-card'],
   ['gold sur dark-card (focus / etat actif)', 'gold', 'dark-card'],
+  ['green (pastille/toggle) sur dark-surface', 'green', 'dark-surface'],
+  ['blue (pastille/legende) sur dark-surface', 'blue', 'dark-surface'],
+  ['white (bouton toggle .on, sur track green)', 'white', 'green'],
 ];
 
 const TEXT_THRESHOLD = 4.5;
 const BORDER_THRESHOLD = 3;
 
-let failed = false;
-const rows = [];
+function runTheme(themeName, vars) {
+  const v = makeV(vars);
+  const rows = [];
+  let failed = false;
 
-for (const [label, fg, bg] of TEXT_PAIRS) {
-  const ratio = contrastRatio(v(fg), v(bg));
-  const ok = ratio >= TEXT_THRESHOLD;
-  if (!ok) failed = true;
-  rows.push({ label, fg: v(fg), bg: v(bg), ratio, threshold: TEXT_THRESHOLD, ok });
-}
-for (const [label, fg, bg] of BORDER_PAIRS) {
-  const ratio = contrastRatio(v(fg), v(bg));
-  const ok = ratio >= BORDER_THRESHOLD;
-  if (!ok) failed = true;
-  rows.push({ label, fg: v(fg), bg: v(bg), ratio, threshold: BORDER_THRESHOLD, ok });
+  for (const [role, bgs] of TEXT_PAIRS) {
+    for (const bg of bgs) {
+      const ratio = contrastRatio(v(role), v(bg));
+      const ok = ratio >= TEXT_THRESHOLD;
+      if (!ok) failed = true;
+      rows.push({ label: `${role} sur ${bg}`, fg: v(role), bg: v(bg), ratio, threshold: TEXT_THRESHOLD, ok });
+    }
+  }
+  for (const [label, fg, bg] of INVERSE_PAIRS) {
+    const ratio = contrastRatio(v(fg), v(bg));
+    const ok = ratio >= TEXT_THRESHOLD;
+    if (!ok) failed = true;
+    rows.push({ label, fg: v(fg), bg: v(bg), ratio, threshold: TEXT_THRESHOLD, ok });
+  }
+  for (const [label, fg, bg] of BORDER_PAIRS) {
+    const ratio = contrastRatio(v(fg), v(bg));
+    const ok = ratio >= BORDER_THRESHOLD;
+    if (!ok) failed = true;
+    rows.push({ label, fg: v(fg), bg: v(bg), ratio, threshold: BORDER_THRESHOLD, ok });
+  }
+
+  console.log(`\nVerification des contrastes WCAG - BeeMyBlood donor (theme ${themeName})\n`);
+  for (const r of rows) {
+    const status = r.ok ? 'OK  ' : 'FAIL';
+    console.log(
+      `[${status}] ${r.label.padEnd(55)} ${r.fg} / ${r.bg}  ${r.ratio.toFixed(2)}:1 (seuil ${r.threshold}:1)`
+    );
+  }
+  return failed;
 }
 
-console.log('Verification des contrastes WCAG - BeeMyBlood donor (theme sombre)\n');
-for (const r of rows) {
-  const status = r.ok ? 'OK  ' : 'FAIL';
-  console.log(
-    `[${status}] ${r.label.padEnd(48)} ${r.fg} / ${r.bg}  ${r.ratio.toFixed(2)}:1 (seuil ${r.threshold}:1)`
-  );
-}
+const failedDark = runTheme('sombre (defaut)', rootVars);
+const failedLight = runTheme('clair (body.light-mode)', lightVars);
 
-console.log('\n' + (failed ? 'ECHEC : au moins un couple est sous le seuil WCAG.' : 'OK : tous les couples verifies respectent le seuil WCAG.'));
-process.exit(failed ? 1 : 0);
+console.log('\n' + ((failedDark || failedLight) ? 'ECHEC : au moins un couple est sous le seuil WCAG.' : 'OK : tous les couples verifies (sombre + clair) respectent le seuil WCAG.'));
+process.exit((failedDark || failedLight) ? 1 : 0);

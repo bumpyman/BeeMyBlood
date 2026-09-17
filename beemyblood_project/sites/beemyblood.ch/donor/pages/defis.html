@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -150,24 +150,24 @@
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="comm-impact-acc" style="font-size:13px;padding:6px 10px;margin:0 0 0">📊 Impact collectif — Genève <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="comm-impact-acc">
-  <div class="card" style="background:linear-gradient(135deg,rgba(200,169,96,.04),rgba(46,204,113,.04));border-color:rgba(200,169,96,.2)">
+  <div class="card" style="background:linear-gradient(135deg,rgba(242,169,59,.04),rgba(15,149,241,.04));border-color:rgba(242,169,59,.2)">
     <div style="text-align:center;margin-bottom:14px">
       <div style="font-size:13px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1.5px">Impact collectif — Genève · Temps réel</div>
     </div>
     <div class="grid-4-resp" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">
-      <div style="text-align:center;padding:10px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm)">
+      <div style="text-align:center;padding:10px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius-sm)">
         <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--green)" data-counter="2847">0</div>
         <div style="font-size:12px;color:var(--text-muted)">Vies sauvées</div>
       </div>
-      <div style="text-align:center;padding:10px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm)">
+      <div style="text-align:center;padding:10px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm)">
         <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--gold)" data-counter="1234">0</div>
         <div style="font-size:12px;color:var(--text-muted)">Héros actifs</div>
       </div>
-      <div style="text-align:center;padding:10px;background:rgba(230,57,70,.06);border:1px solid rgba(230,57,70,.15);border-radius:var(--radius-sm)">
+      <div style="text-align:center;padding:10px;background:rgba(179,38,30,.06);border:1px solid rgba(179,38,30,.15);border-radius:var(--radius-sm)">
         <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--red-soft)" data-counter="42">0</div>
         <div style="font-size:12px;color:var(--text-muted)">Escouades</div>
       </div>
-      <div style="text-align:center;padding:10px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.15);border-radius:var(--radius-sm)">
+      <div style="text-align:center;padding:10px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius-sm)">
         <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--blue)" data-counter="87">0</div>
         <div style="font-size:12px;color:var(--text-muted)">% diversité</div>
       </div>
@@ -180,11 +180,11 @@
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="comm-events-acc" style="font-size:13px;padding:6px 10px;margin:8px 0 0">📅 Événements & Défis saisonniers <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="comm-events-acc">
-  <div class="card" style="border-color:rgba(230,57,70,.2)">
-    <div class="card-header"><div class="card-title">📅 Événements & Défis saisonniers</div><span class="badge" style="background:rgba(230,57,70,.15);color:var(--red-soft)">En cours</span></div>
+  <div class="card" style="border-color:rgba(179,38,30,.2)">
+    <div class="card-header"><div class="card-title">📅 Événements & Défis saisonniers</div><span class="badge" style="background:rgba(179,38,30,.15);color:var(--red-soft)">En cours</span></div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <!-- Active event -->
-      <div style="background:linear-gradient(135deg,rgba(230,57,70,.08),rgba(200,169,96,.05));border:1px solid rgba(230,57,70,.2);border-radius:var(--radius);padding:14px">
+      <div style="background:linear-gradient(135deg,rgba(179,38,30,.08),rgba(242,169,59,.05));border:1px solid rgba(179,38,30,.2);border-radius:var(--radius);padding:14px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
           <span style="font-size:20px">🚨</span>
           <div style="flex:1"><div style="font-size:15px;font-weight:700;color:var(--red-soft)">Semaine O− · Urgence stocks</div><div style="font-size:12px;color:var(--text-muted)">10–16 février 2026 · Badge exclusif</div></div>
@@ -216,22 +216,22 @@
     <div class="card-header"><div class="card-title">🎭 Rôles dans la communauté</div><span class="badge badge-gold">Multi-rôles</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Chacun contribue à sa manière. Le don de sang, c'est un écosystème — pas juste un acte individuel.</div>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
-      <div style="padding:12px;background:rgba(230,57,70,.06);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm);text-align:center">
+      <div style="padding:12px;background:rgba(179,38,30,.06);border:1px solid rgba(179,38,30,.12);border-radius:var(--radius-sm);text-align:center">
         <div style="font-size:26px;margin-bottom:4px">🩸</div>
         <div style="font-size:14px;font-weight:700;color:var(--red-soft)">Donneur</div>
         <div style="font-size:12px;color:var(--text-muted)">Donne son sang régulièrement</div>
       </div>
-      <div style="padding:12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.12);border-radius:var(--radius-sm);text-align:center">
+      <div style="padding:12px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.12);border-radius:var(--radius-sm);text-align:center">
         <div style="font-size:26px;margin-bottom:4px">💛</div>
         <div style="font-size:14px;font-weight:700;color:var(--gold)">Receveur-Témoin</div>
         <div style="font-size:12px;color:var(--text-muted)">Partage son histoire · Inspire</div>
       </div>
-      <div style="padding:12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.12);border-radius:var(--radius-sm);text-align:center">
+      <div style="padding:12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.12);border-radius:var(--radius-sm);text-align:center">
         <div style="font-size:26px;margin-bottom:4px">🏥</div>
         <div style="font-size:14px;font-weight:700;color:var(--green)">Soignant-Ambassadeur</div>
         <div style="font-size:12px;color:var(--text-muted)">Personnel médical · Forme</div>
       </div>
-      <div style="padding:12px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.12);border-radius:var(--radius-sm);text-align:center">
+      <div style="padding:12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.12);border-radius:var(--radius-sm);text-align:center">
         <div style="font-size:26px;margin-bottom:4px">📣</div>
         <div style="font-size:14px;font-weight:700;color:var(--blue)">Promoteur</div>
         <div style="font-size:12px;color:var(--text-muted)">Ne peut pas donner · Recrute</div>
@@ -249,7 +249,7 @@
     <!-- TREE VISUALIZATION -->
     <div style="display:flex;flex-direction:column;align-items:center;gap:0;padding:16px 0">
       <!-- Level 0: You -->
-      <div style="background:linear-gradient(135deg,var(--gold),var(--gold-glow));color:var(--dark);padding:10px 20px;border-radius:20px;font-weight:700;font-size:15px;text-align:center;box-shadow:0 4px 16px rgba(200,169,96,.3)">
+      <div style="background:linear-gradient(135deg,var(--gold),var(--gold-glow));color:var(--dark);padding:10px 20px;border-radius:20px;font-weight:700;font-size:15px;text-align:center;box-shadow:0 4px 16px rgba(242,169,59,.3)">
         🐝 Faucon-283 (toi)
       </div>
       <div style="width:2px;height:20px;background:var(--gold)"></div>
@@ -299,7 +299,7 @@
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Rejoins une escouade (quartier, asso, bande de potes, club, entreprise…) et accomplissez des défis collectifs. Ensemble, on donne plus.</div>
 
     <!-- Your squad -->
-    <div style="background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(200,169,96,.02));border:2px solid rgba(200,169,96,.2);border-radius:var(--radius);padding:14px;margin-bottom:12px">
+    <div style="background:linear-gradient(135deg,rgba(242,169,59,.08),rgba(242,169,59,.02));border:2px solid rgba(242,169,59,.2);border-radius:var(--radius);padding:14px;margin-bottom:12px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
         <div style="font-size:32px">🎓</div>
         <div style="flex:1">
@@ -347,7 +347,7 @@
         <span style="font-size:14px;flex:1"><strong>Servette FC Fans</strong> <span style="font-size:11px;color:var(--text-muted)">· Club sportif</span></span>
         <span style="font-size:14px;color:var(--text-dim);font-weight:600">72 dons</span>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm)">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm)">
         <span style="font-size:16px;width:24px;text-align:center">🥉</span>
         <span style="font-size:14px;flex:1"><strong style="color:var(--gold)">Escouade Uni Mail ★</strong> <span style="font-size:11px;color:var(--text-muted)">· Campus</span></span>
         <span style="font-size:14px;color:var(--gold);font-weight:600">34 dons</span>
@@ -391,13 +391,13 @@
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Quand un receveur consent, un échange de messages anonymes est possible. Tu ne sais pas qui c'est, mais tu sais que ta poche a changé une vie.</div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <!-- Received message -->
-      <div style="background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius);padding:14px;position:relative">
+      <div style="background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius);padding:14px;position:relative">
         <div style="font-size:12px;color:var(--green);font-weight:600;margin-bottom:6px">💌 Message d'un receveur · Poche CE #4827 · Chirurgie cardiaque</div>
         <div style="font-size:15px;color:var(--text);line-height:1.6;font-style:italic">« Merci pour ton sang. Grâce à toi, j'ai pu assister au mariage de ma fille samedi dernier. Je ne connais pas ton nom, mais tu fais partie de ma famille maintenant. »</div>
         <div style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:right">— Patient anonyme · 62 ans · Reçu le 28 janv.</div>
       </div>
       <!-- Notification -->
-      <div style="background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:10px">
+      <div style="background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:10px">
         <span style="font-size:24px">🩸</span>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:600;color:var(--text)">Ta poche CE #5201 a été transfusée</div>
@@ -433,17 +433,17 @@
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:6px">
-      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.12);border-radius:var(--radius-sm)">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:14px">🌟</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.12);border-radius:var(--radius-sm)">
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(242,169,59,.15);display:flex;align-items:center;justify-content:center;font-size:14px">🌟</div>
         <div style="flex:1"><div style="font-weight:600;font-size:14px">Corail-517</div><div style="font-size:12px;color:var(--text-muted)">Ambassadeur Uni Mail · 23 filleuls · 5 collectes organisées</div></div>
         <span style="font-size:11px;background:var(--gold);color:var(--dark);padding:3px 8px;border-radius:4px;font-weight:700">TOP</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(79,195,247,.15);display:flex;align-items:center;justify-content:center;font-size:14px">🏃</div>
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:14px">🏃</div>
         <div style="flex:1"><div style="font-weight:600;font-size:14px">Flamme-164</div><div style="font-size:12px;color:var(--text-muted)">Ambassadeur Carouge Runners · 18 filleuls · 3 collectes</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--dark-surface);border-radius:var(--radius-sm)">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:14px">🏘️</div>
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:14px">🏘️</div>
         <div style="flex:1"><div style="font-weight:600;font-size:14px">Rivière-042</div><div style="font-size:12px;color:var(--text-muted)">Ambassadrice Pâquis solidaires · 14 filleuls · Partenariat maison de quartier</div></div>
       </div>
     </div>
@@ -461,14 +461,14 @@
 
     <!-- Active challenges -->
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
-      <div style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm)">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius-sm)">
         <span style="font-size:24px">🤝</span>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:600;color:var(--green)">✅ Défi gagné avec Érable-142</div>
           <div style="font-size:12px;color:var(--text-muted)">Vous avez tous les deux donné en octobre ! +200 XP bonus chacun</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm)">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm)">
         <span style="font-size:24px">⏳</span>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:600;color:var(--gold)">Défi en cours avec Saphir-408</div>
@@ -488,10 +488,10 @@
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="comm-personality-acc" style="font-size:13px;padding:6px 10px;margin:8px 0 0">🩸 Ta personnalité groupe sanguin <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="comm-personality-acc">
   <div class="card">
-    <div class="card-header"><div class="card-title">🩸 Ta personnalité groupe sanguin</div><span class="badge" style="background:rgba(155,89,182,.15);color:var(--purple)">Fun</span></div>
+    <div class="card-header"><div class="card-title">🩸 Ta personnalité groupe sanguin</div><span class="badge" style="background:rgba(15,149,241,.15);color:var(--purple)">Fun</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Au Japon, le groupe sanguin est comme un signe astrologique. Voici ton profil (à ne pas prendre trop au sérieux 😄) :</div>
 
-    <div style="background:linear-gradient(135deg,rgba(230,57,70,.06),rgba(200,169,96,.06));border:1px solid rgba(200,169,96,.15);border-radius:var(--radius);padding:16px;text-align:center;margin-bottom:12px">
+    <div style="background:linear-gradient(135deg,rgba(179,38,30,.06),rgba(242,169,59,.06));border:1px solid rgba(242,169,59,.15);border-radius:var(--radius);padding:16px;text-align:center;margin-bottom:12px">
       <div style="font-size:42px;margin-bottom:4px">🅱️➕</div>
       <div style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:8px">Le Créatif Passionné</div>
       <div style="font-size:14px;color:var(--text-dim);line-height:1.6;text-align:left;max-width:320px;margin:0 auto">
@@ -501,7 +501,7 @@
 
     <div class="grid-4-resp" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;font-size:12px;text-align:center">
       <div style="padding:8px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:18px">🅰️</div><div style="font-weight:600;color:var(--text)">Organisé</div><div style="color:var(--text-muted)">Perfectionniste</div></div>
-      <div style="padding:8px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm)"><div style="font-size:18px">🅱️</div><div style="font-weight:600;color:var(--gold)">Créatif ★</div><div style="color:var(--text-muted)">Passionné</div></div>
+      <div style="padding:8px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm)"><div style="font-size:18px">🅱️</div><div style="font-weight:600;color:var(--gold)">Créatif ★</div><div style="color:var(--text-muted)">Passionné</div></div>
       <div style="padding:8px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:18px">🅾️</div><div style="font-weight:600;color:var(--text)">Leader</div><div style="color:var(--text-muted)">Confiant</div></div>
       <div style="padding:8px;background:var(--dark-surface);border-radius:var(--radius-sm)"><div style="font-size:18px">🆎</div><div style="font-weight:600;color:var(--text)">Rationnel</div><div style="color:var(--text-muted)">Adaptable</div></div>
     </div>
@@ -515,14 +515,14 @@
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="comm-corporate-acc" style="font-size:13px;padding:6px 10px;margin:8px 0 0">🏢 Corporate Blood League™ <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="comm-corporate-acc">
-  <div class="card" style="border:1px solid rgba(79,195,247,.2)">
+  <div class="card" style="border:1px solid rgba(15,149,241,.2)">
     <div class="card-header"><div class="card-title">🏢 Corporate Blood League™</div><span class="badge badge-blue">B2B</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Les entreprises s'engagent. Dashboard RSE dédié, compétition inter-entreprises, attestations fiscales automatiques.</div>
 
     <!-- Leaderboard -->
     <div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:8px">🏆 Classement Corporate — Genève 2026</div>
     <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px">
-      <div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);font-size:14px"><span style="font-weight:700;color:var(--gold);width:24px">🥇</span><span style="flex:1">Pictet & Cie</span><span style="font-weight:700;color:var(--gold)">234 dons</span><span style="font-size:11px;color:var(--text-muted)">~702 vies</span></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm);font-size:14px"><span style="font-weight:700;color:var(--gold);width:24px">🥇</span><span style="flex:1">Pictet & Cie</span><span style="font-weight:700;color:var(--gold)">234 dons</span><span style="font-size:11px;color:var(--text-muted)">~702 vies</span></div>
       <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-weight:700;color:var(--text-dim);width:24px">🥈</span><span style="flex:1">Procter & Gamble GVA</span><span style="font-weight:700">187 dons</span><span style="font-size:11px;color:var(--text-muted)">~561 vies</span></div>
       <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="font-weight:700;color:var(--text-dim);width:24px">🥉</span><span style="flex:1">HUG — Personnel soignant</span><span style="font-weight:700">156 dons</span><span style="font-size:11px;color:var(--text-muted)">~468 vies</span></div>
       <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--dark-surface);border-radius:var(--radius-sm);font-size:14px"><span style="width:24px;font-size:13px;color:var(--text-muted)">4</span><span style="flex:1">Firmenich</span><span style="font-weight:700">134 dons</span><span style="font-size:11px;color:var(--text-muted)">~402 vies</span></div>
@@ -537,12 +537,12 @@
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="comm-solidarity-acc" style="font-size:13px;padding:6px 10px;margin:8px 0 0">🌍 Solidarity Corridor™ — Impact transnational <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="comm-solidarity-acc">
-  <div class="card" style="border:1px solid rgba(46,204,113,.2);background:linear-gradient(135deg,rgba(46,204,113,.04),rgba(200,169,96,.04))">
+  <div class="card" style="border:1px solid rgba(15,149,241,.2);background:linear-gradient(135deg,rgba(15,149,241,.04),rgba(242,169,59,.04))">
     <div class="card-header"><div class="card-title">🌍 Solidarity Corridor™</div><span class="badge badge-green">Suisse ↔ Cameroun</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Chaque 10e don déclenche un micro-financement : formation d'un technicien de labo au Cameroun ou achat d'équipement au Sénégal.</div>
 
     <!-- Your impact -->
-    <div style="padding:14px;background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(200,169,96,.05));border:1px solid rgba(46,204,113,.15);border-radius:var(--radius);margin-bottom:10px">
+    <div style="padding:14px;background:linear-gradient(135deg,rgba(15,149,241,.08),rgba(242,169,59,.05));border:1px solid rgba(15,149,241,.15);border-radius:var(--radius);margin-bottom:10px">
       <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px">Ton impact #3 a financé :</div>
       <div style="display:flex;align-items:center;gap:12px">
         <div style="font-size:36px;flex-shrink:0">🎓</div>
@@ -571,7 +571,7 @@
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="comm-academy-acc" style="font-size:13px;padding:6px 10px;margin:8px 0 0">🎓 BeeMyBlood Academy™ — Certification <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="comm-academy-acc">
-  <div class="card" style="border:1px solid rgba(200,169,96,.2)">
+  <div class="card" style="border:1px solid rgba(242,169,59,.2)">
     <div class="card-header"><div class="card-title">🎓 BeeMyBlood Academy™</div><span class="badge badge-gold">Niveau 2/5</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Micro-cours de 5 min. Deviens certifié « Literacy Sanguin » et débloque ton certificat LinkedIn.</div>
 
@@ -583,17 +583,17 @@
 
     <!-- Modules -->
     <div style="display:flex;flex-direction:column;gap:6px">
-      <div style="padding:10px 12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+      <div style="padding:10px 12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
         <span style="font-size:18px">✅</span>
         <div style="flex:1"><div style="font-size:14px;font-weight:600">Module 1 · ABO & Rhésus</div><div style="font-size:12px;color:var(--text-muted)">Les bases · Quiz réussi 9/10</div></div>
         <span style="font-size:12px;color:var(--green)">9/10</span>
       </div>
-      <div style="padding:10px 12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+      <div style="padding:10px 12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
         <span style="font-size:18px">✅</span>
         <div style="flex:1"><div style="font-size:14px;font-weight:600">Module 2 · Phénotypes rares</div><div style="font-size:12px;color:var(--text-muted)">Duffy, Kell, Kidd · Quiz réussi 8/10</div></div>
         <span style="font-size:12px;color:var(--green)">8/10</span>
       </div>
-      <div style="padding:10px 12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+      <div style="padding:10px 12px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
         <span style="font-size:18px">📖</span>
         <div style="flex:1"><div style="font-size:14px;font-weight:600">Module 3 · La drépanocytose</div><div style="font-size:12px;color:var(--text-muted)">5 min · Pourquoi les phénotypés comptent</div></div>
         <button class="btn btn-outline btn-sm" onclick="alert('📖 Module 3 : La drépanocytose — En cours de chargement...')">▶ Commencer</button>
@@ -609,7 +609,7 @@
     </div>
 
     <!-- Certificate preview -->
-    <div style="text-align:center;margin-top:12px;padding:14px;background:linear-gradient(135deg,rgba(200,169,96,.1),rgba(200,169,96,.05));border:2px dashed rgba(200,169,96,.3);border-radius:var(--radius)">
+    <div style="text-align:center;margin-top:12px;padding:14px;background:linear-gradient(135deg,rgba(242,169,59,.1),rgba(242,169,59,.05));border:2px dashed rgba(242,169,59,.3);border-radius:var(--radius)">
       <div style="font-size:24px;margin-bottom:4px">🏅</div>
       <div style="font-size:14px;font-weight:700;color:var(--gold)">Certificat « Literacy Sanguin »</div>
       <div style="font-size:12px;color:var(--text-muted)">Complète les 5 modules → certificat LinkedIn-shareable</div>
@@ -624,11 +624,11 @@
     <div class="card-header"><div class="card-title">💬 Fil communautaire</div><span class="badge badge-green">Live</span></div>
     <div style="display:flex;flex-direction:column;gap:12px">
       <!-- Receveur-Témoin story -->
-      <div style="background:rgba(200,169,96,.04);border:1px solid rgba(200,169,96,.12);border-radius:var(--radius);padding:12px">
+      <div style="background:rgba(242,169,59,.04);border:1px solid rgba(242,169,59,.12);border-radius:var(--radius);padding:12px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <div style="width:34px;height:34px;border-radius:50%;background:rgba(200,169,96,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">Jas</div>
+          <div style="width:34px;height:34px;border-radius:50%;background:rgba(242,169,59,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold)">Jas</div>
           <div><div style="font-size:13px;font-weight:600">Jasmin-412</div><div style="font-size:11px;color:var(--text-muted)">Receveur-Témoin · Il y a 2h</div></div>
-          <span style="font-size:10px;background:rgba(200,169,96,.15);color:var(--gold);padding:2px 6px;border-radius:4px;font-weight:600;margin-left:auto">TÉMOIGNAGE</span>
+          <span style="font-size:10px;background:rgba(242,169,59,.15);color:var(--gold);padding:2px 6px;border-radius:4px;font-weight:600;margin-left:auto">TÉMOIGNAGE</span>
         </div>
         <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Je vis avec une drépanocytose. Chaque mois, je reçois des transfusions. Chaque poche vient d'un inconnu qui a pris 30 min de sa journée pour moi. Je ne peux pas donner mon sang, mais je peux vous dire que vous changez ma vie. Merci. 💛</div>
         <div style="display:flex;gap:12px;margin-top:8px;font-size:12px;color:var(--text-muted)">
@@ -638,11 +638,11 @@
         </div>
       </div>
       <!-- Soignant story -->
-      <div style="background:rgba(46,204,113,.04);border:1px solid rgba(46,204,113,.12);border-radius:var(--radius);padding:12px">
+      <div style="background:rgba(15,149,241,.04);border:1px solid rgba(15,149,241,.12);border-radius:var(--radius);padding:12px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <div style="width:34px;height:34px;border-radius:50%;background:rgba(46,204,113,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--green)">Dre</div>
+          <div style="width:34px;height:34px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--green)">Dre</div>
           <div><div style="font-size:13px;font-weight:600">Dre M.</div><div style="font-size:11px;color:var(--text-muted)">Soignant-Ambassadeur · Hématologie HUG · Hier</div></div>
-          <span style="font-size:10px;background:rgba(46,204,113,.15);color:var(--green);padding:2px 6px;border-radius:4px;font-weight:600;margin-left:auto">SOIGNANT</span>
+          <span style="font-size:10px;background:rgba(15,149,241,.15);color:var(--green);padding:2px 6px;border-radius:4px;font-weight:600;margin-left:auto">SOIGNANT</span>
         </div>
         <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Aujourd'hui on a eu besoin de 4 CE phénotypés Fy(a−) en urgence pour une patiente atteinte de drépanocytose en crise. Grâce à vous, les donneurs rares, on les a eus. Vous ne le savez peut-être pas, mais vous avez sauvé une jeune femme de 24 ans ce matin. 🏥</div>
         <div style="display:flex;gap:12px;margin-top:8px;font-size:12px;color:var(--text-muted)">
@@ -652,11 +652,11 @@
         </div>
       </div>
       <!-- Promoteur post -->
-      <div style="background:rgba(79,195,247,.04);border:1px solid rgba(79,195,247,.12);border-radius:var(--radius);padding:12px">
+      <div style="background:rgba(15,149,241,.04);border:1px solid rgba(15,149,241,.12);border-radius:var(--radius);padding:12px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <div style="width:34px;height:34px;border-radius:50%;background:rgba(79,195,247,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue)">Zen</div>
+          <div style="width:34px;height:34px;border-radius:50%;background:rgba(15,149,241,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue)">Zen</div>
           <div><div style="font-size:13px;font-weight:600">Zénia-305</div><div style="font-size:11px;color:var(--text-muted)">Promoteur · Il y a 6h</div></div>
-          <span style="font-size:10px;background:rgba(79,195,247,.15);color:var(--blue);padding:2px 6px;border-radius:4px;font-weight:600;margin-left:auto">PROMOTEUR</span>
+          <span style="font-size:10px;background:rgba(15,149,241,.15);color:var(--blue);padding:2px 6px;border-radius:4px;font-weight:600;margin-left:auto">PROMOTEUR</span>
         </div>
         <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Je ne peux pas donner à cause de mon traitement, mais j'ai recruté 8 donneurs ce mois ! Mon arbre de parrainage pousse 🌳 Qui dit que seuls les donneurs sont des héros ? 📣</div>
         <div style="display:flex;gap:12px;margin-top:8px;font-size:12px;color:var(--text-muted)">
@@ -846,17 +846,6 @@
 </div>
 
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
-  </div>
-</div>
-
 <!-- KEYBOARD SHORTCUTS HINT -->
 <div class="kbd-hint" id="kbd-hint">
   <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
@@ -873,6 +862,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>

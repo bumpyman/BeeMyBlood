@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -216,7 +216,7 @@
         <div style="font-size:11px;color:var(--text-muted);margin-top:4px">Part collectes mobiles</div>
       </div>
     </div>
-    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;padding:10px 14px;background:rgba(230,57,70,.04);border-radius:var(--radius-sm);border-left:3px solid var(--red)">
+    <div style="font-size:13px;color:var(--text-dim);line-height:1.6;padding:10px 14px;background:rgba(179,38,30,.04);border-radius:var(--radius-sm);border-left:3px solid var(--red)">
       ⚠️ <strong>Tendance préoccupante</strong> — les dons baissent pour la 3ᵉ année consécutive. Le télétravail réduit les dons en entreprise. Les collectes en hautes écoles reculent à cause des cours en visioconférence. Le nombre moyen de dons par collecte mobile est passé de 66.7 (2021) à 60.5 (2023).
     </div>
   </div>
@@ -227,14 +227,14 @@
     <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
       <strong style="color:var(--green)">Bonne nouvelle :</strong> aucune étude fiable n'a pu montrer à ce jour que donner régulièrement son sang a une influence néfaste sur la santé du donneur.
     </div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-top:10px;padding:10px 14px;background:rgba(200,169,96,.04);border-radius:var(--radius-sm);border-left:3px solid var(--gold)">
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-top:10px;padding:10px 14px;background:rgba(242,169,59,.04);border-radius:var(--radius-sm);border-left:3px solid var(--gold)">
       ⚠️ <strong style="color:var(--gold)">Point de vigilance — carence martiale</strong><br>
       Des dons trop fréquents d'érythrocytes peuvent entraîner une <strong style="color:var(--text)">carence en fer (carence martiale)</strong>, surtout chez les femmes. C'est pourquoi le CTS surveille la ferritine et respecte les intervalles réglementaires : <strong>4 dons/an max</strong> pour les hommes, <strong>3 pour les femmes</strong>, avec 76 jours minimum entre deux dons.
     </div>
   </div>
 
   <!-- ÉDITORIAL BEEMYBLOOD -->
-  <div class="card" style="margin-bottom:16px;border:1px solid rgba(200,169,96,.2)">
+  <div class="card" style="margin-bottom:16px;border:1px solid rgba(242,169,59,.2)">
     <div class="card-header"><div class="card-title">🐝 Éditorial — La vocation de BeeMyBlood</div><span class="badge badge-gold">Tribune</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.8">
       <strong style="color:var(--gold);font-size:16px">La Suisse n'a pas d'association de donneurs de sang.</strong>
@@ -455,17 +455,6 @@
 </div>
 
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
-  </div>
-</div>
-
 <!-- KEYBOARD SHORTCUTS HINT -->
 <div class="kbd-hint" id="kbd-hint">
   <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
@@ -482,6 +471,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>

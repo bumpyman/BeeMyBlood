@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -149,14 +149,14 @@
   <!-- QUESTIONNAIRE MÉDICAL HUG COMPLET -->
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="quest-hug-acc" style="font-size:13px;padding:6px 10px;margin-top:12px">📋 Questionnaire médical HUG — pré-remplissage + PDF <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="quest-hug-acc">
-  <div class="card" style="margin-top:8px;border:1px solid rgba(200,169,96,.2)">
+  <div class="card" style="margin-top:8px;border:1px solid rgba(242,169,59,.2)">
     <div class="card-header"><div class="card-title">📋 Questionnaire médical — Centre de Transfusion HUG</div><span class="badge badge-gold">ANH-Art7.6v3 · Fév. 2026</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Remplis ce formulaire à l'avance et génère un PDF à imprimer. Gain de temps au CTS : ~15 min.</div>
 
     <!-- ====== ÉTAPE 1 : Formulaire d'information ANH Art.7.7 ====== -->
     <div id="qhug-step1" style="display:flex;flex-direction:column;gap:10px">
       <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">📄 Étape 1/3 — Formulaire d'information</div>
-      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.7;color:var(--text-dim)">
+      <div style="padding:14px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.7;color:var(--text-dim)">
         <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px">Annexe Art. 7.7 — Formulaire d'information pour les donneuses et donneurs de sang</div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Type : ANH · Version 3 · En vigueur depuis le 01.02.2026 · Transfusion CRS Suisse · N° 3391</div>
         <details style="margin-bottom:8px">
@@ -187,7 +187,7 @@
           <a href="https://www.blutspende-nordwestschweiz.ch/media/filer_public/ab/ad/abad81ea-ebd4-4cbc-9f1c-0a4b2a88ec8d/annexe_art_77_formulaire_dinformation.pdf" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm" style="text-decoration:none">📄 Lire le document officiel (PDF)</a>
         </div>
       </div>
-      <label id="qhug-read-check" style="display:flex;align-items:center;gap:8px;padding:10px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.2);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">
+      <label id="qhug-read-check" style="display:flex;align-items:center;gap:8px;padding:10px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.2);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:600;color:var(--text)">
         <input type="checkbox" id="qhug-read-cb" style="width:18px;height:18px;accent-color:var(--green)">
         <span>J'ai lu le Formulaire d'information ANH Art.7.7 et je suis informé(e)</span>
       </label>
@@ -197,7 +197,7 @@
     <!-- ====== ÉTAPE 2 : Consentement ====== -->
     <div id="qhug-step2" style="display:none;flex-direction:column;gap:10px">
       <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:6px 0 2px">✅ Étape 2/3 — Consentement</div>
-      <div style="padding:14px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.8;color:var(--text-dim)">
+      <div style="padding:14px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.2);border-radius:var(--radius-sm);font-size:13px;line-height:1.8;color:var(--text-dim)">
         <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px">En cochant ci-dessous, je confirme :</div>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je consens à donner de mon sang.</span></label>
         <label style="display:flex;align-items:start;gap:8px;margin-bottom:6px;cursor:pointer"><input type="checkbox" class="qhug-consent-cb" style="width:16px;height:16px;margin-top:2px;accent-color:var(--green)"><span>Je confirme avoir lu et compris le Formulaire d'information ANH Art.7.7 et avoir reçu toutes les explications nécessaires.</span></label>
@@ -425,17 +425,6 @@
 </div>
 
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
-  </div>
-</div>
-
 <!-- KEYBOARD SHORTCUTS HINT -->
 <div class="kbd-hint" id="kbd-hint">
   <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
@@ -452,6 +441,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
@@ -608,25 +598,25 @@ function generateHUGPDF(){
   });
   var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Questionnaire Don du Sang - HUG</title>';
   html+='<style>@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
-  html+='h1{font-size:14px;text-align:center;margin:5px 0}h2{font-size:11px;margin:8px 0 4px;color:#26A69A;border-bottom:1px solid #26A69A;padding-bottom:2px}';
-  html+='.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #26A69A;padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
+  html+='h1{font-size:14px;text-align:center;margin:5px 0}h2{font-size:11px;margin:8px 0 4px;color:#369CE2;border-bottom:1px solid #369CE2;padding-bottom:2px}';
+  html+='.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #369CE2;padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
   html+='.info{font-size:8px;color:#666;margin:2px 0}.row{display:flex;gap:8px;margin:2px 0;flex-wrap:wrap}.field{border-bottom:1px dotted #999;min-width:100px;padding:1px 3px;flex:1}';
   html+='.label{font-weight:bold;font-size:9px;white-space:nowrap}.q{margin:2px 0;display:flex;align-items:flex-start;padding:2px 0;border-bottom:1px dotted #eee}';
-  html+='.qn{font-weight:bold;min-width:22px;color:#26A69A}.qt{flex:1;padding-right:5px}.ans{min-width:50px;text-align:right;white-space:nowrap}';
-  html+='.box{display:inline-block;width:11px;height:11px;border:1px solid #333;margin:0 2px;text-align:center;font-size:8px;line-height:11px}.checked{background:#DC2626;color:#fff}';
-  html+='.consent{font-size:8px;margin:8px 0;padding:8px;background:#f8f9fa;border-left:3px solid #26A69A}';
+  html+='.qn{font-weight:bold;min-width:22px;color:#369CE2}.qt{flex:1;padding-right:5px}.ans{min-width:50px;text-align:right;white-space:nowrap}';
+  html+='.box{display:inline-block;width:11px;height:11px;border:1px solid #333;margin:0 2px;text-align:center;font-size:8px;line-height:11px}.checked{background:#B3261E;color:#fff}';
+  html+='.consent{font-size:8px;margin:8px 0;padding:8px;background:#FAF9F7;border-left:3px solid #369CE2}';
   html+='.sig{margin-top:15px;display:flex;gap:15px}.sig-field{flex:1;border-bottom:1px solid #333;padding-top:25px;text-align:center;font-size:9px}';
-  html+='.reserved{margin-top:15px;border:2px solid #26A69A;padding:10px;background:#f8fffe}.reserved h3{margin:0 0 8px;font-size:11px;color:#26A69A}';
+  html+='.reserved{margin-top:15px;border:2px solid #369CE2;padding:10px;background:#FAF9F7}.reserved h3{margin:0 0 8px;font-size:11px;color:#369CE2}';
   html+='.reserved-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.reserved-field{border:1px solid #ccc;padding:5px;min-height:25px}.reserved-field label{font-size:8px;color:#666;display:block}';
   html+='.footer{margin-top:10px;text-align:center;font-size:8px;color:#999;border-top:1px solid #eee;padding-top:5px}';
   html+='.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5px}@media print{body{margin:5mm}}</style></head><body>';
   // Header
-  html+='<div class="header"><div style="font-size:24px;font-weight:900"><span style="color:#7BBC6F">H</span><span style="color:#4DB6AC">U</span><span style="color:#26A69A">G</span></div>';
+  html+='<div class="header"><div style="font-size:24px;font-weight:900"><span style="color:#369CE2">H</span><span style="color:#369CE2">U</span><span style="color:#369CE2">G</span></div>';
   html+='<div class="header-center"><h1>Centre de Transfusion Sanguine</h1>';
   html+='<div class="info">Rue Gabrielle-Perret-Gentil 6, 1205 Genève | T.+41(0)22 372 39 01</div>';
   html+='<div class="info">Accueil.Donneurs@hug.ch | www.dondusang.ch</div>';
   html+='<div class="info"><strong>Horaires:</strong> Lu-Ma-Me-Ve: 7h30-15h | Je: 11h-19h | Sam 1er et 3ème: 8h30-12h</div>';
-  html+='</div><div style="color:#DC2626;font-weight:bold;font-size:10px">BeeMyBlood™</div></div>';
+  html+='</div><div style="color:#B3261E;font-weight:bold;font-size:10px">BeeMyBlood™</div></div>';
   // Personal info
   html+='<h2>INSCRIPTION AU DON DU SANG</h2>';
   html+='<div class="row"><span class="label">Nom:</span><span class="field">'+d.nom+'</span><span class="label">Prénom(s):</span><span class="field">'+d.prenom+'</span></div>';

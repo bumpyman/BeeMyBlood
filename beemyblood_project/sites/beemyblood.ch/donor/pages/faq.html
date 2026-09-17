@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -155,17 +155,17 @@
     <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:12px">Quand tu donnes ton sang, une poche de ~450 ml est prélevée. Mais ce sang total n'est presque jamais transfusé tel quel ! Il est séparé en <strong style="color:var(--text)">3 composants</strong>, chacun destiné à des patients différents :</div>
 
     <div style="display:flex;flex-direction:column;gap:12px">
-      <div style="padding:14px;background:rgba(230,57,70,.06);border:1px solid rgba(230,57,70,.12);border-radius:var(--radius-sm)">
+      <div style="padding:14px;background:rgba(179,38,30,.06);border:1px solid rgba(179,38,30,.12);border-radius:var(--radius-sm)">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">🩸</span><div><span style="font-weight:700;color:var(--red-soft);font-size:15px">Concentrés érythrocytaires</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(CE — les « globules rouges », aussi appelés « culots »)</span></div></div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Les globules rouges transportent l'oxygène dans tout le corps. On les transfuse en cas de <strong>chirurgie</strong>, <strong>accident</strong>, <strong>anémie sévère</strong>, <strong>pathologies du globule rouge</strong> (drépanocytose, thalassémie…), <strong>cancers du sang</strong>, ou encore lors de <strong>grossesses à risque</strong> (hémorragies, anémies de la femme enceinte). Durée de conservation : <strong>42 jours</strong>. C'est le produit le plus demandé.</div>
       </div>
 
-      <div style="padding:14px;background:rgba(155,89,182,.06);border:1px solid rgba(155,89,182,.12);border-radius:var(--radius-sm)">
+      <div style="padding:14px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.12);border-radius:var(--radius-sm)">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💜</span><div><span style="font-weight:700;color:var(--purple);font-size:15px">Plaquettes</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(CP — concentrés plaquettaires)</span></div></div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Les plaquettes aident le sang à coaguler (elles « bouchent les trous »). Essentielles pour les patients en <strong>chimiothérapie</strong>, après une <strong>greffe de moelle</strong>, ou en cas d'<strong>hémorragie</strong>. ⚠️ Durée de conservation : <strong>5 jours seulement</strong> — d'où le besoin constant de dons.</div>
       </div>
 
-      <div style="padding:14px;background:rgba(244,208,63,.06);border:1px solid rgba(244,208,63,.12);border-radius:var(--radius-sm)">
+      <div style="padding:14px;background:rgba(247,193,103,.06);border:1px solid rgba(247,193,103,.12);border-radius:var(--radius-sm)">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:24px">💛</span><div><span style="font-weight:700;color:var(--stock-yellow);font-size:15px">Plasma</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">(PFC — plasma frais congelé)</span></div></div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.6">Le plasma est la partie liquide du sang (jaune pâle). Il contient des protéines vitales pour la <strong>coagulation</strong> et l'<strong>immunité</strong>. Utilisé pour les grands brûlés, les hémorragies massives, et aussi envoyé en <strong>fractionnement industriel</strong> pour fabriquer des médicaments (immunoglobulines, facteurs de coagulation). Conservation : <strong>jusqu'à 3 ans</strong> congelé.</div>
       </div>
@@ -492,17 +492,6 @@
 </div>
 
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
-  </div>
-</div>
-
 <!-- KEYBOARD SHORTCUTS HINT -->
 <div class="kbd-hint" id="kbd-hint">
   <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
@@ -519,6 +508,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>

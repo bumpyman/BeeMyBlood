@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -210,7 +210,7 @@
   <div class="acc-body" id="impact-feedback-acc">
   <!-- FEEDBACK D'IMPACT ANIMÉ -->
   <div class="card feedback-card">
-    <div class="feedback-header" style="background:linear-gradient(135deg,rgba(230,57,70,.08),rgba(46,204,113,.05))">
+    <div class="feedback-header" style="background:linear-gradient(135deg,rgba(179,38,30,.08),rgba(15,149,241,.05))">
       <div style="font-size:15px;color:var(--text-muted);margin-bottom:4px">Feedback d'impact · Don #3</div>
       <div style="font-family:var(--font-display);font-size:20px;font-weight:700">Le voyage de ta poche de sang</div>
       <div style="font-size:14px;color:var(--text-dim);margin-top:4px">14 janvier 2026 → 16 janvier 2026 · <strong style="color:var(--green)">Transfusée</strong></div>
@@ -229,7 +229,7 @@
         <div class="fb-arrow">→</div>
         <div class="fb-node"><div class="fb-node-icon done" style="animation:fbPulse 2s infinite">💛</div><div class="fb-node-label">Transfusée<br><strong style="color:var(--green)">16 janv.</strong></div></div>
       </div>
-      <div style="text-align:center;padding:16px;background:rgba(46,204,113,.06);border-radius:var(--radius-sm);margin-top:12px">
+      <div style="text-align:center;padding:16px;background:rgba(15,149,241,.06);border-radius:var(--radius-sm);margin-top:12px">
         <div style="font-size:15px;color:var(--text-dim);line-height:1.7">
           Ta poche <strong>B+ Rh D+C−c+E−e+</strong> a été transfusée à<br>
           <strong style="color:var(--green);font-size:15px">un patient en chirurgie cardiaque aux HUG</strong><br>
@@ -268,25 +268,25 @@
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:16px">Le phénotype Duffy négatif est héréditaire. Si tu as des frères ou sœurs, il y a une forte probabilité qu'ils partagent ton profil. Chaque nouveau donneur Duffy négatif peut sauver des vies de personnes vivant avec une drépanocytose.</div>
     <div class="fratrie-tree">
       <div class="fratrie-member">
-        <div class="fratrie-avatar" style="background:rgba(200,169,96,.15);border:2px solid var(--gold)">🧑<div class="f-badge">✅</div></div>
+        <div class="fratrie-avatar" style="background:rgba(242,169,59,.15);border:2px solid var(--gold)">🧑<div class="f-badge">✅</div></div>
         <div class="fratrie-name" style="color:var(--gold)">Amine (toi)</div>
         <div class="fratrie-status">B+ · Duffy(a−b−)</div>
       </div>
       <div class="fratrie-link">→</div>
       <div class="fratrie-member">
-        <div class="fratrie-avatar" style="background:rgba(155,89,182,.1);border:2px dashed var(--purple)">👩</div>
+        <div class="fratrie-avatar" style="background:rgba(15,149,241,.1);border:2px dashed var(--purple)">👩</div>
         <div class="fratrie-name">Fatou K.</div>
         <div class="fratrie-status" style="color:var(--purple)">Invitée · en attente</div>
       </div>
       <div class="fratrie-link">→</div>
       <div class="fratrie-member">
-        <div class="fratrie-avatar" style="background:rgba(79,195,247,.1);border:2px dashed var(--blue)">🧑</div>
+        <div class="fratrie-avatar" style="background:rgba(15,149,241,.1);border:2px dashed var(--blue)">🧑</div>
         <div class="fratrie-name">Moussa K.</div>
         <div class="fratrie-status" style="color:var(--blue)">Pas encore invité</div>
       </div>
     </div>
     <!-- REWARDS FRATRIE -->
-    <div style="margin-top:14px;padding:14px;background:rgba(200,169,96,.04);border:1px solid rgba(200,169,96,.12);border-radius:var(--radius-sm)">
+    <div style="margin-top:14px;padding:14px;background:rgba(242,169,59,.04);border:1px solid rgba(242,169,59,.12);border-radius:var(--radius-sm)">
       <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px">🎁 Ce que tu gagnes en invitant ta fratrie</div>
       <div style="font-size:13px;color:var(--text-dim);line-height:1.8">
         🧬 <strong style="color:var(--text)">Chaque membre testé</strong> → badge « Recruteur Rare » + 2'000 XP<br>
@@ -311,13 +311,13 @@
     <button class="acc-toggle" onclick="toggleAcc(this)" data-target="community-acc" style="font-size:13px;padding:6px 10px;margin:4px 0">💬 Voir les posts de la communauté <span class="acc-arrow">▼</span></button>
     <div class="acc-body" id="community-acc">
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(230,57,70,.15);color:var(--red-soft)">🐚</div><div><div class="sp-name">Corail-517</div><div class="sp-time">Il y a 3h · Uni Mail</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(179,38,30,.15);color:var(--red-soft)">🐚</div><div><div class="sp-name">Corail-517</div><div class="sp-time">Il y a 3h · Uni Mail</div></div></div>
       <div class="sp-body">5e don aujourd'hui ! Badge « Héros Or » débloqué 🏅✨ Le casque VR fond marin est incroyable — je n'ai rien senti. Qui me rejoint pour le 6e ?</div>
       <div class="sp-badge-img"><span>⭐</span> Héros Or · 5 dons</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="24" data-liked="0" onclick="toggleLike(this)">🤍 24</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 8</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(46,204,113,.15);color:var(--green)">🍁</div><div><div class="sp-name">Érable-142</div><div class="sp-time">Il y a 5h · Collecte Gare Cornavin</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(15,149,241,.15);color:var(--green)">🍁</div><div><div class="sp-name">Érable-142</div><div class="sp-time">Il y a 5h · Collecte Gare Cornavin</div></div></div>
       <div class="sp-body">Premier don !! J'avais tellement peur de l'aiguille mais franchement c'est rien du tout. Le lounge après est top 👌 Merci @BeeMyBlood pour le parcours guidé</div>
       <div class="sp-badge-img"><span>🩸</span> Première Goutte</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="41" data-liked="0" onclick="toggleLike(this)">🤍 41</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 12</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
@@ -325,49 +325,49 @@
     
 
 <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(200,169,96,.15);color:var(--gold)">🦅</div><div><div class="sp-name">Faucon-283 (toi)</div><div class="sp-time">Il y a 4 jours</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(242,169,59,.15);color:var(--gold)">🦅</div><div><div class="sp-name">Faucon-283 (toi)</div><div class="sp-time">Il y a 4 jours</div></div></div>
       <div class="sp-body">Mon don #3 a été utilisé en chirurgie cardiaque aux HUG. 2 jours entre mon bras et un patient qui en avait besoin. C'est concret. C'est pour ça que je reviens. 💛🩸</div>
       <div class="sp-badge-img"><span>🧬</span> Donneur Rare · Duffy négatif</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="67" data-liked="0" onclick="toggleLike(this)">🤍 67</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 19</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(52,152,219,.15);color:var(--blue)">🌅</div><div><div class="sp-name">Aurore-694</div><div class="sp-time">Hier · CTS HUG</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(11,110,179,.15);color:var(--blue)">🌅</div><div><div class="sp-name">Aurore-694</div><div class="sp-time">Hier · CTS HUG</div></div></div>
       <div class="sp-body">Don #8 ✅ Mon médecin m'a dit que mon AB- est super recherché. Prochain objectif : le badge Sauveur Or ! 🎯</div>
       <div class="sp-badge-img"><span>🔄</span> Régulier · 8 dons</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="35" data-liked="0" onclick="toggleLike(this)">🤍 35</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 6</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(155,89,182,.15);color:var(--purple)">🐦</div><div><div class="sp-name">Colibri-831</div><div class="sp-time">Il y a 2 jours · Uni Dufour</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(15,149,241,.15);color:var(--purple)">🐦</div><div><div class="sp-name">Colibri-831</div><div class="sp-time">Il y a 2 jours · Uni Dufour</div></div></div>
       <div class="sp-body">J'ai emmené 3 potes à la collecte mobile ! On a tous eu des badges et un café offert. La prochaine fois on vise le top 5 du classement 🏆</div>
       <div class="sp-badge-img"><span>👥</span> Ambassadeur · 3 parrainages</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="52" data-liked="0" onclick="toggleLike(this)">🤍 52</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 14</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(46,204,113,.15);color:var(--green)">💎</div><div><div class="sp-name">Opale-956</div><div class="sp-time">Il y a 3 jours · Place du Molard</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(15,149,241,.15);color:var(--green)">💎</div><div><div class="sp-name">Opale-956</div><div class="sp-time">Il y a 3 jours · Place du Molard</div></div></div>
       <div class="sp-body">Exercice de respiration pendant le don = game changer 🧘 Plus détendu que chez moi. Groupe O+ donné, j'espère que ça aide vite quelqu'un !</div>
       <div class="sp-badge-img"><span>🩸</span> Première Goutte</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="28" data-liked="0" onclick="toggleLike(this)">🤍 28</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 7</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(230,126,34,.15);color:var(--orange)">🪨</div><div><div class="sp-name">Granite-723</div><div class="sp-time">Il y a 4 jours · CTS HUG</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(224,137,6,.15);color:var(--orange)">🪨</div><div><div class="sp-name">Granite-723</div><div class="sp-time">Il y a 4 jours · CTS HUG</div></div></div>
       <div class="sp-body">Don #15 🎉 J'ai reçu mon bon Starbucks + un tote bag BeeMyBlood ! Et surtout, 15 vies potentiellement sauvées. C'est le plus beau cadeau.</div>
       <div class="sp-badge-img"><span>🥈</span> Héros Argent · 15 dons</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="89" data-liked="0" onclick="toggleLike(this)">🤍 89</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 23</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(200,169,96,.15);color:var(--gold)">🌿</div><div><div class="sp-name">Mousse-614</div><div class="sp-time">Il y a 5 jours · Collecte CERN</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(242,169,59,.15);color:var(--gold)">🌿</div><div><div class="sp-name">Mousse-614</div><div class="sp-time">Il y a 5 jours · Collecte CERN</div></div></div>
       <div class="sp-body">Don #28 au CERN ! Avec le programme Fidélité, j'ai cumulé assez de points pour les places de cinéma offertes. Mais le vrai bonus c'est le sourire du personnel 😊</div>
       <div class="sp-badge-img"><span>🥇</span> Sauveur Or · 25+ dons</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="112" data-liked="0" onclick="toggleLike(this)">🤍 112</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 31</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(46,204,113,.15);color:var(--green)">🔥</div><div><div class="sp-name">Silex-338</div><div class="sp-time">Il y a 6 jours · Uni Mail</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(15,149,241,.15);color:var(--green)">🔥</div><div><div class="sp-name">Silex-338</div><div class="sp-time">Il y a 6 jours · Uni Mail</div></div></div>
       <div class="sp-body">Score HémoRush™ : 6'240 pts 🎮🔥 Je comprends enfin la compatibilité des groupes sanguins. Qui me défie ?</div>
       <div class="sp-badge-img"><span>🎮</span> Gamer · Top 10 HémoRush</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="18" data-liked="0" onclick="toggleLike(this)">🤍 18</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 9</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
     </div>
     <div class="social-post">
-      <div class="sp-header"><div class="sp-avatar" style="background:rgba(230,57,70,.15);color:var(--red-soft)">🌫</div><div><div class="sp-name">Brume-507</div><div class="sp-time">Il y a 1 sem. · CTS HUG</div></div></div>
+      <div class="sp-header"><div class="sp-avatar" style="background:rgba(179,38,30,.15);color:var(--red-soft)">🌫</div><div><div class="sp-name">Brume-507</div><div class="sp-time">Il y a 1 sem. · CTS HUG</div></div></div>
       <div class="sp-body">Don #2 — cette fois j'ai regardé l'aiguille et j'ai survécu 😂 Le feedback d'impact de mon premier don m'a tellement motivée. Je reviens dans 4 mois !</div>
       <div class="sp-badge-img"><span>🩸</span> Régulier · 2 dons</div>
       <div class="sp-actions"><span class="sp-action sp-like" data-count="33" data-liked="0" onclick="toggleLike(this)">🤍 33</span><span class="sp-action sp-comment" onclick="openComment(this)">💬 11</span><span class="sp-action sp-share" onclick="window.open('https://www.instagram.com/gedondusang/','_blank')">🔗 Partager</span></div>
@@ -589,17 +589,6 @@
 </div>
 
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
-  </div>
-</div>
-
 <!-- KEYBOARD SHORTCUTS HINT -->
 <div class="kbd-hint" id="kbd-hint">
   <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
@@ -616,6 +605,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
@@ -707,7 +697,7 @@ function sendComment(btn){
 
 function launchConfetti(){
   const container=document.createElement('div');container.className='confetti-container';document.body.appendChild(container);
-  const colors=['#C8A960','#E63946','#2ECC71','#4FC3F7','#9B59B6','#F39C12'];
+  const colors=['#F2A93B','#B3261E','#0F95F1','#0F95F1','#0F95F1','#F2A93B'];
   for(let i=0;i<80;i++){
     const c=document.createElement('div');c.className='confetti';
     c.style.left=Math.random()*100+'%';

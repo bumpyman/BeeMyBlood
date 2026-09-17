@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -148,10 +148,9 @@
 <div class="view active" id="v-hemorush">
   <div class="sec-header"><div class="sec-label">🎮 Jeu éducatif</div><h1 class="sec-title" id="hr-title">HémoRush™</h1><div class="sec-sub" id="hr-sub">Apprends les compatibilités sanguines en jouant — 5 modes</div></div>
 
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="hr-extras-acc" style="font-size:13px;padding:6px 10px;margin-bottom:8px">ℹ️ Campagne & infos <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="hr-extras-acc">
+  <div id="hr-extras-acc">
   <!-- HUG CAMPAIGN BANNER -->
-  <div style="background:linear-gradient(135deg,rgba(200,169,96,.08),rgba(230,57,70,.06));border:1px solid rgba(200,169,96,.2);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+  <div style="background:linear-gradient(135deg,rgba(242,169,59,.08),rgba(179,38,30,.06));border:1px solid rgba(242,169,59,.2);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
     <div style="font-size:36px;flex-shrink:0">🎮</div>
     <div style="flex:1;min-width:200px">
       <div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:4px;line-height:1.4">« Toi aussi, joue le jeu : donne ton sang et offre une vie »</div>
@@ -160,10 +159,9 @@
     <a href="https://www.hug.ch/don-du-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm" style="flex-shrink:0;text-decoration:none">🏥 En savoir plus</a>
   </div>
 
-  </div><!-- /acc-body hr-extras -->
+  </div><!-- /hr-extras -->
 
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="hr-game-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">🎮 Jouer à HémoRush™ <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="hr-game-acc">
+  <div id="hr-game-acc" style="margin-top:16px">
   <!-- GAME AREA -->
   <div class="game-wrap" id="game-wrap">
     <div class="fs-btn" style="z-index:15" onclick="toggleFS(document.getElementById('game-wrap'))">⛶</div>
@@ -187,7 +185,7 @@
       </div>
 
       <!-- COMPACT RULES -->
-      <div style="background:linear-gradient(90deg,rgba(200,169,96,.06),rgba(200,169,96,.18),rgba(200,169,96,.06));background-size:200% 100%;animation:shimmerRule 3s linear infinite;border:2px solid rgba(200,169,96,.35);border-radius:12px;padding:10px 14px;margin:8px 0;text-align:center;line-height:1.8">
+      <div style="background:linear-gradient(90deg,rgba(242,169,59,.06),rgba(242,169,59,.18),rgba(242,169,59,.06));background-size:200% 100%;animation:shimmerRule 3s linear infinite;border:2px solid rgba(242,169,59,.35);border-radius:12px;padding:10px 14px;margin:8px 0;text-align:center;line-height:1.8">
         <span style="font-size:15px;font-weight:700" class="hr-rule-text">🏥 Touche un <strong style="color:var(--gold)">patient</strong></span><br>
         <span style="color:var(--gold);font-size:16px;animation:bounceBtn 1.5s ease-in-out infinite;display:inline-block">↓</span><br>
         <span style="font-size:15px;font-weight:700" class="hr-rule-text">🩸 Donne la <strong style="color:var(--green)">poche</strong> compatible</span>
@@ -201,7 +199,8 @@
         <span><strong style="color:var(--red-soft)">🚨</strong> Urgent ×2</span>
       </div>
 
-      <button class="btn btn-gold" style="font-size:20px;padding:14px 44px;animation:bounceBtn 1.5s ease-in-out infinite;box-shadow:0 0 20px rgba(200,169,96,.3)" onclick="startGame()">▶ JOUER</button>
+      <button class="btn btn-gold" style="font-size:20px;padding:14px 44px;animation:bounceBtn 1.5s ease-in-out infinite;box-shadow:0 0 20px rgba(242,169,59,.3)" onclick="startGame()">▶ JOUER</button>
+      <button class="btn btn-outline btn-sm" style="font-size:13px;margin-top:2px" onclick="showHrTuto()">❓ Revoir le tutoriel</button>
     </div>
 
     <!-- GAME OVER -->
@@ -226,11 +225,11 @@
       <div class="hud-box" id="hud-timer-box"><div class="hud-label">Temps</div><div class="hud-val hud-timer" id="g-timer">2:00</div></div>
       <div class="hud-box" id="hud-lives-box" style="display:none"><div class="hud-label">Vies</div><div class="hud-val" id="g-lives" style="color:var(--red-soft)">❤️❤️❤️</div></div>
       <div class="hud-box" id="hud-wave-box" style="display:none"><div class="hud-label">Vague</div><div class="hud-val" id="g-wave" style="color:var(--blue)">1</div></div>
-      <div class="hud-box"><button onclick="quitGame()" style="background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.4);color:var(--red-soft);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s" onmouseover="this.style.background='rgba(230,57,70,.25)';this.style.borderColor='var(--red-soft)'" onmouseout="this.style.background='rgba(230,57,70,.12)';this.style.borderColor='rgba(230,57,70,.4)'">✕ Quitter</button></div>
+      <div class="hud-box"><button onclick="quitGame()" style="background:rgba(179,38,30,.12);border:1px solid rgba(179,38,30,.4);color:var(--red-soft);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s" onmouseover="this.style.background='rgba(179,38,30,.25)';this.style.borderColor='var(--red-soft)'" onmouseout="this.style.background='rgba(179,38,30,.12)';this.style.borderColor='rgba(179,38,30,.4)'">✕ Quitter</button></div>
     </div>
 
     <!-- INSTRUCTION BANNER -->
-    <div id="g-instruction" style="text-align:center;padding:4px 8px;margin-bottom:3px;background:rgba(200,169,96,.06);border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--gold);display:none;flex-shrink:0"></div>
+    <div id="g-instruction" style="text-align:center;padding:4px 8px;margin-bottom:3px;background:rgba(242,169,59,.06);border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--gold);display:none;flex-shrink:0"></div>
 
     <!-- GAME ZONE -->
     <div class="game-zone" id="game-zone" style="display:none">
@@ -244,8 +243,7 @@
   </div>
 
   <!-- COMPAT TABLE -->
-  <button class="acc-toggle" onclick="toggleAcc(this)" data-target="hr-compat-acc" style="font-size:13px;padding:6px 10px;margin:10px 0">📚 Tableau de compatibilité <span class="acc-arrow">▼</span></button>
-  <div class="acc-body" id="hr-compat-acc">
+  <div id="hr-compat-acc" style="margin-top:16px">
   <div class="card" style="margin-top:6px">
     <div class="card-header"><div class="card-title">📚 Tableau de compatibilité</div><div style="font-size:15px;color:var(--text-dim)">Poche → peut donner au patient ↓</div></div>
     <div style="overflow-x:auto">
@@ -256,7 +254,7 @@
     </div>
     <div style="margin-top:8px;font-size:15px;color:var(--text-muted)">💡 O- = donneur universel · AB+ = receveur universel · Astuce : les négatifs donnent aux positifs du même groupe</div>
   </div>
-  </div><!-- /acc-body hr-compat -->
+  </div><!-- /hr-compat -->
   </div><!-- /hr-game-acc -->
 </div>
 </main>
@@ -434,15 +432,68 @@
   </div>
 </div>
 
+<!-- HEMORUSH TUTORIAL MODAL -->
+<div class="modal-overlay" id="hr-tuto-modal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="hr-tuto-title">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-header" style="padding-bottom:8px">
+      <div style="font-size:36px;margin-bottom:4px">🎮</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)" id="hr-tuto-title">Comment jouer à HémoRush™</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="hr-tuto-counter">1 / 4</div>
+    </div>
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn active" href="hemorush.html" aria-current="page">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
+    <!-- STEP 0 : BUT DU JEU -->
+    <div class="modal-step active" id="hr-tuto-step-0">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🩸</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Apprends en jouant</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">HémoRush™ t'entraîne à reconnaître quelles poches de sang peuvent être données à quels patients.<br><br>Chaque bon choix aide (virtuellement) à <strong style="color:var(--gold)">sauver une vie</strong> !</div>
+      </div>
+    </div>
+
+    <!-- STEP 1 : COMMENT JOUER -->
+    <div class="modal-step" id="hr-tuto-step-1">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">👆</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Deux clics, c'est tout</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          <strong style="color:var(--gold)">1️⃣</strong> Touche un <strong style="color:var(--blue)">patient</strong> 🏥 pour le sélectionner<br>
+          <strong style="color:var(--gold)">2️⃣</strong> Touche ensuite une <strong style="color:var(--green)">poche</strong> 🩸 compatible<br><br>
+          <span style="color:var(--text-muted)">Un simple clic (ou tap) suffit — <strong>pas besoin de glisser-déposer</strong> !</span><br><br>
+          ⚠️ <strong style="color:var(--red-soft)">Attention :</strong> une mauvaise poche bloque le patient, réfléchis avant de valider.
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 : MATCH PARFAIT -->
+    <div class="modal-step" id="hr-tuto-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🎯</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Le « Match parfait »</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
+          Quand tu donnes <strong style="color:var(--gold)">exactement le même groupe</strong> que celui du patient (ex. A+ → A+), le jeu affiche « <strong>Match parfait !</strong> ».<br><br>
+          Ce n'est pas le seul choix valable : d'autres groupes compatibles fonctionnent aussi (comme <strong style="color:var(--green)">O-</strong>, donneur universel).<br><br>
+          <span style="color:var(--text-muted)">💡 Ce qui fait vraiment grimper ton score : enchaîner les bonnes réponses sans erreur (combo 🔥) et sauver les patients marqués <strong style="color:var(--red-soft)">🚨 URGENT</strong>.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : TABLEAU DE COMPATIBILITÉ -->
+    <div class="modal-step" id="hr-tuto-step-3">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">📚</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Un doute ? Le tableau est là</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.7">Juste en dessous du jeu, un <strong style="color:var(--gold)">tableau de compatibilité</strong> récapitule qui peut donner à qui.<br><br>Il reste toujours accessible : tu peux le consulter à tout moment, même en pleine partie, pour vérifier une compatibilité.</div>
+      </div>
+    </div>
+
+    <div class="modal-dots" id="hr-tuto-dots"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" id="hr-tuto-skip" onclick="closeHrTuto()" style="font-size:14px">Passer le tutoriel</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" id="hr-tuto-prev" onclick="prevHrTuto()" style="font-size:14px;display:none">← Retour</button>
+        <button class="btn btn-gold btn-sm" id="hr-tuto-next" onclick="nextHrTuto()" style="font-size:14px">Suivant →</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -462,6 +513,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
@@ -503,6 +555,78 @@
 <script src="../assets/app.js"></script>
 <script>
 updateBreadcrumb('hemorush');
+
+// ===== HEMORUSH TUTORIAL =====
+let hrTutoStep=0;
+function showHrTuto(){
+  hrTutoStep=0;updateHrTuto();
+  const m=document.getElementById('hr-tuto-modal');
+  if(m){m.style.display='';m.classList.add('show');}
+}
+function closeHrTuto(){
+  const m=document.getElementById('hr-tuto-modal');
+  if(m)m.classList.remove('show');
+}
+function nextHrTuto(){
+  hrTutoStep++;
+  if(hrTutoStep>=4){closeHrTuto();return;}
+  updateHrTuto();
+}
+function prevHrTuto(){
+  if(hrTutoStep>0)hrTutoStep--;
+  updateHrTuto();
+}
+function updateHrTuto(){
+  const maxStep=3;
+  for(let i=0;i<=maxStep;i++){
+    const el=document.getElementById('hr-tuto-step-'+i);
+    if(el)el.classList.toggle('active',i===hrTutoStep);
+  }
+  const dotsEl=document.getElementById('hr-tuto-dots');
+  if(dotsEl){
+    let html='';
+    for(let i=0;i<=maxStep;i++){html+='<div class="modal-dot'+(i===hrTutoStep?' active':'')+'"></div>';}
+    dotsEl.innerHTML=html;
+  }
+  const ctr=document.getElementById('hr-tuto-counter');
+  if(ctr)ctr.textContent=(hrTutoStep+1)+' / '+(maxStep+1);
+  const skip=document.getElementById('hr-tuto-skip');
+  const next=document.getElementById('hr-tuto-next');
+  const prev=document.getElementById('hr-tuto-prev');
+  if(skip)skip.style.display=hrTutoStep>=maxStep?'none':'';
+  if(next)next.textContent=hrTutoStep>=maxStep?'C\'est parti ! 🎮':'Suivant →';
+  if(prev)prev.style.display=hrTutoStep<=0?'none':'';
+}
+// Auto-show once per compte, après le portail d'accès et seulement si l'onboarding
+// général n'est pas déjà en train de s'afficher (évite d'empiler deux modals).
+// Note : acces.js ne SUPPRIME #gate-overlay que pour un compte connecté et autorisé ;
+// pour un visiteur non connecté (mode public), il se contente de le masquer
+// (display:none + data-bmba-masque="1") sans le retirer du DOM. On doit donc
+// considérer le portail comme "passé" dans les deux cas, sinon rien ne se
+// déclenche jamais pour les visiteurs non connectés.
+function hrGatePassed(){
+  const gate=document.getElementById('gate-overlay');
+  if(!gate)return true;
+  if(gate.getAttribute('data-bmba-masque')==='1')return true;
+  if(getComputedStyle(gate).display==='none')return true;
+  return false;
+}
+(function(){
+  let seen=false;
+  try{seen=localStorage.getItem('bmb-hemorush-tuto-seen')==='1';}catch(e){}
+  if(seen)return;
+  function tryShow(){
+    const onboard=document.getElementById('onboard-modal');
+    const onboardOpen=onboard&&onboard.classList.contains('show');
+    if(hrGatePassed()&&!onboardOpen){
+      showHrTuto();
+      try{localStorage.setItem('bmb-hemorush-tuto-seen','1');}catch(e){}
+    } else {
+      setTimeout(tryShow,500);
+    }
+  }
+  setTimeout(tryShow,900);
+})();
 
 // ===== HEMORUSH ENGINE — 5 MODES =====
 const COMPAT={'O-':['O-','O+','A-','A+','B-','B+','AB-','AB+'],'O+':['O+','A+','B+','AB+'],'A-':['A-','A+','AB-','AB+'],'A+':['A+','AB+'],'B-':['B-','B+','AB-','AB+'],'B+':['B+','AB+'],'AB-':['AB-','AB+'],'AB+':['AB+']};
@@ -741,7 +865,7 @@ function spawnRound(){
     instrEl.innerHTML='🎯 <strong style="color:var(--red-soft)">Série tendue</strong> — pas de poche en trop, zéro erreur !';
     banner.textContent=tightMsgs[Math.floor(Math.random()*tightMsgs.length)];
     banner.style.color='var(--red-soft)';
-    banner.style.textShadow='0 0 24px rgba(230,57,70,.5)';
+    banner.style.textShadow='0 0 24px rgba(179,38,30,.5)';
   }
 
   pouchGroups.forEach((g,pi)=>{

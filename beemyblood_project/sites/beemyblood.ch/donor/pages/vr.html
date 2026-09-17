@@ -29,17 +29,17 @@
 <!-- GATE PAGE -->
 <div id="gate-overlay" style="position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem">
   <div style="text-align:center;max-width:400px;width:100%">
-    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(220,38,38,.4))">🩸</div>
+    <div style="font-size:3.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 20px rgba(179,38,30,.4))">🩸</div>
     <div style="font-family:var(--font-display);font-size:2rem;color:var(--gold);margin-bottom:.25rem">BeeMyBlood™</div>
     <div style="font-size:1rem;color:var(--gold);margin-bottom:1.5rem;font-weight:500">Espace Donneur·se</div>
     <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;margin-bottom:2rem">Entrez votre code d'invitation pour continuer.</p>
     <div style="position:relative;margin-bottom:.75rem">
       <input id="gate-input" type="password" placeholder="Code d'invitation" autocomplete="off" spellcheck="false"
-        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(200,169,96,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(200,169,96,.6)'" onblur="this.style.borderColor='rgba(200,169,96,.25)'"
+        style="width:100%;box-sizing:border-box;text-align:center;font-size:1.05rem;padding:.85rem;letter-spacing:2px;border-radius:12px;border:1.5px solid rgba(242,169,59,.25);background:var(--dark-surface);color:var(--text);font-family:var(--font-body);transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(242,169,59,.6)'" onblur="this.style.borderColor='rgba(242,169,59,.25)'"
         onkeydown="if(event.key==='Enter')checkGate()">
     </div>
-    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(200,169,96,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
+    <button onclick="checkGate()" style="width:100%;padding:.85rem;font-size:1rem;font-weight:700;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);cursor:pointer;font-family:var(--font-body);box-shadow:0 4px 12px rgba(242,169,59,.2);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">🔐 Accéder</button>
     <div id="gate-error" style="margin-top:.75rem;font-size:0.85rem;color:var(--red-soft);opacity:0;transition:opacity .2s">Code invalide</div>
     <div style="margin-top:2.5rem;font-size:0.78rem;color:var(--text-muted);line-height:1.8">
       <a href="https://beemyblood.ch" style="color:var(--gold);font-size:0.82rem">← Retour à beemyblood.ch</a><br>
@@ -158,7 +158,7 @@
 
   <button class="acc-toggle" onclick="toggleAcc(this)" data-target="vr-zerofear-acc" style="font-size:13px;padding:6px 10px;margin:8px 0">💉 Zero Fear Journey™ — Parcours anti-phobie <span class="acc-arrow">▼</span></button>
   <div class="acc-body" id="vr-zerofear-acc">
-  <div class="card" style="border:1px solid rgba(79,195,247,.2);background:linear-gradient(135deg,rgba(79,195,247,.04),rgba(46,204,113,.04))">
+  <div class="card" style="border:1px solid rgba(15,149,241,.2);background:linear-gradient(135deg,rgba(15,149,241,.04),rgba(15,149,241,.04))">
     <div class="card-header"><div class="card-title">💉 Zero Fear Journey™</div><span class="badge badge-blue">5 étapes</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:14px">Programme complet anti-phobie en 5 étapes. Ta peur devient une progression mesurable.</div>
 
@@ -173,21 +173,21 @@
 
     <!-- Steps -->
     <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="padding:10px 12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+      <div style="padding:10px 12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
         <span style="font-size:20px">✅</span>
         <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 1 · Visite virtuelle 360°</div><div style="font-size:12px;color:var(--text-muted)">Vidéo immersive du CTS depuis chez toi</div></div>
         <span style="font-size:12px;color:var(--green);font-weight:600">Fait</span>
       </div>
-      <div style="padding:10px 12px;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
+      <div style="padding:10px 12px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:var(--radius-sm);display:flex;align-items:center;gap:10px">
         <span style="font-size:20px">✅</span>
         <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 2 · Respiration gamifiée</div><div style="font-size:12px;color:var(--text-muted)">Score de calme : 78/100 (+44 depuis le début)</div></div>
         <span style="font-size:12px;color:var(--green);font-weight:600">78/100</span>
       </div>
-      <div style="padding:10px 12px;background:rgba(200,169,96,.06);border:1px solid rgba(200,169,96,.15);border-radius:var(--radius-sm)">
+      <div style="padding:10px 12px;background:rgba(242,169,59,.06);border:1px solid rgba(242,169,59,.15);border-radius:var(--radius-sm)">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
           <span style="font-size:20px">🔄</span>
           <div style="flex:1"><div style="font-size:14px;font-weight:600">Étape 3 · Visite virtuelle du labo</div><div style="font-size:12px;color:var(--text-muted)">Découvre ce qui se passe après ton don</div></div>
-          <span style="font-size:11px;padding:3px 8px;border-radius:6px;background:rgba(200,169,96,.12);border:1px solid rgba(200,169,96,.25);color:var(--gold);font-weight:600">En cours</span>
+          <span style="font-size:11px;padding:3px 8px;border-radius:6px;background:rgba(242,169,59,.12);border:1px solid rgba(242,169,59,.25);color:var(--gold);font-weight:600">En cours</span>
         </div>
         <div style="background:var(--dark-surface);border-radius:var(--radius-sm);padding:12px;font-size:13px;color:var(--text-dim);line-height:1.7">
           <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🗺️ Marche à suivre</div>
@@ -197,7 +197,7 @@
             <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">3️⃣</span><span>Suis la poche virtuelle de ton don : centrifugation, contrôle qualité, stockage, expédition — 4 min d'immersion.</span></div>
             <div style="display:flex;gap:8px;align-items:flex-start"><span style="min-width:20px;font-size:13px">4️⃣</span><span>À la fin, ton score de sérénité est mis à jour et l'Étape 4 se déverrouille pour ton prochain don.</span></div>
           </div>
-          <div style="margin-top:10px;padding:8px 10px;background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.15);border-radius:8px;font-size:12px;color:var(--text-muted)">
+          <div style="margin-top:10px;padding:8px 10px;background:rgba(15,149,241,.06);border:1px solid rgba(15,149,241,.15);border-radius:8px;font-size:12px;color:var(--text-muted)">
             💡 La vidéo interactive sera disponible sur le casque au CTS dès le prochain hackathon. Le prototype montre le parcours prévu.
           </div>
         </div>
@@ -215,7 +215,7 @@
     </div>
 
     <!-- Serenity score -->
-    <div style="text-align:center;margin-top:12px;padding:12px;background:linear-gradient(135deg,rgba(79,195,247,.08),rgba(46,204,113,.06));border:1px solid rgba(79,195,247,.15);border-radius:var(--radius)">
+    <div style="text-align:center;margin-top:12px;padding:12px;background:linear-gradient(135deg,rgba(15,149,241,.08),rgba(15,149,241,.06));border:1px solid rgba(15,149,241,.15);border-radius:var(--radius)">
       <div style="font-size:12px;color:var(--text-muted)">Score de sérénité</div>
       <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--blue)">78<span style="font-size:16px;color:var(--text-muted)">/100</span></div>
       <div style="font-size:12px;color:var(--green)">↑ +44 pts depuis le 1er don</div>
@@ -250,7 +250,7 @@
   <div class="card" style="margin-top:20px;text-align:center">
     <div class="card-header"><div class="card-title">🫁 Exercice de respiration — essaye maintenant</div></div>
     <div style="font-size:14px;color:var(--text-dim);margin-bottom:16px">La même respiration guidée que dans le casque VR. Clique pour commencer.</div>
-    <div id="breath-circle" style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(79,195,247,.15),rgba(79,195,247,.05));border:2px solid rgba(79,195,247,.3);margin:0 auto;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 4s ease-in-out;font-size:14px;color:var(--blue);font-weight:600" onclick="startBreathing()">
+    <div id="breath-circle" style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(15,149,241,.15),rgba(15,149,241,.05));border:2px solid rgba(15,149,241,.3);margin:0 auto;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 4s ease-in-out;font-size:14px;color:var(--blue);font-weight:600" onclick="startBreathing()">
       Clique ici
     </div>
     <div id="breath-label" style="margin-top:10px;font-size:14px;color:var(--text-muted)">4s inspirer · 4s retenir · 6s expirer</div>
@@ -260,14 +260,14 @@
   <div class="card" style="margin-top:20px">
     <div class="card-header"><div class="card-title">🔄 Avant / Après — le souvenir qui change tout</div></div>
     <div class="grid-2">
-      <div style="padding:16px;background:rgba(230,57,70,.04);border:1px solid rgba(230,57,70,.1);border-radius:var(--radius-sm)">
+      <div style="padding:16px;background:rgba(179,38,30,.04);border:1px solid rgba(179,38,30,.1);border-radius:var(--radius-sm)">
         <div style="font-size:14px;font-weight:700;color:var(--red-soft);margin-bottom:8px">❌ Sans VR</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
           « J'ai vu l'aiguille. J'ai fixé le plafond. J'avais les mains moites. Le temps ne passait pas. Je ne suis pas revenu. »
         </div>
         <div style="margin-top:8px;font-size:15px;color:var(--text-muted)">Souvenir : stress, hôpital, aiguille</div>
       </div>
-      <div style="padding:16px;background:rgba(46,204,113,.04);border:1px solid rgba(46,204,113,.1);border-radius:var(--radius-sm)">
+      <div style="padding:16px;background:rgba(15,149,241,.04);border:1px solid rgba(15,149,241,.1);border-radius:var(--radius-sm)">
         <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Avec VR BeeMyBlood™</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7">
           « J'étais sur une plage. J'ai entendu les vagues. Je ne me souviens même pas de la piqûre. C'était fini avant que je le réalise. »
@@ -462,17 +462,6 @@
 </div>
 
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="mob-bottom" id="mob-bottom">
-  <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
-    <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
-  </div>
-</div>
-
 <!-- KEYBOARD SHORTCUTS HINT -->
 <div class="kbd-hint" id="kbd-hint">
   <div style="font-weight:600;margin-bottom:4px;color:var(--gold)">⌨️ Raccourcis clavier</div>
@@ -489,6 +478,7 @@
     <a href="https://vorschriften.blutspende.ch/fr/downloads/" target="_blank" aria-describedby="ext-link-notice">Transfusion CRS Suisse</a>
     <a href="https://www.hug.ch/don-du-sang/rendez-vous-ligne" target="_blank" aria-describedby="ext-link-notice">Prendre RDV au CTS</a>
     <button type="button" onclick="startTour()">Tour guidé</button>
+    <button type="button" class="footer-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut de page</button>
   </div>
   <div class="app-footer-copy">
     Concept & développement : <a href="https://www.hesge.ch/heg/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">HEG (HES-SO)</a> · <a href="https://convivens.ch" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Convivens Lab</a> · <a href="https://www.unige.ch/medecine/simed/" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">SIMED (UNIGE)</a> · <a href="https://www.hug.ch/hematologie" target="_blank" aria-describedby="ext-link-notice" style="color:var(--text-muted);text-decoration:none">Unité d’hématologie transfusionnelle (HUG)</a>
@@ -548,15 +538,15 @@ function startBreathing(){
   const label=document.getElementById('breath-label');
   let phase=0;
   function breathCycle(){
-    if(phase>=3){breathRunning=false;circle.textContent='Clique ici';circle.style.transform='scale(1)';circle.style.borderColor='rgba(79,195,247,.3)';label.textContent='4s inspirer · 4s retenir · 6s expirer';return;}
+    if(phase>=3){breathRunning=false;circle.textContent='Clique ici';circle.style.transform='scale(1)';circle.style.borderColor='rgba(15,149,241,.3)';label.textContent='4s inspirer · 4s retenir · 6s expirer';return;}
     // Inhale 4s
-    circle.textContent='Inspire...';circle.style.transform='scale(1.4)';circle.style.borderColor='rgba(79,195,247,.6)';label.textContent='Inspire lentement par le nez...';
+    circle.textContent='Inspire...';circle.style.transform='scale(1.4)';circle.style.borderColor='rgba(15,149,241,.6)';label.textContent='Inspire lentement par le nez...';
     setTimeout(()=>{
       // Hold 4s
-      circle.textContent='Retiens...';circle.style.borderColor='rgba(200,169,96,.6)';label.textContent='Retiens doucement...';
+      circle.textContent='Retiens...';circle.style.borderColor='rgba(242,169,59,.6)';label.textContent='Retiens doucement...';
       setTimeout(()=>{
         // Exhale 6s
-        circle.textContent='Expire...';circle.style.transform='scale(1)';circle.style.transition='all 6s ease-in-out';circle.style.borderColor='rgba(46,204,113,.6)';label.textContent='Expire lentement par la bouche...';
+        circle.textContent='Expire...';circle.style.transform='scale(1)';circle.style.transition='all 6s ease-in-out';circle.style.borderColor='rgba(15,149,241,.6)';label.textContent='Expire lentement par la bouche...';
         setTimeout(()=>{circle.style.transition='all 4s ease-in-out';phase++;breathCycle();},6000);
       },4000);
     },4000);
