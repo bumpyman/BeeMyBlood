@@ -40,7 +40,7 @@
     + '.bmba-choix{display:block;text-align:center;text-decoration:none;margin-bottom:8px}'
     + '.bmba-q{font-size:13px;font-weight:700;color:#E8D5A3;margin:14px 0 8px}.bmba-q:first-of-type{margin-top:4px}'
     + '.bmba-note{font-size:12.5px;color:#8b8b9e;margin:8px 0 0;line-height:1.5}'
-    + '.bmba-err{color:#ff6b6b;font-size:13px;min-height:18px;margin:6px 0 4px}.bmba-ok{color:#4ade80;font-size:13px;margin:6px 0}'
+    + '.bmba-err{color:#ff6b6b;font-size:13px;min-height:18px;margin:6px 0 4px}.bmba-ok{color:#60a5fa;font-size:13px;margin:6px 0}'
     + '.bmba-foot{margin-top:16px;font-size:12px;color:#5a5a72;text-align:center;line-height:1.6}.bmba-foot a{color:#C8A960;text-decoration:none}'
     + '.bmba-nda{max-height:44vh;overflow:auto;padding:14px 16px;background:#0a0a12;border:1px solid rgba(200,169,96,.18);border-radius:12px;font-size:13.5px;line-height:1.6;color:#d8d3c7;white-space:pre-wrap;margin-bottom:10px}'
     + '.bmba-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:8px 0 12px;cursor:pointer}.bmba-check input{width:18px;height:18px;accent-color:#C8A960;margin-top:2px;flex:none}'
@@ -77,7 +77,7 @@
 
   // ---------- Étape 1 : courriel ----------
   var INTRO = {
-    donneur: 'Le test d’éligibilité, les centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Le tableau de bord, les défis, HémoRush, l’impact et le profil s’ouvrent sur invitation.',
+    donneur: 'Le test d’éligibilité, les centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Mon profil, les défis, HémoRush et l’impact s’ouvrent sur invitation.',
     receveur: 'L’espace receveur·se est en phase de test et s’ouvre sur invitation.',
     pro: 'Le portail professionnel est en phase de test et s’ouvre sur invitation.',
     admin: 'L’administration est réservée à l’équipe du projet.',
@@ -199,6 +199,26 @@
     var d = DEMO[ESPACE]; if(!d || !e || e.dev) return;
     var id = identite(e), racine = document.body;
     var SKIP = {SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1,OPTION:1};
+    var remplacements = {
+      'Amine Konaté': id.nom,
+      'Salut Amine': 'Salut '+id.prenom,
+      'Merci, Amine': 'Merci, '+id.prenom,
+      'Faucon-283': id.nom
+    };
+    var remplacerIdentite = function(texte){
+      Object.keys(remplacements).forEach(function(ancien){
+        texte = texte.split(ancien).join(remplacements[ancien]);
+      });
+      return texte;
+    };
+    var textes = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT, { acceptNode:function(n){
+      var p=n.parentNode;
+      if(!p||SKIP[p.nodeName]||p.closest('.bmba-wrap,.bmba-user,.bmb-box')) return NodeFilter.FILTER_REJECT;
+      return Object.keys(remplacements).some(function(ancien){ return n.nodeValue.indexOf(ancien)>=0; }) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    } });
+    var identites=[], texte;
+    while((texte=textes.nextNode())) identites.push(texte);
+    identites.forEach(function(n){ n.nodeValue=remplacerIdentite(n.nodeValue); });
     if(d.noms.length){
       var re = new RegExp('\\b(' + d.noms.join('|') + ')\\b', 'g');
       var w = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT, { acceptNode:function(n){ var p=n.parentNode; if(!p||SKIP[p.nodeName]||p.closest('.bmba-wrap,.bmba-user,.bmb-box')) return NodeFilter.FILTER_REJECT; if(/T[ée]moignage/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT; return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP; } });

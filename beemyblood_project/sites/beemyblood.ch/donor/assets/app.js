@@ -597,7 +597,7 @@ async function sendBeeBot(){
   // ALWAYS try API first — same body format as chatReply
   var apiOk=false;
   try{
-    var resp=await fetch('api.php',{
+    var resp=await fetch('/donor/api.php',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({message:q,history:[{role:'user',content:q}]})
@@ -1002,7 +1002,7 @@ function bmbRenderDonnees(d){
   }
 }
 function bmbChargerDonnees(){
-  fetch('../api/donnees.php',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+  fetch('/api/donnees.php',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
     .then(bmbRenderDonnees)
     .catch(function(){ bmbRenderDonnees({stocks:[],actualites:[],collectes:{geneve:[]}}); });
 }

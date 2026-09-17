@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const CSS_PATH = path.join(__dirname, 'assets', 'styles.css');
+const CSS_PATH = path.join(__dirname, '..', 'assets', 'styles.css');
 const html = fs.readFileSync(CSS_PATH, 'utf8');
 
 function extractVars(blockRegex) {

@@ -20,7 +20,7 @@
 <title>Questionnaire médical — BeeMyBlood™ Portail Donneur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="../assets/styles.css">
 </head>
 <body>
 <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -52,10 +52,10 @@
 
 <header>
 <nav>
-  <a href="../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
-  <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
+  <a href="../../" class="nav-home-btn" title="Retour à l'accueil BeeMyBlood™">🏠</a>
+  <a class="nav-brand" href="../index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
   <div class="nav-tabs" id="nav-tabs">
-    <a class="nav-tab" href="index.html">Accueil</a>
+    <a class="nav-tab" href="../index.html">Accueil</a>
     <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
     <a class="nav-tab" href="hemorush.html">HémoRush™</a>
     <a class="nav-tab" href="centres.html">Collectes</a>
@@ -118,7 +118,7 @@
 <div class="mob-menu" id="mob-menu">
   <div class="mob-section-label">Navigation</div>
   <div class="mob-menu-grid">
-    <a class="mob-item" href="index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
+    <a class="mob-item" href="../index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
     <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
     <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
     <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
@@ -141,7 +141,7 @@
 
 
 <div id="breadcrumb-bar" style="display:none;position:fixed;top:56px;left:0;right:0;z-index:900;backdrop-filter:blur(8px);padding:6px 20px;font-size:12px" class="bc-bar">
-  <a href="index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Questionnaire médical</span>
+  <a href="../index.html" style="cursor:pointer;color:var(--gold);text-decoration:none">🏠 Accueil</a> <span style="margin:0 4px;color:var(--text-muted)">›</span> <span id="bc-current">Questionnaire médical</span>
 </div>
 <main id="contenu" tabindex="-1">
 <div class="view active" id="v-questionnaire">
@@ -428,7 +428,7 @@
 <!-- MOBILE BOTTOM BAR -->
 <div class="mob-bottom" id="mob-bottom">
   <div class="mob-bottom-inner">
-    <a class="mob-bottom-btn" href="index.html">🏠<span>Accueil</span></a>
+    <a class="mob-bottom-btn" href="../index.html">🏠<span>Accueil</span></a>
     <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
     <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
     <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
@@ -490,7 +490,7 @@
   </div>
 </div>
 
-<script src="assets/app.js"></script>
+<script src="../assets/app.js"></script>
 <script>
 updateBreadcrumb('questionnaire');
 // ===== QUESTIONNAIRE HUG =====
@@ -708,8 +708,8 @@ try{
 }catch(e){}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
-<script src="../lexique.js" defer></script>
+<script src="../../acces.js" data-espace="donneur" data-racine="../../" data-public="1" defer></script>
+<script src="../../lexique.js" defer></script>
 <script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
 document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
 </body>

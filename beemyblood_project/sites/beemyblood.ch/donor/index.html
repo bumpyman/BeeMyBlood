@@ -56,16 +56,16 @@
   <a class="nav-brand" href="index.html"><span class="bee">🩸</span> BeeMyBlood™</a>
   <div class="nav-tabs" id="nav-tabs">
     <a class="nav-tab active" href="index.html" aria-current="page">Accueil</a>
-    <a class="nav-tab" href="eligibilite.html">Éligibilité</a>
-    <a class="nav-tab" href="hemorush.html">HémoRush™</a>
-    <a class="nav-tab" href="centres.html">Collectes</a>
+    <a class="nav-tab" href="pages/eligibilite.html">Éligibilité</a>
+    <a class="nav-tab" href="pages/hemorush.html">HémoRush™</a>
+    <a class="nav-tab" href="pages/centres.html">Collectes</a>
     <div class="nav-group" data-menu="nav-group-menu-espace">
       <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'espace')">Mon espace ▾</button>
     </div>
     <div class="nav-group" data-menu="nav-group-menu-decouvrir">
       <button class="nav-group-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleNavGroup(event,'decouvrir')">Découvrir ▾</button>
     </div>
-    <a class="nav-tab bmb-reserve" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">⚙️</a>
+    <a class="nav-tab bmb-reserve" href="pages/parametres.html" onclick="bmbGuard(event,'pages/parametres.html')">⚙️</a>
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflowMenu(event)">⋯ Plus</button>
   </div>
   <div class="nav-right">
@@ -74,23 +74,23 @@
       <div class="hamburger-label">Plus</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'pages/tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
       <div class="notif-dropdown" id="notif-dd">
         <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="pages/tableau-de-bord.html" onclick="bmbGuard(event,'pages/tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="pages/impact.html" onclick="bmbGuard(event,'pages/impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="pages/centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="pages/hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="pages/profil.html" onclick="bmbGuard(event,'pages/profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
       </div>
       </div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
     </div>
-    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="parametres.html" onclick="bmbGuard(event,'parametres.html')">
+    <a class="mob-settings-btn" style="display:none;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="pages/parametres.html" onclick="bmbGuard(event,'pages/parametres.html')">
       <div style="width:34px;height:34px;border-radius:50%;background:var(--dark-surface);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </a>
-    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
+    <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="pages/profil.html" onclick="bmbGuard(event,'pages/profil.html')">
       <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </a>
@@ -99,19 +99,19 @@
 </header>
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
 <div class="nav-group-menu" id="nav-group-menu-espace">
-  <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
-  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
-  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
-  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
-  <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+  <a class="nav-tab bmb-reserve" href="pages/tableau-de-bord.html" onclick="bmbGuard(event,'pages/tableau-de-bord.html')">📊 Dashboard</a>
+  <a class="nav-tab bmb-reserve" href="pages/defis.html" onclick="bmbGuard(event,'pages/defis.html')">⚔️ Défis</a>
+  <a class="nav-tab" href="pages/actualites.html">📰 Actualités</a>
+  <a class="nav-tab bmb-reserve" href="pages/flux.html" onclick="bmbGuard(event,'pages/flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab bmb-reserve" href="pages/impact.html" onclick="bmbGuard(event,'pages/impact.html')">💛 Impact</a>
 </div>
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
-  <a class="nav-tab" href="guide.html">📖 Guide</a>
-  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
-  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
-  <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
-  <a class="nav-tab" href="faq.html">❓ FAQ</a>
-  <a class="nav-tab" href="contact.html">📬 Contact</a>
+  <a class="nav-tab" href="pages/guide.html">📖 Guide</a>
+  <a class="nav-tab" href="pages/beebot.html">🐝 BeeBot™</a>
+  <a class="nav-tab bmb-reserve" href="pages/vr.html" onclick="bmbGuard(event,'pages/vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="pages/videos.html">🎬 Vidéos</a>
+  <a class="nav-tab" href="pages/faq.html">❓ FAQ</a>
+  <a class="nav-tab" href="pages/contact.html">📬 Contact</a>
 </div>
 
 <!-- MOBILE MENU -->
@@ -119,23 +119,23 @@
   <div class="mob-section-label">Navigation</div>
   <div class="mob-menu-grid">
     <a class="mob-item active" href="index.html" aria-current="page"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
-    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
-    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
-    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
-    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
-    <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+    <a class="mob-item bmb-reserve" href="pages/tableau-de-bord.html" onclick="bmbGuard(event,'pages/tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="pages/defis.html" onclick="bmbGuard(event,'pages/defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item" href="pages/actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
+    <a class="mob-item bmb-reserve" href="pages/flux.html" onclick="bmbGuard(event,'pages/flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="pages/hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
   </div>
   <div class="mob-section-label">Découvrir</div>
   <div class="mob-menu-grid">
-    <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
-    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
-    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
-    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
-    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
-    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
-    <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
-    <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
-    <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
+    <a class="mob-item" href="pages/guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
+    <a class="mob-item" href="pages/eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
+    <a class="mob-item" href="pages/centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+    <a class="mob-item bmb-reserve" href="pages/impact.html" onclick="bmbGuard(event,'pages/impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item" href="pages/beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
+    <a class="mob-item bmb-reserve" href="pages/vr.html" onclick="bmbGuard(event,'pages/vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="pages/videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item" href="pages/faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
+    <a class="mob-item" href="pages/contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
   </div>
 </div>
 
@@ -153,9 +153,9 @@
   <div style="font-size:20px;font-weight:600;margin:0 auto 12px;text-align:center;animation:slideUp .5s ease .3s both;opacity:0;line-height:1.6" class="hero-tagline">Chaque donneur est un héros,<br class="mob-br"> <span style="color:var(--gold)">pas un numéro.</span></div>
 
   <div class="hero-actions">
-    <a class="btn btn-outline" href="eligibilite.html">✅ Puis-je donner ?</a>
-    <a class="btn btn-outline" href="centres.html">📍 Trouver un centre</a>
-    <a class="btn btn-outline" href="hemorush.html">🎮 Jouer à HémoRush™</a>
+    <a class="btn btn-outline" href="pages/eligibilite.html">✅ Puis-je donner ?</a>
+    <a class="btn btn-outline" href="pages/centres.html">📍 Trouver un centre</a>
+    <a class="btn btn-outline" href="pages/hemorush.html">🎮 Jouer à HémoRush™</a>
   </div>
 
   <!-- IMPACT COUNTERS -->
@@ -171,19 +171,19 @@
     </button>
     <div class="acc-body" id="hero-feats-acc" style="width:100%">
     <div class="hero-features">
-      <div class="hero-feat" onclick="bmbGoReserved('tableau-de-bord.html')"><div class="hero-feat-icon">📊</div><div class="hero-feat-title">Dashboard</div><div class="hero-feat-sub">Suivi personnalisé</div></div>
-      <div class="hero-feat" onclick="location.href='guide.html'"><div class="hero-feat-icon">📺</div><div class="hero-feat-title">Guide du don</div><div class="hero-feat-sub">5 étapes · Vidéo 2 min</div></div>
-      <div class="hero-feat" onclick="location.href='hemorush.html'"><div class="hero-feat-icon">🎮</div><div class="hero-feat-title">HémoRush™</div><div class="hero-feat-sub">Jeu de matching sanguin</div></div>
-      <div class="hero-feat" onclick="location.href='eligibilite.html'"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('vr.html')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
-      <div class="hero-feat" onclick="location.href='beebot.html'"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
-      <div class="hero-feat" onclick="location.href='faq.html'"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
-      <div class="hero-feat" onclick="location.href='centres.html'"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('defis.html')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('impact.html')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('flux.html')"><div class="hero-feat-icon">🔬</div><div class="hero-feat-title">Flux CTS</div><div class="hero-feat-sub">Stocks en temps réel</div></div>
-      <div class="hero-feat" onclick="location.href='videos.html'"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
-      <div class="hero-feat" onclick="location.href='contact.html'"><div class="hero-feat-icon">📬</div><div class="hero-feat-title">Contact</div><div class="hero-feat-sub">Nous écrire</div></div>
+      <div class="hero-feat" onclick="bmbGoReserved('pages/tableau-de-bord.html')"><div class="hero-feat-icon">📊</div><div class="hero-feat-title">Dashboard</div><div class="hero-feat-sub">Suivi personnalisé</div></div>
+      <div class="hero-feat" onclick="location.href='pages/guide.html'"><div class="hero-feat-icon">📺</div><div class="hero-feat-title">Guide du don</div><div class="hero-feat-sub">5 étapes · Vidéo 2 min</div></div>
+      <div class="hero-feat" onclick="location.href='pages/hemorush.html'"><div class="hero-feat-icon">🎮</div><div class="hero-feat-title">HémoRush™</div><div class="hero-feat-sub">Jeu de matching sanguin</div></div>
+      <div class="hero-feat" onclick="location.href='pages/eligibilite.html'"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
+      <div class="hero-feat" onclick="bmbGoReserved('pages/vr.html')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
+      <div class="hero-feat" onclick="location.href='pages/beebot.html'"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
+      <div class="hero-feat" onclick="location.href='pages/faq.html'"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
+      <div class="hero-feat" onclick="location.href='pages/centres.html'"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
+      <div class="hero-feat" onclick="bmbGoReserved('pages/defis.html')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
+      <div class="hero-feat" onclick="bmbGoReserved('pages/impact.html')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
+      <div class="hero-feat" onclick="bmbGoReserved('pages/flux.html')"><div class="hero-feat-icon">🔬</div><div class="hero-feat-title">Flux CTS</div><div class="hero-feat-sub">Stocks en temps réel</div></div>
+      <div class="hero-feat" onclick="location.href='pages/videos.html'"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
+      <div class="hero-feat" onclick="location.href='pages/contact.html'"><div class="hero-feat-icon">📬</div><div class="hero-feat-title">Contact</div><div class="hero-feat-sub">Nous écrire</div></div>
     </div>
     <button class="btn btn-outline btn-sm" onclick="startTour()" style="margin-top:8px">🗺️ Tour guidé interactif</button>
     </div><!-- hero-feats-acc -->
@@ -210,7 +210,7 @@
             <span style="font-size:14px;font-weight:700;color:var(--text)">Critères de dons assouplis</span>
           </div>
           <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Transfusion CRS Suisse élargit les critères d'éligibilité avec l'autorisation de Swissmedic. Les personnes ayant reçu une transfusion ou séjourné au Royaume-Uni dans les années 80-90 pourront de nouveau donner.</div>
-          <div style="margin-top:8px"><a href="actualites.html" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
+          <div style="margin-top:8px"><a href="pages/actualites.html" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
         </div>
 
         <!-- SLIDE 3: Baisse des dons -->
@@ -220,7 +220,7 @@
             <span style="font-size:14px;font-weight:700;color:var(--text)">260'349 dons en Suisse (−1.3%)</span>
           </div>
           <div style="font-size:13px;color:var(--text-dim);line-height:1.6">Tendance baissière pour la 3ᵉ année consécutive. Depuis le 1ᵉʳ janvier 2025, la gratuité du don et l'interdiction de discrimination sont inscrites dans la loi (LPTh).</div>
-          <div style="margin-top:8px"><a href="actualites.html" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
+          <div style="margin-top:8px"><a href="pages/actualites.html" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📰 Plus d'actualités →</a></div>
         </div>
 
       </div>
@@ -251,7 +251,7 @@
           <div id="stock-canton-extra"></div>
         </div>
         <div id="stock-source" style="margin-top:8px;font-size:11px;color:var(--text-muted);text-align:center"></div>
-        <div class="alpha-only" style="margin-top:8px;text-align:center"><a href="flux.html" onclick="bmbGuard(event,'flux.html')" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📊 Flux CTS complet →</a></div>
+        <div class="alpha-only" style="margin-top:8px;text-align:center"><a href="pages/flux.html" onclick="bmbGuard(event,'pages/flux.html')" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📊 Flux CTS complet →</a></div>
       </div>
     </div><!-- hero-stock-acc -->
   </div>
@@ -437,9 +437,9 @@
 <div class="mob-bottom" id="mob-bottom">
   <div class="mob-bottom-inner">
     <a class="mob-bottom-btn active" href="index.html" aria-current="page">🏠<span>Accueil</span></a>
-    <a class="mob-bottom-btn bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊<span>Tableau</span></a>
-    <a class="mob-bottom-btn" href="hemorush.html">🎮<span>Jouer</span></a>
-    <a class="mob-bottom-btn" href="centres.html">📍<span>Collectes</span></a>
+    <a class="mob-bottom-btn bmb-reserve" href="pages/tableau-de-bord.html" onclick="bmbGuard(event,'pages/tableau-de-bord.html')">📊<span>Tableau</span></a>
+    <a class="mob-bottom-btn" href="pages/hemorush.html">🎮<span>Jouer</span></a>
+    <a class="mob-bottom-btn" href="pages/centres.html">📍<span>Collectes</span></a>
     <button class="mob-bottom-btn" type="button" onclick="toggleMobMenu()">☰<span>Plus</span></button>
   </div>
 </div>
