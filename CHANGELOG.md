@@ -43,6 +43,9 @@
 ### Extended phenotype in the profile (profil.js)
 - Donors and recipients can enter the antigens of the Rh (C, c, E, e), Kell (K), Duffy (Fya, Fyb), Kidd (Jka, Jkb) and MNS (S, s) systems. The donor profile explains the Fy(a− b−) and Ro profiles, sought for people with sickle cell disease who are transfused regularly. Recipients also enter their known antibodies and their referring physician, shown on the emergency card.
 
+- The date of birth replaces the year of birth, with an input mask (JJ.MM.AAAA: digits only, separators placed automatically, real dates only). It gives the exact age and prefills the medical questionnaire together with the sex. Profiles that only hold a year keep it.
+- The donor home no longer shows invented platform counters. It shows published figures with their source: 260 349 donations in Switzerland in 2024 and 700 pouches needed per day (Transfusion CRS Suisse, annual report 2024), 50 donations needed per day in Geneva (HUG, June 2025), and the litres collected estimated at 0.45 litre per donation.
+
 ### Announcements and events of the transfusion centres (api/centres.php)
 - The daily data now include the announcements of the Geneva transfusion centre (hug.ch/don-du-sang) and the blood-donation events of the HUG agenda. They open the news carousel of the donor home, head the news page (« Au centre de transfusion de Genève ») and feed the notifications, so that special collections and convivial events appear as soon as the centre publishes them.
 

@@ -21,7 +21,7 @@
       { id:'prenom', l:'Prénom', t:'text', req:1, ac:'given-name' },
       { id:'nom', l:'Nom', t:'text', ac:'family-name', aide:'Facultatif. Il préremplit le questionnaire médical.' },
       { id:'pseudo', l:'Pseudonyme', t:'text', aide:'Affiché à la place de ton nom dans les défis.' },
-      { id:'naissance', l:'Année de naissance', t:'number', min:1930, max:2010 },
+      { id:'naissance', l:'Date de naissance', t:'naissance', ac:'bday', aide:'Au format JJ.MM.AAAA, par exemple 07.03.1998. Elle préremplit le questionnaire médical.' },
       { id:'sexe', l:'Sexe', t:'select', o:[['','Je préfère ne pas répondre'],['F','Femme'],['H','Homme']], aide:'Il fixe le délai entre deux dons : quatre mois pour une femme, trois pour un homme.' },
       { id:'groupe', l:'Groupe sanguin', t:'select', o:[['','Je ne le connais pas encore']].concat(GROUPES.map(function(g){ return [g,g]; })) },
       { id:'commune', l:'Commune ou code postal', t:'text', ac:'postal-code', aide:'Pour te proposer les collectes proches.' },
@@ -36,7 +36,7 @@
     receveur: [
       { id:'prenom', l:'Prénom', t:'text', req:1, ac:'given-name' },
       { id:'nom', l:'Nom', t:'text', ac:'family-name' },
-      { id:'naissance', l:'Année de naissance', t:'number', min:1930, max:2026 },
+      { id:'naissance', l:'Date de naissance', t:'naissance', ac:'bday', aide:'Au format JJ.MM.AAAA, par exemple 07.03.1998.' },
       { id:'pathologie', l:'Maladie suivie', t:'select', o:[['','Choisir'],['Drépanocytose','Drépanocytose'],['Thalassémie β majeure','Thalassémie β majeure'],['Thalassémie intermédiaire','Thalassémie intermédiaire'],['Autre maladie du sang','Autre maladie du sang'],['Autre','Autre']] },
       { id:'groupe', l:'Groupe sanguin', t:'select', o:[['','Je ne le connais pas']].concat(GROUPES.map(function(g){ return [g,g]; })) },
       { id:'pheno', l:'Phénotype étendu', t:'pheno', aide:'Facultatif. Il figure sur votre carte de groupe sanguin ou dans votre dossier transfusionnel. Laissez vide ce que vous ne connaissez pas.' },
@@ -111,13 +111,31 @@
     if(/\+$/.test(p.groupe || '') && ph.C === '-' && ph.E === '-' && ph.c === '+' && ph.e === '+') n.push('Le profil Rhésus D+ C− E− c+ e+, appelé Ro, est lui aussi très demandé pour ces patients.');
     return n.join(' ');
   }
+  // Date de naissance : enregistrée au format AAAA-MM-JJ. Les profils créés avant ce champ ne contiennent que l’année.
+  function naissTexte(v){ var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ''); return m ? m[3] + '.' + m[2] + '.' + m[1] : ''; }
+  function naissIso(t){
+    var m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(t || ''); if(!m) return '';
+    var j = +m[1], mo = +m[2], a = +m[3], d = new Date(a, mo - 1, j);
+    if(d.getFullYear() !== a || d.getMonth() !== mo - 1 || d.getDate() !== j || a < 1900 || d > new Date()) return '';
+    return m[3] + '-' + m[2] + '-' + m[1];
+  }
+  // Masque de saisie JJ.MM.AAAA : seuls les chiffres sont gardés, les points se placent d’eux-mêmes, « 7. » devient « 07. »
+  function masqueDate(el, ev){
+    var efface = ev && /^delete/.test(ev.inputType || ''), fin = /\D$/.test(el.value), parts = el.value.split(/\D+/).filter(function(x, i, l){ return x !== '' || i < l.length - 1; }).slice(0, 3);
+    parts = parts.map(function(x, i){ return (i < 2 && x.length === 1 && (i < parts.length - 1 || fin)) ? '0' + x : x; });
+    var c = parts.join('').slice(0, 8), t = c.slice(0, 2);
+    if(c.length > 2 || (c.length === 2 && !efface)) t += '.' + c.slice(2, 4);
+    if(c.length > 4 || (c.length === 4 && !efface)) t += '.' + c.slice(4);
+    if(t !== el.value) el.value = t;
+  }
   function valeurs(){
     var p = lire(), v = {}, an = new Date().getFullYear();
     Object.keys(p).forEach(function(k){ v[k] = p[k]; });
     v.nomComplet = [p.prenom, p.nom].filter(Boolean).join(' ');
     v.initiales = ((p.prenom||'').charAt(0) + (p.nom||'').charAt(0)).toUpperCase();
     v.affichage = p.pseudo || p.prenom || '';
-    v.age = p.naissance ? (an - (+p.naissance)) + ' ans' : '';
+    var nm = /^(\d{4})(?:-(\d{2})-(\d{2}))?$/.exec(p.naissance || ''); v.age = '';
+    if(nm){ var age = an - (+nm[1]), auj = new Date(); if(nm[2] && (auj.getMonth() + 1 < +nm[2] || (auj.getMonth() + 1 === +nm[2] && auj.getDate() < +nm[3]))) age--; v.age = age + ' ans'; v.naissanceTexte = naissTexte(p.naissance); }
     v.phenoTexte = phenoTexte(p.pheno);
     if(ESPACE === 'donneur'){
       // dons : ceux d’avant BeeMyBlood (déclarés dans le profil) et ceux enregistrés ensuite dans « Mes dons »
@@ -217,7 +235,8 @@
       if(c.t === 'pheno'){ h += champPheno(c, p.pheno); return; }
       if(c.t === 'check'){ h += '<div class="c ck large"><input type="checkbox"'+attr+(val?' checked':'')+'><label for="'+id+'">'+esc(c.l)+'</label></div>'; return; }
       h += '<div class="c'+(c.si?' cond':'')+'"'+(c.si?' data-si="'+c.si+'"':'')+'><label for="'+id+'">'+esc(c.l)+(c.req?' <span aria-hidden="true">*</span>':'')+'</label>';
-      if(c.t === 'select') h += '<select'+attr+'>'+c.o.map(function(o){ return '<option value="'+esc(o[0])+'"'+(String(val)===String(o[0])?' selected':'')+'>'+esc(o[1])+'</option>'; }).join('')+'</select>';
+      if(c.t === 'naissance') h += '<input type="text"'+attr+' value="'+esc(naissTexte(val))+'" placeholder="JJ.MM.AAAA" inputmode="numeric" maxlength="10" data-masque="date">'+(/^\d{4}$/.test(String(val)) ? '<small>Année déjà enregistrée : '+esc(val)+'.</small>' : '');
+      else if(c.t === 'select') h += '<select'+attr+'>'+c.o.map(function(o){ return '<option value="'+esc(o[0])+'"'+(String(val)===String(o[0])?' selected':'')+'>'+esc(o[1])+'</option>'; }).join('')+'</select>';
       else h += '<input type="'+c.t+'"'+attr+' value="'+esc(val)+'"'+(c.min!=null?' min="'+c.min+'"':'')+(c.max!=null?' max="'+Math.min(c.max, c.id==='premierAn'?new Date().getFullYear():c.max)+'"':'')+(c.t==='number'?' inputmode="numeric"':'')+'>';
       h += aide + '</div>';
     });
@@ -227,6 +246,7 @@
     var form = ov.querySelector('form'), err = ov.querySelector('.bmbp-e');
     function conditions(){ ov.querySelectorAll('[data-si]').forEach(function(d){ var src = form.elements[d.getAttribute('data-si')]; d.hidden = !(src && src.value === 'oui'); }); }
     conditions(); form.addEventListener('change', conditions);
+    form.addEventListener('input', function(ev){ if(ev.target.getAttribute('data-masque') === 'date') masqueDate(ev.target, ev); });
     function fermer(){ ouvert = false; ov.remove(); document.removeEventListener('keydown', clavier); if(prev && prev.focus) prev.focus(); if(opts.apres) opts.apres(); }
     function clavier(ev){ if(ev.key === 'Escape') fermer(); }
     document.addEventListener('keydown', clavier);
@@ -239,12 +259,20 @@
       }
     });
     form.addEventListener('submit', function(ev){
-      ev.preventDefault(); var n = {}, manque = null, actuel = lire();
+      ev.preventDefault(); var n = {}, manque = null, invalide = null, actuel = lire();
       // ce qui ne vient pas du formulaire (dons enregistrés, mesures, région choisie) est conservé
       Object.keys(actuel).forEach(function(k){ if(!ID_CHAMPS[k] && k !== 'maj') n[k] = actuel[k]; });
       champs.forEach(function(c){
         if(c.t === 'pheno'){ var ph = {}; form.querySelectorAll('[data-ph]').forEach(function(s){ if(s.value) ph[s.getAttribute('data-ph')] = s.value; }); if(Object.keys(ph).length) n.pheno = ph; return; }
-        var el = form.elements[c.id]; if(!el) return; var val = c.t === 'check' ? el.checked : String(el.value).trim(); if(c.req && val === '' && !manque) manque = c; if(c.si && form.elements[c.si].value !== 'oui') return; if(val !== '' && val !== false) n[c.id] = val; });
+        var el = form.elements[c.id]; if(!el) return;
+        if(c.t === 'naissance'){
+          var saisie = String(el.value).trim();
+          if(saisie === ''){ if(/^\d{4}$/.test(String(actuel.naissance || ''))) n.naissance = actuel.naissance; return; } // l’année d’un ancien profil est conservée
+          var iso = naissIso(saisie); if(iso) n.naissance = iso; else if(!invalide) invalide = c;
+          return;
+        }
+        var val = c.t === 'check' ? el.checked : String(el.value).trim(); if(c.req && val === '' && !manque) manque = c; if(c.si && form.elements[c.si].value !== 'oui') return; if(val !== '' && val !== false) n[c.id] = val; });
+      if(invalide && !manque){ err.textContent = 'La date de naissance s’écrit JJ.MM.AAAA, par exemple 07.03.1998.'; form.elements[invalide.id].focus(); return; }
       if(manque){ err.textContent = 'Il manque : ' + manque.l.toLowerCase().replace(/ \?$/,'') + '.'; form.elements[manque.id].focus(); return; }
       ecrire(n); appliquer(); try{ if(window.BeeAcces && window.BeeAcces.personnaliser && window.BeeAcces.etat()) window.BeeAcces.personnaliser(window.BeeAcces.etat()); }catch(x){}
       document.dispatchEvent(new CustomEvent('bmb-profil', { detail:n })); fermer();
