@@ -18,7 +18,7 @@
 - Data stays in the browser; signed-in users get it on their other devices through two Supabase functions restricted to the owner (supabase/2026-09-30-profils.sql).
 
 ### Sharing blood stocks on social networks (partage.js)
-- « Partager l’état des stocks » on the donor home and in the professional Stocks tab: a ready-made call for donation built from the official barometer of the day (critical and low groups, the need for regular donors and for 10 more donors a day in Geneva), an editable message, a 1080 × 1350 image, native sharing and links for WhatsApp, LinkedIn, Facebook, X, Bluesky, Threads, Telegram and e-mail. The professional portal always shares the official barometer, never demonstration data.
+- « Partager l’état des stocks » on the donor home and in the professional Stocks tab: a ready-made call for donation built from the official barometer of the day (critical and low groups, the need announced by the HUG for 10 new donors every week in Geneva), an editable message, a 1080 × 1350 image, native sharing and links for WhatsApp, LinkedIn, Facebook, X, Bluesky, Threads, Telegram and e-mail. The professional portal always shares the official barometer, never demonstration data.
 - Open Graph metadata and a preview image for the landing and donor home.
 
 ### Accessibility extended to the other spaces (a11y.css, a11y.js)

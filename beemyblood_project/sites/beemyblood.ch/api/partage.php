@@ -69,8 +69,9 @@ if (isset($_GET['img'])) {
     }
     if (!$groupes) imagettftext($im, 24, 0, 60, 300, $gris, $M, 'Baromètre officiel momentanément indisponible.');
     $rond(40, 486, $W - 80, 100, $or);
-    imagettftext($im, 26, 0, 76, 530, $encre, $B, $ge ? 'Genève a besoin de 10 donneurs de plus chaque jour.' : 'Les donneurs réguliers font la différence.');
-    imagettftext($im, 21, 0, 76, 568, $encre, $M, 'Puis-je donner ? Réponse en deux minutes sur beemyblood.ch');
+    // besoin annoncé par les HUG (juin 2025) : 10 nouveaux donneurs chaque semaine
+    imagettftext($im, 26, 0, 76, 530, $encre, $B, $ge ? 'Genève a besoin de 10 nouveaux donneurs chaque semaine.' : 'Les donneurs réguliers font la différence.');
+    imagettftext($im, 21, 0, 76, 568, $encre, $M, $ge ? 'Dix par jour, ce serait encore mieux. Puis-je donner ? beemyblood.ch' : 'Puis-je donner ? Réponse en deux minutes sur beemyblood.ch');
     imagettftext($im, 13, 0, 60, 614, $gris, $M, 'Source : baromètre officiel de Transfusion CRS Suisse · ' . $date);
     if (!is_dir($API . '/cache')) @mkdir($API . '/cache', 0755, true);
     foreach ((array) glob($API . '/cache/partage-*.png') as $vieux) { if (is_file($vieux) && (time() - filemtime($vieux)) > 7200) @unlink($vieux); }
@@ -81,7 +82,7 @@ if (isset($_GET['img'])) {
 // ---------------------------------------------------------------- page d'aperçu
 $titre = 'Stocks de sang ' . ($ge ? 'à Genève' : '· ' . $lieu);
 if ($reg) $titre .= ' : ' . ($crit ? implode(', ', $crit) . ' critique' . (count($crit) > 1 ? 's' : '') : ($bas ? implode(', ', $bas) . ' bas' : 'niveaux corrects aujourd’hui'));
-$desc = ($ge ? 'Genève a besoin de donneurs réguliers, et de 10 donneurs de plus chaque jour. ' : 'Les stocks tiennent grâce aux donneurs réguliers. ') . 'Vérifiez en deux minutes si vous pouvez donner et trouvez une collecte près de chez vous.';
+$desc = ($ge ? 'Genève a besoin de 10 nouveaux donneurs chaque semaine. Dix par jour, ce serait encore mieux. ' : 'Les stocks tiennent grâce aux donneurs réguliers. ') . 'Vérifiez en deux minutes si vous pouvez donner et trouvez une collecte près de chez vous.';
 $url = $HOTE . '/stocks/' . ($r === 'geneve' ? '' : '?r=' . $r);
 $img = $HOTE . '/stocks/?r=' . $r . '&img=1&v=' . date('YmdH');
 $e = function ($s) { return htmlspecialchars($s, ENT_QUOTES | ENT_HTML5, 'UTF-8'); };

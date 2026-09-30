@@ -37,11 +37,12 @@
     var etat = crit.length ? 'Niveau critique : '+crit.join(', ')+'.'+(bas.length?' Niveau bas : '+bas.join(', ')+'.':'')
              : bas.length ? 'Niveau bas : '+bas.join(', ')+'.'
              : 'Tous les groupes sont à un niveau normal ou élevé aujourd’hui.';
-    var besoin = ge ? 'Genève a besoin de donneurs réguliers, et de 10 donneurs de plus chaque jour.'
+    // besoin annoncé par les HUG (juin 2025) : 10 nouveaux donneurs chaque semaine
+    var besoin = ge ? 'Genève a besoin de 10 nouveaux donneurs chaque semaine. Dix par jour, ce serait encore mieux. Et si c’était vous aujourd’hui ?'
                     : 'Les stocks tiennent grâce aux donneurs réguliers.';
     if(court){
       return 'Sang '+(ge?'à Genève':'· '+ou)+' : '+(crit.length?crit.join(', ')+' critique'+(crit.length>1?'s':'')+'.':bas.length?bas.join(', ')+' bas.':'stocks corrects.')+' '
-        +(ge?'Il faut 10 donneurs de plus par jour.':'Les donneurs réguliers font la différence.')+' Puis-je donner ? Réponse en 2 minutes : '+urlPartage(r)+' #DonDuSang';
+        +(ge?'Il faut 10 nouveaux donneurs par semaine, et 10 par jour serait encore mieux.':'Les donneurs réguliers font la différence.')+' Puis-je donner ? Réponse en 2 minutes : '+urlPartage(r)+' #DonDuSang';
     }
     var appel = ton==='pro'
       ? 'Nous avons besoin de vous. Un don prend 45 minutes et peut aider jusqu’à trois personnes. Vérifiez en deux minutes si vous pouvez donner et trouvez une collecte près de chez vous : '+urlPartage(r)
@@ -73,9 +74,11 @@
     });
     var yb=1082; x.fillStyle='#C8A960'; rond(x, 50, yb, W-100, 208, 28); x.fill();
     x.fillStyle='#12121e'; x.font='700 46px '+sans;
-    x.fillText(r.code==='geneve' ? 'Genève a besoin de 10 donneurs' : 'Les donneurs réguliers', 84, yb+66);
-    x.fillText(r.code==='geneve' ? 'de plus chaque jour.' : 'font la différence.', 84, yb+122);
-    x.font='700 38px '+sans; x.fillText('Puis-je donner ?  beemyblood.ch', 84, yb+180);
+    x.fillText(r.code==='geneve' ? 'Genève a besoin de 10 nouveaux' : 'Les donneurs réguliers', 84, yb+66);
+    x.fillText(r.code==='geneve' ? 'donneurs chaque semaine.' : 'font la différence.', 84, yb+122);
+    var bas = r.code==='geneve' ? 'Dix par jour, ce serait encore mieux  ·  beemyblood.ch' : 'Puis-je donner ?  beemyblood.ch', taille = 38;
+    do { x.font='700 '+taille+'px '+sans; taille -= 2; } while(x.measureText(bas).width > W-168 && taille > 22); // la ligne reste dans le bandeau
+    x.fillText(bas, 84, yb+180);
     x.fillStyle='#8b8b9e'; x.font='400 24px '+sans; x.fillText('Source : baromètre officiel de Transfusion CRS Suisse · '+dateFr(r), 70, H-32);
     return c;
   }
