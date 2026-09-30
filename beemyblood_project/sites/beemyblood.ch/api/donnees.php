@@ -154,7 +154,7 @@ $actus = [];
 $requete = '("don du sang" OR "don de sang" OR "dons de sang" OR "donneurs de sang") (suisse OR romand OR romande OR genève OR vaud OR valais OR fribourg OR neuchâtel OR jura OR HUG OR CHUV OR "Croix-Rouge" OR transfusion)';
 $rss = bmb_get('https://news.google.com/rss/search?q=' . rawurlencode($requete) . '&hl=fr&gl=CH&ceid=CH:fr', 12);
 // médias suisses mis en avant dans le classement
-$MEDIAS_CH = ['rts', 'le temps', '24 heures', 'tribune de genève', 'le matin', 'arcinfo', 'le nouvelliste', 'la liberté', 'rtn', 'radio lac', 'leman bleu', 'léman bleu', '20 minutes', 'blick', 'watson', 'heidi.news', 'swissinfo', 'keystone', 'la côte', 'le courrier', 'lfm', 'radio chablais', 'latele', 'la télé', 'canal alpha', 'rhône fm', 'one fm', 'yes fm', 'gauchebdo', 'le régional', 'hug', 'chuv', 'cern', 'unige', 'heg', 'hes-so', 'srf', 'rsi', 'nzz', 'tages-anzeiger'];
+$MEDIAS_CH = ['rts', 'le temps', '24 heures', 'tribune de genève', 'le matin', 'arcinfo', 'le nouvelliste', 'la liberté', 'rtn', 'radio lac', 'leman bleu', 'léman bleu', '20 minutes', '20 min', 'blick', 'watson', 'heidi.news', 'swissinfo', 'keystone', 'la côte', 'le courrier', 'lfm', 'radio chablais', 'latele', 'la télé', 'canal alpha', 'rhône fm', 'one fm', 'yes fm', 'gauchebdo', 'le régional', 'hug', 'chuv', 'cern', 'unige', 'heg', 'hes-so', 'srf', 'rsi', 'nzz', 'tages-anzeiger'];
 if ($rss) {
     libxml_use_internal_errors(true);
     $xml = simplexml_load_string($rss);
@@ -169,7 +169,7 @@ if ($rss) {
                 'date_iso' => $ts ? date('Y-m-d', $ts) : null, 'date' => $ts ? date('d.m.Y', $ts) : (string) $it->pubDate,
             ];
         }
-        // médias suisses d'abord, puis du plus récent au plus ancien ; 15 au plus, 12 mois au plus
+        // 12 mois au plus
         $limite = date('Y-m-d', strtotime('-12 months'));
         $actus = array_values(array_filter($actus, function ($a) use ($limite) { return !$a['date_iso'] || $a['date_iso'] >= $limite; }));
         foreach ($actus as &$a) {
@@ -178,11 +178,15 @@ if ($rss) {
             foreach ($MEDIAS_CH as $m) { if ($s !== '' && strpos($s, $m) !== false) { $a['suisse'] = true; break; } }
         }
         unset($a);
-        usort($actus, function ($a, $b) {
-            if ($a['suisse'] !== $b['suisse']) return $a['suisse'] ? -1 : 1;
-            return strcmp((string) $b['date_iso'], (string) $a['date_iso']);
-        });
-        $actus = array_slice($actus, 0, 15);
+        // Sélection : les médias suisses, complétés par les titres les plus récents des autres médias jusqu'à huit.
+        // Affichage : toujours du plus récent au plus ancien.
+        $parDate = function ($a, $b) { return strcmp((string) $b['date_iso'], (string) $a['date_iso']); };
+        $suisses = array_values(array_filter($actus, function ($a) { return $a['suisse']; }));
+        $autres = array_values(array_filter($actus, function ($a) { return !$a['suisse']; }));
+        usort($suisses, $parDate); usort($autres, $parDate);
+        $actus = array_slice($suisses, 0, 12);
+        if (count($actus) < 8) $actus = array_merge($actus, array_slice($autres, 0, 8 - count($actus)));
+        usort($actus, $parDate);
     }
     if (!$actus) $erreurs[] = 'actus:parse';
 } else {

@@ -97,7 +97,7 @@
   var SKIP = {SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1,SELECT:1,OPTION:1,BUTTON:1,CODE:1,PRE:1,A:0,ABBR:1,H1:1,TITLE:1,SVG:1};
   function wrap(root){
     var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
-      var p=n.parentNode; if(!p||SKIP[p.nodeName]||p.closest('.bmb-pop,.bmb-box,.leaflet-container,[contenteditable]')) return NodeFilter.FILTER_REJECT;
+      var p=n.parentNode; if(!p||SKIP[p.nodeName]||p.closest('.bmb-pop,.bmb-box,.leaflet-container,[contenteditable],svg')) return NodeFilter.FILTER_REJECT;
       return RE.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP; }});
     var nodes=[], n; while((n=walker.nextNode())) nodes.push(n);
     nodes.forEach(function(node){
@@ -153,7 +153,7 @@
     try{ var fixedBottom=[].slice.call(document.querySelectorAll('nav,div,footer')).some(function(el){ var cs=getComputedStyle(el); return cs.position==='fixed'&&parseInt(cs.bottom,10)===0&&el.offsetHeight>0&&el.offsetHeight<120&&el.offsetWidth>window.innerWidth*0.8; }); if(!fixedBottom) pill.style.bottom='14px'; }catch(e){}
     wrap(document.body);
     // contenu injecté plus tard (onglets, chats) : on repasse, sans excès
-    var pending=false; new MutationObserver(function(muts){ if(pending) return; pending=true; setTimeout(function(){ pending=false; muts.forEach(function(mu){ mu.addedNodes.forEach(function(n){ if(n.nodeType===1&&!n.closest('.bmb-pop,.bmb-box,.leaflet-container')) wrap(n); }); }); },400); })
+    var pending=false; new MutationObserver(function(muts){ if(pending) return; pending=true; setTimeout(function(){ pending=false; muts.forEach(function(mu){ mu.addedNodes.forEach(function(n){ if(n.nodeType===1&&!n.closest('.bmb-pop,.bmb-box,.leaflet-container,svg')) wrap(n); }); }); },400); })
       .observe(document.body,{childList:true,subtree:true});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();

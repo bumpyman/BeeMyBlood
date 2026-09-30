@@ -22,6 +22,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('bmb-demo')==='1')document.documentElement.classList.add('bmb-demo')}catch(e){}</script>
 <link rel="stylesheet" href="../assets/styles.css?v=0.7.0d">
+<style>
+.qh-page{position:relative;background:#fff;aspect-ratio:595.22/842;width:100%;max-width:900px;margin:0 auto 14px;box-shadow:0 4px 18px rgba(0,0,0,.35);border-radius:4px;overflow:hidden}
+.qh-page img,.qh-page svg{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+#qhug-impression{display:none}
+@page{size:A4;margin:0}
+@media print{
+  html.bmb-impression-q,html.bmb-impression-q body{background:#fff!important;margin:0!important;padding:0!important}
+  html.bmb-impression-q body>*:not(#qhug-impression){display:none!important}
+  html.bmb-impression-q #qhug-impression{display:block!important}
+  html.bmb-impression-q #qhug-impression .qh-page{width:210mm;height:296.5mm;max-width:none;margin:0;box-shadow:none;border-radius:0;aspect-ratio:auto;break-after:page;page-break-after:always;break-inside:avoid}
+  html.bmb-impression-q #qhug-impression .qh-page:last-child{break-after:auto;page-break-after:auto}
+  html.bmb-impression-q #qhug-impression .qh-page img,html.bmb-impression-q #qhug-impression .qh-page svg{left:1.5%;top:1.5%;width:97%;height:97%}
+}
+</style>
 </head>
 <body>
 <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -156,7 +170,7 @@
   <div class="acc-body" id="quest-hug-acc">
   <div class="card" style="margin-top:8px;border:1px solid rgba(242,169,59,.2)">
     <div class="card-header"><div class="card-title">📋 Questionnaire médical — Centre de Transfusion HUG</div><span class="badge badge-gold">ANH-Art7.6v3 · Fév. 2026</span></div>
-    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Remplis ce formulaire à l'avance et génère un PDF à imprimer. Gain de temps au CTS : ~15 min.</div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:12px">Réponds à l’avance : tes réponses sont reportées dans le formulaire officiel des HUG, prêt à imprimer. Gain de temps au centre : environ 15 minutes.</div>
 
     <!-- ====== ÉTAPE 1 : Formulaire d'information ANH Art.7.7 ====== -->
     <div id="qhug-step1" style="display:flex;flex-direction:column;gap:10px">
@@ -228,28 +242,34 @@
         <div><label for="qh-prenom" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Prénom(s) *</label><input id="qh-prenom" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-ddn" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Date de naissance *</label><input id="qh-ddn" required type="date" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-sexe" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Sexe *</label><select id="qh-sexe" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"><option value="">—</option><option value="M">M</option><option value="F">F</option></select></div>
-        <div style="grid-column:1/-1"><label for="qh-adresse" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Adresse *</label><input id="qh-adresse" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-nomnaissance" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Nom de naissance</label><input id="qh-nomnaissance" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div aria-hidden="true"></div>
+        <div style="grid-column:1/-1"><label for="qh-adresse" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Adresse (préciser éventuellement le logeur) *</label><input id="qh-adresse" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-npa" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">NPA *</label><input id="qh-npa" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-localite" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Localité *</label><input id="qh-localite" required style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-tel" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Tél. mobile *</label><input id="qh-tel" required type="tel" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-telprive" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Tél. privé</label><input id="qh-telprive" type="tel" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-telprof" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Tél. prof.</label><input id="qh-telprof" type="tel" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-email" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">E-mail</label><input id="qh-email" type="email" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-poids" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Poids (kg) *</label><input id="qh-poids" required type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-taille" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Taille (cm) *</label><input id="qh-taille" required type="number" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
-        <div><label for="qh-prof" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Profession</label><input id="qh-prof" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
+        <div><label for="qh-prof" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Profession/employeur</label><input id="qh-prof" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
         <div><label for="qh-medecin" style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:2px">Médecin traitant</label><input id="qh-medecin" style="width:100%;padding:8px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box"></div>
       </div>
 
       <!-- Section 2: Questions médicales OUI/NON -->
       <div style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:10px 0 2px;border-top:1px solid var(--dark-border);margin-top:4px">🩺 Questionnaire médical</div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Répondez avec sincérité pour votre sécurité et celle des patients.</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;line-height:1.6">Les questions sont celles du formulaire officiel, mot pour mot. Tes réponses sont reportées dans ce formulaire, que tu imprimes et signes au centre.</div>
       <div id="qhug-questions" style="display:flex;flex-direction:column;gap:4px"></div>
 
       <!-- Buttons -->
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
         <button class="btn btn-outline" onclick="qhugGoStep(2)">← Retour au consentement</button>
-        <button class="btn btn-gold" onclick="generateHUGPDF()">📥 Générer le PDF</button>
+        <button class="btn btn-gold" onclick="generateHUGPDF()">📄 Préparer le formulaire officiel</button>
         <button class="btn btn-outline" onclick="resetHUGForm()">🔄 Réinitialiser</button>
       </div>
+      <div id="qhug-version" hidden role="status" style="padding:10px 12px;border:1px solid var(--orange);border-radius:var(--radius-sm);font-size:13px;line-height:1.6"></div>
+      <div id="qhug-apercu" hidden></div>
     </div><!-- /step3 -->
   </div>
   </div><!-- /quest-hug-acc -->
@@ -486,6 +506,7 @@
 </div>
 
 <script src="../assets/app.js?v=0.7.0d"></script>
+<script src="../assets/questionnaire-hug.js?v=0.7.0e"></script>
 <script>
 updateBreadcrumb('questionnaire');
 // ===== QUESTIONNAIRE HUG =====
@@ -513,159 +534,146 @@ function qhugGoStep(n){
   if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-var qhugItems=[
-  {n:'1',q:'Avez-vous déjà fait un don de sang ?',sub:'Si oui, quand ? Où ?'},
-  {n:'2',q:'Pesez-vous plus de 50 kg ?'},
-  {n:'3',q:'Vous sentez-vous actuellement en bonne santé ?'},
-  {n:'4',q:'Au cours des 14 jours, traitement dentaire ou d\'hygiène dentaire ?'},
-  {n:'5',q:'Au cours des 4 dernières semaines, soins médicaux, fièvre >38°C, diarrhée, rhume ?'},
-  {n:'6a',q:'Au cours des 4 dernières semaines, avez-vous pris des médicaments (même sans prescription) ?',sub:'Si oui, lesquels ?'},
-  {n:'6b',q:'Médicaments contre hyperplasie prostatique/chute des cheveux (Proscar®, Propecia®) ou acné (Roaccutan®, Curakne®) ou dépression (Lithiofor®) ou migraine (Topamax®) ou troubles bipolaires (Convulex®, Tegretol®) ?'},
-  {n:'6c',q:'Au cours des 2 derniers mois, médicaments contre l\'endométriose (Lucrin Depot®) ?'},
-  {n:'6d',q:'Au cours des 4 derniers mois, thérapie antirétrovirale PEP/PrEP (Truvada®, Isentress®, Prezista®/Norvir®) ou médicaments fabriqués à partir de sang ?'},
-  {n:'6e',q:'Au cours des 6 derniers mois, médicaments contre l\'hyperplasie prostatique (Avodart®, Duodart®) ?'},
-  {n:'6f',q:'Au cours des 6 mois, cytostatiques (Méthotrexate®) contre psoriasis ou arthrite ?'},
-  {n:'6g',q:'Au cours des 3 dernières années, Neotigason®, Acicutan® (psoriasis) ou Erivedge® (carcinome basocellulaire) ?'},
-  {n:'7a',q:'Avez-vous reçu une immunothérapie (cellules ou sérum d\'origine humaine ou animale) ?'},
-  {n:'7b',q:'Au cours des 12 derniers mois, vacciné(e) contre la rage ou le tétanos ?'},
-  {n:'7c',q:'Au cours des 4 dernières semaines, autres vaccins ?',sub:'Si oui, lesquels ? Quand ?'},
-  {n:'8a',q:'Affection cardio-vasculaire ou pulmonaire (pression artérielle, infarctus, AVC, AIT, perte de conscience) ?'},
-  {n:'8b',q:'Maladie de la peau (blessure, éruption, eczéma, bouton de fièvre) ou allergies (rhume des foins, asthme) ?'},
-  {n:'8c',q:'Autres maladies (diabète, sang, coagulation, affection rénale, épilepsie, cancer, ostéoporose) ?'},
-  {n:'9',q:'Au cours des 3 dernières années, séjour à l\'hôpital, accident ou opération ?'},
-  {n:'10a',q:'Greffe de tissu humain/animal ou transplantation d\'organe ?'},
-  {n:'10b',q:'Opération du cerveau ou de la moelle épinière à l\'étranger ?'},
-  {n:'10c',q:'Hormone de croissance ou injections d\'hormones pour infertilité avant le 01.01.1986 ?'},
-  {n:'10d',q:'Vous ou un membre de votre famille, susceptible d\'être atteint(e) par la maladie de Creutzfeldt-Jakob ?'},
-  {n:'10e',q:'Au cours des 4 derniers mois, avez-vous bénéficié d\'une transfusion sanguine ?'},
-  {n:'11a',q:'Au cours des 6 derniers mois, voyage hors de la Suisse ?',sub:'Où, combien de temps ? Depuis quand de retour ?'},
-  {n:'11b',q:'Symptômes sur place ou depuis votre retour (fièvre, etc.) ?',sub:'Si oui, précisez'},
-  {n:'12a',q:'Né(e) hors de la Suisse, y avez-vous grandi ou vécu plus de 6 mois ?',sub:'Quel pays ? Depuis quand en Suisse ?'},
-  {n:'12b',q:'Votre mère est-elle née dans un pays extra-européen, y a-t-elle vécu plus de 6 mois ?',sub:'Quel pays ?'},
-  {n:'13a',q:'Toxoplasmose, mononucléose, amibiase, shigellose, FSME, bilharziose, gonorrhée, ostéomyélite, fièvre rhumatismale, tuberculose, fièvre récurrente, fièvre Q, Guillain-Barré ?'},
-  {n:'13b',q:'Paludisme/Malaria, Chagas, brucellose, échinococcose, leishmaniose, filariose, babésiose, Ebola ou autres infections graves ?'},
-  {n:'13c',q:'Au cours des 4 dernières semaines, piqûre de tique ?'},
-  {n:'13d',q:'Au cours des 4 dernières semaines, contact avec une personne ayant une maladie infectieuse ?',sub:'Si oui, laquelle ?'},
-  {n:'14',q:'Au cours des 4 derniers mois : tatouage, gastro-coloscopie, sangsues, piercing, acupuncture, épilation électrique, maquillage permanent/Microblading, contact avec du sang étranger ?',sub:'Si oui, quand et où ?'},
-  {n:'15a',q:'Nouveau ou changement de partenaire sexuel(le) au cours des 4 derniers mois ?'},
-  {n:'15b',q:'Rapport(s) sexuel(s) avec plus de 2 personnes au cours des 4 derniers mois ?'},
-  {n:'15c',q:'Rapport(s) sexuel(s) sous l\'influence de drogues de synthèse au cours des 12 derniers mois ?'},
-  {n:'15d',q:'Rapport(s) sexuel(s) contre rémunération (argent, drogues, médicaments) au cours des 12 derniers mois ?'},
-  {n:'15e',q:'Injection de drogue ?'},
-  {n:'15f',q:'Test positif VIH (sida), hépatite B ou C ?'},
-  {n:'15g',q:'Avez-vous déjà eu la syphilis ?'},
-  {n:'16a',q:'Votre partenaire a-t-il/elle eu une jaunisse (hépatite B/C) au cours des 6 derniers mois ?'},
-  {n:'16b',q:'Votre partenaire sexuel(le) a-t-il/elle contracté le virus Zika au cours des 3 derniers mois ?'},
-  {n:'17a',q:'Au cours des 12 derniers mois, rapports sexuels avec un(e) partenaire exposé(e) aux situations à risque (Q.15 / Q.16) ?'},
-  {n:'17b',q:'Au cours des 4 derniers mois, rapports sexuels avec un(e) partenaire ayant séjourné 6+ mois dans un pays à taux élevé HIV/HBV/HCV ?',sub:'Date de retour du partenaire ?'},
-  {n:'18a',q:'Si applicable : Avez-vous déjà été enceinte ?',sub:'Si oui, quand pour la dernière fois ?'}
-];
+// Les questions, leur libellé exact et la position des cases viennent de assets/questionnaire-hug.js
+var QH=window.BeeQuestionnaireHUG, qhugItems=QH.QUESTIONS;
+var QH_CHAMP='margin-top:3px;width:100%;padding:8px;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:6px;color:var(--text);font-size:14px;box-sizing:border-box';
+function qhEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function initQHUG(){
   var ct=document.getElementById('qhug-questions');
   if(!ct)return;
   ct.innerHTML=qhugItems.map(function(q){
-    var subH=q.sub?'<input id="qh-sub-'+q.n+'" placeholder="'+q.sub+'" style="margin-top:4px;width:100%;padding:6px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:4px;color:var(--text);font-size:12px;display:none;box-sizing:border-box">':'';
-    return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--dark-surface);border-radius:6px;font-size:13px"><span style="font-weight:700;color:var(--gold);min-width:28px">'+q.n+'.</span><div style="flex:1"><span style="color:var(--text-dim)">'+q.q+'</span>'+subH+'</div><div style="display:flex;gap:4px;flex-shrink:0"><button class="qh-yn" data-q="'+q.n+'" data-v="OUI" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Oui</button><button class="qh-yn" data-q="'+q.n+'" data-v="NON" aria-pressed="false" onclick="selectQH(this)" style="padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:12px;cursor:pointer">Non</button></div></div>';
+    var intro=q.intro?'<div style="font-size:13px;font-weight:700;color:var(--text);padding:10px 8px 2px">'+qhEsc(q.intro)+'</div>':'';
+    var opts=q.options?'<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">'+q.options.map(function(o,i){
+      return '<label style="display:flex;gap:8px;align-items:flex-start;cursor:pointer;color:var(--text-dim)"><input type="checkbox" data-qo="'+q.n+'" data-i="'+i+'" onchange="qhCoche(this)" style="width:18px;height:18px;margin-top:1px;accent-color:var(--blue);flex:none"><span>'+qhEsc(o)+'</span></label>';
+    }).join('')+'</div>':'';
+    var champs=q.champs?'<div id="qh-champs-'+q.n+'" style="display:none;margin-top:4px">'+q.champs.map(function(c){
+      var id='qh-t-'+q.n+'-'+c.id;
+      return '<label for="'+id+'" style="display:block;font-size:12px;color:var(--text-muted);margin-top:6px">'+qhEsc(c.l)+'</label><input id="'+id+'" data-qt="'+q.n+'.'+c.id+'" maxlength="90" autocomplete="off" style="'+QH_CHAMP+'">';
+    }).join('')+'</div>':'';
+    var boutons=['OUI','NON'].map(function(v){
+      return '<button type="button" class="qh-yn" data-q="'+q.n+'" data-v="'+v+'" aria-pressed="false" onclick="selectQH(this)" style="min-width:48px;min-height:36px;padding:3px 10px;border-radius:4px;border:1px solid var(--dark-border);background:none;color:var(--text-dim);font-size:13px;cursor:pointer">'+(v==='OUI'?'Oui':'Non')+'</button>';
+    }).join('');
+    return intro+'<div data-qh="'+q.n+'" style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;padding:8px;background:var(--dark-surface);border-radius:6px;font-size:13px;line-height:1.5"><span style="font-weight:700;color:var(--gold);min-width:30px">'+q.n+'.</span><div style="flex:1 1 220px;min-width:0"><span style="color:var(--text-dim)">'+qhEsc(q.q)+'</span>'+(q.facultatif?' <span style="color:var(--text-muted)">(réponse facultative)</span>':'')+opts+champs+'</div><div role="group" aria-label="Réponse à la question '+q.n+'" style="display:flex;gap:4px;flex-shrink:0;margin-left:auto">'+boutons+'</div></div>';
   }).join('');
 }
 function selectQH(el){
   var q=el.getAttribute('data-q'),v=el.getAttribute('data-v');
-  el.parentElement.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.setAttribute('aria-pressed','false');});
+  document.querySelectorAll('.qh-yn[data-q="'+q+'"]').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.setAttribute('aria-pressed','false');b.removeAttribute('data-selected');});
   el.style.background='var(--blue)'; // même couleur pour Oui et Non : la réponse n'est ni bonne ni mauvaise
   el.style.color='var(--dark)';
   el.style.borderColor='var(--blue)';
   el.setAttribute('aria-pressed','true');
   el.setAttribute('data-selected','1');
-  var sub=document.getElementById('qh-sub-'+q);
-  if(sub)sub.style.display=v==='OUI'?'block':'none';
+  var ch=document.getElementById('qh-champs-'+q);
+  if(ch)ch.style.display=v==='OUI'?'block':'none';
+  if(v==='NON')document.querySelectorAll('input[data-qo="'+q+'"]').forEach(function(c){c.checked=false;});
+  qhugPerime();
+}
+// Cocher une option revient à répondre « oui » à la question
+function qhCoche(cb){
+  if(!cb.checked)return;
+  var oui=document.querySelector('.qh-yn[data-q="'+cb.getAttribute('data-qo')+'"][data-v="OUI"]');
+  if(oui&&oui.getAttribute('data-selected')!=='1')selectQH(oui);
 }
 function resetHUGForm(){
-  document.querySelectorAll('#qhug-form input,#qhug-form select').forEach(function(i){i.value='';});
+  document.querySelectorAll('#qhug-form input:not([type=checkbox]),#qhug-form select').forEach(function(i){i.value='';});
+  document.querySelectorAll('#qhug-questions input[type=checkbox]').forEach(function(c){c.checked=false;});
   document.querySelectorAll('.qh-yn').forEach(function(b){b.style.background='none';b.style.color='var(--text-dim)';b.style.borderColor='var(--dark-border)';b.removeAttribute('data-selected');b.setAttribute('aria-pressed','false');});
-  document.querySelectorAll('[id^="qh-sub-"]').forEach(function(s){s.style.display='none';s.value='';});
+  document.querySelectorAll('[id^="qh-champs-"]').forEach(function(s){s.style.display='none';});
+  qhugPerime();
+}
+// Une réponse modifiée après l'aperçu : l'aperçu est retiré, pour que le formulaire imprimé corresponde toujours aux réponses
+function qhugPerime(){ var z=document.getElementById('qhug-apercu'); if(z&&!z.hidden){ z.hidden=true; z.innerHTML=''; } }
+document.getElementById('qhug-step3')?.addEventListener('input',qhugPerime);
+
+// Rassemble et contrôle les réponses. Renvoie null si le questionnaire est incomplet.
+function qhugDonnees(){
+  var d={},g=function(k){var el=document.getElementById('qh-'+k);return el?String(el.value).trim():'';};
+  ['nom','prenom','ddn','sexe','adresse','npa','localite','tel','email','poids','taille','prof','medecin'].forEach(function(k){d[k]=g(k);});
+  d.nomNaissance=g('nomnaissance');d.telPrive=g('telprive');d.telProf=g('telprof');
+  var requis=[['nom','nom'],['prenom','prénom'],['ddn','date de naissance'],['sexe','sexe'],['adresse','adresse'],['npa','NPA'],['localite','localité'],['tel','téléphone mobile'],['poids','poids'],['taille','taille']].filter(function(r){return !d[r[0]];});
+  if(requis.length){alert('Il manque : '+requis.map(function(r){return r[1];}).join(', ')+'.');var prem=document.getElementById('qh-'+requis[0][0]);if(prem){prem.scrollIntoView({behavior:'smooth',block:'center'});prem.focus();}return null;}
+  var cbs=document.querySelectorAll('.qhug-consent-cb'); var cbOk=cbs.length? [].every.call(cbs,function(c){return c.checked;}) : true;
+  if(!cbOk){ alert('Merci de cocher les six déclarations de l’étape 2 (consentement) avant de préparer le formulaire.'); return null; }
+  d.rep={};d.txt={};d.coche={};
+  var manquantes=[],sansOption=[];
+  qhugItems.forEach(function(q){
+    var b=document.querySelector('.qh-yn[data-q="'+q.n+'"][data-selected="1"]');
+    if(!b){ if(!q.facultatif)manquantes.push(q.n); return; }
+    d.rep[q.n]=b.getAttribute('data-v');
+    if(d.rep[q.n]!=='OUI')return;
+    (q.champs||[]).forEach(function(c){var el=document.getElementById('qh-t-'+q.n+'-'+c.id);if(el&&el.value.trim())d.txt[q.n+'.'+c.id]=el.value.trim();});
+    if(q.options){
+      d.coche[q.n]=[].map.call(document.querySelectorAll('input[data-qo="'+q.n+'"]:checked'),function(c){return +c.getAttribute('data-i');});
+      if(!d.coche[q.n].length)sansOption.push(q.n);
+    }
+  });
+  var aller=function(n){var e=document.querySelector('[data-qh="'+n+'"]');if(e)e.scrollIntoView({behavior:'smooth',block:'center'});};
+  if(manquantes.length){ alert('Il reste '+manquantes.length+' question'+(manquantes.length>1?'s':'')+' sans réponse ('+manquantes.slice(0,6).join(', ')+(manquantes.length>6?'…':'')+'). Le questionnaire doit être complet.'); aller(manquantes[0]); return null; }
+  if(sansOption.length){ alert('Question '+sansOption[0]+' : coche la ou les situations qui te concernent.'); aller(sansOption[0]); return null; }
+  return d;
+}
+
+// ----- Formulaire officiel : ses deux pages sont affichées telles quelles (pdf.js), les réponses sont posées par-dessus -----
+var qhugLib=null,qhugFonds=null;
+function qhugCharger(){
+  if(qhugLib)return qhugLib;
+  qhugLib=new Promise(function(ok,ko){
+    var s=document.createElement('script');s.src='../assets/pdfjs/pdf.min.js';
+    s.onload=function(){window.pdfjsLib.GlobalWorkerOptions.workerSrc='../assets/pdfjs/pdf.worker.min.js';ok(window.pdfjsLib);};
+    s.onerror=function(){qhugLib=null;ko(new Error('pdf.js indisponible'));};
+    document.head.appendChild(s);
+  });
+  return qhugLib;
+}
+function qhugPages(){ // images des pages officielles, préparées une seule fois
+  if(qhugFonds)return qhugFonds;
+  qhugFonds=qhugCharger().then(function(lib){return lib.getDocument({url:'../assets/'+QH.FICHIER}).promise;}).then(function(pdf){
+    var nums=[];for(var i=1;i<=pdf.numPages;i++)nums.push(i);
+    return Promise.all(nums.map(function(i){return pdf.getPage(i).then(function(page){
+      var vp=page.getViewport({scale:2.5}),c=document.createElement('canvas');c.width=Math.round(vp.width);c.height=Math.round(vp.height);
+      var ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
+      return page.render({canvasContext:ctx,viewport:vp}).promise.then(function(){return c.toDataURL('image/png');});
+    });}));
+  });
+  qhugFonds.catch(function(){qhugFonds=null;});
+  return qhugFonds;
 }
 function generateHUGPDF(){
-  var d={};
-  ['nom','prenom','ddn','sexe','adresse','npa','localite','tel','email','poids','taille','prof','medecin'].forEach(function(k){
-    var el=document.getElementById('qh-'+k);d[k]=el?el.value:'';
+  var d=qhugDonnees(); if(!d)return;
+  var zone=document.getElementById('qhug-apercu');
+  zone.hidden=false;
+  zone.innerHTML='<div role="status" style="padding:14px;text-align:center;color:var(--text-dim);font-size:14px">Préparation du formulaire officiel…</div>';
+  qhugPages().then(function(fonds){
+    var traces=QH.calque(d);
+    var actions='<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0"><button type="button" class="btn btn-gold" onclick="qhugImprimer()">🖨️ Imprimer ou enregistrer en PDF</button></div>';
+    zone.innerHTML='<div style="padding:12px 14px;border:1px solid rgba(242,169,59,.3);border-radius:var(--radius-sm);background:rgba(242,169,59,.06);font-size:14px;line-height:1.6;color:var(--text)"><strong>Ton formulaire officiel est prêt.</strong> C’est le document du Centre de transfusion des HUG, avec tes réponses reportées dans les cases. Relis-le, imprime les deux pages, puis inscris la date et signe au centre.<div style="font-size:12px;color:var(--text-muted);margin-top:4px">Pour garder un fichier, choisis « Enregistrer au format PDF » dans la fenêtre d’impression.</div></div>'
+      +actions
+      +fonds.map(function(src,i){return '<div class="qh-page"><img src="'+src+'" alt="Formulaire officiel des HUG, page '+(i+1)+' sur '+fonds.length+', avec tes réponses">'+QH.svg(traces[i],i)+'</div>';}).join('')
+      +actions;
+    zone.querySelectorAll('svg').forEach(QH.ajuster);
+    zone.scrollIntoView({behavior:'smooth',block:'start'});
+    try{localStorage.setItem('bmb-questionnaire-pret','1');}catch(e){}
+  }).catch(function(){
+    zone.innerHTML='<div role="alert" style="padding:14px;border:1px solid var(--red-soft);border-radius:var(--radius-sm);font-size:14px;line-height:1.6">Le formulaire officiel n’a pas pu être affiché. Réessaie dans un instant, ou <a href="https://www.hug.ch/sites/interhug/files/structures/don_du_sang/cts-questionnairedondusangv01fev26.pdf" target="_blank" rel="noopener" aria-describedby="ext-link-notice" style="color:var(--gold)">télécharge le formulaire des HUG</a> pour le remplir à la main.</div>';
   });
-  if(!d.nom||!d.prenom||!d.ddn){alert('Merci de remplir au minimum : Nom, Prénom et Date de naissance.');return;}
-  var cbs=document.querySelectorAll('.qhug-consent-cb'); var cbOk=cbs.length? [].every.call(cbs,function(c){return c.checked;}) : true;
-  if(!cbOk){ alert('Merci de cocher les six déclarations de l’étape 2 (consentement) avant de générer le PDF.'); return; }
-  var manquantes=qhugItems.filter(function(q){ return !document.querySelector('.qh-yn[data-q="'+q.n+'"][data-selected="1"]'); });
-  if(manquantes.length){ alert('Il reste '+manquantes.length+' question'+(manquantes.length>1?'s':'')+' sans réponse ('+manquantes.slice(0,6).map(function(q){return q.n;}).join(', ')+(manquantes.length>6?'…':'')+'). Le questionnaire doit être complet.'); var first=document.querySelector('.qh-yn[data-q="'+manquantes[0].n+'"]'); if(first) first.scrollIntoView({behavior:'smooth',block:'center'}); return; }
-  var answers={};
-  qhugItems.forEach(function(q){
-    var btns=document.querySelectorAll('.qh-yn[data-q="'+q.n+'"][data-selected="1"]');
-    answers[q.n]=btns.length?btns[0].getAttribute('data-v'):'';
-    var sub=document.getElementById('qh-sub-'+q.n);
-    if(sub)answers[q.n+'_sub']=sub.value;
-  });
-  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Questionnaire Don du Sang - HUG</title>';
-  html+='<style>@page{size:A4;margin:10mm}body{font-family:Arial,sans-serif;font-size:10px;margin:15px;line-height:1.3;color:#333}';
-  html+='h1{font-size:14px;text-align:center;margin:5px 0}h2{font-size:11px;margin:8px 0 4px;color:#369CE2;border-bottom:1px solid #369CE2;padding-bottom:2px}';
-  html+='.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #369CE2;padding-bottom:8px;margin-bottom:10px}.header-center{text-align:center;flex:1}';
-  html+='.info{font-size:8px;color:#666;margin:2px 0}.row{display:flex;gap:8px;margin:2px 0;flex-wrap:wrap}.field{border-bottom:1px dotted #999;min-width:100px;padding:1px 3px;flex:1}';
-  html+='.label{font-weight:bold;font-size:9px;white-space:nowrap}.q{margin:2px 0;display:flex;align-items:flex-start;padding:2px 0;border-bottom:1px dotted #eee}';
-  html+='.qn{font-weight:bold;min-width:22px;color:#369CE2}.qt{flex:1;padding-right:5px}.ans{min-width:50px;text-align:right;white-space:nowrap}';
-  html+='.box{display:inline-block;width:11px;height:11px;border:1px solid #333;margin:0 2px;text-align:center;font-size:8px;line-height:11px}.checked{background:#B3261E;color:#fff}';
-  html+='.consent{font-size:8px;margin:8px 0;padding:8px;background:#FAF9F7;border-left:3px solid #369CE2}';
-  html+='.sig{margin-top:15px;display:flex;gap:15px}.sig-field{flex:1;border-bottom:1px solid #333;padding-top:25px;text-align:center;font-size:9px}';
-  html+='.reserved{margin-top:15px;border:2px solid #369CE2;padding:10px;background:#FAF9F7}.reserved h3{margin:0 0 8px;font-size:11px;color:#369CE2}';
-  html+='.reserved-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.reserved-field{border:1px solid #ccc;padding:5px;min-height:25px}.reserved-field label{font-size:8px;color:#666;display:block}';
-  html+='.footer{margin-top:10px;text-align:center;font-size:8px;color:#999;border-top:1px solid #eee;padding-top:5px}';
-  html+='.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5px}@media print{body{margin:5mm}}</style></head><body>';
-  // Header
-  html+='<div class="header"><div style="font-size:24px;font-weight:900"><span style="color:#369CE2">H</span><span style="color:#369CE2">U</span><span style="color:#369CE2">G</span></div>';
-  html+='<div class="header-center"><h1>Centre de Transfusion Sanguine</h1>';
-  html+='<div class="info">Rue Gabrielle-Perret-Gentil 6, 1205 Genève | T.+41(0)22 372 39 01</div>';
-  html+='<div class="info">Accueil.Donneurs@hug.ch | www.dondusang.ch</div>';
-  html+='<div class="info"><strong>Horaires:</strong> Lu-Ma-Me-Ve: 7h30-15h | Je: 11h-19h | Sam 1er et 3ème: 8h30-12h</div>';
-  html+='</div><div style="color:#B3261E;font-weight:bold;font-size:10px">BeeMyBlood™</div></div>';
-  // Personal info
-  html+='<h2>INSCRIPTION AU DON DU SANG</h2>';
-  html+='<div class="row"><span class="label">Nom:</span><span class="field">'+d.nom+'</span><span class="label">Prénom(s):</span><span class="field">'+d.prenom+'</span></div>';
-  html+='<div class="row"><span class="label">Date naissance:</span><span class="field">'+d.ddn+'</span><span class="label">Sexe:</span><span class="box '+(d.sexe==='M'?'checked':'')+'">M</span><span class="box '+(d.sexe==='F'?'checked':'')+'">F</span></div>';
-  html+='<div class="row"><span class="label">Adresse:</span><span class="field" style="flex:2">'+d.adresse+'</span></div>';
-  html+='<div class="row"><span class="label">NPA:</span><span class="field">'+d.npa+'</span><span class="label">Localité:</span><span class="field">'+d.localite+'</span><span class="label">Tél:</span><span class="field">'+d.tel+'</span></div>';
-  html+='<div class="row"><span class="label">E-mail:</span><span class="field">'+d.email+'</span><span class="label">Poids:</span><span class="field">'+d.poids+' kg</span><span class="label">Taille:</span><span class="field">'+d.taille+' cm</span></div>';
-  html+='<div class="row"><span class="label">Profession:</span><span class="field">'+d.prof+'</span><span class="label">Médecin traitant:</span><span class="field">'+d.medecin+'</span></div>';
-  // Consent
-  html+='<div class="consent"><p style="margin:0 0 5px;font-weight:bold">En signant ce document, je confirme :</p>';
-  html+='<p>☑ Je consens à donner de mon sang.</p>';
-  html+='<p>☑ J\'ai lu et compris le Formulaire d\'information ANH Art.7.7 (version 3, 01.02.2026).</p>';
-  html+='<p>☑ Je confirme l\'exactitude de mes données personnelles et la véracité de mes réponses.</p>';
-  html+='<p>☑ J\'accepte les tests biologiques (pouvant comporter des méthodes génétiques) et la conservation d\'échantillons.</p>';
-  html+='<p>☑ J\'accepte que certains composants soient utilisés pour la fabrication de médicaments et la recherche médicale après anonymisation.</p>';
-  html+='<p>☑ Mes données sont soumises au secret médical (T-CH / SRTS).</p></div>';
-  // Questions
-  html+='<h2>QUESTIONNAIRE MÉDICAL</h2><div class="two-col">';
-  qhugItems.forEach(function(q){
-    var a=answers[q.n]||'';
-    var sub=answers[q.n+'_sub']?(' ('+answers[q.n+'_sub']+')') :'';
-    html+='<div class="q"><span class="qn">'+q.n+'.</span><span class="qt">'+q.q+sub+'</span><span class="ans"><span class="box '+(a==='OUI'?'checked':'')+'">O</span><span class="box '+(a==='NON'?'checked':'')+'">N</span></span></div>';
-  });
-  html+='</div>';
-  // Signatures
-  var today=new Date().toLocaleDateString('fr-CH');
-  html+='<div class="sig"><div class="sig-field">Date: '+today+'</div><div class="sig-field">Nom: '+d.nom+' '+d.prenom+'</div><div class="sig-field">Naissance: '+d.ddn+'</div><div class="sig-field">Signature du donneur</div></div>';
-  // Reserved
-  html+='<div class="reserved"><h3>RÉSERVÉ AU CENTRE DE TRANSFUSION SANGUINE</h3><div class="reserved-grid">';
-  ['Q n°','Visa accueil','Visa infirmier','Visa médecin','Pouls','TA','Hb capillaire','Groupe sanguin','Type de don','N° prélèvement','Durée','Heure fin'].forEach(function(l){html+='<div class="reserved-field"><label>'+l+'</label></div>';});
-  html+='</div></div>';
-  html+='<div class="footer">ANH-Art7.6v3 - Document pré-rempli via BeeMyBlood™ | '+today+'</div>';
-  html+='<script>window.onload=function(){window.print();}<\/script></body></html>';
-  var blob=new Blob([html],{type:'text/html'});
-  var url=URL.createObjectURL(blob);
-  var win=window.open(url,'_blank');
-  if(!win){
-    showToast('⚠️ Autorise les fenêtres pop-up pour générer le PDF, puis réessaie.');
-    URL.revokeObjectURL(url);
-    return;
-  }
-  setTimeout(function(){URL.revokeObjectURL(url);},60000);
-  showToast('🖨️ Questionnaire ouvert dans un nouvel onglet — utilise "Imprimer → Enregistrer en PDF".');
 }
+// Impression : seules les deux pages du formulaire partent à l'imprimante, au format A4
+function qhugImprimer(){
+  var zone=document.getElementById('qhug-apercu'),imp=document.getElementById('qhug-impression');
+  if(!imp){imp=document.createElement('div');imp.id='qhug-impression';document.body.appendChild(imp);}
+  imp.innerHTML='';
+  zone.querySelectorAll('.qh-page').forEach(function(p){imp.appendChild(p.cloneNode(true));});
+  document.documentElement.classList.add('bmb-impression-q');
+  setTimeout(function(){window.print();},80);
+}
+window.addEventListener('afterprint',function(){document.documentElement.classList.remove('bmb-impression-q');});
+// Si les HUG ont publié une nouvelle version du questionnaire, la personne en est avertie
+fetch('/api/questionnaire-hug.php',{cache:'no-store'}).then(function(r){return r.ok?r.text():'';}).then(function(t){
+  var j=null;try{j=JSON.parse(t.replace(/^[\s\S]*?(?=\{)/,''));}catch(e){}
+  var el=document.getElementById('qhug-version');
+  if(el&&j&&j.ajour===false){el.hidden=false;el.innerHTML='⚠️ Les HUG semblent avoir publié une nouvelle version de leur questionnaire. Celui de cette page date du 1er février 2026 : vérifie auprès du centre qu’il est encore accepté, ou <a href="https://www.hug.ch/don-du-sang" target="_blank" rel="noopener" aria-describedby="ext-link-notice" style="color:var(--gold)">consulte le site des HUG</a>.';}
+}).catch(function(){});
 
 // refonte-multipage : la liste de questions n'etait initialisee que via go('eligibilite')
 // dans la SPA ; on l'appelle explicitement ici au chargement de la page.
@@ -708,7 +716,7 @@ document.addEventListener('DOMContentLoaded',function(){ setTimeout(function(){ 
 <script src="../../acces.js" data-espace="donneur" data-racine="../../" data-public="1" defer></script>
 <script src="../../profil.js?v=0.7.0d" data-espace="donneur" defer></script>
 <script src="../../partage.js?v=0.7.0d" defer></script>
-<script src="../../lexique.js" defer></script>
+<script src="../../lexique.js?v=0.7.0e" defer></script>
 <script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
 document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
 </body>

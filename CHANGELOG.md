@@ -46,6 +46,12 @@
 - The date of birth replaces the year of birth, with an input mask (JJ.MM.AAAA: digits only, separators placed automatically, real dates only). It gives the exact age and prefills the medical questionnaire together with the sex. Profiles that only hold a year keep it.
 - The donor home no longer shows invented platform counters. It shows published figures with their source: 260 349 donations in Switzerland in 2024 and 700 pouches needed per day (Transfusion CRS Suisse, annual report 2024), 50 donations needed per day in Geneva (HUG, June 2025), and the litres collected estimated at 0.45 litre per donation.
 
+### The official HUG questionnaire, filled in (donor/assets/questionnaire-hug.js)
+- The medical questionnaire now prints the official form of the Geneva transfusion centre itself (« Inscription au don du sang », ANH-Art7.6v3, 1 February 2026) with the person's answers placed in its boxes and on its dotted lines, instead of a recomposed document. The HUG file is protected against modification and allows printing: it is displayed unchanged (pdf.js, served from the site) and the answers are added as an overlay at print time. A red line at the bottom of each page states that the form was filled in with BeeMyBlood; date and signature are left to be completed by hand at the centre.
+- The on-screen questions use the exact wording of the form, with its detail fields (when, where, which medicines, countries, dates) and its option boxes (hospital stay, accident, surgery; lists of diseases; tattoo, piercing…). Birth name and private and work phone numbers are added. An answer changed after the preview removes the preview, so the printed form always matches the answers.
+- api/questionnaire-hug.php checks once a day that the form published by the HUG is still the embedded one (SHA-256) and the page warns the person otherwise. donor/tools/questionnaire-hug rebuilds the map of boxes for a new version.
+- Press news are listed from the most recent to the oldest.
+
 ### Announcements and events of the transfusion centres (api/centres.php)
 - The daily data now include the announcements of the Geneva transfusion centre (hug.ch/don-du-sang) and the blood-donation events of the HUG agenda. They open the news carousel of the donor home, head the news page (« Au centre de transfusion de Genève ») and feed the notifications, so that special collections and convivial events appear as soon as the centre publishes them.
 

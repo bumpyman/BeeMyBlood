@@ -1,0 +1,13 @@
+{
+  "name": "beemyblood-questionnaire-hug",
+  "private": true,
+  "description": "Outils de mise à jour du questionnaire HUG (carte des cases)",
+  "scripts": {
+    "maj": "node extrait.js && node carte.js && node construire.js"
+  },
+  "devDependencies": {
+    "pdf-parse": "1.1.1",
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "3.11.174"
+  }
+}
