@@ -12,7 +12,15 @@ function bmb_c_texte($h) {
     return trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($h), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
 }
 
-function bmb_c_couper($s, $n) { return function_exists('mb_substr') ? mb_substr($s, 0, $n) : substr($s, 0, $n); }
+/** Coupe un texte trop long à la fin d'un mot et le termine par des points de suspension. */
+function bmb_c_couper($s, $n) {
+    $l = function_exists('mb_strlen') ? mb_strlen($s) : strlen($s);
+    if ($l <= $n) return $s;
+    $c = function_exists('mb_substr') ? mb_substr($s, 0, $n) : substr($s, 0, $n);
+    $p = strrpos($c, ' ');
+    if ($p !== false && $p > strlen($c) * 0.6) $c = substr($c, 0, $p);
+    return rtrim($c, " ,;:") . '…';
+}
 function bmb_c_minuscules($s) { return function_exists('mb_strtolower') ? mb_strtolower($s) : strtolower($s); }
 
 /** Cartes d'annonce de la page du centre de transfusion des HUG. */

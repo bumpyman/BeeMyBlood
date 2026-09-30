@@ -781,8 +781,8 @@ document.addEventListener('DOMContentLoaded',function(){buildHist();buildDroits(
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
 </script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="receveur" data-racine="../" defer></script>
-<script src="../profil.js" data-espace="receveur" defer></script>
-<script src="mon-suivi.js" defer></script>
+<script src="../profil.js?v=0.7.0b" data-espace="receveur" defer></script>
+<script src="mon-suivi.js?v=0.7.0b" defer></script>
 <script src="../a11y.js" defer></script>
 <script src="../lexique.js" defer></script>
 <script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
