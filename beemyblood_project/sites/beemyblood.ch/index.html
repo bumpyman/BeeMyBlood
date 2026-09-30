@@ -26,7 +26,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--dark:#0a0a12;--dark-card:#12121e;--gold:#C8A960;--gold-light:#E8D5A3;--red:#E63946;--red-soft:#ff6b6b;--text:#f0ece2;--text-dim:#8b8b9e;--text-muted:#5a5a72;--radius:16px}
+:root{--dark:#0a0a12;--dark-card:#12121e;--gold:#C8A960;--gold-light:#E8D5A3;--red:#E63946;--red-soft:#ff6b6b;--text:#f0ece2;--text-dim:#8b8b9e;--text-muted:#8686A1;--radius:16px}
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6;overflow-x:hidden}
 a{color:var(--gold);text-decoration:none;transition:color .2s}a:hover{color:var(--gold-light)}
@@ -123,6 +123,14 @@ footer a{color:var(--gold)}
   .cta-projet{padding:20px 18px}.cta-content{text-align:center}.cta-left{text-align:center}
 }
 </style>
+<link rel="stylesheet" href="a11y.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BeeMyBlood · La médecine transfusionnelle, augmentée">
+<meta property="og:description" content="Une plateforme ouverte qui relie donneurs, patients et professionnels, du bras du donneur à la veine du patient.">
+<meta property="og:url" content="https://www.beemyblood.ch/">
+<meta property="og:image" content="https://www.beemyblood.ch/assets/og-beemyblood.png">
+<meta property="og:locale" content="fr_CH">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 
@@ -200,5 +208,6 @@ footer a{color:var(--gold)}
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
 </script>
 <script src="lexique.js" defer></script>
+<script src="a11y.js" defer></script>
 </body>
 </html>

@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.7.0 — 2026-09-30 — accessible multi-page donor space, editable profile, stock sharing
+
+### Donor space rebuilt for accessibility (Bachelor thesis of Oscar Sirgado Dias Novo, HEG-Genève, branch Oscar_TB)
+- One HTML page and one address per view (donor/pages/*.html) with shared donor/assets/styles.css and app.js: browser Back, bookmarks, one h1 and one main landmark per page. Navigation grouped into « Mon espace » and « Découvrir »; « Dashboard » becomes « Mon profil » and the profile page is merged into it.
+- Colour tokens centralised and corrected after Lighthouse and WCAG audits (audits-accessibilite/): secondary text and borders above 4.5:1 and 3:1, colour-blind-safe status palette (orange for warnings, red for critical, blue for positive), skip link, visible focus, labelled form fields, announced new-window links, Yes/No buttons exposing their state. Lighthouse accessibility score of the four audited views from 71–88 to 95–96. Contrast checker: `node donor/tools/check-contrast.js`.
+- HémoRush tutorial shown before the first game; onboarding shown once.
+
+### Fixes on top of the multi-page refactor
+- `go()` is page-aware: links written for the former single page (assistant answers, tiles) now navigate to the right page instead of blanking the current one; the « Plus » overflow menu keeps real links; single-letter keyboard shortcuts removed (WCAG 2.1.4).
+- Reserved pages wait for the deferred access script before asking for sign-in; the questionnaire prefill works again.
+- Onboarding is shown to public visitors too, once per account, with up-to-date navigation text and a dialog role.
+- The official stock alert is a status region that stays until closed. Yes/No answers of the medical questionnaire use one neutral colour. The « Découvrir les fonctionnalités » accordion is removed from the donor home. The collections page states that booking happens on each centre's official site.
+
+### Editable profile, first step after the tutorial (profil.js)
+- Donors and recipients enter their own data (first name, year of birth, blood group, donations or follow-up centre, transfusion rhythm…) in an accessible form opened right after the tutorial, then at any time from « Mon profil ». Their data replaces the demonstration identity on the profile page, the navigation avatar, the recipient crisis card and the questionnaire prefill; the next possible donation date is computed from the last donation.
+- Data stays in the browser; signed-in users get it on their other devices through two Supabase functions restricted to the owner (supabase/2026-09-30-profils.sql).
+
+### Sharing blood stocks on social networks (partage.js)
+- « Partager l’état des stocks » on the donor home and in the professional Stocks tab: a ready-made call for donation built from the official barometer of the day (critical and low groups, the need for regular donors and for 10 more donors a day in Geneva), an editable message, a 1080 × 1350 image, native sharing and links for WhatsApp, LinkedIn, Facebook, X, Bluesky, Threads, Telegram and e-mail. The professional portal always shares the official barometer, never demonstration data.
+- Open Graph metadata and a preview image for the landing and donor home.
+
+### Accessibility extended to the other spaces (a11y.css, a11y.js)
+- Landing, project pages, access, administration, recipient and professional spaces, display screens and maturity tool: skip link, main landmark, visible focus, reduced-motion support, 3:1 field borders, announced new-window links, keyboard access to clickable blocks, secondary text raised above 4.5:1.
+
 ## v0.6.2 — 2026-09-10 — chatbot fix, mobile chat, maturity self-assessment
 
 ### Chatbot (all spaces)

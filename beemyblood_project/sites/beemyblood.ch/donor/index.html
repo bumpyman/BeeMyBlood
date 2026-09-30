@@ -21,6 +21,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BeeMyBlood · Puis-je donner mon sang ?">
+<meta property="og:description" content="Stocks de sang du jour, test d’aptitude en deux minutes, collectes près de chez vous. Genève a besoin de donneurs réguliers.">
+<meta property="og:url" content="https://www.beemyblood.ch/donor/">
+<meta property="og:image" content="https://www.beemyblood.ch/assets/og-beemyblood.png">
+<meta property="og:locale" content="fr_CH">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
@@ -91,7 +98,7 @@
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </a>
     <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="pages/profil.html" onclick="bmbGuard(event,'pages/profil.html')">
-      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </a>
   </div>
@@ -166,27 +173,6 @@
   </div>
 
   <div style="display:flex;flex-direction:column;align-items:center;margin-top:10px;width:100%">
-    <button class="acc-toggle" onclick="toggleAcc(this)" style="display:inline-flex;width:auto;padding:8px 20px;border-radius:20px;background:rgba(242,169,59,.1);border-color:rgba(242,169,59,.2)">
-      <span>Découvrir les fonctionnalités</span> <span class="acc-arrow">▼</span>
-    </button>
-    <div class="acc-body" id="hero-feats-acc" style="width:100%">
-    <div class="hero-features">
-      <div class="hero-feat" onclick="bmbGoReserved('pages/tableau-de-bord.html')"><div class="hero-feat-icon">📊</div><div class="hero-feat-title">Dashboard</div><div class="hero-feat-sub">Suivi personnalisé</div></div>
-      <div class="hero-feat" onclick="location.href='pages/guide.html'"><div class="hero-feat-icon">📺</div><div class="hero-feat-title">Guide du don</div><div class="hero-feat-sub">5 étapes · Vidéo 2 min</div></div>
-      <div class="hero-feat" onclick="location.href='pages/hemorush.html'"><div class="hero-feat-icon">🎮</div><div class="hero-feat-title">HémoRush™</div><div class="hero-feat-sub">Jeu de matching sanguin</div></div>
-      <div class="hero-feat" onclick="location.href='pages/eligibilite.html'"><div class="hero-feat-icon">✅</div><div class="hero-feat-title">Éligibilité</div><div class="hero-feat-sub">Teste ton profil donneur</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('pages/vr.html')"><div class="hero-feat-icon">🥽</div><div class="hero-feat-title">Casque VR</div><div class="hero-feat-sub">Immersion anti-douleur</div></div>
-      <div class="hero-feat" onclick="location.href='pages/beebot.html'"><div class="hero-feat-icon">🐝</div><div class="hero-feat-title">BeeBot™</div><div class="hero-feat-sub">Questions 24/7</div></div>
-      <div class="hero-feat" onclick="location.href='pages/faq.html'"><div class="hero-feat-icon">❓</div><div class="hero-feat-title">FAQ</div><div class="hero-feat-sub">Tout comprendre simplement</div></div>
-      <div class="hero-feat" onclick="location.href='pages/centres.html'"><div class="hero-feat-icon">📍</div><div class="hero-feat-title">Carte live</div><div class="hero-feat-sub">Collectes à proximité</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('pages/defis.html')"><div class="hero-feat-icon">⚔️</div><div class="hero-feat-title">Défis</div><div class="hero-feat-sub">Escouades & parrainage</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('pages/impact.html')"><div class="hero-feat-icon">💛</div><div class="hero-feat-title">Mon impact</div><div class="hero-feat-sub">Suivi de tes dons</div></div>
-      <div class="hero-feat" onclick="bmbGoReserved('pages/flux.html')"><div class="hero-feat-icon">🔬</div><div class="hero-feat-title">Flux CTS</div><div class="hero-feat-sub">Stocks en temps réel</div></div>
-      <div class="hero-feat" onclick="location.href='pages/videos.html'"><div class="hero-feat-icon">🎬</div><div class="hero-feat-title">Vidéos</div><div class="hero-feat-sub">Témoignages & démos</div></div>
-      <div class="hero-feat" onclick="location.href='pages/contact.html'"><div class="hero-feat-icon">📬</div><div class="hero-feat-title">Contact</div><div class="hero-feat-sub">Nous écrire</div></div>
-    </div>
-    <button class="btn btn-outline btn-sm" onclick="startTour()" style="margin-top:8px">🗺️ Tour guidé interactif</button>
-    </div><!-- hero-feats-acc -->
 
     <!-- Actualités du don du sang — scrolling feed -->
     <button class="acc-toggle" id="actu-home-toggle" onclick="toggleAcc(this)" data-target="hero-actu-acc" style="display:inline-flex;width:auto;padding:8px 20px;border-radius:20px;background:rgba(179,38,30,.08);border-color:rgba(179,38,30,.2);margin-top:8px">
@@ -251,6 +237,7 @@
           <div id="stock-canton-extra"></div>
         </div>
         <div id="stock-source" style="margin-top:8px;font-size:11px;color:var(--text-muted);text-align:center"></div>
+        <div style="margin-top:12px;text-align:center"><button type="button" class="btn btn-gold btn-sm" onclick="bmbPartagerStocks()">📣 Partager l’état des stocks</button><div style="font-size:12px;color:var(--text-muted);margin-top:6px">Un message et une image prêts pour tes réseaux, pour appeler au don.</div></div>
         <div class="alpha-only" style="margin-top:8px;text-align:center"><a href="pages/flux.html" onclick="bmbGuard(event,'pages/flux.html')" style="color:var(--gold);font-size:12px;font-weight:600;text-decoration:underline">📊 Flux CTS complet →</a></div>
       </div>
     </div><!-- hero-stock-acc -->
@@ -260,7 +247,7 @@
 </main>
 
 <!-- ONBOARDING MODAL -->
-<div class="modal-overlay" id="onboard-modal" style="display:none">
+<div class="modal-overlay" id="onboard-modal" role="dialog" aria-modal="true" aria-label="Tutoriel de bienvenue" style="display:none">
   <div class="modal-box" style="max-width:480px">
     <div class="modal-header" style="padding-bottom:8px">
       <div style="font-size:36px;margin-bottom:4px">🐝</div>
@@ -284,8 +271,8 @@
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
           <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
-          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
-          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+          <strong style="color:var(--gold)">Sur mobile :</strong> le bouton ☰ en haut ouvre toutes les sections, regroupées en « Mon espace » et « Découvrir ».<br><br>
+          <span style="color:var(--text-muted)">💡 Chaque section a sa propre page : le bouton Retour du navigateur et les favoris fonctionnent.</span>
         </div>
       </div>
     </div>
@@ -413,7 +400,7 @@
           <strong>Par où commencer ?</strong>
           <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
             1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
-            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            2️⃣ Complète <strong style="color:var(--gold)">ton profil</strong> : il remplace les données de démonstration<br>
             3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
             4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
           </div>
@@ -458,7 +445,7 @@
 
 <!-- BEEBOT FAB -->
 <!-- LIVE TOAST -->
-<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+<div class="live-toast alpha-only" id="live-toast" role="status" aria-live="polite"><span id="lt-icon" aria-hidden="true">🩸</span><span id="lt-text"></span><button type="button" class="lt-x" aria-label="Fermer cette alerte" onclick="this.parentElement.classList.remove('show');this.parentElement.removeAttribute('data-persistant')">✕</button></div>
 
 <button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
 <div class="beebot-panel" id="beebot-panel">
@@ -549,6 +536,8 @@ resetNewsTimer();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="donneur" data-racine="../" data-public="1" defer></script>
+<script src="../profil.js" data-espace="donneur" defer></script>
+<script src="../partage.js" defer></script>
 <script src="../lexique.js" defer></script>
 <script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
 document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>

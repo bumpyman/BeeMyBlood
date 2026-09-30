@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--slate-900:#0a0a12;--slate-800:#12121e;--slate-700:#26263a;--slate-600:#3a3a52;--slate-500:#5a5a72;--slate-400:#8b8b9e;--amber-400:#E8D5A3;--amber-500:#C8A960;--green-400:#60a5fa;--blue-400:#60a5fa;--red-400:#ff6b6b;--purple-400:#c084fc;--ink:#f0ece2}
+:root{--slate-900:#0a0a12;--slate-800:#12121e;--slate-700:#26263a;--slate-600:#3a3a52;--slate-500:#8686A1;--slate-400:#8b8b9e;--amber-400:#E8D5A3;--amber-500:#C8A960;--green-400:#60a5fa;--blue-400:#60a5fa;--red-400:#ff6b6b;--purple-400:#c084fc;--ink:#f0ece2}
 html{scroll-behavior:smooth}
 body{background:var(--slate-900);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.55}
 a{color:var(--amber-400)}
@@ -92,6 +92,7 @@ footer{padding:16px 28px;font-size:13px;color:var(--slate-500);border-top:1px so
   .dim-head h3{font-size:16px}.dim-head p{display:none}
 }
 </style>
+<link rel="stylesheet" href="../../a11y.css">
 </head>
 <body>
 <header>
@@ -340,5 +341,6 @@ function reinit() { if (!confirm('Effacer toutes les réponses ?')) return; etat
 function toast(t) { var e = document.getElementById('toast'); e.textContent = t; e.classList.add('show'); setTimeout(function () { e.classList.remove('show'); }, 2500); }
 rendre();
 </script>
+<script src="../../a11y.js" defer></script>
 </body>
 </html>

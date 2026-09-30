@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--slate-900:#0a0a12;--slate-800:#12121e;--slate-700:#26263a;--slate-500:#5a5a72;--slate-400:#8b8b9e;--amber-400:#E8D5A3;--amber-500:#C8A960;--green-400:#60a5fa;--blue-400:#60a5fa;--red-400:#ff6b6b;--purple-400:#c084fc}
+:root{--slate-900:#0a0a12;--slate-800:#12121e;--slate-700:#26263a;--slate-500:#8686A1;--slate-400:#8b8b9e;--amber-400:#E8D5A3;--amber-500:#C8A960;--green-400:#60a5fa;--blue-400:#60a5fa;--red-400:#ff6b6b;--purple-400:#c084fc}
 html,body{height:100%}
 body{background:var(--slate-900);color:#f0ece2;font-family:'DM Sans',system-ui,sans-serif;display:flex;flex-direction:column;min-height:100vh}
 header{display:flex;justify-content:space-between;align-items:center;padding:16px 30px;border-bottom:1px solid rgba(200,169,96,.15)}
@@ -55,6 +55,7 @@ footer{padding:10px 30px;font-size:13px;color:var(--slate-500);display:flex;just
 @media(max-width:1100px){main{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){main{grid-template-columns:1fr;padding:12px}header{padding:12px}.clock{font-size:30px}.stocks{grid-template-columns:repeat(4,1fr)}.big b{font-size:30px}}
 </style>
+<link rel="stylesheet" href="../../a11y.css">
 </head>
 <body data-bmba-ecran="1">
 <header>
@@ -358,5 +359,6 @@ footer{padding:10px 30px;font-size:13px;color:var(--slate-500);display:flex;just
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../../acces.js" data-espace="pro" data-racine="../../" defer></script>
+<script src="../../a11y.js" defer></script>
 </body>
 </html>

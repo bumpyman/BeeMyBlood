@@ -77,7 +77,7 @@
 
   // ---------- Étape 1 : courriel ----------
   var INTRO = {
-    donneur: 'Le test d’éligibilité, les centres, le guide, la FAQ et BeeBot sont ouverts à tout le monde. Mon profil, les défis, HémoRush et l’impact s’ouvrent sur invitation.',
+    donneur: 'Le test d’éligibilité, les centres, le guide, HémoRush, la FAQ et BeeBot sont ouverts à tout le monde. Mon profil, les défis, l’impact, le flux du centre et la réalité virtuelle s’ouvrent sur invitation.',
     receveur: 'L’espace receveur·se est en phase de test et s’ouvre sur invitation.',
     pro: 'Le portail professionnel est en phase de test et s’ouvre sur invitation.',
     admin: 'L’administration est réservée à l’équipe du projet.',
@@ -190,6 +190,8 @@
   // ---------- Personnalisation : le nom de la personne connectée remplace les personnages de démonstration ----------
   var DEMO = { donneur:{ noms:['Amine'], initiales:['AK'] }, receveur:{ noms:['Eleonora'], initiales:['EM'] }, pro:{ noms:[], initiales:[] } };
   function identite(e){
+    // le profil saisi par la personne prime sur le nom du compte
+    try{ var bp = window.BeeProfil && window.BeeProfil.identite && window.BeeProfil.identite(); if(bp) return { nom: bp.nom || bp.prenom, prenom: bp.prenom, initiales: bp.initiales }; }catch(x){}
     var nom = (e.nom && e.nom !== 'Administrateur' && e.nom !== 'Développeur') ? e.nom : (e.email||'').split('@')[0].replace(/[._\-]+/g,' ');
     nom = nom.trim().replace(/(^|\s)(\S)/g, function(m0,sp,c){ return sp + c.toUpperCase(); });
     var parts = nom.split(/\s+/).filter(Boolean);

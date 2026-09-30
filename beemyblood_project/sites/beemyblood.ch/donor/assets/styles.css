@@ -1325,3 +1325,9 @@ body.bmb-public .mob-item.bmb-reserve::after,body.bmb-public .hero-feat.bmb-rese
   .beebot-input button{width:auto!important;min-width:44px;height:44px!important;border-radius:22px!important;padding:0 16px;font-weight:700;font-size:15px!important}
   body.bmb-panel-open{overflow:hidden}
 }
+
+/* v0.7.0 */
+.kbd-hint{display:none!important}
+.live-toast{border:1px solid var(--text-muted);background:var(--dark-surface);color:var(--text)}
+.live-toast .lt-x{margin-left:10px;min-width:32px;min-height:32px;border-radius:8px;border:1px solid var(--text-muted);background:transparent;color:var(--text);font-size:14px;cursor:pointer;flex:none}
+[data-profil-ouvrir]{cursor:pointer}

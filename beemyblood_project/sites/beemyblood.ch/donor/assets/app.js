@@ -138,7 +138,17 @@ function openAcc(id){
   if(body){body.style.maxHeight='none';body.classList.add('open');if(b&&b.classList)b.classList.add('open');}
 }
 
+// Correspondance vue -> page depuis le découpage en pages
+var BMB_PAGE={hero:'index.html',dashboard:'tableau-de-bord.html',profil:'tableau-de-bord.html',communaute:'defis.html',actualites:'actualites.html',flux:'flux.html',guide:'guide.html',eligibilite:'eligibilite.html',hemorush:'hemorush.html',collectes:'centres.html',impact:'impact.html',chatbot:'beebot.html',vr:'vr.html',videos:'videos.html',faq:'faq.html',settings:'parametres.html',contact:'contact.html'};
+function bmbUrlVue(id){
+  var f=BMB_PAGE[id]; if(!f) return null;
+  var dansPages=/\/pages\//.test(location.pathname);
+  if(f==='index.html') return dansPages?'../index.html':'index.html';
+  return dansPages?f:'pages/'+f;
+}
 function go(id){
+  if(!id||id==='undefined') return;
+  if(!document.getElementById('v-'+id)){ var u=bmbUrlVue(id); if(u) location.href=u; return; }
   updateBreadcrumb(id);
   // Close mobile menu if open
   var mm=document.getElementById('mob-menu');if(mm)mm.classList.remove('show');
@@ -166,7 +176,7 @@ function go(id){
   setTimeout(updateNavOverflow,50);
 }
 
-document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>go(t.dataset.v)));
+document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>{ if(t.tagName!=='A') go(t.dataset.v); }));
 
 // ===== MODE PUBLIC : vues réservées aux testeurs invités (connexion demandée au moment d'y aller) =====
 var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,impact:1,profil:1,settings:1,vr:1}; // HémoRush reste ouvert à tous : c est le jeu qui attire
@@ -210,10 +220,10 @@ function updateNavOverflow(){
         // Flatten the group's items (rendered elsewhere as a fixed dropdown) into the overflow list
         const menu=document.getElementById(t.dataset.menu);
         if(menu)menu.querySelectorAll('.nav-tab').forEach(inner=>{
-          hiddenTabs.push({label:inner.textContent,view:inner.dataset.v,isActive:inner.classList.contains('active')});
+          hiddenTabs.push({label:inner.textContent,view:inner.dataset.v,href:inner.getAttribute('href'),garde:inner.getAttribute('onclick'),isActive:inner.classList.contains('active')});
         });
       }else{
-        hiddenTabs.push({label:t.textContent,view:t.dataset.v,isActive:t.classList.contains('active')});
+        hiddenTabs.push({label:t.textContent,view:t.dataset.v,href:t.getAttribute('href'),garde:t.getAttribute('onclick'),isActive:t.classList.contains('active')});
       }
     }
   });
@@ -221,7 +231,9 @@ function updateNavOverflow(){
   if(hiddenTabs.length>0){
     overflowBtn.style.display='block';
     overflowMenu.innerHTML=hiddenTabs.map(t=>
-      '<button class="nav-tab'+(t.isActive?' active':'')+'" data-v="'+t.view+'" onclick="go(\''+t.view+'\');closeOverflowMenu()">'+t.label+'</button>'
+      t.href
+        ? '<a class="nav-tab'+(t.isActive?' active':'')+'" href="'+t.href+'"'+(t.garde?' onclick="'+String(t.garde).replace(/"/g,'&quot;')+'"':'')+'>'+t.label+'</a>'
+        : '<button class="nav-tab'+(t.isActive?' active':'')+'" data-v="'+(t.view||'')+'" onclick="go(\''+(t.view||'')+'\');closeOverflowMenu()">'+t.label+'</button>'
     ).join('');
   }else{
     overflowBtn.style.display='none';
@@ -678,7 +690,10 @@ function showOnboard(){
 function closeOnboard(){
   var m=document.getElementById('onboard-modal');
   if(!m)return;
+  var etaitOuvert=m.classList.contains('show');
   m.classList.remove('show');
+  // Après le tutoriel : la première chose à faire est de compléter son profil
+  if(etaitOuvert&&window.BeeProfil){ setTimeout(function(){ window.BeeProfil.proposer(); },350); }
 }
 function nextOnboard(){
   obStep++;
@@ -716,17 +731,21 @@ function updateOb(){
 // Auto-show onboarding after gate is removed (or 2s if no gate) — une seule fois par compte,
 // pas à chaque page depuis que l'espace donneur est découpé en pages distinctes.
 (function(){
-  var seen=false;
-  try{seen=localStorage.getItem('bmb-onboard-seen')==='1';}catch(e){}
-  if(seen)return;
-  function tryShow(){
-    if(!document.getElementById('gate-overlay')){
-      showOnboard();
-      try{localStorage.setItem('bmb-onboard-seen','1');}catch(e){}
+  function courriel(){ try{ var e=window.BeeAcces&&window.BeeAcces.etat&&window.BeeAcces.etat(); return (e&&e.email)||''; }catch(x){ return ''; } }
+  function cle(){ var c=courriel(); return 'bmb-onboard-seen'+(c?':'+c:''); }
+  function vu(){ try{ return localStorage.getItem(cle())==='1'; }catch(e){ return false; } }
+  function ecranAccesVisible(){ var g=document.getElementById('gate-overlay'); if(g&&g.offsetParent!==null) return true; return !!document.querySelector('.bmba-wrap'); }
+  function tryShow(n){
+    if(ecranAccesVisible()){ if(n>0) setTimeout(function(){ tryShow(n-1); },500); return; }
+    if(vu()){ // tutoriel déjà vu : on propose seulement le profil sur la page « Mon profil »
+      if(window.BeeProfil&&document.body.hasAttribute('data-profil-demander')) window.BeeProfil.proposer();
+      return;
     }
-    else{setTimeout(tryShow,500);}
+    showOnboard();
+    try{ localStorage.setItem(cle(),'1'); }catch(e){}
   }
-  setTimeout(tryShow,800);
+  // laisse à acces.js le temps de reconnaître une session existante
+  setTimeout(function(){ tryShow(40); },1600);
 })();
 
 var tourSteps=[
@@ -808,13 +827,7 @@ function updateBreadcrumb(id){
 
 document.addEventListener('keydown',(e)=>{
   if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
-  const map={d:'dashboard',g:'guide',h:'hemorush',e:'eligibilite',c:'collectes',b:'chatbot',v:'vr',p:'profil',f:'flux',m:'videos',i:'impact'};
-  if(map[e.key]){e.preventDefault();go(map[e.key]);}
   if(e.key==='Escape'){closeOnboard();}
-  if(e.key==='?'){
-    const hint=document.getElementById('kbd-hint');
-    if(hint){hint.classList.toggle('show');}
-  }
 });
 
 const _isWE=(function(){var d=new Date(),day=d.getDay(),sun=day===0,sat=day===6,sw=Math.ceil(d.getDate()/7),ctsSat=sat&&(sw===1||sw===3);return sun||(sat&&!ctsSat);})();
@@ -846,8 +859,9 @@ function showLiveToast(){
   const t=TOASTS[toastIdx%TOASTS.length];toastIdx++;
   document.getElementById('lt-icon').textContent=t[0];
   document.getElementById('lt-text').textContent=t[1];
+  if(el.getAttribute('data-persistant')==='1'&&el.classList.contains('show'))return; // l'alerte officielle reste affichée
   el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),4500);
+  setTimeout(()=>el.classList.remove('show'),8000);
 }
 // First toast after 8s, then every 25-40s
 var _twe=(function(){var d=new Date(),day=d.getDay(),sun=day===0,sat=day===6,sw=Math.ceil(d.getDate()/7),ctsSat=sat&&(sw===1||sw===3);return sun||(sat&&!ctsSat);})();
@@ -957,7 +971,7 @@ function bmbRenderDonnees(d){
       btns.innerHTML=d.stocks.map(function(s,i){ return '<button class="canton-btn'+(i===0?' active':'')+'" data-institut="'+s.code+'" onclick="selectCanton(this)">'+bmbEsc(s.court)+'</button>'; }).join('');
       bmbAfficherStock(d.stocks[0].code);
       var crit=(d.stocks[0].groupes||[]).filter(function(g){return g.niveau==='critique';}).map(function(g){return g.groupe;});
-      var lt=document.getElementById('live-toast'); if(lt&&crit.length){ lt.classList.remove('alpha-only'); document.getElementById('lt-icon').textContent='🩸'; document.getElementById('lt-text').textContent='Stock '+crit.join(', ')+' critique — '+d.stocks[0].label+' (baromètre officiel)'; setTimeout(function(){ lt.classList.add('show'); setTimeout(function(){ lt.classList.remove('show'); },7000); },3000); }
+      var lt=document.getElementById('live-toast'); if(lt&&crit.length){ lt.classList.remove('alpha-only'); document.getElementById('lt-icon').textContent='🩸'; document.getElementById('lt-text').textContent='Stock '+crit.join(', ')+' critique — '+d.stocks[0].label+' (baromètre officiel)'; lt.setAttribute('data-persistant','1'); setTimeout(function(){ lt.classList.add('show'); },3000); }
     } else {
       btns.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Baromètre officiel indisponible pour le moment · <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">le consulter sur blutspende.ch</a></span>';
       var rows=document.getElementById('stock-canton-rows'); if(rows) rows.innerHTML='';
@@ -1038,3 +1052,20 @@ function bmbChargerDonnees(){
 document.addEventListener('DOMContentLoaded', bmbChargerDonnees);
 
 document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen().catch(function(){});}else{document.documentElement.requestFullscreen().catch(function(){});}}});
+
+
+// ===== Accès : attendre acces.js (chargé en différé) avant d'interroger BeeAcces =====
+function bmbQuandAcces(fn){ (function attendre(n){ if(window.BeeAcces) fn(window.BeeAcces); else if(n>0) setTimeout(function(){ attendre(n-1); },200); })(40); }
+var BMB_PAGES_RESERVEES=['tableau-de-bord.html','impact.html','defis.html','flux.html','vr.html','parametres.html'];
+document.addEventListener('DOMContentLoaded',function(){
+  var page=location.pathname.split('/').pop();
+  if(BMB_PAGES_RESERVEES.indexOf(page)<0) return;
+  bmbQuandAcces(function(acces){ setTimeout(function(){ if(!acces.deverrouille()) acces.exiger(function(){}); },600); });
+});
+
+// ===== Partage de l'état des stocks (baromètre officiel) =====
+function bmbPartagerStocks(){
+  var actif=document.querySelector('#canton-btns .canton-btn.active');
+  var code=(actif&&actif.dataset.institut)||'geneve';
+  if(window.BeePartage) window.BeePartage.stocks({code:code,ton:'donneur',donnees:(BMB_DONNEES&&BMB_DONNEES.stocks&&BMB_DONNEES.stocks.length)?BMB_DONNEES:null});
+}

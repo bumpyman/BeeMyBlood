@@ -1,0 +1,14 @@
+/*
+ * BeeMyBlood — Accessibilité commune aux pages hors espace donneur
+ * Reprend les corrections du travail de Bachelor d'Oscar Sirgado Dias Novo (HEG-Genève, 2026) sur l'espace donneur :
+ * focus visible, lien d'évitement, mouvement réduit, contour des champs à 3:1, texte réservé aux lecteurs d'écran.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.lien-evitement{position:absolute;left:-9999px;top:8px;z-index:6000;background:#E8D5A3;color:#12121e;padding:10px 16px;border-radius:10px;font-weight:700;text-decoration:none;font-family:system-ui,sans-serif;font-size:16px}
+.lien-evitement:focus{left:8px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important;padding:0!important;margin:-1px!important}
+:focus-visible{outline:3px solid #E8D5A3;outline-offset:2px}
+body input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=color]),body select,body textarea{border-color:#6B6B89}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

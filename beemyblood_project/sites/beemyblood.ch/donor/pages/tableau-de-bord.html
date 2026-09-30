@@ -22,7 +22,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
-<body>
+<body data-profil-demander>
 <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
 <span id="ext-link-notice" class="sr-only">(nouvelle fenêtre)</span>
 
@@ -91,7 +91,7 @@
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </a>
     <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="tableau-de-bord.html" aria-current="page" onclick="bmbGuard(event,'tableau-de-bord.html')">
-      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </a>
   </div>
@@ -150,26 +150,28 @@
   <!-- ===== IDENTITY HERO (fusion salutation + en-tête profil + XP + stats) ===== -->
   <div class="dash-welcome">
     <div>
-      <h1>Salut Amine 👋</h1>
-      <div style="font-size:15px;font-weight:600;color:var(--text);margin-top:2px">Amine Konaté <span style="font-size:13px;font-weight:500;color:var(--blue)">🦅 Faucon-283</span></div>
-      <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Étudiant · Uni Mail · 21 ans · Donneur depuis sept. 2025 · <span style="font-family:var(--font-mono);color:var(--gold)">N° CH-GE-2025-08-14927</span></div>
-      <p style="margin-top:8px">Ton groupe <strong style="color:var(--red-soft)">B+</strong> est demandé cette semaine aux HUG. C'est le moment idéal pour donner.</p>
+      <h1>Salut <span data-profil="prenom">Amine</span> 👋</h1>
+      <div style="font-size:15px;font-weight:600;color:var(--text);margin-top:2px"><span data-profil="nomComplet">Amine Konaté</span> <span style="font-size:13px;font-weight:500;color:var(--blue)">🦅 <span data-profil="affichage">Faucon-283</span></span></div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:2px"><span data-profil="resume">Étudiant · Uni Mail · 21 ans · Donneur depuis sept. 2025</span><span data-profil-demo> · <span style="font-family:var(--font-mono);color:var(--gold)">N° CH-GE-2025-08-14927</span></span></div>
+      <p style="margin-top:8px" data-profil-demo>Ton groupe <strong style="color:var(--red-soft)">B+</strong> est demandé cette semaine aux HUG. C'est le moment idéal pour donner.</p>
+      <p style="margin-top:8px" data-profil-reel hidden>Ton groupe sanguin : <strong style="color:var(--red-soft)" data-profil="groupeTexte"></strong>. <span data-profil-si="prochainDon">Tu peux redonner dès le <strong data-profil="prochainDon"></strong>.</span></p>
       <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;justify-content:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:20px;padding:5px 12px;font-size:13px"><span style="font-size:15px">🩸</span> <strong style="color:var(--gold)">Donneur actif</strong></span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--dark-surface);border:1px solid var(--dark-border);border-radius:20px;padding:5px 12px;font-size:13px"><span style="font-size:15px">🩸</span> <strong style="color:var(--gold)" data-profil="statut">Donneur actif</strong></span>
         <span style="display:inline-flex;align-items:center;gap:6px;background:var(--dark-surface);border:1px solid rgba(242,169,59,.2);border-radius:20px;padding:5px 12px;font-size:13px;cursor:pointer;font-family:var(--font-mono)" onclick="navigator.clipboard&&navigator.clipboard.writeText('BMB-7K9X2');this.querySelector('b').textContent='✅ Copié !';setTimeout(()=>this.querySelector('b').textContent='BMB-7K9X2',2000)"><span style="font-size:15px">🐝</span> Code parrain : <b style="color:var(--gold)">BMB-7K9X2</b></span>
       </div>
       <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center">
         <a href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice" class="btn btn-gold btn-sm">📅 Prendre RDV sur OneDoc</a>
         <a href="https://www.hug.ch/don-du-sang/donner-mon-sang" target="_blank" aria-describedby="ext-link-notice" class="btn btn-outline btn-sm">🏥 Site du CTS HUG</a>
         <a class="btn btn-outline btn-sm" href="eligibilite.html">✅ Test d'éligibilité</a>
+        <button type="button" class="btn btn-outline btn-sm" data-profil-ouvrir>✏️ Modifier mon profil</button>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
       <div class="level-orb"><div class="num">1</div><div class="lbl">Débutant</div></div>
       <div class="xp-wrap"><div class="xp-bg"><div class="xp-fill" style="width:6%"></div></div><div class="xp-txt">1'650 / 25'000 XP → Bronze</div></div>
       <div style="display:flex;gap:14px;justify-content:center;margin-top:6px">
-        <div style="text-align:center"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)">3</div><div style="font-size:12px;color:var(--text-dim)">Dons</div></div>
-        <div style="text-align:center"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--red-soft)">~9</div><div style="font-size:12px;color:var(--text-dim)">Vies</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)" data-profil="nbDons">3</div><div style="font-size:12px;color:var(--text-dim)">Dons</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--red-soft)" data-profil="vies">~9</div><div style="font-size:12px;color:var(--text-dim)">Vies</div></div>
         <div style="text-align:center"><div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--blue)">4'820</div><div style="font-size:12px;color:var(--text-dim)">HémoRush™</div></div>
       </div>
     </div>
@@ -1024,7 +1026,7 @@
 </main>
 
 <!-- ONBOARDING MODAL -->
-<div class="modal-overlay" id="onboard-modal" style="display:none">
+<div class="modal-overlay" id="onboard-modal" role="dialog" aria-modal="true" aria-label="Tutoriel de bienvenue" style="display:none">
   <div class="modal-box" style="max-width:480px">
     <div class="modal-header" style="padding-bottom:8px">
       <div style="font-size:36px;margin-bottom:4px">🐝</div>
@@ -1048,8 +1050,8 @@
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
           <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
-          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
-          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+          <strong style="color:var(--gold)">Sur mobile :</strong> le bouton ☰ en haut ouvre toutes les sections, regroupées en « Mon espace » et « Découvrir ».<br><br>
+          <span style="color:var(--text-muted)">💡 Chaque section a sa propre page : le bouton Retour du navigateur et les favoris fonctionnent.</span>
         </div>
       </div>
     </div>
@@ -1222,7 +1224,7 @@
 
 <!-- BEEBOT FAB -->
 <!-- LIVE TOAST -->
-<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+<div class="live-toast alpha-only" id="live-toast" role="status" aria-live="polite"><span id="lt-icon" aria-hidden="true">🩸</span><span id="lt-text"></span><button type="button" class="lt-x" aria-label="Fermer cette alerte" onclick="this.parentElement.classList.remove('show');this.parentElement.removeAttribute('data-persistant')">✕</button></div>
 
 <button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
 <div class="beebot-panel" id="beebot-panel">
@@ -1423,6 +1425,8 @@ function shareCard(target){
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../../acces.js" data-espace="donneur" data-racine="../../" data-public="1" defer></script>
+<script src="../../profil.js" data-espace="donneur" defer></script>
+<script src="../../partage.js" defer></script>
 <script src="../../lexique.js" defer></script>
 <script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
 document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>

@@ -91,7 +91,7 @@
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </a>
     <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
-      <div class="nav-avatar"><span class="alpha-only">AK</span><span class="public-only">👤</span></div>
+      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </a>
   </div>
@@ -606,7 +606,7 @@
 </main>
 
 <!-- ONBOARDING MODAL -->
-<div class="modal-overlay" id="onboard-modal" style="display:none">
+<div class="modal-overlay" id="onboard-modal" role="dialog" aria-modal="true" aria-label="Tutoriel de bienvenue" style="display:none">
   <div class="modal-box" style="max-width:480px">
     <div class="modal-header" style="padding-bottom:8px">
       <div style="font-size:36px;margin-bottom:4px">🐝</div>
@@ -630,8 +630,8 @@
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Comment naviguer</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
           <strong style="color:var(--gold)">Sur ordinateur :</strong> la barre de navigation en haut te donne accès à toutes les sections. Si l'écran est petit, un menu « ⋯ Plus » regroupe les onglets supplémentaires.<br><br>
-          <strong style="color:var(--gold)">Sur mobile :</strong> la barre du bas (🏠📊🎮📍☰) te permet de naviguer rapidement. Le menu « ☰ Plus » ouvre toutes les sections.<br><br>
-          <span style="color:var(--text-muted)">💡 Astuce : des raccourcis clavier existent aussi (D=Dashboard, H=HémoRush, etc.)</span>
+          <strong style="color:var(--gold)">Sur mobile :</strong> le bouton ☰ en haut ouvre toutes les sections, regroupées en « Mon espace » et « Découvrir ».<br><br>
+          <span style="color:var(--text-muted)">💡 Chaque section a sa propre page : le bouton Retour du navigateur et les favoris fonctionnent.</span>
         </div>
       </div>
     </div>
@@ -759,7 +759,7 @@
           <strong>Par où commencer ?</strong>
           <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
             1️⃣ Fais le <strong style="color:var(--green)">test d'éligibilité</strong> (2 min)<br>
-            2️⃣ Explore le <strong style="color:var(--gold)">dashboard</strong> et toutes ses fonctionnalités<br>
+            2️⃣ Complète <strong style="color:var(--gold)">ton profil</strong> : il remplace les données de démonstration<br>
             3️⃣ Joue à <strong style="color:var(--red-soft)">HémoRush™</strong> pour apprendre<br>
             4️⃣ Trouve un <strong style="color:var(--blue)">centre de don</strong> et prends RDV
           </div>
@@ -804,7 +804,7 @@
 
 <!-- BEEBOT FAB -->
 <!-- LIVE TOAST -->
-<div class="live-toast alpha-only" id="live-toast"><span id="lt-icon">🩸</span><span id="lt-text">Stock O- critique aux HUG — 8 poches restantes</span></div>
+<div class="live-toast alpha-only" id="live-toast" role="status" aria-live="polite"><span id="lt-icon" aria-hidden="true">🩸</span><span id="lt-text"></span><button type="button" class="lt-x" aria-label="Fermer cette alerte" onclick="this.parentElement.classList.remove('show');this.parentElement.removeAttribute('data-persistant')">✕</button></div>
 
 <button class="beebot-fab" onclick="toggleBeeBot()" id="beebot-fab" title="BeeBot™ — Ton conseiller IA">🐝</button>
 <div class="beebot-panel" id="beebot-panel">
@@ -1251,6 +1251,8 @@ setTimeout(initFlux,200);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../../acces.js" data-espace="donneur" data-racine="../../" data-public="1" defer></script>
+<script src="../../profil.js" data-espace="donneur" defer></script>
+<script src="../../partage.js" defer></script>
 <script src="../../lexique.js" defer></script>
 <script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();
 document.addEventListener('focusin',function(e){var t=e.target;if(!t||!t.matches||!t.matches('.chat-in,#beebot-in,#chatIn,#proBotInput'))return;setTimeout(function(){fit();var box=t.closest('.chat-container,.beebot-panel,.cd,#proBotBox');var m=box&&box.querySelector('.chat-msgs,.beebot-msgs,.chb,#proBotMsgs');if(m)m.scrollTop=m.scrollHeight;t.scrollIntoView({block:'nearest'});},350);});})();</script>
