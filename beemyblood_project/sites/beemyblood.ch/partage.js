@@ -7,7 +7,8 @@
  */
 (function(){
   'use strict';
-  var URL_DON = 'https://www.beemyblood.ch/donor/';
+  var SITE = 'https://www.beemyblood.ch';
+  function urlPartage(r){ return SITE + '/stocks/' + (r && r.code && r.code !== 'geneve' ? '?r=' + r.code : ''); }
   var NIV = {
     critique:{ l:'Critique', c:'#E5484D', signe:'!!' },
     bas:     { l:'Bas',      c:'#F2A93B', signe:'!'  },
@@ -39,14 +40,14 @@
     var besoin = ge ? 'Genève a besoin de donneurs réguliers, et de 10 donneurs de plus chaque jour.'
                     : 'Les stocks tiennent grâce aux donneurs réguliers.';
     if(court){
-      return '🩸 Sang '+(ge?'à Genève':'· '+ou)+' : '+(crit.length?crit.join(', ')+' critique'+(crit.length>1?'s':'')+'.':bas.length?bas.join(', ')+' bas.':'stocks corrects.')+' '
-        +(ge?'Il faut 10 donneurs de plus par jour.':'Les donneurs réguliers font la différence.')+' Puis-je donner ? Réponse en 2 minutes : '+URL_DON+' #DonDuSang';
+      return 'Sang '+(ge?'à Genève':'· '+ou)+' : '+(crit.length?crit.join(', ')+' critique'+(crit.length>1?'s':'')+'.':bas.length?bas.join(', ')+' bas.':'stocks corrects.')+' '
+        +(ge?'Il faut 10 donneurs de plus par jour.':'Les donneurs réguliers font la différence.')+' Puis-je donner ? Réponse en 2 minutes : '+urlPartage(r)+' #DonDuSang';
     }
     var appel = ton==='pro'
-      ? 'Nous avons besoin de vous. Un don prend 45 minutes et peut aider jusqu’à trois personnes. Vérifiez en deux minutes si vous pouvez donner et trouvez une collecte près de chez vous : '+URL_DON
-      : 'Un don prend 45 minutes et peut aider jusqu’à trois personnes. En deux minutes, vérifiez si vous pouvez donner et trouvez une collecte près de chez vous : '+URL_DON;
-    return '🩸 Stocks de sang '+(ge?'à Genève':'· '+ou)+', '+dateFr(r)+'\n'+etat+'\n\n'+besoin+'\n'+appel+'\n\n'
-      +'Source : baromètre officiel de Transfusion CRS Suisse, relayé par BeeMyBlood, la plateforme ouverte de la filière sang.\n#DonDuSang '+(ge?'#Genève ':'')+'#BeeMyBlood';
+      ? 'Nous avons besoin de vous. Un don prend 45 minutes et peut aider jusqu’à trois personnes. Vérifiez en deux minutes si vous pouvez donner et trouvez une collecte près de chez vous : '+urlPartage(r)
+      : 'Un don prend 45 minutes et peut aider jusqu’à trois personnes. En deux minutes, vérifiez si vous pouvez donner et trouvez une collecte près de chez vous : '+urlPartage(r);
+    return 'Stocks de sang '+(ge?'à Genève':'· '+ou)+', '+dateFr(r)+'\n'+etat+'\n\n'+besoin+'\n'+appel+'\n\n'
+      +'Source : baromètre officiel de Transfusion CRS Suisse. Partagé depuis BeeMyBlood, qui relie donneurs, patients et centres de transfusion.\n#DonDuSang '+(ge?'#Genève ':'')+'#BeeMyBlood';
   }
 
   // ---------- Image (1080 × 1350) ----------
@@ -104,18 +105,18 @@
     ov.innerHTML='<div class="bmbs"><div class="bmbs-h"><h2 id="bmbs-t">Partager l’état des stocks · '+esc(lieu(r))+'</h2><button class="bmbs-x" type="button" aria-label="Fermer">✕</button></div>'
       +'<div class="bmbs-b"><div class="bmbs-img"></div><div><label for="bmbs-txt">Message, modifiable avant l’envoi</label><textarea id="bmbs-txt"></textarea>'
       +'<div class="bmbs-r">'
-      +'<button type="button" class="or" data-a="natif">📲 Partager…</button>'
+      +'<button type="button" class="or" data-a="natif">Partager avec l’image</button>'
       +'<a data-r="whatsapp" target="_blank" rel="noopener">WhatsApp</a><a data-r="linkedin" target="_blank" rel="noopener">LinkedIn</a><a data-r="facebook" target="_blank" rel="noopener">Facebook</a>'
       +'<a data-r="x" target="_blank" rel="noopener">X</a><a data-r="bluesky" target="_blank" rel="noopener">Bluesky</a><a data-r="threads" target="_blank" rel="noopener">Threads</a><a data-r="telegram" target="_blank" rel="noopener">Telegram</a>'
-      +'<a data-r="courriel">Courriel</a><button type="button" data-a="copier">Copier le texte</button><button type="button" data-a="image">Télécharger l’image</button>'
+      +'<a data-r="courriel">Courriel</a><button type="button" data-a="copier">Copier le texte</button><button type="button" data-a="copier-image">Copier l’image</button><button type="button" data-a="image">Télécharger l’image</button>'
       +'</div><div class="bmbs-ok" role="status" aria-live="polite"></div>'
-      +'<p class="bmbs-n">Instagram et LinkedIn n’acceptent pas de texte prérempli : téléchargez l’image, copiez le texte, puis collez-les dans votre publication. Les niveaux proviennent du baromètre officiel de Transfusion CRS Suisse du '+esc(dateFr(r))+'.</p></div></div></div>';
+      +'<p class="bmbs-n">Les réseaux affichent l’image du jour dans l’aperçu du lien. Sur téléphone, « Partager avec l’image » joint l’image elle-même. Sur ordinateur, « Copier l’image » permet de la coller dans la publication. Instagram demande de télécharger l’image. Niveaux du baromètre officiel de Transfusion CRS Suisse du '+esc(dateFr(r))+'.</p></div></div></div>';
     document.body.appendChild(ov); ov.querySelector('.bmbs-img').appendChild(cv);
     var ta=ov.querySelector('#bmbs-txt'), ok=ov.querySelector('.bmbs-ok'); ta.value=t;
     function dire(m){ ok.textContent=m; setTimeout(function(){ if(ok.textContent===m) ok.textContent=''; }, 4000); }
     function liens(){
-      var m=ta.value, e=encodeURIComponent, c=e(texte(r,ton,true)), u=e(URL_DON);
-      var L={ whatsapp:'https://wa.me/?text='+e(m), linkedin:'https://www.linkedin.com/sharing/share-offsite/?url='+u, facebook:'https://www.facebook.com/sharer/sharer.php?u='+u+'&quote='+e(m),
+      var m=ta.value, e=encodeURIComponent, c=e(texte(r,ton,true)), u=e(urlPartage(r));
+      var L={ whatsapp:'https://api.whatsapp.com/send?text='+e(m), linkedin:'https://www.linkedin.com/sharing/share-offsite/?url='+u, facebook:'https://www.facebook.com/sharer/sharer.php?u='+u+'&quote='+e(m),
         x:'https://twitter.com/intent/tweet?text='+c, bluesky:'https://bsky.app/intent/compose?text='+c, threads:'https://www.threads.net/intent/post?text='+e(m),
         telegram:'https://t.me/share/url?url='+u+'&text='+e(m), courriel:'mailto:?subject='+e('Stocks de sang · '+lieu(r)+' : on a besoin de donneurs')+'&body='+e(m) };
       ov.querySelectorAll('[data-r]').forEach(function(a){ a.href=L[a.getAttribute('data-r')]; });
@@ -131,6 +132,7 @@
       var a=ev.target.closest('[data-r]'); if(a){ compter(a.getAttribute('data-r'), r.code); if(a.getAttribute('data-r')==='linkedin'){ copier().then(function(){ dire('Texte copié : collez-le dans votre publication LinkedIn.'); }); } return; }
       var b=ev.target.closest('[data-a]'); if(!b) return; var act=b.getAttribute('data-a');
       if(act==='copier'){ copier(); compter('copie', r.code); }
+      if(act==='copier-image'){ fichier(function(f){ if(!f) return; try{ navigator.clipboard.write([new ClipboardItem({'image/png':f})]).then(function(){ dire('Image copiée : collez-la dans votre publication.'); }, function(){ dire('Votre navigateur refuse la copie d’image. Utilisez « Télécharger l’image ».'); }); }catch(x){ dire('Votre navigateur refuse la copie d’image. Utilisez « Télécharger l’image ».'); } }); compter('copie-image', r.code); }
       if(act==='image'){ fichier(function(f){ if(!f) return; var l=document.createElement('a'); l.href=URL.createObjectURL(f); l.download=f.name; document.body.appendChild(l); l.click(); setTimeout(function(){ URL.revokeObjectURL(l.href); l.remove(); },500); dire('Image enregistrée.'); }); compter('image', r.code); }
       if(act==='natif'){
         fichier(function(f){

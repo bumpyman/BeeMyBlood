@@ -190,8 +190,8 @@ var BMB_RESERVE = {dashboard:1,communaute:1,flux:1,impact:1,profil:1,settings:1,
   document.querySelectorAll('.nav-tab').forEach(function(t){ if(BMB_RESERVE[t.dataset.v]) t.classList.add('bmb-reserve'); });
   // idem pour la barre du bas, le menu mobile et les tuiles de l'accueil (onclick=go('x') / goMob('x'))
   document.querySelectorAll('[onclick]').forEach(function(el){ var m=(el.getAttribute('onclick')||'').match(/^\s*go(?:Mob)?\('([a-z]+)'\)/); if(m&&BMB_RESERVE[m[1]]) el.classList.add('bmb-reserve'); });
-  // vue Collectes : pour un visiteur, seuls l'en-tête, les collectes officielles des HUG et la carte des centres sont montrés (le reste est une démonstration)
-  document.querySelectorAll('#v-collectes > *').forEach(function(el){ if(!(el.id==='collectes-hug'||el.id==='map-card'||el.classList.contains('sec-header'))) el.classList.add('alpha-only'); });
+  // vue Collectes : l'en-tête, les collectes officielles et la carte des centres sont réels ; le reste est une démonstration
+  document.querySelectorAll('#v-collectes > *').forEach(function(el){ if(!(el.id==='collectes-hug'||el.id==='map-card'||el.classList.contains('sec-header'))) el.setAttribute('data-demo',''); });
 })();
 
 function updateNavOverflow(){
@@ -319,6 +319,7 @@ document.addEventListener('click',()=>{
 function markAllRead(){
   document.querySelectorAll('.notif-item.unread').forEach(n=>n.classList.remove('unread'));
   const dot=document.querySelector('.nav-notif-dot');if(dot)dot.style.display='none';
+  try{localStorage.setItem('bmb-notifs-lues',window._bmbNotifSig||'');}catch(e){}
   const btn=event.target;btn.textContent='✓ Tout lu';btn.style.color='var(--green)';
   setTimeout(()=>{btn.textContent='Tout marquer comme lu';btn.style.color='var(--gold)';},2000);
 }
@@ -595,6 +596,7 @@ function findBestKBMatch(text){
   var tl=text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   var best=null,bestLen=0;
   for(var i=0;i<KB.length;i++){
+    if(KB[i].demo&&!bmbDemo()) continue;
     for(var j=0;j<KB[i].keys.length;j++){
       var kn=KB[i].keys[j].normalize('NFD').replace(/[\u0300-\u036f]/g,'');
       if(tl.includes(kn)&&kn.length>bestLen){bestLen=kn.length;best=KB[i];}
@@ -855,7 +857,7 @@ const TOASTS=_isWE?[
 let toastIdx=0;
 function showLiveToast(){
   const el=document.getElementById('live-toast');if(!el)return;
-  if(document.body.classList.contains('bmb-public'))return; // messages fictifs : réservés aux testeurs invités
+  if(!bmbDemo())return; // messages fictifs : uniquement en mode démonstration
   const t=TOASTS[toastIdx%TOASTS.length];toastIdx++;
   document.getElementById('lt-icon').textContent=t[0];
   document.getElementById('lt-text').textContent=t[1];
@@ -971,7 +973,7 @@ function bmbRenderDonnees(d){
       btns.innerHTML=d.stocks.map(function(s,i){ return '<button class="canton-btn'+(i===0?' active':'')+'" data-institut="'+s.code+'" onclick="selectCanton(this)">'+bmbEsc(s.court)+'</button>'; }).join('');
       bmbAfficherStock(d.stocks[0].code);
       var crit=(d.stocks[0].groupes||[]).filter(function(g){return g.niveau==='critique';}).map(function(g){return g.groupe;});
-      var lt=document.getElementById('live-toast'); if(lt&&crit.length){ lt.classList.remove('alpha-only'); document.getElementById('lt-icon').textContent='🩸'; document.getElementById('lt-text').textContent='Stock '+crit.join(', ')+' critique — '+d.stocks[0].label+' (baromètre officiel)'; lt.setAttribute('data-persistant','1'); setTimeout(function(){ lt.classList.add('show'); },3000); }
+      bmbAlerteStock(d.stocks[0], crit);
     } else {
       btns.innerHTML='<span style="font-size:12px;color:var(--text-muted)">Baromètre officiel indisponible pour le moment · <a href="https://www.blutspende.ch/fr" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold)">le consulter sur blutspende.ch</a></span>';
       var rows=document.getElementById('stock-canton-rows'); if(rows) rows.innerHTML='';
@@ -1003,12 +1005,12 @@ function bmbRenderDonnees(d){
     {id:'ch',label:'Ailleurs en Suisse',url:'https://www.blutspende.ch/fr/dates-de-collecte-de-sang',org:'Transfusion CRS Suisse (recherche par localité)'}
   ];
   var CANTONS_DATA=(d.collectes&&d.collectes.cantons)||{};
-  // Réservation réelle : redirection vers l'outil officiel du centre, avec comptage anonyme du clic (aucune donnée personnelle)
+  // Lien vers la page officielle de la collecte ou l'outil de rendez-vous du centre, avec comptage anonyme du clic (aucune donnée personnelle)
   window.bmbReserver=function(url, ref, region){
     try { var sb = window.BeeAcces && window.BeeAcces.client && window.BeeAcces.client(); if(sb) sb.rpc('cd_evenement', { p:{ region:region||'geneve', type:'clic_reservation', ref:String(ref||url||'').slice(0,200) } }).then(function(){}, function(){}); } catch(e){}
     return true;
   };
-  function bmbReserverBtn(url, ref, region){ if(!url) return ''; return '<a href="'+bmbEsc(url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" onclick="bmbReserver(this.href,'+JSON.stringify(String(ref||'')).replace(/"/g,'&quot;')+','+JSON.stringify(String(region||'geneve')).replace(/"/g,'&quot;')+')" style="flex:none;align-self:center;background:linear-gradient(135deg,var(--gold),#965E0A);color:#1A1A1A;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">Réserver</a>'; }
+  function bmbReserverBtn(url, ref, region){ if(!url) return ''; return '<a href="'+bmbEsc(url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" onclick="bmbReserver(this.href,'+JSON.stringify(String(ref||'')).replace(/"/g,'&quot;')+','+JSON.stringify(String(region||'geneve')).replace(/"/g,'&quot;')+')" style="flex:none;align-self:center;background:linear-gradient(135deg,var(--gold),#965E0A);color:#1A1A1A;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">'+bmbLibelleLien(url)+'</a>'; }
   // Fichier d'agenda (.ics) pour une collecte : date ISO, horaire « 13h30 – 19h30 », lieu, lien officiel
   window.bmbIcs=function(titre, dateIso, horaire, lieu, url){
     var m=(horaire||'').match(/(\d{1,2})h(\d{2})?\D+(\d{1,2})h(\d{2})?/), d=(dateIso||'').replace(/-/g,'');
@@ -1069,3 +1071,96 @@ function bmbPartagerStocks(){
   var code=(actif&&actif.dataset.institut)||'geneve';
   if(window.BeePartage) window.BeePartage.stocks({code:code,ton:'donneur',donnees:(BMB_DONNEES&&BMB_DONNEES.stocks&&BMB_DONNEES.stocks.length)?BMB_DONNEES:null});
 }
+
+
+// ===== Mode démonstration =====
+// Par défaut, l'espace n'affiche que les données de la personne et les données officielles du jour.
+// Les blocs fictifs (persona Amine, flux simulé, défis, messages en direct) portent data-demo et
+// n'apparaissent que si la personne active le mode démonstration (Paramètres, ou bouton de « Mon profil »).
+function bmbDemo(){ return document.documentElement.classList.contains('bmb-demo'); }
+// Réponses locales de BeeBot qui décrivent le persona ou des fonctions simulées : réservées au mode démonstration
+['groupe','peur','rare','impact','lounge','fratrie','attestation','flux','vidéo','vr'].forEach(function(k){ KB.forEach(function(e){ if(e.keys[0]===k) e.demo=1; }); });
+
+// Libellé d'un lien de collecte selon sa destination : seul un outil de prise de rendez-vous s'appelle « rendez-vous »
+function bmbLibelleLien(url){
+  url=String(url||'');
+  if(/onedoc\.ch|ichspendeblut\.ch/.test(url)) return 'Prendre rendez-vous ↗';
+  if(/hug\.ch/.test(url)) return 'Détails sur hug.ch ↗';
+  if(/blutspende\.ch/.test(url)) return 'Détails sur blutspende.ch ↗';
+  return 'Voir la collecte ↗';
+}
+
+// Alerte de stock : uniquement ce que dit le baromètre officiel (niveaux par groupe, jamais de nombre de poches)
+function bmbAlerteStock(region, crit){
+  var lt=document.getElementById('live-toast'); if(!lt||!crit||!crit.length) return;
+  var texte='Niveau critique, '+(region.court||region.label)+' : '+crit.join(', ')+' · baromètre officiel'+(region.date?' du '+region.date:'');
+  try{ if(sessionStorage.getItem('bmb-alerte-fermee')===texte) return; }catch(e){}
+  lt.classList.remove('alpha-only');
+  document.getElementById('lt-icon').textContent='🩸';
+  document.getElementById('lt-text').textContent=texte;
+  lt.setAttribute('data-persistant','1');
+  var x=lt.querySelector('.lt-x'); if(x&&!x._bmb){ x._bmb=1; x.addEventListener('click',function(){ try{ sessionStorage.setItem('bmb-alerte-fermee',document.getElementById('lt-text').textContent); }catch(e){} }); }
+  setTimeout(function(){ lt.classList.add('show'); },3000);
+}
+
+// Annonces et événements des centres de transfusion (pages publiques des HUG, lues chaque heure par api/donnees.php)
+function bmbVieCentres(d){ var c=(d&&d.centres)||{}; return (c.evenements||[]).concat(c.annonces||[]); }
+function bmbRenderCentres(d){
+  var vie=bmbVieCentres(d); if(!vie.length) return;
+  var feed=document.getElementById('newsFeed');
+  if(feed){
+    feed.insertAdjacentHTML('afterbegin', vie.slice(0,3).map(function(a){
+      return '<div class="news-slide" style="min-width:100%;padding:16px;border:1px solid rgba(242,169,59,.3);border-radius:var(--radius)"><div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">'+(a.type==='evenement'?'🎉 Événement':'📣 Annonce')+' · '+bmbEsc(a.source)+(a.date?' · '+bmbEsc(a.date):'')+'</div><div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:6px">'+bmbEsc(a.titre)+'</div>'+(a.texte?'<div style="font-size:13px;color:var(--text-dim);line-height:1.5;margin-bottom:8px">'+bmbEsc(a.texte)+'</div>':'')+'<a href="'+bmbEsc(a.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--gold);font-size:12px;font-weight:600">Voir sur le site des HUG →</a></div>'; }).join(''));
+    var slides=feed.querySelectorAll('.news-slide'); for(var i=slides.length-1;i>=6;i--) slides[i].remove();
+    var n=Math.min(6,slides.length); try{ newsTotal=n; newsIdx=0; }catch(e){}
+    feed.style.transform='translateX(0)';
+    var dots=document.getElementById('newsDots'); if(dots){ var h=''; for(var j=0;j<n;j++) h+='<span class="news-dot'+(j===0?' active':'')+'" onclick="goNewsSlide('+j+')"></span>'; dots.innerHTML=h; }
+  }
+  var presse=document.getElementById('actus-jour');
+  if(presse&&!document.getElementById('actus-centres')){
+    presse.insertAdjacentHTML('beforebegin','<div class="card" id="actus-centres" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🏥 Au centre de transfusion de Genève</div><span class="badge">HUG</span></div>'
+      + vie.map(function(a){ return '<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--dark-border)"><div style="font-size:20px" aria-hidden="true">'+(a.type==='evenement'?'🎉':'📣')+'</div><div style="flex:1"><a href="'+bmbEsc(a.url)+'" target="_blank" aria-describedby="ext-link-notice" rel="noopener" style="color:var(--text);font-weight:600;font-size:14px;line-height:1.4">'+bmbEsc(a.titre)+'</a>'+(a.date?'<div style="font-size:12px;color:var(--gold);font-family:var(--font-mono)">'+bmbEsc(a.date)+'</div>':'')+(a.texte?'<div style="font-size:13px;color:var(--text-dim);line-height:1.5;margin-top:2px">'+bmbEsc(a.texte)+'</div>':'')+'</div></div>'; }).join('')
+      + '<div style="font-size:11px;color:var(--text-muted);margin-top:8px">Annonces et événements publiés par le centre de transfusion des HUG (hug.ch/don-du-sang et agenda des HUG), relus chaque heure. Les animations ponctuelles, goûters ou collectes à thème, apparaissent ici dès leur publication.</div></div>');
+  }
+}
+
+// Notifications : construites à partir du baromètre officiel, des collectes, des annonces du centre et du profil
+function bmbNotifs(){
+  var box=document.getElementById('notif-reel'), dot=document.getElementById('notif-dot'); if(!box) return;
+  if(bmbDemo()){ if(dot) dot.style.display=''; return; }
+  var d=BMB_DONNEES||{}, P=window.BeeProfil, p=P?P.lire():{}, v=P?P.valeurs():{}, items=[];
+  var dansPages=/\/pages\//.test(location.pathname), pg=function(f){ return dansPages?f:'pages/'+f; };
+  var r=(d.stocks||[]).filter(function(s){ return s.code===(p.region||'geneve'); })[0]||(d.stocks||[])[0];
+  if(r){
+    var lieu=r.court||r.label, quand=r.date?' du '+r.date:'';
+    var mien=p.groupe&&p.alerteGroupe&&(r.groupes||[]).filter(function(g){ return g.groupe===p.groupe; })[0];
+    if(mien&&(mien.niveau==='critique'||mien.niveau==='bas')) items.push({i:'🩸',t:'Ton groupe '+p.groupe+' est au niveau '+String(mien.libelle||mien.niveau).toLowerCase()+' ('+lieu+')',s:'Baromètre officiel'+quand+'. Ton don est particulièrement utile en ce moment.',u:pg('centres.html')});
+    var crit=(r.groupes||[]).filter(function(g){ return g.niveau==='critique'&&!(mien&&g.groupe===p.groupe); }).map(function(g){ return g.groupe; });
+    if(crit.length) items.push({i:'⚠️',t:'Niveau critique, '+lieu+' : '+crit.join(', '),s:'Baromètre officiel de Transfusion CRS Suisse'+quand+'.',u:dansPages?'../index.html':'index.html'});
+  }
+  if(v.prochainDon&&+v.prochainDonJours<=14) items.push({i:'📅',t:+v.prochainDonJours<=0?'Tu peux de nouveau donner':'Tu pourras redonner dès le '+v.prochainDon,s:'Dernier don le '+v.dernierDonTexte+'.',u:pg('centres.html')});
+  var c=((d.collectes&&d.collectes.geneve)||[])[0];
+  if(c) items.push({i:'🚌',t:'Prochaine collecte : '+c.titre,s:[c.date,(c.debut?c.debut+(c.fin?'–'+c.fin:''):'')].filter(Boolean).join(' · ')+' · calendrier officiel des HUG',u:pg('centres.html')});
+  var a=bmbVieCentres(d)[0];
+  if(a) items.push({i:a.type==='evenement'?'🎉':'📣',t:a.titre,s:(a.date?a.date+' · ':'')+a.source,u:pg('actualites.html')});
+  if(P&&!P.complet()) items.push({i:'✏️',t:'Complète ton profil',s:'Il sert à calculer ta prochaine date de don et à t’avertir quand ton groupe est recherché.',profil:1});
+  var sig=items.map(function(x){ return x.t; }).join('|'), lu=''; try{ lu=localStorage.getItem('bmb-notifs-lues')||''; }catch(e){}
+  window._bmbNotifSig=sig;
+  var nonLu=items.length>0&&lu!==sig;
+  box.innerHTML=items.length ? items.map(function(x){ return '<a class="notif-item'+(nonLu?' unread':'')+'" style="display:flex;text-decoration:none;color:inherit" href="'+(x.profil?'#':bmbEsc(x.u))+'"'+(x.profil?' data-profil-ouvrir':'')+'><span class="ni-icon" aria-hidden="true">'+x.i+'</span><div class="ni-body"><div class="ni-title">'+bmbEsc(x.t)+'</div><div class="ni-sub">'+bmbEsc(x.s)+'</div></div></a>'; }).join('')
+    : '<div class="notif-item" style="cursor:default"><div class="ni-sub">Aucune notification pour le moment.</div></div>';
+  if(dot) dot.style.display=nonLu?'':'none';
+}
+document.addEventListener('bmb-profil', bmbNotifs);
+
+// Après le rendu des données officielles : annonces des centres, notifications, puis signal aux modules de page
+(function(){
+  var base=bmbRenderDonnees;
+  bmbRenderDonnees=function(d){
+    base(d);
+    try{ bmbRenderCentres(d); }catch(e){}
+    try{ bmbNotifs(); }catch(e){}
+    document.dispatchEvent(new CustomEvent('bmb-donnees',{detail:d}));
+  };
+  setTimeout(function(){ try{ bmbNotifs(); }catch(e){} },2200); // une fois le profil synchronisé
+})();

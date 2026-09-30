@@ -1331,3 +1331,22 @@ body.bmb-public .mob-item.bmb-reserve::after,body.bmb-public .hero-feat.bmb-rese
 .live-toast{border:1px solid var(--text-muted);background:var(--dark-surface);color:var(--text)}
 .live-toast .lt-x{margin-left:10px;min-width:32px;min-height:32px;border-radius:8px;border:1px solid var(--text-muted);background:transparent;color:var(--text);font-size:14px;cursor:pointer;flex:none}
 [data-profil-ouvrir]{cursor:pointer}
+
+/* Mode démonstration : les blocs fictifs (data-demo) restent masqués tant que la personne ne l'active pas ; les blocs réels (data-reel) s'effacent en démonstration */
+html:not(.bmb-demo) [data-demo]{display:none!important}
+html.bmb-demo [data-reel]{display:none!important}
+/* Alerte : la croix de fermeture doit recevoir le clic */
+.live-toast.show{pointer-events:auto}
+.live-toast .lt-x{min-width:40px;min-height:40px}
+/* HémoRush : modes verrouillés avant le premier passage en Apprentissage */
+.mode-card.verrou{opacity:.45;cursor:not-allowed}
+.mode-card.verrou .mode-card-name::after{content:" 🔒";font-size:.8em}
+/* Accordéons : même logique de couleur partout. Fermé : fond neutre, liseré doré. Ouvert : fond doré léger, bordure dorée */
+.acc-toggle.open{background:rgba(242,169,59,.10);border-color:rgba(242,169,59,.45);border-left-color:var(--gold)}
+body.light-mode .acc-toggle.open{background:#FFF8EC;border-color:var(--gold)}
+#notif-reel .ni-title{font-size:13px}#notif-reel .ni-sub{font-size:12px}
+/* Barre du haut sur petit téléphone : le dernier bouton (profil, connexion) reste visible */
+@media(max-width:430px){nav{padding:0 10px!important;gap:6px!important}.nav-right{gap:6px!important}.nav-brand{font-size:15px!important;gap:4px!important}}
+/* HémoRush : l'écran de départ reste entièrement visible quand la fenêtre est basse, et le cadre garde une hauteur utile sur ordinateur */
+.game-start-overlay{justify-content:safe center}
+@media(min-width:1025px){.game-wrap:not(.fullscreen){min-height:620px}}

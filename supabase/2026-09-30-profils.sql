@@ -36,7 +36,8 @@ begin
   if p_espace not in ('donneur','receveur') then
     raise exception 'espace inconnu';
   end if;
-  if pg_column_size(p_donnees) > 8192 then
+  -- le profil porte aussi ce que la personne enregistre : dons, mesures, transfusions, symptômes
+  if pg_column_size(p_donnees) > 262144 then
     raise exception 'profil trop volumineux';
   end if;
   if p_donnees is null or p_donnees = '{}'::jsonb then

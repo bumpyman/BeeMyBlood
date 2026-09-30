@@ -189,15 +189,32 @@ if ($rss) {
     $erreurs[] = 'actus:fetch';
 }
 
+// ---------- 4. annonces et événements des centres de transfusion (pages publiques des HUG) ----------
+require_once __DIR__ . '/centres.php';
+$centres = ['annonces' => [], 'evenements' => []];
+$h = bmb_get('https://www.hug.ch/don-du-sang', 12);
+if ($h) { $centres['annonces'] = bmb_annonces_hug($h); if (!$centres['annonces']) $erreurs[] = 'centres:annonces:parse'; } else { $erreurs[] = 'centres:annonces:fetch'; }
+$h = bmb_get('https://www.hug.ch/agenda', 12);
+if ($h) {
+    $centres['evenements'] = bmb_evenements_hug($h);
+    foreach ($centres['evenements'] as $i => $ev) {
+        if ($i >= 3) break;
+        $p = bmb_get($ev['url'], 8);
+        if ($p) { $det = bmb_evenement_detail($p); $centres['evenements'][$i]['texte'] = $det['texte']; if ($det['quand'] !== '') $centres['evenements'][$i]['date'] = $det['quand']; $centres['evenements'][$i]['date_iso'] = $det['date_iso']; }
+    }
+} else { $erreurs[] = 'centres:evenements:fetch'; }
+
 $out = [
     'maj' => date('c'),
     'stocks' => $stocks,
     'collectes' => ['geneve' => $collectes, 'cantons' => $cantons, 'autres_cantons_url' => 'https://www.blutspende.ch/fr/dates-de-collecte-de-sang'],
     'actualites' => $actus,
+    'centres' => $centres,
     'sources' => [
         'stocks' => 'Transfusion CRS Suisse — baromètre des groupes sanguins (blutspende.ch)',
         'collectes' => 'CTS des HUG — calendrier des collectes (hug.ch) ; Transfusion CRS Suisse — dates de collecte par canton (blutspende.ch)',
         'actualites' => 'Google Actualités (Suisse, français)',
+        'centres' => 'Centre de transfusion des HUG — annonces (hug.ch/don-du-sang) et agenda des HUG (hug.ch/agenda)',
     ],
     'erreurs' => $erreurs,
 ];

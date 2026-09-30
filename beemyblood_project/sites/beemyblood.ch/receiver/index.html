@@ -78,7 +78,11 @@ drawMulti:function(canvasId,datasets,labels,yMin,yMax){
   for(var i=0;i<labels.length;i+=step)ctx.fillText(labels[i],xP(i),H-4);
 }};
 </script>
+<script>try{if(localStorage.getItem('bmb-demo')==='1')document.documentElement.classList.add('bmb-demo')}catch(e){}</script>
 <style>
+/* Mode démonstration : la patiente fictive (data-demo) reste masquée tant que la personne ne l'active pas */
+html:not(.bmb-demo) [data-demo]{display:none!important}html.bmb-demo [data-reel]{display:none!important}
+
 :root{--dk:#0D0D14;--dk2:#161622;--dk3:#1C1C2E;--db:#2A2A3E;--gold:#C8A960;--gl:#E8D5A3;--red:#DC2626;--rs:#FF6B6B;--grn:#3b82f6;--gs:#60a5fa;--blu:#3b82f6;--bs:#60a5fa;--org:#f59e0b;--pur:#a855f7;--teal:#14b8a6;--txt:#E8E6E3;--td:#9A9AB0;--tm:#8686A1;--fd:'Playfair Display',Georgia,serif;--fb:'DM Sans',-apple-system,sans-serif;--r:16px;--rs2:10px;--tr:.3s cubic-bezier(.4,0,.2,1)}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{font-family:var(--fb);background:var(--dk);color:var(--txt);min-height:100vh;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.6;overflow-x:hidden}
@@ -188,9 +192,11 @@ function tryGate(){
 </script>
 <nav><div class="nb" onclick="go('accueil')"><span class="bee">💛</span> BeeMyBlood<sup style="font-size:10px;color:var(--td)">™</sup> <small>Receveur</small></div>
 <div class="nt"><button class="on" data-v="accueil" onclick="go('accueil')">Accueil</button><button class="" data-v="profil" onclick="go('profil')">Mon Sang</button><button class="" data-v="suivi" onclick="go('suivi')">Suivi</button><button class="" data-v="snap" onclick="go('snap')">HemoSnap</button><button class="" data-v="chelation" onclick="go('chelation')">Chélation</button><button class="" data-v="symptomes" onclick="go('symptomes')">Symptômes</button><button class="" data-v="twin" onclick="go('twin')">Digital Twin</button><button class="" data-v="timeline" onclick="go('timeline')">Timeline</button><button class="" data-v="parcours" onclick="go('parcours')">Parcours</button><button class="" data-v="zen" onclick="go('zen')">Zen</button></div><div class="nt-plus" onclick="toggleNavPlus()">Plus ⋮<div class="nt-drop" id="ntDrop"><button data-v="bot" onclick="go('bot')">🤖 BeeBot</button><button data-v="accomp" onclick="go('accomp')">👨‍👩‍👧 Accompagnant</button><button data-v="droits" onclick="go('droits')">⚖️ Droits</button><button data-v="communaute" onclick="go('communaute')">🤝 Communauté</button><button data-v="signaler" onclick="go('signaler')">🚨 Signaler</button><button data-v="params" onclick="go('params')">⚙️ Paramètres</button></div></div>
-<div class="nr"><button style="background:none;color:var(--gold);font-size:17px" onclick="startTour()" title="Tour guidé">❓</button><div class="av" title="Mon profil" onclick="toggleProfileMenu()" data-profil="initiales">EM</div><div class="pm" id="profileMenu"><div class="pm-head">👤 Eleonora Melis</div><div class="pm-sub">Beta-thalassémie majeure · O+</div><button class="pm-btn" onclick="go('params');toggleProfileMenu()">⚙️ Paramètres</button><button class="pm-btn" onclick="go('accomp');toggleProfileMenu()">👨‍👩‍👧 Mode accompagnant</button><button class="pm-btn" onclick="go('droits');toggleProfileMenu()">⚖️ Mes droits</button><button class="pm-btn" onclick="window.open('https://beemyblood.ch','_blank');toggleProfileMenu()">← beemyblood.ch</button></div></div></nav>
+<div class="nr"><button style="background:none;color:var(--gold);font-size:17px" onclick="startTour()" title="Tour guidé">❓</button><div class="av" title="Mon profil" onclick="toggleProfileMenu()" data-profil="initiales" data-profil-vide="👤">EM</div><div class="pm" id="profileMenu"><div class="pm-head">👤 <span data-profil="nomComplet" data-profil-vide="Mon espace">Eleonora Melis</span></div><div class="pm-sub" data-profil="resume">Beta-thalassémie majeure · O+</div><button class="pm-btn" data-profil-ouvrir>✏️ Mon profil</button><button class="pm-btn" data-reel data-bmb-demo="on">🎭 Voir la démonstration</button><button class="pm-btn" data-demo data-bmb-demo="off">↩️ Revenir à mes données</button><button class="pm-btn" onclick="go('params');toggleProfileMenu()">⚙️ Paramètres</button><button class="pm-btn" onclick="go('accomp');toggleProfileMenu()">👨‍👩‍👧 Mode accompagnant</button><button class="pm-btn" onclick="go('droits');toggleProfileMenu()">⚖️ Mes droits</button><button class="pm-btn" onclick="window.open('https://beemyblood.ch','_blank');toggleProfileMenu()">← beemyblood.ch</button></div></div></nav>
 <div class="toc" id="toC"></div><main>
 <div class="vw on" id="v-accueil">
+<div data-reel id="rs-accueil"></div>
+<div data-demo><!-- patiente fictive -->
 <div class="hero"><div class="hb"><span class="dot"></span> Connectée au CTS Genève · CARA</div>
 <h1>Bonjour Eleonora 👋<br>Votre <span>santé</span>, notre priorité</h1>
 <p>Vivant avec la <strong style="color:var(--gold)">bêta-thalassémie majeure</strong>, vos transfusions régulières sont essentielles. 16 outils à votre service.</p></div>
@@ -211,9 +217,12 @@ function tryGate(){
 <div style="font-size:1.65rem;font-weight:800;font-family:var(--fd);color:var(--red)">31 L</div>
 <div style="font-size:0.80rem;color:var(--tm)">≈ 124 poches · ≈ 94 donneurs différents</div></div>
 </div></div>
+</div><!-- /data-demo -->
 </div>
 <div class="vw" id="v-profil">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.6rem">🩸 Mon Profil Sanguin</h2>
+<div data-reel id="rs-profil"></div>
+<div data-demo><!-- patiente fictive -->
 <p style="margin-bottom:.85rem"><button type="button" class="btn bo bs2" data-profil-ouvrir>✏️ Modifier mes informations</button> <span style="font-size:.84rem;color:var(--td)">Vos informations remplacent les données de démonstration.</span></p>
 <div class="g2">
 <div class="cd"><h3>🧬 Identité sanguine</h3>
@@ -239,9 +248,12 @@ function tryGate(){
 </div></div>
 <div class="cd hidden" id="compatCard"><h3>🧮 Compatibilité ABO (O+ surligné)</h3><div class="cg" id="cM"></div></div>
 <button class="btn bo bs2" onclick="toggleCompat()" style="margin-bottom:.5rem">🧮 Matrice de compatibilité</button>
+</div><!-- /data-demo -->
 </div>
 <div class="vw" id="v-suivi">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.85rem">📊 Mon Suivi</h2>
+<div data-reel id="rs-suivi"></div>
+<div data-demo><!-- patiente fictive -->
 <div class="g4">
 <div class="kpi"><div class="kv" style="color:var(--rs)">7.8</div><div class="kl">Hb (g/dL)</div><div class="pb"><div class="pf" style="width:65%;background:var(--org)"></div></div></div>
 <div class="kpi"><div class="kv" style="color:var(--org)">890</div><div class="kl">Ferritine (µg/L)</div><div class="pb"><div class="pf" style="width:89%;background:var(--red)"></div></div></div>
@@ -267,10 +279,13 @@ function tryGate(){
 <div>🧲 T2* cardiaque : <strong style="color:var(--grn)">Normal</strong> — comme 82% des patients</div></div></div>
 </div>
 <div class="cd"><h3>📋 Historique transfusions</h3><div style="overflow-x:auto"><table class="dt"><thead><tr><th>Date</th><th>Lieu</th><th>Produit</th><th>Poches</th><th>Hb pré</th><th>Hb post</th><th>Tol.</th></tr></thead><tbody id="tHist"></tbody></table></div></div>
+</div><!-- /data-demo -->
 </div>
 <div class="vw" id="v-snap">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">📱 HemoSnap</h2>
 <p style="color:var(--td);font-size:0.93rem;margin-bottom:1rem">Estimation d'hémoglobine par photopléthysmographie (flash + caméra).</p>
+<div data-reel id="rs-snap"></div>
+<div data-demo><!-- patiente fictive -->
 <div class="g2">
 <div class="cd"><h3>🔦 Comment ça marche</h3>
 <div style="font-size:0.88rem;color:var(--td);line-height:1.7">
@@ -284,10 +299,13 @@ function tryGate(){
 <tr><td>10 fév.</td><td style="font-weight:700">8.0</td><td>7.8</td><td style="color:var(--grn)">+0.2</td></tr>
 <tr><td>5 fév.</td><td style="font-weight:700">9.2</td><td>—</td><td>—</td></tr></tbody></table></div>
 <div class="cd"><h3>📉 Tendance</h3><div class="cw"><canvas id="chSnap"></canvas></div></div></div>
-</div></div>
+</div></div><!-- /data-demo -->
+</div>
 <div class="vw" id="v-chelation">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">💊 Chélation & Fer</h2>
-<p style="color:var(--td);font-size:0.93rem;margin-bottom:1rem">Suivi quotidien Exjade® et gestion de la surcharge en fer.</p>
+<p style="color:var(--td);font-size:0.93rem;margin-bottom:1rem">Suivi quotidien de votre traitement chélateur et gestion de la surcharge en fer.</p>
+<div data-reel id="rs-chelation"></div>
+<div data-demo>
 <div class="g2">
 <div class="cd"><h3>🏆 Tracker Exjade®</h3>
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.5rem">
@@ -300,6 +318,7 @@ function tryGate(){
 <div class="cd"><h3>📉 Corrélation compliance → ferritine</h3><div class="cw"><canvas id="chChel"></canvas></div>
 <div style="font-size:0.80rem;color:var(--td);margin-top:.3rem">Plus votre compliance est haute (vert), plus la ferritine baisse (or).</div></div>
 </div>
+</div><!-- /data-demo -->
 <div class="cd"><h3>🍽️ Journal alimentaire — Interactions fer</h3>
 <div style="font-size:0.90rem;color:var(--td);line-height:1.7;margin-bottom:.5rem">
 Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments interagissent avec la chélation.</div>
@@ -311,7 +330,7 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div style="font-weight:600;color:var(--rs);font-size:0.88rem;margin-bottom:.25rem">❌ Limiter</div>
 <div style="font-size:0.84rem;color:var(--td)">🥩 Viande rouge (fer héminique)<br>🍊 Vitamine C + repas riche en fer<br>🍺 Alcool (toxicité hépatique)</div></div>
 <div style="padding:.6rem;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);border-radius:8px">
-<div style="font-weight:600;color:var(--org);font-size:0.88rem;margin-bottom:.25rem">⚠️ Avec Exjade®</div>
+<div style="font-weight:600;color:var(--org);font-size:0.88rem;margin-bottom:.25rem">⚠️ Avec le déférasirox (Exjade®)</div>
 <div style="font-size:0.84rem;color:var(--td)">🚫 Pas de produits laitiers<br>🚫 Pas d'aluminium (antiacides)<br>⏰ 30 min avant repas</div></div>
 </div>
 <button class="btn bo bs2" style="margin-top:.6rem" onclick="toast('info','📸 Journal alimentaire photo IA en développement')">📸 Photographier mon repas</button>
@@ -328,6 +347,8 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div class="fg"><label>Notes libres</label><textarea class="fi" id="symNotes" placeholder="Comment vous sentez-vous ?"></textarea></div>
 <button class="btn bp" style="width:100%;justify-content:center" onclick="saveSym()">💾 Enregistrer</button></div>
 <div>
+<div data-reel id="rs-symptomes"></div>
+<div data-demo>
 <div class="cd" style="background:linear-gradient(135deg,rgba(220,38,38,.05),rgba(245,158,11,.03));border-color:rgba(220,38,38,.12)">
 <h3>🚨 Alerte intelligente</h3>
 <div style="font-size:0.88rem;color:var(--td);line-height:1.6">
@@ -340,9 +361,12 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div style="padding:.4rem;background:rgba(34,197,94,.06);border-radius:6px;margin-top:.3rem"><span style="color:var(--grn);font-size:0.84rem">😊 Sentiment actuel : <strong>Stable</strong> — pas de signal d'alerte</span></div>
 <div style="font-size:0.80rem;color:var(--tm);margin-top:.3rem">Si une tendance négative est détectée, nous vous orienterons vers un soutien psychologique.</div></div></div>
 <div class="cd"><h3>📊 Évolution (7j)</h3><div class="cw"><canvas id="chSym"></canvas></div></div>
+</div><!-- /data-demo -->
 </div></div></div>
 <div class="vw" id="v-twin">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">🧬 Digital Twin</h2>
+<div data-reel id="rs-twin"></div>
+<div data-demo><!-- patiente fictive -->
 <div class="cd" style="background:linear-gradient(135deg,rgba(168,85,247,.05),rgba(59,130,246,.03));border-color:rgba(168,85,247,.12)">
 <h3>🔮 Prédiction</h3>
 <div class="g3" style="margin-bottom:.75rem">
@@ -370,10 +394,13 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div class="g3"><div><strong style="font-size:0.88rem">Décroissance Hb</strong><br><span style="font-size:0.88rem;color:var(--td)">−0.18 g/dL/jour</span></div>
 <div><strong style="font-size:0.88rem">Rendement/CE</strong><br><span style="font-size:0.88rem;color:var(--td)">+1.15 g/dL</span></div>
 <div><strong style="font-size:0.88rem">Intervalle moyen</strong><br><span style="font-size:0.88rem;color:var(--td)">21j (±3)</span></div></div></div>
+</div><!-- /data-demo -->
 </div>
 <div class="vw" id="v-timeline">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">📜 Ma Timeline</h2>
 <p style="color:var(--td);font-size:0.93rem;margin-bottom:1rem">Votre parcours médical, année par année.</p>
+<div data-reel id="rs-timeline"></div>
+<div data-demo><!-- patiente fictive -->
 <div class="cd">
 <div class="life-event"><div class="life-year">2000</div><div class="life-content"><h4>🎂 Naissance à Cagliari, Sardaigne</h4><p>Dépistage néonatal : bêta-thalassémie majeure homozygote (β0/β0)</p></div></div>
 <div class="life-event"><div class="life-year">2003</div><div class="life-content"><h4>🩸 Première transfusion</h4><p>Hb 5.2 g/dL à 3 ans. Début du programme transfusionnel régulier à l'Ospedale Brotzu.</p></div></div>
@@ -386,14 +413,15 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div class="life-event"><div class="life-year">2024</div><div class="life-content"><h4>👩‍⚕️ Nouveau suivi — Dre Mappoura</h4><p>Transition vers Dre Mappoura, spécialiste hémoglobinopathies aux HUG.</p></div></div>
 <div class="life-event"><div class="life-year">2024</div><div class="life-content"><h4>🧬 Allo-immunisation Anti-Jka</h4><p>3ème anticorps. Phénotypage étendu désormais systématique.</p></div></div>
 <div class="life-event"><div class="life-year">2026</div><div class="life-content"><h4>📱 Inscription BeeMyBlood™</h4><p>Digital twin, HemoSnap, suivi intelligent. 62 transfusions, 31 litres reçus, 94 donneurs.</p></div></div>
-</div></div>
+</div></div><!-- /data-demo -->
+</div>
 <div class="vw" id="v-parcours">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">🔄 Parcours Transfusionnel</h2>
 <div class="g2"><div>
 <div class="tl">
 <div class="ti done"><h4>1. Prescription</h4><p>Hb &lt; seuil → ordonnance.</p><div class="tip">💡 Vous pouvez poser des questions</div></div>
 <div class="ti done"><h4>2. Bilan pré-transfusionnel</h4><p>Groupe, phénotype, RAI.</p></div>
-<div class="ti act"><h4>3. Sélection des poches</h4><p>CE E−, K−, Jk(a−) compatibilisés.</p><div class="tip">🔴 Thalassémie : délai possible</div></div>
+<div class="ti act"><h4>3. Sélection des poches</h4><p>Poches compatibles avec votre groupe, votre phénotype et vos anticorps.</p><div class="tip">🔴 Avec des anticorps, la recherche peut demander un délai</div></div>
 <div class="ti pnd"><h4>4. Vérification ultime</h4><p>Test Beth-Vincent au chevet.</p></div>
 <div class="ti pnd"><h4>5. Transfusion</h4><p>15 min surveillance, puis 1h30–3h/poche.</p></div>
 <div class="ti pnd"><h4>6. Surveillance post</h4><p>Constantes + bilan 24–48h.</p></div>
@@ -426,7 +454,7 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div class="amb" onclick="toggleSound(this,'piano')">🎹<span>Piano</span></div>
 <div class="amb" onclick="toggleSound(this,'white')">☁️<span>Blanc</span></div></div></div></div>
 <div class="g2" style="margin-top:.75rem">
-<div class="cd"><h3>🎧 Playlist collaborative CTS</h3>
+<div class="cd" data-demo><h3>🎧 Playlist collaborative CTS</h3>
 <p style="font-size:0.86rem;color:var(--td);margin-bottom:.5rem">Les patients transfusés en ce moment partagent une playlist commune.</p>
 <div class="playlist-item"><div class="eq"><span></span><span></span><span></span></div><div><div style="font-size:0.92rem;font-weight:600">Nuvole Bianche</div><div style="font-size:0.80rem;color:var(--td)">Ludovico Einaudi</div></div></div>
 <div class="playlist-item" style="opacity:.7"><div style="width:16px"></div><div><div style="font-size:0.92rem">Comptine d'un autre été</div><div style="font-size:0.80rem;color:var(--td)">Yann Tiersen</div></div></div>
@@ -459,6 +487,8 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div class="vw" id="v-accomp">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">👨‍👩‍👧 Mode Accompagnant</h2>
 <p style="color:var(--td);font-size:0.93rem;margin-bottom:1rem">Vue simplifiée pour les proches aidants et parents d'enfants thalassémiques.</p>
+<div data-reel id="rs-accomp"></div>
+<div data-demo><!-- patiente fictive -->
 <div class="cd" style="background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(34,197,94,.04));border-color:rgba(59,130,246,.15)">
 <h3>📋 Résumé pour l'accompagnant</h3>
 <div class="g2">
@@ -482,7 +512,8 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div class="fg"><label>Email de l'accompagnant</label><input type="email" class="fi" placeholder="proche@email.com"></div>
 <div class="fg"><label>Lien de parenté</label><select class="fi"><option>Parent</option><option>Conjoint·e</option><option>Frère/Sœur</option><option>Ami·e</option><option>Autre</option></select></div>
 <button class="btn bp bs2" onclick="toast('ok','Invitation envoyée')">📨 Inviter</button></div>
-</div></div>
+</div></div><!-- /data-demo -->
+</div>
 <div class="vw" id="v-droits">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">⚖️ Mes Droits</h2>
 <div id="droitsAcc"></div>
@@ -503,6 +534,8 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 </div>
 <div class="vw" id="v-communaute">
 <h2 style="font-family:var(--fd);font-size:1.5rem;margin-bottom:.85rem">🤝 Communauté</h2>
+<div data-reel id="rs-communaute"></div>
+<div data-demo>
 
 <div class="cd"><h3>💛 Témoignages & Remerciements</h3>
 <p style="font-size:.9rem;color:var(--td);margin-bottom:.6rem">Partagez votre vécu, remerciez un·e donneur·se, encouragez un·e autre receveur·se.</p>
@@ -574,6 +607,7 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div style="text-align:center;padding:.5rem .75rem;background:var(--dk3);border:1px solid var(--db);border-radius:10px;opacity:.5"><div style="font-size:1.8rem">🌍</div><div style="font-size:.88rem;font-weight:600">100 transfusions</div><div style="font-size:.82rem;color:var(--td)">36 restantes</div></div>
 </div></div>
 
+</div><!-- /data-demo -->
 <div class="g3" style="margin-top:.75rem">
 <div class="cd"><strong>🌍 Thalassaemia International Federation</strong><div style="font-size:.9rem;color:var(--td);margin:.3rem 0">232 associations, 62 pays.</div><a href="https://thalassaemia.org" target="_blank" class="btn bo bs2">→</a></div>
 <div class="cd"><strong>🇮🇹 UNITED Onlus</strong><div style="font-size:.9rem;color:var(--td);margin:.3rem 0">Fédération italienne thalassémie.</div><a href="https://www.unitedonlus.org" target="_blank" class="btn bo bs2">→</a></div>
@@ -586,20 +620,23 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 
 <div class="vw" id="v-signaler">
 <h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.4rem">⚠️ Signaler un Effet Indésirable</h2>
+<p data-reel style="color:var(--td);font-size:.9rem;line-height:1.6;margin-bottom:.85rem">Notez ici un effet indésirable pour en garder la trace et en parler à votre équipe soignante. BeeMyBlood ne transmet pas encore les signalements au service d’hémovigilance.</p>
 <div class="g2"><div class="cd">
 <div class="fg"><label>Date</label><input type="date" class="fi" id="rDate"></div>
 <div class="fg"><label>Lieu</label><select class="fi" id="rLieu"><option value="">—</option><option>HUG</option><option>CHUV</option><option>Morges</option><option>Autre</option></select></div>
 <div class="fg"><label>Type</label><div class="fr"><label><input type="radio" name="rt" value="f"> 🥶 Fièvre</label><label><input type="radio" name="rt" value="a"> 🤧 Allergie</label><label><input type="radio" name="rt" value="d"> 😣 Douleur</label><label><input type="radio" name="rt" value="c"> 🔴 Cutanée</label><label><input type="radio" name="rt" value="y"> 😮‍💨 Dyspnée</label></div></div>
 <div class="fg"><label>Description</label><textarea class="fi" id="rDesc" placeholder="Symptômes..."></textarea></div>
 <div class="fg"><label>Gravité</label><div class="fr"><label><input type="radio" name="rg" value="l"> Léger</label><label><input type="radio" name="rg" value="m"> Modéré</label><label><input type="radio" name="rg" value="s"> Sévère</label></div></div>
-<button class="btn bp" style="width:100%;justify-content:center" onclick="submitReport()">📤 Envoyer</button></div>
+<button class="btn bp" style="width:100%;justify-content:center" onclick="submitReport()"><span data-reel>💾 Noter dans mon journal</span><span data-demo>📤 Envoyer</span></button></div>
 <div><div class="cd" style="border-color:rgba(220,38,38,.2)"><h3>🚨 Urgence</h3><div style="display:flex;gap:.4rem;flex-wrap:wrap"><a href="tel:144" class="btn bp bs2" style="text-decoration:none">📞 144</a><a href="tel:0223723949" class="btn bo bs2" style="text-decoration:none">📞 HUG</a></div></div>
-<div class="cd"><h3>📊 Précédents</h3><table class="dt"><thead><tr><th>Date</th><th>Type</th><th>Statut</th></tr></thead>
+<div class="cd" data-reel><h3>📒 Mes signalements notés</h3><div id="rs-signalements"></div></div>
+<div class="cd" data-demo><h3>📊 Précédents</h3><table class="dt"><thead><tr><th>Date</th><th>Type</th><th>Statut</th></tr></thead>
 <tbody><tr><td>15 janv.</td><td>Frissons</td><td><span class="tag tg2">✓</span></td></tr><tr><td>3 oct.</td><td>Éruption</td><td><span class="tag tg2">✓</span></td></tr></tbody></table></div></div></div>
 </div>
 <div class="vw" id="v-params">
-<h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.85rem">⚙️ Paramètres & Connectivité</h2>
-<div class="g2">
+<h2 style="font-family:var(--fd);font-size:1.40rem;margin-bottom:.85rem">⚙️ Paramètres</h2>
+<div data-reel id="rs-params"></div>
+<div data-demo class="g2">
 <div class="cd"><h3>🔗 Intégrations cliniques</h3>
 <div class="sr"><div class="si"><h4>🏥 CARA — DEP Suisse romande</h4><p>Dossier électronique du patient. Partage sécurisé GE/VD/VS/FR/JU.</p></div><div class="tgl on" onclick="this.classList.toggle('on');toast('info','CARA '+(this.classList.contains('on')?'connecté':'déconnecté'))"></div></div>
 <div class="sr"><div class="si"><h4>💻 Concerto HUG</h4><p>Dossier patient informatisé HUG</p></div><div class="tgl on" onclick="this.classList.toggle('on')"></div></div>
@@ -612,7 +649,7 @@ Le fer absorbé par l'alimentation aggrave la surcharge. Certains aliments inter
 <div class="sr"><div class="si"><h4>Apple Calendar</h4><p>Rappels iOS</p></div><div class="tgl" onclick="this.classList.toggle('on')"></div></div>
 </div></div>
 <div class="g2">
-<div class="cd"><h3>🔔 Notifications</h3>
+<div class="cd" data-demo><h3>🔔 Notifications</h3>
 <div class="sr"><div class="si"><h4>Rappel transfusion</h4><p>48h et 24h avant</p></div><div class="tgl on" onclick="this.classList.toggle('on')"></div></div>
 <div class="sr"><div class="si"><h4>Alerte Hb basse</h4><p>Notification médecin + CTS</p></div><div class="tgl on" onclick="this.classList.toggle('on')"></div></div>
 <div class="sr"><div class="si"><h4>Rappel chélation</h4><p>Quotidien 07:30</p></div><div class="tgl on" onclick="this.classList.toggle('on')"></div></div>
@@ -745,6 +782,7 @@ document.addEventListener("keydown",function(e){if(e.key==="F11"){e.preventDefau
 </script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../acces.js" data-espace="receveur" data-racine="../" defer></script>
 <script src="../profil.js" data-espace="receveur" defer></script>
+<script src="mon-suivi.js" defer></script>
 <script src="../a11y.js" defer></script>
 <script src="../lexique.js" defer></script>
 <script id="bmb-chat-vv">(function(){var vv=window.visualViewport,de=document.documentElement;function fit(){var h=vv?vv.height:innerHeight,t=vv?vv.offsetTop:0;de.style.setProperty('--bmb-vvh',Math.round(h)+'px');de.style.setProperty('--bmb-vvt',Math.round(t)+'px');de.classList.toggle('bmb-kb',!!vv&&innerHeight-vv.height>120);}if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit);}addEventListener('resize',fit);addEventListener('orientationchange',function(){setTimeout(fit,300);});fit();

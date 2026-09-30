@@ -20,6 +20,7 @@
 <title>HémoRush™ — BeeMyBlood™ Portail Donneur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('bmb-demo')==='1')document.documentElement.classList.add('bmb-demo')}catch(e){}</script>
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
 <body>
@@ -74,14 +75,15 @@
       <div class="hamburger-label">Plus</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="nav-notif" onclick="toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot" id="notif-dot" style="display:none"></div>
       <div class="notif-dropdown" id="notif-dd">
         <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+        <div id="notif-reel" data-reel></div>
+        <a data-demo class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a data-demo class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
       </div>
       </div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
@@ -91,7 +93,7 @@
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </a>
     <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
-      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales">AK</span><span class="public-only">👤</span></div>
+      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales" data-profil-vide="👤">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </a>
   </div>
@@ -100,16 +102,16 @@
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
 <div class="nav-group-menu" id="nav-group-menu-espace">
   <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
-  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
-  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
-  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
   <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
 </div>
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
   <a class="nav-tab" href="guide.html">📖 Guide</a>
-  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
-  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
   <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
   <a class="nav-tab" href="faq.html">❓ FAQ</a>
   <a class="nav-tab" href="contact.html">📬 Contact</a>
 </div>
@@ -119,21 +121,24 @@
   <div class="mob-section-label">Navigation</div>
   <div class="mob-menu-grid">
     <a class="mob-item" href="../index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
-    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
-    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
-    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
-    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
     <a class="mob-item active" href="hemorush.html" aria-current="page"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+  </div>
+  <div class="mob-section-label">Mon espace</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
   </div>
   <div class="mob-section-label">Découvrir</div>
   <div class="mob-menu-grid">
     <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
-    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
-    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
-    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
-    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
-    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
     <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
     <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
     <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
   </div>
@@ -183,6 +188,8 @@
         <div class="mode-card" onclick="selMode(3,this)"><div class="mode-card-icon">🧠</div><div class="mode-card-name">Quiz</div><div class="mode-card-sub">QCM</div></div>
         <div class="mode-card" onclick="selMode(4,this)"><div class="mode-card-icon">🌊</div><div class="mode-card-name">Vagues</div><div class="mode-card-sub">Difficulté ↑</div></div>
       </div>
+
+      <div id="hr-verrou-note" hidden style="font-size:13px;color:var(--text-dim);text-align:center">🔒 Les autres modes s’ouvrent après quatre patients soignés en mode Apprentissage.</div>
 
       <!-- COMPACT RULES -->
       <div style="background:linear-gradient(90deg,rgba(242,169,59,.06),rgba(242,169,59,.18),rgba(242,169,59,.06));background-size:200% 100%;animation:shimmerRule 3s linear infinite;border:2px solid rgba(242,169,59,.35);border-radius:12px;padding:10px 14px;margin:8px 0;text-align:center;line-height:1.8">
@@ -294,18 +301,18 @@
     <div class="modal-step" id="ob-step-2">
       <div style="text-align:center;padding:10px 0">
         <div style="font-size:36px;margin-bottom:6px">📊</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton profil</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
-          C'est ton <strong>tableau de bord</strong> :
+          Il se construit avec <strong>tes données</strong> :
           <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
-            🗓️ Prochain don programmé + compte à rebours<br>
-            🩸 Stocks de sang en temps réel par groupe<br>
-            📈 Ton historique de dons et séries (streak)<br>
-            🏆 Badges débloqués et objectifs<br>
-            🩺 Passeport santé (résultats labo de tes dons)<br>
-            🤝 Programme BeeMyBro (parrainage)
+            🗓️ Date de ton prochain don possible<br>
+            🩸 Niveau officiel des stocks pour ton groupe<br>
+            📒 Tes dons, que tu enregistres toi-même<br>
+            🦸 Ton parcours et ses paliers<br>
+            🧬 Ton groupe et ton phénotype étendu<br>
+            🎭 Un mode démonstration pour découvrir les fonctions prévues
           </div>
-          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+          <span style="color:var(--text-muted)">Au départ il est presque vide. Il se remplit à chaque don.</span>
         </div>
       </div>
     </div>
@@ -329,12 +336,12 @@
         <div style="font-size:36px;margin-bottom:6px">📍</div>
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
-          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec leurs horaires et le lien de prise de rendez-vous.<br><br>
           <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
             📡 Géolocalisation automatique<br>
             🔍 Rayon de recherche ajustable (1-20 km)<br>
             📅 Prise de rendez-vous directe via OneDoc<br>
-            🎪 Collectes mobiles signalées sur la carte
+            🚌 Collectes mobiles officielles, mises à jour chaque jour
           </div>
           <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
         </div>
@@ -438,7 +445,7 @@
     <div class="modal-header" style="padding-bottom:8px">
       <div style="font-size:36px;margin-bottom:4px">🎮</div>
       <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold)" id="hr-tuto-title">Comment jouer à HémoRush™</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="hr-tuto-counter">1 / 4</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:2px" id="hr-tuto-counter">1 / 5</div>
     </div>
 
     <!-- STEP 0 : BUT DU JEU -->
@@ -464,8 +471,25 @@
       </div>
     </div>
 
-    <!-- STEP 2 : MATCH PARFAIT -->
+    <!-- STEP 2 : ESSAI -->
     <div class="modal-step" id="hr-tuto-step-2">
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:36px;margin-bottom:6px">🧪</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Essaie un match</div>
+        <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:10px">Ce patient est du groupe <strong style="color:var(--gold)">A+</strong>. Quelle poche peux-tu lui donner ?</div>
+        <div style="display:inline-flex;flex-direction:column;align-items:center;padding:10px 18px;border:2px solid var(--blue);border-radius:14px;margin-bottom:10px"><span style="font-size:34px" aria-hidden="true">🤒</span><strong style="font-size:20px">A+</strong><span style="font-size:12px;color:var(--text-muted)">Anémie sévère</span></div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <button type="button" class="btn btn-outline" onclick="hrEssai(this,0,'B+ porte l’antigène B, que ce patient ne possède pas. Poche incompatible.')">🩸 B+</button>
+          <button type="button" class="btn btn-outline" onclick="hrEssai(this,1,'Match parfait : le même groupe que le patient.')">🩸 A+</button>
+          <button type="button" class="btn btn-outline" onclick="hrEssai(this,1,'Compatible : O− est le donneur universel de globules rouges.')">🩸 O−</button>
+          <button type="button" class="btn btn-outline" onclick="hrEssai(this,0,'AB+ porte les antigènes A et B. Poche incompatible pour un patient A+.')">🩸 AB+</button>
+        </div>
+        <div id="hr-essai-fb" role="status" style="min-height:44px;margin-top:10px;font-size:14px;line-height:1.5;font-weight:600"></div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : MATCH PARFAIT -->
+    <div class="modal-step" id="hr-tuto-step-3">
       <div style="text-align:center;padding:10px 0">
         <div style="font-size:36px;margin-bottom:6px">🎯</div>
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Le « Match parfait »</div>
@@ -478,7 +502,7 @@
     </div>
 
     <!-- STEP 3 : TABLEAU DE COMPATIBILITÉ -->
-    <div class="modal-step" id="hr-tuto-step-3">
+    <div class="modal-step" id="hr-tuto-step-4">
       <div style="text-align:center;padding:10px 0">
         <div style="font-size:36px;margin-bottom:6px">📚</div>
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Un doute ? Le tableau est là</div>
@@ -569,7 +593,7 @@ function closeHrTuto(){
 }
 function nextHrTuto(){
   hrTutoStep++;
-  if(hrTutoStep>=4){closeHrTuto();return;}
+  if(hrTutoStep>=5){closeHrTuto();return;}
   updateHrTuto();
 }
 function prevHrTuto(){
@@ -577,7 +601,7 @@ function prevHrTuto(){
   updateHrTuto();
 }
 function updateHrTuto(){
-  const maxStep=3;
+  const maxStep=4;
   for(let i=0;i<=maxStep;i++){
     const el=document.getElementById('hr-tuto-step-'+i);
     if(el)el.classList.toggle('active',i===hrTutoStep);
@@ -627,6 +651,12 @@ function hrGatePassed(){
   }
   setTimeout(tryShow,900);
 })();
+
+function hrEssai(btn,ok,msg){
+  const fb=document.getElementById('hr-essai-fb');
+  btn.style.borderColor=ok?'var(--blue)':'var(--red-soft)';
+  if(fb){fb.textContent=(ok?'✅ ':'❌ ')+msg;fb.style.color=ok?'var(--blue)':'var(--red-soft)';}
+}
 
 // ===== HEMORUSH ENGINE — 5 MODES =====
 const COMPAT={'O-':['O-','O+','A-','A+','B-','B+','AB-','AB+'],'O+':['O+','A+','B+','AB+'],'A-':['A-','A+','AB-','AB+'],'A+':['A+','AB+'],'B-':['B-','B+','AB-','AB+'],'B+':['B+','AB+'],'AB-':['AB-','AB+'],'AB+':['AB+']};
@@ -1085,6 +1115,21 @@ groups.forEach(recv=>{
   });
   tbody.innerHTML+=row+'</tr>';
 });
+
+// ===== Premier passage : le mode Apprentissage ouvre les autres modes =====
+(function(){
+  var CLE='bmb-hemorush-appris';
+  function appris(){ try{ return localStorage.getItem(CLE)==='1'; }catch(e){ return true; } }
+  function maj(){
+    var ok=appris();
+    document.querySelectorAll('.mode-card').forEach(function(c,i){ if(i===0) return; c.classList.toggle('verrou',!ok); c.setAttribute('aria-disabled',ok?'false':'true'); });
+    var n=document.getElementById('hr-verrou-note'); if(n) n.hidden=ok;
+  }
+  var choisir=window.selMode, manche=window.spawnRound;
+  window.selMode=function(m,el){ if(m!==1&&!appris()){ var n=document.getElementById('hr-verrou-note'); if(n){ n.style.color='var(--gold)'; n.style.fontWeight='700'; } return; } choisir(m,el); };
+  window.spawnRound=function(){ if(gMode===1&&gSaved>=4&&!appris()){ try{ localStorage.setItem(CLE,'1'); }catch(e){} maj(); } return manche.apply(this,arguments); };
+  maj();
+})();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../../acces.js" data-espace="donneur" data-racine="../../" data-public="1" defer></script>

@@ -199,6 +199,7 @@
   }
   function personnaliser(e){
     var d = DEMO[ESPACE]; if(!d || !e || e.dev) return;
+    if(document.documentElement.classList.contains('bmb-demo')) return; // en mode démonstration, le personnage fictif reste entier : il n'est jamais mêlé au nom de la personne
     var id = identite(e), racine = document.body;
     var SKIP = {SCRIPT:1,STYLE:1,TEXTAREA:1,INPUT:1,OPTION:1};
     var remplacements = {

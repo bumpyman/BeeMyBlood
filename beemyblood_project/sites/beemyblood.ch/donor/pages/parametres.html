@@ -20,6 +20,7 @@
 <title>Paramètres — BeeMyBlood™ Portail Donneur</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem('bmb-demo')==='1')document.documentElement.classList.add('bmb-demo')}catch(e){}</script>
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
 <body>
@@ -74,14 +75,15 @@
       <div class="hamburger-label">Plus</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="nav-notif" onclick="toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot" id="notif-dot" style="display:none"></div>
       <div class="notif-dropdown" id="notif-dd">
         <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+        <div id="notif-reel" data-reel></div>
+        <a data-demo class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a data-demo class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
       </div>
       </div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
@@ -91,7 +93,7 @@
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </a>
     <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
-      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales">AK</span><span class="public-only">👤</span></div>
+      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales" data-profil-vide="👤">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </a>
   </div>
@@ -100,16 +102,16 @@
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
 <div class="nav-group-menu" id="nav-group-menu-espace">
   <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
-  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
-  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
-  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
   <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
 </div>
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
   <a class="nav-tab" href="guide.html">📖 Guide</a>
-  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
-  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
   <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
   <a class="nav-tab" href="faq.html">❓ FAQ</a>
   <a class="nav-tab" href="contact.html">📬 Contact</a>
 </div>
@@ -119,21 +121,24 @@
   <div class="mob-section-label">Navigation</div>
   <div class="mob-menu-grid">
     <a class="mob-item" href="../index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
-    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
-    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
-    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
-    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
     <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+  </div>
+  <div class="mob-section-label">Mon espace</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
   </div>
   <div class="mob-section-label">Découvrir</div>
   <div class="mob-menu-grid">
     <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
-    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
-    <a class="mob-item" href="centres.html"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
-    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
-    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
-    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
     <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
     <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
     <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
   </div>
@@ -146,9 +151,17 @@
 <main id="contenu" tabindex="-1">
 <!-- ===== PARAMÈTRES ===== -->
 <div class="view active" id="v-settings">
-  <div class="sec-header"><div class="sec-label">⚙️ Paramètres</div><h1 class="sec-title">Configuration & Intégrations</h1><div class="sec-sub">Connexions, apparence, confidentialité</div></div>
+  <div class="sec-header"><div class="sec-label">⚙️ Paramètres</div><h1 class="sec-title">Mes données et mes préférences</h1><div class="sec-sub">Profil, apparence, confidentialité</div></div>
 
   <div class="card" style="margin-bottom:12px;border-color:rgba(242,169,59,.2)">
+    <div class="card-header"><div class="card-title">🪪 Mes données</div></div>
+    <div style="font-size:14px;color:var(--text-dim);line-height:1.6;margin-bottom:10px">Ton espace affiche ton profil, les dons que tu enregistres et les données officielles du jour : baromètre des stocks, collectes, annonces du centre de transfusion.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"><button type="button" class="btn btn-gold btn-sm" data-profil-ouvrir>✏️ Modifier mon profil</button><a class="btn btn-outline btn-sm" href="tableau-de-bord.html#don">📒 Enregistrer un don</a></div>
+    <label style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--dark-surface);border-radius:var(--radius-sm);cursor:pointer"><input type="checkbox" data-bmb-demo-case style="width:22px;height:22px;accent-color:var(--gold);flex:none"><span><strong>Afficher les données de démonstration</strong><br><span style="font-size:13px;color:var(--text-dim);line-height:1.5">Un donneur fictif, Amine, illustre les fonctions prévues : suivi de la poche, défis, flux du centre, récompenses. Sans cette option, l’espace affiche tes données et les données officielles.</span></span></label>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.5">Les alertes pour ton groupe sanguin et le rappel de ta prochaine date de don se règlent dans ton profil.</div>
+  </div>
+
+  <div data-demo class="card" style="margin-bottom:12px;border-color:rgba(242,169,59,.2)">
     <div class="card-header"><div class="card-title">🔐 Connexion & Compte</div><span class="badge badge-green">Connecté</span></div>
     <div style="font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:10px">Méthodes de connexion et synchronisation :</div>
     <div style="display:flex;flex-direction:column;gap:8px">
@@ -159,7 +172,7 @@
     </div>
   </div>
 
-  <div class="card" style="margin-bottom:12px">
+  <div data-demo class="card" style="margin-bottom:12px">
     <div class="card-header"><div class="card-title">🔗 Intégrations systèmes</div></div>
     <div style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:10px">Connexions entre BeeMyBlood et les systèmes de santé :</div>
     <div style="display:flex;flex-direction:column;gap:8px">
@@ -180,7 +193,7 @@
     </div>
   </div>
 
-  <div class="card" style="margin-bottom:12px">
+  <div data-demo class="card" style="margin-bottom:12px">
     <div class="card-header"><div class="card-title">🔔 Notifications</div></div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--dark-surface);border-radius:var(--radius-sm)"><span style="font-size:14px">Toasts en direct (Flux CTS · HUG)</span><div style="width:36px;height:20px;border-radius:10px;background:var(--green);position:relative;cursor:pointer" data-on="1" onclick="switchToggle(this)"><div style="width:16px;height:16px;border-radius:50%;background:var(--white);position:absolute;top:2px;right:2px;pointer-events:none"></div></div></div>
@@ -195,7 +208,7 @@
     <div style="font-size:14px;color:var(--text-dim);line-height:1.8">
       <span style="font-size:15px">🇨🇭</span> <strong>Infomaniak Genève</strong> — données hébergées en Suisse<br>
       <span style="font-size:15px">🔐</span> <strong>nLPD & RGPD</strong> — conformité protection des données<br>
-      <span style="font-size:15px">✍️</span> <strong>SwissSign</strong> — horodatage certifié<br>
+      <span data-demo><span style="font-size:15px">✍️</span> <strong>SwissSign</strong> — horodatage certifié<br></span>
       <span style="font-size:15px">📜</span> <strong>AGPL-3.0</strong> (code) · <strong>CC BY-NC-SA 4.0</strong> (données)
     </div>
   </div>
@@ -237,18 +250,18 @@
     <div class="modal-step" id="ob-step-2">
       <div style="text-align:center;padding:10px 0">
         <div style="font-size:36px;margin-bottom:6px">📊</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton profil</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
-          C'est ton <strong>tableau de bord</strong> :
+          Il se construit avec <strong>tes données</strong> :
           <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
-            🗓️ Prochain don programmé + compte à rebours<br>
-            🩸 Stocks de sang en temps réel par groupe<br>
-            📈 Ton historique de dons et séries (streak)<br>
-            🏆 Badges débloqués et objectifs<br>
-            🩺 Passeport santé (résultats labo de tes dons)<br>
-            🤝 Programme BeeMyBro (parrainage)
+            🗓️ Date de ton prochain don possible<br>
+            🩸 Niveau officiel des stocks pour ton groupe<br>
+            📒 Tes dons, que tu enregistres toi-même<br>
+            🦸 Ton parcours et ses paliers<br>
+            🧬 Ton groupe et ton phénotype étendu<br>
+            🎭 Un mode démonstration pour découvrir les fonctions prévues
           </div>
-          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+          <span style="color:var(--text-muted)">Au départ il est presque vide. Il se remplit à chaque don.</span>
         </div>
       </div>
     </div>
@@ -272,12 +285,12 @@
         <div style="font-size:36px;margin-bottom:6px">📍</div>
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
-          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec leurs horaires et le lien de prise de rendez-vous.<br><br>
           <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
             📡 Géolocalisation automatique<br>
             🔍 Rayon de recherche ajustable (1-20 km)<br>
             📅 Prise de rendez-vous directe via OneDoc<br>
-            🎪 Collectes mobiles signalées sur la carte
+            🚌 Collectes mobiles officielles, mises à jour chaque jour
           </div>
           <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
         </div>

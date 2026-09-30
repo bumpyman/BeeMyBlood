@@ -22,6 +22,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>try{if(localStorage.getItem('bmb-demo')==='1')document.documentElement.classList.add('bmb-demo')}catch(e){}</script>
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
 <body>
@@ -76,14 +77,15 @@
       <div class="hamburger-label">Plus</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-      <div class="nav-notif" onclick="if(document.body.classList.contains('bmb-public')){event.stopPropagation();bmbGuard(event,'tableau-de-bord.html');return;}toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot alpha-only"></div>
+      <div class="nav-notif" onclick="toggleNotif(event)" style="position:relative">🔔<div class="nav-notif-dot" id="notif-dot" style="display:none"></div>
       <div class="notif-dropdown" id="notif-dd">
         <div class="notif-head"><span class="notif-head-title">Notifications</span><span style="font-size:14px;color:var(--gold);cursor:pointer" onclick="event.stopPropagation();markAllRead()">Tout marquer comme lu</span></div>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
-        <a class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
-        <a class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
+        <div id="notif-reel" data-reel></div>
+        <a data-demo class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><span class="ni-icon">🩸</span><div class="ni-body"><div class="ni-title">Stock B+ en baisse — ton don compte</div><div class="ni-sub">Le stock de ton groupe B+ est à 42% aux HUG. Ton prochain don le 14 avril ferait une vraie différence.</div><div class="ni-time">Il y a 2h</div></div></a>
+        <a data-demo class="notif-item unread" style="display:flex;text-decoration:none;color:inherit" href="impact.html" onclick="bmbGuard(event,'impact.html')"><span class="ni-icon">💛</span><div class="ni-body"><div class="ni-title">Ton don #3 a sauvé une vie</div><div class="ni-sub">Ta poche du 14 janv. a été transfusée à un patient en chirurgie cardiaque aux HUG. Merci Amine.</div><div class="ni-time">Il y a 3 jours</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="centres.html"><span class="ni-icon">🎪</span><div class="ni-body"><div class="ni-title">Collecte demain près de toi</div><div class="ni-sub">Place du Molard, 11h-18h. À 500m de chez toi. Musique & collations premium !</div><div class="ni-time">Hier</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="hemorush.html"><span class="ni-icon">🏆</span><div class="ni-body"><div class="ni-title">Défi HémoRush™ de la semaine</div><div class="ni-sub">Y.T. te défie ! Score à battre : 2'840. Tu relèves le défi ?</div><div class="ni-time">Lundi</div></div></a>
+        <a data-demo class="notif-item" style="display:flex;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')"><span class="ni-icon">🧬</span><div class="ni-body"><div class="ni-title">Badge « Donneur Rare » débloqué !</div><div class="ni-sub">Ton phénotype Duffy négatif te place parmi les 30 donneurs les plus précieux de Suisse romande.</div><div class="ni-time">Il y a 5 jours</div></div></a>
       </div>
       </div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Notifs</span>
@@ -93,7 +95,7 @@
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px">Param.</span>
     </a>
     <a style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:inherit" href="profil.html" onclick="bmbGuard(event,'profil.html')">
-      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales">AK</span><span class="public-only">👤</span></div>
+      <div class="nav-avatar"><span class="alpha-only" data-profil="initiales" data-profil-vide="👤">AK</span><span class="public-only">👤</span></div>
       <span style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:.5px"><span class="alpha-only">Profil</span><span class="public-only">Connexion</span></span>
     </a>
   </div>
@@ -102,16 +104,16 @@
 <div class="nav-overflow-menu" id="nav-overflow-menu"></div>
 <div class="nav-group-menu" id="nav-group-menu-espace">
   <a class="nav-tab bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')">📊 Dashboard</a>
-  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
-  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
-  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
   <a class="nav-tab bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')">💛 Impact</a>
+  <a class="nav-tab bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')">⚔️ Défis</a>
+  <a class="nav-tab bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')">📺 Flux CTS</a>
+  <a class="nav-tab" href="actualites.html">📰 Actualités</a>
 </div>
 <div class="nav-group-menu" id="nav-group-menu-decouvrir">
   <a class="nav-tab" href="guide.html">📖 Guide</a>
-  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
-  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
   <a class="nav-tab" href="videos.html">🎬 Vidéos</a>
+  <a class="nav-tab bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')">🥽 VR</a>
+  <a class="nav-tab" href="beebot.html">🐝 BeeBot™</a>
   <a class="nav-tab" href="faq.html">❓ FAQ</a>
   <a class="nav-tab" href="contact.html">📬 Contact</a>
 </div>
@@ -121,21 +123,24 @@
   <div class="mob-section-label">Navigation</div>
   <div class="mob-menu-grid">
     <a class="mob-item" href="../index.html"><div class="mob-item-icon">🏠</div><div class="mob-item-label">Accueil</div></a>
-    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
-    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
-    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
-    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
     <a class="mob-item" href="hemorush.html"><div class="mob-item-icon">🎮</div><div class="mob-item-label">HémoRush™</div></a>
+    <a class="mob-item active" href="centres.html" aria-current="page"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
+  </div>
+  <div class="mob-section-label">Mon espace</div>
+  <div class="mob-menu-grid">
+    <a class="mob-item bmb-reserve" href="tableau-de-bord.html" onclick="bmbGuard(event,'tableau-de-bord.html')"><div class="mob-item-icon">📊</div><div class="mob-item-label">Dashboard</div></a>
+    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
+    <a class="mob-item bmb-reserve" href="defis.html" onclick="bmbGuard(event,'defis.html')"><div class="mob-item-icon">⚔️</div><div class="mob-item-label">Défis</div></a>
+    <a class="mob-item bmb-reserve" href="flux.html" onclick="bmbGuard(event,'flux.html')"><div class="mob-item-icon">📺</div><div class="mob-item-label">Flux CTS</div></a>
+    <a class="mob-item" href="actualites.html"><div class="mob-item-icon">📰</div><div class="mob-item-label">Actualités</div></a>
   </div>
   <div class="mob-section-label">Découvrir</div>
   <div class="mob-menu-grid">
     <a class="mob-item" href="guide.html"><div class="mob-item-icon">📖</div><div class="mob-item-label">Guide</div></a>
-    <a class="mob-item" href="eligibilite.html"><div class="mob-item-icon">✅</div><div class="mob-item-label">Éligibilité</div></a>
-    <a class="mob-item active" href="centres.html" aria-current="page"><div class="mob-item-icon">📍</div><div class="mob-item-label">Collectes</div></a>
-    <a class="mob-item bmb-reserve" href="impact.html" onclick="bmbGuard(event,'impact.html')"><div class="mob-item-icon">💛</div><div class="mob-item-label">Impact</div></a>
-    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
-    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
     <a class="mob-item" href="videos.html"><div class="mob-item-icon">🎬</div><div class="mob-item-label">Vidéos</div></a>
+    <a class="mob-item bmb-reserve" href="vr.html" onclick="bmbGuard(event,'vr.html')"><div class="mob-item-icon">🥽</div><div class="mob-item-label">VR</div></a>
+    <a class="mob-item" href="beebot.html"><div class="mob-item-icon">🐝</div><div class="mob-item-label">BeeBot™</div></a>
     <a class="mob-item" href="faq.html"><div class="mob-item-icon">❓</div><div class="mob-item-label">FAQ</div></a>
     <a class="mob-item" href="contact.html"><div class="mob-item-icon">📬</div><div class="mob-item-label">Contact</div></a>
   </div>
@@ -149,7 +154,7 @@
 <!-- ==================== COLLECTES ==================== -->
 <div class="view active" id="v-collectes">
   <div class="sec-header"><div class="sec-label">📍 Carte interactive</div><h1 class="sec-title">Où donner en Suisse</h1><div class="sec-sub">Centres permanents CRS · Collectes mobiles · Prochains événements</div></div>
-  <div class="card" id="collectes-hug" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🚌 Prochaines collectes mobiles</div><span class="badge" id="collectes-hug-maj"></span></div><p style="font-size:13px;color:var(--text-dim);margin:0 0 10px;line-height:1.5">La réservation se fait sur le site officiel de chaque centre. Le bouton « Réserver » t’y conduit directement, et 📅 ajoute la collecte à ton agenda.</p><div id="collectes-regions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="collectes-hug-liste" style="font-size:13px;color:var(--text-muted)">Chargement du calendrier officiel…</div></div>
+  <div class="card" id="collectes-hug" style="margin-bottom:16px"><div class="card-header"><div class="card-title">🚌 Prochaines collectes mobiles</div><span class="badge" id="collectes-hug-maj"></span></div><p style="font-size:13px;color:var(--text-dim);margin:0 0 10px;line-height:1.5">Chaque bouton ouvre la page officielle de la collecte, avec le lieu et l’horaire. BeeMyBlood ne prend pas encore de réservation : pour donner au centre de transfusion des HUG, le rendez-vous se prend sur OneDoc. Le bouton 📅 ajoute une collecte à ton agenda.</p><div style="margin:0 0 12px"><a class="btn btn-gold btn-sm" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" target="_blank" rel="noopener" aria-describedby="ext-link-notice" onclick="if(window.bmbReserver)bmbReserver(this.href,'onedoc','geneve')">📅 Prendre rendez-vous au centre des HUG (OneDoc)</a></div><div id="collectes-regions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div><div id="collectes-hug-liste" style="font-size:13px;color:var(--text-muted)">Chargement du calendrier officiel…</div></div>
 <div class="card" id="map-card" style="position:relative;padding:0;overflow:hidden">
     <div class="fs-btn" style="z-index:1001" onclick="toggleFS(document.getElementById('map-card'))">⛶</div>
     <div id="map-recenter" onclick="recenterMap()" style="position:absolute;bottom:12px;right:12px;z-index:1000;width:38px;height:38px;border-radius:50%;background:var(--dark-card);border:1px solid var(--dark-border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:all .2s" title="Ma position">◎</div>
@@ -301,18 +306,18 @@
     <div class="modal-step" id="ob-step-2">
       <div style="text-align:center;padding:10px 0">
         <div style="font-size:36px;margin-bottom:6px">📊</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton Dashboard personnel</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">Ton profil</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
-          C'est ton <strong>tableau de bord</strong> :
+          Il se construit avec <strong>tes données</strong> :
           <div style="margin:8px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
-            🗓️ Prochain don programmé + compte à rebours<br>
-            🩸 Stocks de sang en temps réel par groupe<br>
-            📈 Ton historique de dons et séries (streak)<br>
-            🏆 Badges débloqués et objectifs<br>
-            🩺 Passeport santé (résultats labo de tes dons)<br>
-            🤝 Programme BeeMyBro (parrainage)
+            🗓️ Date de ton prochain don possible<br>
+            🩸 Niveau officiel des stocks pour ton groupe<br>
+            📒 Tes dons, que tu enregistres toi-même<br>
+            🦸 Ton parcours et ses paliers<br>
+            🧬 Ton groupe et ton phénotype étendu<br>
+            🎭 Un mode démonstration pour découvrir les fonctions prévues
           </div>
-          <span style="color:var(--text-muted)">Les cartes sont cliquables : chacune s'ouvre en accordion pour plus de détails.</span>
+          <span style="color:var(--text-muted)">Au départ il est presque vide. Il se remplit à chaque don.</span>
         </div>
       </div>
     </div>
@@ -336,12 +341,12 @@
         <div style="font-size:36px;margin-bottom:6px">📍</div>
         <div style="font-size:16px;font-weight:700;margin-bottom:8px">Carte interactive & Collectes</div>
         <div style="font-size:14px;color:var(--text-dim);line-height:1.7;text-align:left">
-          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec horaires, affluence en temps réel et lien OneDoc.<br><br>
+          <strong style="color:var(--gold)">18 centres de don</strong> de la Croix-Rouge Suisse (CRS) en Suisse romande, Berne, Zurich, Tessin — avec leurs horaires et le lien de prise de rendez-vous.<br><br>
           <div style="margin:6px 0;padding:8px 12px;background:var(--dark-surface);border-radius:8px;font-size:13px;line-height:1.9">
             📡 Géolocalisation automatique<br>
             🔍 Rayon de recherche ajustable (1-20 km)<br>
             📅 Prise de rendez-vous directe via OneDoc<br>
-            🎪 Collectes mobiles signalées sur la carte
+            🚌 Collectes mobiles officielles, mises à jour chaque jour
           </div>
           <span style="color:var(--text-muted)">Clique « Ma position » pour centrer la carte sur toi.</span>
         </div>
@@ -530,11 +535,11 @@ function initMap(){
     const pts=[
       // === GENÈVE (CTS HUG) ===
       {lat:46.1931,lng:6.1496,name:'Centre de transfusion sanguine HUG',detail:'Rue Gabrielle-Perret-Gentil 6<br>Lu/Ma/Me/Ve 7h30–15h · Jeu 11h–19h<br>Sam 1er et 3e : 8h30–12h<br>Affluence : <span style="color:#0F95F1">calme</span><br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice">📅 RDV OneDoc</a>',color:'rgba(179,38,30,.25)',emoji:'🏥'},
-      {lat:46.1993,lng:6.1428,name:'Collecte mobile — Uni Dufour',detail:'Rue Charles-Galland 2<br>Auj. 10h–17h · ☕ Café offert<br>Affluence : <span style="color:#0F95F1">calme</span> · 200m de Uni Mail<br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice">📅 RDV</a>',color:'rgba(242,169,59,.25)',emoji:'🎪'},
-      {lat:46.2017,lng:6.1500,name:'Collecte — Place du Molard',detail:'Place du Molard, centre-ville<br>Demain 11h–18h · 🎵 Musique',color:'rgba(242,169,59,.25)',emoji:'🎪'},
-      {lat:46.1780,lng:6.1395,name:'Collecte — Campus HES-SO Battelle',detail:'Route de Drize 7, Carouge<br>Jeudi 10h–16h · 🎓 Étudiants',color:'rgba(242,169,59,.25)',emoji:'🎪'},
-      {lat:46.1920,lng:6.1830,name:'Clinique des Grangettes',detail:'Chemin des Grangettes 7, Chêne-Bougeries<br>Lun–Ven 8h–16h<br>Affluence : <span style="color:#F2A93B">modéré</span>',color:'rgba(179,38,30,.25)',emoji:'🏥'},
-      {lat:46.2100,lng:6.1427,name:'Collecte Gare Cornavin',detail:'Place de Cornavin · Hall principal<br>Vendredi 9h–16h · 🚂',color:'rgba(242,169,59,.25)',emoji:'🎪'},
+      {lat:46.1993,lng:6.1428,demo:1,name:'Collecte mobile — Uni Dufour',detail:'Rue Charles-Galland 2<br>Auj. 10h–17h · ☕ Café offert<br>Affluence : <span style="color:#0F95F1">calme</span> · 200m de Uni Mail<br><a class="popup-btn" href="https://www.onedoc.ch/fr/infirmier/geneve/pb5bt/centre-de-transfusion-sanguine-1" onclick="bmbReserver(this.href,&quot;onedoc&quot;,&quot;geneve&quot;)" target="_blank" aria-describedby="ext-link-notice">📅 RDV</a>',color:'rgba(242,169,59,.25)',emoji:'🎪'},
+      {lat:46.2017,lng:6.1500,demo:1,name:'Collecte — Place du Molard',detail:'Place du Molard, centre-ville<br>Demain 11h–18h · 🎵 Musique',color:'rgba(242,169,59,.25)',emoji:'🎪'},
+      {lat:46.1780,lng:6.1395,demo:1,name:'Collecte — Campus HES-SO Battelle',detail:'Route de Drize 7, Carouge<br>Jeudi 10h–16h · 🎓 Étudiants',color:'rgba(242,169,59,.25)',emoji:'🎪'},
+      {lat:46.1920,lng:6.1830,demo:1,name:'Clinique des Grangettes',detail:'Chemin des Grangettes 7, Chêne-Bougeries<br>Lun–Ven 8h–16h<br>Affluence : <span style="color:#F2A93B">modéré</span>',color:'rgba(179,38,30,.25)',emoji:'🏥'},
+      {lat:46.2100,lng:6.1427,demo:1,name:'Collecte Gare Cornavin',detail:'Place de Cornavin · Hall principal<br>Vendredi 9h–16h · 🚂',color:'rgba(242,169,59,.25)',emoji:'🎪'},
       // === Transfusion Interrégionale CRS (Berne / Vaud / Valais) ===
       {lat:46.9480,lng:7.4260,name:'Transfusion Interrégionale CRS Berne (siège)',detail:'Murtenstrasse 133, 3008 Bern<br>Centre permanent · 0800 148 148<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(15,149,241,.25)',emoji:'🏛️'},
       {lat:47.1370,lng:7.2455,name:'Transfusion Interrégionale CRS Bienne',detail:'Bahnhofstr. 50, 4e étage, 2502 Biel/Bienne<br>Centre permanent<br><a class="popup-btn" href="https://reservation.ichspendeblut.ch" target="_blank" aria-describedby="ext-link-notice">📅 Réserver</a>',color:'rgba(15,149,241,.25)',emoji:'🏛️'},
@@ -553,10 +558,10 @@ function initMap(){
       {lat:47.0551,lng:8.3193,name:'Transfusion CRS Suisse centrale — Lucerne',detail:'Maihofstrasse 1, 6004 Luzern<br>Centre permanent · Tél. 041 418 70 20<br><a class="popup-btn" href="https://www.bsd-luzern.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(15,149,241,.25)',emoji:'🏛️'},
       {lat:47.3960,lng:8.4478,name:'Transfusion CRS Zürich — Schlieren',detail:'Rütistrasse 19, 8952 Schlieren<br>Centre permanent · Tél. 058 272 52 52<br><a class="popup-btn" href="https://www.blutspendezurich.ch" target="_blank" aria-describedby="ext-link-notice">🌐 Site web</a>',color:'rgba(15,149,241,.25)',emoji:'🏛️'},
     ];
-    // visiteur : pas de collectes mobiles fictives (🎪) sur la carte, seuls les centres réels
-    pts.filter(function(p){ return !(document.body.classList.contains('bmb-public') && p.emoji==='🎪'); }).forEach(p=>{
+    // hors mode démonstration : seuls les centres réels, sans les collectes fictives ni l'affluence simulée
+    pts.filter(function(p){ return bmbDemo() || !p.demo; }).forEach(p=>{
       L.marker([p.lat,p.lng],{icon:ico(p.color,p.emoji)}).addTo(map)
-        .bindPopup('<strong>'+p.name+'</strong><br>'+p.detail,{maxWidth:250});
+        .bindPopup('<strong>'+p.name+'</strong><br>'+(bmbDemo()?p.detail:p.detail.replace(/<br>Affluence : <span[^>]*>[^<]*<\/span>/,'')),{maxWidth:250});
     });
     // User position — only fly if high-accuracy GPS (not IP-based)
     const defaultPos=[46.1955,6.1405];

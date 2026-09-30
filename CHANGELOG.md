@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.7.0 — 2026-09-30 — accessible multi-page donor space, editable profile, stock sharing
+## v0.7.0 — 2026-09-30 — accessible multi-page donor space, the person's own data by default, stock sharing
 
 ### Donor space rebuilt for accessibility (Bachelor thesis of Oscar Sirgado Dias Novo, HEG-Genève, branch Oscar_TB)
 - One HTML page and one address per view (donor/pages/*.html) with shared donor/assets/styles.css and app.js: browser Back, bookmarks, one h1 and one main landmark per page. Navigation grouped into « Mon espace » and « Découvrir »; « Dashboard » becomes « Mon profil » and the profile page is merged into it.
@@ -14,7 +14,7 @@
 - The official stock alert is a status region that stays until closed. Yes/No answers of the medical questionnaire use one neutral colour. The « Découvrir les fonctionnalités » accordion is removed from the donor home. The collections page states that booking happens on each centre's official site.
 
 ### Editable profile, first step after the tutorial (profil.js)
-- Donors and recipients enter their own data (first name, year of birth, blood group, donations or follow-up centre, transfusion rhythm…) in an accessible form opened right after the tutorial, then at any time from « Mon profil ». Their data replaces the demonstration identity on the profile page, the navigation avatar, the recipient crisis card and the questionnaire prefill; the next possible donation date is computed from the last donation.
+- Donors and recipients enter their own data (first name, year of birth, blood group, donations or follow-up centre, transfusion rhythm…) in an accessible form opened right after the tutorial, then at any time from « Mon profil ». Their data fills the profile page, the navigation avatar, the recipient crisis card and the questionnaire prefill; the next possible donation date is computed from the last donation.
 - Data stays in the browser; signed-in users get it on their other devices through two Supabase functions restricted to the owner (supabase/2026-09-30-profils.sql).
 
 ### Sharing blood stocks on social networks (partage.js)
@@ -23,6 +23,36 @@
 
 ### Accessibility extended to the other spaces (a11y.css, a11y.js)
 - Landing, project pages, access, administration, recipient and professional spaces, display screens and maturity tool: skip link, main landmark, visible focus, reduced-motion support, 3:1 field borders, announced new-window links, keyboard access to clickable blocks, secondary text raised above 4.5:1.
+
+### Real data by default, demonstration on request
+- Fictitious content is no longer mixed with real content. Every simulated block (the donor persona Amine, the recipient persona Eleonora, the simulated centre flow, challenges, fake notifications, live messages such as pouch counts, fictitious mobile collections and crowd levels on the map, simulated integrations) carries `data-demo` and stays hidden until the person switches on « Afficher les données de démonstration » (donor and recipient settings, button on « Mon profil », recipient profile menu). A banner marks the demonstration mode and leads back to the person's data. The choice is applied before first paint (`html.bmb-demo`).
+- In demonstration mode the persona stays whole: the account name is no longer blended into the fictitious profile.
+- Stock statements come only from the official barometer: levels per group and the date of the barometer, never a number of pouches. The alert now reads for instance « Niveau critique, Genève : B+, AB− · baromètre officiel du 28/09/2026 », and its close button works (the alert ignored pointer events) and stays closed for the session.
+- Notifications are built from real data: barometer level of the person's own group when they asked to be alerted, critical groups of the region, date from which they can donate again, next official collection, latest announcement of the transfusion centre, profile to complete. The bell is open to visitors as well.
+- BeeBot asks the assistant first and uses the local answers only when it is unavailable; local answers that describe the persona or simulated functions are limited to the demonstration mode.
+
+### The donor's own data (donor/assets/mon-profil.js)
+- « Mon profil » is built from the profile and from the donations the person records (« J'ai donné » : date and place): date of the next possible donation with its progress bar (three months for a man, four for a woman), blood group with the official level of that group today, extended phenotype, donation count and seniority, a pathway with closer milestones (1, 2, 3, 5, 8, 10, 15… donations, a remark of the jury on the gaps between rewards), badges earned by real actions, official stocks with the choice of region, next official collections. A new account starts almost empty, with the three steps towards a first donation.
+- « Impact », « Défis » and « Flux » show the person's figures and the official barometer, and say plainly what will come with the pilot phase.
+
+### The recipient's own data (receiver/mon-suivi.js)
+- Home, « Mon Sang », « Suivi », chelation, symptoms, timeline, companion summary and settings are built from the profile and from what the person records: measurements (haemoglobin, ferritin, SpO2) and transfusions with curves and tables, daily intake of the chelator with the current streak, a symptom journal, noted adverse effects, an emergency card that can be printed, a JSON export of their data.
+- Forms that used to simulate a transmission now record in the person's journal and state that nothing is sent to the care team yet (symptoms, adverse-effect report).
+- The size limit of a stored profile is raised to 256 KB (supabase/2026-09-30-profils.sql).
+
+### Extended phenotype in the profile (profil.js)
+- Donors and recipients can enter the antigens of the Rh (C, c, E, e), Kell (K), Duffy (Fya, Fyb), Kidd (Jka, Jkb) and MNS (S, s) systems. The donor profile explains the Fy(a− b−) and Ro profiles, sought for people with sickle cell disease who are transfused regularly. Recipients also enter their known antibodies and their referring physician, shown on the emergency card.
+
+### Announcements and events of the transfusion centres (api/centres.php)
+- The daily data now include the announcements of the Geneva transfusion centre (hug.ch/don-du-sang) and the blood-donation events of the HUG agenda. They open the news carousel of the donor home, head the news page (« Au centre de transfusion de Genève ») and feed the notifications, so that special collections and convivial events appear as soon as the centre publishes them.
+
+### Share preview with the image of the day (api/partage.php, /stocks/)
+- Shared links point to /stocks/, a page whose Open Graph image (1200 × 630) is drawn on the server from the barometer of the day, so that networks show the stock levels in the link preview. « Copier l'image » is added for desktop publishing. The message no longer contains an emoji that some networks dropped, and BeeMyBlood is described as the service that connects donors, patients and transfusion centres.
+
+### Remarks of the Bachelor jury applied
+- The button of a collection is named after its destination (« Détails sur hug.ch », « Prendre rendez-vous » for OneDoc and the interregional booking tool); the collections page says that BeeMyBlood does not take bookings yet and gives the OneDoc link of the Geneva centre directly.
+- Sub-menus follow the same order on desktop and mobile (Mon espace : profil, impact, défis, flux, actualités ; Découvrir : guide, vidéos, VR, BeeBot, FAQ, contact). Open and closed accordions follow one colour logic.
+- HémoRush: the tutorial includes a match to try, the other modes open after four patients treated in learning mode, the start screen stays fully visible in low windows. The top bar fits on 375 px phones.
 
 ## v0.6.2 — 2026-09-10 — chatbot fix, mobile chat, maturity self-assessment
 
